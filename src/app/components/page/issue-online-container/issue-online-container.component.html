@@ -1,0 +1,257 @@
+<!-- <dx-tab-panel [selectedIndex]="indexTab" [animationEnabled]="false" [swipeEnabled]="false" (onOptionChanged)="eventtest($event)">
+                <dxi-item title="ข้อความยินยอม">
+                    <ng-container>
+                        <app-issue-online-agree></app-issue-online-agree>
+                    </ng-container>
+                </dxi-item>
+                <dxi-item title="ข้อมูลผู้แจ้ง">
+                    <ng-container *dxTemplate>
+                        <app-issue-online-informer></app-issue-online-informer>
+                    </ng-container>
+                </dxi-item>
+                <dxi-item title="ข้อมูลคนร้าย">
+                    <ng-container *dxTemplate>
+                        <app-issue-online-villain></app-issue-online-villain>
+                    </ng-container>
+                </dxi-item>
+                <dxi-item title="สถานีตำรวจที่จะติดต่อกลับไปยังท่าน">
+                    <ng-container *dxTemplate>
+                        <app-issue-online-contact></app-issue-online-contact>
+                    </ng-container>
+                </dxi-item>
+                <dxi-item title="ตรวจสอบความถูกต้อง">
+                    <ng-container *dxTemplate>
+                        <app-issue-online-validate></app-issue-online-validate>
+                    </ng-container>
+                </dxi-item>
+            </dx-tab-panel> -->
+
+<!-- <section *ngIf="formType==='add'" class="ftco-section mt_100">
+    <div class="issue-online-container" *ngIf="loadPageSuccess">
+        <div style="padding-top: 100px;"></div>
+        <div class="p-lg-5 pl-4 pr-4" style="overflow: auto; padding-bottom: 50px;">
+            <div class="tab-btn-back" style="margin-bottom: 30px;">
+                <dx-button type="default" hint="ย้อนกลับ" text="ย้อนกลับ">
+                </dx-button>
+            </div>
+            <div class="content-title" style="margin-bottom: 12px;">
+                <span>คุณเคยแจ้งความออนไลน์มาแล้ว <label class="text-danger">{{countFlow}}</label> เรื่อง
+                    สามารถติดตามสถานะของเรื่องผ่านเมนู <span class="text-link" (click)="goUrl('main/tasklist')">ติดตาม</span></span>
+            </div>
+            <div>
+                <button type="button" [ngClass]="SelectorTab(0)" (click)="CheckNextIndex(0)">ข้อความยินยอม</button>
+                <button type="button" [ngClass]="SelectorTab(1)" (click)="CheckNextIndex(1)">ข้อมูลผู้แจ้ง</button>
+                <button type="button" [ngClass]="SelectorTab(2)" (click)="CheckNextIndex(2)">ข้อมูลคนร้าย</button>
+                <button type="button" [ngClass]="SelectorTab(3)" (click)="CheckNextIndex(3)">สถานีตำรวจที่จะติดต่อกลับไปยังท่าน</button>
+                <button type="button" [ngClass]="SelectorTab(4)" (click)="CheckNextIndex(4)">ตรวจสอบความถูกต้อง</button>
+            </div>
+            <dx-multi-view [animationEnabled]="false" [swipeEnabled]="false" [(selectedIndex)]="indexTab">
+                <dxi-item>
+                    <ng-container>
+                        <app-issue-online-agree></app-issue-online-agree>
+                    </ng-container>
+                </dxi-item>
+                <dxi-item>
+                    <ng-container *dxTemplate>
+                        <app-issue-online-informer></app-issue-online-informer>
+                    </ng-container>
+                </dxi-item>
+                <dxi-item>
+                    <ng-container *dxTemplate>
+                        <app-issue-online-villain></app-issue-online-villain>
+                    </ng-container>
+                </dxi-item>
+                <dxi-item>
+                    <ng-container *dxTemplate>
+                        <app-issue-online-contact></app-issue-online-contact>
+                    </ng-container>
+                </dxi-item>
+                <dxi-item>
+                    <ng-container *dxTemplate>
+                        <app-issue-online-validate></app-issue-online-validate>
+                    </ng-container>
+                </dxi-item>
+            </dx-multi-view>
+        </div>
+    </div>
+</section> -->
+
+<!-- <div class="issue-online-container">
+    <div>
+        <div class="block-arrow">
+            <div class="arrow-div arrow-first" style="z-index: 10;">
+                <div class="circle">
+                    <span>1</span>
+                </div>
+                <div class="text">
+                    <div>ขั้นตอนที่ 1</div>
+                    <div>ข้อความยินยอม</div>
+                </div>
+            </div>
+            <div class="arrow-div arrow-center" style="z-index: 9;">
+                <div class="circle">
+                    <span>2</span>
+                </div>
+                <div class="text">
+                    <div>ขั้นตอนที่ 2</div>
+                    <div>ข้อมูลผู้แจ้ง</div>
+                </div>
+            </div>
+            <div class="arrow-div arrow-center" style="z-index: 8;">
+                <div class="circle">
+                    <span>3</span>
+                </div>
+                <div class="text">
+                    <div>ขั้นตอนที่ 3</div>
+                    <div>เรื่องที่เกิดขึ้น</div>
+                </div>
+            </div>
+            <div class="arrow-div arrow-end" style="z-index: 7;">
+                <div class="circle">
+                    <span>4</span>
+                </div>
+                <div class="text">
+                    <div>ขั้นตอนที่ 4</div>
+                    <div>เรื่องที่เกิดขึ้น</div>
+                </div>
+            </div>
+        </div>
+        <dx-scroll-view [height]="70" direction="horizontal">
+            <div style="width: 1330px;">
+                <div class="block-arrow">
+                    <div *ngFor="let item of stepNavigation; index as i;" class="arrow-div" (click)="testCheckNextIndex(i)">
+                        <div class="{{item.textClass}}" [ngClass]="SelectorTab(i)" [style.z-index]="GetzIndexTab(i)">
+                            <div class="circle">
+                                <span>{{i+1}}</span>
+                            </div>
+                            <div class="text">
+                                <div class="title">ขั้นตอนที่ {{i+1}}</div>
+                                <div>{{item.text}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </dx-scroll-view>
+        <div *ngIf="formType === 'add'">
+            <button type="button" [ngClass]="SelectorTab(0)" (click)="CheckNextIndex(0)">ข้อความยินยอม</button>
+            <button type="button" [ngClass]="SelectorTab(1)" (click)="CheckNextIndex(1)">ข้อมูลผู้แจ้ง</button>
+            <button type="button" [ngClass]="SelectorTab(2)" (click)="CheckNextIndex(2)">ข้อมูลคนร้าย</button>
+            <button type="button" [ngClass]="SelectorTab(3)" (click)="CheckNextIndex(3)">สถานีตำรวจที่จะติดต่อกลับไปยังท่าน</button>
+            <button type="button" [ngClass]="SelectorTab(4)" (click)="CheckNextIndex(4)">ตรวจสอบความถูกต้อง</button>
+        </div>
+        <div *ngIf="formType === 'edit'">
+            <button type="button" [ngClass]="SelectorTab(0)" (click)="CheckNextIndex(0)">ข้อมูลผู้แจ้ง</button>
+            <button type="button" [ngClass]="SelectorTab(1)" (click)="CheckNextIndex(1)">ข้อมูลคนร้าย</button>
+            <button type="button" [ngClass]="SelectorTab(2)" (click)="CheckNextIndex(2)">สถานีตำรวจที่จะติดต่อกลับไปยังท่าน</button>
+            <button type="button" [ngClass]="SelectorTab(3)" (click)="CheckNextIndex(3)">ตรวจสอบความถูกต้อง</button>
+        </div>
+
+        <dx-multi-view [animationEnabled]="false" [swipeEnabled]="false" [(selectedIndex)]="indexTab">
+            <dxi-item>
+                <ng-container>
+                    <app-issue-online-agree></app-issue-online-agree>
+                </ng-container>
+            </dxi-item>
+            <dxi-item>
+                <ng-container *dxTemplate>
+                    <app-issue-online-informer></app-issue-online-informer>
+                </ng-container>
+            </dxi-item>
+            <dxi-item>
+                <ng-container *dxTemplate>
+                    <app-issue-online-villain></app-issue-online-villain>
+                </ng-container>
+            </dxi-item>
+            <dxi-item>
+                <ng-container *dxTemplate>
+                    <app-issue-online-contact></app-issue-online-contact>
+                </ng-container>
+            </dxi-item>
+            <dxi-item>
+                <ng-container *dxTemplate>
+                    <app-issue-online-validate></app-issue-online-validate>
+                </ng-container>
+            </dxi-item>
+        </dx-multi-view>
+        <dx-multi-view [animationEnabled]="false" [swipeEnabled]="false" [(selectedIndex)]="indexTab">
+            <dxi-item>
+                <div>ข้อความยินยอม</div>
+            </dxi-item>
+            <dxi-item>
+                <div>ข้อมูลผู้แจ้ง</div>
+            </dxi-item>
+            <dxi-item>
+                <div>เรื่องที่เกิดขึ้น</div>
+            </dxi-item>
+            <dxi-item>
+                <div>ความเสียหาย</div>
+            </dxi-item>
+            <dxi-item>
+                <div>ข้อมูลคนร้าย</div>
+            </dxi-item>
+            <dxi-item>
+                <div>แนบไฟล์</div>
+            </dxi-item>
+            <dxi-item>
+                <div>ยืนยันความถูกต้อง</div>
+            </dxi-item>
+        </dx-multi-view>
+    </div>
+</div> -->
+
+
+<div class="issue-online-container">
+    <div>
+        <dx-scroll-view [height]="70" direction="horizontal">
+            <div style="width: 1330px;">
+                <div class="block-arrow">
+                    <div *ngFor="let item of stepNavigation; index as i;" class="arrow-div" (click)="testCheckNextIndex(i)">
+                        <div class="{{item.textClass}}" [ngClass]="SelectorTab(i)" [style.z-index]="GetzIndexTab(i)">
+                            <div class="circle">
+                                <span>{{i+1}}</span>
+                            </div>
+                            <div class="text">
+                                <div class="title">ขั้นตอนที่ {{i+1}}</div>
+                                <div>{{item.text}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </dx-scroll-view>
+        <dx-multi-view [animationEnabled]="false" [swipeEnabled]="false" [(selectedIndex)]="indexTab">
+            <dxi-item>
+                <ng-container>
+                    <app-issue-online-agree></app-issue-online-agree>
+                </ng-container>
+            </dxi-item>
+            <dxi-item>
+                <ng-container *dxTemplate>
+                    <app-issue-online-informer></app-issue-online-informer>
+                </ng-container>
+            </dxi-item>
+            <dxi-item>
+                <ng-container *dxTemplate>
+                    <app-issue-online-villain></app-issue-online-villain>
+                </ng-container>
+            </dxi-item>
+            <dxi-item>
+                <ng-container *dxTemplate>
+                    <app-issue-online-damage></app-issue-online-damage>
+                </ng-container>
+            </dxi-item>
+
+
+            <dxi-item>
+                <div>ข้อมูลคนร้าย</div>
+            </dxi-item>
+            <dxi-item>
+                <div>แนบไฟล์</div>
+            </dxi-item>
+            <dxi-item>
+                <div>ยืนยันความถูกต้อง</div>
+            </dxi-item>
+        </dx-multi-view>
+    </div>
+</div>

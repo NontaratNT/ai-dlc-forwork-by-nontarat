@@ -1,0 +1,655 @@
+@import "~flatpickr/dist/flatpickr";
+$fa-font-path: "../../fontawesome/webfonts";
+@import "~share-ui/styles/_theme";
+@import "~eform-share/styles/_theme";
+@font-face {
+    font-family: THSarabun;
+    src: url(assets/fonts/sarabun/THSarabun.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: THSarabun-bold;
+    src: url(assets/ccib/fonts/thsarabunnew_bold-webfont.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: THSarabunnew;
+    src: url(assets/ccib/fonts/thsarabunnew-webfont.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: SukhumvitSet;
+    src: url(assets/ccib/fonts/SukhumvitSet-Medium.ttf) format("truetype");
+}
+
+* {
+    font-family: SukhumvitSet;
+}
+
+html {
+    overflow-x: hidden;
+    overflow-y: auto;
+    --scrollbarBG: rgba(187, 187, 187, 0.007);
+    --thumbBG: rgba(187, 187, 187, 0.007);
+}
+
+body::-webkit-scrollbar {
+    width: 0px;
+}
+
+body {
+    background: white;
+}
+
+body {
+    scrollbar-width: none;
+    scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+}
+
+body::-webkit-scrollbar-track {
+    background: var(--scrollbarBG);
+}
+
+// body::-webkit-scrollbar-thumb {
+//     background-color: var(--thumbBG);
+//     border-radius: 6px;
+//     border: 3px solid var(--scrollbarBG);
+// }
+// html {
+//     background: rgb(255, 255, 255);
+// }
+.dx-box-item-content {
+    font-size: 16px !important;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////// THIS IS FORM IO STOP PASTE CODE IN THIS AREA /////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+.panal-style {
+    font-size: 15px;
+}
+
+.font-z {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    font-size: 22px;
+    color: #00529a;
+}
+
+.input-des {
+    margin-left: -70px;
+    margin-right: 250px;
+}
+
+.header-text-form-two {
+    background-color: #3f5ca2;
+    color: white;
+    height: 40px;
+    padding: 10px;
+    margin-bottom: 40px;
+    font-size: 16px;
+}
+
+.wizard-page {
+    background-color: #fafdff;
+    padding: 15px;
+}
+
+.list-group-item:first-child {
+    color: white;
+    background-color: #3791c7;
+}
+
+.bg-info {
+    background-color: #3791c7 !important;
+}
+
+// .page-item.active .page-link {
+//     background-color: #0d74ae !important;
+//     border-color: #0d74ae !important;
+// }
+.btn-wizard-nav-cancel {
+    background-color: red;
+}
+
+.dx-drawer-content {
+    // overflow: auto !important;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////// THIS IS NOTIFICATION STOP PASTE CODE IN THIS AREA /////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+.notifier__container {
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+    .notifier__notification {
+        cursor: pointer;
+        width: auto;
+        min-height: 80px;
+        background-color: #ffffff;
+        border: 2px solid #2e4765;
+        position: fixed;
+        // top: 430px;
+        padding: 10px;
+        white-space: normal;
+        &:hover {
+            background-color: #f1f1f1;
+        }
+        .close {
+            position: absolute;
+            top: 0;
+            right: 5px;
+            .icon {
+                font-size: 20px;
+                font-family: "Font Awesome 5 Free" !important;
+            }
+        }
+        .notify-header {
+            font-weight: bold;
+        }
+        .notify-body {
+            white-space: normal;
+        }
+        // .notifier-message {
+        //     width: 390px;
+        //     min-height: 82px;
+        //     background-color: white;
+        //     border: 2px solid #2e4765;
+        //     position: fixed;
+        //     // top: 430px;
+        //     padding: 10px;
+        //     white-space: normal;
+        //     .notify-header {
+        //         font-weight: bold;
+        //     }
+        //     .notify-body {
+        //         white-space: normal;
+        //     }
+        // }
+    }
+}
+
+// .notifier__notification-button-icon {
+//     fill: black !important;
+// }
+// .notifier__notification-button {
+//     position: absolute;
+//     top: 1px;
+//     right: 10px;
+// }
+.form-io-cyber-issue,
+.form-io-journal {
+    .formio-form {
+        .list-inline {
+            text-align: center !important;
+            display: flex;
+            justify-content: center;
+        }
+        .btn-wizard-nav-cancel {
+            margin-right: 10px;
+            background-color: #6c757d !important;
+        }
+    }
+}
+
+.choices[data-type*="select-one"]::after {
+    content: "";
+    height: 0;
+    width: 0;
+    border: 5px solid transparent;
+    border-top-color: transparent;
+    border-top-color: #333;
+    position: absolute;
+    right: 11.5px;
+    top: 50%;
+    margin-top: -2.5px;
+    pointer-events: none;
+    margin-right: 20px;
+}
+
+.dx-layout-manager .dx-label-h-align.dx-flex-layout .dx-field-item-content {
+    white-space: normal;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.dx-datagrid-headers {
+    position: relative;
+    outline: 0;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    background-color: #035baa;
+    color: #fff !important;
+    padding: 1px;
+    text-align: center;
+}
+
+div.btn-dx {
+    margin-top: 15px;
+     :focus,
+    .focus {
+        box-shadow: unset;
+    }
+    .btn-submit {
+        // color: #fff;
+        // background-color: #337ab7;
+        // border-color: #337ab7;
+        // border-radius: 6px;
+        width: 100px;
+        height: 40px;
+        color: #ffffff;
+        background-color: #00b889;
+        border-radius: 6px;
+    }
+    .btn-submit:hover {
+        width: 100px;
+        height: 40px;
+        color: #ffffff;
+        background-color: #00b889;
+        opacity: 0.75;
+        // color: #fff;
+        // background-color: #296293;
+        // border-color: #296293;
+    }
+    .btn.btn-back {
+        width: 100px;
+        height: 40px;
+        color: #8e8e8e;
+        background-color: #fff;
+        border: 1px solid #8e8e8e;
+        border-radius: 6px;
+    }
+    .btn.btn-back:hover {
+        width: 100px;
+        height: 40px;
+        color: #8e8e8e;
+        background-color: #fff;
+        border: 1px solid #8e8e8e;
+        opacity: 0.75;
+    }
+    .btn.btn-cancle {
+        width: 100px;
+        height: 40px;
+        color: #8e8e8e;
+        background-color: #fff;
+        border: 1px solid #8e8e8e;
+        border-radius: 6px;
+    }
+    .btn.btn-cancle:hover {
+        width: 100px;
+        height: 40px;
+        color: #8e8e8e;
+        background-color: #fff;
+        border: 1px solid #8e8e8e;
+        opacity: 0.75;
+    }
+}
+
+.issue-online-container {
+    .btn.btn-cancle {
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+    .btn.btn-cancle:hover {
+        color: #fff;
+        background-color: #c82333;
+        border-color: #bd2130;
+    }
+    .btn.btn-selected {
+        color: #fff;
+        background-color: #337ab7;
+        border-color: #337ab7;
+    }
+    .btn.btn-selected:hover {
+        color: #fff;
+        background-color: #296293;
+        border-color: #296293;
+    }
+    .btn.btn-not-selected {
+        color: #212529;
+        background-color: #f8f9fa;
+        border-color: #f8f9fa;
+    }
+    .btn.btn-not-selected:hover {
+        color: #212529;
+        background-color: #e2e6ea;
+        border-color: #dae0e5;
+    }
+    .btn:focus,
+    .btn.focus {
+        box-shadow: unset;
+    }
+    // .btn.btn-submit {
+    //     color: #fff;
+    //     background-color: #337ab7;
+    //     border-color: #337ab7;
+    // }
+    // .btn.btn-submit:hover {
+    //     color: #fff;
+    //     background-color: #296293;
+    //     border-color: #296293;
+    // }
+    .btn-submit {
+        // color: #fff;
+        // background-color: #337ab7;
+        // border-color: #337ab7;
+        // border-radius: 6px;
+        width: 130px;
+        height: 48px;
+        color: #ffffff;
+        background-color: #0085f0;
+        border-radius: 6px;
+    }
+    .btn-submit:hover {
+        width: 130px;
+        height: 48px;
+        color: #ffffff;
+        background-color: #0085f0;
+        opacity: 0.75;
+        // color: #fff;
+        // background-color: #296293;
+        // border-color: #296293;
+    }
+    .btn.btn-back {
+        width: 130px;
+        height: 48px;
+        color: #8e8e8e;
+        background-color: #fff;
+        border: 1px solid #8e8e8e;
+        border-radius: 6px;
+    }
+    .btn.btn-back:hover {
+        width: 130px;
+        height: 48px;
+        color: #8e8e8e;
+        background-color: #fff;
+        border: 1px solid #8e8e8e;
+        opacity: 0.75;
+    }
+    .required:after {
+        content: " *";
+        color: red;
+    }
+    .text-link {
+        cursor: pointer;
+        color: #007bff;
+        text-decoration: none;
+    }
+    .text-link:hover {
+        color: #0056b3;
+        text-decoration: underline;
+    }
+    .text-title {
+        font-weight: bold;
+    }
+    * {
+        font-size: 14px;
+    }
+    .main-card {
+        margin: 20px 0px 20px 0px;
+    }
+    .card-header {
+        // background-color: #337ab7;
+        background: #f6f7f9;
+        color: #000;
+    }
+}
+
+.swal2-container {
+    z-index: 9999 !important;
+}
+
+#desktop-content {
+    // background-color: #f6f7fc;
+    .block-content {
+        margin: 95px 30px 20px 50px;
+        .title-left {
+            display: inline;
+            color: #3d3d3d;
+            font-size: 32px;
+        }
+        .title-right {
+            display: inline;
+            color: #2f2b66;
+            font-size: 16px;
+            float: right;
+            line-height: 3.3em;
+        }
+        .block-main {
+            min-height: 200px;
+            margin-top: 20px;
+            background-color: #ffffff;
+            padding: 20px 15px 15px 15px;
+            border-radius: 8px;
+        }
+    }
+}
+
+.dx-field-item-label-location-left {
+    padding-right: 0px !important;
+}
+
+#issue-online-desktop {
+    .btn.btn-cancle {
+        color: #fff;
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+    .btn.btn-cancle:hover {
+        color: #fff;
+        background-color: #c82333;
+        border-color: #bd2130;
+    }
+    .btn.btn-selected {
+        color: #fff;
+        background-color: #337ab7;
+        border-color: #337ab7;
+    }
+    .btn.btn-selected:hover {
+        color: #fff;
+        background-color: #296293;
+        border-color: #296293;
+    }
+    .btn.btn-not-selected {
+        color: #212529;
+        background-color: #f8f9fa;
+        border-color: #f8f9fa;
+    }
+    .btn.btn-not-selected:hover {
+        color: #212529;
+        background-color: #e2e6ea;
+        border-color: #dae0e5;
+    }
+    .btn:focus,
+    .btn.focus {
+        box-shadow: unset;
+    }
+    // .btn.btn-submit {
+    //     color: #fff;
+    //     background-color: #337ab7;
+    //     border-color: #337ab7;
+    // }
+    // .btn.btn-submit:hover {
+    //     color: #fff;
+    //     background-color: #296293;
+    //     border-color: #296293;
+    // }
+    .btn-submit {
+        // color: #fff;
+        // background-color: #337ab7;
+        // border-color: #337ab7;
+        // border-radius: 6px;
+        width: 166px;
+        height: 48px;
+        color: #ffffff;
+        background-color: #0085f0;
+        border-radius: 6px;
+    }
+    .btn-submit:hover {
+        width: 166px;
+        height: 48px;
+        color: #ffffff;
+        background-color: #0085f0;
+        opacity: 0.75;
+        // color: #fff;
+        // background-color: #296293;
+        // border-color: #296293;
+    }
+    .btn.btn-back {
+        width: 166px;
+        height: 48px;
+        color: #8e8e8e;
+        background-color: #fff;
+        border: 1px solid #8e8e8e;
+        border-radius: 6px;
+    }
+    .btn.btn-back:hover {
+        width: 166px;
+        height: 48px;
+        color: #8e8e8e;
+        background-color: #fff;
+        border: 1px solid #8e8e8e;
+        opacity: 0.75;
+    }
+    .required:after {
+        content: " *";
+        color: red;
+    }
+    .text-link {
+        cursor: pointer;
+        color: #007bff;
+        text-decoration: none;
+    }
+    .text-link:hover {
+        color: #0056b3;
+        text-decoration: underline;
+    }
+    .text-title {
+        font-weight: bold;
+    }
+    * {
+        font-size: 16px;
+    }
+    .main-card {
+        margin: 20px 0px 20px 0px;
+    }
+    .card-header {
+        background-color: #337ab7;
+        color: white;
+    }
+}
+
+::ng-deep #popup-view-file-upload-title {
+    font-size: 24px;
+    margin-top: 10px;
+}
+
+#police-index-page {
+    background-image: url('assets/image/bg-police-online-desktop.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    .block-content {
+        padding: 90px 10px 10px 10px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    #police-index-page {
+        background-image: url('assets/image/bg-police-online-mobile.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+}
+
+#police-main-page {
+    background-image: url('assets/image/bg-police-online-main-desktop.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    .block-content {
+        padding: 90px 10px 10px 10px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    #police-main-page {
+        background-image: url('assets/image/bg-police-online-main-mobile.png');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+}
+
+#police-register-page {
+    background-color: #0e2563;
+    .block-content {
+        // padding: 90px 10px 10px 10px;
+    }
+}
+
+.remark-table-upload {
+    padding: 5px 0;
+    color: #ff0000;
+}
+
+form {
+    &#survey-form {
+        .checkbox-group {
+            display: inline-block;
+            text-align: center;
+        }
+        .checkbox-group label {
+            display: block;
+        }
+        input[type="radio"] {
+            -webkit-appearance: none;
+            width: 40px;
+            height: 40px;
+            border: none;
+            cursor: pointer;
+            transition: border .2s ease;
+            filter: grayscale(100%);
+            margin: 0 5px;
+            transition: all .2s ease;
+
+            &:hover, &:checked {
+                filter:	grayscale(0);
+                //fill: red;
+                //background-color: #b2ff59;
+                //border: 1px solid red;
+            }
+
+            &:focus {
+                outline: 0;
+            }
+
+            &.very-happy {
+                background: url('assets/icon/very_happy.svg') center;
+                background-size: cover;
+            }
+
+            &.happy {
+                background: url('assets/icon/happy.svg') center;
+                background-size: cover;
+            }
+
+            &.neutral {
+                background: url('assets/icon/neutral.svg') center;
+                background-size: cover;
+            }
+            &.sad {
+                background: url('assets/icon/sad.svg') center;
+                background-size: cover;
+            }
+            &.very-sad {
+                background: url('assets/icon/very-sad.svg') center;
+                background-size: cover;
+            }
+        }
+    }
+}

@@ -1,0 +1,19 @@
+:host {
+     ::ng-deep {
+        #desptop-section.size-full .dx-drawer-panel-content:not(#block-drawer-child .dx-drawer-panel-content) {
+            width: 0px !important;
+        }
+        #desptop-section.size-mini .dx-drawer-panel-content:not(#block-drawer-child .dx-drawer-panel-content) {
+            width: 65px !important;
+        }
+    }
+    #desktop-header {
+        // background: linear-gradient(90deg, #4F96DB 0%, #2F2B66 100%);
+    }
+    #desktop-content.size-full {
+        margin-left: 260px;
+    }
+    #desktop-content.size-mini {
+        margin-left: 0px;
+    }
+}

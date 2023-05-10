@@ -1,0 +1,100 @@
+:host {
+    .card {
+        width: 80%;
+        margin: auto;
+        text-align: left;
+    }
+    .card-header {
+        background-color: rgb(8, 111, 162);
+        color: white;
+    }
+    .text-custom {
+        margin-bottom: 0.5rem;
+        text-align: left;
+        padding-left: 2px;
+    }
+    p {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    .img-uploads {
+        padding-right: 150px;
+    }
+    .img-thumbnail {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+    }
+     ::ng-deep .dx-field-item-label-location-top {
+        text-align: left;
+        padding-left: 2px;
+    }
+    .panel-default {
+        margin-top: 18px;
+        text-align: center;
+    }
+     ::ng-deep .panel-body .dx-button {
+        width: 120px;
+    }
+    @media screen and(max-width:768px) {
+        .card {
+            width: 100%;
+        }
+        .img-uploads {
+            padding-right: 87px;
+        }
+        .panel-default {
+            padding-bottom: 0px;
+        }
+        .panel-body .dx-button {
+            width: 90px;
+        }
+    }
+    .mt_100 {
+        top: 0%;
+        position: absolute;
+        background-color: #fff;
+        width: 100%;
+        // height: 100vh;
+    }
+}
+
+.boxx {
+    position: fixed;
+    z-index: 1500;
+    bottom: 0;
+    box-shadow: 10px 5px 5px #aaaaaa8c;
+    margin-top: 80px;
+    background-color: #fff;
+    width: 100%;
+    left: 0;
+    margin-bottom: 67px;
+    padding-top: 20px;
+    border-top: 1px solid #00000024;
+}
+
+::ng-deep .pf .dx-field-item-label-text {
+    color: #24518A;
+    font-weight: bold;
+}
+
+::ng-deep .pf .dx-texteditor.dx-editor-outlined {
+    background: #fff;
+    border: 0px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-radius: 0px;
+}
+
+.btn-chek-pass {
+    position: absolute;
+    top: 7px;
+    right: 10px;
+    .change-open {
+        width: 35px !important;
+        height: 35px !important;
+    }
+    .change-close {
+        width: 35px !important;
+        height: 35px !important;
+    }
+}

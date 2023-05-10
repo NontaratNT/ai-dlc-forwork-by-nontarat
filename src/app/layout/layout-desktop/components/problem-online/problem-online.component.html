@@ -1,0 +1,74 @@
+<div class="block-content">
+    <div class="title">
+        <div class="title-left">แจ้งปัญหา</div>
+    </div>
+
+    <div class="block-main">
+        <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <br />
+                        <div style="justify-content:left;">
+                            <dx-multi-view [swipeEnabled]="false" [selectedIndex]="0">
+                                <dxi-item>
+                                    <div class="panel panel-default " style="width: 100%;">
+                                        <div id="history-table" class="myContent" >
+                                            <div style="text-align:right;">
+                                                <dx-button text="เพิ่ม"  class="btn-add"   icon="add" (click)="Add()" ></dx-button>
+
+                                            </div>
+                                            <dx-data-grid  style="max-width: 100%!important;" #grid [dataSource]="_dataSource" [showColumnLines]="false" [wordWrapEnabled]="true" [showRowLines]="true" [columnAutoWidth]="true"
+                                                [columnHidingEnabled]="true" [showBorders]="false" [rowAlternationEnabled]="true" [showColumnLines]="true"
+                                                [hoverStateEnabled]="true" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล" [remoteOperations]="false">
+                                                <dxo-paging [pageSize]="10"></dxo-paging>
+                                                <dxo-load-panel text="กำลังโหลดข้อมูล..."></dxo-load-panel>
+                                                <dxo-search-panel [visible]="true" [width]="200" placeholder="ค้นหา..."></dxo-search-panel>
+                                                <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                                                </dxo-editing>
+                                                <dxo-selection mode="single"></dxo-selection>
+                                                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true">
+                                                </dxo-pager>
+                                                <dxi-column  [allowSearch]="false"  dataField="" [width]="80" caption="ลำดับ" alignment="center" cellTemplate="cellTemplate"></dxi-column>
+                                                <dxi-column dataField="" caption="แก้ไข" [width]="80" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommand"></dxi-column>
+                                                <div *dxTemplate="let d of 'cellTemplateCommand'">
+                                                    <dx-button icon="edit" hint="แก้ไข" requirePermission="EDIT" type="default" (onClick)="Edit(d)">
+                                                    </dx-button>
+                                                </div>
+                                                <!-- <dxi-column dataField="" caption="ลบ" [width]="100" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommands"></dxi-column>
+                                                <div *dxTemplate="let d of 'cellTemplateCommands'">
+                                                    <dx-button icon="trash" hint="ลบ" type="danger" (onClick)="Delete($event,d)">
+                                                    </dx-button>
+                                                </div> -->
+                                                <dxi-column  [allowSearch]="true"  dataField="CASE_ID" [width]="150" caption="เลขที่รับแจ้ง" alignment="center"></dxi-column>
+                                                <dxi-column  [allowSearch]="true"  dataField="FEEDBACK_NAME" [width]="" caption="ปัญหาที่แจ้ง" alignment="center"></dxi-column>
+                                                <dxi-column  [allowSearch]="true"  dataField="FEEDBACK_REMARK" [width]="" caption="รายละเอียดเพิ่มเติม" alignment="center"></dxi-column>
+                                                <!-- <dxi-column  [allowSearch]="true"  dataField="" [width]="150" caption="เบอร์ติดต่อ" alignment="center"></dxi-column>
+                                                <dxi-column  [allowSearch]="true"  dataField="" [width]="200" caption="ชื่อพนักงานสืบสวน" alignment="center"></dxi-column>
+                                                <dxi-column  [allowSearch]="true"  dataField="" [width]="150" caption="เบอร์ติดต่อ" alignment="center"></dxi-column>
+                                                <dxi-column  [allowSearch]="true"  dataField="" [width]="300" caption="สถานที่นัดหมาย" alignment="center"></dxi-column> -->
+                                                <!-- <dxi-column dataField="" caption="วันเวลานัดหมาย" [width]="250" alignment="center" [allowSorting]="true" cellTemplate="cellTemplateDate"></dxi-column> -->
+
+                                                <!-- <div *dxTemplate="let cellValue of 'cellTemplateDate'">
+                                                    <p>{{ConvertDateFullMonth(cellValue.data.APPOINTMENT_DATE)}} | เวลา {{ConvertDateToMomentTime(cellValue.data.APPOINTMENT_DATE)}} น.</p>
+                                                </div> -->
+
+                                                <div *dxTemplate="let cell of 'cellTemplate'">
+                                                    {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                                                </div>
+                                            </dx-data-grid>
+
+                                        </div>
+                                    </div>
+                                </dxi-item>
+                                <dxi-item>
+                                    <app-problem-online-add [formProblem]="formProblem"></app-problem-online-add>
+                                </dxi-item>
+                            </dx-multi-view>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="_isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กำลังโหลดข้อมูล..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

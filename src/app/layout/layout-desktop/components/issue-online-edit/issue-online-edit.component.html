@@ -1,0 +1,159 @@
+<div class="block-content">
+    <div class="title">
+        <div class="title-left">สถานะเรื่องที่แจ้ง</div>
+        <div class="title-right">ติดตามสถานะ</div>
+    </div>
+
+    <div *ngIf="loadTab" class="block-main">
+        <div class="container-fluid">
+            <div class="row justify-content-md-center">
+                <div id="work-step-flow" class="col-auto">
+                    <!-- <div class="panel-heading">
+                        <div class="panel-body w-100">
+                            <div class="row my-step">
+                                <div class="stepwizard form-no">
+                                    <div class="stepwizard-row setup-panel">
+                                        <div *ngFor="let item of listGroupStatus; index as i" class="stepwizard-step col-xs-3">
+                                            <span style="cursor: default !important;" class="{{item.GROUP_STATUS_CLASS_DETAIL}}">
+                                                <button type="button" class="{{item.GROUP_STATUS_CLASS}}">
+                                                    <i class=" {{item.GROUP_ICON}}"></i>
+                                                    <img [src]="item.IMG" alt="">
+                                                </button>
+                                            </span>
+                                            <br>
+                                            <span class="{{item.GROUP_STATUS_CLASS_TXT}}"><label
+                                                    class="step-text">{{item.GROUP_STATUS_NAME }}</label></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <dx-scroll-view [height]="160" direction="horizontal">
+                        <div class="my-step">
+                            <div class="stepwizard form-no" [ngStyle]="{'width.px': statusWidth}">
+                                <div class="stepwizard-row setup-panel">
+                                    <div *ngFor="let item of listGroupStatus; index as i" class="stepwizard-step">
+                                        <span style="cursor: default !important;" class="{{item.GROUP_STATUS_CLASS_DETAIL}}">
+                                        <button type="button" class="{{item.GROUP_STATUS_CLASS}}">
+                                            <i class=" {{item.GROUP_ICON}}"></i>
+                                            <img [src]="item.IMG" alt="">
+                                        </button>
+                                    </span>
+                                        <br>
+                                        <span class="{{item.GROUP_STATUS_CLASS_TXT}}"><label
+                                            class="step-text">{{item.GROUP_STATUS_NAME }}</label></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </dx-scroll-view>
+                </div>
+                <div class="col-12" *ngIf="caseReject">
+                    <div class="row block-reject">
+                        <div class="col-auto block-reject-icon">
+                            <img class="icon-status" src="assets/icon/icon-alert-detail.png" alt="icon">
+                        </div>
+                        <div class="col block-reject-text">
+                            <div>สถานะจำหน่าย เนื่องจาก</div>
+                            <div class="text-tab">{{CheckEmptyText(bpmData.REJECT_REMARK)}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="block-drawer-child" class="col-12">
+                    <!-- <div id="block-content-tab">
+                        <div class="block-left">
+                            <div class="tab-menu-sidebar">
+                                <dx-tree-view [dataSource]="listMneu" dataStructure="plain" parentIdExpr="parentId" keyExpr="id" selectionMode="single" [focusStateEnabled]="false" expandEvent="click" (onItemClick)="SelectMenu($event)" itemTemplate="menuList" [expandAllEnabled]="true">
+                                    <div *dxTemplate="let item of 'menuList'">
+                                        <i class="dx-icon dx-icon-{{item.icon}}"></i>
+                                        <span class="menu-text">{{item.text}}</span>
+                                    </div>
+                                </dx-tree-view>
+                            </div>
+                        </div>
+                        <div class="block-right">
+                            <div class="block-data">
+                                <app-issue-online-container [dataForm]="dataForm"></app-issue-online-container>
+                                <app-issue-online-container [dataForm]="dataForm"></app-issue-online-container>
+                                <app-issue-online-container [dataForm]="dataForm"></app-issue-online-container>
+                                <app-issue-online-container [dataForm]="dataForm"></app-issue-online-container>
+                                <app-issue-online-container [dataForm]="dataForm"></app-issue-online-container>
+                                <app-issue-online-container [dataForm]="dataForm"></app-issue-online-container>
+
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="block-drawer-child-content">
+                        <!-- <dx-toolbar [items]="toolbarContent"> </dx-toolbar>
+                        <div>isDrawerOpen{{isDrawerOpen}}</div> -->
+                        <dx-drawer openedStateMode="shrink" position="left" revealMode="expand" template="template" [opened]="true" [closeOnOutsideClick]="false">
+                            <div *dxTemplate="let data of 'template'">
+                                <div class="menu-left">
+                                    <dx-tree-view #tabLeft [dataSource]="listMneu" dataStructure="plain" parentIdExpr="parentId" keyExpr="id" selectionMode="single" [focusStateEnabled]="false" expandEvent="click" (onItemClick)="SelectMenu($event)" itemTemplate="menuList" [expandAllEnabled]="true"
+                                        (onInitialized)="SelectMenuInit($event)">
+                                        <div *dxTemplate="let item of 'menuList'">
+                                            <div class="text-link">
+                                                <i class="dx-icon {{item.icon}}"></i>
+                                                <span class="menu-text">{{item.text}}</span>
+                                            </div>
+                                        </div>
+                                    </dx-tree-view>
+                                </div>
+                            </div>
+                            <div id="form-readonly" class="block-drawer-child-content-tab">
+                                <!-- <dx-multi-view [focusStateEnabled]="false" [animationEnabled]="false" [swipeEnabled]="false" [(selectedIndex)]="tabIndex"> -->
+                                <dx-multi-view [focusStateEnabled]="false" [animationEnabled]="false" [swipeEnabled]="false" [(selectedIndex)]="tabIndex">
+                                    <dxi-item>
+                                        <ng-container>
+                                            <app-issue-online-container [dataForm]="dataForm"></app-issue-online-container>
+                                        </ng-container>
+                                    </dxi-item>
+                                    <dxi-item>
+                                        <ng-container *dxTemplate>
+                                            <app-attach-file></app-attach-file>
+                                        </ng-container>
+                                    </dxi-item>
+                                    <dxi-item>
+                                        <ng-container *dxTemplate>
+                                            <app-chat></app-chat>
+                                        </ng-container>
+                                    </dxi-item>
+                                    <dxi-item>
+                                        <ng-container *dxTemplate>
+                                            <app-track-appointment [dataForm]="dataForm"></app-track-appointment>
+                                        </ng-container>
+                                    </dxi-item>
+                                    <dxi-item>
+                                        <ng-container *dxTemplate>
+                                            <app-issue-online-withdraw-case [dataForm]="dataForm"></app-issue-online-withdraw-case>
+                                        </ng-container>
+                                    </dxi-item>
+                                </dx-multi-view>
+                            </div>
+                        </dx-drawer>
+                    </div>
+                </div>
+                <!-- <div class="col-12">
+                    <div class="block-message">
+                        <div class="block-input-text">
+                            <dx-form #formRequest labelLocation="top">
+                                <dxi-item template="temp1" [isRequired]="true">
+                                    <dxo-label text="เรื่องที่ต้องการแก้ไข" [showColon]="false"></dxo-label>
+                                </dxi-item>
+                                <div *dxTemplate="let data of 'temp1'">
+                                    <dx-text-area [height]="150" [(value)]="requestTextByUser"></dx-text-area>
+                                </div>
+                            </dx-form>
+                        </div>
+                        <div class="block-input-btn text-right">
+                            <dx-button [width]="140" class="btn-submit" type="success" text="ส่งเรื่อง" (onClick)="SubmitRequestTextCase()"></dx-button>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

@@ -1,0 +1,90 @@
+<div>
+    <dx-form #form [colCount]="2" labelLocation="top">
+        <dxi-item template="temp1" [colSpan]="1" [isRequired]="true">
+            <dxo-label text="ธนาคาร" [showColon]="false"></dxo-label>
+        </dxi-item>
+        <div *dxTemplate="let data of 'temp1'">
+            <dx-select-box #selectBankInfo [dataSource]="bankInfoList" valueExpr="BANK_ID" displayExpr="BANK_NAME" placeholder="ธนาคาร" (onValueChanged)="OnSelectBankAccount($event)" [(value)]="formData.BANK_ID">
+            </dx-select-box>
+        </div>
+        <dxi-item template="temp2" [colSpan]="1" [isRequired]="true">
+            <dxo-label text="ชื่อบัญชี" [showColon]="false"></dxo-label>
+        </dxi-item>
+        <div *dxTemplate="let data of 'temp2'">
+            <dx-text-box [(value)]="formData.BANK_NAME"></dx-text-box>
+        </div>
+        <dxi-item template="temp3" [colSpan]="1" [isRequired]="true">
+            <dxo-label text="เลขบัญชี" [showColon]="false"></dxo-label>
+        </dxi-item>
+        <div *dxTemplate="let data of 'temp3'">
+            <dx-text-box [(value)]="formData.BANK_ACCOUNT" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)"></dx-text-box>
+        </div>
+        <dxi-item itemType="empty"></dxi-item>
+
+        <dxi-item template="temp4" [colSpan]="1" [isRequired]="true">
+            <dxo-label text="วัน เดือน ปี" [showColon]="false"></dxo-label>
+        </dxi-item>
+        <div *dxTemplate="let data of 'temp4'">
+            <dx-date-box dateSerializationFormat="yyyy-MM-dd" [openOnFieldClick]="true" [acceptCustomValue]="false" [(value)]="formData.CASE_INFORMER_DATE"></dx-date-box>
+        </div>
+        <dxi-item template="temp5" [colSpan]="1" [isRequired]="true">
+            <dxo-label text="เวลา" [showColon]="false"></dxo-label>
+        </dxi-item>
+        <div *dxTemplate="let data of 'temp5'">
+            <dx-date-box type="time" dateSerializationFormat="HH:mm" [openOnFieldClick]="true" [useMaskBehavior]="true" displayFormat="HH:mm" [(value)]="formData.TIME_BANK_TRANFER"></dx-date-box>
+        </div>
+        <dxi-item template="temp6" [colSpan]="1" [isRequired]="true">
+            <dxo-label text="จำนวนเงิน (บาท)" [showColon]="false"></dxo-label>
+        </dxi-item>
+        <div *dxTemplate="let data of 'temp6'">
+            <dx-number-box format="#,##0.##" [(value)]="formData.DAMAGE_VALUE"></dx-number-box>
+        </div>
+        <dxi-item itemType="empty"></dxi-item>
+
+    </dx-form>
+    <div>
+        <div class="block-dropzone">
+            <div class="text-head">วางไฟล์เอกสารที่ต้องการ (.xml)</div>
+            <div class="dropzone" appDrag (files)="filesDroppedXml($event)">
+                <!-- <span class="dropzone-text"><img src="assets/img/upload.png">วางไฟล์ที่นี่เพื่ออัปโหลด หรือ <button class="btn btn-primary btn-upload" type="button">Upload Image</button></span> -->
+                <span class="dropzone-text"><img src="assets/img/upload.png">วางไฟล์ที่นี่เพื่ออัปโหลด หรือ
+                    <dx-button class="btn btn-primary btn-upload" [width]="150" type="success" text="อัปโหลดเอกสาร"
+                        (onClick)="OpenFileDialog($event, uploadxml)">
+                    </dx-button><input #uploadxml type="file" [multiple]="true" accept="*" tabindex="-1"
+                        class="dx-fileuploader-input" (change)="uploadFileXml(uploadxml)"></span>
+            </div>
+            <div *ngIf="_xmlFile.filestatus" style="margin-top: 10px;">
+                <!-- <pre>{{_xmlFile |json}}</pre>
+                 -->
+                <div class="text-head">Uploaded files</div>
+                <div *ngFor="let item of _xmlFile.item;index as i" style="border: 1px dashed #E4E4E4;border-radius: 6px;margin-top: 7px;">
+                    <div class="row" style="margin-top: 7px;">
+                        <div class="col-auto">
+                            <img width="30px" src="assets/img/fileupload.png" alt="">
+                        </div>
+                        <div class="col">
+                            <span>{{item.name}}</span><br>
+                            <span>ขนาด {{item.sizeshow}} kb</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="remove-img-list" (click)="resetFileXml(i)">
+                                <img src="assets/img/exit.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="row" *ngFor="let item of _xmlFile.item;index as i" style="margin-top: 7px;">
+                    <div class="col-auto">
+                        <img width="30px" src="assets/img/fileupload.png" alt="">
+                    </div>
+                    <div class="col block-detailfile">
+                        <span>{{item.name}}</span><br>
+                        <span>ขนาด {{item.sizeshow}} kb</span>
+                        <img src="assets/img/exit.png" alt="">
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>

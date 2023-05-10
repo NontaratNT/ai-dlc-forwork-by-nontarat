@@ -1,0 +1,101 @@
+<!-- <div class="main-card card">
+    <div class="card-header card-header-rose card-header-icon">
+        <div class="card-icon">
+            <span>ข้อความยินยอม</span>
+        </div>
+    </div>
+    <div class="card-body ">
+        <div class="panel panel-default">
+            <div class="panel panel-default " style="margin-top:18px; ">
+                <div class="panel panel-default">
+                    <div class="panel-body ">
+                        <dx-form #formAgree>
+                            <dxi-item template="tempAgreeTitle">
+                                <dxo-label text=" " [showColon]="false"></dxo-label>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'tempAgreeTitle'">
+                                <span class="text-title">ข้าพเจ้าขอรับรองและให้ความยินยอม ดังนี้</span>
+                            </div>
+                            <dxi-item template="tempAgree1" [isRequired]="true">
+                                <dxo-label text=" " [showColon]="false"></dxo-label>
+                                <dxi-validation-rule type="required" message="มีความประสงค์ให้ดำเนินการอายัดบัญชีของคนร้ายในส่วนที่ข้าพเจ้าได้รับความเสียหาย จำเป็นต้องระบุ">
+                                </dxi-validation-rule>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'tempAgree1'">
+                                <dx-check-box [(value)]="formData.done" text="มีความประสงค์ให้ดำเนินการอายัดบัญชีของคนร้าย ในส่วนที่ข้าพเจ้าได้รับความเสียหาย"></dx-check-box>
+                            </div>
+                            <dxi-item template="tempAgree2" [isRequired]="true">
+                                <dxo-label text=" " [showColon]="false"></dxo-label>
+                                <dxi-validation-rule type="required" message="ข้าพเจ้ายินยอมให้นำข้อมูลตามที่ข้าพเจ้าให้ไว้นี้ ไปใช้ประโยชน์ในการสืบสวนสอบสวน จำเป็นต้องระบุ"></dxi-validation-rule>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'tempAgree2'">
+                                <dx-check-box [(value)]="formData.done1" text="ข้าพเจ้ายินยอมให้นำข้อมูลตามที่ข้าพเจ้าให้ไว้นี้ ไปใช้ประโยชน์ในการสืบสวนสอบสวน"></dx-check-box>
+                            </div>
+                            <dxi-item template="tempAgree3" [isRequired]="true">
+                                <dxo-label text=" " [showColon]="false"></dxo-label>
+                                <dxi-validation-rule type="required" message="ข้าพเจ้าขอยืนยันว่าข้อมูลที่ได้ให้ไว้ในเว็ปไซต์นี้เป็นความจริงทุกประการ โดยถือว่าเป็นการแจ้งความต่อเจ้าหน้าที่ตำรวจ จำเป็นต้องระบุ"></dxi-validation-rule>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'tempAgree3'">
+                                <dx-check-box [(value)]="formData.done2" text="ข้าพเจ้าขอยืนยันว่าข้อมูลที่ได้ให้ไว้ในเว็ปไซต์นี้เป็นความจริงทุกประการ โดยถือว่าเป็นการแจ้งความต่อเจ้าหน้าที่ตำรวจ"></dx-check-box>
+                            </div>
+                            <dxi-item template="tempAgree4" [isRequired]="true">
+                                <dxo-label text=" " [showColon]="false"></dxo-label>
+                                <dxi-validation-rule type="required" message="กรณีความผิดอันยอมความได้ ข้าพเจ้าจะต้องไปพบพนักงานสอบสวนเพื่อร้องทุกข์ภายในกำหนด ๓ เดือน นับแต่รู้เรื่องและรู้ตัวผู้กระทำความผิด จำเป็นต้องระบุ"></dxi-validation-rule>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'tempAgree4'">
+                                <dx-check-box [(value)]="formData.done3" text="กรณีความผิดอันยอมความได้ ข้าพเจ้าจะต้องไปพบพนักงานสอบสวนเพื่อร้องทุกข์ภายในกำหนด ๓ เดือน นับแต่รู้เรื่องและรู้ตัวผู้กระทำความผิด"></dx-check-box>
+                            </div>
+                        </dx-form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+<div>
+    <div>
+        <dx-form #formAgree>
+            <dxi-item template="tempAgreeTitle">
+                <dxo-label text=" " [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'tempAgreeTitle'">
+                <span class="text-title">ข้าพเจ้าขอรับรองและให้ความยินยอม ดังนี้</span>
+            </div>
+            <dxi-item template="tempAgree1" [isRequired]="true">
+                <dxo-label text=" " [showColon]="false"></dxo-label>
+                <dxi-validation-rule type="required" message="มีความประสงค์ให้ดำเนินการอายัดบัญชีของคนร้ายในส่วนที่ข้าพเจ้าได้รับความเสียหาย จำเป็นต้องระบุ">
+                </dxi-validation-rule>
+            </dxi-item>
+            <div *dxTemplate="let data of 'tempAgree1'">
+                <dx-check-box [(value)]="formData.done" text="มีความประสงค์ให้ดำเนินการอายัดบัญชีของคนร้าย ในส่วนที่ข้าพเจ้าได้รับความเสียหาย"></dx-check-box>
+            </div>
+            <dxi-item template="tempAgree2" [isRequired]="true">
+                <dxo-label text=" " [showColon]="false"></dxo-label>
+                <dxi-validation-rule type="required" message="ข้าพเจ้ายินยอมให้นำข้อมูลตามที่ข้าพเจ้าให้ไว้นี้ ไปใช้ประโยชน์ในการสืบสวนสอบสวน จำเป็นต้องระบุ"></dxi-validation-rule>
+            </dxi-item>
+            <div *dxTemplate="let data of 'tempAgree2'">
+                <dx-check-box [(value)]="formData.done1" text="ข้าพเจ้ายินยอมให้นำข้อมูลตามที่ข้าพเจ้าให้ไว้นี้ ไปใช้ประโยชน์ในการสืบสวนสอบสวน"></dx-check-box>
+            </div>
+            <dxi-item template="tempAgree3" [isRequired]="true">
+                <dxo-label text=" " [showColon]="false"></dxo-label>
+                <dxi-validation-rule type="required" message="ข้าพเจ้าขอยืนยันว่าข้อมูลที่ได้ให้ไว้ในเว็ปไซต์นี้เป็นความจริงทุกประการ โดยถือว่าเป็นการแจ้งความต่อเจ้าหน้าที่ตำรวจ จำเป็นต้องระบุ"></dxi-validation-rule>
+            </dxi-item>
+            <div *dxTemplate="let data of 'tempAgree3'">
+                <dx-check-box [(value)]="formData.done2" text="ข้าพเจ้าขอยืนยันว่าข้อมูลที่ได้ให้ไว้ในเว็ปไซต์นี้เป็นความจริงทุกประการ โดยถือว่าเป็นการแจ้งความต่อเจ้าหน้าที่ตำรวจ"></dx-check-box>
+            </div>
+            <dxi-item template="tempAgree4" [isRequired]="true">
+                <dxo-label text=" " [showColon]="false"></dxo-label>
+                <dxi-validation-rule type="required" message="กรณีความผิดอันยอมความได้ ข้าพเจ้าจะต้องไปพบพนักงานสอบสวนเพื่อร้องทุกข์ภายในกำหนด ๓ เดือน นับแต่รู้เรื่องและรู้ตัวผู้กระทำความผิด จำเป็นต้องระบุ"></dxi-validation-rule>
+            </dxi-item>
+            <div *dxTemplate="let data of 'tempAgree4'">
+                <dx-check-box [(value)]="formData.done3" text="กรณีความผิดอันยอมความได้ ข้าพเจ้าจะต้องไปพบพนักงานสอบสวนเพื่อร้องทุกข์ภายในกำหนด ๓ เดือน นับแต่รู้เรื่องและรู้ตัวผู้กระทำความผิด"></dx-check-box>
+            </div>
+        </dx-form>
+    </div>
+    <div class="text-right btn-footer">
+        <dx-button class="btn btn-back" text="ไม่ยอมรับ">
+        </dx-button>
+        &nbsp;
+        <dx-button class="btn btn-submit" text="ยอมรับ" (onClick)="SubmitForm($event)"></dx-button>
+    </div>
+</div>

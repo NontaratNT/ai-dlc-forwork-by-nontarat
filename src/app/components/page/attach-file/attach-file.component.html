@@ -1,0 +1,69 @@
+<div class="card-body ">
+    <div class="col-12">
+        <div class="row" style="margin-bottom:10px;display: flow-root;padding-right: 15px;" [hidden]="_hidden">
+            <dx-button class="float-right" [width]="140" icon="fas fa-file" type="success" text="อัพโหลดไฟล์" (onClick)="OpenFileDialog($event, upload)"></dx-button>
+            <div class="dx-fileuploader-input-container d-none">
+                <input #upload type="file" id="file" tabindex="-1" class="dx-fileuploader-input" (change)="uploadFileInput($event)">
+            </div>
+
+        </div>
+        <dx-data-grid #grid [dataSource]="formAttach" [showColumnLines]="false" noDataText="ไม่มีข้อมูล" [showRowLines]="true" [columnAutoWidth]="true" [columnHidingEnabled]="true" [showBorders]="false" [rowAlternationEnabled]="true" [showColumnLines]="true"
+            [hoverStateEnabled]="true" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล" [remoteOperations]="false">
+            <dxo-paging [pageSize]="10"></dxo-paging>
+            <dxo-load-panel text="กำลังโหลดข้อมูล..."></dxo-load-panel>
+            <dxo-search-panel [visible]="true" placeholder="ค้นหา..."></dxo-search-panel>
+            <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+            </dxo-editing>
+            <dxo-selection mode="single"></dxo-selection>
+            <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true">
+            </dxo-pager>
+            <dxi-column dataField="" caption="ลำดับที่" [width]="70" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+            <dxi-column dataField="" caption="ลบ" [width]="50" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateDelete"></dxi-column>
+            <div *dxTemplate="let d of 'cellTemplateDelete'">
+                <div *ngIf="d.data.INST_ATTACHMENT_ACTION_FLAG === 'A'">
+                    <dx-button-improve icon="trash" hint="ลบ" requirePermission="DELETE" type="danger" (onClick)="delete(d)">
+                    </dx-button-improve>
+                </div>
+            </div>
+            <dxi-column alignment="center" caption="ดู" [width]="60" cellTemplate="cellTemplateView" [allowSearch]="false">
+            </dxi-column>
+            <div *dxTemplate="let cellInfo of 'cellTemplateView'">
+                <!-- <dx-button icon="fa fa-eye" text="ดู" (onClick)="previewButtonClicked(cellInfo)"></dx-button> -->
+                <dx-button-improve icon="fa fa-eye" caption="ดู" type="success" (onClick)="previewButtonClicked(cellInfo)">
+                </dx-button-improve>
+            </div>
+            <dxi-column dataField="INST_ATTACHMENT_NAME" caption="ชื่อไฟล์เอกสาร" alignment="center">
+            </dxi-column>
+
+            <dxi-column dataField="" caption="ประเภทไฟล์" alignment="center" cellTemplate="cellTemplateType">
+            </dxi-column>
+
+            <div *dxTemplate="let cellInfo of 'cellTemplateType'" style="text-align: left;">
+                <div *ngIf="cellInfo.data.INST_ATTACHMENT_ACTION_FLAG === 'A'">
+                    <dx-select-box id="select-status" [dataSource]="typeAttachment" displayExpr="INST_ATTACHMENT_TYPE_NAME" valueExpr="INST_ATTACHMENT_TYPE_ID" placeholder="ประเภทไฟล์" [(value)]="cellInfo.row.data.INST_ATTACHMENT_TYPE_ID" (onValueChanged)="typeSelected($event , cellInfo)">
+                    </dx-select-box>
+                </div>
+            </div>
+
+            <!-- <div *dxTemplate="let cellInfo of 'cellTemplateName'" style="text-align: left;">
+                <span>{{cellInfo.data.INST_ATTACHMENT_NAME}}</span>
+            </div> -->
+
+            <dxi-column dataField="INST_ATTACHMENT_SIZE" alignment="center" caption="ขนาดไฟล์" cellTemplate="cellTemplateFileSize"></dxi-column>
+
+            <div *dxTemplate="let cellInfo of 'cellTemplateFileSize'">
+                <span>{{cellInfo.value | fileSize}}</span>
+            </div>
+
+            <dxi-column dataField="INST_ATTACHMENT_DATE" [calculateDisplayValue]="formatDate" caption="วันที่นำเข้าเอกสาร" alignment="center">
+            </dxi-column>
+
+            <div *dxTemplate="let cell of 'cellTemplate'">
+                {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+            </div>
+        </dx-data-grid>
+    </div>
+</div>
+
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="_isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

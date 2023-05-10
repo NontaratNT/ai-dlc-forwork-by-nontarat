@@ -1,0 +1,629 @@
+:host {
+    .block-content-detail {
+        margin: 50px 50px 50px 170px;
+        padding-bottom: 100px;
+        .block-title {
+            padding-left: 2px;
+            .title {
+                font-size: 45px;
+                color: #ffffff;
+                font-weight: bold;
+                text-shadow: -1px 0 #000000, 0 1px #000000, 1px 0 #000000, 0 -1px #000000;
+            }
+            .sub-title {
+                font-size: 22px;
+                color: #ffffff;
+                font-weight: bold;
+                text-shadow: -1px 0 #000000, 0 1px #000000, 1px 0 #000000, 0 -1px #000000;
+            }
+            &.title2 {
+                padding: 45px 0 5px 2px;
+            }
+        }
+        .block-box {
+            &.block-manual {
+                padding-top: 15px;
+            }
+            &.box3 {
+                padding-top: 15px;
+            }
+            .box-detail {
+                cursor: pointer;
+                width: 473px;
+                height: 74px;
+                border-radius: 4px;
+                &.box1 {
+                    background-color: #DD5F22;
+                    border: 1px solid #010B16;
+                    &:hover {
+                        background-color: #e1530e;
+                    }
+                }
+                &.box2 {
+                    background-color: #108374;
+                    border: 1px solid #010B16;
+                    &:hover {
+                        background-color: #047a6b;
+                    }
+                }
+                &.box3 {
+                    background-color: #03535A;
+                    border: 1px solid #010B16;
+                    &:hover {
+                        background-color: #01393e;
+                    }
+                }
+                &.box-manual {
+                    background-color: #DD5F22;
+                    border: 1px solid #010B16;
+                    &:hover {
+                        background-color: #e1530e;
+                    }
+                }
+                &.news-content {
+                    // display: none;
+                    // background-color: #082862 !important;
+                    background-color: #024349 !important;
+                }
+                .box-item {
+                    display: table-row;
+                    .item {
+                        display: table-cell;
+                        height: 74px;
+                        margin: 0;
+                        vertical-align: middle;
+                        padding: 0 0 0 15px;
+                        &.title {
+                            font-size: 28px;
+                            color: #ffffff;
+                            .text-detail {
+                                font-size: 16px;
+                            }
+                        }
+                        img {
+                            width: 40px;
+                        }
+                    }
+                }
+            }
+            .box-manual {
+                .box-item .item img {
+                    width: 30px !important;
+                }
+            }
+        }
+        .block-box-login {
+            padding-top: 15px;
+            .box-login-detail {
+                cursor: pointer;
+                height: 50px;
+                border-radius: 4px;
+                width: 100%;
+                font-size: 22px;
+                color: #ffffff;
+                background-color: #DD5F22;
+                border: 1px solid #010B16;
+                padding-top: 8px;
+                text-align: center;
+                &:hover {
+                    background-color: #e1530e;
+                }
+            }
+        }
+        .content-position {
+            justify-content: center;
+            width: 473px;
+        }
+        .qr-img img {
+            object-fit: cover;
+            width: 100px;
+            height: 100px;
+        }
+        .line-img img {
+            object-fit: cover;
+            width: 50px;
+            height: 50px;
+        }
+        .facebook-img img {
+            object-fit: cover;
+            width: 50px;
+            height: 50px;
+        }
+    }
+    @media screen and (max-width: 840px) {
+        .block-content-detail {
+            margin: 50px;
+        }
+    }
+    @media screen and (min-width: 576px) {
+        .block-box-login {
+            display: none;
+        }
+        .col-sm-3 {
+            max-width: 100% !important;
+        }
+    }
+    @media screen and (max-width: 620px) {
+        .block-content-detail {
+            margin: 30px;
+            .block-title {
+                .title {
+                    font-size: 26px;
+                }
+                .sub-title {
+                    font-size: 16px;
+                }
+            }
+        }
+        .custometitlelink{
+            width: 42%;
+            // background-color: #fff;
+            margin-top: 1%;
+            margin-left: 28%;
+            text-align: center;
+            padding: 1%;
+            border-radius: 5px;
+            color: #fff;
+        }
+
+        .customlink{
+            position: inherit;
+            top: 2%;
+            left: 0%;
+
+        }
+        .block-box-login{
+            margin-top: 15%;
+        }
+        .omb_login .omb_socialButtons .omb_btn-facebookcustom {
+            background: #1972e6;
+            width: fit-content;
+            margin-top: 12px;
+            padding-right: 0px;
+        }
+
+        .facebook-img{
+            margin-left: 32%;
+        }
+    }
+    @media screen and (max-width: 585px) {
+        .block-content-detail {
+            margin: 20px;
+            .block-title {
+                .title {
+                    font-size: 26px;
+                }
+                .sub-title {
+                    font-size: 16px;
+                }
+                &.title2 {
+                    padding: 20px 0 5px 2px;
+                }
+            }
+        }
+        .block-box {
+            .box-detail {
+                width: 100% !important;
+                .box-item {
+                    .item {
+                        &.title {
+                            font-size: 20px !important;
+                            .text-detail {
+                                font-size: 14px !important;
+                            }
+                        }
+                        img {
+                            width: 35px !important;
+                        }
+                    }
+                }
+            }
+        }
+        .custometitlelink{
+            width: 42%;
+            // background-color: #fff;
+            margin-top: 1%;
+            margin-left: 28%;
+            text-align: center;
+            padding: 1%;
+            border-radius: 5px;
+            color: #fff;
+        }
+
+
+        .customlink{
+            position: inherit;
+            top: 2%;
+            left: 0%;
+
+        }
+        .block-box-login{
+            margin-top: 15%;
+        }
+        .omb_login .omb_socialButtons .omb_btn-facebookcustom {
+            background: #1972e6;
+            width: fit-content;
+            margin-top: 12px;
+            padding-right: 0px;
+        }
+        .facebook-img{
+            margin-left: 32%;
+        }
+    }
+    @media screen and (max-width: 575px) {
+        .col-sm-3 {
+            padding-left: 0px !important;
+            padding-right: 0px !important;
+        }
+        .content-position {
+            width: 100% !important;
+        }
+        .qr-img img {
+            object-fit: cover;
+            width: 150px !important;
+            height: 150px !important;
+            display: none;
+            margin: 0 auto;
+        }
+        .line-img img {
+            object-fit: cover;
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+        }
+        .facebook-img img {
+            object-fit: cover;
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        .custometitlelink{
+            width: 42%;
+            // background-color: #fff;
+            margin-top: 1%;
+            margin-left: 28%;
+            text-align: center;
+            padding: 1%;
+            border-radius: 5px;
+            color: #fff;
+        }
+
+
+        .customlink{
+            position: inherit;
+            top: 2%;
+            left: 0%;
+
+        }
+        .block-box-login{
+            margin-top: 15%;
+        }
+        .omb_login .omb_socialButtons .omb_btn-facebookcustom {
+            background: #1972e6;
+            width: fit-content;
+            margin-top: 12px;
+            padding-right: 0px;
+        }
+        .facebook-img{
+            margin-left: 32%;
+        }
+    }
+    @media screen and (max-width: 412px) {
+        .block-box {
+            .box-detail {
+                .box-item {
+                    .item {
+                        &.title {
+                            .title3 {
+                                font-size: 16px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .custometitlelink{
+            width: 42%;
+            // background-color: #fff;
+            margin-top: 1%;
+            margin-left: 28%;
+            text-align: center;
+            padding: 1%;
+            border-radius: 5px;
+            color: #fff;
+        }
+
+
+        .customlink{
+            position: inherit;
+            top: 2%;
+            left: 0%;
+
+        }
+        .block-box-login{
+            margin-top: 15%;
+        }
+        .omb_login .omb_socialButtons .omb_btn-facebookcustom {
+            background: #1972e6;
+            width: fit-content;
+            margin-top: 12px;
+            padding-right: 0px;
+        }
+        .facebook-img{
+            margin-left: 32%;
+        }
+    }
+    @media screen and (max-width: 360px) {
+        .block-box {
+            .box-detail {
+                .box-item {
+                    .item {
+                        &.title {
+                            .title3 {
+                                font-size: 14px;
+                            }
+                            .text-detail {
+                                font-size: 12px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .custometitlelink{
+            width: 42%;
+            // background-color: #fff;
+            margin-top: 1%;
+            margin-left: 28%;
+            text-align: center;
+            padding: 1%;
+            border-radius: 5px;
+            color: #fff;
+        }
+
+
+        .customlink{
+            position: inherit;
+            top: 2%;
+            left: 0%;
+
+        }
+        .omb_login .omb_socialButtons .omb_btn-facebookcustom {
+            background: #1972e6;
+            width: fit-content;
+            margin-top: 12px;
+            padding-right: 0px;
+        }
+        .block-box-login{
+            margin-top: 15%;
+        }
+        .facebook-img{
+            margin-left: 32%;
+        }
+    }
+    @media screen and (max-width: 335px) {
+        .block-title.title2 {
+            padding: 20px 0 5px 2px !important;
+        }
+        .block-box {
+            .box-detail {
+                height: 55px !important;
+                .box-item {
+                    .item {
+                        height: 55px !important;
+                        &.title {
+                            .title2 {
+                                font-size: 14px;
+                            }
+                            .title3 {
+                                font-size: 14px;
+                            }
+                            .text-detail {
+                                display: none !important;
+                            }
+                        }
+                        img {
+                            width: 25px !important;
+                        }
+                    }
+                }
+            }
+        }
+
+        .custometitlelink{
+            width: 42%;
+            // background-color: #fff;
+            margin-top: 1%;
+            margin-left: 28%;
+            text-align: center;
+            padding: 1%;
+            border-radius: 5px;
+            color: #fff;
+        }
+
+
+        .customlink{
+            position: inherit;
+            top: 2%;
+            left: 0%;
+
+        }
+        .omb_login .omb_socialButtons .omb_btn-facebookcustom {
+            background: #1972e6;
+            width: fit-content;
+            margin-top: 12px;
+            padding-right: 0px;
+        }
+        .block-box-login{
+            margin-top: 15%;
+        }
+
+        .facebook-img{
+            margin-left: 32%;
+        }
+    }
+    .not-copy {
+        -webkit-user-select: none !important;
+        -moz-user-select: none !important;
+        -ms-user-select: none !important;
+        user-select: none !important;
+    }
+}
+
+@media (min-width: 576px) {
+    .omb_row-sm-offset-3 div:first-child[class*="col-"] {
+        // margin-left: 13%;
+    }
+    .content-position {
+        justify-content: center;
+    }
+
+    .custometitlelink{
+        width: 42%;
+        // background-color: #fff;
+        margin-top: 1%;
+        margin-left: 28%;
+        text-align: center;
+        // padding: 1%;
+        border-radius: 5px;
+        color: #fff;
+    }
+    .omb_login .omb_socialButtons .omb_btn-facebookcustom {
+        background: #1972e6;
+        width: fit-content;
+        margin-top: 12px;
+        // padding-right: 0px;
+    }
+    .facebook-img{
+        // margin-left: 32%;
+    }
+    // .customlink{
+    //     position: inherit;
+    //     top: 2%;
+    //     left: 0%;
+
+    // }
+}
+
+.omb_login .row {
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+}
+
+.omb_login .omb_authTitle {
+    text-align: center;
+    line-height: 300%;
+}
+
+.omb_login .omb_socialButtons a {
+    color: white; // In yourUse @body-bg
+    opacity: 0.9;
+}
+
+.omb_login .omb_socialButtons a:hover {
+    color: white;
+    opacity: 1;
+}
+
+.omb_login .omb_socialButtons .omb_btn-facebook {
+    background: #1972e6;
+    // height: 100%;
+}
+
+.omb_login .omb_socialButtons .omb_btn-twitter {
+    background: #2ece06;
+}
+
+.omb_login .omb_socialButtons .omb_btn-mysisbot {
+    background: #fff;
+    // height: 100%;
+}
+.omb_login .omb_socialButtons .omb_btn-google {
+    background: #c32f10;
+}
+
+
+.omb_login .omb_socialButtons .omb_btn-mysisbotcustom {
+    // background: #fff;
+    width: fit-content;
+    // height: 100%;
+}
+.omb_login .omb_socialButtons .omb_btn-mysisbotdes {
+    // background: #fff;
+    width: fit-content;
+    margin-top: 0px;
+    padding-top: 0px;
+    // height: 100%;
+}
+
+.omb_login .omb_socialButtons .omb_btn-facebookcustom {
+    background: #1972e6;
+    width: fit-content;
+    margin-top:12px;
+    // height: 100%;
+}
+
+.omb_login .omb_socialButtons .omb_btn-facebookdes {
+    // background: #1972e6;
+    width: fit-content;
+    color:#fff;
+    padding-left: 5px;
+    padding-top: 0px;
+    // height: 100%;
+}
+.omb_login .omb_loginOr {
+    position: relative;
+    font-size: 1.5em;
+    color: #aaa;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.omb_login .omb_loginOr .omb_hrOr {
+    background-color: #cdcdcd;
+    height: 1px;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+.omb_login .omb_loginOr .omb_spanOr {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: -0.6em;
+    margin-left: -1.5em;
+    background-color: white;
+    // width: 3em;
+    text-align: center;
+}
+
+.omb_login .omb_loginForm .input-group.i {
+    // width: 2em;
+}
+
+.omb_login .omb_loginForm .help-block {
+    color: red;
+}
+
+.custometitlelink{
+    width: 15%;
+    // background-color: #fff;
+    margin-top: 1%;
+    margin-left: 9%;
+    text-align: center;
+    padding: 1%;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.customlink{
+    position: inherit;
+    right: 10%;
+    top: 13%;
+}
+

@@ -1,0 +1,15 @@
+<!-- <section style="position: relative;
+height: 100vh;
+background-image: url('assets/image/bg-police-online-desktop.png');
+background-repeat: no-repeat;
+background-size: cover"> -->
+<section id="police-index-page" style="min-height: 100vh;">
+    <app-header-new></app-header-new>
+    <!-- <div class="bg-img"></div> -->
+    <div class="block-content">
+        <dx-scroll-view [showScrollbar]="'always'">
+            <router-outlet></router-outlet>
+        </dx-scroll-view>
+    </div>
+    <app-footer-new></app-footer-new>
+</section>

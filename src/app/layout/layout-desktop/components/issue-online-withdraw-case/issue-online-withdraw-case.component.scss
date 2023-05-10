@@ -1,0 +1,91 @@
+:host {
+    .block-main {
+        background-color: #f6f7fc !important;
+    }
+    .block-content { 
+
+    }
+    .tab-title {
+        font-size: 18px;
+        color: #2f2b66;
+    }
+     ::ng-deep {
+        .dx-icon.fa.fa-plus {
+            color: #fff !important;
+        }
+        #withdraw-case {
+            display: flex;
+            flex-direction: column;
+            .conten-block {
+                margin-top: 20px;
+                
+                .dx-field-item-label-text {
+                    text-align: left;
+                    padding: 10px 0 20px 0;
+                    font-size: 18px;
+                    color: #2f2b66;
+                    font-weight: bold;
+                }
+               
+                .dx-collection { 
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0;
+                    .dx-radiobutton-icon {
+                        margin: .25rem auto;
+                    }
+                    .dx-item.dx-radiobutton {
+                        display: flex;
+                        row-gap: 1rem;
+                    }
+                    .dx-radio-value-container {
+                        width: 2.5rem;
+                    }
+                }
+                .dx-item-content {
+                    margin: auto 0;
+                    font-size: 1rem;
+                }
+                #ctrlMoney {
+                    input {
+                        text-align: center;
+                    }
+                }
+                .radio-custom {
+                    width: 100%;
+                }
+                .text-title {
+                    line-height: 35px;
+                    font-size: 1rem;
+                    font-weight: 600;
+                    align-self: center;
+                }
+                .custom-radio-choice {
+                    display: flex;
+                    gap: 1rem;
+                    &.column {
+                        flex-direction: column;
+                        gap: 0;
+                        .text-title {
+                            margin-right: auto;
+                        }
+                    }
+                }
+            }  
+            .btn-submit {
+                padding-top: .35rem;
+                padding-bottom: .35rem;
+                margin-top: 1.75rem ;
+                margin-bottom: 1.75rem ;
+                margin-left: auto;
+            } 
+        }
+       
+    }
+    .btn-footer {
+        margin-top: 20px;
+    }
+}
+
+
+ 

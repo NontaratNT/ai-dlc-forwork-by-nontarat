@@ -1,0 +1,167 @@
+.form-no {
+    text-align: -webkit-center;
+}
+
+::ng-deep .form-no .dx-form {
+    padding: 25px;
+    margin-left: 25%;
+}
+
+.stepwizard-step p {
+    margin-top: 0px;
+    color: #666;
+}
+
+.stepwizard-row {
+    display: table-row;
+}
+
+.stepwizard {
+    display: table;
+    // width: 80%;
+    width: 100%;
+    position: relative;
+    // margin: 0px 30px;
+    margin-bottom: 40px;
+    margin-top: 10px;
+    // left: 100px;
+}
+
+.stepwizard-step button[disabled] {}
+
+.stepwizard .btn.disabled,
+.stepwizard .btn[disabled],
+.stepwizard fieldset[disabled] .btn {
+    opacity: 1 !important;
+    color: #bbb;
+}
+
+.stepwizard-row:before {
+    top: 35px;
+    bottom: 0;
+    position: absolute;
+    content: " ";
+    width: 100%;
+    height: 10px;
+    background-color: #ccc;
+    z-index: 0;
+}
+
+.stepwizard-step {
+    display: table-cell;
+    text-align: center;
+    position: relative;
+}
+
+.step-text {
+    position: relative;
+    /* top: 0px; */
+    margin: 10px;
+    // font-size: 17px !important;
+}
+
+.btn-circle {
+    position: relative;
+    bottom: 16px;
+    width: 57px;
+    height: 57px;
+    text-align: center;
+    // padding: 18px 0 !important;
+    padding: 0px 15px !important;
+    font-size: 22px;
+    line-height: 0.429;
+    border-radius: 100%;
+    cursor: pointer !important;
+}
+
+.btn-default {
+    background-color: #aaa;
+    opacity: 1 !important;
+    color: #fff;
+}
+
+.btn-circles {
+    width: 75px;
+    height: 75px;
+    text-align: center;
+    padding: 20px 0 !important;
+    font-size: 28px;
+    line-height: 1.428571429;
+    border-radius: 100%;
+}
+
+.btn-detail-default {
+    background-color: #ffffff;
+    border: solid 5px #aaa;
+}
+
+.btn-step-detail-pass {
+    background-color: #ffffff;
+    border: solid 5px #0d74ae;
+}
+
+.btn-step-detail-now {
+    background-color: #ffffff;
+    border: solid 5px #0d74ae;
+}
+
+.btn-step-txt-pass {
+    color: #0d74ae;
+}
+
+.btn-step-txt-now {
+    color: #0d74ae;
+}
+
+.btn-step-txt-default {
+    color: #aaa;
+}
+
+.btn-step-pass {
+    background-color: #0d74ae;
+    color: #ffffff;
+}
+
+.btn-step-now {
+    background-color: #0d74ae;
+    color: yellow;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.text-danger {
+    padding-left: 10px;
+}
+
+@media screen and(max-width: 1600px) {
+    .form-no .dx-form {
+        padding: 25px;
+        margin-left: 25%;
+    }
+    .my-step {
+        overflow-x: auto;
+    }
+    .stepwizard-row {
+        overflow-x: auto;
+    }
+    .stepwizard-step {
+        padding: 0px 40px 0px 40px;
+    }
+    .step-text {
+        position: relative;
+        margin: 10px;
+        font-size: 12px;
+    }
+    .text-danger {
+        position: relative;
+        left: 0px;
+    }
+}
+
+@media screen and(max-width:575px) {
+    .form-no .dx-form {
+        margin-left: 0%;
+    }
+}

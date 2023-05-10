@@ -1,0 +1,134 @@
+@import "~flatpickr/dist/flatpickr";
+$fa-font-path: "../../fontawesome/webfonts";
+@import "~share-ui/styles/_theme";
+html,
+body {
+    // height: 100%;
+    /* ให้ html และ body สูงเต็มจอภาพไว้ก่อน */
+    margin: 0;
+    padding: 0;
+    font-family: "Montserrat", Arial, sans-serif !important;
+    font-size: 16px;
+    line-height: 1.8;
+    font-weight: 400;
+    color: #999999;
+    height: 100vh;
+    overflow-y: auto;
+    margin: 0 auto;
+}
+
+.background_img {
+    background-image: url(/assets/ccib/img/image.png);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+}
+
+.overflowCss,
+.overflowBody {
+    overflow: visible;
+}
+
+.overflowCss {
+    --scrollbarBG: rgb(255, 255, 255);
+    --thumbBG: rgb(255, 255, 255);
+}
+
+.overflowBody::-webkit-scrollbar {
+    width: 11px;
+}
+
+.overflowBody {
+    scrollbar-width: none;
+    scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+}
+
+.overflowBody::-webkit-scrollbar-track {
+    background: var(--scrollbarBG);
+}
+
+.overflowBody::-webkit-scrollbar-thumb {
+    background-color: var(--thumbBG);
+    border-radius: 6px;
+    border: 3px solid var(--scrollbarBG);
+}
+
+.overflowCss {
+    background: rgb(255, 255, 255);
+    overflow: hidden;
+    font-family: "Montserrat", Arial, sans-serif;
+}
+
+.overflowBody {
+    height: 100vh;
+    // background: rgb(255, 255, 255);
+    // background-image: url(/assets/ccib/img/25100.jpg);
+    overflow-y: auto;
+    margin: 0 auto;
+    // font: 100%/1.4 serif;
+}
+
+.font-style {
+    padding-left: 5px;
+    font-size: 15px;
+    padding: 8px;
+    font-weight: bold;
+}
+
+.root-55 {
+    margin-left: auto;
+    margin-right: auto;
+    // max-width: 1200px;
+    display: inherit;
+    background-color: #fff;
+    padding-bottom: 20px;
+}
+
+::ng-deep .btn-login {
+    background-color: #302a6a !important;
+    color: #fff !important;
+    font-size: 22px !important;
+    margin-bottom: 10px !important;
+    margin-top: 30px !important;
+    height: 50px !important;
+}
+
+::ng-deep .dx-button-has-text .dx-button-content {
+    padding: 6px 18px 6px;
+}
+
+::ng-deep .dx-widget input,
+.dx-widget textarea {
+    font-family: SukhumvitSet;
+}
+
+::ng-deep .choices[data-type*="select-one"] .choices__button {
+    margin-right: 5px !important;
+}
+::ng-deep .statuscode {
+    margin-top: 100px;
+    background-color: #fffae9;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 5px #aaaaaa8c;
+    margin-bottom: -60px;
+}
+// ::ng-deep  .dx-popup-wrapper > .dx-overlay-content {
+//     border: 1px solid #ddd;
+//     background: #fff;
+//     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+//     border-radius: 6px;
+//     margin-top: 80px !important;
+//     padding-top: 10px;
+// }
+::ng-deep .damage .dx-datagrid-rowsview .dx-row {
+    border-top: 1px solid white !important;
+}
+
+::ng-deep .damage .dx-datagrid-headers .dx-datagrid-table .dx-row > td {
+    border-bottom: 1px solid #fff !important;
+}
+::ng-deep .damage0 .dx-layout-manager .dx-field-item:not(.dx-first-row) {
+    padding-top: 0px;
+}

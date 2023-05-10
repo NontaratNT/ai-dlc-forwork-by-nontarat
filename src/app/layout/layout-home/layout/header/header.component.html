@@ -1,0 +1,50 @@
+<nav style='background: linear-gradient(-180deg, #01467f 0, #012b65 , #030f49 100%) !important;z-index: 9999999999;'>
+    <div class="wrapper">
+        <div class="logo">
+            <a class="navbar-brand" (click)="onHome()" style="cursor: pointer;">
+                <li style="animation-delay: 0.5s; color: #010d4812;
+        position: absolute;">
+                    <span class="d-inline-block align-top d-flex">
+                        <img src="assets/icon/logo.png" style="height: 55px;
+                        position: absolute;
+                        top: -2.2rem;
+                        margin-left: -25px;">
+
+                    </span>
+                    <div class="logo_name text-uppercase visible-hidden">
+                        ศูนย์ปราบปรามอาชญากรรมทางเทคโนโลยีสารสนเทศ สำนักงานตำรวจแห่งชาติ (thaipoliceonline.com)</div>
+                    <!-- <div class="logo_detail d-flex text-uppercase">อาชญากรรมทางเทคโนโลยี</div> -->
+
+                    <div class="hidden-vis" style="position: fixed; z-index: 999;
+                        top: 0; margin-left: -20px;
+                        text-align: center;
+                        color: #fff; width: 100%;
+                        margin-top: 5px;">
+                        <div style="font-weight: bold;
+                            font-size: 16px;
+                            height: 20px;
+                            margin-top: -15px;">การรับแจ้งความทางออนไลน์</div>
+                        <div style="font-size: 10px;"> คดีอาชญากรรมทางเทคโนโลยี สำนักงานตำรวจแห่งชาติ
+                        </div>
+                    </div>
+                </li>
+            </a>
+        </div>
+
+        <input type="radio" name="slider" id="menu-btn">
+        <input type="radio" name="slider" id="close-btn">
+        <ul class="nav-links">
+            <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
+
+            <li style="width: 40px;"></li>
+            <li *ngIf="check === false"><a class="subIcon" (click)="onHome()">หน้าแรก</a></li>
+            <li *ngIf="check === false"><a class="subIcon" (click)="logIn()">เข้าสู่ระบบ</a></li>
+            <li *ngIf="check === true "><a class="subIcon" (click)="logout()">ออกจากระบบ</a></li>
+
+        </ul>
+
+        <div class="login-mobile" (click)="logout()" *ngIf="check === true">
+            <img src="assets/image/police/desktop/logout.png" alt="login">
+        </div>
+    </div>
+</nav>

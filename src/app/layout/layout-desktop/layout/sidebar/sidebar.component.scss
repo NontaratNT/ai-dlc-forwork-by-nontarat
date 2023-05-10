@@ -1,0 +1,191 @@
+:host {
+    .desktop-sidebar.size-full {
+        width: 260px;
+    }
+    .desktop-sidebar.size-mini {
+        width: 65px;
+    }
+    .desktop-sidebar::-webkit-scrollbar {
+        width: 6px;
+        background-color: #ddd;
+    }
+    .desktop-sidebar::-webkit-scrollbar-track {
+        background-color: #ddd;
+    }
+    .desktop-sidebar::-webkit-scrollbar {
+        width: 6px;
+        background-color: #ddd;
+    }
+    .desktop-sidebar::-webkit-scrollbar-thumb {
+        background-color: #bfccffd7;
+    }
+    .desktop-sidebar {
+        position: fixed;
+        z-index: 201;
+        height: 100vh;
+        width: 260px;
+        background-color: #fefefe;
+        overflow: hidden;
+        overflow-y: auto;
+        box-shadow: 4px 0px 4px rgba(0, 0, 0, 0.05);
+         ::ng-deep {
+            .dx-treeview-node {
+                padding-left: 0px !important;
+                font-size: 16px;
+                font-weight: 600;
+                color: #2e4765;
+                transition: 0.3s;
+                z-index: 0;
+                grid-template-columns: 26px auto;
+                grid-gap: 15px;
+                align-items: center;
+                position: relative;
+                border-bottom: 1px solid rgba(204, 204, 231, .247058823529411);
+            }
+            .dx-treeview-item.dx-state-hover {
+                background-color: #f9f9f9;
+                color: #3d3d3d;
+            }
+            .menu-content .dx-treeview-item {
+                margin: 10px 10px 10px 10px;
+            }
+        }
+        // ## Selected & Focuced items customization
+         ::ng-deep .dx-treeview {
+            .dx-treeview-node-container {
+                .dx-treeview-node {
+                    &.dx-state-selected:not(.dx-state-focused)>.dx-treeview-item {
+                        background-color: #302a6a;
+                        border-radius: 10px;
+                        // padding: 3px;
+                        color: #fff !important;
+                    }
+                    .dx-item .dx-item-content {
+                        padding: 3px 0 0 15px;
+                    }
+                }
+            }
+        }
+        .menu-header {
+            margin: 15px 5px 10px 5px;
+            text-align: center;
+            .logo {
+                .full {
+                    width: 100px;
+                }
+            }
+            .text {
+                font-size: 14px;
+                color: #333a71;
+            }
+            .title {
+                font-weight: bold;
+            }
+        }
+        .menu-header.mini {
+            margin: 15px 5px 10px 5px;
+            // text-align: right;
+            .logo {
+                .mini {
+                    width: 50px;
+                }
+            }
+            // .text {
+            //     font-size: 14px;
+            //     color: #333a71;
+            // }
+        }
+        .menu-search {
+            margin: auto;
+            width: 230px;
+        }
+        .menu-content.size-mini {
+            .menu-text,
+            .notify-text {
+                display: none;
+            }
+             ::ng-deep .dx-item .dx-item-content {
+                padding: 0px;
+                text-align: center;
+            }
+        }
+        .menu-open {
+            // position: absolute;
+            // top: 45vh;
+            // right: -40px;
+            // background-color: #f9f9f9;
+            // width: 400px;
+            // height: 100px;
+            cursor: pointer;
+            position: fixed;
+            // top: 21vh;
+            top: 45vh;
+            left: 27px;
+            z-index: 202;
+            width: 111px;
+            height: 35px;
+            background-color: #f9f9f9;
+            border-radius: 50% / 100%;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            transform: rotate(90deg);
+            .icon {
+                font-size: 26px;
+                color: #ffd84f;
+                width: 20px;
+                height: 20px;
+                padding-left: 45px;
+                margin-top: 6px;
+            }
+        }
+        .menu-close {
+            // position: absolute;
+            // top: 45vh;
+            // right: -40px;
+            // background-color: #f9f9f9;
+            // width: 400px;
+            // height: 100px;
+            cursor: pointer;
+            position: fixed;
+            top: 45vh;
+            left: 180px;
+            z-index: 202;
+            width: 111px;
+            height: 35px;
+            background-color: #f9f9f9;
+            border-radius: 50% / 100%;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            transform: rotate(-90deg);
+            .icon {
+                font-size: 26px;
+                color: #ffd84f;
+                width: 20px;
+                height: 20px;
+                padding-left: 45px;
+                margin-top: 6px;
+            }
+        }
+        .menu-open:hover,
+        .menu-close:hover {
+            background-color: #7a7a7a;
+        }
+    }
+    .not-copy {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    .text-link {
+        cursor: pointer;
+    }
+    .text-link:hover {
+        opacity: 0.75;
+    }
+     ::ng-deep {
+        .dx-treeview-item .dx-treeview-item-content>.dx-icon {
+            line-height: 14px !important;
+        }
+    }
+}

@@ -1,0 +1,71 @@
+<div class="main-card card">
+    <div class="card-header card-header-rose card-header-icon">
+        <div class="card-icon">
+            <span>สถานีตำรวจที่จะติดต่อกลับไปยังท่าน</span>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="panel panel-default">
+            <div class="panel panel-default" style="margin-top:18px;">
+                <div class="panel panel-default">
+                    <div class="panel-body ">
+                        <div class="conten-block">
+                            <!-- <div class="content-title">วันเวลาที่เข้าพบพนักงานสอบสวน</div> -->
+                            <div class="content-form">
+                                <dx-form #formContact1 [colCount]="2" labelLocation="top">
+                                    <dxi-item template="tempFormBank1" [colSpan]="1" [isRequired]="true">
+                                        <dxo-label text="โปรดเลือกสถานีตำรวจที่จะติดต่อกลับไปยังท่าน" [showColon]="false"></dxo-label>
+                                        <dxi-validation-rule type="required" message="กรุณาเลือก">
+                                        </dxi-validation-rule>
+                                    </dxi-item>
+                                    <div *dxTemplate="let data of 'tempFormBank1'">
+                                        <dx-select-box #selectNearStation [dataSource]="listNearStation" displayExpr="ORGANIZE_NAME_THA" valueExpr="ORGANIZE_ID" searchExpr="ORGANIZE_NAME_THA" [searchEnabled]="true" placeholder="โปรดเลือกสถานีตำรวจที่จะติดต่อกลับไปยังท่าน" [(value)]="formData.stationId"
+                                            (onValueChanged)="OnSelectNearStation($event)"></dx-select-box>
+                                    </div>
+                                    <dxi-item itemType="empty"></dxi-item>
+
+                                </dx-form>
+                            </div>
+                        </div>
+                        <div class="conten-block">
+                            <div class="content-title">วันเวลาที่เข้าพบพนักงานสอบสวน</div>
+                            <div class="content-form">
+                                <dx-form #formContact2 [colCount]="2" labelLocation="top">
+                                    <dxi-item template="tempForm1" [colSpan]="1" [isRequired]="true">
+                                        <dxo-label text="วันที่" [showColon]="false"></dxo-label>
+                                        <dxi-validation-rule type="required" message="กรุณากรอกข้อมูล">
+                                        </dxi-validation-rule>
+                                    </dxi-item>
+                                    <div *dxTemplate="let data of 'tempForm1'">
+                                        <dx-date-box dateSerializationFormat="yyyy-MM-dd" [openOnFieldClick]="true" [acceptCustomValue]="false" [(value)]="formData.APPOINTMENT_DATE"></dx-date-box>
+                                    </div>
+                                    <dxi-item template="tempForm2" [colSpan]="1" [isRequired]="true">
+                                        <dxo-label text="เวลา" [showColon]="false"></dxo-label>
+                                        <dxi-validation-rule type="required" message="กรุณากรอกข้อมูล">
+                                        </dxi-validation-rule>
+                                    </dxi-item>
+                                    <div *dxTemplate="let data of 'tempForm2'">
+                                        <dx-date-box type="time" dateSerializationFormat="HH:mm" [openOnFieldClick]="true" [useMaskBehavior]="true" displayFormat="HH:mm" [(value)]="formData.APPOINTMENT_TIME"></dx-date-box>
+                                    </div>
+                                    <dxi-item template="tempForm3" [colSpan]="1">
+                                        <dxo-label text="จำนวนผู้แจ้ง" [showColon]="false"></dxo-label>
+                                    </dxi-item>
+                                    <div *dxTemplate="let data of 'tempForm3'">
+                                        <!-- <dx-text-box [(value)]="formData.APPOINTMENT_NO" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)"></dx-text-box> -->
+                                        <dx-number-box [(value)]="formData.APPOINTMENT_NO"></dx-number-box>
+                                    </div>
+                                </dx-form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="text-center btn-footer">
+    <dx-button class="btn btn-back" text="กลับ" (onClick)="Back($event)">
+    </dx-button>
+    &nbsp;
+    <dx-button class="btn btn-submit" text="ขั้นตอนถัดไป" (onClick)="SubmitForm($event)"></dx-button>
+</div>

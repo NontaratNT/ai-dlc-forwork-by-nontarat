@@ -1,0 +1,46 @@
+<div class="card">
+    <div class="card-body ">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div style="text-align: right;">
+                    <dx-button class="btn btn-success" requirePermission="ADD" text="แจ้งเหตุออนไลน์" (onClick)="Add()">
+                    </dx-button>
+                </div>
+            </div>
+            <br>
+            <dx-data-grid #grid [dataSource]="_dataSource" [showColumnLines]="true" noDataText="ไม่มีข้อมูล" [showRowLines]="true" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="true" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล">
+                <dxo-paging [pageSize]="10"></dxo-paging>
+                <dxo-search-panel [visible]="true" [width]="240" placeholder="ค้นหา..."></dxo-search-panel>
+                <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                </dxo-editing>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true">
+                </dxo-pager>
+                <dxo-selection mode="single"></dxo-selection>
+                <dxi-column dataField="" caption="" [width]="80" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommand"></dxi-column>
+                <div *dxTemplate="let cellValue of 'cellTemplateCommand'">
+                    <dx-button icon="edit" requirePermission="EDIT" hint="แก้ไข" (onClick)="edit(cellValue)" type="default">
+                    </dx-button>
+                </div>
+                <dxi-column dataField="" caption="ลำดับ" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+
+                <dxi-column dataField="CASE_NO" caption="เลขรับ" alignment="center">
+                </dxi-column>
+
+                <dxi-column dataField="CASE_TYPE_NAME" caption="ประเภทคดี" alignment="center">
+                </dxi-column>
+                <dxi-column [calculateDisplayValue]="formatDate" dataField="CREATE_DATE" sortOrder="asc" caption="วันที่แจ้งเหตุ" alignment="center">
+                </dxi-column>
+
+                <dxi-column dataField="CASE_STATUS" caption="สถานะคดี" [width]="130" alignment="center" cellTemplate="cellTemplateStatus">
+                </dxi-column>
+                <div *dxTemplate="let cell of 'cellTemplateStatus'">
+                    <span class="btn btn-primary click-tracking" (click)="gourltracking(cell)">{{calculateStatus(cell)}}
+                    </span>
+                </div>
+                <div *dxTemplate="let cell of 'cellTemplate'">
+                    {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                </div>
+            </dx-data-grid>
+        </div>
+    </div>
+</div>

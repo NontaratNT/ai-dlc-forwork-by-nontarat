@@ -1,0 +1,27 @@
+<div class="section-crt section-notification w-100">
+    <ul class="nav">
+        <li (click)="onSelectReport()"><i class="material-icons">add_reaction</i>
+            <div class="mt_5">แจ้งเรื่องใหม่</div>
+        </li>
+        <li (click)="onSelectStatus()"><i class="material-icons">assignment_turned_in</i>
+            <div class="mt_5">ติดตามสถานะ</div>
+        </li>
+
+        <!-- <li><i class="material-icons">face
+                <ul class="notifications">
+                    <li (click)="onSelectProfile()"><i class="material-icons">face</i><div style="font-size: 9px; padding-top: 5px;">โปรไฟล์</div></li>
+                    <li (click)="logout()"><i class="material-icons">exit_to_app</i><div style="font-size: 9px; padding-top: 5px;">ออกจากระบบ</div></li>
+                </ul>
+            </i>
+            <div class="mt_5">ฉัน</div>
+        </li> -->
+
+        <li (click)="onSelectProfile()"><i class="material-icons">face</i>
+            <div class="mt_5">ฉัน</div>
+        </li>
+    </ul>
+</div>
+<!-- Section 2 - Alert-->
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true"
+    [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

@@ -1,0 +1,64 @@
+<div id="issue-online-desktop">
+    <div>
+        <dx-scroll-view [height]="70" direction="horizontal">
+            <!-- <div style="width: 1330px;"  [ngStyle]="{'width.px': stepNavigationWidth}"> -->
+            <div [ngStyle]="{'width.px': stepNavigationWidth}">
+                <div class="block-arrow">
+                    <div *ngFor="let item of stepNavigation; index as i;" class="arrow-div">
+                        <div class="{{item.textClass}}" [ngClass]="SelectorTab(i)" [style.z-index]="GetzIndexTab(i)" (click)="SelectTabIndex(i)">
+                            <div [ngClass]="formType === 'add' ? 'circle':'circle-edit' ">
+                                <span>{{i+1}}</span>
+                            </div>
+                            <div [ngClass]="formType === 'add' ? 'text':'text-edit'">
+                                <!-- <div class="title">{{ formType === 'add' ? 'ขั้นตอนที่ ' + (i+1) : '------' }}</div> -->
+                                <div class="title" *ngIf="formType === 'add'">{{'ขั้นตอนที่ ' + (i+1)}}</div>
+                                <div>{{item.text}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </dx-scroll-view>
+        <dx-multi-view [focusStateEnabled]="false" [animationEnabled]="false" [swipeEnabled]="false" [selectedIndex]="indexTab">
+            <dxi-item *ngIf="this.formType === 'add'">
+                <ng-container>
+                    <app-issue-online-agree></app-issue-online-agree>
+                </ng-container>
+            </dxi-item>
+            <dxi-item>
+                <ng-container *dxTemplate>
+                    <app-issue-online-informer></app-issue-online-informer>
+                </ng-container>
+            </dxi-item>
+            <dxi-item>
+                <ng-container *dxTemplate>
+                    <app-issue-online-event></app-issue-online-event>
+                </ng-container>
+            </dxi-item>
+            <dxi-item>
+                <ng-container *dxTemplate>
+                    <app-issue-online-damage></app-issue-online-damage>
+                </ng-container>
+            </dxi-item>
+            <dxi-item>
+                <ng-container *dxTemplate>
+                    <app-issue-online-villain></app-issue-online-villain>
+                </ng-container>
+            </dxi-item>
+            <dxi-item *ngIf="this.formType === 'add'">
+                <ng-container *dxTemplate>
+                    <app-issue-online-attachment></app-issue-online-attachment>
+                </ng-container>
+            </dxi-item>
+            <dxi-item *ngIf="this.formType === 'add'">
+                <ng-container *dxTemplate>
+                    <app-issue-online-validate></app-issue-online-validate>
+                </ng-container>
+            </dxi-item>
+        </dx-multi-view>
+        <!-- <button (click)="CheckDataForm()">CheckDataForm()</button> -->
+    </div>
+</div>
+<!-- <app-view-address [(dataForm)]="dataTest" [renderView]="'view2'"></app-view-address> -->
+<!-- <app-view-address [(dataForm)]="dataTest" [renderView]="'view3'"></app-view-address> -->
+<!-- <button (click)="tetData()">tetData</button> -->

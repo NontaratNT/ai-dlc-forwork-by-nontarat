@@ -1,0 +1,122 @@
+<div class="conten-block">
+    <!-- <div class="content-title">เสียหาย</div> -->
+    <div class="content-form">
+        <dx-form #formInformer2 [colCount]="3" labelLocation="top">
+            <dxi-item template="temp1" [colSpan]="1">
+                <dxo-label text=" " [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp1'">
+                <dx-radio-group [dataSource]="damageType" layout="horizontal" valueExpr="ID" displayExpr="TEXT"></dx-radio-group>
+            </div>
+            <dxi-item itemType="empty" [colSpan]="2"></dxi-item>
+        </dx-form>
+        <div class="row block-damage-type">
+            <div class="col-12 col-sm-4 block left">
+                <div class="title">ประเภทของความเสียหาย</div>
+                <dx-check-box text="เงิน"></dx-check-box>
+                <!-- CASE_TYPE1,2,3,4 เก็บเป็น Y,N -->
+                &nbsp;
+                <dx-check-box text="ทรัพย์สินอื่นๆ"></dx-check-box>
+            </div>
+            <div class="col-12 col-sm-4 block right">
+                <div class="title">ประเภทของความเสียหาย</div>
+                <dx-check-box text="โอนเงินผ่านธนาคาร"></dx-check-box>
+                &nbsp;
+                <dx-check-box text="โอนเงินด้วยวิธีอื่น"></dx-check-box>
+            </div>
+        </div>
+        <div class="block-detail-damage">
+            <div class="add-data">
+                <dx-button class="btn btn-add-data" text="เพิ่มรายการ" (onClick)="ItemDamageAdd($event)"></dx-button>
+            </div>
+            <dx-data-grid class="table-block" [dataSource]="listCaseMoney" [showColumnLines]="false" [showRowLines]="false" [columnAutoWidth]="true" [columnHidingEnabled]="true" [showBorders]="false" [rowAlternationEnabled]="true" [hoverStateEnabled]="true" [selectedRowKeys]="[]"
+                noDataText="ไม่มีข้อมูล" rowTemplate="rowTemplate">
+                <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                </dxo-editing>
+                <dxo-paging [pageSize]="5"></dxo-paging>
+                <dxo-selection mode="single"></dxo-selection>
+                <dxi-column dataField="" caption="Detail" alignment="center" [allowSearch]="false" [allowEditing]="false"></dxi-column>
+                <ng-container *dxTemplate="let item of 'rowTemplate'">
+                    <tr class="main-row">
+                        <td>
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="block block-center">
+                                        <div class="block-number">
+                                            <span>{{ item.component.pageIndex() * item.component.pageSize() + item.rowIndex + 1 }}</span>
+                                        </div>
+                                        <div class="block-centent">
+                                            <div class="text-title">รายละเอียดธุรกรรมทางการเงินที่ทำกับคนร้าย</div>
+                                            <div class="text-detail-block">
+                                                <div class="text text-left">
+                                                    <div class="title text">ประเภทการโอน :</div>
+                                                    <div class="detail text">True Money</div>
+                                                </div>
+                                                <div class="text text-center">
+                                                    <div class="title text">รหัสหรือเอกลักษณ์บัญชีปลายทาง :</div>
+                                                    <div class="detail text">xxxxx</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="block-icon-right">
+                                            <span><i class="fa fa-angle-down"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="item-add-data">
+                                        <dx-button class="btn btn-add-data" text="เพิ่มรายการการโอนเงิน"></dx-button>
+                                    </div>
+                                    <div class="block-table-item">
+                                        <dx-data-grid #grid [dataSource]="itemtext" [showColumnLines]="true" [showRowLines]="true" [columnHidingEnabled]="true" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="false" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล">
+                                            <dxo-paging [pageSize]="5"></dxo-paging>
+                                            <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                                            </dxo-editing>
+                                            <dxo-selection mode="single"></dxo-selection>
+                                            <dxi-column dataField="" caption="จัดการ" [width]="150" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommand"></dxi-column>
+                                            <div *dxTemplate="let d of 'cellTemplateCommand'">
+                                                <dx-button icon="assets/icon/edit2.png" hint="แก้ไข"></dx-button>
+                                                <dx-button icon="assets/icon/trash.png" hint="ลบ"></dx-button>
+                                            </div>
+                                            <dxi-column dataField="" caption="ลำดับ" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+
+                                            <dxi-column dataField="text1" caption="วันเวลาที่โอน" alignment="center" [width]="300"></dxi-column>
+                                            <dxi-column dataField="text2" caption="จำนวนเงิน" alignment="center"></dxi-column>
+                                            <dxi-column dataField="text3" caption="แนบไฟล์" alignment="center"></dxi-column>
+
+                                            <div *dxTemplate="let cell of 'cellTemplate'">
+                                                {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                                            </div>
+                                        </dx-data-grid>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-container>
+            </dx-data-grid>
+        </div>
+    </div>
+</div>
+<div class="text-right btn-footer">
+    <dx-button class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)">
+    </dx-button>
+    &nbsp;
+    <dx-button class="btn btn-submit" text="ถัดไป" (onClick)="SubmitForm($event)"></dx-button>
+</div>
+
+<dx-popup [width]="800" [height]="400" [showTitle]="false" [dragEnabled]="false" [closeOnOutsideClick]="false" [showCloseButton]="false" [visible]="popup">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view [showScrollbar]="'always'" style="height: calc(100% - 45px);">
+            <div *ngIf="reloadDataPopup" class="reload-popup">
+                <app-damage-popup [dataForm]="{}" [displayPopup]="testSS" [saveData]="true" (sendDataForm)="ItemDamageSubmit($event)"></app-damage-popup>
+            </div>
+        </dx-scroll-view>
+        <div class="text-center btn-dx">
+            <dx-button text="ยกเลิก" (onClick)="ItemDamageClose($event)"></dx-button>
+            <dx-button text="บันทึก" (onClick)="ItemDamageSave($event)"></dx-button>
+        </div>
+    </div>
+</dx-popup>
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

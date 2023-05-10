@@ -1,0 +1,30 @@
+:host {
+    .tab-title {
+        font-size: 18px;
+        color: #2f2b66;
+    }
+    ::ng-deep {
+        .dx-icon.fa.fa-plus {
+            color: #fff !important;
+        }
+        .conten-block {
+            margin-top: 5px;
+            .content-title {
+                text-align: left;
+                padding: 10px 0 20px 0;
+                font-size: 18px;
+                color: #2f2b66;
+                font-weight: bold;
+            }
+            // .content-end-line {
+            //     margin: auto;
+            //     width: 95%;
+            //     border-bottom: 1px solid #dddddd;
+            //     margin-top: 40px;
+            // }
+        }
+    }
+}
+::ng-deep .dx-datagrid-headers + .dx-datagrid-rowsview {
+    border-top: 1px solid #fff !important;
+}

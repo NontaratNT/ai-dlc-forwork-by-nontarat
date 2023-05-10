@@ -1,0 +1,512 @@
+<div class="fix_timeline" style="padding-top: 60px;">
+    <div style="padding: 0px 150px 20px; position: sticky;" id="timeline-hr">
+        <div id="timeline-wrap">
+            <div id="timeline"></div>
+            <div *ngFor="let i of this.data" class="{{i.class}}  timeline-icon {{i.classend}}" [style.background-color]="i.color" id="{{i.idclass}}">
+                <i class="{{i.icon}}">
+                </i>
+                <div style="margin-left: -70px;width: 200px; color: rgb(79, 123, 204);font-size: 16px;">{{i.text}}</div>
+            </div>
+        </div>
+    </div>
+    <dx-multi-view [swipeEnabled]="false" [selectedIndex]="0">
+        <dxi-item>
+            <div class="row">
+                <span class="text-head">ข้อกำหนดการใช้งานระบบลงบันทึกประจำวันออนไลน์</span>
+                <div class="col-12 block-content">
+                    <div class="text"> 1. ระบบลงบันทึกประจำวันออนไลน์เป็นระบบที่กองบัญชาการตำรวจสืบสวนสอบสวนอาชญากรรมทางเทคโนโลยี (บช.สอท.) จัดให้มีขึ้นเพื่อส่งเสริมการอำนวยความยุติธรรมให้เป็นไปโดยง่าย สะดวก และรวดเร็ว</div>
+                    <div class="text"> การปิด เปลี่ยนแปลง หรือแก้ไจระบบลงบันทึกประจำวันออนไลน์ อาจกระทำได้ เพื่อประโยชร์ในการพัฒนา บำรุงรักษา รักษาความปลอดภัย หรือเหตุผลจำเป็นอื่นใดก็ได้ โดยไม่ต้องแจ้งให้ผู้ลงทะเบียนทราบล่วงหน้า ในกรณีดังกล่าวผู้ลงทะเบียนสามารถใช้ช่องทางอื่นในการดำเนินการ
+                        ตามสิทธิและหน้าที่ตามกฏหมายอื่น รวมทั้งข้อกำหนดการใข้ระบบลงบันทึกประจำวันออนไลน์
+                    </div>
+                    <div class="text"> 2. กองบัญชาการตำรวจสืบสวนสอบสวนอาชญากรรมทางเทคโนโลยี (บช.สอท.) เป็นเจ้าของสิทธิในทรัพย์สินทางปัญญาทุกประการของระบบลงบันทึกประจำวันออนไลน์ ห้ามมิให้ผู้ใดทำการคัดลอก ทำซ้ำ ดัดแปลง เผยแพร่ต่อสาธารณชน หรือแสดงหาประโยชน์อย่างหนึ่งอย่างใด
+                        เว้นแต่ได้รับอนุญาตเป็นหนังสือจากกองบัญชการตำรวจสืบสวนสอบสวนอาชญากรรมทางเทคโนโลยี (บช.สอท.)
+                    </div>
+                    <div class="text"> 3. ผู้ลงทะเบียนจะต้องใช้งานระบบตามวัตถุประสงค์ของการจัดให้มีระบบลงบันทึกประจำวันออนไลน์เท่านั้น
+                    </div>
+                    <div class="text"> 4. ผู้ลงทะเบียนจะต้องใช้งานระบบลงบันทึกประจำวันออนไลน์ให้ถูกต้องตามกฏหมาย และต้องไม่ดำเนินการใดอันจะก่อให้เกิดผลเสียหายต่อระบบลงบันทึกประจำวันออนไลน์ หรือการละเมิดต่อกฏหมายไม่ว่าในทางใดๆ
+                    </div>
+                    <div class="text"> 5. ผู้ลงทะเบียนจะต้องเก็บรักษาชื่อผู้ใช้และรหัสผ่านสำหรับเข้าใช้ระบบงานลงบันทึกประจำวันไว้เป็นความลับ การนำชื่อผู้ใช้ระบบและรหัสผ่านของผู้ลงทะเบียนเข้าใช้งานระบบลงบันทึกประจำวันออนไลน์ให้ถือว่าผู้ลงทะเบียนได้ลงลายมือชื่อหรือรับรองข้อความอิเล็กทรอนิกส์นั้น
+                    </div>
+                    <div class="text"> 6. กรณีผู้ลงทะเบียนที่ไม่ปฏิบัติหรือฝ่าฝืนข้อกำหนดการใช้งานระบบลงบันทึกประจำวันออนไลน์ศาลอาจมีคำสั่งให้ระงับการใช้งานระบบลงบันทึกประจำวันออนไลน์ของผู้นั้นได้ เว้นแต่ ในกรณีที่มีความจำเป็นเร่งด่วนซึ่งอาจเป็นอันตรายต่อระบบลงบันทึกประจำวัน
+                        ในเจ้าหน้าที่สามารถดำเนินการระงับการใช้ของผู้นั้นไปก่อนได้ แล้วรายงานศาลเพื่อมีคำสั่งต่อไป
+                    </div>
+
+                </div>
+                <div class="col-12 check-layout text-center" style="padding-top: 40px;font: 16px;">
+                    <dx-check-box text="ผู้ใช้บริการได้อ่านและเข้าใจข้อกำหนดและเงื่อนไขที่กล่าวข้างต้น โดยตลอดแล้ว ตกลงรับผูกพันตามนี้ทุกประการ" (onValueChanged)="oncheckButton()"></dx-check-box>
+                </div>
+            </div>
+            <div class="col-12 button-layout text-right" style="padding-right: 10%; padding-top: 10px;padding-bottom: 20px;">
+                <dx-button id="btn-next" [disabled]="!checkButton" text="ถัดไป " (onClick)="onCheck()">
+                </dx-button>
+            </div>
+        </dxi-item>
+        <dxi-item>
+            <div class="row_two">
+                <div class="text-head-two">รูปภาพสำหรับยืนยัน</div><br><br>
+                <div class="picture" style="display: flex; text-align: center;padding-top: 10px;">
+                    <div style="font-size: 16px;width: 40%;">1. รูปหน้าบัตรประชาชน</div>
+                    <!-- <div style="font-size: 16px;width: 55%;">2. รูปคู่บัตรประชาชน</div> -->
+                </div><br>
+                <div style="display: flex;">
+                    <div class="picture">
+                        <div>
+                            <img #profileImage class="img-thumbnail float-right" [src]="ppidImagePath" width=250 height=160 (error)="setDefaultPic()">
+                        </div><br>
+                        <div>
+                            <dx-button class="float-right" width="100%" icon="fas fa-image" type="success" text="แนบรูป" (onClick)="openFileDialog($event, upload)"></dx-button>
+                            <div class="dx-fileuploader-input-container d-none">
+                                <input #upload type="file" accept="image/jpeg" tabindex="-1" class="dx-fileuploader-input" (change)="onImageAdd(upload, profileImage)">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="picture">
+                        <!-- <div>
+                            <img #ppid class="img-thumbnail float-right" [src]="ppidImagePath1" (error)="setDefaultPicTwo()" width=250 height=160>
+                        </div><br>
+                        <div>
+                            <dx-button class="float-right" width="100%" icon="fas fa-image" type="success" text="แนบรูป" (onClick)="openFileDialogPicture($event, upload_1)"></dx-button>
+                            <div class="dx-fileuploader-input-container d-none">
+                                <input #upload_1 type="file" accept="image/jpeg" tabindex="-1" class="dx-fileuploader-input" (change)="onImageAddPicture(upload_1, ppid)">
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="picture" style="display: flex; text-align: center;padding-top: 10px;">
+                    <div style="font-size: 14px;width: 50%;">*ขนาดไม่เกิน 10 MB ประเภท .jpg .png .jpeg เท่านั้น</div>
+                    <!-- <div style="font-size: 14px;width: 50%;">*ขนาดไม่เกิน 10 MB ประเภท .jpg .png .jpeg เท่านั้น</div> -->
+                </div><br><br>
+
+                <dx-form labelLocation="top" [formData]="formData" [colCount]="3" style="padding-bottom: 10px; width: 100%;">
+
+                    <dxi-item template="templatetitle" [colSpan]="1">
+                        <dxo-label text="คำนำหน้า"></dxo-label>
+                        <dxi-validation-rule type="required" message="กรุณาเลือกคำนำหน้า">
+                        </dxi-validation-rule>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'templatetitle'">
+                        <dx-select-box [dataSource]="title" displayExpr="TITLE_NAME" valueExpr="TITLE_ID" placeholder="คำนำหน้า" [(value)]="formData.TITLE_ID">
+                        </dx-select-box>
+                    </div>
+
+                    <dxi-item itemType="empty" [colSpan]="2"></dxi-item>
+
+
+                    <!-- <dxi-item dataField="PERSONAL_FNAME_THA" editorType="dxTextBox" [isRequired]="true" [editorOptions]="{ placeholder: 'ชื่อภาษาไทย' }">
+                        <dxo-label alignment="left" text="ชื่อภาษาไทย"></dxo-label>
+                        <dxi-validation-rule type="required" message="กรุณากรอกชื่อ">
+                        </dxi-validation-rule>
+                    </dxi-item> -->
+
+                    <dxi-item dataField="PERSONAL_FNAME_THA" [isRequired]="true" template="templatePersonalFnameTh">
+                        <dxo-label alignment="left" text="ชื่อภาษาไทย"></dxo-label>
+                        <dxi-validation-rule type="required" message="กรุณากรอกชื่อ">
+                        </dxi-validation-rule>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'templatePersonalFnameTh'">
+                        <dx-text-box [(value)]="formData.PERSONAL_FNAME_THA" [showClearButton]="true" placeholder="ชื่อภาษาไทย" (keypress)="checkThaiLang($event)" (paste)="pasteCheckThaiLang($event)">
+                        </dx-text-box>
+                    </div>
+
+                    <!-- <dxi-item dataField="PERSONAL_LNAME_THA" [isRequired]="true" editorType="dxTextBox" [editorOptions]="{ placeholder: 'นามสกุลภาษาไทย' }">
+                        <dxo-label alignment="left" text="นามสกุลภาษาไทย"></dxo-label>
+                        <dxi-validation-rule type="required" message="กรุณากรอกนามสกุล">
+                        </dxi-validation-rule>
+                    </dxi-item> -->
+
+                    <dxi-item dataField="PERSONAL_LNAME_THA" [isRequired]="true" template="templatePersonalLnameTh">
+                        <dxo-label alignment="left" text="นามสกุลภาษาไทย"></dxo-label>
+                        <dxi-validation-rule type="required" message="กรุณากรอกชื่อ">
+                        </dxi-validation-rule>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'templatePersonalLnameTh'">
+                        <dx-text-box [(value)]="formData.PERSONAL_LNAME_THA" [showClearButton]="true" placeholder="นามสกุลภาษาไทย" (keypress)="checkThaiLang($event)" (paste)="pasteCheckThaiLang($event)">
+                        </dx-text-box>
+                    </div>
+                    <dxi-item template="templateDate" [isRequired]="true">
+                        <dxo-label text="วัน/เดือน/ปีเกิด">
+                        </dxo-label>
+                        <dxi-validation-rule type="required" message="กรุณาเลือกวัน/เดือน/ปีเกิด">
+                        </dxi-validation-rule>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'templateDate'">
+                        <dx-date-box dateSerializationFormat="yyyy-MM-dd" [openOnFieldClick]="true" [acceptCustomValue]="false" [(value)]="formData.PERSONAL_BIRTH_DATE">
+                        </dx-date-box>
+                    </div>
+
+                    <dxi-item template="templateform" [colSpan]="1" [isRequired]="true"></dxi-item>
+                    <div *dxTemplate="let data of 'templateform'">
+                        <div style="padding-top: 50px;"></div>
+                        <div class="text-custom">เลขประจำตัวประชาชน: <span style="color: red;">*</span></div>
+
+                        <dx-text-box placeholder="กรอกเลขประจำตัวประชาชน 13 หลัก" mask="0-0000-00000-00-0" [showClearButton]="true" [maxLength]="13" valueChangeEvent="keyup" (onValueChanged)="onlyNumberKeyPress($event)" [(value)]="formData.PERSONAL_CITIZEN_NUMBER">
+                            <dxi-validation-rule type="required" message="กรุณากรอกเลขบัตรประจำตัวประชาชน">
+                            </dxi-validation-rule>
+                        </dx-text-box>
+                        <div style="padding-top: 5px;">
+                            <div *ngIf="validatePpidMessage" style="color: red;">
+                                {{validatePpidMessage}}
+                            </div>
+                        </div>
+                        <div style="padding-top: 40px;"></div>
+
+                        <!-- <div class="text-custom">เลขหลังบัตรประจำตัวประชาชน</div>
+
+                        <dx-text-box placeholder="กรุณากรอกเลขหลังบัตรประจำตัวประชาชน" mask="CC0-0000000-00" [showClearButton]="true" [(value)]="formData.PERSONAL_LASER_NUMBER">
+                            <dxi-validation-rule type="required" message="กรุณากรอกเลขหลังบัตรประจำตัวประชาชน">
+                            </dxi-validation-rule>
+                        </dx-text-box> -->
+                    </div>
+
+                    <dxi-item [colSpan]="2" template="templateimage"></dxi-item>
+                    <div *dxTemplate="let data of 'templateimage'">
+                        <div style="padding-top: 50px;"></div>
+                        <div>
+                            <div class="text-head-two">คำแนะนำในการกรอก Laser Code หลังบัตรประจำตัวประชาชน</div>
+                            <div style="display: flex;">
+                                <div>
+                                    <img [src]="ppidImagePath3" (error)="setDefaultPicThree()" width=250 height=160>
+                                </div>
+                                <div style="width: 50%; padding-left: 20px;color: #6f6e6e;padding-top: 10px;">
+                                    กองบัญชาการตำรวจสืบสวนสอบสวนอาชญากรรมทางเทคโนโลยี (.สอท.)ยกระดับการรักษาความปลอดภัย ข้อมูลของผู้ใช้งาน เพื่อป้องกันการเข้าถึงข้อมูลส่วนบุคคลของท่าน ด้วยการตรวจสอบ Laser Code หลังบัตรประจำตัวประชาชน
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </dx-form>
+            </div>
+            <div class="col-12 button-layout text-right" style="padding-right: 10%; padding-top: 10px;padding-bottom: 20px;">
+                <span style="padding-right: 10px;">
+                    <dx-button id="btn-next" text="ยกเลิก" (onClick)="backHome()">
+                    </dx-button>
+                </span>
+                <span style="padding-right: 10px;">
+                    <dx-button id="btn-next" text="ก่อนหน้า" (onClick)="cancelMutiTwo()">
+                    </dx-button>
+                </span>
+                <span>
+                    <dx-button id="btn-next" text="ถัดไป " (onClick)="nextMutiTwo()">
+                    </dx-button>
+                </span>
+            </div>
+        </dxi-item>
+        <dxi-item>
+            <div class="row">
+                <div class="text-head-two">ข้อมูลส่วนตัว</div>
+                <br><br>
+                <dx-form labelLocation="top" [formData]="formData" [colCount]="3" style="padding-bottom: 10px; width: 100%;">
+
+                    <!-- เลขประจำตัวประชาชน  -->
+                    <dxi-item dataField="PERSONAL_CITIZEN_NUMBER" editorType="dxTextBox" [disabled]="true" [isRequired]="true" [editorOptions]="{showClearButton:true}">
+                        <dxo-label text="เลขประจำตัวประชาชน "></dxo-label>
+                    </dxi-item>
+
+                    <!-- <dxi-item dataField="PERSONAL_LASER_NUMBER" editorType="dxTextBox" [disabled]="true" [isRequired]="true" [editorOptions]="{ showClearButton:true}">
+                        <dxo-label text="เลขหลังบัตรประจำตัวประชาชน "></dxo-label>
+                    </dxi-item> -->
+
+                    <dxi-item itemType="empty"></dxi-item>
+
+                    <dxi-item template="templatetitle" [isRequired]="true">
+                        <dxo-label text="คำนำหน้า"></dxo-label>
+                        <dxi-validation-rule type="required" message="กรุณาเลือกคำนำหน้า">
+                        </dxi-validation-rule>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'templatetitle'">
+                        <dx-select-box [disabled]="true" [dataSource]="title" displayExpr="TITLE_NAME" valueExpr="TITLE_ID" placeholder="คำนำหน้า" [(value)]="formData.TITLE_ID">
+                        </dx-select-box>
+                    </div>
+
+                    <dxi-item dataField="PERSONAL_FNAME_THA" editorType="dxTextBox" [disabled]="true" [isRequired]="true" [editorOptions]="{ placeholder: 'ชื่อ' }">
+                        <dxo-label alignment="left" text="ชื่อ"></dxo-label>
+                        <dxi-validation-rule type="required" message="กรุณากรอกชื่อ">
+                        </dxi-validation-rule>
+                    </dxi-item>
+                    <dxi-item dataField="PERSONAL_LNAME_THA" [disabled]="true" [isRequired]="true" editorType="dxTextBox" [editorOptions]="{ placeholder: 'นามสกุล' }">
+                        <dxo-label alignment="left" text="นามสกุล"></dxo-label>
+                        <dxi-validation-rule type="required" message="กรุณากรอกนามสกุล">
+                        </dxi-validation-rule>
+                    </dxi-item>
+
+
+                    <dxi-item dataField="PERSONAL_EMAIL" editorType="dxTextBox" [disabled]="true" [isRequired]="true" [editorOptions]="{ showClearButton:true}">
+                        <dxo-label text="E-mail "></dxo-label>
+                    </dxi-item>
+
+                    <!-- <dxi-item dataField="PERSONAL_TEL_NO" editorType="dxTextBox" [isRequired]="true" [editorOptions]="{ showClearButton:true}">
+                        <dxo-label text="เบอร์โทรศัพท์"></dxo-label>
+                    </dxi-item> -->
+                    <dxi-item template="templatePersonal-tel-no">
+                        <dxo-label text="เบอร์โทรศัพท์">
+                        </dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'templatePersonal-tel-no'">
+                        <dx-text-box type="number" [(value)]="formData.PERSONAL_TEL_NO" [showClearButton]="true" [maxLength]="10" (keypress)="checkNumber($event)">
+                        </dx-text-box>
+                    </div>
+
+                    <dxi-item itemType="empty"></dxi-item>
+
+                    <dxi-item template="templateDate" [isRequired]="true">
+                        <dxo-label text="วัน/เดือน/ปีเกิด">
+                        </dxo-label>
+                        <dxi-validation-rule type="required" message="กรุณาเลือกวัน/เดือน/ปีเกิด">
+                        </dxi-validation-rule>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'templateDate'">
+                        <dx-date-box [disabled]="true" dateSerializationFormat="yyyy-MM-dd" [openOnFieldClick]="true" [acceptCustomValue]="false" [(value)]="formData.PERSONAL_BIRTH_DATE">
+                        </dx-date-box>
+                    </div>
+                    <!-- <dxi-item dataField="" editorType="dxTextBox" [disabled]="true" [isRequired]="true"
+                        [editorOptions]="{ showClearButton:true}">
+                        <dxo-label text="เพศ"></dxo-label>
+                    </dxi-item> -->
+                    <dxi-item dataField="PERSONAL_GENDER" editorType="dxRadioGroup" [disabled]="false" [isRequired]="true" [editorOptions]="{value: formData.PERSONAL_GENDER,
+                   items:gender, valueExpr:'id', displayExpr:'text',
+                    layout:'horizontal'}">
+                        <dxo-label text="เพศ"></dxo-label>
+                    </dxi-item>
+
+                    <dxi-item itemType="empty"></dxi-item>
+
+                    <dxi-item template="templatelabel" [colSpan]="3" [isRequired]="true">
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'templatelabel'">
+                        <br>
+                        <div class="text-head-two">ที่อยู่ที่ติดต่อได้</div>
+                        <br>
+                    </div>
+                </dx-form>
+                <dx-form #form2 labelLocation="top" [formData]="formData" [colCount]="2" style="padding-bottom: 10px; width: 100%;">
+
+                    <dxi-item dataField="PERSONAL_ADDRESS" editorType="dxTextBox" [isRequired]="true" [editorOptions]="{ showClearButton:true}">
+                        <dxo-label text="บ้านเลขที่"></dxo-label>
+                        <dxi-validation-rule type="required" message="กรุณากรอกบ้านเลขที่">
+                        </dxi-validation-rule>
+                    </dxi-item>
+                    <dxi-item dataField="PERSONAL_MOO" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}">
+                        <dxo-label text="หมู่"></dxo-label>
+                        <!-- <dxi-validation-rule type="required" message="กรุณากรอกหมู่">
+                        </dxi-validation-rule> -->
+                    </dxi-item>
+                    <dxi-item dataField="PERSONAL_STREET" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}">
+                        <dxo-label text="ถนน"></dxo-label>
+                        <!-- <dxi-validation-rule type="required" message="กรุณากรอกถนน">
+                        </dxi-validation-rule> -->
+                    </dxi-item>
+                    <dxi-item dataField="PERSONAL_SOI" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}">
+                        <dxo-label text="ตรอกซอย"></dxo-label>
+                        <!-- <dxi-validation-rule type="required" message="กรุณากรอกซอย">
+                        </dxi-validation-rule> -->
+                    </dxi-item>
+
+                    <!-- จังหวัด -->
+                    <dxi-item dataField="" template="tempjugwaidTruck" [isRequired]="true">
+                        <dxo-label text="จังหวัด" [showColon]="false">
+                        </dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'tempjugwaidTruck'">
+                        <dx-select-box [dataSource]="province" [showClearButton]="true" displayExpr="PROVINCE_NAME_THA" valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true" [(value)]="formData.PROVINCE_ID" placeholder="จังหวัด" (onValueChanged)="onSerectProvice($event)">
+                        </dx-select-box>
+                    </div>
+
+                    <!-- อำเภอเขต -->
+                    <dxi-item dataField="" template="temaumperTruck" [isRequired]="true">
+                        <dxo-label text="อำเภอ/เขต" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temaumperTruck'">
+                        <dx-select-box [dataSource]="district" [showClearButton]="true" displayExpr="DISTRICT_NAME_THA" valueExpr="DISTRICT_ID" searchExpr="DISTRICT_NAME_THA" [searchEnabled]="true" [(value)]="formData.DISTICT_ID" placeholder="อำเภอ/เขต" [disabled]="disableDistrict"
+                            (onValueChanged)="onSerectDistrict($event)">
+                        </dx-select-box>
+                    </div>
+
+                    <!-- ตำบล -->
+                    <dxi-item dataField="" template="temptumbonTruck" [isRequired]="true">
+                        <dxo-label text="ตำบล" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temptumbonTruck'">
+                        <dx-select-box [dataSource]="subdistrict" displayExpr="SUB_DISTRICT_NAME_THA" [showClearButton]="true" valueExpr="SUB_DISTRICT_ID" searchExpr="SUB_DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="ตำบล" [disabled]="disableSubDistrict" [(value)]="formData.SUB_DISTICT_ID"
+                            (onValueChanged)="onSerectSubDistrict($event)">
+                        </dx-select-box>
+                    </div>
+
+                    <!-- รหัสไปรษณีย์ -->
+                    <dxi-item dataField="POSTCODE_ID" template="temppostcode1" [isRequired]="true">
+                        <dxo-label text="รหัสไปรษณีย์"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temppostcode1'">
+                        <dx-select-box [dataSource]="postcode" [showClearButton]="true" [disabled]="disablepostcode" [(value)]="formData.POST_CODE" valueExpr="POSTCODE_ID" displayExpr="POSTCODE_CODE" placeholder="รหัสไปรษณีย์" [disabled]="disablepostcode" (onValueChanged)="onSerectPostCode($event)">
+                        </dx-select-box>
+                    </div>
+                </dx-form>
+                <dx-form labelLocation="top" [formData]="formData" [colCount]="2" style="padding-bottom: 10px; width: 100%;">
+                    <dxi-item template="templatelabel" [colSpan]="1" [isRequired]="true">
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'templatelabel'">
+                        <br>
+                        <div style="display: flex;">
+                            <div class="text-head-two" style="padding-right: 10px;">ที่อยู่ตามภูมิลำเนา</div>
+                            <dx-check-box [(value)]="checkbox" text="ที่อยู่เดียวกับที่อยู่ตามภูมิลำเนา" (onValueChanged)="oncheckClone($event)">
+                            </dx-check-box>
+                        </div>
+                        <br>
+
+                    </div>
+
+                    <dxi-item itemType="empty"></dxi-item>
+
+                    <dxi-item dataField="HOME_REGISTER_ADDRESS" editorType="dxTextBox" [disabled]="allDisable" [editorOptions]="{ showClearButton:true}">
+                        <dxo-label text="บ้านเลขที่"></dxo-label>
+                    </dxi-item>
+                    <dxi-item dataField="HOME_REGISTER_MOO" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}" [disabled]="allDisable">
+                        <dxo-label text="หมู่"></dxo-label>
+                    </dxi-item>
+                    <dxi-item dataField="HOME_REGISTER_STREET" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}" [disabled]="allDisable">
+                        <dxo-label text="ถนน"></dxo-label>
+                    </dxi-item>
+                    <dxi-item dataField="HOME_REGISTER_SOI" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}" [disabled]="allDisable">
+                        <dxo-label text="ตรอกซอย"></dxo-label>
+                    </dxi-item>
+
+                    <!-- จังหวัด -->
+                    <dxi-item dataField="" template="tempjugwaidTruck1" [isRequired]="true" [disabled]="allDisable">
+                        <dxo-label text="จังหวัด" [showColon]="false">
+                        </dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'tempjugwaidTruck1'">
+                        <dx-select-box [dataSource]="province" displayExpr="PROVINCE_NAME_THA" valueExpr="PROVINCE_ID" [(value)]="formData.HOME_REGISTER_PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true" placeholder="จังหวัด" (onValueChanged)="onSerectProviceHome($event)">
+                        </dx-select-box>
+                    </div>
+
+                    <!-- อำเภอเขต -->
+                    <dxi-item dataField="" template="temaumperTruck2" [isRequired]="true">
+                        <dxo-label text="อำเภอ/เขต" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temaumperTruck2'">
+                        <dx-select-box [dataSource]="district1" displayExpr="DISTRICT_NAME_THA" valueExpr="DISTRICT_ID" [(value)]="formData.HOME_REGISTER_DISTICT_ID" searchExpr="DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="อำเภอ/เขต" [disabled]="disableDistrict1" (onValueChanged)="onSerectDistrictHome($event)">
+                        </dx-select-box>
+                    </div>
+
+                    <!-- ตำบล -->
+                    <dxi-item dataField="" template="temptumbonTruck3" [isRequired]="true">
+                        <dxo-label text="ตำบล" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temptumbonTruck3'">
+                        <dx-select-box [dataSource]="subdistrict1" displayExpr="SUB_DISTRICT_NAME_THA" [(value)]="formData.HOME_REGISTER_SUB_DISTICT_ID" valueExpr="SUB_DISTRICT_ID" searchExpr="SUB_DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="ตำบล" [disabled]="disableSubDistrict1"
+                            (onValueChanged)="onSerectSubDistrictHome($event)">
+                        </dx-select-box>
+                    </div>
+
+
+                    <!-- รหัสไปรษณีย์ -->
+                    <dxi-item dataField="HOME_REGISTER_POST_CODE" template="temphomepostcode5" [isRequired]="true">
+                        <dxo-label text="รหัสไปรษณีย์"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temphomepostcode5'">
+                        <dx-select-box [dataSource]="postcode1" valueExpr="POSTCODE_ID" [disabled]="disablepostcode1" [(value)]="formData.HOME_REGISTER_POST_CODE" displayExpr="POSTCODE_CODE" placeholder="รหัสไปรษณีย์" (onValueChanged)="OnSerectPostCodeHome($event)">
+                        </dx-select-box>
+                    </div>
+
+                </dx-form>
+            </div>
+
+            <div class="col-12 button-layout text-right" style="padding-right: 10%; padding-top: 10px;padding-bottom: 20px;">
+                <span style="padding-right: 10px;">
+                    <dx-button id="btn-next" text="ยกเลิก" (onClick)="backHome()">
+                    </dx-button>
+                </span>
+                <span style="padding-right: 10px;">
+                    <dx-button id="btn-next" text="ก่อนหน้า" (onClick)="cancelMutiThree()">
+                    </dx-button>
+                </span>
+                <span>
+                    <dx-button id="btn-next" text="ถัดไป " (onClick)="nextMutiThree()">
+                    </dx-button>
+                </span>
+            </div>
+        </dxi-item>
+        <dxi-item>
+            <div class="row_two" style="text-align: center;">
+                <div class="block-content">ระบบได้ดำเนินการส่งรหัสผ่านแบบครั้งเดียว (OTP)</div><br>
+                <div class="block-content">ไปยังไปรษณีย์อิเล็กทรอนิกส์ (E-mail) {{formData.PERSONAL_EMAIL}} ที่ท่านให้ได้ไว้
+                </div><br>
+                <div class="block-content">กรุณาตรวจสอบและนำรหัสดังกล่าวกรอกในช่องด้านล่างนี้</div><br><br>
+                <div style="color: red; font-size: 14;">กรุณาตรวจสอบอีเมลในกล่องจดหมายขยะ (Junk or Spam) หากไม่พบอีเมลล์ในกล่องจดหมายเข้า
+                </div><br><br>
+
+                <div class="block-content" style="color: red;">ภายใน 10 นาที</div><br><br>
+                <dx-form [width]="350" [formData]="formOtp" style="margin: auto;">
+                    <dxi-item dataField="Otp" editorType="dxTextBox" [isRequired]="true" [editorOptions]="{showClearButton:true , placeholder : 'ยืนยันรหัส OTP' }">
+                        <dxo-label text="OTP"></dxo-label>
+                    </dxi-item>
+                </dx-form><br>
+                <!-- <span>
+                    <dx-button id="btn-next" [width]="180" text="ส่งรหัส OTP" (onClick)="sendOtp()">
+                    </dx-button>
+                </span> -->
+                <span style="cursor: pointer;" (click)="sendOtp()">
+                    <i class="fa fa-refresh" [class.fa-spin-faster]="_getotp" ></i>
+                    <span style="padding-left: 5px;">ส่งรหัส OTP อีกครั้ง</span>
+                </span>
+                <br><br>
+                <span>
+                    <dx-button id="btn-next" text="ยืนยัน OTP" [width]="180" (onClick)="activateOtp()">
+                    </dx-button>
+                </span>
+                <br><br>
+                <div class="block-content">ส่งรหัสไปยังไปรษณีย์อิเล็กทรอนิกส์ (E-mail) อีกครั้ง</div>
+            </div>
+            <div class="col-12 button-layout text-right" style="padding-right: 10%; padding-top: 10px;padding-bottom: 20px;">
+                <span style="padding-right: 10px;">
+                    <dx-button id="btn-next" text="ยกเลิก" (onClick)="backHome()">
+                    </dx-button>
+
+                </span>
+                <span style="padding-right: 10px;">
+                    <dx-button id="btn-next" text="ก่อนหน้า" (onClick)="cancelMutiFour()">
+                    </dx-button>
+                </span>
+                <!-- <span>
+                    <dx-button id="btn-next" text="ยืนยัน OTP" [width]="180" (onClick)="activateOtp()">
+                    </dx-button>
+                </span> -->
+            </div>
+        </dxi-item>
+        <dxi-item>
+            <div class="row_two" style="text-align: center;">
+                <div style="font-size: 20px;"><i class="fa fa-check-circle" style="color: green; font-size: 30px;"></i>การลงทะเบียนของท่านเสร็จสมบูรณ์</div>
+                <div style="font-size: 20px;">กรุณารอเจ้าหน้าที่ตรวจสอบข้อมูล และแจ้งผลการตรวจสอบผ่าน E-mail</div>
+            </div>
+            <div class="col-12 button-layout text-right" style="padding-right: 10%; padding-top: 10px;padding-bottom: 20px;">
+                <span style="padding-right: 10px;">
+                    <dx-button id="btn-next" [width]="180" text="หน้าแรก" (onClick)="backHome()">
+                    </dx-button>
+                </span>
+            </div>
+        </dxi-item>
+        <dxi-item>
+            <div class="row_two" style="text-align: center;">
+                <div class="block-content">ตรวจสอบสถานะการลงทะเบียน</div>
+                <br>
+                <div class="block-content">อยู่ระหว่างการตรวจสอบ</div>
+                <br><br><br>
+                <dx-button id="btn-next" [width]="120" text="กลับ" (onClick)="backHome()">
+                </dx-button>
+            </div><br>
+        </dxi-item>
+        <dxi-item>
+            <div class="row_two" style="text-align: center;">
+                <div class="block-content">{{reject}}</div><br><br><br>
+                <span style="padding-right: 10px;">
+                    <dx-button id="btn-next" [width]="150" text="กลับไปแก้ไข" (onClick)="backToEdit()">
+                    </dx-button>
+                </span>
+            </div><br>
+        </dxi-item>
+    </dx-multi-view>
+</div>
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="_isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

@@ -1,0 +1,168 @@
+:host {
+    .inblock-title {
+        font-size: 22px;
+        font-weight: bold;
+        color: #3d3d3d;
+    }
+    .user-appointment {
+        width: 670px;
+        height: 140px;
+        border-radius: 8px;
+        background-color: #374784;
+        // background-image: url('assets/image/police/desktop/user-appointment2.png'), url('assets/image/police/desktop/user-appointment1.png'), url('assets/image/police/desktop/user-appointment-bg.jpg');
+        // background-repeat: no-repeat, no-repeat, repeat;
+        // background-position: bottom, bottom, left top;
+        // background-size: auto, auto, 100% 100%;
+        padding: 25px;
+        .text-title {
+            color: #ffffff;
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .text {
+            color: #ffffff;
+            font-size: 18px;
+            padding-top: 15px;
+        }
+    }
+    .block-user-appointment {
+        .progress {
+            background-color: unset !important;
+        }
+        margin-top: 20px;
+        .user-appointment-info.color1 .left {
+            background: linear-gradient(180deg, #2D4E95 0%, #005C9E 100%);
+        }
+        .user-appointment-info.color2 .left {
+            background: linear-gradient(180deg, #FF9E44 0%, #F8B400 100%);
+        }
+        .user-appointment-info {
+            // width: 900px;
+            height: 100px;
+            border: 1px solid #e4e4e4;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            .left {
+                width: 114px;
+                // background: linear-gradient(180deg, #2D4E95 0%, #005C9E 100%);
+                box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+                border-radius: 10px 0px 0px 10px;
+                .text1 {
+                    height: 25px;
+                    font-size: 26px;
+                }
+                .text2 {
+                    font-size: 18px;
+                }
+            }
+            .center {
+                padding-left: 10px;
+                text-align: left;
+                width: 400px;
+                background-color: #ffffff;
+                color: #000000;
+                border-right: 1px solid #e4e4e4;
+                .text1 {
+                    height: 25px;
+                    font-size: 24px;
+                }
+                .text2 {
+                    font-size: 16px;
+                }
+            }
+            .station {
+                padding-left: 10px;
+                width: 60px;
+                background-color: #ffffff;
+                img {
+                    width: 50px;
+                }
+            }
+            .right {
+                padding-left: 10px;
+                text-align: left;
+                width: 500px;
+                background-color: #ffffff;
+                color: #000000;
+                .text1 {
+                    height: 25px;
+                    font-size: 24px;
+                }
+                .text2 {
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+    .block-user-follow {
+        .progress {
+            background-color: unset !important;
+        }
+        margin-top: 20px;
+        .user-appointment-info {
+            // width: 900px;
+            height: 100px;
+            border: 1px solid #e4e4e4;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
+            .left {
+                // padding-left: 10px;
+                width: auto;
+                background: linear-gradient(180deg, #0085F0 0%, #204992 100%);
+                box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+                border-radius: 10px 0px 0px 10px;
+                .block {
+                    width: 100px;
+                    margin: auto;
+                    img {
+                        width: 70px;
+                    }
+                }
+            }
+            .center {
+                padding-top: 18px;
+                padding-left: 10px;
+                text-align: left;
+                width: 400px;
+                background-color: #ffffff;
+                color: #000000;
+                border-right: 1px solid #e4e4e4;
+                .text1 {
+                    height: 25px;
+                    font-size: 24px;
+                }
+                .text2 {
+                    height: 17px;
+                    font-size: 16px;
+                }
+                .text3 {
+                    height: 17px;
+                    font-size: 16px;
+                    padding-top: 5px;
+                }
+            }
+            .station {
+                padding-left: 10px;
+                width: 60px;
+                background-color: #ffffff;
+                img {
+                    width: 50px;
+                }
+            }
+            .right {
+                padding-left: 10px;
+                text-align: left;
+                width: 500px;
+                background-color: #ffffff;
+                color: #000000;
+                .text1 {
+                    height: 25px;
+                    font-size: 24px;
+                }
+                .text2 {
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,28 @@
+:host {
+     ::ng-deep {
+        .dx-field-item-label-content .dx-field-item-required-mark {
+            display: none;
+        }
+        .dx-checkbox-text:after {
+            content: " *";
+            color: red;
+        }
+        .dx-checkbox-container .dx-checkbox-icon {
+            border-radius: 10px;
+        }
+        .dx-checkbox-checked .dx-checkbox-icon {
+            background-color: #374784;
+        }
+        .dx-checkbox-checked .dx-checkbox-icon::before {
+            color: #ffffff;
+        }
+        @media (max-width: 899.98px) {
+            .dx-checkbox-container .dx-checkbox-icon {
+                margin-top: 4px;
+            }
+            .dx-checkbox-has-text .dx-checkbox-text {
+                vertical-align: top;
+            }
+        }
+    }
+}

@@ -1,0 +1,130 @@
+<nav style='background: linear-gradient(-180deg, #01467f 0, #012b65 , #030f49 100%) !important;z-index: 9999999999;'>
+    <div class="wrapper">
+        <div class="logo">
+            <a class="navbar-brand" (click)="onHome()" style="cursor: pointer;">
+                <li style="animation-delay: 0.5s; color: #010d4812;
+        position: absolute;">
+                    <span class="d-inline-block align-top d-flex">
+                        <img src="assets/icon/logo.png" style="height: 55px;
+                        position: absolute;
+                        top: -2.2rem;
+                        margin-left: -25px;">
+                        <!-- <img src="assets/icon/PCT.png" style="height: 45px;
+                        position: absolute;
+                        top: -1.6rem;
+                        margin-left: 23px;">
+                        <img src="assets/icon/ccib.png" style="height: 35px;
+                        position: absolute;
+                        top: -1.3rem;
+                        margin-left: 62px;">  -->
+                        </span>
+                    <div class="logo_name text-uppercase">การรับแจ้งความทางออนไลน์คดีอาชญากรรมทางเทคโนโลยี สำนักงานตำรวจแห่งชาติ</div>
+                    <!-- <div class="logo_detail d-flex text-uppercase">อาชญากรรมทางเทคโนโลยี</div> -->
+                </li>
+            </a>
+        </div>
+
+
+        <input type="radio" name="slider" id="menu-btn">
+        <input type="radio" name="slider" id="close-btn">
+        <ul class="nav-links">
+            <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
+            <li (click)="onHome()">
+                <label for="close-btn"><a class="subIcon">{{formatMessage('menu_top_main_home' , '')}}</a></label>
+            </li>
+            <li><label for="close-btn"><a class="subIcon" (click)="onAbout()" id="menu-btn">{{formatMessage('menu_top_about' , '')}}</a></label></li>
+            <li><label for="close-btn"><a class="subIcon" (click)="onNews()">{{formatMessage('menu_top_new' , '')}}</a></label></li>
+            <li><label for="close-btn"><a class="subIcon" (click)="onService()">{{formatMessage('menu_top_service' , '')}}</a></label></li>
+            <li *ngIf="check === true"><label for="close-btn"><a class="subIcon" (click)="onStatus()">
+                {{formatMessage('menu_top_follow' , '')}}</a></label></li>
+            <li><label for="close-btn"><a class="subIcon" (click)="onContact()">{{formatMessage('menu_top_contact' , '')}}</a></label></li>
+
+            <li class="translate">
+                <!-- <dx-drop-down-button [splitButton]="false" [width]="60" [useSelectMode]="true" [items]="itemTran"
+                    displayExpr="text" keyExpr="id" (onItemClick)="selectTranslate()" [selectedItemKey]="checktranslate">
+                </dx-drop-down-button> -->
+                <dx-switch [value]="checktranslate" (onValueChanged)="selectTranslate($event)" switchedOffText="EN" switchedOnText="TH"></dx-switch>
+            </li>
+            <!-- <li><label for="close-btn"><a class="subIcon" (click)="onCheckDocument()">ตรวจสอบเอกสาร</a></label></li> -->
+            <li style="width: 40px;"></li>
+            <li *ngIf="check===true ">
+                <a class="desktop-item subIcon" id="noti"><i class="fa fa-bell" (click)="onshownoticationfirst()"></i>
+                    <span *ngIf="countNoti !== 0"
+                        class="badge badge-pill badge-warning notification">{{countNoti}}</span></a>
+                <input type="checkbox" id="showDrop">
+                <label for="showDrop" icon="fa fa-bell" class="mobile-item subIcon"><i class="fa fa-bell"
+                        (click)="onshownoticationfirst()"></i><span *ngIf="countNoti !== 0"
+                        class="badge badge-pill badge-warning notification">{{countNoti}}</span></label>
+                <ul class="drop-menu">
+                    <div class="notification-detail">
+                        <h4>การแจ้งเตือน</h4>
+                        <div *ngFor="let data of notifyData" class="single_notify d-flex align-items-center">
+                            <li class="notify_content mb-2">
+                                <label for="close-btn" style="cursor: pointer;">
+                                    <a (click)="routerNotify(data)">
+                                        <h6>เรื่อง {{data.NOTIFICATION_SUBJECT}}
+                                            <span *ngIf="data.FLAG_READ ==='N'">ยังไม่อ่าน</span>
+                                        </h6>
+                                        <p style="color: #333;
+                                line-height: 16px; margin-bottom: 5px;">{{data.NOTIFICATION_BODY}}</p>
+                                        <p style="color: #1596d7;
+                                text-align: left;">
+                                            {{displayFormatDate(data.NOTIFICATION_DATE)}}</p>
+                                    </a>
+                                </label>
+                            </li>
+                        </div>
+
+                        <!-- <li><a href="#">Drop menu 1</a></li> -->
+                    </div>
+                    <div class="notify_footer" *ngIf="notifyData.length > 0">
+                        <dx-button text="ดูทั้งหมด" (click)="notifyAll()">
+                        </dx-button>
+                    </div>
+                </ul>
+            </li>
+            <li *ngIf="check===true "><label for="close-btn"><a class="subIcon"><i class="fa fa-envelope"
+                            (click)="routerNotifymail()"></i></a></label></li>
+            <!-- <li><label for="close-btn"><a class="subIcon"><i class="fa fa-cog"></i></a></label></li>
+            <li><label for="close-btn"><a class="subIcon"><i class="fa fa-question"></i></a></label></li>
+            <li><label for="close-btn"><a class="subIcon"><i class="fa fa-bullhorn"></i></a></label></li> -->
+            <li *ngIf="check === true" style="width: 60px; margin-top: -3px; text-align: center;">
+                <label for="close-btn"><a class="desktop-item subIcon"><img [src]="userImagePath" class="user-img zoom"
+                            (error)="setDefaultPic()" (click)="onProfile()" data-mdb-toggle="tooltip"
+                            title="{{userData}}"></a></label>
+                <input type="checkbox" id="showDrop">
+                <!-- <label for="showDrop" class="mobile-item">Dropdown Menu</label> -->
+                <ul class="drop-menu">
+                    <li *ngIf="check === true">
+                        <div class="card-body profile-body">
+                            <img [src]="userImagePath" class="detail-img zoom" (click)="onProfile()" (error)="setDefaultPic()" data-mdb-toggle="tooltip" title="{{userData}}">
+                            <h6 class="card-title mb-2">{{userData}}</h6>
+                            <a class="card-link" (click)="onProfile()"><i class="fa fa-user"></i>
+                                &nbsp;ข้อมูลส่วนตัว</a>
+
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <li style="width: 40px;"></li>
+            <li *ngIf="check===false "><a class="subIcon" (click)="logIn() ">{{formatMessage('menu_top_sign_in' , '')}}</a></li>
+            <li *ngIf="check===true "> <a class="subIcon" (click)="logout()"> {{formatMessage('menu_top_log_out' , '')}}</a></li>
+        </ul>
+        <label for="menu-btn" class="btn menu-btn bntside" style="margin-right: -20px;"><i
+                class="fas fa-bars"></i></label>
+    </div>
+</nav>
+<notifier-container style="position: absolute;z-index: 1;">
+    <ng-template #customNotification let-notificationData="notification">
+        <my-custom-alert type="notificationData.type">
+            <dx-button icon="fa fa-times" style="color: #000!important;position: absolute;
+top: 0px;
+right: 1px;
+border-color: #ddd0;" (click)="closeNotification()">
+            </dx-button>
+            <div class="notify-header">เรื่อง {{ notificationData.message.subject }}</div>
+            <div class="notify-body"> {{ notificationData.message.body }}</div>
+            <div class="notify-footer">วันที่ {{ displayFormatDate(notificationData.message.sendDate) }}</div>
+        </my-custom-alert>
+    </ng-template>
+</notifier-container>

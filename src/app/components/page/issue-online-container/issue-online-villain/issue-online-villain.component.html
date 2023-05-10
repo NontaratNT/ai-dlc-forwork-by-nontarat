@@ -1,0 +1,116 @@
+<div class="conten-block">
+    <!-- <div class="content-title">ข้อมูลผู้แจ้ง</div> -->
+    <div class="content-form">
+        <dx-form #formVillain [colCount]="3" labelLocation="top">
+            <dxi-item template="temp1" [colSpan]="1" [isRequired]="true">
+                <dxo-label text="ประเภทของเรื่อง" [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp1'">
+                <dx-select-box [dataSource]="listCaseType" displayExpr="CASE_TYPE_NAME" valueExpr="CASE_TYPE_ID" searchExpr="CASE_TYPE_NAME" [searchEnabled]="true" placeholder="ประเภทของเรื่อง">
+                </dx-select-box>
+            </div>
+            <dxi-item itemType="empty"></dxi-item>
+            <dxi-item itemType="empty"></dxi-item>
+
+            <dxi-item template="temp2" [colSpan]="2" [isRequired]="true">
+                <dxo-label text="รายละเอียดโดยย่อ" [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp2'">
+                <dx-text-area [height]="130"></dx-text-area>
+            </div>
+            <dxi-item itemType="empty"></dxi-item>
+
+        </dx-form>
+    </div>
+    <div class="content-end-line"></div>
+</div>
+<div class="conten-block">
+    <div class="content-title">สถานที่เกิดเหตุ</div>
+    <div class="content-form">
+        <dx-form #formInformer2 [colCount]="3" labelLocation="top">
+            <dxi-item template="temp1" [colSpan]="1">
+                <dxo-label text="ชื่อสถานที่" [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp1'">
+                <dx-text-box></dx-text-box>
+            </div>
+            <dxi-item template="temp2" [colSpan]="1">
+                <dxo-label text="ที่อยู่สถานที่เกิดเหตุ" [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp2'">
+                <dx-text-box></dx-text-box>
+            </div>
+            <dxi-item itemType="empty"></dxi-item>
+
+            <dxi-item template="temp3" [isRequired]="true">
+                <dxo-label text="จังหวัด" [showColon]="false">
+                </dxo-label>
+                <dxi-validation-rule type="required" message="กรุณาเลือก">
+                </dxi-validation-rule>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp3'">
+                <dx-select-box #selectPresentProvice [dataSource]="province" displayExpr="PROVINCE_NAME_THA" valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true" placeholder="จังหวัด" [showClearButton]="true" (onValueChanged)="OnSelectProvicePresent($event)"
+                    [(value)]="formData.INFORMER_PROVINCE">
+                </dx-select-box>
+            </div>
+            <dxi-item template="temp4">
+                <dxo-label text="อำเภอ/เขต" [showColon]="false"></dxo-label>
+                <dxi-validation-rule type="required" message="กรุณาเลือก">
+                </dxi-validation-rule>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp4'">
+                <dx-select-box #selectPresentDistrict [dataSource]="presentAddress.district" displayExpr="DISTRICT_NAME_THA" valueExpr="DISTRICT_ID" searchExpr="DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="อำเภอ/เขต" [disabled]="presentAddress.disableDistrict"
+                    (onValueChanged)="OnSelectDistrictPresent($event)" [(value)]="formData.INFORMER_DISTRICT_ID" [showClearButton]="true">
+                </dx-select-box>
+            </div>
+            <dxi-item template="temp5">
+                <dxo-label text="ตำบล/แขวง" [showColon]="false"></dxo-label>
+                <dxi-validation-rule type="required" message="กรุณาเลือก">
+                </dxi-validation-rule>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp5'">
+                <dx-select-box #selectPresentSubDistrict [dataSource]="presentAddress.subDistrict" displayExpr="SUB_DISTRICT_NAME_THA" valueExpr="SUB_DISTRICT_ID" searchExpr="SUB_DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="ตำบล" [disabled]="presentAddress.disableSubDistrict"
+                    (onValueChanged)="OnSelectSubDistrictPresent($event)" [(value)]="formData.INFORMER_SUB_DISTRICT_ID" [showClearButton]="true">
+                </dx-select-box>
+            </div>
+            <dxi-item template="temp6">
+                <dxo-label text="รหัสไปรษณีย์"></dxo-label>
+                <dxi-validation-rule type="required" message="กรุณาเลือก">
+                </dxi-validation-rule>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp6'">
+                <dx-select-box #selectPresentPostcode [dataSource]="presentAddress.postcode" valueExpr="POSTCODE_ID" [disabled]="presentAddress.disablepostcode" displayExpr="POSTCODE_CODE" placeholder="รหัสไปรษณีย์" searchExpr="POSTCODE_CODE" [searchEnabled]="true" (onValueChanged)="OnSelectPostCodePresent($event)"
+                    [showClearButton]="true" [(value)]="formData.INFORMER_POSTCODE_ID">
+                </dx-select-box>
+            </div>
+        </dx-form>
+    </div>
+
+    <div class="content-end-line"></div>
+</div>
+<div class="conten-block">
+    <div class="content-title">วัน และเวลาที่เกิดเหตุ</div>
+    <div class="content-form">
+        <dx-form #formInformer2 [colCount]="3" labelLocation="top">
+            <dxi-item template="temp1" [colSpan]="1">
+                <dxo-label text="วัน เดือน ปี" [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp1'">
+                <dx-date-box dateSerializationFormat="yyyy-MM-dd" [openOnFieldClick]="true" [acceptCustomValue]="false"></dx-date-box>
+            </div>
+            <dxi-item template="temp2" [colSpan]="1">
+                <dxo-label text="เวลา" [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp2'">
+                <dx-date-box type="time" dateSerializationFormat="HH:mm" [openOnFieldClick]="true" [useMaskBehavior]="true" displayFormat="HH:mm"></dx-date-box>
+            </div>
+            <dxi-item itemType="empty"></dxi-item>
+        </dx-form>
+    </div>
+</div>
+<div class="text-right btn-footer">
+    <dx-button class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)">
+    </dx-button>
+    &nbsp;
+    <dx-button class="btn btn-submit" text="ถัดไป" (onClick)="SubmitForm($event)"></dx-button>
+</div>

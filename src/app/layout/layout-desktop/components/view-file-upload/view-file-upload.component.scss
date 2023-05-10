@@ -1,0 +1,101 @@
+#popup-view-file-upload-title {
+    font-size: 24px;
+    .btn-icon {
+        cursor: pointer;
+        color: #808080;
+    }
+    .btn-icon:hover {
+        opacity: 0.75;
+    }
+    .block-icon {
+        position: relative;
+        width: 50px;
+        height: 20px;
+        .btn-icon {
+            font-family: "Font Awesome 5 Free" !important;
+        }
+        .icon-title-download {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 5px;
+            right: 25px;
+            .btn-icon {
+                font-size: 18px !important;
+            }
+        }
+        .icon-title-close {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 8px;
+            right: 0;
+            .btn-icon {
+                font-size: 24px !important;
+            }
+        }
+    }
+}
+
+#popup-view-file-upload {
+    margin: 20px;
+     ::ng-deep {
+        #toolbarSidebar,
+        #sidebarContent,
+        #sidebarContent>#thumbnailView {
+            width: 200px !important;
+        }
+    }
+    .file-title {
+        font-size: 24px;
+        margin: 10px 0 15px 0;
+        .title-first {
+            font-weight: bold;
+        }
+        .title-split {
+            padding: 0 7px 0 7px;
+        }
+    }
+    .block-img-detail {
+        text-align: center;
+        img.img-detail {
+            max-height: 400px;
+        }
+    }
+    .block-file-detail {
+        margin-top: 20px;
+        text-align: center;
+        .btn.btn-download {
+            width: 100px;
+            height: 40px;
+            color: #ffffff;
+            background-color: #00B889;
+            border-radius: 6px;
+        }
+        .btn.btn-download:hover {
+            width: 100px;
+            height: 40px;
+            color: #ffffff;
+            background-color: #00B889;
+            opacity: 0.75;
+        }
+    }
+    .footer {
+        .btn.btn-cancle {
+            width: 100px;
+            height: 40px;
+            color: #8e8e8e;
+            background-color: #fff;
+            border: 1px solid #8e8e8e;
+            border-radius: 6px;
+        }
+        .btn.btn-cancle:hover {
+            width: 100px;
+            height: 40px;
+            color: #8e8e8e;
+            background-color: #fff;
+            border: 1px solid #8e8e8e;
+            opacity: 0.75;
+        }
+    }
+}

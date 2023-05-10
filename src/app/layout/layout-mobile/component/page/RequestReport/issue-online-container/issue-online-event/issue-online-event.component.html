@@ -1,0 +1,106 @@
+<div style="padding: 10px; padding-top: 30px;">
+    <div style="border: 1px solid #cacaca; background-color: #fff;
+    padding: 10px; box-shadow: 0px 5px 5px #aaaaaa8c; margin-top: 80px;
+    border-radius: 10px;">
+        <div class="conten-block">
+            <!-- <div class="content-title">ข้อมูลผู้แจ้ง</div> -->
+            <div class="content-form" style="padding: 20px;">
+                <dx-form #formEvent1 [colCount]="3" labelLocation="top">
+                    <dxi-item template="temp1" [colSpan]="2" [isRequired]="formValidate">
+                        <dxo-label text="ประเภทของเรื่อง" [showColon]="false"></dxo-label>
+                        <dxi-validation-rule type="required" message="กรุณาเลือกประเภทของเรื่อง">
+                        </dxi-validation-rule>
+                    </dxi-item>
+                    <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
+
+                    <div *dxTemplate="let data of 'temp1'">
+                        <dx-select-box #selectCaseType [dataSource]="listCaseType" displayExpr="CASE_TYPE_NAME" valueExpr="CASE_TYPE_ID" placeholder="ประเภทของเรื่อง" (onValueChanged)="OnSelectCaseType($event)" [(value)]="formData.CASE_TYPE_ID" [readOnly]="formReadOnly">
+                        </dx-select-box>
+                    </div>
+                    <dxi-item *ngIf="formType === 'add' && caseOpen" template="temp1des" [colSpan]="2">
+                        <dxo-label text="คำอธิบาย" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temp1des'">
+                        <!-- <span style="font-weight: bold;">รายละเอียด</span> -->
+                        <!-- <span style="padding-left: 3px;padding-right: 3px;">:</span> -->
+                        <!-- <div style="text-indent: 30px;">
+                    <span>{{caseType}}</span>
+                </div> -->
+                        <div class="text-area-description">
+                            <dx-text-area [readOnly]="true" [minHeight]="80" [autoResizeEnabled]="true" [value]="caseType">
+                            </dx-text-area>
+
+                        </div>
+                    </div>
+                    <dxi-item *ngIf="formType === 'add' && caseOpen" itemType="empty" [colSpan]="1"></dxi-item>
+
+
+                    <!-- <dxi-item itemType="empty"></dxi-item> -->
+
+                    <dxi-item template="temp2" [colSpan]="2" [isRequired]="formValidate">
+                        <dxo-label text="คำอธิบายโดยย่อ" [showColon]="false"></dxo-label>
+                        <dxi-validation-rule type="required" message="กรุณากรอกคำอธิบายโดยย่อ">
+                        </dxi-validation-rule>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temp2'">
+                        <dx-text-area [readOnly]="formReadOnly" [height]="130" [(value)]="formData.CASE_BEHAVIOR">
+                        </dx-text-area>
+                    </div>
+                    <dxi-item itemType="empty"></dxi-item>
+
+                </dx-form>
+            </div>
+            <div class="content-end-line"></div>
+        </div>
+        <div class="conten-block">
+
+            <button type="button" class="collapsible" (click)="onColla()" style="margin-bottom: 5px; display: flex;">สถานที่ถูกหลอกหรือหลงเชื่่อ</button>
+            <div class="content" style="margin-bottom: 10px;">
+                <!-- <p> -->
+                <div *ngIf="formLocationLoad" style="padding: 10px;">
+                    <app-view-address [renderView]="'view1'" [type]="locationRender" [replaceKey]="'CASE_LOCATION'" [(dataForm)]="formLocation"></app-view-address>
+                </div>
+                <!-- </p> -->
+            </div>
+            <button type="button" class="collapsible" (click)="onColla()" style="margin-bottom: 5px;">สถานที่โอนเงิน</button>
+            <div class="content" style="margin-bottom: 10px;">
+                <!-- <p> -->
+                <div *ngIf="formLocationTranferLoad" style="padding: 10px;">
+                    <app-view-address [renderView]="'view2'" [type]="locationRender" [replaceKey]="'CASE_LOCATION_TRANSFER'" [(dataForm)]="formLocationTranfer">
+                    </app-view-address>
+                </div>
+                <!-- </p> -->
+            </div>
+            <button type="button" class="collapsible" (click)="onColla()" style="margin-bottom: 5px;">
+                <div *ngIf="userType==='mySelf'">ที่ตั้งบัญชีธนาคารของผู้เสียหาย</div>
+                <div *ngIf="userType==='other'">ที่ตั้งบัญชีธนาคารของผู้แจ้ง</div>
+            </button>
+            <div class="content" style="margin-bottom: 10px;">
+                <!-- <p> -->
+                <div *ngIf="formLocationBankVictimLoad" style="padding: 10px;">
+                    <app-view-address [renderView]="'view3'" [type]="locationRender" [replaceKey]="'CASE_LOCATION_BANK_VICTIM'" [(dataForm)]="formLocationBankVictim">
+                    </app-view-address>
+                </div>
+                <!-- </p> -->
+            </div>
+            <button type="button" class="collapsible" (click)="onColla()" style="margin-bottom: 5px;">ที่ตั้งบัญชีธนาคารคนร้าย</button>
+            <div class="content" style="margin-bottom: 10px;">
+                <!-- <p> -->
+                <div *ngIf="formLocationBankVillainLoad" style="padding: 10px;">
+                    <app-view-address [renderView]="'view3'" [type]="locationRender" [replaceKey]="'CASE_LOCATION_BANK_VILLAIN'" [(dataForm)]="formLocationBankVillain">
+                    </app-view-address>
+                </div>
+                <!-- </p> -->
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="text-center btn-footer">
+    <dx-button class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)">
+    </dx-button>
+    &nbsp;
+    <dx-button class="btn btn-submit" text="ถัดไป" (onClick)="SubmitForm($event)"></dx-button>
+</div>
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

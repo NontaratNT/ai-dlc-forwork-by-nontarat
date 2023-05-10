@@ -1,0 +1,64 @@
+<div class="card-body " style="padding-top: 80px;">
+    <span class="subheading">เอกสารอิเล็กทรอนิกส์ของฉัน</span>
+    <div class="tacking-profile">
+        <div class="tacking-profile w-100">
+            <div class="d-flex" style="width: 400px; margin: 0 auto;">
+                <div>
+                    <img [src]="userImagePath" *ngIf="check === true" class="detail-img zoom" (error)="setDefaultPic()" data-mdb-toggle="tooltip" title="{{userData}}">
+                </div>
+                <div style="margin-left: 20px;">
+                    <div>
+                        <span class="paragraf header-f-size-sec">ชื่อ : <strong class="strong-font">{{userData}}</strong></span>
+                    </div>
+                    <div>
+                        <span class="paragraf header-f-size-sec">เลขประจำตัวประชาชน : <strong class="strong-font">{{myCityzen}}</strong></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <dx-data-grid #grid [dataSource]="formDoc" [showColumnLines]="true" [showRowLines]="true" [columnHidingEnabled]="true" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="true" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล">
+            <dxo-paging [pageSize]="10"></dxo-paging>
+            <dxo-search-panel [visible]="true" [width]="240" placeholder="ค้นหา...">
+            </dxo-search-panel>
+            <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+            </dxo-editing>
+            <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true">
+            </dxo-pager>
+            <dxo-selection mode="single"></dxo-selection>
+            <dxi-column dataField="" caption="ลำดับที่" [width]="70" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+            <dxi-column alignment="center" caption="ดู" [width]="60" cellTemplate="cellTemplateView" [allowSearch]="false">
+            </dxi-column>
+            <div *dxTemplate="let cellInfo of 'cellTemplateView'">
+                <dx-button-improve icon="fa fa-file-pdf" caption="ดู" type="defult" (onClick)="previewButtonClicked(cellInfo)">
+                </dx-button-improve>
+            </div>
+            <dxi-column dataField="TRACKING_CODE" caption="เลขที่ใบรับแจ้งเหตุฯ" [width]="220" alignment="center">
+            </dxi-column>
+            <dxi-column dataField="" caption="ชื่อไฟล์เอกสาร" alignment="center" cellTemplate="cellTemplateName">
+            </dxi-column>
+
+            <dxi-column dataField="" caption="ประเภทไฟล์" [width]="220" alignment="center" cellTemplate="cellTemplateType">
+            </dxi-column>
+
+            <div *dxTemplate="let cellInfo of 'cellTemplateType'" style="text-align: left;">
+                <dx-select-box [readOnly]="true" id="select-status" [dataSource]="typeAttachment" displayExpr="INST_ATTACHMENT_TYPE_NAME" valueExpr="INST_ATTACHMENT_TYPE_ID" placeholder="ประเภทไฟล์" [(value)]="cellInfo.row.data.OUTPUT_DOC_TYPE_ID">
+                </dx-select-box>
+            </div>
+
+            <div *dxTemplate="let cellInfo of 'cellTemplateName'" style="text-align: left;">
+                <span>{{cellInfo.data.OUTPUT_DOC_NAME}}</span>
+            </div>
+            <dxi-column dataField="OUTPUT_DOC_DATE" [calculateDisplayValue]="formatDate" [width]="140" caption="วันที่" alignment="center">
+            </dxi-column>
+            <div *dxTemplate="let cell of 'cellTemplate'">
+                {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+            </div>
+        </dx-data-grid>
+    </div>
+</div>
+
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="_isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

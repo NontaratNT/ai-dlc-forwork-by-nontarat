@@ -1,0 +1,123 @@
+<!-- <div style="padding: 20px;">
+    <div style="border: 1px solid #cacaca; background-color: #fff;
+padding: 10px; box-shadow: 0px 5px 5px #aaaaaa8c; margin-top: 95px;
+border-radius: 10px;">
+        <div class="block-title">นัดหมายล่าสุด</div>
+        <div *ngIf="appointmentOpen" class="row">
+            <div class="col-12 col-sm-8" *ngFor="let item of appointmentList; index as i" class="block-card">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-header-title">
+                            <span class="status-title" style="font-size: 16px">สถานะ</span>
+                            <span class="text-green" style="font-size: 16px">{{item.APP_STATUS_NAME}}</span>
+                        </div>
+                        <div class="card-header-title">
+                            <span class="status-title" style="font-size: 16px">วันที่นัดหมาย</span>
+                            <span class="text-green"
+                                style="font-size: 16px">{{ConvertDateFullMonth(item.APPOINTMENT_DATE)}}</span>
+                        </div>
+                        <div class="card-header-title">
+                            <span class="status-title" style="font-size: 16px">เวลาที่นัดหมาย</span>
+                            <span class="text-green"
+                                style="font-size: 16px">{{ConvertDateToMomentTime(item.APPOINTMENT_DATE)}} น.</span>
+                        </div>
+
+                    </div>
+                    <div class="d-flex">
+
+                        <div class="col-auto left">
+                            <img src="assets/image/police/desktop/station.png" alt="station" width="30" height="30">
+                        </div>
+                        <div class="col" style="padding-bottom: 20px; margin-left: -10px;">
+                            <div class="card-body-title">
+                                <div class="title" style="font-weight: bold;">{{item.ORGANIZE_NAME_THA}}</div>
+                            </div>
+                            <div class="card-body-subtitle">
+                                <div class="title">{{item.APP_PERSONAL_FULLNAME}}</div>
+                                <div class="subtitle">โทร {{PhoneNumberFormat(item.APPOINTMENT_PERSONAL_TEL_NO)}}</div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!appointmentOpen" style="height: 150px;"></div>
+    </div>
+</div>
+
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true"
+    [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel> -->
+<div style="padding: 20px;">
+    <div style="border: 1px solid #cacaca; background-color: #fff;
+padding: 10px; box-shadow: 0px 5px 5px #aaaaaa8c; margin-top: 95px;
+border-radius: 10px;">
+        <div (resized)="onResized($event)">
+            <div class="block-title">การนัดหมายเข้าพบพนักงานสอบสวน</div>
+            <div *ngIf="appointmentHasData" class="row">
+                <div class="block-card" [ngClass]="blockClass" *ngFor="let item of appointmentList; index as i">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-header-title">
+                                <span class="status-title" style="font-size: 16px">สถานะ</span>
+                                <span class="text-green" style="font-size: 16px">{{item.APP_STATUS_NAME}}</span>
+                            </div>
+                            <div class="card-header-title">
+                                <span class="status-title" style="font-size: 16px">วันที่นัดหมาย</span>
+                                <span class="text-green"
+                                    style="font-size: 16px">{{ConvertDateFullMonth(item.APPOINTMENT_DATE)}}</span>
+                            </div>
+                            <div class="card-header-title">
+                                <span class="status-title" style="font-size: 16px">เวลาที่นัดหมาย</span>
+                                <span class="text-green"
+                                    style="font-size: 16px">{{ConvertDateToMomentTime(item.APPOINTMENT_DATE)}} น.</span>
+                            </div>
+
+                        </div>
+                        <div class="d-flex">
+
+                            <div class="col-auto left">
+                                <img src="assets/image/police/desktop/station.png" alt="station" width="30" height="30">
+                            </div>
+                            <div class="col" style="padding-bottom: 20px; margin-left: -10px;">
+                                <div class="card-body-title">
+                                    <div class="title" style="font-weight: bold;">{{item.ORGANIZE_NAME_THA}}</div>
+                                </div>
+                                <div class="card-body-subtitle">
+                                    <div class="title">{{item.APP_PERSONAL_FULLNAME}}</div>
+                                    <div class="subtitle">โทร {{PhoneNumberFormat(item.APPOINTMENT_PERSONAL_TEL_NO)}}
+                                    </div>
+                                    <div class="title">{{item.INVESTIGATE_OFFICER_NAME}}</div>
+                                    <div class="subtitle">โทร {{PhoneNumberFormat(item.INVESTIGATE_OFFICER_PHONE)}}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!appointmentHasData && !caseWorking" class="row">
+                <div class="block-card" [ngClass]="blockClass">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-header-title left">
+                                <span class="status-title">สถานะ</span>
+                                <span class="text-warning">รอการนัดหมาย</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d-flex" style="justify-content: center;
+    margin-top: 10px;">
+    <dx-button class="btn btn-back" style="margin: 10px;" text="ย้อนกลับ" (onClick)="Back($event)">
+    </dx-button>
+</div>
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true"
+    [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

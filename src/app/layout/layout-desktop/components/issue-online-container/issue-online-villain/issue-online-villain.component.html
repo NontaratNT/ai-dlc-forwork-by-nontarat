@@ -1,0 +1,443 @@
+<div class="conten-block">
+    <div class="content-form">
+        <dx-form labelLocation="top">
+            <dxi-item template="temp1">
+                <dxo-label text="ท่านทราบหรือไม่ว่าคนร้ายคือใคร" [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp1'">
+                <dx-radio-group [readOnly]="formReadOnly" [dataSource]="criminalType" layout="horizontal" valueExpr="ID" displayExpr="TEXT" (onValueChanged)="ChangeCriminal($event)" [value]="defaultCriminalType"></dx-radio-group>
+            </div>
+        </dx-form>
+    </div>
+    <div class="content-end-line" style="margin-top:10px;"></div>
+
+</div>
+<div *ngIf="defaultCriminalType === 1">
+    <div class="conten-block">
+        <div class="content-title">ข้อมูลคนร้าย</div>
+        <div class="content-form">
+            <dx-form #formVillain1 [colCount]="3" labelLocation="top">
+                <dxi-item template="temp1" [colSpan]="1" [isRequired]="formValidate">
+                    <dxo-label text="ชื่อ/ชื่อเล่น/นามแฝง" [showColon]="false"></dxo-label>
+                    
+                    <dxi-validation-rule type="required" message="กรุณากรอก ชื่อ/ชื่อเล่น/นามแฝง"></dxi-validation-rule>
+                    <dxi-validation-rule type="custom" [validationCallback]="NameUnknownPattern" message="หากไม่ทราบชื่อ-สกุลคนร้าย คลิกที่ปุ่ม 'ไม่ทราบ'">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp1'">
+                    <dx-text-box id="ctrlCriminalName" [readOnly]="formReadOnly" [(value)]="formCriminal.CASE_CRIMINAL_FIRSTNAME"></dx-text-box>
+                    <dx-tooltip 
+                        target="#ctrlCriminalName"
+                        showEvent="dxhoverstart"
+                        hideEvent="dxhoverend"
+                        position="top"
+                        [hideOnOutsideClick]="false">
+                        <div *dxTemplate="let data of 'content'">
+                            <p style="text-align:start;">หากไม่ทราบชื่อ-สกุลคนร้าย คลิกที่ปุ่ม 'ไม่ทราบ'</p>
+                        </div>
+                    </dx-tooltip>
+                </div>
+                <dxi-item template="temp2" [colSpan]="1" [isRequired]="false">
+                    <dxo-label text="นามสกุล" [showColon]="false"></dxo-label>
+                    <!-- <dxi-validation-rule type="required" message="กรุณากรอกข้อมูล"></dxi-validation-rule> --> 
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp2'">
+                    <dx-text-box id="ctrlCriminalLastName"  
+                        (keypress)="CheckString($event)"  
+                        [readOnly]="formReadOnly" 
+                        [(value)]="formCriminal.CASE_CRIMINAL_LASTNAME"></dx-text-box>
+                    <dx-tooltip
+                        target="#ctrlCriminalLastName"
+                        showEvent="dxhoverstart"
+                        hideEvent="dxhoverend"
+                        position="top"
+                        [hideOnOutsideClick]="false">
+                        <div *dxTemplate="let data of 'content'">
+                            <p>หมายเหตุ: ไม่ต้องระบุ ตัวเลข หรืออักษรพิเศษ</p>
+                        </div>
+                    </dx-tooltip>
+                </div>
+                <dxi-item template="temp3" [colSpan]="1" [isRequired]="false">
+                    <dxo-label text="เลขบัตรประชาชน (กรุณาระบุเฉพาะตัวเลข)" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="numeric" [message]="'รูปแบบบัตรประชาชนไม่ถูกต้อง'">
+                    </dxi-validation-rule>
+                    <dxi-validation-rule type="custom" [validationCallback]="IdentificationPattern" 
+                        message="กรุณาระบุเลขบัตรประชาชนให้ครบ 13 หลัก">
+                    </dxi-validation-rule>
+                    <div *dxTemplate="let data of 'temp3'">
+                        <dx-text-box id="ctrlCRIMINALID" [readOnly]="formReadOnly" [maxLength]="13" [(value)]="formCriminal.CASE_CRIMINAL_ID_CARD" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)"></dx-text-box>
+                        <dx-tooltip 
+                        target="#ctrlCRIMINALID"
+                        showEvent="dxhoverstart"
+                        hideEvent="dxhoverend"
+                        position="top"
+                        [hideOnOutsideClick]="false">
+                        <div *dxTemplate="let data of 'content'">
+                            <p style="text-align:start;">ระบุหมายเลข [0-9] จำนวน 13 หลักติดกันโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ</p>
+                        </div>
+                    </dx-tooltip>
+                    </div>
+                </dxi-item>
+            </dx-form>
+        </div>
+        <div class="content-end-line"></div>
+    </div>
+    <div class="conten-block">
+        <div class="content-title">ที่อยู่คนร้าย</div>
+        <div class="content-form">
+            <dx-form #formVillain2 [colCount]="3" labelLocation="top">
+                <dxi-item template="temp1" [colSpan]="1" [isRequired]="false">
+                    <dxo-label text="บ้านเลขที่/ ซอย/ หมู่ที่/ ถนน" [showColon]="false"></dxo-label>
+                    <!--                    <dxi-validation-rule type="required" message="กรุณากรอกข้อมูล">-->
+                    <!--                    </dxi-validation-rule>-->
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp1'">
+                    <dx-text-box [readOnly]="formReadOnly" [(value)]="formCriminal.CASE_CRIMINAL_ADDRESS_NO" (keypress)="CheckNumberSlash($event)" (paste)="PasteCheckNumberSlash($event)"></dx-text-box>
+                </div>
+                <dxi-item template="temp2" [isRequired]="false">
+                    <dxo-label text="จังหวัด" [showColon]="false">
+                    </dxo-label>
+                    <!--                    <dxi-validation-rule type="required" message="กรุณาเลือก">-->
+                    <!--                    </dxi-validation-rule>-->
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp2'">
+                    <dx-select-box #selectPresentProvice [dataSource]="province" displayExpr="PROVINCE_NAME_THA" valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true" placeholder="จังหวัด" [showClearButton]="true" (onValueChanged)="OnSelectProvicePresent($event)"
+                        [(value)]="formCriminal.CASE_CRIMINAL_PROVINCE" [readOnly]="formReadOnly">
+                    </dx-select-box>
+                </div>
+                <dxi-item template="temp3" [isRequired]="false">
+                    <dxo-label text="อำเภอ/เขต" [showColon]="false"></dxo-label>
+                    <!--                    <dxi-validation-rule type="required" message="กรุณาเลือก">-->
+                    <!--                    </dxi-validation-rule>-->
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp3'">
+                    <dx-select-box #selectPresentDistrict [dataSource]="presentAddress.district" displayExpr="DISTRICT_NAME_THA" valueExpr="DISTRICT_ID" searchExpr="DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="อำเภอ/เขต" [disabled]="presentAddress.disableDistrict"
+                        (onValueChanged)="OnSelectDistrictPresent($event)" [(value)]="formCriminal.CASE_CRIMINAL_DISTRICT_ID" [showClearButton]="true" [readOnly]="formReadOnly">
+                    </dx-select-box>
+                </div>
+                <dxi-item template="temp4" [isRequired]="false">
+                    <dxo-label text="ตำบล/แขวง" [showColon]="false"></dxo-label>
+                    <!--                    <dxi-validation-rule type="required" message="กรุณาเลือก">-->
+                    <!--                    </dxi-validation-rule>-->
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp4'">
+                    <dx-select-box #selectPresentSubDistrict [dataSource]="presentAddress.subDistrict" displayExpr="SUB_DISTRICT_NAME_THA" valueExpr="SUB_DISTRICT_ID" searchExpr="SUB_DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="ตำบล" [disabled]="presentAddress.disableSubDistrict"
+                        (onValueChanged)="OnSelectSubDistrictPresent($event)" [(value)]="formCriminal.CASE_CRIMINAL_SUB_DISTRICT_ID" [showClearButton]="true" [readOnly]="formReadOnly">
+                    </dx-select-box>
+                </div>
+                <!--                <dxi-item template="temp5" [isRequired]="false">-->
+                <!--                    <dxo-label text="รหัสไปรษณีย์"></dxo-label>-->
+                <!--                    <dxi-validation-rule type="required" message="กรุณาเลือก">-->
+                <!--                    </dxi-validation-rule>-->
+                <!--                </dxi-item>-->
+                <!--                <div *dxTemplate="let data of 'temp5'">-->
+                <!--                    <dx-select-box #selectPresentPostcode [dataSource]="presentAddress.postcode" valueExpr="POSTCODE_ID" [disabled]="presentAddress.disablepostcode" displayExpr="POSTCODE_CODE" placeholder="รหัสไปรษณีย์" searchExpr="POSTCODE_CODE" [searchEnabled]="true" (onValueChanged)="OnSelectPostCodePresent($event)"-->
+                <!--                        [showClearButton]="true" [(value)]="formCriminal.CASE_CRIMINAL_POSTCODE_ID" [readOnly]="formReadOnly">-->
+                <!--                    </dx-select-box>-->
+                <!--                </div>-->
+            </dx-form>
+        </div>
+        <div class="content-end-line"></div>
+    </div>
+</div>
+<div class="conten-block">
+    <div class="content-title-file">เบาะแสอื่นๆ เกี่ยวกับคนร้าย</div>
+    <!-- <div class="content-sub-title">แนบไฟล์เอกสาร หรือไฟล์ภาพ</div> -->
+    <div class="content-form">
+        <div class="row">
+            <div class="col-12 col-sm-12">
+                <div class="block-about">
+                    <dx-form #formVillainAbout labelLocation="top">
+                        <dxi-item template="temp1">
+                            <dxo-label text="เช่น ข้อความเชิญชวน, ประกาศจากคนร้าย, ชื่อแผนธุรกิจ, หรือกรณีมีข้อมูลคนร้ายมากกว่า 1 คน ให้ระบุเพิ่มเติม" [showColon]="false"></dxo-label>
+                        </dxi-item>
+                        <div *dxTemplate="let data of 'temp1'">
+                            <dx-text-area [readOnly]="formReadOnly" [height]="130" [(value)]="formCriminal.CASE_CRIMINAL_CLUE_IN" [maxLength]="5000"></dx-text-area>
+                        </div>
+                    </dx-form>
+                </div>
+            </div>
+        </div>
+        <div class="content-end-line"></div>
+    </div>
+</div>
+<div class="conten-block">
+    <div class="content-title-file">เอกสารที่เกี่ยวข้องกับคนร้าย</div>
+    <!-- <div class="content-sub-title">แนบไฟล์เอกสาร หรือไฟล์ภาพ</div> -->
+    <div class="content-form">
+        <div class="row">
+            <div *ngIf="CheckArray(uploadFileBufferList)" class="col-12">
+                <!-- <div id="upload-file">
+                    <div class="block-uploaded-file row">
+                        <div class="text-head">Uploaded files</div>
+                        <div *ngFor="let item of uploadFileBufferList;index as i" class="block-file col-12 col-sm-6" style="border: 1px solid gray;">
+                            <div class="row">
+                                <div class="col-auto nopading">
+                                    <img class="text-download icon-file" (click)="DownloadFile(item)" src="assets/image/police/desktop/fileupload.png" alt="">
+                                </div>
+                                <div class="col detail-center">
+                                    <span>{{item.originalName}}</span><br>
+                                    <span>ขนาด {{item.sizeDetail}}</span>
+                                </div>
+                                <div class="col-auto nopading">
+                                    <div class="remove-img-list">
+                                        <img src="assets/image/police/desktop/exit.png" alt="" (click)="ClearDocBuffer(i)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="upload-file-table">
+                    <dx-data-grid #grid [dataSource]="uploadFileBufferList" [showColumnLines]="false" [showRowLines]="true" [columnHidingEnabled]="true" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="false" [columnAutoWidth]="true" [selectedRowKeys]="[]"
+                        noDataText="ไม่มีข้อมูล">
+                        <dxo-row-dragging [allowReordering]="false" [onReorder]="onReorder" [showDragIcons]="true"></dxo-row-dragging>
+                        <dxo-paging [pageSize]="10"></dxo-paging>
+                        <dxo-pager [visible]="true" [allowedPageSizes]="[10, 20, 50]" displayMode="full" [showPageSizeSelector]="true" [showInfo]="true" [showNavigationButtons]="true">
+                        </dxo-pager>
+                        <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                        </dxo-editing>
+                        <dxo-selection mode="single"></dxo-selection>
+                        <dxi-column *ngIf="formAddData" dataField="" caption="จัดการ" [width]="80" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommand"></dxi-column>
+                        <div *dxTemplate="let d of 'cellTemplateCommand'">
+                            <img class="text-download" src="assets/icon/trash.png" alt="icon" (click)="DeleteFileDocItemUpload(d.component.pageIndex() * d.component.pageSize() + d.rowIndex)">
+                        </div>
+                        <dxi-column dataField="" caption="ลำดับ" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+                        <dxi-column dataField="" caption="ชื่อไฟล์" alignment="center" cellTemplate="cellTemplateName"></dxi-column>
+                        <div *dxTemplate="let cell of 'cellTemplateName'">
+                            <div class="text-break text-left">
+                                <span class="text-download" (click)="PopupViewFile(cell.data)">{{cell.data['originalName']}}</span>
+                            </div>
+                        </div>
+                        <dxi-column dataField="" caption="ขนาดไฟล์" alignment="center" [width]="150" cellTemplate="cellTemplateDetail"></dxi-column>
+                        <div *dxTemplate="let cell of 'cellTemplateDetail'">
+                            <div class="text-break">{{cell.data['sizeDetail']}}</div>
+                        </div>
+                        <div *dxTemplate="let cell of 'cellTemplate'">
+                            {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                        </div>
+                    </dx-data-grid>
+                </div>
+            </div>
+            <div class="col-12">
+                <div *ngIf="CheckArray(uploadFileBufferList)" class="content-end-line-file"></div>
+            </div>
+            <div *ngIf="formAddData" class="col-12 col-sm-6">
+                <div id="upload-file">
+                    <div class="block-dropzone">
+                        <!-- <div>limitUploadFileSize->{{limitUploadFileSize}}</div>
+                        <div>limitUploadFileSize->{{BytesToSize(limitUploadFileSize)}}</div>
+                        <div>limitCaseChanelSize->{{limitCaseChanelSize}}</div>
+                        <div>limitCaseChanelSize->{{BytesToSize(limitCaseChanelSize)}}</div> -->
+                        <div class="text-head">แนบไฟล์เอกสาร หรือไฟล์ภาพ</div>
+                        <div class="remark-table-upload">* ขนาดไฟล์ทั้งหมดไม่เกิน 5MB</div>
+                        <div class="dropzone" appDrag (files)="filesDropped($event)">
+                            <span class="dropzone-text"><img src="assets/image/police/desktop/icon-file.png">วางไฟล์ที่ต้องการนำเข้าที่นี่ หรือ <span class="text-link" (click)="OpenFileDialog(uploadfile)">เลือกไฟล์</span><br>ไฟล์เอกสารไฟล์ภาพ นามสกุล
+                            .pdf, .jpg, .png
+                            <input #uploadfile type="file" [multiple]="true" accept="*" tabindex="-1" class="dx-fileuploader-input" (change)="uploadFile(uploadfile)"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div *ngIf="formAddData" class="col-12 col-sm-6">
+                <div class="rule-upload d-none">
+                    <div>ข้อกำหนดของการแนบเอกสาร</div>
+                    <div>1.สามารถแนบไฟล์ประเภท PDF, DOCX, PNG และ.JPG</div>
+                    <div>2.ระบบไม่รองรับไฟล์ประเภท PDF ที่มี Password หรือ Secured </div>
+                    <div>3.ระบบรองรับขนาดไฟล์รวมททั้งหมดไม่เกิน 20 MB</div>
+                    <div>4.การตั้งชื่อไฟล์ต้องเป็นตัวอักษรเท่านั้น</div>
+                </div>
+            </div> -->
+
+        </div>
+    </div>
+
+</div>
+<div class="conten-block">
+    <div class="content-end-line"></div>
+    <div class="content-title">ช่องทางการติดต่อคนร้าย</div>
+    <div id="block-chanel" class="content-form">
+        <div *ngIf="formAddData" class="add-data">
+            <dx-button class="btn btn-add-data" text="เพิ่มรายการ" (onClick)="CaseChannelAddData()"></dx-button>
+        </div>
+        <div class="remark-table-upload">* ขนาดไฟล์ทั้งหมดไม่เกิน 5MB</div>
+        <dx-data-grid #grid [dataSource]="formData.CASE_CHANNEL" [showColumnLines]="true" [showRowLines]="true" [columnHidingEnabled]="true" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="false" [columnAutoWidth]="true" [selectedRowKeys]="[]"
+            noDataText="ไม่มีข้อมูล">
+            <dxo-paging [pageSize]="5"></dxo-paging>
+            <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+            </dxo-editing>
+            <dxo-selection mode="single"></dxo-selection>
+            <dxi-column *ngIf="formAddData" dataField="" caption="จัดการ" [width]="80" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommandAdd"></dxi-column>
+            <div *dxTemplate="let d of 'cellTemplateCommandAdd'">
+                <img class="text-download" src="assets/icon/edit2.png" alt="icon" (click)="CaseChannelEditData('edit',d.data,d.component.pageIndex() * d.component.pageSize() + d.rowIndex)">&nbsp;
+                <img class="text-download" src="assets/icon/trash.png" alt="icon" (click)="CaseChannelDeleteData(d.component.pageIndex() * d.component.pageSize() + d.rowIndex)">
+            </div>
+            <dxi-column *ngIf="!formAddData" dataField="" caption="จัดการ" [width]="80" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommandEdit"></dxi-column>
+            <div *dxTemplate="let d of 'cellTemplateCommandEdit'">
+                <img class="text-download" src="assets/icon/icon-view.png" alt="icon" (click)="CaseChannelEditData('edit',d.data,d.component.pageIndex() * d.component.pageSize() + d.rowIndex)">&nbsp;
+            </div>
+            <dxi-column dataField="" caption="ลำดับ" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+            <dxi-column dataField="" caption="ประเภทช่องทางการติดต่อ" alignment="center" cellTemplate="cellTemplateName" [width]="200"></dxi-column>
+            <div *dxTemplate="let cell of 'cellTemplateName'">
+                <div class="text-break">
+                    {{cell.data.CHANNEL_NAME}}
+                </div>
+            </div>
+            <dxi-column dataField="CASE_CHANNEL_NAME" caption="ชื่อติดต่อ" alignment="center" cellTemplate="cellTemplateChannelName" [width]="200"></dxi-column>
+            <div *dxTemplate="let cell of 'cellTemplateChannelName'">
+                <div class="text-break">
+                    {{cell.data.CASE_CHANNEL_NAME}}
+                </div>
+            </div>
+            <dxi-column dataField="" caption="ID URL หรือ เบอร์โทรศัพท​์" alignment="center" cellTemplate="cellTemplateDetail"></dxi-column>
+            <div *dxTemplate="let cell of 'cellTemplateDetail'">
+                <div class="text-break">
+                    {{cell.data.CASE_CHANNEL_REFER_ID}}
+                </div>
+            </div>
+            <dxi-column dataField="" caption="แนบไฟล์" alignment="center" cellTemplate="cellTemplateDetailFile"></dxi-column>
+            <div *dxTemplate="let cell of 'cellTemplateDetailFile'">
+                <div class="text-left text-break text-download">
+                    <ng-container *ngIf="CheckArray(cell.data['CHANNEL_DOC'])">
+                        <div (click)="PopupViewFile(cell.data.CHANNEL_DOC[0])">{{cell.data.CHANNEL_DOC[0].originalName}}</div>
+                    </ng-container>
+                </div>
+            </div>
+            <div *dxTemplate="let cell of 'cellTemplate'">
+                {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+            </div>
+        </dx-data-grid>
+    </div>
+</div>
+<div class="text-right btn-footer">
+    <dx-button class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)">
+    </dx-button>
+    &nbsp;
+    <dx-button *ngIf="formType === 'add'" class="btn btn-submit" text="ถัดไป" (onClick)="SubmitForm($event)"></dx-button>
+</div>
+
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>
+
+
+<dx-popup [width]="800" [height]="600" [showTitle]="true" title="เพิ่มรายการ" [dragEnabled]="false" [closeOnOutsideClick]="false" [showCloseButton]="false" [visible]="popupCaseChannel">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view [showScrollbar]="'always'" style="height: calc(100% - 45px);">
+            <div id="popup-villain-case-channel-popup">
+                <div>
+                    <dx-form #formCaseChannel [colCount]="2" labelLocation="top">
+                        <dxi-item template="temp1" [colSpan]="1" [isRequired]="formValidate">
+                            <dxo-label text="ประเภทช่องทางการติดต่อ" [showColon]="false"></dxo-label>
+                            <dxi-validation-rule type="required" message="กรุณาเลือก">
+                            </dxi-validation-rule>
+                        </dxi-item>
+                        <div *dxTemplate="let data of 'temp1'">
+                            <dx-select-box #selectCaseChannel [dataSource]="listCaseChannel" valueExpr="CHANNEL_ID" displayExpr="CHANNEL_NAME" placeholder="ประเภทช่องทางการติดต่อ" [readOnly]="formReadOnly" [(value)]="formPopup.CHANNEL_ID" (onValueChanged)="OnSelectCaseChannel($event)">
+                            </dx-select-box>
+                        </div>
+                        <dxi-item *ngIf="showcaseCode !== '999'" itemType="empty" [colSpan]="1"></dxi-item>
+                        <dxi-item *ngIf="showcaseCode === '999'" template="temp1other" [colSpan]="1" [isRequired]="formValidate">
+                            <dxo-label text="ระบุ (ในกรณีอื่นๆ)" [showColon]="false"></dxo-label>
+                            <dxi-validation-rule type="required" message="กรุณากรอกข้อมูล">
+                            </dxi-validation-rule>
+                        </dxi-item>
+                        <div *dxTemplate="let data of 'temp1other'">
+                            <dx-text-box [readOnly]="formReadOnly" [(value)]="formPopup.CHANNEL_OTHER"></dx-text-box>
+                        </div>
+
+                        <dxi-item *ngIf="formPopup.CHANNEL_NAME !== 'โทรศัพท์'" template="temp2" [colSpan]="1">
+                            <dxo-label [text]="showCaseLabelName" [showColon]="false"></dxo-label>
+                        </dxi-item>
+                        <div *dxTemplate="let data of 'temp2'">
+                            <dx-text-box [readOnly]="formReadOnly" [(value)]="formPopup.CASE_CHANNEL_NAME"></dx-text-box>
+                        </div>
+                        <dxi-item template="temp3" [colSpan]="1">
+                            <dxo-label [text]="showcaseLabelID" [showColon]="false"></dxo-label>
+                        </dxi-item>
+                        <div *dxTemplate="let data of 'temp3'">
+                            <dx-text-box [readOnly]="formReadOnly" [(value)]="formPopup.CASE_CHANNEL_REFER_ID"></dx-text-box>
+                            <!-- <div *ngIf="formPopup.CHANNEL_ID === 2" class="mt-1">
+                                <dx-button type="default" hint="วิธีหา facebook id" text="วิธีหา facebook id"></dx-button>
+                            </div> -->
+                        </div>
+                        <dxi-item *ngIf="showcaseCode !== '999' && showcaseOption === 'Y'" template="temp3facebook" [colSpan]="2">
+                            <dxo-label text="Facebook URL" [showColon]="false"></dxo-label>
+                        </dxi-item>
+                        <div *dxTemplate="let data of 'temp3facebook'">
+                            <dx-text-box [readOnly]="formReadOnly" [(value)]="formPopup.CASE_CHANNEL_REFER_URL"></dx-text-box>
+                        </div>
+                    </dx-form>
+                </div>
+                <div class="conten-block">
+                    <!-- <div class="content-title-file">เอกสารที่เกี่ยวข้องกับคนร้าย</div> -->
+                    <div class="content-sub-title" *ngIf="formType === 'add' || CheckArray(listDocFile)">
+                        <!-- <div>maxSizeBuffer->{{maxSizeBuffer}}</div>
+                        <div>maxSizeBuffer->{{BytesToSize(maxSizeBuffer)}}</div> -->
+                        <div>แนบไฟล์เอกสาร หรือไฟล์ภาพ</div>
+                        <div class="remark-table-upload">* ขนาดไฟล์ทั้งหมดไม่เกิน 5MB</div>
+                    </div>
+                    <div class="content-form">
+                        <div class="row">
+                            <div *ngIf="CheckArray(listDocFile)" class="col-12">
+                                <div class="upload-file-table">
+                                    <dx-data-grid #grid [dataSource]="listDocFile" [showColumnLines]="true" [showRowLines]="true" [columnHidingEnabled]="false" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="false" [columnAutoWidth]="true" [selectedRowKeys]="[]"
+                                        noDataText="ไม่มีข้อมูล">
+                                        <dxo-row-dragging [allowReordering]="false" [onReorder]="onReorder" [showDragIcons]="true"></dxo-row-dragging>
+                                        <dxo-paging [pageSize]="10"></dxo-paging>
+                                        <dxo-pager [visible]="true" [allowedPageSizes]="[10, 20, 50]" displayMode="full" [showPageSizeSelector]="true" [showInfo]="true" [showNavigationButtons]="true">
+                                        </dxo-pager>
+                                        <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                                        </dxo-editing>
+                                        <dxo-selection mode="single"></dxo-selection>
+                                        <dxi-column dataField="" caption="จัดการ" [width]="80" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommand" *ngIf="formType === 'add'"></dxi-column>
+                                        <div *dxTemplate="let d of 'cellTemplateCommand'">
+                                            <img class="text-download" src="assets/icon/trash.png" alt="icon" (click)="CaseChannelDeleteDataDocFile(d.component.pageIndex() * d.component.pageSize() + d.rowIndex)">
+                                        </div>
+                                        <dxi-column dataField="" caption="ลำดับ" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+                                        <dxi-column dataField="" caption="ชื่อไฟล์" alignment="center" cellTemplate="cellTemplateName"></dxi-column>
+                                        <div *dxTemplate="let cell of 'cellTemplateName'">
+                                            <div class="text-break text-left">
+                                                <span class="text-download" (click)="PopupViewFile(cell.data)">{{cell.data['originalName']}}</span>
+                                            </div>
+                                        </div>
+                                        <dxi-column dataField="" caption="ขนาดไฟล์" alignment="center" [width]="150" cellTemplate="cellTemplateDetail"></dxi-column>
+                                        <div *dxTemplate="let cell of 'cellTemplateDetail'">
+                                            <div class="text-break">{{cell.data['sizeDetail']}}</div>
+                                        </div>
+                                        <div *dxTemplate="let cell of 'cellTemplate'">
+                                            {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                                        </div>
+                                    </dx-data-grid>
+                                </div>
+                            </div>
+                            <div *ngIf="CheckArray(listDocFile)" class="col-12">
+                                <div class="content-end-line-file"></div>
+                            </div>
+                            <div class="col-12" *ngIf="formType === 'add'">
+                                <div id="upload-file">
+                                    <div class="block-dropzone">
+                                        <!-- <div class="text-head">แนบไฟล์เอกสาร หรือไฟล์ภาพ</div> -->
+                                        <div class="dropzone" appDrag (files)="FilesDroppedCaseChannel($event)">
+                                            <span class="dropzone-text"><img src="assets/image/police/desktop/icon-file.png">วางไฟล์ที่ต้องการนำเข้าที่นี่ หรือ <span class="text-link" (click)="OpenFileDialogCaseChannel(uploadfileCaseDoc)">เลือกไฟล์</span><br>ไฟล์เอกสารไฟล์ภาพ
+                                            นามสกุล .pdf, .jpg, .png
+                                            <input #uploadfileCaseDoc type="file" [multiple]="true" accept="*" tabindex="-1" class="dx-fileuploader-input" (change)="UploadFileCaseChannel(uploadfileCaseDoc)"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </dx-scroll-view>
+
+        <div class="text-right btn-dx">
+            <button class="btn btn-cancle" (click)="CaseChannelclose()">ยกเลิก</button>&nbsp;
+            <button class="btn btn-submit" (click)="CaseChannelSaveData()" *ngIf="formType === 'add'">บันทึก</button>
+        </div>
+    </div>
+</dx-popup>
+
+<ng-container *ngIf="popupViewFile">
+    <app-view-file-upload [fileData]="popupViewFileData" (popupChange)="ClosePopupViewFile($event)"></app-view-file-upload>
+</ng-container>

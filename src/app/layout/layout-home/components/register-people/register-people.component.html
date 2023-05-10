@@ -1,0 +1,260 @@
+<div class="block-content-detail not-copy" style="padding-bottom: 64px;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="block-title-box">
+                    <div class="title-th">การรับแจ้งความทางออนไลน์คดีอาชญากรรมทางเทคโนโลยี</div>
+                    <div class="title-th">สำนักงานตำรวจแห่งชาติ</div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="block-while-box" [ngClass]="'box-'+indexTab">
+                    <div class="form">
+                        <dx-multi-view [focusStateEnabled]="false" [animationEnabled]="false" [swipeEnabled]="false"
+                            [(selectedIndex)]="indexViewTab">
+                            <dxi-item>
+                                <div class="form-block mx-auto">
+                                    <div class="stepwizard">
+                                        <div class="stepwizard-row setup-panel">
+                                            <div class="stepwizard-step col-xs-3">
+                                                <span type="button" class="btn btn-success  btn-circle">1</span>
+                                                <p class="text-step">ข้อมูลผู้ใช้</p>
+                                            </div>
+                                            <div class="stepwizard-step col-xs-3">
+                                                <span type="button" class="btn btn-default btn-circle"
+                                                    disabled="disabled">2</span>
+                                                <p class="text-step">ยืนยันรหัส OTP</p>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <!-- <div class="text-head-two">รูปภาพสำหรับยืนยัน</div><br><br> -->
+                                    <!-- <div class="picture" style="display: flex; text-align: center;padding-top: 10px;">
+                                        <div style="font-size: 16px;width: 40%;">1. รูปหน้าบัตรประชาชน <span style="color: red;">*</span></div>
+                                    </div><br> -->
+                                    <!-- <div style="display: flex; justify-content: center;">
+                                        <div class="picture">
+                                            <div>
+                                                <img #profileImage class="img-thumbnail float-right" [src]="ppidImagePath" width=150 height=160 (error)="setDefaultPic()">
+                                            </div><br>
+                                            <div>
+                                                <dx-button class="float-right" width="100%" icon="fas fa-image" type="success" text="แนบรูปยืนยันตน" (onClick)="openFileDialog($event, upload)">
+                                                </dx-button>
+                                                <div class="dx-fileuploader-input-container d-none">
+                                                    <input #upload type="file" capture="camera" accept="image/*" tabindex="-1" class="dx-fileuploader-input" (change)="onImageAdd(upload, profileImage)">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="picture" style="display: flex; text-align: center;padding-top: 10px; justify-content: center;">
+                                        <div style="font-size: 14px;width: 50%;">*ขนาดไม่เกิน 10 MB ประเภท .jpg .png .jpeg เท่านั้น
+                                        </div>
+                                    </div><br><br> -->
+                                    <form action="#" method="post">
+                                        <dx-form [formData]="formRegister" labelLocation="top" [colCount]="3">
+                                            <dxi-item template="templatetitle" [colSpan]="1">
+                                                <dxo-label text="คำนำหน้า"></dxo-label>
+                                                <dxi-validation-rule type="required" message="กรุณาเลือกคำนำหน้า">
+                                                </dxi-validation-rule>
+                                            </dxi-item>
+                                            <div *dxTemplate="let data of 'templatetitle'">
+                                                <dx-select-box [dataSource]="title" displayExpr="TITLE_NAME"
+                                                    [(value)]="formRegister.TITLE_ID" valueExpr="TITLE_ID"
+                                                    placeholder="คำนำหน้า">
+                                                </dx-select-box>
+                                            </div>
+                                            <dxi-item template="fname">
+                                                <dxo-label text="ชื่อภาษาไทย"></dxo-label>
+                                                <dxi-validation-rule type="required" message="กรุณากรอกชื่อ">
+                                                </dxi-validation-rule>
+                                            </dxi-item>
+                                            <div *dxTemplate="let data of 'fname'">
+                                                <dx-text-box placeholder="ชื่อภาษาไทย" [maxLength]="100"
+                                                    [showClearButton]="true" [(value)]="formRegister.PERSONAL_FNAME_THA"
+                                                    (keypress)="checkThaiLang($event)"
+                                                    (paste)="pasteCheckThaiLang($event)">
+                                                </dx-text-box>
+                                            </div>
+                                            <dxi-item template="lname">
+                                                <dxo-label text="นามสกุลภาษาไทย"></dxo-label>
+                                                <dxi-validation-rule type="required" message="กรุณากรอกนามสกุล">
+                                                </dxi-validation-rule>
+                                            </dxi-item>
+                                            <div *dxTemplate="let data of 'lname'">
+                                                <dx-text-box placeholder="นามสกุลภาษาไทย" [maxLength]="100"
+                                                    [showClearButton]="true" [(value)]="formRegister.PERSONAL_LNAME_THA"
+                                                    (keypress)="checkThaiLang($event)"
+                                                    (paste)="pasteCheckThaiLang($event)">
+                                                </dx-text-box>
+                                            </div>
+                                            <dxi-item template="tel">
+                                                <dxo-label text="เบอร์โทรศัพท์"></dxo-label>
+                                                <dxi-validation-rule type="required" message="กรุณากรอกเบอร์โทรศัพท์">
+                                                </dxi-validation-rule>
+                                            </dxi-item>
+                                            <div *dxTemplate="let data of 'tel'">
+                                                <dx-text-box placeholder="เบอร์โทรศัพท์" [showClearButton]="true"
+                                                    [(value)]="formRegister.PERSONAL_TEL_NO" [maxLength]="_maxLength"
+                                                    (keypress)="checkNumber($event)">
+                                                </dx-text-box>
+                                            </div>
+                                            <dxi-item template="email">
+                                                <dxo-label text="อีเมล"></dxo-label>
+                                                <dxi-validation-rule type="email" message="กรุณากรอกอีเมลให้ถูกต้อง">
+                                                </dxi-validation-rule>
+                                            </dxi-item>
+                                            <div *dxTemplate="let data of 'email'">
+                                                <dx-text-box placeholder="อีเมล" [showClearButton]="true"
+                                                    [(value)]="formRegister.PERSONAL_EMAIL">
+                                                </dx-text-box>
+                                            </div>
+                                            <dxi-item template="templateDate" [colSpan]="2" [isRequired]="true">
+                                                <dxo-label text="วัน/เดือน/ปีเกิด">
+                                                </dxo-label>
+                                                <dxi-validation-rule type="required"
+                                                    message="กรุณาเลือกวัน/เดือน/ปีเกิด">
+                                                </dxi-validation-rule>
+                                            </dxi-item>
+                                            <div *dxTemplate="let data of 'templateDate'">
+                                                <!-- <dx-date-box dateSerializationFormat="yyyy-MM-dd" [openOnFieldClick]="true" [(value)]="formRegister.PERSONAL_BIRTH_DATE" [acceptCustomValue]="false">
+                                                </dx-date-box> -->
+                                                <!-- <app-date-combo-picker *ngIf="loadDateBox" [timezone]="'UTC+7'" [minDate]="minBirthDate" [maxDate]="maxBirthDate" [(date)]="formRegister.PERSONAL_BIRTH_DATE"></app-date-combo-picker> -->
+                                                <app-date-combo-register *ngIf="loadDateBox" [timezone]="'UTC+7'"
+                                                    [minDate]="minBirthDate" [maxDate]="maxBirthDate"
+                                                    [(date)]="birthDateValue"></app-date-combo-register>
+                                                <!-- <app-date-combo-picker *ngIf="loadDateBoxOther" [timezone]="'UTC+7'" [minDate]="minBirthDateOther" [maxDate]="maxBirthDateOther" [(date)]="formRegister.PERSONAL_BIRTH_DATE"></app-date-combo-picker> -->
+                                            </div>
+                                            <!-- <dxi-item itemType="empty" [colSpan]="1"></dxi-item> -->
+                                            <dxi-item template="templateform" [colSpan]="1" [isRequired]="true">
+                                            </dxi-item>
+                                            <div *dxTemplate="let data of 'templateform'">
+                                                <div style="padding-top: 40px;"></div>
+                                                <div class="text-custom">เลขประจำตัวประชาชน: <span
+                                                        style="color: red;">*</span></div>
+                                                <dx-text-box placeholder="กรอกเลขประจำตัวประชาชน 13 หลัก"
+                                                    [(value)]="formRegister.PERSONAL_CITIZEN_NUMBER"
+                                                    mask="0-0000-00000-00-0" [showClearButton]="true" [maxLength]="13"
+                                                    valueChangeEvent="keyup"
+                                                    (onValueChanged)="onlyNumberKeyPress($event)">
+                                                    <dxi-validation-rule type="required"
+                                                        message="กรุณากรอกเลขบัตรประจำตัวประชาชน">
+                                                    </dxi-validation-rule>
+                                                </dx-text-box>
+                                                <div style="padding-top: 5px;">
+                                                    <div *ngIf="validatePpidMessage" style="color: red;">
+                                                        {{validatePpidMessage}}
+                                                    </div>
+                                                </div>
+                                                <div class="text-custom">Laser Code หลังบัตรประจำตัวประชาชน: <span
+                                                        style="color: red;">*</span></div>
+                                                <dx-text-box placeholder="กรุณากรอกLaser Code หลังบัตรประจำตัวประชาชน"
+                                                    [(value)]="formRegister.PERSONAL_LASER_NUMBER" mask="CC0-0000000-00"
+                                                    [showClearButton]="true">
+                                                    <dxi-validation-rule type="required"
+                                                        message="กรุณากรอกLaser Code หลังบัตรประจำตัวประชาชน">
+                                                    </dxi-validation-rule>
+                                                </dx-text-box>
+                                            </div>
+                                            <dxi-item [colSpan]="1" template="templateimage1"></dxi-item>
+                                            <div *dxTemplate="let data of 'templateimage1'">
+                                                <div>
+                                                    <div style="text-align: center;">
+                                                        <div class="text-head-two">คำแนะนำในการกรอก Laser Code </div>
+                                                    </div>
+                                                    <div style="text-align: center;">
+                                                        <div>
+                                                            <img [src]="ppidImagePath3" (error)="setDefaultPicThree()"
+                                                                style="width: 100%;max-width: 250px;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <dxi-item [colSpan]="1" template="templateimage2"></dxi-item>
+                                            <div *dxTemplate="let data of 'templateimage2'">
+                                                <div>
+                                                    <div style="display: flex;">
+                                                        <div
+                                                            style=" padding-left: 20px;color: #6f6e6e;padding-top: 30px;">
+                                                            สำนักงานตำรวจแห่งชาติ ยกระดับการรักษาความปลอดภัย
+                                                            ข้อมูลของผู้ใช้งาน
+                                                            เพื่อป้องกันการเข้าถึงข้อมูลส่วนบุคคลของท่าน ด้วยการตรวจสอบ
+                                                            Laser Code หลังบัตรประจำตัวประชาชน
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <dxi-item template="choice" [colSpan]="3">
+                                                <dxo-label text="เลือกรหัสผู้ใช้งาน"></dxo-label>
+                                                <dxi-validation-rule type="required" message="กรุณาเลือกรหัสผู้ใช้งาน">
+                                                </dxi-validation-rule>
+                                            </dxi-item>
+                                            <div *dxTemplate="let data of 'choice'">
+                                                <div class="card card-mail-box-top">
+                                                    <div class="card-body">
+                                                        <dx-radio-group layout="horizontal"
+                                                            (onInitialized)="onInitialized($event)"
+                                                            (onValueChanged)="onValueChanged($event)"
+                                                            [dataSource]="choiceUsername" valueExpr="id"
+                                                            displayExpr="txt" [(value)]="choiceSelect">
+                                                        </dx-radio-group>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <dxi-item template="usernameTemp">
+                                                <dxo-label text="รหัสผู้ใช้งาน (เบอร์โทรศัพท์ หรือ อีเมล)"></dxo-label>
+                                                <dxi-validation-rule type="required" message="กรุณากรอกรหัสผู้ใช้งาน">
+                                                </dxi-validation-rule>
+                                            </dxi-item>
+                                            <div *dxTemplate="let data of 'usernameTemp'">
+                                                <dx-text-box placeholder="รหัสผู้ใช้งาน" [disabled]="true"
+                                                    [(value)]="formRegister.REGISTER_USER_NAME">
+                                                </dx-text-box>
+                                            </div>
+                                            <dxi-item template="password">
+                                                <dxo-label text="รหัสผ่าน"></dxo-label>
+                                                <dxi-validation-rule type="required" message="กรุณากรอกรหัสผ่าน">
+                                                </dxi-validation-rule>
+                                            </dxi-item>
+                                            <div *dxTemplate="let data of 'password'">
+                                                <dx-text-box mode="password" placeholder="รหัสผ่าน"
+                                                    [showClearButton]="true" [(value)]="password">
+                                                </dx-text-box>
+                                            </div>
+                                            <dxi-item template="cpassword">
+                                                <dxo-label text="ยืนยันรหัสผ่าน"></dxo-label>
+                                                <dxi-validation-rule type="required" message="กรุณากรอกรหัสผ่าน">
+                                                </dxi-validation-rule>
+                                            </dxi-item>
+                                            <div *dxTemplate="let data of 'cpassword'">
+                                                <dx-text-box mode="password" placeholder="ยืนยันรหัสผ่าน"
+                                                    [showClearButton]="true" [(value)]="formRegister.NEW_PASSWORD">
+                                                </dx-text-box>
+                                            </div>
+                                        </dx-form>
+                                        <div class="text-center block-btn-register">
+                                            <!-- <dx-button class="btn btn-block py-2 btn-login" (onClick)="SaveRegister()"> -->
+                                            <!-- <dx-button class="btn btn-block py-2 btn-login" (onClick)="testSaveRegister()">
+                                                <i class="fa fa-arrow-right icon-style-button"></i> ถัดไป
+                                            </dx-button> -->
+                                            <dx-button class="btns-register" icon="fa fa-arrow-right" text="ถัดไป"
+                                                (onClick)="SaveRegister()"></dx-button>
+                                        </div>
+                                        <div class="text-center bottom-text">
+                                            <span>มีบัญชีผู้ใช้อยู่แล้ว? </span><a (click)="Back()">เข้าสู่ระบบ</a><br>
+                                        </div>
+                                    </form>
+                                </div>
+                            </dxi-item>
+                            <dxi-item>
+                                <app-register-people-otp></app-register-people-otp>
+                            </dxi-item>
+                        </dx-multi-view>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="_isLoading" [showIndicator]="true" [showPane]="true"
+    [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

@@ -1,0 +1,115 @@
+:host {
+     ::ng-deep {
+        .dx-icon.fa.fa-plus {
+            color: #fff !important;
+        }
+        .dx-field-item-label-content .dx-field-item-required-mark {
+            display: none;
+        }
+        .conten-block {
+            margin-top: 15px;
+            .content-title {
+                text-align: center;
+                padding: 20px 0 20px 0;
+                font-size: 22px;
+                color: #00529a;
+            }
+            .content-form {
+                margin-top: 10px;
+            }
+            .content-end-line {
+                margin: auto;
+                width: 95%;
+                border-bottom: 1px solid #dddddd;
+                margin-top: 40px;
+            }
+        }
+        .conten-block.content-textarea {
+            margin: auto;
+            width: 80%;
+        }
+        .form-damage-sumary .dx-texteditor-input-container {
+            background-color: #d9d9d9;
+        }
+    }
+    .lang-block {
+        margin: auto;
+        width: 500px;
+    }
+    @media (max-width: 639.98px) {
+         ::ng-deep {
+            .conten-block.content-textarea {
+                margin: auto;
+                width: 100%;
+            }
+        }
+    }
+}
+
+#popup-villain-case-channel-popup {
+    .case-datetime-match {
+        margin: 10px 0 10px 0px;
+    }
+    .case-doc {
+        margin: 20px 0 0 0;
+        .case-doc-title {
+            text-align: center;
+            padding: 5px 0 10px 0;
+            font-size: 22px;
+            color: #00529a;
+        }
+         ::ng-deep .datagrid-btn-add {
+            .dx-button-content {
+                height: 40px !important;
+                padding: 7px 18px 6px !important;
+            }
+        }
+    }
+    .btn:focus,
+    .btn.focus {
+        box-shadow: unset;
+    }
+    .btn.btn-submit {
+        color: #fff;
+        background-color: #166c97;
+        border-color: #166c97;
+    }
+    .btn.btn-submit:hover {
+        color: #fff;
+        background-color: #296293;
+        border-color: #296293;
+    }
+     ::ng-deep {
+        .case-datetime-match .dx-checkbox-text {
+            font-size: 16px;
+        }
+        .btn .dx-icon {
+            color: #fff;
+        }
+        .dx-datagrid-headers {
+            // color: #fff;
+            background-color: #086fa2 !important;
+            border: unset !important;
+        }
+        tr.dx-data-row>td {
+            vertical-align: middle !important;
+        }
+        .dx-datagrid .dx-column-lines>td {
+            border: unset !important;
+        }
+    }
+}
+
+#popupCaseDoc {
+     ::ng-deep {
+        .dx-fileuploader-wrapper {
+            padding: 0 !important;
+        }
+        .dx-fileuploader-input-wrapper {
+            border: 0 !important;
+        }
+        .dx-fileuploader-button {
+            width: 100% !important;
+        }
+    }
+}

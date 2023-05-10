@@ -1,0 +1,268 @@
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+.dx-multiview-item-content {
+    padding-bottom: 40px;
+}
+
+p {
+    color: #b3b3b3;
+    font-weight: 300;
+}
+
+a {
+    -webkit-transition: 0.3s all ease;
+    -o-transition: 0.3s all ease;
+    transition: 0.3s all ease;
+}
+
+a:hover {
+    text-decoration: none !important;
+}
+
+.content {
+    padding: 7rem 0;
+}
+
+h2 {
+    font-size: 20px;
+}
+
+.half,
+.half .container>.row {
+    // height: 100vh;
+    // min-height: 700px;
+}
+
+.half .contents {
+    background: #f6f7fc;
+}
+
+.half .bg {
+    width: 25%;
+}
+
+.myBtn {
+    background-color: #0a3880 !important;
+}
+
+.myBtn:hover {
+    background-color: #104aa6 !important;
+}
+
+.t1 {
+    font-size: 35px;
+    height: 45px;
+}
+
+.t2 {
+    font-size: 32px;
+    height: 30px;
+}
+
+@media (max-width: 767.98px) {
+    .half .bg {
+        width: 100%;
+        height: 200px;
+    }
+}
+
+.half .contents {
+    width: 100%;
+}
+
+@media (max-width: 767.98px) {
+    .half .contents {
+        width: 100%;
+    }
+}
+
+.half .contents .form-control,
+.half .bg .form-control {
+    border: none;
+    border-radius: 4px;
+    height: 54px;
+    background: #efefef;
+}
+
+.half .contents .form-control:active,
+.half .contents .form-control:focus,
+.half .bg .form-control:active,
+.half .bg .form-control:focus {
+    outline: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.half .bg {
+    background-size: cover;
+    background-position: center;
+}
+
+.half a {
+    text-decoration: underline;
+}
+
+.half .btn {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.half .forgot-pass {
+    position: relative;
+    top: 2px;
+    font-size: 17px;
+    color: #302a6a;
+    cursor: pointer;
+}
+
+.form-block {
+    border-radius: 10px;
+    background: #fff;
+    padding: 20px 45px 45px 45px;
+    max-width: 500px;
+    -webkit-box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 767.98px) {
+    .form-block {
+        padding: 25px;
+    }
+}
+
+.btn {
+    text-decoration: none !important;
+}
+
+.btn.btn-facebook {
+    display: block;
+    background: #3b5998;
+    color: #fff;
+    box-shadow: 0 1px 5px 0 rgb(0 0 0 / 20%);
+    -moz-box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 1px 5px 0 rgb(0 0 0 / 20%);
+    -o-box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+    -ms-box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.btn.btn-google {
+    //background: #ea4335;
+    color: #000;
+    box-shadow: 0 1px 5px 0 rgb(0 0 0 / 20%);
+    -moz-box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 1px 5px 0 rgb(0 0 0 / 20%);
+    -o-box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+    -ms-box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.social-login {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding: 0px 5px;
+}
+
+.btn-login {
+    background-color: #302a6a;
+    color: #fff;
+    font-size: 22px;
+    margin-bottom: 10px;
+    margin-top: 30px;
+    height: 50px;
+}
+
+.system-head {
+    color: #312b4f;
+    font-weight: bold;
+}
+
+.btn.focus,
+.btn:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgb(26 68 251 / 25%);
+}
+
+.line-style {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+    margin-top: 30px;
+}
+
+.register {
+    display: block;
+    position: relative;
+    margin-bottom: 15px;
+    cursor: pointer;
+    font-size: 17px;
+    color: #302a6a;
+}
+
+.register .caption {
+    position: relative;
+    top: 0.2rem;
+}
+
+.icon-style {
+    font-size: 30px;
+    color: #ffffff;
+    //float: left;
+}
+
+.back-home {
+    float: right;
+}
+
+.back-home>a {
+    float: right;
+    cursor: pointer;
+}
+
+.back-home-icon {
+    color: rgb(0, 0, 0);
+    font-size: 30px;
+    margin-top: 10px;
+}
+
+.img-border {
+    padding: 15px;
+    margin-top: -60px;
+    margin-right: 15px;
+    margin-left: 40px;
+}
+
+.icon-user {
+    font-size: 30px;
+    color: #000;
+}
+
+.btn-facebook:hover {
+    color: #fff !important;
+}
+
+.imgBg_Logo {
+    width: 100%;
+    flex-wrap: wrap;
+    position: fixed;
+    z-index: 9;
+    top: 0;
+    // margin-left: 10px;
+}
+
+.mt_100 {
+    top: 10%;
+    left: 4%;
+}
+
+@media screen and(max-width: 520px) {
+    .t1 {
+        font-size: 20px;
+        height: 18px;
+    }
+    .t2 {
+        font-size: 19px;
+        height: 10px;
+    }
+}
+.h-login{
+    margin-bottom: 25px;
+    font-size: 22px;
+    font-weight: bold;
+}

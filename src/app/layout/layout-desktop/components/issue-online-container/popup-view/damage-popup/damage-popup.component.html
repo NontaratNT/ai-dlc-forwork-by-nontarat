@@ -1,0 +1,137 @@
+<div>
+    <dx-form #form [colCount]="2" labelLocation="top">
+        <dxi-item template="temp1" [colSpan]="1" [isRequired]="true">
+            <dxo-label text="ธนาคาร" [showColon]="false"></dxo-label>
+        </dxi-item>
+        <div *dxTemplate="let data of 'temp1'">
+            <dx-select-box #selectBankInfo [dataSource]="bankInfoList" valueExpr="BANK_ID" displayExpr="BANK_NAME" placeholder="ธนาคาร" (onValueChanged)="OnSelectBankAccount($event)" [(value)]="formData.BANK_ID">
+            </dx-select-box>
+        </div>
+        <dxi-item template="temp2" [colSpan]="1" [isRequired]="true">
+            <dxo-label text="ชื่อบัญชี" [showColon]="false"></dxo-label>
+        </dxi-item>
+        <div *dxTemplate="let data of 'temp2'">
+            <dx-text-box [(value)]="formData.BANK_ACCOUNT_NAME"></dx-text-box>
+        </div>
+        <dxi-item template="temp3" [colSpan]="1" [isRequired]="true">
+            <dxo-label text="เลขบัญชี" [showColon]="false"></dxo-label>
+        </dxi-item>
+        <div *dxTemplate="let data of 'temp3'">
+            <dx-text-box [(value)]="formData.BANK_ACCOUNT" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)"></dx-text-box>
+        </div>
+        <!-- <dxi-item itemType="empty"></dxi-item> -->
+
+        <!-- <dxi-item template="temp4" [colSpan]="1" [isRequired]="true">
+            <dxo-label text="วัน เดือน ปี เวลา" [showColon]="false"></dxo-label>
+        </dxi-item>
+        <div *dxTemplate="let data of 'temp4'">
+            <dx-date-box type="datetime" dateSerializationFormat="yyyy-MM-dd HH:mm" [openOnFieldClick]="true" [acceptCustomValue]="false"></dx-date-box>
+        </div> -->
+        <!-- <dxi-item itemType="empty"></dxi-item> -->
+        <!-- <dxi-item template="temp6" [colSpan]="1" [isRequired]="true">
+            <dxo-label text="จำนวนเงิน (บาท)" [showColon]="false"></dxo-label>
+        </dxi-item>
+        <div *dxTemplate="let data of 'temp6'">
+            <dx-number-box format="#,##0.##" [(value)]="formData.DAMAGE_VALUE"></dx-number-box>
+        </div>
+        <dxi-item itemType="empty"></dxi-item> -->
+
+    </dx-form>
+    <div class="table-doc">
+        <div class="add-data">
+            <dx-button class="btn btn-add-data" text="เพิ่มรายการการโอนเงิน" (onClick)="AddSubData()"></dx-button>
+        </div>
+        <dx-data-grid #grid [dataSource]="formData.BANK_DETAIL" [showColumnLines]="true" [showRowLines]="true" [columnHidingEnabled]="true" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="false" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล">
+            <dxo-paging [pageSize]="5"></dxo-paging>
+            <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+            </dxo-editing>
+            <dxo-selection mode="single"></dxo-selection>
+            <dxi-column dataField="" caption="จัดการ" [width]="50" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommand"></dxi-column>
+            <div *dxTemplate="let d of 'cellTemplateCommand'">
+                <!-- <dx-button icon="assets/icon/edit2.png" hint="แก้ไข"></dx-button>
+                <dx-button icon="assets/icon/trash.png" hint="ลบ"></dx-button>
+                <span class="text-download">
+                </span> -->
+                <img class="text-download" src="assets/icon/trash.png" alt="icon" (click)="DeleteFileDoc(d.component.pageIndex() * d.component.pageSize() + d.rowIndex)">
+            </div>
+            <dxi-column dataField="" caption="ลำดับ" [width]="50" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+
+            <dxi-column dataField="BANK_TRANSFER_DATETIME" caption="วันเวลาที่โอน" alignment="center" [width]="150"></dxi-column>
+            <dxi-column dataField="BANK_DAMAGE_VALUE" caption="จำนวนเงิน" alignment="center"></dxi-column>
+            <dxi-column dataField="" caption="แนบไฟล์" alignment="center" cellTemplate="cellTemplateAttachment"></dxi-column>
+            <div *dxTemplate="let cell of 'cellTemplateAttachment'">
+                <span *ngIf="cell.data.BANK_DOC" class="text-download" (click)="DownloadFile(cell.data['BANK_DOC'])">{{cell.data['BANK_DOC'].originalName}}</span>
+            </div>
+            <div *dxTemplate="let cell of 'cellTemplate'">
+                {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+            </div>
+        </dx-data-grid>
+        <div *ngIf="openAddData">
+            <div class="table-add-item">
+                <div class="btn-submit-item">
+                    <dx-button [width]="100" type="danger" text="ยกเลิก" (onClick)="CloseSubData()"></dx-button>&nbsp;
+                    <dx-button [width]="100" type="success" text="ตกลง" (onClick)="SaveSubData()"></dx-button>
+                </div>
+                <div>
+                    <dx-form #formAddData [colCount]="2" labelLocation="top">
+                        <dxi-item template="temp1" [colSpan]="1" [isRequired]="true">
+                            <dxo-label text="วัน เดือน ปี เวลา" [showColon]="false"></dxo-label>
+                        </dxi-item>
+                        <div *dxTemplate="let data of 'temp1'">
+                            <dx-date-box type="datetime" dateSerializationFormat="yyyy-MM-dd HH:mm" [openOnFieldClick]="true" [acceptCustomValue]="false" [(value)]="formSubData.BANK_TRANSFER_DATETIME"></dx-date-box>
+                        </div>
+                        <dxi-item template="temp2" [colSpan]="1" [isRequired]="true">
+                            <dxo-label text="จำนวนเงิน (บาท)" [showColon]="false"></dxo-label>
+                        </dxi-item>
+                        <div *dxTemplate="let data of 'temp2'">
+                            <dx-number-box format="#,##0.##" [(value)]="formSubData.BANK_DAMAGE_VALUE"></dx-number-box>
+                        </div>
+                    </dx-form>
+                </div>
+                <div>
+                    <div *ngIf="!uploadFileBufferStatus" class="block-dropzone">
+                        <div class="text-head">แนบไฟล์เอกสาร หรือไฟล์ภาพ</div>
+                        <div class="dropzone" appDrag (files)="filesDropped($event)">
+                            <span class="dropzone-text"><img src="assets/image/police/desktop/icon-file.png">วางไฟล์ที่ต้องการนำเข้าที่นี่ หรือ <span class="text-link" (click)="OpenFileDialog(uploadfile)">เลือกไฟล์</span><br>ไฟล์เอกสารไฟล์ภาพ นามสกุล
+                            . pdf, jpg
+                            <!-- <dx-button class="btn btn-primary btn-upload" [width]="150" type="success" text="อัปโหลดเอกสาร"
+                                    (onClick)="OpenFileDialog($event, uploadfile)">
+                                </dx-button> -->
+                            <input #uploadfile type="file" [multiple]="false" accept="*" tabindex="-1" class="dx-fileuploader-input" (change)="uploadFile(uploadfile)"></span>
+                        </div>
+                    </div>
+                    <div *ngIf="uploadFileBufferStatus" class="block-uploaded-file">
+                        <div class="text-head">Uploaded files</div>
+                        <div class="block-file">
+                            <div class="row">
+                                <div class="col-auto nopading">
+                                    <img class="text-download icon-file" (click)="DownloadFile(uploadFileBuffer)" src="assets/image/police/desktop/fileupload.png" alt="">
+                                </div>
+                                <div class="col detail-center">
+                                    <span>{{uploadFileBuffer.originalName}}</span><br>
+                                    <span>ขนาด {{uploadFileBuffer.sizeDetail}}</span>
+                                </div>
+                                <div class="col-auto nopading">
+                                    <div class="remove-img-list">
+                                        <img src="assets/image/police/desktop/exit.png" alt="" (click)="ClearDocBuffer()">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="file">
+                            <div class="file-icon">
+                                <img class="text-download" (click)="DownloadFile(uploadFileBuffer)" src="assets/image/police/desktop/fileupload.png">
+                            </div>
+                            <div class="file-detauil">
+                                <div class="text">
+                                    <div>{{uploadFileBuffer.originalName}}</div>
+                                    <div>{{uploadFileBuffer.sizeDetail}}</div>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,82 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { LoginService } from 'src/app/services/login.service';
+import { User } from 'src/app/services/user';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { DatePipe } from '@angular/common';
+@Component({
+  selector: 'app-home-visible',
+  templateUrl: './home-visible.component.html',
+  styleUrls: ['./home-visible.component.scss'],
+  providers: [DatePipe]
+})
+export class HomeVisibleComponent implements OnInit {
+
+  _isLoading = false;
+  deviceInfo = null;
+  hasSession = false;
+  showpopupweb = false;
+  popupCaseChannel = false;
+  pupupimage = false;
+  constructor(
+      private router: Router,
+      private _loginServ: LoginService,
+      private deviceService: DeviceDetectorService,private datePipe: DatePipe) { }
+
+  ngOnInit(): void {
+
+    this.popupCaseChannel = true;
+
+      // this.checkdatetimepopup();
+  }
+  OnIssueOnline() {
+      this.CheckDeviceMode();
+  }
+
+  //ปิดหน้าเว็บไว้สำหรับปรับปรุงระบบ
+  onvisiblepage(){
+      this.popupCaseChannel = true;
+  }
+  openpopupimage(){
+    this.pupupimage = true;
+  }
+  CheckDeviceMode() {
+      this.deviceInfo = this.deviceService.getDeviceInfo();
+      const isMobile = this.deviceService.isMobile();
+      if (isMobile) {
+          this.router.navigate(["/mobile/track-status?openExternalBrowser=1"]);
+      }else{
+          this.router.navigate(["/main/issue-online/1"]);
+      }
+  }
+  TelLink(href) {
+      const downloadLink = document.createElement("a");
+      downloadLink.href = href;
+      downloadLink.click();
+  }
+  RedirectUrl(url){
+      this.router.navigate([url]);
+  }
+  OpenManual(){
+      window.open("https://www.thaipoliceonline.com/resource/manual.pdf");
+  }
+  RedirectExternal(href) {
+      window.location.href = href;
+  }
+
+  closepopup(){
+      this.showpopupweb = false;
+  }
+  checkdatetimepopup(){
+
+      const datenow  = this.datePipe.transform(Date.now(), 'yyyy-MM-dd hh:mm:ss');
+      const dateOne = new Date(datenow)
+      const dateTwo = new Date('2022-10-30 06:00:00')
+      if(dateOne.toISOString() > dateTwo.toISOString()){
+          this.showpopupweb = false;
+       }else{
+          this.showpopupweb = false;
+       }
+  }
+
+}

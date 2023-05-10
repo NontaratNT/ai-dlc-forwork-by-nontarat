@@ -1,0 +1,67 @@
+<div>
+    <div *ngIf="loadTab" class="block-main">
+        <div style="background: #374784;
+        ">
+            <div class="chatCount" *ngIf="numCount > 0">{{numCount}}</div>
+            <img src="assets/icon/chat.png" (click)="openChat(2)" *ngIf="visible_chat === false" class="button-chat">
+        </div>
+        <div id="form-readonly" class="block-drawer-child-content-tab">
+            <!-- <dx-multi-view [focusStateEnabled]="false" [animationEnabled]="false" [swipeEnabled]="false" [(selectedIndex)]="tabIndex"> -->
+            <dx-multi-view [focusStateEnabled]="false" [animationEnabled]="false" [swipeEnabled]="false"
+                [(selectedIndex)]="tabIndex">
+                <dxi-item>
+                    <ng-container>
+                        <app-issue-online-container readonly="true" [edit]="true" [indexCount]="numCounttt" [dataForm]="dataForm">
+                        </app-issue-online-container>
+                    </ng-container>
+                </dxi-item>
+                <dxi-item>
+                    <ng-container *dxTemplate>
+                        <app-attach-file></app-attach-file>
+                    </ng-container>
+                </dxi-item>
+                <dxi-item>
+                    <ng-container *dxTemplate>
+                        <app-chat></app-chat>
+                    </ng-container>
+                </dxi-item>
+                <!-- <dxi-item>
+                    <ng-container *dxTemplate>
+                        <app-track-appointment [dataForm]="dataForm"></app-track-appointment>
+                    </ng-container>
+                </dxi-item> -->
+            </dx-multi-view>
+        </div>
+    </div>
+</div>
+<!-- <div class="col-12" style="margin-top: -100px;padding-bottom: 80px;">
+    <div class="block-message" style="border: 1px solid #cacaca; box-shadow: 0px 5px 5px #aaaaaa8c;
+    border-radius: 10px;">
+        <div class="block-input-text">
+            <dx-form #formRequest labelLocation="top">
+                <dxi-item template="temp1" [isRequired]="true">
+                    <dxo-label text="เรื่องที่ต้องการแก้ไข" [showColon]="false"></dxo-label>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp1'">
+                    <dx-text-area [height]="150" [(value)]="requestTextByUser"></dx-text-area>
+                </div>
+            </dx-form>
+        </div>
+        <div class="block-input-btn text-right">
+            <dx-button [width]="140" class="btn-submit" type="success" text="ส่งเรื่อง"
+                (onClick)="SubmitRequestTextCase()"></dx-button>
+        </div>
+    </div>
+</div> -->
+<!-- <dx-popup [maxWidth]="400" [maxHeight]="400" [showTitle]="true" title="ติดต่อสอบถามเจ้าหน้าที่" [dragEnabled]="false"
+    [closeOnOutsideClick]="false" [showCloseButton]="true" [visible]="popupChat" (onHiding)="popup_hiding()">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view #view_form [showScrollbar]="'always'" style="height: calc(100% - 45px);">
+            <app-chat></app-chat>
+        </dx-scroll-view>
+
+    </div>
+</dx-popup> -->
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true"
+    [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

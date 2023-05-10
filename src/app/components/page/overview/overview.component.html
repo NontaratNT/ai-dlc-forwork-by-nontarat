@@ -1,0 +1,90 @@
+<div class="row">
+    <div class="col-sm-12 form-no">
+        <dx-form class="col-sm-6" [formData]="formOverview" labelLocation="left" [colCount]="1" [readOnly]="true">
+            <dxi-item dataField="TRACKING_CODE" editorType="dxTextBox" [editorOptions]="">
+                <dxo-label text="หมายเลข"></dxo-label>
+            </dxi-item>
+            <dxi-item dataField="CATEGORY_NAME" editorType="dxTextBox" [editorOptions]="">
+                <dxo-label text="เรื่อง"></dxo-label>
+            </dxi-item>
+            <dxi-item dataField="STATUS_NAME" template="tempflag" [colSpan]="1">
+                <dxo-label text="สถานะล่าสุด"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'tempflag'">
+                <span class="text-danger"> {{ formOverview.GROUP_STATUS_NAME}}</span>
+            </div>
+        </dx-form>
+        <!-- <div class="row my-step">
+            <div class="stepwizard">
+                <div class="stepwizard-row setup-panel">
+                    <div *ngFor="let item of data" class="stepwizard-step col-xs-3">
+                        <span class="{{item.STATUS_CLASS_DETAIL}}">
+                            <button type="button" style="cursor: default !important;" class="{{item.STATUS_CLASS}}">
+                                <i class="{{item.STATUS_ICON}}"></i>
+                            </button>
+                        </span>
+                        <br>
+                        <span class="{{item.STATUS_CLASS_TXT}}">
+                            <label class="step-text">{{item.STATUS_NAME}}</label>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <div class="row my-step">
+            <div class="stepwizard form-no">
+                <div class="stepwizard-row setup-panel">
+                    <div *ngFor="let item of data" class="stepwizard-step col-xs-3">
+                        <span class="{{item.GROUP_STATUS_CLASS_DETAIL}}">
+                            <button type="button" style="cursor: default !important;"
+                                class="{{item.GROUP_STATUS_CLASS}}">
+                                <i class=" {{item.GROUP_ICON}}"></i>
+                            </button>
+                        </span>
+                        <br>
+                        <span class="{{item.GROUP_STATUS_CLASS_TXT}}">
+                            <label class="step-text">{{item.GROUP_STATUS_NAME}}</label></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <dx-form class="col-sm-6" [formData]="formOverview" labelLocation="left" [colCount]="2" [readOnly]="true">
+            <dxi-item dataField="CREATE_DATE" template="tempstartdate" [colSpan]="1">
+                <dxo-label text="เริ่ม"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'tempstartdate'">
+                <span> {{ formOverview.CREATE_DATE}} น.</span>
+            </div>
+            <dxi-item dataField="UPDATE_DATE" template="templastdate" [colSpan]="1">
+                <dxo-label text="ล่าสุด"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'templastdate'">
+                <span> {{ formOverview.UPDATE_DATE}} น.</span>
+            </div>
+            <dxi-item dataField="CREATE_DATE" template="tempsla" [colSpan]="1">
+                <dxo-label text="SLA"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'tempsla'">
+                <span> {{ formOverview.FLOW_SLA+' '+formOverview.FLOW_UNIT}}</span>
+            </div>
+            <dxi-item dataField="CREATE_DATE" template="tempnow" [colSpan]="1">
+                <dxo-label text="ระยะเวลา"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'tempnow'">
+                <span> {{ processTimeWork|durationFormat}}</span>
+            </div>
+
+            <dxi-item itemType="group" [colSpan]="2">
+                <dxi-item itemType="group" caption="ข้อมูลการนัดหมาย">
+                    <dxi-item dataField="APP_PERSONAL_FULLNAME">
+                        <dxo-label text="พนักงานสอบ "></dxo-label>
+                    </dxi-item>
+                    <dxi-item dataField="APPOINTMENT_PERSONAL_TEL_NO">
+                        <dxo-label text="เบอร์โทรศัพท์ "></dxo-label>
+                    </dxi-item>
+                </dxi-item>
+            </dxi-item>
+
+        </dx-form>
+    </div>
+</div>

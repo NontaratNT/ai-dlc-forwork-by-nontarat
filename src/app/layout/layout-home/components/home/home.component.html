@@ -1,0 +1,135 @@
+<!-- END nav -->
+<!-- <app-sub-menu></app-sub-menu> -->
+<!-- <diV> -->
+<!-- <canvas id="nodes"></canvas> -->
+<div class="background_img"></div>
+<div class="row">
+
+    <div class="col-12 d-flex imgBg_Logo" style="margin-top: 7px;">
+        <div class="col-md-6 text-center mt_100">
+            <div class="w_screen text-uppercase">
+                <div class="t2">แจ้งความออนไลน์</div>
+                <div class="t1" style="margin-top: -5px;">เฉพาะคดีอาชญากรรมทางเทคโนโลยี</div>
+                <!-- <div class="t3">Cyber Crime Case Management System</div> -->
+            </div>
+            <div class="f_wrap justify-content-center w_screen font-weight-bold mobile title2" style="display: inherit;">
+                <div class="col-md-11 bnt_pct_three d-flex" (click)="OnIssueOnlineM()">
+                    <span> <img class="img" src="assets/ccib/img/icon/Mask_Group_1.png"></span>
+                    <div class="btn-text">แจ้งความออนไลน์</div>
+                </div>
+            </div>
+            <div class="f_wrap justify-content-center w_screen font-weight-bold desktop" style="display: inherit;">
+                <div class="col-md-11 bnt_pct_three d-flex" (click)="OnIssueOnline()">
+                    <span> <img class="img" src="assets/ccib/img/icon/Mask_Group_1.png"></span>
+                    <div class="btn-text">แจ้งความออนไลน์</div>
+                </div>
+            </div>
+            <div class="w_screen text-uppercase">
+                <div class="t1" style="padding-top: 20px;">ปรึกษาหรือขอคำแนะนำ (ตลอด 24 ชั่วโมง)</div>
+            </div>
+            <div class="f_wrap justify-content-center w_screen font-weight-bold title2" style="display: inherit;">
+                <a class="col-md-11 bnt_pct_two d-flex w-100" href="tel:1441">
+                    <span><img class="img2" src="assets/ccib/img/icon/Mask_Group.png"></span>
+                    <div>
+                        <div class="btn-text">โทร. 1441</div>
+                        <!-- <div class="btn-text-down">(เวลาราชการ)</div> -->
+                    </div>
+                </a>
+                <a class="col-md-11 bnt_pct_two d-flex" href="tel:081-866-3000">
+                    <span><img class="img2" src="assets/ccib/img/icon/Mask_Group.png"></span>
+                    <div>
+                        <div class="btn-text">โทร. 081 866 3000</div>
+                        <!-- <div class="btn-text-down">(เวลาราชการ)</div> -->
+                    </div>
+                </a>
+                <!-- <a class="col-md-11 bnt_pct_four d-flex" href="tel:1441">
+                    <span><img class="img2" src="assets/ccib/img/icon/Mask_Group.png"></span>
+                    <div>
+                        <div class="btn-text">โทร. 191 คดีประเภทอื่น</div>
+                        <div class="btn-text-down">(24 ชั่วโมง)</div>
+                    </div>
+                </a> -->
+                <div class="col-md-11 bnt_pct_login" (click)="RedirectUrl('/login')" *ngIf="!loginSuccess">
+                    <div>
+                        <div class="btn-text-login">เข้าสู่ระบบ</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mt_1002">
+            <!-- <img class="w_100" src="assets/icon/logo.png" width="50%"> -->
+        </div>
+
+        <!-- <marquee style="color: white;font-size: 24px;width: 70%;margin: auto;margin-top: -50px;" direction="left">
+            แจ้งออนไลน์แล้วรอนัดหมายไปพบพนักงานสอบสวนเพื่อสอบปากคำ</marquee> -->
+    </div>
+</div>
+<!-- </diV> -->
+<!-- <div class="hero-wrap js-fullheight body-home" style="background-image: url('assets/image/bg-01.jpg');" data-stellar-background-ratio="0.5"> -->
+<!-- <div class="overlay"></div> -->
+<!-- <div class="container">
+    <div class="row no-gutters slider-text js-fullheight align-items-left" data-scrollax-parent="true">
+        <div class="col-sx-10 ftco-animate d-flex flex-wrap" data-scrollax=" properties: { translateY: '70%' }">
+            <div class="zoom" style="margin-left: 25px;" (click)="OnIssueOnline()">
+                <img src="assets/image/btn/ico-01.png" [height]="280">
+                <div class="block0"><span class="fontStyle">รับแจ้งออนไลน์<span class="fa fa-angle-double-right" style="float: right;
+                        font-size: 25px; margin-top: -3px;"></span></span>
+                </div>
+            </div>
+            <div class="zoom hidden" style="margin-left: 25px;" (click)="OnReportOnline()">
+                <img src="assets/image/btn/ico-02.png" [height]="280">
+                <div class="block0"><span class="fontStyle">ลงบันทึกประจำวัน ออนไลน์<span
+                            class="fa fa-angle-double-right" style="float: right;
+                        font-size: 25px; margin-top: -3px;"></span></span>
+                </div>
+            </div>
+            <div class="zoom hidden" style="margin-left: 25px;" (click)="OnElectronicDoc()">
+                <img src=" assets/image/btn/ico-03.png " [height]="280 ">
+                <div class="block0 "><span class="fontStyle ">เอกสารอิเล็กทรอนิกส์ของฉัน<span
+                            class="fa fa-angle-double-right "
+                            style="float: right; font-size: 25px; margin-top: -3px; "></span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+<!-- </div> -->
+<dx-load-panel shadingColor="rgba(0,0,0,0.4) " [visible]="_isLoading " [showIndicator]="true " [showPane]="true " [shading]="true " [closeOnOutsideClick]="false " message="กรุณารอสักครู่... " shadingColor="rgba(0, 0, 0, 0.2) ">
+</dx-load-panel>
+<!-- <section class="ftco-intro ">
+    <div class="container ">
+        <div class="row justify-content-end ">
+            <div class="col-md-7 ">
+                <div class="row no-gutters d-flex align-items-stretch ">
+                    <div class="col-md-4 d-flex align-self-stretch ftco-animate " style="height: 200px; visibility: hidden; " >
+                        <div class="services-1 color-1 ">
+                            <div class="line "></div>
+                            <div class="icon "><span class="flaticon-light-bulb "></span></div>
+                            <div class="media-body ">
+                                <h3 class="heading mb-3 "></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 d-flex align-self-stretch ftco-animate " style="height: 200px; border: 2px solid #0e05ed; cursor: pointer; " (click)="OnIssueOnline() ">
+                        <div class="services-1 color-1 ">
+                            <div class="line "></div>
+                            <div class="icon "><span class="fa fa-user-secret "></span></div>
+                            <div class="media-body ">
+                                <h3 class="heading mb-3 ">รับแจ้งออนไลน์</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 d-flex align-self-stretch ftco-animate " style="height: 200px; border: 2px solid #0e05ed; cursor: pointer; " (click)="OnReportOnline() ">
+                        <div class="services-1 color-2 ">
+                            <div class="line "></div>
+                            <div class="icon "><span class="fa fa-hashtag "></span></div>
+                            <div class="media-body ">
+                                <h3 class="heading mb-3 ">ลงบันทึกประจำวันออนไลน์</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> -->

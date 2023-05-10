@@ -1,0 +1,277 @@
+<div class="block-content">
+    <div class="title">
+        <div class="title-left">หน้าหลัก</div>
+<!--        <div class="title-right">หน้าหลัก</div>-->
+    </div>
+    <div class="block-main list-appointment">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <!-- <div class="inblock-title">การนัดหมาย</div> -->
+                    <!-- <div class="table-list-Appointment">
+                        <dx-data-grid #grid [dataSource]="listAppointment" [showColumnLines]="false" [wordWrapEnabled]="true" [showRowLines]="true" [columnAutoWidth]="true" [columnHidingEnabled]="true" [showBorders]="false" [rowAlternationEnabled]="true" [showColumnLines]="true"
+                            [hoverStateEnabled]="true" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล" [remoteOperations]="false">
+                            <dxo-paging [pageSize]="10"></dxo-paging>
+                            <dxo-load-panel text="กำลังโหลดข้อมูล..."></dxo-load-panel>
+                            <dxo-search-panel [visible]="true" [width]="200" placeholder="ค้นหา..."></dxo-search-panel>
+                            <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                            </dxo-editing>
+                            <dxo-selection mode="single"></dxo-selection>
+                            <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true">
+                            </dxo-pager>
+                            <dxi-column dataField="" caption="จัดการ" [width]="100" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommand"></dxi-column>
+                            <div *dxTemplate="let cellValue of 'cellTemplateCommand'">
+                                <div class="table-icon-edit" (click)="ViewTaskAppointmentId(cellValue)">
+                                    <img src="assets/image/police/desktop/icon-view.png" alt="edit">
+                                </div>
+                            </div>
+                            <dxi-column dataField="title" caption="เรื่อง" alignment="center">
+                            </dxi-column>
+                            <dxi-column dataField="date" [width]="200" caption="วันที่รับแจ้ง" alignment="center">
+                            </dxi-column>
+                            <dxi-column dataField="station" caption="สถานที่ตำรวจ" alignment="center">
+                            </dxi-column>
+                            <div *dxTemplate="let cell of 'cellTemplate'">
+                                {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                            </div>
+                        </dx-data-grid>
+                    </div> -->
+                    <div id="appointment-now">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="inblock-title">การนัดหมาย</div>
+                                <div>
+                                    <div class="user-appointment">
+                                        <div class="text-title">สวัสดี {{personalInfo.FullNameTH}} !</div>
+                                        <div class="text">
+                                            <span>คุณมีนัดหมายที่กำลังมาถึง </span>
+                                            <span class="count-appointment">{{countAppointmentList}} </span>
+                                            <span>รายการ ในวันนี้, ขอให้เป็นวันที่ดี :)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div *ngIf="showAppointmentList">
+                                    <div *ngFor="let item of listAppointment" class="block-user-appointment">
+                                        <div class="progress user-appointment-info color1">
+                                            <div class="progress-bar left">
+                                                <div class="text1">20 ม.ค.</div>
+                                                <div class="text2">2564</div>
+                                            </div>
+                                            <div class="progress-bar center">
+                                                <div class="text1">{{item.CATEGORY_NAME}}</div>
+                                                <div class="text2">วันที่นัดหมาย 20 มกราคม2564 | เวลา 13.00 น.</div>
+                                            </div>
+
+                                            <div class="progress-bar station">
+                                                <img src="assets/image/police/desktop/station.png" alt="station">
+                                            </div>
+                                            <div class="progress-bar right">
+                                                <div class="text1">{{item.ORGANIZE_NAME_THA}}</div>
+                                                <div class="text2">{{item.APP_PERSONAL_FULLNAME}} | โทร {{item.APPOINTMENT_PERSONAL_TEL_NO}}</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div *ngIf="showAppointmentList">
+                                    <div *ngFor="let item of listAppointment; index as i" class="block-user-appointment">
+                                        <div class="appointment-list" (click)="GotoUrlTaskList(item)">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="row appointment-data">
+                                                        <div class="col-6">
+                                                            <div class="color-head" [ngClass]="AppointmentColorClass(i)"> </div>
+                                                            <div class="row">
+                                                                <div class="col-auto">
+                                                                    <div class="appointment-data-box1" *ngIf="item.APPOINTMENT_DATE != '4000-01-01T00:00:00'">
+                                                                        <div class="text-title">{{ConvertDateTitle(item.APPOINTMENT_DATE)}}</div>
+                                                                        <div class="text-subtitle">{{ConvertDateFullYear(item.APPOINTMENT_DATE)}}</div>
+                                                                    </div>
+                                                                    <div class="appointment-data-box1" *ngIf="item.APPOINTMENT_DATE == '4000-01-01T00:00:00'">
+                                                                        <div class="text-title">ยังไม่ได้ลงวันที่นัดหมาย</div>
+                                                                 
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col nopadding">
+                                                                    <div class="appointment-data-box2">
+                                                                        <div class="text-title track-code">
+                                                                            <span class="marker">เลขรับแจ้งความออนไลน์</span>
+                                                                            <span class="text-space-left">|</span>
+                                                                            <span class="text-space-left">{{item.TRACKING_CODE}}</span>
+                                                                        </div>
+                                                                        <div class="text-title category">{{item.CATEGORY_NAME}}</div>
+                                                                        <div class="text-subtitle" *ngIf="item.APPOINTMENT_DATE != '4000-01-01T00:00:00'">
+                                                                            <span class="marker">วันที่นัดหมาย</span>
+                                                                            <span class="text-space-left">{{ConvertDateFullMonth(item.APPOINTMENT_DATE)}}</span>
+                                                                            <span class="text-space-left">|</span>
+                                                                            <span class="text-space-left marker">เวลา</span>
+                                                                            <span class="text-space-left">{{ConvertDateToMomentTime(item.APPOINTMENT_DATE)}} น.</span>
+                                                                        </div>
+                                                                        <div class="text-subtitle" *ngIf="item.APPOINTMENT_DATE == '4000-01-01T00:00:00'">
+                                                                            <span class="marker">วันที่นัดหมาย</span>
+                                                                            <span class="text-space-left">ยังไม่ได้ลงวันที่นัดหมาย</span>
+                                                                            <span class="text-space-left">|</span>
+                                                                            <span class="text-space-left marker">เวลา</span>
+                                                                            <span class="text-space-left">ยังไม่ได้ลงเวลานัดหมาย</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6 border-center">
+                                                            <div class="row">
+                                                                <div class="col-auto">
+                                                                    <div class="appointment-data-box3">
+                                                                        <img src="assets/image/police/desktop/station.png" alt="station">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col nopadding">
+                                                                    <div class="appointment-data-box4">
+                                                                        <div class="text-title">{{item.ORGANIZE_NAME_THA}}</div>
+                                                                        <div class="text-subtitle">
+                                                                            <span class="marker">{{item.APP_PERSONAL_FULLNAME}}</span>
+                                                                            <span class="marker text-space-left">|</span>
+                                                                            <span class="text-space-left">โทร {{PhoneNumberFormat(item.APPOINTMENT_PERSONAL_TEL_NO)}}</span>
+                                                                        </div>
+                                                                        <div class="text-subtitle">
+                                                                            <span class="marker">{{item.INVESTIGATE_OFFICER_NAME}}</span>
+                                                                            <span class="marker text-space-left">|</span>
+                                                                            <span class="text-space-left">โทร {{PhoneNumberFormat(item.INVESTIGATE_OFFICER_PHONE)}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="block-main">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="inblock-title">เรื่องที่แจ้ง</div>
+                    <div>
+                        <div class="panel panel-default pl-4 pr-4">
+                            <!-- <div class="panel-heading">
+                                <div class="panel-body w-100">
+                                    <div class="row my-step">
+                                        <div class="stepwizard form-no">
+                                            <div class="stepwizard-row setup-panel">
+                                                <div *ngFor="let item of data" class="stepwizard-step col-xs-3">
+                                                    <span style="cursor: default !important;position: relative;" class="{{item.GROUP_STATUS_CLASS_DETAIL}}">
+                                                        <div class="alert-task-new" *ngIf="checkValue(item.GROUP_COUNT)">{{item.GROUP_COUNT}}</div>
+                                                        <button type="button" class="{{item.GROUP_STATUS_CLASS}}"
+                                                            (click)="bindTaskList(item.GROUP_STATUS_CODE)">
+                                                            <i class=" {{item.GROUP_ICON}}"></i>
+                                                        </button>
+                                                    </span>
+                                                    <br>
+                                                    <span class="{{item.GROUP_STATUS_CLASS_TXT}}"><label
+                                                            class="step-text">{{item.GROUP_STATUS_NAME }}</label></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div style="margin: 10px;">
+                                <div class="row justify-content-md-center">
+                                    <div class="col-auto">
+                                        <dx-scroll-view [height]="160" direction="horizontal">
+                                            <div class="my-step">
+                                                <div class="stepwizard form-no" [ngStyle]="{'width.px': statusWidth}">
+                                                    <div class="stepwizard-row setup-panel">
+                                                        <div *ngFor="let item of data" class="stepwizard-step">
+                                                            <span style="cursor: pointer !important;position: relative;" class="text-hover {{item.GROUP_STATUS_CLASS_DETAIL}}" (click)="bindTaskList(item.GROUP_STATUS_CODE)">
+                                                                <div class="alert-task-new" *ngIf="checkValue(item.GROUP_COUNT)">{{item.GROUP_COUNT}}</div>
+                                                                <button type="button" class="{{item.GROUP_STATUS_CLASS}}">
+                                                                    <i class=" {{item.GROUP_ICON}}"></i>
+                                                                </button>
+                                                            </span>
+                                                            <br>
+                                                            <span class="{{item.GROUP_STATUS_CLASS_TXT}}"><label
+                                                                    class="step-text">{{item.GROUP_STATUS_NAME }}</label></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </dx-scroll-view>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div id="tasklist-table" class="myContent">
+                                <div class="block-add-btn">
+                                    <dx-button class="btn-add" text="แจ้งเรื่องใหม่" (onClick)="Add()"></dx-button>
+                                </div>
+                                <dx-data-grid #grid [dataSource]="_dataSource" [showColumnLines]="false" [wordWrapEnabled]="true" [showRowLines]="true" [columnAutoWidth]="true" [columnHidingEnabled]="true" [showBorders]="false" [rowAlternationEnabled]="true" [showColumnLines]="true"
+                                    [hoverStateEnabled]="true" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล" [remoteOperations]="false">
+                                    <dxo-paging [pageSize]="10"></dxo-paging>
+                                    <dxo-load-panel text="กำลังโหลดข้อมูล..."></dxo-load-panel>
+                                    <dxo-search-panel [visible]="true" [width]="200" placeholder="ค้นหา..."></dxo-search-panel>
+                                    <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                                    </dxo-editing>
+                                    <dxo-selection mode="single"></dxo-selection>
+                                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true">
+                                    </dxo-pager>
+                                    <dxi-column dataField="" caption="จัดการ" [width]="100" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommand"></dxi-column>
+                                    <div *dxTemplate="let cellValue of 'cellTemplateCommand'">
+                                        <div class="table-icon-edit" (click)="edit(cellValue)">
+                                            <img src="assets/image/police/desktop/icon-view.png" alt="edit">
+                                        </div>
+                                    </div>
+                                    <dxi-column dataField="TRACKING_CODE" [width]="200" caption="เลขรับแจ้งความออนไลน์" alignment="center">
+                                    </dxi-column>
+                                    <!-- <dxi-column dataField="CATEGORY_NAME" caption="เรื่อง" alignment="center">
+                                    </dxi-column> -->
+                                    <dxi-column dataField="OPTIONAL_DATA" caption="รายละเอียดโดยย่อ" alignment="center" cellTemplate="cellTemplateDescription">
+                                    </dxi-column>
+                                    <div *dxTemplate="let cell of 'cellTemplateDescription'">
+                                        <div class="text-break text-left">
+                                            {{ cell.data.OPTIONAL_DATA_REPLACE }}
+                                        </div>
+                                    </div>
+                                    <dxi-column dataField="ORGANIZE_NAME_THA" caption="หน่วยงาน" alignment="center" [width]="200">
+                                    </dxi-column>
+                                    <dxi-column dataField="CREATE_DATE_TEXT" caption="วันที่แจ้งเหตุ" alignment="center" [width]="150">
+                                    </dxi-column>
+
+                                    <dxi-column dataField="GROUP_STATUS_NAME" caption="สถานะคดี" alignment="center" [width]="150">
+                                    </dxi-column>
+                                    <!-- <div *dxTemplate="let cell of 'cellTemplateStatus'">
+                                        <span class="click-tracking">{{calculateStatus(cell)}}</span>
+                                    </div> -->
+                                    <div *dxTemplate="let cell of 'cellTemplate'">
+                                        {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                                    </div>
+
+                                </dx-data-grid>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="_isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กำลังโหลดข้อมูล..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>
+<template id="eval-template">
+    <swal-title>
+        Save changes to "Untitled 1" before closing?
+    </swal-title>
+    <swal-html>Evaluation Template</swal-html>
+</template>

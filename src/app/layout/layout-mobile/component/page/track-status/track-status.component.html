@@ -1,0 +1,231 @@
+<div class="w-100 aas" style="margin-top: 80px;">
+    <div class="button-group-stye pb-3 w-100 text-center" style="margin-top: 30px;">
+        <dx-button-group [class]="clr" [items]="botton" keyExpr="alignment" [(selectedItemKeys)]="align"
+            (onItemClick)="StdAndOffer($event)">
+        </dx-button-group>
+    </div>
+</div>
+<div *ngIf="clr === 'left'">
+    <div class="container px-2">
+        <div class="w-100">
+            <div class="col-12 p-1" style="padding-bottom: 20px !important; margin-top: 20px;">
+                <img src="assets/image/img/img1.png" style="position: absolute;
+                width: 120px;
+                margin-top: -10px;
+                z-index: 99;">
+                <img src="assets/image/police/desktop/header-detail.png" style="position: absolute;
+                width: 140px; height: 130px;">
+                <div class=" w-100 card-block-content p-2 d-flex flex-row align-items-center cursor-pointer" style="height: 120px; border: 1.6px solid #e2e2e2e0; box-shadow: 0px 5px 5px #aaaaaa8c;
+border-radius: 20px; background-color: #374784;">
+                    <div class="col-4"></div>
+                    <div class="col-8" style="height: 70px;
+color: #fff; display: flex; padding: 0px;">
+                        <div>
+                            <div style="font-size: 14px; font-weight: bold;">สวัสดี {{personalInfo.FullNameTH}}</div>
+                            <div style="font-size: 14px; display: flex;">คุณมีนัดหมายที่กำลังมาถึง <span
+                                    class="fnum">{{countAppointmentList}}</span>
+                            </div>
+                        </div>
+                        <!-- <div style="font-size: 35px;
+                        margin-left: 10px;
+                        font-weight: bold;
+                        align-items: center;
+                        display: grid;">7</div> -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container px-2">
+        <div class="w-100 damage" style="padding-bottom: 100px;">
+            <dx-data-grid #grid [dataSource]="listAppointment" [showColumnLines]="false" [showRowLines]="false"
+                [wordWrapEnabled]="true" [columnHidingEnabled]="false" [showBorders]="false"
+                [rowAlternationEnabled]="true" [remoteOperations]="true" [hoverStateEnabled]="true"
+                noDataText="ไม่มีข้อมูล" rowTemplate="rowTemplateName">
+
+                <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                </dxo-editing>
+                <dxo-paging [pageSize]="5"></dxo-paging>
+                <dxo-selection mode="single"></dxo-selection>
+                <ng-container *dxTemplate="let cell of 'rowTemplateName'">
+                    <tr class="notes-row" style="display: flex;">
+                        <td class="w-100">
+                            <div class="col-12 p-1">
+                                <div class=" w-100 card-block-content p-2 d-flex flex-row align-items-center cursor-pointer"
+                                    style=" border: 1.6px solid #e2e2e2e0; box-shadow: 0px 5px 5px #aaaaaa8c;
+            border-radius: 20px; cursor: pointer;" (click)="GotoUrlTaskList(cell)">
+                                    <div
+                                        [ngClass]="AppointmentColorClass(cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex)">
+                                        <div style="margin-top: 55px;
+                                        font-size: 25px;
+                                        text-align: center;
+                                        color: #fff;
+                                        font-weight: bold;">
+                                            {{ConvertDateTitle(cell.data.APPOINTMENT_DATE)}}</div>
+                                        <div style="font-size: 16px; text-align: center; color: #fff;">
+                                            {{ConvertDateFullYear(cell.data.APPOINTMENT_DATE)}}</div>
+                                    </div>
+                                    <div class="bc-content px-2 w-100" style="min-height: 130px; margin-left: 5px;">
+                                        <div style="font-size: 16px; font-weight: bold; color: #f2793f;">
+                                            เลขรับแจ้งความออนไลน์ {{cell.data.TRACKING_CODE}}
+                                        </div>
+                                        <div style="font-weight: bold; overflow: hidden;
+                                        display: -webkit-box;
+                                        -webkit-line-clamp: 2;
+                                        -webkit-box-orient: vertical;
+                                        font-size: 13px;">{{cell.data.CATEGORY_NAME}}
+                                        </div>
+
+                                        <div style="color: rgb(160, 160, 160); font-size: 12px;">
+                                            <div>วันที่นัดหมาย {{ConvertDateFullMonth(cell.data.APPOINTMENT_DATE)}}
+                                            </div>
+                                            <div>เวลา {{ConvertDateToMomentTime(cell.data.APPOINTMENT_DATE)}} น.</div>
+                                        </div>
+                                        <div style="font-weight: bold; font-size: 14px; margin-top: 5px;">
+                                            {{cell.data.ORGANIZE_NAME_THA}}</div>
+                                        <div style="color: rgb(160, 160, 160); font-size: 1-px;">
+                                            <div>{{cell.data.APP_PERSONAL_FULLNAME}}</div>
+                                            <div>โทร {{PhoneNumberFormat(cell.data.APPOINTMENT_PERSONAL_TEL_NO)}}</div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="bc-icon" style="font-size: 35px;
+                            color: #969696;">
+                                        <i class="cl-text-secound fa-angle-right fas"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                </ng-container>
+                <dxi-column dataField="" caption="รายการนัดหมาย" alignment="center" cellTemplate="cellTemplates">
+                </dxi-column>
+            </dx-data-grid>
+            <!-- <div  class="col-12 p-1">
+                <div class=" w-100 card-block-content p-2 d-flex flex-row align-items-center cursor-pointer" style=" border: 1.6px solid #e2e2e2e0; box-shadow: 0px 5px 5px #aaaaaa8c;
+border-radius: 20px; cursor: pointer;" (click)="GotoUrlTaskList(filing)">
+                    <div [ngClass]="AppointmentColorClass(i)">
+                        <div style="margin-top: 45px;
+                            font-size: 25px;
+                            text-align: center;
+                            color: #fff;
+                            font-weight: bold;">
+                            {{ConvertDateTitle(filing.APPOINTMENT_DATE)}}</div>
+                        <div style="font-size: 16px; text-align: center; color: #fff;">
+                            {{ConvertDateFullYear(filing.APPOINTMENT_DATE)}}</div>
+                    </div>
+                    <div class="bc-content px-2 w-100" style="min-height: 130px; margin-left: 5px;">
+                        <div style="font-weight: bold; font-size: 14px;">{{filing.CATEGORY_NAME}}</div>
+                        <div style="color: rgb(160, 160, 160); font-size: 14px;">วันที่นัดหมาย 20 มกราคม2564 เวลา 13.00
+                            น.
+                        </div>
+                        <div style="font-weight: bold; font-size: 14px; margin-top: 5px;">สถานีตำรวจนครบาลห้วยขวาง</div>
+                        <div style="color: rgb(160, 160, 160); font-size: 14px;">ร.ต.อ.ณัฐพล ทองดี รอง สว.สอบสวน โทร
+                            098-234-2342</div>
+                    </div>
+                    <div class="bc-icon" style="font-size: 35px;
+                color: #969696;">
+                        <i class="cl-text-secound fa-angle-right fas"></i>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
+<div class="container px-2" *ngIf="clr === 'right'">
+
+    <div class="w-100 damage" style="padding-bottom: 100px;">
+        <dx-select-box [dataSource]="group_status" [(value)]="_searchParam.GROUP_STATUS_CODE" style="border-radius: 10px;
+    margin-left: 5px; margin-right: 5px;" placeholder="กรุณาเลือกสถานะที่ต้องการ " displayExpr="GROUP_STATUS_NAME"
+            valueExpr="GROUP_STATUS_CODE" (onValueChanged)="onSelectStatusCode($event)">
+        </dx-select-box>
+        <dx-data-grid #grid [dataSource]="_dataSource" [showColumnLines]="false" [showRowLines]="false"
+            [wordWrapEnabled]="true" [columnHidingEnabled]="false" [showBorders]="false" [rowAlternationEnabled]="true"
+            [remoteOperations]="true" [hoverStateEnabled]="true" noDataText="ไม่มีข้อมูล" rowTemplate="rowTemplateName">
+
+            <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+            </dxo-editing>
+            <dxo-paging [pageSize]="5"></dxo-paging>
+            <dxo-selection mode="single"></dxo-selection>
+            <!-- <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true">
+            </dxo-pager> -->
+            <ng-container *dxTemplate="let cell of 'rowTemplateName'">
+                <!-- <tbody class="employee dx-row" [ngClass]="{'dx-row-alt': cell.rowIndex % 1}"
+                    *dxTemplate="let cell of 'rowTemplateName'"> -->
+                <tr class="notes-row" style="display: flex;">
+                    <td class="w-100">
+                        <div class="col-12 p-1" style="cursor: pointer;" (click)="edit(cell)">
+                            <div class=" w-100 card-block-content p-2 d-flex flex-row align-items-center cursor-pointer"
+                                style=" border: 1.6px solid #e2e2e2e0; box-shadow: 0px 5px 5px #aaaaaa8c;border-radius: 20px;">
+                                <div class="bc-img" style="align-items: center;
+                    display: grid; width: 150px; height: 150px; background-color: #2D4E95; border-radius: 10px;">
+                                    <img src="assets/image/img/msg.png" [width]="60" style="margin: 0 auto;">
+                                </div>
+                                <div class="bc-content px-2 w-100"
+                                    style="min-height: 130px; margin-left: 5px;margin-top: 8px;">
+                                    <div style="font-size: 16px; font-weight: bold; color: #f2793f;">
+                                        เลขรับแจ้งความออนไลน์ {{cell.data.TRACKING_CODE}}
+                                    </div>
+                                    <div style="font-weight: bold; font-size: 14px;overflow: hidden;
+                                    display: -webkit-box;
+                                    -webkit-line-clamp: 2;
+                                    -webkit-box-orient: vertical;">{{cell.data.OPTIONAL_DATA}}
+                                    </div>
+
+                                    <!-- <div style="color: rgb(160, 160, 160); font-size: 14px;">
+                                        {{DisplayFormatDate(cell.data.CREATE_DATE)}}
+                                    </div> -->
+
+                                    <div style="color: rgb(160, 160, 160); font-size: 12px;">
+                                        <div>วันที่นัดหมาย {{ConvertDateFullMonth(cell.data.CREATE_DATE)}}
+                                        </div>
+                                        <div>เวลา {{ConvertDateToMomentTime(cell.data.CREATE_DATE)}} น.</div>
+                                    </div>
+                                    <div
+                                        style="width: 200px; margin-top: 10px;
+                    background-color: #EDF7FF; border-radius: 10px; display: flex; font-size: 12px; padding-left: 10px;">
+                                        สถานะ
+                                        <div style="color: #f2793f; padding-left: 10px;"
+                                            *ngIf="cell.data.GROUP_STATUS_CODE !== 'C01'">
+                                            {{cell.data.GROUP_STATUS_NAME}}</div>
+                                        <!-- <div style="color: #f2793f; padding-left: 10px;" *ngIf="!cell.data.STATUS_NAME">
+                                            ยื่นคำขอ</div> -->
+                                        <div style="color: #51b361; padding-left: 10px;"
+                                            *ngIf="cell.data.GROUP_STATUS_CODE === 'C01'">
+                                            {{cell.data.GROUP_STATUS_NAME}}</div>
+                                    </div>
+                                    <div class="d-flex" style="margin-top: 10px; font-size: 14px;">
+                                        ข้อความจากเจ้าหน้าที่
+                                        <h4 class="text-danger pl-2 pr-2" style="margin-top: -8px;">{{cell.data.count}}
+                                        </h4> ข้อความ
+                                    </div>
+                                </div>
+                                <div class="bc-icon" style="font-size: 35px;
+                color: #969696;">
+                                    <i class="cl-text-secound fa-angle-right fas"></i>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </td>
+                    <td>
+
+                    </td>
+                </tr>
+            </ng-container>
+            <dxi-column dataField="" caption="{{statusname}}" alignment="center" cellTemplate="cellTemplates">
+            </dxi-column>
+        </dx-data-grid>
+    </div>
+</div>
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true"
+    [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

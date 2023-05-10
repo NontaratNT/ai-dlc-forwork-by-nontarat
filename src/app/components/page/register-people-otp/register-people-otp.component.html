@@ -1,0 +1,49 @@
+<div class="form-block mx-auto">
+    <div class="stepwizard">
+        <div class="stepwizard-row setup-panel">
+            <div class="stepwizard-step col-xs-3">
+                <span type="button" class="btn btn-default  btn-circle" disabled="disabled">1</span>
+                <p class="text-step">ข้อมูลผู้ใช้</p>
+            </div>
+            <div class="stepwizard-step col-xs-3">
+                <span type="button" class="btn btn-success btn-circle">2</span>
+                <p class="text-step">ยืนยันรหัส OTP</p>
+            </div>
+
+        </div>
+    </div>
+    <form action="#" method="post">
+        <div class="line-style"></div>
+        <div class="card mb-5">
+            <div class="card-body">
+                <span>ระบบได้ส่งรหัส OTP ไปทางอีเมลของท่านแล้ว กรุณาตรวจสอบอีเมล</span><br>
+                <span class="text-danger">หากไม่พบอีเมลใน Inbox กรุณาตรวจสอบใน Junk Mail</span>
+            </div>
+        </div>
+        <dx-form labelLocation="top" [colCount]="1">
+            <dxi-item template="otpnumber">
+                <dxo-label text="รหัส OTP"></dxo-label>
+                <dxi-validation-rule type="required" message="กรุณากรอกรหัส OTP">
+                </dxi-validation-rule>
+            </dxi-item>
+            <div *dxTemplate="let data of 'otpnumber'">
+                <dx-text-box placeholder="รหัส OTP 6 หลัก" [maxLength]="6" [showClearButton]="true" [(value)]="otpnumber">
+                </dx-text-box>
+            </div>
+        </dx-form>
+        <div class="text-center bottom-text mt-4">
+            <span>ไม่ได้รับรหัส OTP? </span><a (click)="sendAgain()">ส่งอีกครั้ง</a>
+        </div>
+        <dx-button class="btn btn-block py-2 btn-login" (onClick)="SaveRegister()">
+            <i class="fa fa-save icon-style-button"></i> ลงทะเบียน
+        </dx-button>
+        <dx-button class="btn btn-block py-2 btn-login" (onClick)="Back()">
+            <i class="fa fa-reply icon-style-button"></i> กลับ
+        </dx-button>
+        <div class="text-center bottom-text">
+            <span>มีบัญชีผู้ใช้อยู่แล้ว? </span><a (click)="login()">เข้าสู่ระบบ</a><br>
+        </div>
+    </form>
+</div>
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="_isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

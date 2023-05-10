@@ -1,0 +1,122 @@
+:host {
+    .tab-title {
+        font-size: 18px;
+        color: #2f2b66;
+    }
+     ::ng-deep {
+        .dx-icon.fa.fa-plus {
+            color: #fff !important;
+        }
+        .conten-block {
+            margin-top: 5px;
+            .content-title {
+                text-align: left;
+                padding: 10px 0 20px 0;
+                font-size: 18px;
+                color: #2f2b66;
+                font-weight: bold;
+            }
+            .content-end-line {
+                margin: auto;
+                width: 100%;
+                // border-bottom: 1px solid #dddddd;
+                margin-top: 25px;
+                margin-bottom: 25px;
+            }
+            .content-title-line {
+                margin: auto;
+                width: 100%;
+                border-bottom: 1px solid #dddddd;
+                margin-top: 40px;
+            }
+            .content-form {
+                .card>.card-header {
+                    font-size: 18px;
+                    font-weight: bold;
+                    background: #374784 !important;
+                    color: #ffffff !important;
+                }
+            }
+        }
+    }
+    .block-location-title {
+        margin: 20px 0 0 0;
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+            padding: 0 0 10px 10px;
+        }
+        .block {
+            padding: 17px 10px 10px 10px;
+            min-height: 50px;
+            border-radius: 8px;
+            // ::ng-deep{
+            //     .dx-checkbox-checked .dx-checkbox-icon::before{
+            //     }
+            // }
+        }
+        .left {
+            background: #374784;
+            color: #ffffff;
+        }
+    }
+    .block-location-collaps {
+        .location-collaps {
+            .collaps-header {
+                cursor: pointer;
+                .icon {
+                    position: absolute;
+                    right: 10px;
+                    top: 10px;
+                    background-color: #ffffff;
+                    width: 25px;
+                    height: 25px;
+                    border-radius: 40px;
+                    padding: 3px 0px 0px 5px;
+                    .collaps {
+                        display: block;
+                        font-size: 23px !important;
+                        color: #374784;
+                    }
+                    .expand {
+                        display: none;
+                    }
+                }
+            }
+            .collaps-header.active {
+                cursor: pointer;
+                .icon {
+                    padding: 1px 0px 0px 5px;
+                    .collaps {
+                        display: none;
+                    }
+                    .expand {
+                        display: block;
+                        font-size: 23px !important;
+                        color: #374784;
+                    }
+                }
+            }
+            .collaps-header:hover {
+                opacity: 0.75;
+            }
+            .collaps-body {
+                display: none;
+            }
+        }
+        .not-copy {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    }
+    .btn-footer {
+        margin-top: 40px;
+    }
+     ::ng-deep {
+        .text-area-description .dx-texteditor-input {
+            text-indent: 30px !important;
+        }
+    }
+}

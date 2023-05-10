@@ -1,0 +1,177 @@
+<div class="block-content-detail not-copy">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="block-title">
+                    <div class="title">แจ้งความออนไลน์ (สำหรับประชาชน)</div>
+                    <div class="sub-title">เฉพาะคดีอาชญากรรมทางเทคโนโลยี</div>
+                </div>
+                <div class="block-box">
+                    <div class="box-detail box1" (click)="OnIssueOnline()">
+                        <div class="box-item">
+                            <div class="item">
+                                <img src="../assets/icon/icon-box1.png" alt="icon">
+                            </div>
+                            <div class="item title title1">แจ้งความออนไลน์</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="block-box block-manual">
+                    <div class="box-detail box-manual" (click)="OpenManual()">
+                        <div class="box-item">
+                            <div class="item">
+                                <img src="../assets/icon/icon-box-manual.png" alt="icon">
+                            </div>
+                            <div class="item title title1">คู่มือการใช้งานระบบ</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="block-title title2">
+                    <div class="sub-title">ปรึกษาหรือขอคำแนะนำ</div>
+                </div>
+                <div class="block-box">
+                    <div class="box-detail box2" (click)="TelLink('tel:1441')">
+                        <div class="box-item">
+                            <div class="item">
+                                <img src="../assets/icon/icon-box-tel.png" alt="icon">
+                            </div>
+                            <div class="item title">
+                                <div class="title2">โทร. 1441 บช.สอท.</div>
+                                <div class="text-detail">(ตลอด 24 ชั่วโมง)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="block-box"></div>
+                <div class="block-box box3">
+                    <div class="box-detail box3" (click)="TelLink('tel:081-866-3000')">
+                        <div class="box-item">
+                            <div class="item">
+                                <img src="../assets/icon/icon-box-tel.png" alt="icon">
+                            </div>
+                            <div class="item title">
+                                <div class="title3">โทร. 081 866 3000 ศูนย์ PCT</div>
+                                <div class="text-detail">(ตลอด 24 ชั่วโมง)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="block-box block-manual">
+                    <div class="box-detail box-manual news-content" (click)="RedirectExternal('https://24hicarecenter.com/cybervaccinated')">
+                        <div class="box-item">
+                            <div class="item">
+                                <img src="../assets/icon/newspaper.png" alt="icon">
+                            </div>
+                            <div class="item title title1">ประชาสัมพันธ์/เตือนภัย</div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="omb_login">
+                        <div class="row omb_row-sm-offset-3 omb_socialButtons content-position">
+                            <!-- <div class="col-xs-4 col-sm-3 mt-2 mb-1 qr-img">
+                                <img src="https://www.img.in.th/images/574df1baeac387cc7fe9e261d086a791.png">
+                            </div> -->
+                            <div class="col-xs-6 col-sm-6 mt-2 mb-1 " style="display: none;">
+                                <a href="https://m.me/mysisbot" class="btn btn-lg btn-block omb_btn-mysisbot" target="_blank">
+                                    <!-- <i class="fas fa-line visible-xs"></i> -->
+                                    <img src="../assets/icon/mysisbot.jpg" style="border: 3px solid #fff;
+                                    border-radius: 10px;width: 80px;" alt="line" srcset=""><br>
+                                    <span class="hidden-xs" style="font-size: 16px;color: #000;">แชทบอทให้คำปรึกษาเรื่องความรุนแรงในครอบครัว</span>
+
+                                </a>
+                            </div>
+                            <div class="col-xs-4 col-sm-3 mt-2 mb-1 line-img" style="display: none;">
+                                <a href="https://line.me/ti/p/@ccib" class="btn btn-lg btn-block omb_btn-twitter" target="_blank">
+                                    <!-- <i class="fas fa-line visible-xs"></i> -->
+                                    <img src="../assets/icon/line.png" style="border: 3px solid #fff;
+                                    border-radius: 10px;" alt="line" srcset="">
+                                    <span class="hidden-xs" style="font-size: 16px;">Line</span>
+                                </a>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 mt-2 mb-1 facebook-img" style="display: none;">
+                                <a href="https://www.facebook.com/PCTPOLICE" class="btn btn-lg btn-block omb_btn-facebook" target="_blank">
+                                    <!-- <i class="fas fa-facebook visible-xs"></i> -->
+                                    <img src="../assets/icon/facebook.png" style="border: 3px solid #fff;
+                                    border-radius: 10px;    margin-top: 5%;    margin-bottom: 12%;" alt="facebook" srcset="">
+
+                                    <!-- <span class="hidden-xs" style="font-size: 16px;">Facebook</span> -->
+                                    <span class="hidden-xs" style="font-size: 16px;"><br>PCT​ police</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="customlink">
+                    <div class="omb_login">
+                        <div>
+                            <p class="custometitlelink">ลิ้งค์แนะนำ</p>
+
+                        </div>
+
+                        <div class="row omb_row-sm-offset-3 omb_socialButtons content-position">
+
+                            <div class="col-xs-4 col-sm-4 mt-2 mb-1" >
+                                <a href="https://m.me/mysisbot" class="btn btn-lg btn-block mysisbotcustom" target="_blank">
+                                    <!-- <i class="fas fa-line visible-xs"></i> -->
+                                    <img src="../assets/icon/mysisbot.jpg" style="
+                                    border-radius: 10px;width: 80px;" alt="line" srcset="">
+
+                                </a>
+                                <a href="https://m.me/mysisbot" target="_blank" class="btn btn-lg btn-block omb_btn-mysisbotdes">
+                                    <span class="hidden-xs" style="font-size: 16px;color: #fff;">แชทบอทให้คำปรึกษาเรื่องความรุนแรงในครอบครัว</span>
+                                </a>
+
+                            </div>
+
+                            <div class="col-xs-4 col-sm-4 mt-2 mb-1 facebook-img" >
+                                <a href="https://www.facebook.com/PCTPOLICE" class="btn btn-lg btn-block omb_btn-facebookcustom" target="_blank">
+                                    <!-- <i class="fas fa-facebook visible-xs"></i> -->
+                                    <img src="../assets/icon/facebook.png" style="border: 3px solid #fff;
+                                    border-radius: 10px;    margin-top: 5%;    margin-bottom: 12%;" alt="facebook" srcset="">
+
+                                    <!-- <span class="hidden-xs" style="font-size: 16px;">Facebook</span> -->
+                                </a>
+
+                                <a href="https://www.facebook.com/PCTPOLICE" target="_blank" class="btn btn-lg btn-block omb_btn-facebookdes">
+                                    <span class="hidden-xs" style="font-size: 16px;">PCT​ police</span>
+                                </a>
+
+                            </div>
+
+                            <div class="col-xs-4 col-sm-4 mt-2 mb-1 text-center">
+                                <img src="../assets/icon/358726.jpg" style="width: 130px; height: 130px;" alt="line" srcset="">
+                                <h3 style="color: #fff;">@police1441</h3>
+                                <span class="hidden-xs" style="font-size: 16px;color: #fff;">แชทบอทให้คำปรึกษาคดีออนไลน์</span>
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="block-box-login" *ngIf="!hasSession">
+                    <div class="box-login-detail" (click)="OnIssueOnline()">เข้าสู่ระบบ</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<dx-popup class="popup attactment" [width]="800" [height]="600" [showTitle]="false" title="แจ้งปรับปรุงระบบชั่วคราว" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="showpopupweb" [showCloseButton]="false">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view #view_form_popup_attachment [showScrollbar]="'always'" style="height: calc(100% - 45px);background-color: #2D437C;">
+            <div style="text-align: center;    margin: 20px;">
+        <h2 style="color: #fff;">ระบบบริหารจัดการคดีอาชญากรรมทางเทคโนโลยี</h2>
+        <h1 style="color: #fff;">ขอแจ้งปรับปรุงระบบชั่วคราว</h1>
+    </div>
+    <div style="    text-align: center;
+    margin-top: 10%;
+    background-color: #2D437C;
+    padding: 2%;">
+        <h1 style="color: #fff;">วันที่ 29-30 ตุลาคม 2565</h1>
+        <h1 style="background-color: #fff;padding:2%;">เวลา 22.00 น.-06.00 น.</h1>
+    </div>
+        </dx-scroll-view>
+        <div class="text-right btn-dx" style="display: none;">
+            <button class="btn btn-cancle" (click)="closepopup()">ปิด</button>&nbsp;
+        </div>
+    </div>
+</dx-popup>

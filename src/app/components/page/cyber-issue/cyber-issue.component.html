@@ -1,0 +1,46 @@
+<section class="mt_100">
+    <div style="padding-top: 100px; padding-left: 40px; padding-bottom: 50px;">
+        <dx-button [visible]="visibleBack" type="default" hint="ย้อนกลับ" text="ย้อนกลับ" (onClick)="Back()">
+        </dx-button>
+    </div>
+    <div class="content-title ml-5 mb-3">
+        <span>คุณเคยแจ้งความออนไลน์มาแล้ว <label class="text-danger">{{this._countFlow}}</label> เรื่อง
+            สามารถติดตามสถานะของเรื่องผ่านเมนู <a routerLinkActive="active"
+                [routerLink]="['/main/tasklist']">ติดตาม</a></span>
+    </div>
+    <div class="p-lg-5 pl-4 pr-4 form-io-cyber-issue" style="overflow: auto; padding-bottom: 50px;">
+        <efs-formio-render formId="6048403e826b975e84eade25" [readOnly]="_readOnly" [beforeSubmit]="beforeSubmit"
+            [renderOptions]="_renderOptions" (onInitialized)="onFormReady($event)"></efs-formio-render>
+    </div>
+</section>
+<dx-popup [width]="650" [height]="620" [showTitle]="true" title="การหา Facebook ID" [dragEnabled]="false"
+    [closeOnOutsideClick]="true" [showCloseButton]="false" container=".dx-viewport" [(visible)]="popupVisible">
+    <div *dxTemplate="let data of 'content'">
+        <div style="position: absolute;">
+            <p>
+                ตัวอย่างที่ 1
+            </p>
+            <div>
+                <img #profileImage class="img-thumbnail float-right" src="assets\ccib\img\facebook_id.PNG" width=600
+                    height=500 style="display: block; margin: 0 auto;margin-bottom: 20px;">
+            </div>
+            <p>
+                ตัวอย่างที่ 2
+            </p>
+            <div>
+                <img #profileImage class="img-thumbnail float-right" src="assets\ccib\img\facebook_id_1.PNG" width=600
+                    height=500 style="display: block; margin: 0 auto;margin-bottom: 20px;">
+            </div>
+            <p>
+                1.เข้าไปที่โปรไฟล์ Facebook ของคนร้าย
+            </p>
+            <p>
+                2.ที่ Url ด้านซ้ายบนจะมี Facebook ID ของตน ดังภาพประกอบด้านคือ ID 100011313811018
+            </p>
+            <div style="text-align: end;">
+                <dx-button type="default" hint="ปิด" text="ปิด" (onClick)="closeButtonOptions()">
+                </dx-button>
+            </div>
+        </div>
+    </div>
+</dx-popup>

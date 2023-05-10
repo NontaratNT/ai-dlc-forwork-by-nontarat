@@ -1,0 +1,17 @@
+.btn-select {
+    border-radius: 5px;
+    padding: 7px;
+    margin: 2px;
+    padding-left: 2px;
+    background-color: white;
+    border: 1px solid #dfdfdf;
+}
+
+.disabled-true {
+    border: 1px dashed #dfdfdf;
+    color: #000;
+}
+
+.disabled-false {
+    border: 1px solid #dfdfdf;
+}

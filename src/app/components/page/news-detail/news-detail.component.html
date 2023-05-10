@@ -1,0 +1,42 @@
+<script src="src/assets/js/custom.js"></script>
+<section class="ftco-section mt_100">
+    <div class="container">
+        <div class="btn-back">
+            <dx-button hint="กลับหน้าข่าว" text="กลับหน้าข่าว" (onClick)="backnews()">
+            </dx-button>
+        </div>
+        <div class="d-flex">
+            <!-- <dx-button text="กลับหน้าข่าว" type="success" class="position-absolute bnt-class" [height]='30' (click)="backnews()"></dx-button> -->
+            <span class="subheading">{{detailNew.ANNOUNCEMENT_TITLE}}</span>
+        </div>
+        <div class="col-12 layout-news">
+            <div class="col-12" id="news-detail">
+                <div class=" row">
+                    <div class="col-md-12 layout-image-news">
+
+                        <div class="col-md-12 text-center mb-5">
+                            <div>
+                                <img class="img-cover img-news" [src]="userImagePath" alt="Image Source" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="fb-root"></div>
+                <script async defer crossorigin="anonymous" src="https://connect.facebook.net/th_TH/sdk.js#xfbml=1&version=v9.0" nonce="Oz9Mkuu6"></script>
+                <div class="details col-md-12" style="margin-left: -120px;">
+                    <div class="social-media">
+                    </div>
+                    <!-- <h3 class="product-title">{{detailNew.ANNOUNCEMENT_TITLE}}</h3> -->
+                    <span class="date-news" style="color: rgb(255, 72, 0);">ประจำวันที่
+                        {{FormatDate(detailNew.ANNOUNCEMENT_START_DATE)}}</span>
+                    <div [innerHTML]="detailNew.ANNOUNCEMENT_DETAIL"></div>
+                    <!-- <div class="contentsHTML" [innerHTML]="sanitize(detailNew.ANNOUNCEMENT_DETAIL)"></div> -->
+                </div>
+
+                <span class="review-no"></span>
+            </div>
+        </div>
+    </div>
+</section>
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="_isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

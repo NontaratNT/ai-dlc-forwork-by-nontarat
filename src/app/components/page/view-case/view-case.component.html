@@ -1,0 +1,74 @@
+<div style="padding-top: 100px;padding-bottom: 100px;">
+
+    <h4 style="text-align: center; padding-bottom: 30px;">ข้อมูลเอกสารอิเล็กทรอนิกส์</h4>
+    <dx-form labelLocation="top" [formData]="formdata" width="70%" [colCount]="2"
+        style="padding-bottom: 10px; width: 100%; margin: auto;">
+
+        <!-- เลขประจำตัวประชาชน  -->
+
+        <dxi-item dataField="CASE_RECORD_REF_NO" editorType="dxTextBox" [disabled]="true">
+            <dxo-label text="เลขรับแจ้งออนไลน์ "></dxo-label>
+        </dxi-item>
+
+        <dxi-item dataField="CASE_RECORD_NO" editorType="dxTextBox" [disabled]="true"
+            [editorOptions]="{ showClearButton:true}">
+            <dxo-label text="เลขที่รับเรื่อง "></dxo-label>
+        </dxi-item>
+
+        <dxi-item dataField="CASE_TYPE_NAME" editorType="dxTextBox" [disabled]="true">
+            <dxo-label text="ประเภทคดี "></dxo-label>
+        </dxi-item>
+
+        <dxi-item itemType="empty"></dxi-item>
+
+        <!-- <dxi-item dataField="CASE_BEHAVIOR" editorType="dxTextArea" [colSpan]="2" [disabled]="true"
+            [editorOptions]="{ showClearButton:true}">
+            <dxo-label text="พฤติกรรมการกระทำผิดโดยย่อ "></dxo-label>
+        </dxi-item>
+
+        <dxi-item dataField="CASE_OTHER_DAMAGE" editorType="dxTextArea" [colSpan]="2" [disabled]="true"
+            [editorOptions]="{ showClearButton:true}">
+            <dxo-label text="ได้รับความเสียหายอื่น "></dxo-label>
+        </dxi-item> -->
+
+        <dxi-item dataField="CASE_INFORMER_FIRSTNAME" editorType="dxTextBox" [disabled]="true"
+            [editorOptions]="{ showClearButton:true}">
+            <dxo-label text="ชื่อ"></dxo-label>
+        </dxi-item>
+
+        <dxi-item dataField="CASE_INFORMER_LASTNAME" editorType="dxTextBox" [disabled]="true"
+            [editorOptions]="{ showClearButton:true}">
+            <dxo-label text="นามสกุล "></dxo-label>
+        </dxi-item>
+
+        <!-- <dxi-item template="templateDate" [disabled]="true">
+            <dxo-label text="วัน/เดือน/ปีเกิด">
+            </dxo-label>
+        </dxi-item>
+        <div *dxTemplate="let data of 'templateDate'">
+            <dx-date-box dateSerializationFormat="yyyy-MM-dd" [openOnFieldClick]="true" [acceptCustomValue]="false"
+                [(value)]="formdata.CASE_INFORMER_DATE">
+            </dx-date-box>
+        </div>
+
+        <dxi-item dataField="INFORMER_EMAIL" editorType="dxTextBox" [disabled]="true"
+            [editorOptions]="{ showClearButton:true}">
+            <dxo-label text="E-mail"></dxo-label>
+        </dxi-item>
+
+        <dxi-item dataField="INFORMER_TEL" editorType="dxTextBox" [disabled]="true"
+            [editorOptions]="{ showClearButton:true}">
+            <dxo-label text="เบอร์โทรศัพท์"></dxo-label>
+        </dxi-item> -->
+
+    </dx-form>
+
+    <div style="text-align: center;">
+        <h3 style="text-align: center; padding-bottom: 30px;padding-top: 20px">เอกสารอิเล็กทรอนิกส์</h3>
+        <iframe style="width: 80%;height: 600px;" [src]="safeUrl" title="W3Schools Free Online Web Tutorials"></iframe>
+    </div>
+
+</div>
+<!-- <div>
+    <iframe [src]="safeUrl" title="W3Schools Free Online Web Tutorials"></iframe>
+</div> -->

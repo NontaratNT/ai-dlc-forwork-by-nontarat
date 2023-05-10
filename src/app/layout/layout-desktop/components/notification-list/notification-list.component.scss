@@ -1,0 +1,16 @@
+:host {
+    .text-link {
+        cursor: pointer;
+        &:hover {
+            opacity: 0.75;
+        }
+    }
+    .unread {
+        font-size: 14px;
+        padding-left: 5px;
+        color: red;
+    }
+    img.view-data {
+        width: 25px;
+    }
+}

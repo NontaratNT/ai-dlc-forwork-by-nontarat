@@ -1,0 +1,56 @@
+<div class="card-body ">
+    <div class="col-12">
+
+        <dx-data-grid #grid [dataSource]="formAttach" [showColumnLines]="true" [showRowLines]="true" [columnHidingEnabled]="true" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="true" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล">
+            <dxo-paging [pageSize]="10"></dxo-paging>
+            <dxo-search-panel [visible]="true" [width]="200" placeholder="ค้นหา...">
+            </dxo-search-panel>
+            <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+            </dxo-editing>
+            <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true">
+            </dxo-pager>
+            <dxo-selection mode="single"></dxo-selection>
+
+            <dxi-column alignment="center" caption="ดู" [width]="60" cellTemplate="cellTemplateView" [allowSearch]="false">
+            </dxi-column>
+            <div *dxTemplate="let cellInfo of 'cellTemplateView'">
+                <dx-button-improve icon="fa fa-eye" caption="ดู" type="success" (onClick)="previewButtonClicked(cellInfo)">
+                </dx-button-improve>
+            </div>
+
+            <dxi-column dataField="" caption="ลำดับ" [width]="70" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+            <dxi-column dataField="INST_ATTACHMENT_OFFICER_NAME" caption="ชื่อไฟล์เอกสาร" [allowSearch]="true" alignment="center" cellTemplate="cellTemplateName">
+            </dxi-column>
+
+            <dxi-column dataField="INST_ATTACHMENT_TYPE_NAME" caption="ประเภทไฟล์" [width]="220" alignment="center">
+            </dxi-column>
+
+
+            <div *dxTemplate="let cellInfo of 'cellTemplateName'" style="text-align: left;">
+                <span>{{cellInfo.data.INST_ATTACHMENT_OFFICER_NAME}}</span>
+            </div>
+
+            <dxi-column dataField="INST_ATTACHMENT_OFFICER_SIZE" [width]="150" alignment="center" caption="ขนาดไฟล์" cellTemplate="cellTemplateFileSize"></dxi-column>
+
+            <div *dxTemplate="let cellInfo of 'cellTemplateFileSize'">
+                <span>{{cellInfo.value | fileSize}}</span>
+            </div>
+
+            <dxi-column dataField="INST_ATTACHMENT_OFFICER_DATE" [calculateDisplayValue]="formatDate" [width]="140" caption="วันที่นำเข้าเอกสาร" alignment="center">
+            </dxi-column>
+
+            <div *dxTemplate="let cell of 'cellTemplate'">
+                {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+            </div>
+        </dx-data-grid>
+    </div>
+</div>
+
+
+<dx-popup [width]="200" [height]="90" [showTitle]="false" [dragEnabled]="false" [closeOnOutsideClick]="false" [showCloseButton]="false" [visible]="_isLoading">
+    <div class="w-100 text-center">
+        <span class="fa-spin" style="font-size: 25px;">
+        <img id="imgspin" src="assets/icon/load.PNG"> </span>
+        <div class="text-center">กรุณารอสักครู่...</div>
+    </div>
+</dx-popup>

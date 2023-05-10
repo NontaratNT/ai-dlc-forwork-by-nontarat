@@ -1,0 +1,62 @@
+<div style="margin-top: 60px;">
+
+    <div class="d-flex" style="border-bottom: 1px solid #ddd; padding-bottom: 10px;z-index: 999; position: fixed;background-color: #fff;
+    width: 100%;
+    height: 90px;">
+        <div style="width: 80px; margin-left: 10px; position: fixed;
+                height: 80px;
+                border-radius: 100%;
+                border: 1px solid; text-align: center;">
+            <h6 style="margin-top: 15px;">ขั้นตอนที่</h6>
+            <h4 style="margin-top: -10px;
+                    font-size: 30px;
+                    font-weight: bold;">1/7</h4>
+        </div>
+        <div style="right: 0;
+        margin-right: 10px;
+        position: fixed;">
+            <h5 style="text-align: right; font-weight: bold; margin-top: 12px;">ข้อความยินยอม</h5>
+            <h6 style="font-size: 14px;">ขั้นตอนต่อไป : กรอกรายละเอียดข้อมูลผู้แจ้ง</h6>
+        </div>
+    </div>
+
+    <dx-multi-view [swipeEnabled]="false" [selctedIndex]="0">
+        <dxi-item>
+            <div class="container px-2" style="margin-top: 100px;">
+                <div class="w-100">
+                    <div class="col-12 p-1" style="padding-bottom: 20px !important;">
+                        <div class=" w-100 card-block-content p-2 d-flex flex-row align-items-center cursor-pointer"
+                            style="padding: 15px; border: 1.6px solid #e2e2e2e0; box-shadow: 0px 5px 5px #aaaaaa8c;
+            border-radius: 20px;">
+
+                            <div style="padding-bottom: 20px;">
+                                <div class="text-center" style="font-weight: bold;
+                                font-size: 19px;
+                                padding-top: 20px;">
+                                    ข้าพเจ้าขอรับรองและให้ความยินยอม ดังนี้
+                                </div>
+                                <dx-form labelLocation="top">
+                                    <dxi-item dataField="" editorType="dxRadioGroup" [editorOptions]="{
+                                                            items:radioActive, valueExpr:'id', displayExpr:'text',
+                                                            layout:'horizontal'}">
+                                        <dxo-label text=" " [showColon]="false"></dxo-label>
+                                    </dxi-item>
+                                </dx-form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center d-flex justify-content-center">
+                <dx-button style="margin: 5px;" [width]="100" [height]="45" type="default" text="ไม่ยอมรับ"></dx-button>
+                <dx-button style="margin: 5px;" [width]="100" [height]="45" type="success" text="ยอมรับ" (onClick)="onNext()"></dx-button>
+            </div>
+
+        </dxi-item>
+        <dxi-item>
+            <app-issue-informer></app-issue-informer>
+        </dxi-item>
+
+    </dx-multi-view>
+</div>

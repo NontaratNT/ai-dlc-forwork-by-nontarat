@@ -1,0 +1,222 @@
+<div style="padding: 10px; padding-top: 20px;">
+    <div style="border: 1px solid #cacaca; background-color: #fff;
+    padding: 10px; box-shadow: 0px 5px 5px #aaaaaa8c; margin-top: 90px;
+    border-radius: 10px;">
+        <div class="conten-block" style="padding: 20px;">
+            <div class="content-title">ไฟล์หลักฐานเพิ่มเติม</div>
+            <div class="content-form damage">
+                <div class="add-data">
+                    <dx-button class="btn btn-add-data" text="เพิ่มรายการ" (onClick)="PopupUploadAdd()"></dx-button>
+                </div>
+                <div class="remark-table-upload">* ขนาดไฟล์ทั้งหมดไม่เกิน 5MB</div>
+                <dx-data-grid #grid [dataSource]="listAttachment" [showColumnLines]="false" [showRowLines]="false" [wordWrapEnabled]="true" [columnHidingEnabled]="false" [showBorders]="false" [rowAlternationEnabled]="true" [remoteOperations]="true" [hoverStateEnabled]="true"
+                    noDataText="ไม่มีข้อมูล" rowTemplate="rowTemplateName">
+
+                    <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                    </dxo-editing>
+                    <dxo-paging [pageSize]="5"></dxo-paging>
+                    <dxo-selection mode="single"></dxo-selection>
+                    <tbody class="employee dx-row" [ngClass]="{'dx-row-alt': cell.rowIndex % 1}" *dxTemplate="let cell of 'rowTemplateName'">
+                        <tr class="notes-row" style="
+            display: flex;
+            padding: 10px;">
+                            <td class="w-100">
+                                <dx-form #form [colCount]="1" labelLocation="left">
+                                    <dxi-item template="temp1" [colSpan]="1">
+                                        <dxo-label text="ลำดับ" [showColon]="true"></dxo-label>
+                                    </dxi-item>
+                                    <div *dxTemplate="let data of 'temp1'">
+
+                                        <div style="    margin-left: 15px;">
+                                            {{
+                                            cell.component.pageIndex()
+                                            *
+                                            cell.component.pageSize()
+                                            +
+                                            cell.rowIndex + 1 }}</div>
+                                    </div>
+                                    <dxi-item template="temp13" [colSpan]="1">
+                                        <dxo-label text="ชื่อไฟล์" [showColon]="true"></dxo-label>
+                                    </dxi-item>
+                                    <div *dxTemplate="let data of 'temp13'">
+                                        <div style="margin-left: 15px;" *ngIf="CheckArray(cell.data['originalName'])"
+                                            class="text-download" (click)="PopupViewFile(cell.data)">{{cell.data['originalName']}}
+                                        </div>
+                                    </div>
+
+                                    <dxi-item template="temp12" [colSpan]="1">
+                                        <dxo-label text="แนบไฟล์" [showColon]="true"></dxo-label>
+                                    </dxi-item>
+                                    <div *dxTemplate="let data of 'temp12'">
+                                        <div style="margin-left: 15px;">
+                                            {{cell.data['sizeDetail']}}
+                                        </div>
+                                    </div>
+                                    <dxi-item template="temp6" [colSpan]="1">
+                                        <dxo-label text=" " [showColon]="false"></dxo-label>
+                                    </dxi-item>
+                                    <div *dxTemplate="let data of 'temp6'">
+                                        <div style="margin: 5px;">
+                                            <div class="d-flex w-100">
+                                                <div class="bodylist w-100">
+                                                    <div class="w-100">
+                                                        <div *ngIf="listAttachment.length > 0" style="text-align: center;">
+                                                            <!-- <img class="text-download" style="width: 30px;"
+                                                                src="assets/image/police/desktop/icon-view.png"
+                                                                alt="icon" (click)="PopupViewFile(cell.data)"> -->
+                                                            <img class="text-download" src="assets/icon/trash.png" alt="icon" (click)="PopupUploadDelete(cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex)">
+                                                        </div>
+                                                     </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </dx-form>
+                                <!-- <div style="margin: 5px;">
+                                    <div class="d-flex">
+                                        <div class="bodylist">
+                                            <div>
+                                                <div class="d-flex" *ngIf="listAttachment.length > 0">
+                                                    <div>
+                                                        ลำดับ :
+                                                    </div>
+                                                    <div style="padding-left: 50px;">
+                                                        {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div style="margin: 5px;">
+                                    <div class="d-flex">
+                                        <div class="bodylist">
+                                            <div>
+                                                <div class="d-flex" *ngIf="listAttachment.length > 0">
+                                                    <div style="width: 68px;">
+
+                                                        ชื่อไฟล์ :
+                                                    </div>
+                                                    <div style="padding-left: 40px;" (click)="DownloadFile(cell.data)">{{cell.data['originalName']}}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div style="margin: 5px;">
+                                    <div class="d-flex">
+                                        <div class="bodylist">
+                                            <div>
+                                                <div class="d-flex" *ngIf="listAttachment.length > 0">
+                                                    <div>
+
+                                                        ขนาดไฟล์ :
+                                                    </div>
+                                                    <div style="padding-left: 22px;">
+                                                        {{cell.data['sizeDetail']}}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div style="margin: 5px;">
+                                    <div class="d-flex w-100">
+                                        <div class="bodylist w-100">
+                                            <div class="w-100">
+                                                <div *ngIf="listAttachment.length > 0" style="text-align: center;">
+                                                    <img class="text-download" src="assets/icon/trash.png" alt="icon" (click)="PopupUploadDelete(cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex)">
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div> -->
+                            </td>
+                        </tr>
+                    </tbody>
+                    <dxi-column dataField="" caption=" " alignment="center" cellTemplate="cellTemplates">
+                    </dxi-column>
+
+                </dx-data-grid>
+
+            </div>
+        </div>
+        <div class="text-center btn-footer">
+            <dx-button class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)">
+            </dx-button>
+            &nbsp;
+            <dx-button *ngIf="formType === 'add' " class="btn btn-submit" text="ถัดไป" (onClick)="SubmitForm($event)"></dx-button>
+        </div>
+    </div>
+</div>
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>
+
+
+<dx-popup [width]="300" [height]="400" [showTitle]="true" title="เพิ่มรายการ" [dragEnabled]="false" [closeOnOutsideClick]="false" [showCloseButton]="false" [visible]="popupAttachment">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view #view_form_popup_attachment [showScrollbar]="'always'" style="height: calc(100% - 45px);">
+            <div id="popup-issue-online-attachment">
+                <dx-form #form_popup_attachment [colCount]="2" labelLocation="top">
+                    <dxi-item template="temp1" [colSpan]="1" [isRequired]="true">
+                        <dxo-label text="ชื่อไฟล์" [showColon]="false"></dxo-label>
+                        <dxi-validation-rule type="required" message="กรุณากรอกข้อมูล">
+                        </dxi-validation-rule>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temp1'">
+                        <dx-text-box [(value)]="popupForm.originalName"></dx-text-box>
+                    </div>
+                </dx-form>
+                <div id="upload-file">
+                    <div *ngIf="!popupFormUploaded" class="block-dropzone">
+                        <!-- <div class="text-head">แนบไฟล์เอกสาร หรือไฟล์ภาพ</div> -->
+                        <div class="dropzone" appDrag (files)="FilesDroppedAttachment($event)">
+                            <span class="dropzone-text"><img
+                                    src="assets/image/police/desktop/icon-file.png">วางไฟล์ที่ต้องการนำเข้าที่นี่ หรือ
+                                <span class="text-link"
+                                    (click)="OpenFileDialogAttachment(uploadfileAttachment)">เลือกไฟล์</span><br>ไฟล์เอกสารไฟล์ภาพ นามสกุล . pdf, jpg
+                            <input #uploadfileAttachment type="file" [multiple]="false" accept="*" tabindex="-1" class="dx-fileuploader-input" (change)="UploadFileAttachment(uploadfileAttachment)"></span>
+                        </div>
+                    </div>
+                    <div *ngIf="popupFormUploaded" class="block-uploaded-file">
+                        <div class="text-head">Uploaded files</div>
+                        <div class="block-file">
+                            <div class="padding: 5px;">
+                                <div class="col-auto nopading">
+                                    <img class="text-download icon-file" src="assets/image/police/desktop/fileupload.png" alt="">
+                                </div>
+                                <div class="col detail-center" (click)="PopupViewFile(popupForm)">
+                                    <span>{{popupForm.originalName}}</span><br>
+                                    <span>ขนาด {{popupForm.sizeDetail}}</span>
+                                </div>
+                                <div class="col-auto block-remove-file" style="margin-left: -5px;">
+                                    <div class="remove-img-list">
+                                        <img src="assets/image/police/desktop/exit.png" alt="" (click)="ClearDocBufferAttachment()">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </dx-scroll-view>
+        <div class="text-center btn-dx">
+            <button class="btn btn-cancle" (click)="PopupUploadClose()">ยกเลิก</button>&nbsp;
+            <button class="btn btn-submit" (click)="PopupUploadSave()">บันทึก</button>
+        </div>
+    </div>
+</dx-popup>
+<ng-container *ngIf="popupViewFile">
+    <app-view-file-upload-m [fileData]="popupViewFileData" (popupChange)="ClosePopupViewFile($event)">
+    </app-view-file-upload-m>
+</ng-container>

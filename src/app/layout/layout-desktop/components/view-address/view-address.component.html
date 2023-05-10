@@ -1,0 +1,134 @@
+<dx-form #formAddressValidate [colCount]="3" labelLocation="top" *ngIf="isLoadForm">
+    <dxi-item *ngIf="renderView === 'view1'" template="renderView1Temp1" [isRequired]="formValidate" [colSpan]="2">
+        <dxo-label text="ชื่อสถานที่ (เช่น ห้างสรรพสินค้า, ที่พักอาศัย)" [showColon]="false"></dxo-label>
+        <dxi-validation-rule type="required" message="กรุณาระบุชื่อสถานที่">
+        </dxi-validation-rule>
+    </dxi-item>
+    <div *dxTemplate="let data of 'renderView1Temp1'">
+        <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.ADDRESS"></dx-text-box>
+    </div>
+    <dxi-item *ngIf="renderView === 'view1'" itemType="empty"></dxi-item>
+
+    <dxi-item *ngIf="renderView === 'view2'" template="renderView2Temp1" [colSpan]="2">
+        <dxo-label text="ชื่อสถานที่ (เช่น สถานที่ตั้งของตู้ ATM, สถานที่ทำรายการผ่าน Internet Banking)"
+            [showColon]="false"></dxo-label>
+    </dxi-item>
+    <div *dxTemplate="let data of 'renderView2Temp1'">
+        <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.ADDRESS"></dx-text-box>
+    </div>
+    <dxi-item *ngIf="renderView === 'view2'" itemType="empty"></dxi-item>
+
+
+    <dxi-item *ngIf="renderView === 'view3'" template="renderView3Temp1" [colSpan]="1">
+        <dxo-label text="ธนาคาร" [showColon]="false"></dxo-label>
+    </dxi-item>
+    <div *dxTemplate="let data of 'renderView3Temp1'">
+        <dx-select-box #selectBankInfo [dataSource]="bankInfoList" valueExpr="BANK_ID" displayExpr="BANK_NAME"
+            placeholder="ธนาคาร" [searchEnabled]="true" [showClearButton]="true" [readOnly]="formReadOnly"
+            [(value)]="formData.BANK_ID" (onValueChanged)="OnSelectBankAccount($event)"></dx-select-box>
+    </div>
+    <dxi-item *ngIf="renderView === 'view3'" template="renderView3Temp2" [colSpan]="1">
+        <dxo-label text="สาขา" [showColon]="false"></dxo-label>
+    </dxi-item>
+    <div *dxTemplate="let data of 'renderView3Temp2'">
+        <!-- <dx-text-box [readOnly]="formReadOnly" placeholder="สาขา" [(value)]="formData.BRANCH_BANK_NAME"></dx-text-box> -->
+        <dx-select-box #selectBankBranch [dataSource]="bankBranch" displayExpr="BANK_BRANCH_NAME"
+            valueExpr="BANK_BRANCH_ID" searchExpr="BANK_BRANCH_NAME" [searchEnabled]="true" placeholder="สาขา"
+            [showClearButton]="true" [disabled]="bankBranchDiable" (onValueChanged)="OnSelectBankBranch($event)"
+            [readOnly]="formReadOnly" [(value)]="formData.BANK_BRANCH_ID">
+        </dx-select-box>
+    </div>
+    <dxi-item *ngIf="renderView === 'view3'" itemType="empty"></dxi-item>
+
+
+    <!-- OS -->
+    <ng-container *ngIf="renderView === 'view1'">
+        <dxi-item template="temp5" [colSpan]="1" [isRequired]="false">
+            <dxo-label text="ถนน" [showColon]="false"></dxo-label>
+            <!-- <dxi-validation-rule type="required" message="กรุณาระบุถนน">
+            </dxi-validation-rule> -->
+        </dxi-item>
+        <div *dxTemplate="let data of 'temp5'">
+            <dx-text-box [readOnly]="formReadOnly" (keypress)="CheckCharacter($event)" placeholder="ถนน"
+                [(value)]="formData.INFORMER_ADDRESS_STREET"></dx-text-box>
+        </div>
+        <dxi-item template="temp6" [colSpan]="1" [isRequired]="formValidate">
+            <dxo-label text="ซอย / ตรอก" [showColon]="false"></dxo-label>
+            <dxi-validation-rule type="required" message="กรุณาระบุซอย / ตรอก">
+            </dxi-validation-rule>
+        </dxi-item>
+        <div *dxTemplate="let data of 'temp6'">
+            <dx-text-box [readOnly]="formReadOnly" (keypress)="CheckCharacter($event)" placeholder="ซอย / ตรอก"
+                [(value)]="formData.INFORMER_ADDRESS_SOI"></dx-text-box>
+        </div>
+
+        <dxi-item template="temp7" [colSpan]="1" [isRequired]="false">
+            <dxo-label text="หมู่ที่" [showColon]="false"></dxo-label>
+            <!-- <dxi-validation-rule type="required" message="กรุณาระบุหมู่ที่">
+            </dxi-validation-rule> -->
+        </dxi-item>
+        <div *dxTemplate="let data of 'temp7'">
+            <dx-text-box [readOnly]="formReadOnly" (keypress)="CheckNumber($event)" placeholder="หมู่ที่"
+                [(value)]="formData.CASE_INFORMER_ADDRESS_MOO"></dx-text-box>
+        </div>
+    </ng-container>
+    <!-- END -->
+
+    <ng-container *ngIf="renderView === 'view1' || renderView === 'view2'">
+
+        <dxi-item template="temp2" [isRequired]="formValidate">
+            <dxo-label text="จังหวัด" [showColon]="false"> </dxo-label>
+            <dxi-validation-rule type="required" message="กรุณาระบุจังหวัด">
+            </dxi-validation-rule>
+        </dxi-item>
+
+        <div *dxTemplate="let data of 'temp2'">
+            <dx-select-box #selectPresentProvice [dataSource]="province" displayExpr="PROVINCE_NAME_THA"
+                valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true" placeholder="จังหวัด"
+                [showClearButton]="true" (onValueChanged)="OnSelectProvicePresent($event)" [readOnly]="formReadOnly"
+                [(value)]="formData.PROVINCE_ID">
+            </dx-select-box>
+
+        </div>
+        <dxi-item template="temp3" [isRequired]="formValidate">
+            <dxo-label text="อำเภอ/เขต" [showColon]="false"></dxo-label>
+            <dxi-validation-rule type="required" message="กรุณาระบุอำเภอ/เขต">
+            </dxi-validation-rule>
+        </dxi-item>
+        <div *dxTemplate="let data of 'temp3'">
+            <dx-select-box #selectPresentDistrict [dataSource]="presentAddress.district" displayExpr="DISTRICT_NAME_THA"
+                valueExpr="DISTRICT_ID" searchExpr="DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="อำเภอ/เขต"
+                [disabled]="presentAddress.disableDistrict" (onValueChanged)="OnSelectDistrictPresent($event)"
+                [readOnly]="formReadOnly" [(value)]="formData.DISTRICT_ID" [showClearButton]="true">
+            </dx-select-box>
+        </div>
+        <dxi-item template="temp4" [isRequired]="formValidate">
+            <dxo-label text="ตำบล/แขวง" [showColon]="false"></dxo-label>
+            <dxi-validation-rule type="required" message="กรุณาระบุตำบล/แขวง">
+            </dxi-validation-rule>
+        </dxi-item>
+        <div *dxTemplate="let data of 'temp4'">
+            <dx-select-box #selectPresentSubDistrict [dataSource]="presentAddress.subDistrict"
+                displayExpr="SUB_DISTRICT_NAME_THA" valueExpr="SUB_DISTRICT_ID" searchExpr="SUB_DISTRICT_NAME_THA"
+                [searchEnabled]="true" placeholder="ตำบล" [disabled]="presentAddress.disableSubDistrict"
+                (onValueChanged)="OnSelectSubDistrictPresent($event)" [readOnly]="formReadOnly"
+                [(value)]="formData.SUB_DISTRICT_ID" [showClearButton]="true">
+            </dx-select-box>
+        </div>
+    </ng-container>
+
+    <!-- <dxi-item template="temp5" [isRequired]="formValidate">
+        <dxo-label text="รหัสไปรษณีย์"></dxo-label>
+    </dxi-item>
+    <div *dxTemplate="let data of 'temp5'">
+        <dx-select-box #selectPresentPostcode [dataSource]="presentAddress.postcode" valueExpr="POSTCODE_ID" [disabled]="presentAddress.disablepostcode" displayExpr="POSTCODE_CODE" placeholder="รหัสไปรษณีย์" searchExpr="POSTCODE_CODE" [searchEnabled]="true" (onValueChanged)="OnSelectPostCodePresent($event)"
+            [showClearButton]="true" [readOnly]="formReadOnly" [(value)]="formData.POSTCODE_ID">
+        </dx-select-box>
+    </div> -->
+</dx-form>
+<!-- <dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel> -->
+
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="loadBankBranch" [showIndicator]="true" [showPane]="true"
+    [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

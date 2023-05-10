@@ -1,0 +1,929 @@
+<div class="main-card card">
+    <div class="card-header card-header-rose card-header-icon">
+        <div class="card-icon">
+            <span>ข้อมูลคนร้าย</span>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="panel panel-default">
+            <div class="panel panel-default" style="margin-top:18px;">
+                <div class="panel panel-default">
+                    <div class="panel-body ">
+                        <div class="conten-block">
+                            <div class="content-title">ช่องทางการติดต่อของคนร้าย</div>
+                            <div class="content-form">
+                                <dx-form class="form-readonly" labelLocation="top" [colCount]="2">
+                                    <dxi-item template="temp1" [colSpan]="1">
+                                        <dxo-label text="ภาษาที่คนร้ายใช้ในการติดต่อสื่อสาร" [showColon]="false"></dxo-label>
+                                    </dxi-item>
+                                    <div *dxTemplate="let data of 'temp1'">
+                                        <dx-text-box [value]="formData.LANGUAGE_NAME" [readOnly]="true"></dx-text-box>
+                                    </div>
+                                    <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
+                                    <dxi-item template="temp2">
+                                        <dxo-label text=" " [showColon]="false"></dxo-label>
+                                    </dxi-item>
+                                    <div *dxTemplate="let data of 'temp2'">
+                                        <dx-check-box [value]="formData.criminal" text="รู้จักกับคนร้าย" [readOnly]="true"></dx-check-box>
+                                    </div>
+                                    <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
+                                </dx-form>
+                                <div *ngIf="formData.criminal" class="mt-5">
+                                    <dx-data-grid [dataSource]="formData.editGrid" [showColumnLines]="true" [showRowLines]="true" [columnHidingEnabled]="true" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="true" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล">
+                                        <dxo-paging [pageSize]="10"></dxo-paging>
+                                        <dxo-search-panel [visible]="true" [width]="240" placeholder="ค้นหา..."></dxo-search-panel>
+                                        <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                                        </dxo-editing>
+                                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true">
+                                        </dxo-pager>
+                                        <dxo-selection mode="single"></dxo-selection>
+                                        <dxi-column dataField="" caption="ลำดับที่" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+                                        <dxi-column dataField="" caption="ดู" [width]="80" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommand"></dxi-column>
+                                        <div *dxTemplate="let d of 'cellTemplateCommand'">
+                                            <dx-button icon="fa fa-eye" caption="ดู" type="success" (onClick)="KnowVillainEditData('edit',d.data,d.component.pageIndex() * d.component.pageSize() + d.rowIndex)"></dx-button>
+                                        </div>
+                                        <dxi-column dataField="CRIMINAL_ID_CARD" caption="เลขบัตรประจำตัวประชาชน" alignment="center"></dxi-column>
+                                        <dxi-column dataField="CRIMINAL_NAME" caption="ชื่อ" alignment="center"></dxi-column>
+                                        <dxi-column dataField="CRIMINAL_LASTNAME" caption="สกุล" alignment="center"></dxi-column>
+
+                                        <div *dxTemplate="let cell of 'cellTemplate'">
+                                            {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                                        </div>
+                                    </dx-data-grid>
+                                </div>
+                                <div class="mt-5">
+                                    <dx-data-grid [dataSource]="formData.CASE_CHANNEL" [showColumnLines]="true" [showRowLines]="true" [columnHidingEnabled]="true" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="true" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล">
+                                        <dxo-paging [pageSize]="10"></dxo-paging>
+                                        <dxo-search-panel [visible]="true" [width]="240" placeholder="ค้นหา..."></dxo-search-panel>
+                                        <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                                        </dxo-editing>
+                                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true">
+                                        </dxo-pager>
+                                        <dxo-selection mode="single"></dxo-selection>
+                                        <dxi-column dataField="" caption="ลำดับที่" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+                                        <dxi-column dataField="" caption="ดู" [width]="80" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommand"></dxi-column>
+                                        <div *dxTemplate="let d of 'cellTemplateCommand'">
+                                            <dx-button icon="fa fa-eye" caption="ดู" type="success" (onClick)="CaseChannelEditData('edit',d.data,d.component.pageIndex() * d.component.pageSize() + d.rowIndex)"></dx-button>
+
+                                        </div>
+
+                                        <dxi-column dataField="CHANNEL_NAME" caption="ช่องทางการติดต่อ" alignment="center"></dxi-column>
+                                        <dxi-column dataField="CASE_CHANNEL_REFER_ID" caption="ชื่อช่องทาง" alignment="center"></dxi-column>
+                                        <dxi-column dataField="CASE_CHANNEL_MESSAGE" caption="ข้อความที่ได้รับ" alignment="center"></dxi-column>
+                                        <dxi-column dataField="CASE_CHANNEL_DATETIME" caption="วันเดือนปีที่ติดต่อ" alignment="center"></dxi-column>
+                                        <dxi-column dataField="CASE_CHANNEL_TIME" caption="หลักฐานการติดต่อ" alignment="center"></dxi-column>
+                                        <div *dxTemplate="let cell of 'cellTemplate'">
+                                            {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                                        </div>
+                                    </dx-data-grid>
+                                </div>
+                            </div>
+                            <div class="conten-block">
+                                <div class="content-title">ท้องที่ที่ตั้งธนาคารของคนร้ายที่รับการโอนเงินจากผู้เเจ้ง (บัญชีปลายทาง/คนร้าย)</div>
+                                <div class="content-form">
+                                    <dx-data-grid #grid [dataSource]="formData.CASE_MONEY" [showColumnLines]="true" [showRowLines]="true" [columnHidingEnabled]="true" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="true" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล">
+                                        <dxo-paging [pageSize]="10"></dxo-paging>
+                                        <dxo-search-panel [visible]="true" [width]="240" placeholder="ค้นหา..."></dxo-search-panel>
+                                        <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                                        </dxo-editing>
+                                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true">
+                                        </dxo-pager>
+                                        <dxo-selection mode="single"></dxo-selection>
+                                        <dxi-column dataField="" caption="ลำดับที่" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+                                        <!-- <dxi-column dataField="" caption="แก้ไข" [width]="80" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommand"></dxi-column>
+                                        <div *dxTemplate="let d of 'cellTemplateCommand'">
+                                            <dx-button icon="edit" type="default" hint="แก้ไข" (onClick)="CaseMoneyEditData('edit',d.data,d.component.pageIndex() * d.component.pageSize() + d.rowIndex)"></dx-button>
+                                        </div>
+                                        <dxi-column dataField="" caption="ลบ" [width]="80" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommandDelete"></dxi-column>
+                                        <div *dxTemplate="let d of 'cellTemplateCommandDelete'">
+                                            <dx-button icon="trash" type="danger" hint="ลบ" (onClick)="CaseMoneyDeleteData(d.component.pageIndex() * d.component.pageSize() + d.rowIndex)"></dx-button>
+                                        </div> -->
+                                        <dxi-column dataField="" caption="ดู" [width]="80" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommand"></dxi-column>
+                                        <div *dxTemplate="let d of 'cellTemplateCommand'">
+                                            <dx-button icon="fa fa-eye" caption="ดู" type="success" (onClick)="CaseMoneyEditData('edit',d.data,d.component.pageIndex() * d.component.pageSize() + d.rowIndex)"></dx-button>
+                                        </div>
+                                        <dxi-column dataField="MONEY_CHANNEL_TYPE_THA" caption="ช่องทางที่ได้รับความเสียหาย" alignment="center"></dxi-column>
+                                        <dxi-column dataField="BANK_ACCOUNT" caption="บัญชีปลายทางที่โอน" alignment="center"></dxi-column>
+                                        <dxi-column dataField="BANK_NAME_FULL" caption="ชื่อผู้รับโอนเงิน" alignment="center"></dxi-column>
+                                        <dxi-column dataField="DATE_TRANSFER" caption="วัน/เวลาที่โอน" alignment="center"></dxi-column>
+                                        <dxi-column dataField="DAMAGE_VALUE" caption="มูลค่าความเสียหาย" alignment="center" cellTemplate="cellTemplateDamage"></dxi-column>
+                                        <div *dxTemplate="let d of 'cellTemplateDamage'">
+                                            {{CheckTotal(d.data.DAMAGE_VALUE)|currency:'':''}}
+                                        </div>
+
+
+                                        <div *dxTemplate="let cell of 'cellTemplate'">
+                                            {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                                        </div>
+                                    </dx-data-grid>
+                                </div>
+                                <div class="content-end-line"></div>
+                            </div>
+                            <div class="conten-block">
+                                <div class="content-title">ท้องที่สถานที่ที่โอนเงิน</div>
+                                <div class="content-form">
+                                    <dx-data-grid [dataSource]="formData.LOCATION_1" [showColumnLines]="true" [showRowLines]="true" [columnHidingEnabled]="true" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="true" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล">
+                                        <dxo-paging [pageSize]="10"></dxo-paging>
+                                        <dxo-search-panel [visible]="true" [width]="240" placeholder="ค้นหา..."></dxo-search-panel>
+                                        <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                                        </dxo-editing>
+                                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true">
+                                        </dxo-pager>
+                                        <dxo-selection mode="single"></dxo-selection>
+                                        <dxi-column dataField="" caption="ลำดับที่" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+                                        <dxi-column dataField="" caption="ดู" [width]="80" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommand"></dxi-column>
+                                        <div *dxTemplate="let d of 'cellTemplateCommand'">
+                                            <dx-button icon="fa fa-eye" caption="ดู" type="success" (onClick)="LocationEditData(1,d.data,d.component.pageIndex() * d.component.pageSize() + d.rowIndex)"></dx-button>
+                                        </div>
+                                        <dxi-column dataField="DATE_LOCATION_1" caption="วันเดือนปี" alignment="center"></dxi-column>
+                                        <dxi-column dataField="TIME_LOCATION_1" caption="เวลา" alignment="center"></dxi-column>
+                                        <dxi-column dataField="PROVINCE_LOCATION_NAME_1" caption="จังหวัด" alignment="center"></dxi-column>
+                                        <dxi-column dataField="DISTRICT_LOCATION_NAME_1" caption="อำเภอ" alignment="center"></dxi-column>
+                                        <dxi-column dataField="SUB_DISTRICE_LOCATION_NAME_1" caption="ตำบล" alignment="center"></dxi-column>
+                                        <div *dxTemplate="let cell of 'cellTemplate'">
+                                            {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                                        </div>
+                                    </dx-data-grid>
+                                </div>
+                            </div>
+                            <div class="conten-block">
+                                <div class="content-title">ท้องที่สถานที่ถูกหลอก หรือพบการกระทำความผิด</div>
+                                <div class="content-form">
+                                    <dx-data-grid [dataSource]="formData.LOCATION_2" [showColumnLines]="true" [showRowLines]="true" [columnHidingEnabled]="true" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="true" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล">
+                                        <dxo-paging [pageSize]="10"></dxo-paging>
+                                        <dxo-search-panel [visible]="true" [width]="240" placeholder="ค้นหา..."></dxo-search-panel>
+                                        <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                                        </dxo-editing>
+                                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true">
+                                        </dxo-pager>
+                                        <dxo-selection mode="single"></dxo-selection>
+                                        <dxi-column dataField="" caption="ลำดับที่" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+                                        <dxi-column dataField="" caption="ดู" [width]="80" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommand"></dxi-column>
+                                        <div *dxTemplate="let d of 'cellTemplateCommand'">
+                                            <dx-button icon="fa fa-eye" caption="ดู" type="success" (onClick)="LocationEditData(2,d.data,d.component.pageIndex() * d.component.pageSize() + d.rowIndex)"></dx-button>
+                                        </div>
+                                        <dxi-column dataField="DATE_LOCATION_2" caption="วันเดือนปี" alignment="center"></dxi-column>
+                                        <dxi-column dataField="TIME_LOCATION_2" caption="เวลา" alignment="center"></dxi-column>
+                                        <dxi-column dataField="PROVINCE_LOCATION_NAME_2" caption="จังหวัด" alignment="center"></dxi-column>
+                                        <dxi-column dataField="DISTRICT_LOCATION_NAME_2" caption="อำเภอ" alignment="center"></dxi-column>
+                                        <dxi-column dataField="SUB_DISTRICE_LOCATION_NAME_2" caption="ตำบล" alignment="center"></dxi-column>
+                                        <div *dxTemplate="let cell of 'cellTemplate'">
+                                            {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                                        </div>
+                                    </dx-data-grid>
+                                    <div class="content-form">
+                                        <dx-form class="form-readonly" [colCount]="2" labelLocation="top">
+                                            <dxi-item template="temp1" [colSpan]="1">
+                                                <dxo-label text="มูลค่าความเสียหาย (บาท)" [showColon]="false"></dxo-label>
+                                            </dxi-item>
+                                            <div *dxTemplate="let data of 'temp1'">
+                                                <dx-text-box [readOnly]="true" [value]="formData.DAMAGE_VALUE_TOTAL1"></dx-text-box>
+                                            </div>
+                                        </dx-form>
+                                    </div>
+                                    <div class="conten-block content-textarea">
+                                        <div class="content-title">เรื่อง/พฤติการณ์ที่เกิดขึ้น</div>
+                                        <div class="content-form">
+                                            <dx-form class="form-readonly" [colCount]="2" labelLocation="top">
+                                                <dxi-item template="temp1" [colSpan]="2">
+                                                    <dxo-label text="เรื่อง/พฤติการณ์ที่เกิดขึ้น" [showColon]="false"></dxo-label>
+                                                </dxi-item>
+                                                <div *dxTemplate="let data of 'temp1'">
+                                                    <dx-text-area [height]="130" [value]="formData.CASE_BEHAVIOR" [readOnly]="true"></dx-text-area>
+                                                </div>
+                                            </dx-form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="conten-block">
+                                <!-- <div class="content-title">ท้องที่สถานที่ถูกหลอก หรือพบการกระทำความผิด</div> -->
+                                <div class="content-form">
+                                    <div class="main-card card" style="margin: 0;">
+                                        <div class="card-header card-header-rose card-header-icon">
+                                            <div class="card-icon">
+                                                <span>สถานีตำรวจที่จะติดต่อกลับไปยังท่าน</span>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="panel panel-default">
+                                                <div class="panel panel-default" style="margin-top:18px;">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-body ">
+                                                            <div class="conten-block">
+                                                                <!-- <div class="content-title">วันเวลาที่เข้าพบพนักงานสอบสวน</div> -->
+                                                                <div class="content-form">
+                                                                    <dx-form class="form-readonly" [colCount]="2" labelLocation="top">
+                                                                        <dxi-item template="tempFormBank1" [colSpan]="1">
+                                                                            <dxo-label text="โปรดเลือกสถานีตำรวจที่จะติดต่อกลับไปยังท่าน" [showColon]="false"></dxo-label>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempFormBank1'">
+                                                                            <dx-text-box [readOnly]="true" [value]="formData.STATION_NAME_THA" [readOnly]="true"></dx-text-box>
+                                                                        </div>
+                                                                        <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
+
+                                                                    </dx-form>
+                                                                </div>
+                                                            </div>
+                                                            <div class="conten-block">
+                                                                <div class="content-title">วันเวลาที่เข้าพบพนักงานสอบสวน</div>
+                                                                <div class="content-form">
+                                                                    <dx-form class="form-readonly" [colCount]="2" labelLocation="top">
+                                                                        <dxi-item template="tempForm1" [colSpan]="1">
+                                                                            <dxo-label text="วันที่" [showColon]="false"></dxo-label>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempForm1'">
+                                                                            <dx-date-box dateSerializationFormat="yyyy-MM-dd" [openOnFieldClick]="true" [acceptCustomValue]="false" [value]="formData.APPOINTMENT_DATE" [readOnly]="true"></dx-date-box>
+                                                                        </div>
+                                                                        <dxi-item template="tempForm2" [colSpan]="1">
+                                                                            <dxo-label text="เวลา" [showColon]="false"></dxo-label>
+
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempForm2'">
+                                                                            <dx-date-box type="time" dateSerializationFormat="HH:mm" [openOnFieldClick]="true" [useMaskBehavior]="true" displayFormat="HH:mm" [value]="formData.APPOINTMENT_TIME" [readOnly]="true"></dx-date-box>
+                                                                        </div>
+                                                                        <dxi-item template="tempForm3" [colSpan]="1">
+                                                                            <dxo-label text="จำนวนผู้แจ้ง" [showColon]="false"></dxo-label>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempForm3'">
+                                                                            <dx-text-box [value]="formData.APPOINTMENT_NO" [readOnly]="true"></dx-text-box>
+                                                                        </div>
+                                                                    </dx-form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="conten-block">
+                                <!-- <div class="content-title">ท้องที่สถานที่ถูกหลอก หรือพบการกระทำความผิด</div> -->
+                                <div class="content-form">
+                                    <div class="main-card card" style="margin: 0;">
+                                        <div class="card-header card-header-rose card-header-icon">
+                                            <div class="card-icon">
+                                                <span>ข้อมูลผู้แจ้ง</span>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="panel panel-default">
+                                                <div class="panel panel-default" style="margin-top:18px;">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-body ">
+                                                            <div class="conten-block">
+                                                                <!-- <div class="content-title">วันเวลาที่เข้าพบพนักงานสอบสวน</div> -->
+                                                                <div class="content-form">
+                                                                    <dx-form class="form-readonly" [colCount]="2" labelLocation="top">
+                                                                        <dxi-item template="tempFormInformer1" [colSpan]="1">
+                                                                            <dxo-label text="ชื่อของผู้แจ้งข้อมูล" [showColon]="false"></dxo-label>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempFormInformer1'">
+                                                                            <dx-text-box [readOnly]="true" [value]="formData.CASE_INFORMER_FIRSTNAME"></dx-text-box>
+                                                                        </div>
+                                                                        <dxi-item template="tempFormInformer2" [colSpan]="1">
+                                                                            <dxo-label text="นามสกุลของผู้แจ้งข้อมูล" [showColon]="false"></dxo-label>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempFormInformer2'">
+                                                                            <dx-text-box [readOnly]="true" [value]="formData.CASE_INFORMER_LASTNAME"></dx-text-box>
+                                                                        </div>
+                                                                        <dxi-item template="tempFormInformer3" [colSpan]="1">
+                                                                            <dxo-label text="วัน/เดือน/ปี เกิดของผู้แจ้งข้อมูล" [showColon]="false"></dxo-label>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempFormInformer3'">
+                                                                            <dx-date-box [readOnly]="true" dateSerializationFormat="yyyy-MM-dd" [openOnFieldClick]="true" [acceptCustomValue]="false" [value]="formData.CASE_INFORMER_DATE"></dx-date-box>
+                                                                        </div>
+                                                                        <dxi-item template="tempFormInformer4" [colSpan]="1">
+                                                                            <dxo-label text="อาชีพ" [showColon]="false"></dxo-label>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempFormInformer4'">
+                                                                            <dx-text-box [readOnly]="true" [value]="formData.OCCUPATIONS_NAME"></dx-text-box>
+                                                                        </div>
+                                                                    </dx-form>
+                                                                </div>
+                                                            </div>
+                                                            <div class="conten-block">
+                                                                <div class="content-title">สถานที่ทำงาน</div>
+                                                                <div class="content-form">
+                                                                    <dx-form class="form-readonly" [colCount]="2" labelLocation="top">
+                                                                        <dxi-item template="tempFormInformer1" [colSpan]="1">
+                                                                            <dxo-label text="เลขที่" [showColon]="false"></dxo-label>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempFormInformer1'">
+                                                                            <dx-text-box [readOnly]="true" [value]="formData.CASE_INFORMER_ADDRESS_NO"></dx-text-box>
+                                                                        </div>
+                                                                        <dxi-item template="tempFormInformer2" [colSpan]="1">
+                                                                            <dxo-label text="หมู่ที่" [showColon]="false"></dxo-label>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempFormInformer2'">
+                                                                            <dx-text-box [readOnly]="true" [value]="formData.CASE_INFORMER_ADDRESS_MOO"></dx-text-box>
+                                                                        </div>
+                                                                        <dxi-item template="tempFormInformer3" [colSpan]="1">
+                                                                            <dxo-label text="ตึก/อาคาร" [showColon]="false"></dxo-label>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempFormInformer3'">
+                                                                            <dx-text-box [readOnly]="true" [value]="formData.INFORMER_ADDRESS_BUILDING"></dx-text-box>
+                                                                        </div>
+                                                                        <dxi-item template="tempFormInformer4" [colSpan]="1">
+                                                                            <dxo-label text="ซอย" [showColon]="false"></dxo-label>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempFormInformer4'">
+                                                                            <dx-text-box [readOnly]="true" [value]="formData.INFORMER_ADDRESS_SOI"></dx-text-box>
+                                                                        </div>
+                                                                        <dxi-item template="tempFormInformer5" [colSpan]="1">
+                                                                            <dxo-label text="ถนน" [showColon]="false"></dxo-label>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempFormInformer5'">
+                                                                            <dx-text-box [readOnly]="true" [value]="formData.INFORMER_ADDRESS_STREET"></dx-text-box>
+                                                                        </div>
+                                                                        <dxi-item template="tempFormInformer6">
+                                                                            <dxo-label text="จังหวัด" [showColon]="false">
+                                                                            </dxo-label>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempFormInformer6'">
+                                                                            <dx-text-box [readOnly]="true" [value]="formData.INFORMER_PROVINCE_NAME_THA"></dx-text-box>
+                                                                        </div>
+
+                                                                        <dxi-item template="tempFormInformer7">
+                                                                            <dxo-label text="อำเภอ/เขต" [showColon]="false"></dxo-label>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempFormInformer7'">
+                                                                            <dx-text-box [readOnly]="true" [value]="formData.INFORMER_DISTRICT_NAME_THA"></dx-text-box>
+                                                                        </div>
+
+                                                                        <dxi-item template="tempFormInformer8">
+                                                                            <dxo-label text="ตำบล" [showColon]="false"></dxo-label>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempFormInformer8'">
+                                                                            <dx-text-box [readOnly]="true" [value]="formData.INFORMER_SUB_DISTRICT_NAME_THA"></dx-text-box>
+                                                                        </div>
+                                                                        <dxi-item template="tempFormInformer9">
+                                                                            <dxo-label text="รหัสไปรษณีย์"></dxo-label>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempFormInformer9'">
+                                                                            <dx-text-box [readOnly]="true" [value]="formData.INFORMER_POSTCODE_CODE"></dx-text-box>
+                                                                        </div>
+                                                                    </dx-form>
+                                                                </div>
+                                                            </div>
+                                                            <div class="conten-block">
+                                                                <div class="content-title">ข้อมูลที่พักอาศัยปัจจุบัน</div>
+                                                                <div class="content-form">
+                                                                    <dx-form class="form-readonly" [colCount]="2" labelLocation="top">
+                                                                        <dxi-item template="tempFormInformer1" [colSpan]="1">
+                                                                            <dxo-label text="เลขที่" [showColon]="false"></dxo-label>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempFormInformer1'">
+                                                                            <dx-text-box [readOnly]="true" [value]="formData.WORK_ADDRESS_NO"></dx-text-box>
+                                                                        </div>
+                                                                        <dxi-item template="tempFormInformer2" [colSpan]="1">
+                                                                            <dxo-label text="หมู่ที่" [showColon]="false"></dxo-label>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempFormInformer2'">
+                                                                            <dx-text-box [readOnly]="true" [value]="formData.WORK_ADDRESS_MOO"></dx-text-box>
+                                                                        </div>
+                                                                        <dxi-item template="tempFormInformer3" [colSpan]="1">
+                                                                            <dxo-label text="ตึก/อาคาร" [showColon]="false"></dxo-label>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempFormInformer3'">
+                                                                            <dx-text-box [readOnly]="true" [value]="formData.WORK_ADDRESS_BUILDING"></dx-text-box>
+                                                                        </div>
+                                                                        <dxi-item template="tempFormInformer4" [colSpan]="1">
+                                                                            <dxo-label text="ซอย" [showColon]="false"></dxo-label>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempFormInformer4'">
+                                                                            <dx-text-box [readOnly]="true" [value]="formData.WORK_ADDRESS_SOI"></dx-text-box>
+                                                                        </div>
+                                                                        <dxi-item template="tempFormInformer5" [colSpan]="1">
+                                                                            <dxo-label text="ถนน" [showColon]="false"></dxo-label>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempFormInformer5'">
+                                                                            <dx-text-box [readOnly]="true" [value]="formData.WORK_ADDRESS_STREET"></dx-text-box>
+                                                                        </div>
+                                                                        <dxi-item template="tempFormInformer6">
+                                                                            <dxo-label text="จังหวัด" [showColon]="false">
+                                                                            </dxo-label>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempFormInformer6'">
+                                                                            <dx-text-box [readOnly]="true" [value]="formData.WORK_PROVINCE_NAME_THA"></dx-text-box>
+                                                                        </div>
+
+                                                                        <dxi-item template="tempFormInformer7">
+                                                                            <dxo-label text="อำเภอ/เขต" [showColon]="false"></dxo-label>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempFormInformer7'">
+                                                                            <dx-text-box [readOnly]="true" [value]="formData.WORK_DISTRICT_NAME_THA"></dx-text-box>
+                                                                        </div>
+
+                                                                        <dxi-item template="tempFormInformer8">
+                                                                            <dxo-label text="ตำบล" [showColon]="false"></dxo-label>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempFormInformer8'">
+                                                                            <dx-text-box [readOnly]="true" [value]="formData.WORK_SUB_DISTRICT_NAME_THA"></dx-text-box>
+                                                                        </div>
+                                                                        <dxi-item template="tempFormInformer9">
+                                                                            <dxo-label text="รหัสไปรษณีย์"></dxo-label>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempFormInformer9'">
+                                                                            <dx-text-box [readOnly]="true" [value]="formData.WORK_POSTCODE_CODE"></dx-text-box>
+                                                                        </div>
+                                                                    </dx-form>
+                                                                </div>
+                                                            </div>
+                                                            <div class="conten-block">
+                                                                <div class="content-title">ท้องที่ที่ตั้งธนาคารของผู้แจ้งที่โอนเงินให้คนร้าย (บัญชีต้นทาง/ผู้เสียหาย)</div>
+                                                                <div class="content-form">
+                                                                    <dx-data-grid [dataSource]="formData.LOCATION" [showColumnLines]="true" [showRowLines]="true" [columnHidingEnabled]="true" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="true" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล">
+                                                                        <dxo-paging [pageSize]="10"></dxo-paging>
+                                                                        <dxo-search-panel [visible]="true" [width]="240" placeholder="ค้นหา..."></dxo-search-panel>
+                                                                        <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                                                                        </dxo-editing>
+                                                                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true">
+                                                                        </dxo-pager>
+                                                                        <dxo-selection mode="single"></dxo-selection>
+                                                                        <dxi-column dataField="" caption="ลำดับที่" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+                                                                        <dxi-column dataField="" caption="ดู" [width]="80" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommand"></dxi-column>
+                                                                        <div *dxTemplate="let d of 'cellTemplateCommand'">
+                                                                            <dx-button icon="fa fa-eye" caption="ดู" type="success" (onClick)="BankEditData('edit',d.data,d.component.pageIndex() * d.component.pageSize() + d.rowIndex)"></dx-button>
+                                                                        </div>
+
+                                                                        <dxi-column dataField="DATE_BANK_TRANFER" caption="วันเดือนปี" alignment="center" [width]="120"></dxi-column>
+                                                                        <dxi-column dataField="TIME_BANK_TRANFER" caption="เวลา" alignment="center" [width]="100"></dxi-column>
+                                                                        <dxi-column dataField="BANK_TRANFER_THA" caption="ช่องทางการโอนเงิน" alignment="center" [width]="150"></dxi-column>
+                                                                        <dxi-column dataField="BANK_LOCATION_RESPONSIBILITY_NAME" caption="สาขา" alignment="center"></dxi-column>
+                                                                        <dxi-column dataField="BANK_NO" caption="เลขที่บัญชี" alignment="center" [width]="200"></dxi-column>
+                                                                        <div *dxTemplate="let cell of 'cellTemplate'">
+                                                                            {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                                                                        </div>
+                                                                    </dx-data-grid>
+                                                                </div>
+                                                            </div>
+                                                            <div class="conten-block">
+                                                                <div class="content-title">ช่องทางการติดต่อ</div>
+                                                                <div class="content-form">
+                                                                    <dx-form class="form-readonly" [colCount]="2" labelLocation="top">
+                                                                        <dxi-item template="tempFormInformer1" [colSpan]="1">
+                                                                            <dxo-label text="Email" [showColon]="false"></dxo-label>
+                                                                            <dxi-validation-rule type="required" message="กรุณากรอก Email">
+                                                                            </dxi-validation-rule>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempFormInformer1'">
+                                                                            <dx-text-box [readOnly]="true" [value]="formData.INFORMER_EMAIL"></dx-text-box>
+                                                                        </div>
+                                                                        <dxi-item template="tempFormInformer2" [colSpan]="1">
+                                                                            <dxo-label text="เบอร์โทรศัพท์ของผู้แจ้งข้อมูล" [showColon]="false"></dxo-label>
+                                                                            <dxi-validation-rule type="required" message="กรุณากรอก เบอร์โทรศัพท์ของผู้แจ้งข้อมูล">
+                                                                            </dxi-validation-rule>
+                                                                        </dxi-item>
+                                                                        <div *dxTemplate="let data of 'tempFormInformer2'">
+                                                                            <dx-text-box [readOnly]="true" [value]="formData.INFORMER_TEL"></dx-text-box>
+                                                                        </div>
+                                                                    </dx-form>
+                                                                </div>
+                                                            </div>
+                                                            <div class="conten-block">
+                                                                <div class="content-title">ช่องทาง Social Media (เช่น Line Facebook IG Twitter)</div>
+                                                                <div class="content-form">
+                                                                    <dx-data-grid [dataSource]="formData.CASE_INFORMER_SOCIAL" [showColumnLines]="true" [showRowLines]="true" [columnHidingEnabled]="true" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="true" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล">
+                                                                        <dxo-paging [pageSize]="10"></dxo-paging>
+                                                                        <dxo-search-panel [visible]="true" [width]="240" placeholder="ค้นหา..."></dxo-search-panel>
+                                                                        <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                                                                        </dxo-editing>
+                                                                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true">
+                                                                        </dxo-pager>
+                                                                        <dxo-selection mode="single"></dxo-selection>
+                                                                        <dxi-column dataField="" caption="ลำดับที่" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+                                                                        <dxi-column dataField="" caption="ดู" [width]="80" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommand"></dxi-column>
+                                                                        <div *dxTemplate="let d of 'cellTemplateCommand'">
+                                                                            <dx-button icon="fa fa-eye" caption="ดู" type="success" (onClick)="SocialEditData('edit',d.data,d.component.pageIndex() * d.component.pageSize() + d.rowIndex)"></dx-button>
+                                                                        </div>
+
+                                                                        <dxi-column dataField="SOCIAL_NAME" caption="ช่องทางการติดต่อกลับของผู้แจ้งข้อมูล" alignment="center"></dxi-column>
+                                                                        <dxi-column dataField="INFORMER_SOCIAL_NAME" caption="ช่องทางติดต่อกลับเพิ่มเติมของผู้แจ้งข้อมูล" alignment="center"></dxi-column>
+
+                                                                        <div *dxTemplate="let cell of 'cellTemplate'">
+                                                                            {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                                                                        </div>
+                                                                    </dx-data-grid>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center btn-footer">
+        <dx-button class="btn btn-back" text="กลับ" (onClick)="Back($event)">
+        </dx-button>
+        &nbsp;
+        <dx-button class="btn btn-submit" text="ขั้นตอนถัดไป" (onClick)="SubmitForm($event)"></dx-button>
+    </div>
+
+    <dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+    </dx-load-panel>
+
+    <dx-popup [width]="800" [height]="300" [showTitle]="false" [dragEnabled]="false" [closeOnOutsideClick]="false" [showCloseButton]="false" [visible]="popupknowVillain">
+        <div *dxTemplate="let data of 'content'">
+            <dx-scroll-view [showScrollbar]="'always'" style="height: calc(100% - 45px);">
+                <dx-form class="popup-form-readonly" [colCount]="2" labelLocation="top">
+                    <dxi-item template="temp1" [colSpan]="1">
+                        <dxo-label text="เลขบัตรประจำตัวประชาชน" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temp1'">
+                        <dx-text-box [value]="formPopup.CRIMINAL_ID_CARD" [readOnly]="true"></dx-text-box>
+                    </div>
+                    <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
+                    <dxi-item template="temp2" [colSpan]="1">
+                        <dxo-label text="ชื่อ" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temp2'">
+                        <dx-text-box [value]="formPopup.CRIMINAL_NAME" [readOnly]="true"></dx-text-box>
+                    </div>
+                    <dxi-item template="temp3" [colSpan]="1">
+                        <dxo-label text="นามสกุล" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temp3'">
+                        <dx-text-box [value]="formPopup.CRIMINAL_LASTNAME" [readOnly]="true"></dx-text-box>
+                    </div>
+                </dx-form>
+
+            </dx-scroll-view>
+            <div class="text-center btn-dx">
+                <button class="btn btn-cancle" (click)="closePupup()">ปิด</button>
+            </div>
+        </div>
+    </dx-popup>
+
+
+    <dx-popup [fullScreen]="true" [showTitle]="false" [dragEnabled]="false" [closeOnOutsideClick]="false" [showCloseButton]="false" [visible]="popupCaseChannel">
+        <div *dxTemplate="let data of 'content'">
+            <dx-scroll-view [showScrollbar]="'always'" style="height: calc(100% - 45px);">
+                <div id="popup-villain-case-channel-popup">
+                    <div class="popup-form-readonly">
+                        <dx-form [colCount]="2" labelLocation="top">
+                            <dxi-item template="temp1" [colSpan]="1" [isRequired]="true">
+                                <dxo-label text="ช่องทางการติดต่อ" [showColon]="false"></dxo-label>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'temp1'">
+                                <dx-text-box [value]="formPopup.CHANNEL_NAME" [readOnly]="true"></dx-text-box>
+                            </div>
+                            <dxi-item *ngIf="formPopup.CHANNEL_ID !== 8" itemType="empty" [colSpan]="1"></dxi-item>
+                            <dxi-item *ngIf="formPopup.CHANNEL_ID === 8" template="temp1other" [colSpan]="1" [isRequired]="true">
+                                <dxo-label text="รายละเอียด" [showColon]="false"></dxo-label>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'temp1other'">
+                                <dx-text-box [value]="formPopup.CHANNEL_OTHER" [readOnly]="true"></dx-text-box>
+                            </div>
+
+                            <dxi-item template="temp2" [colSpan]="1">
+                                <dxo-label [text]="LabelCaseChanelName" [showColon]="false"></dxo-label>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'temp2'">
+                                <dx-text-box [value]="formPopup.CASE_CHANNEL_NAME" [readOnly]="true"></dx-text-box>
+                            </div>
+                            <dxi-item template="temp3" [colSpan]="1">
+                                <dxo-label [text]="LabelCaseChanelId" [showColon]="false"></dxo-label>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'temp3'">
+                                <dx-text-box [value]="formPopup.CASE_CHANNEL_REFER_ID" [readOnly]="true"></dx-text-box>
+                            </div>
+                            <dxi-item *ngIf="formPopup.CHANNEL_ID === 2" template="temp3facebook" [colSpan]="2">
+                                <dxo-label text="Facebook URL" [showColon]="false"></dxo-label>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'temp3facebook'">
+                                <dx-text-box [value]="formPopup.CASE_CHANNEL_REFER_URL" [readOnly]="true"></dx-text-box>
+                            </div>
+                            <dxi-item template="temp4" [colSpan]="1">
+                                <dxo-label text="ข้อความที่ได้รับ " [showColon]="false"></dxo-label>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'temp4'">
+                                <dx-text-box [value]="formPopup.CASE_CHANNEL_MESSAGE" [readOnly]="true"></dx-text-box>
+                            </div>
+                            <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
+
+                            <dxi-item template="temp5">
+                                <dxo-label text=" " [showColon]="false"></dxo-label>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'temp5'">
+                                <div class="case-datetime-match">
+                                    <dx-check-box [value]="formPopup.CASE_CHANNEL_DATETIME_MATCH" text="เวลาครั้งแรกกับครั้งสุดท้ายเป็นเวลาเดียวกัน" [readOnly]="true"></dx-check-box>
+                                </div>
+                            </div>
+                            <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
+
+                            <dxi-item template="temp6" [isRequired]="true">
+                                <dxo-label text="วันที่ติดต่อกับคนร้ายครั้งแรก" [showColon]="false"></dxo-label>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'temp6'">
+                                <dx-date-box dateSerializationFormat="yyyy-MM-dd" [openOnFieldClick]="true" [acceptCustomValue]="false" [value]="formPopup.CASE_CHANNEL_DATETIME" [readOnly]="true"></dx-date-box>
+                            </div>
+                            <dxi-item template="temp7">
+                                <dxo-label text="เวลา" [showColon]="false"></dxo-label>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'temp7'">
+                                <dx-date-box type="time" dateSerializationFormat="HH:mm" [openOnFieldClick]="true" [useMaskBehavior]="true" displayFormat="HH:mm" [value]="formPopup.CASE_CHANNEL_TIME" [readOnly]="true"></dx-date-box>
+                            </div>
+                            <dxi-item *ngIf="!formPopup.CASE_CHANNEL_DATETIME_MATCH" template="temp8">
+                                <dxo-label text="วันที่ติตต่อกับคนร้ายครั้งสุดท้าย" [showColon]="false"></dxo-label>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'temp8'">
+                                <dx-date-box dateSerializationFormat="yyyy-MM-dd" [openOnFieldClick]="true" [acceptCustomValue]="false" [value]="formPopup.CASE_CHANNEL_DATETIME_LAST" [readOnly]="true"></dx-date-box>
+                            </div>
+                            <dxi-item *ngIf="!formPopup.CASE_CHANNEL_DATETIME_MATCH" template="temp9">
+                                <dxo-label text="เวลา" [showColon]="false"></dxo-label>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'temp9'">
+                                <dx-date-box type="time" dateSerializationFormat="HH:mm" [openOnFieldClick]="true" [useMaskBehavior]="true" displayFormat="HH:mm" [value]="formPopup.CASE_CHANNEL_TIME_LAST" [readOnly]="true"></dx-date-box>
+                            </div>
+
+                        </dx-form>
+                    </div>
+                    <div class="case-doc">
+                        <div class="case-doc-title">แนบหลักฐานการติดต่อ</div>
+                        <div>
+                            <dx-data-grid [dataSource]="listDocFile" [showColumnLines]="true" [showRowLines]="true" [columnHidingEnabled]="true" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="true" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล">
+                                <dxo-paging [pageSize]="10"></dxo-paging>
+                                <dxo-search-panel [visible]="true" [width]="240" placeholder="ค้นหา..."></dxo-search-panel>
+                                <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                                </dxo-editing>
+                                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true">
+                                </dxo-pager>
+                                <dxo-selection mode="single"></dxo-selection>
+                                <dxi-column dataField="" caption="ลำดับที่" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+                                <dxi-column dataField="" caption="ดู" [width]="80" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommand"></dxi-column>
+                                <div *dxTemplate="let d of 'cellTemplateCommand'">
+                                    <dx-button icon="fa fa-eye" caption="ดู" type="success" (onClick)="DownloadFileCaseDoc(d.data)"></dx-button>
+                                </div>
+                                <dxi-column dataField="originalName" caption="ชื่อเอกสาร" alignment="center"></dxi-column>
+                                <dxi-column dataField="sizeDetail" caption="ขนาด" alignment="center"></dxi-column>
+                                <div *dxTemplate="let cell of 'cellTemplate'">
+                                    {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                                </div>
+                            </dx-data-grid>
+                        </div>
+                    </div>
+                </div>
+            </dx-scroll-view>
+
+            <div class="text-center btn-dx">
+                <button class="btn btn-cancle" (click)="closePupup()">ปิด</button>
+            </div>
+        </div>
+    </dx-popup>
+
+
+    <dx-popup [width]="800" [height]="600" [showTitle]="false" [dragEnabled]="false" [closeOnOutsideClick]="false" [showCloseButton]="false" [visible]="popupLocation">
+        <div *dxTemplate="let data of 'content'">
+            <dx-scroll-view [showScrollbar]="'always'" style="height: calc(100% - 45px);">
+                <dx-form class="popup-form-readonly" [colCount]="2" labelLocation="top">
+                    <dxi-item template="temp1" [colSpan]="1">
+                        <dxo-label text="วันเดือนปี" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temp1'">
+                        <dx-date-box dateSerializationFormat="yyyy-MM-dd" [openOnFieldClick]="true" [acceptCustomValue]="false" [(value)]="formPopup.DATE_LOCATION" [readOnly]="true"></dx-date-box>
+                    </div>
+                    <dxi-item template="temp2" [colSpan]="1">
+                        <dxo-label text="เวลา" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temp2'">
+                        <dx-date-box type="time" dateSerializationFormat="HH:mm" [openOnFieldClick]="true" [useMaskBehavior]="true" displayFormat="HH:mm" [(value)]="formPopup.TIME_LOCATION" [readOnly]="true"></dx-date-box>
+                    </div>
+                    <dxi-item template="temp3" [colSpan]="1">
+                        <dxo-label text="จังหวัด" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temp3'">
+                        <dx-text-box [(value)]="formPopup.PROVINCE_LOCATION_NAME" [readOnly]="true"></dx-text-box>
+                    </div>
+                    <dxi-item template="temp4" [colSpan]="1">
+                        <dxo-label text="อำเภอ" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temp4'">
+                        <dx-text-box [(value)]="formPopup.DISTRICT_LOCATION_NAME" [readOnly]="true"></dx-text-box>
+                    </div>
+                    <dxi-item template="temp5" [colSpan]="1">
+                        <dxo-label text="ตำบล" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temp5'">
+                        <dx-text-box [(value)]="formPopup.SUB_DISTRICE_LOCATION_NAME" [readOnly]="true"></dx-text-box>
+                    </div>
+                    <dxi-item template="temp6" [colSpan]="1">
+                        <dxo-label text="อยู่ในพื้นที่รับผิดชอบสถานีตำรวจ" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temp6'">
+                        <dx-text-box [(value)]="formPopup.LOCATION_RESPONSIBILITY_NAME" [readOnly]="true"></dx-text-box>
+                    </div>
+                    <dxi-item template="temp7" [colSpan]="2">
+                        <dxo-label text="สถานที่สำคัญใกล้เคียง เช่น สถานที่รายการ ห้างสรรพสินค้า เป็นต้น" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temp7'">
+                        <dx-text-box [(value)]="formPopup.LOCATION_LANDMARK" [readOnly]="true"></dx-text-box>
+                    </div>
+                </dx-form>
+
+            </dx-scroll-view>
+            <div class="text-center btn-dx">
+                <button class="btn btn-cancle" (click)="closePupup()">ปิด</button>
+            </div>
+        </div>
+    </dx-popup>
+
+
+
+    <dx-popup [width]="800" [height]="600" [showTitle]="false" [dragEnabled]="false" [closeOnOutsideClick]="false" [showCloseButton]="false" [visible]="bankFormPopup">
+        <div *dxTemplate="let data of 'content'">
+            <dx-scroll-view [showScrollbar]="'always'" style="height: calc(100% - 45px);">
+                <dx-form class="popup-form-readonly" [colCount]="2" labelLocation="top">
+                    <dxi-item template="tempFormBank1" [colSpan]="1">
+                        <dxo-label text="วันเดือนปี" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'tempFormBank1'">
+                        <dx-date-box [readOnly]="true" dateSerializationFormat="yyyy-MM-dd" [openOnFieldClick]="true" [acceptCustomValue]="false" [(value)]="formPopup.DATE_BANK_TRANFER"></dx-date-box>
+                    </div>
+                    <dxi-item template="tempFormBank2" [colSpan]="1">
+                        <dxo-label text="เวลา" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'tempFormBank2'">
+                        <dx-date-box [readOnly]="true" type="time" dateSerializationFormat="HH:mm" [openOnFieldClick]="true" [useMaskBehavior]="true" displayFormat="HH:mm" [(value)]="formPopup.TIME_BANK_TRANFER"></dx-date-box>
+                    </div>
+                    <dxi-item template="tempFormBank3" [colSpan]="1" [isRequired]="true">
+                        <dxo-label text="ช่องทางการโอนเงิน" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'tempFormBank3'">
+                        <dx-text-box [readOnly]="true" [(value)]="formPopup.BANK_TRANFER_THA"></dx-text-box>
+                    </div>
+                    <dxi-item template="tempFormBank4" [colSpan]="1">
+                        <dxo-label text="ธนาคารปลายทางที่โอน" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'tempFormBank4'">
+                        <dx-text-box [readOnly]="true" [(value)]="formPopup.BANK_NAME"></dx-text-box>
+                    </div>
+                    <dxi-item template="tempFormBank5" [colSpan]="2">
+                        <dxo-label text="สาขา" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'tempFormBank5'">
+                        <dx-text-box [readOnly]="true" [(value)]="formPopup.BRANCH_BANK_TRANFER_NAME"></dx-text-box>
+                    </div>
+                    <dxi-item template="tempFormBank6" [colSpan]="2">
+                        <dxo-label text="อยู่ในพื้นที่รับผิดชอบสถานีตำรวจ" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'tempFormBank6'">
+                        <dx-text-box [readOnly]="true" [(value)]="formPopup.BANK_LOCATION_RESPONSIBILITY_NAME"></dx-text-box>
+                    </div>
+                    <dxi-item template="tempFormBank7" [colSpan]="1">
+                        <dxo-label text="เลขที่บัญชี" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'tempFormBank7'">
+                        <dx-text-box [readOnly]="true" [(value)]="formPopup.BANK_NO"></dx-text-box>
+                    </div>
+                </dx-form>
+
+            </dx-scroll-view>
+            <div class="text-center btn-dx">
+                <button class="btn btn-cancle" (click)="closePupup()">ปิด</button>
+            </div>
+        </div>
+    </dx-popup>
+
+
+    <dx-popup [width]="800" [height]="600" [showTitle]="false" [dragEnabled]="false" [closeOnOutsideClick]="false" [showCloseButton]="false" [visible]="socialPopup">
+        <div *dxTemplate="let data of 'content'">
+            <dx-scroll-view [showScrollbar]="'always'" style="height: calc(100% - 45px);">
+                <dx-form class="popup-form-readonly" [colCount]="2" labelLocation="top">
+                    <dxi-item template="tempFormSocial1" [colSpan]="1" [isRequired]="true">
+                        <dxo-label text="ช่องทางการติดต่อกลับของผู้แจ้งข้อมูล" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'tempFormSocial1'">
+                        <dx-text-box [readOnly]="true" [(value)]="formPopup.SOCIAL_NAME"></dx-text-box>
+                    </div>
+                    <dxi-item *ngIf="formPopup.SOCIAL_ID === 5" template="tempFormSocialOther" [colSpan]="1" [isRequired]="true">
+                        <dxo-label text="รายละเอียด" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'tempFormSocialOther'">
+                        <dx-text-box [(value)]="formPopup.SOCIAL_OTHER"></dx-text-box>
+                    </div>
+                    <dxi-item template="tempFormSocial2" [colSpan]="1" [isRequired]="true">
+                        <dxo-label [text]="formPopup.SOCIAL_NAME_LABEL" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'tempFormSocial2'">
+                        <dx-text-box [readOnly]="true" [(value)]="formPopup.INFORMER_SOCIAL_NAME"></dx-text-box>
+                    </div>
+
+                </dx-form>
+
+            </dx-scroll-view>
+            <div class="text-center btn-dx">
+                <button class="btn btn-cancle" (click)="closePupup()">ปิด</button>
+            </div>
+        </div>
+    </dx-popup>
+
+
+    <dx-popup [width]="800" [height]="600" [showTitle]="false" [dragEnabled]="false" [closeOnOutsideClick]="false" [showCloseButton]="false" [visible]="popupCaseMoney">
+        <div *dxTemplate="let data of 'content'">
+            <dx-scroll-view [showScrollbar]="'always'" style="height: calc(100% - 45px);">
+                <dx-form class="popup-form-readonly" [colCount]="2" labelLocation="top">
+                    <dxi-item template="temp1" [colSpan]="1" [isRequired]="true">
+                        <dxo-label text="ช่องทางการโอนเงิน" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temp1'">
+                        <dx-text-box [readOnly]="true" [(value)]="formPopup.MONEY_CHANNEL_TYPE_THA"></dx-text-box>
+                    </div>
+                    <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
+
+                    <dxi-item *ngIf="formPopup.MONEY_CHANNEL_TYPE === 'O'" template="temp1other" [colSpan]="1" [isRequired]="true">
+                        <dxo-label text="รายละเอียด" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temp1other'">
+                        <dx-text-box [readOnly]="true" [(value)]="formPopup.MONEY_CHANNEL_OTHER"></dx-text-box>
+                    </div>
+                    <dxi-item *ngIf="formPopup.MONEY_CHANNEL_TYPE === 'O'" itemType="empty" [colSpan]="1"></dxi-item>
+                    <dxi-item *ngIf="formPopup.MONEY_CHANNEL_TYPE === 'T'" template="temp2" [colSpan]="1">
+                        <dxo-label text="ธนาคารปลายทางที่โอน" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temp2'">
+                        <dx-text-box [readOnly]="true" [(value)]="formPopup.BANK_NAME"></dx-text-box>
+                    </div>
+                    <dxi-item *ngIf="formPopup.MONEY_CHANNEL_TYPE === 'C'" template="temp2currency" [colSpan]="1">
+                        <dxo-label text="สกุลเงิน" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temp2currency'">
+                        <dx-text-box [readOnly]="true" [(value)]="formPopup.MONEY_CHENNEL_COIN_CURRENCY_THA"></dx-text-box>
+                    </div>
+                    <dxi-item *ngIf="formPopup.MONEY_CHANNEL_TYPE === 'C' && formPopup.MONEY_CHENNEL_COIN_CURRENCY !=='O'" itemType="empty" [colSpan]="1"></dxi-item>
+                    <dxi-item *ngIf="formPopup.MONEY_CHANNEL_TYPE === 'C' && formPopup.MONEY_CHENNEL_COIN_CURRENCY ==='O'" itemType="empty" [colSpan]="1"></dxi-item>
+
+                    <dxi-item *ngIf="formPopup.MONEY_CHANNEL_TYPE === 'C' && formPopup.MONEY_CHENNEL_COIN_CURRENCY ==='O'" template="temp2other" [colSpan]="1">
+                        <dxo-label text="อื่นๆ" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temp2other'">
+                        <dx-text-box [readOnly]="true" [(value)]="formPopup.MONEY_CHANNEL_TYPE_DETAIL"></dx-text-box>
+                    </div>
+                    <dxi-item *ngIf="formPopup.MONEY_CHANNEL_TYPE === 'C' && formPopup.MONEY_CHENNEL_COIN_CURRENCY ==='O'" itemType="empty" [colSpan]="1"></dxi-item>
+
+                    <dxi-item *ngIf="formPopup.MONEY_CHANNEL_TYPE === 'T'" template="temp3" [colSpan]="2">
+                        <dxo-label text="สาขา" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temp3'">
+                        <dx-text-box [readOnly]="true" [(value)]="formPopup.BRANCH_BANK_NAME"></dx-text-box>
+                    </div>
+                    <dxi-item template="temp4" [colSpan]="1">
+                        <dxo-label [text]="formPopup.BANK_ACCOUNT_LABEL" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temp4'">
+                        <dx-text-box [readOnly]="true" [(value)]="formPopup.BANK_ACCOUNT"></dx-text-box>
+                    </div>
+                    <dxi-item *ngIf="formPopup.MONEY_CHANNEL_TYPE === 'C' && formPopup.MONEY_CHENNEL_COIN_CURRENCY !== 'O'" itemType="empty" [colSpan]="1"></dxi-item>
+
+                    <dxi-item *ngIf="formPopup.MONEY_CHANNEL_TYPE === 'T'" template="temp5" [colSpan]="2">
+                        <dxo-label text="อยู่ในพื้นที่รับผิดชอบสถานีตำรวจ" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temp5'">
+                        <dx-text-box [readOnly]="true" [(value)]="formPopup.BANK_ACCOUNT"></dx-text-box>
+                    </div>
+                    <dxi-item *ngIf="formPopup.MONEY_CHANNEL_TYPE === 'P'" itemType="empty" [colSpan]="1"></dxi-item>
+                    <dxi-item *ngIf="formPopup.MONEY_CHANNEL_TYPE === 'C' && formPopup.MONEY_CHENNEL_COIN_CURRENCY ==='O'" itemType="empty" [colSpan]="1"></dxi-item>
+                    <dxi-item *ngIf="formPopup.MONEY_CHANNEL_TYPE === 'O'" itemType="empty" [colSpan]="1"></dxi-item>
+
+                    <dxi-item template="temp6" [colSpan]="1">
+                        <dxo-label text="ชื่อบัญชีปลายทางที่โอน" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temp6'">
+                        <dx-text-box [readOnly]="true" [(value)]="formPopup.BANK_FIRSTNAME"></dx-text-box>
+                    </div>
+                    <dxi-item template="temp7" [colSpan]="1">
+                        <dxo-label text="นามสกุลบัญชีปลายทางที่โอน" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temp7'">
+                        <dx-text-box [readOnly]="true" [(value)]="formPopup.BANK_LASTNAME"></dx-text-box>
+                    </div>
+                    <dxi-item template="temp8" [colSpan]="1" [isRequired]="true">
+                        <dxo-label text="วัน / เวลาที่โอน" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temp8'">
+                        <dx-date-box type="datetime" dateSerializationFormat="yyyy-MM-dd HH:mm" [openOnFieldClick]="true" [useMaskBehavior]="true" displayFormat="yyyy-MM-dd HH:mm" [readOnly]="true" [(value)]="formPopup.DATE_TRANSFER"></dx-date-box>
+                    </div>
+                    <dxi-item template="temp9" [colSpan]="1" [isRequired]="true">
+                        <dxo-label text="มูลค่าความเสียหาย(บาท)" [showColon]="false"></dxo-label>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temp9'">
+                        <dx-text-box [readOnly]="true" [(value)]="formPopup.DAMAGE_VALUE"></dx-text-box>
+                    </div>
+                </dx-form>
+
+            </dx-scroll-view>
+            <div class="text-center btn-dx">
+                <button class="btn btn-cancle" (click)="CaseMoneyClose()">ปิด</button>
+            </div>
+        </div>
+    </dx-popup>

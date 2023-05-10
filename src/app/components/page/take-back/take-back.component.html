@@ -1,0 +1,29 @@
+<div class="messaging" style="padding: 50px;margin: auto;">
+    <div class="text-head-two" style="font-size: 18px;text-align: center;">ขอถอนเรื่อง</div>
+    <dx-form labelLocation="top" [formData]="formData" [colCount]="1" width="700px" style="padding: 50px;margin: auto;">
+        <dxi-item template="templatelabel" [colSpan]="1">
+        </dxi-item>
+        <div *dxTemplate="let data of 'templatelabel'">
+            <dx-check-box [(value)]="checkbox" text="ขอถอนเรื่อง" (onValueChanged)="oncheck($event)">
+            </dx-check-box>
+        </div>
+
+        <dxi-item template="template" [colSpan]="1">
+        </dxi-item>
+        <div *dxTemplate="let data of 'template'">
+            <div *ngIf="visable === true">
+                <div class="text-head-two" style="padding-right: 10px;">เหตุผล</div>
+                <dx-text-area [(value)]="formData.REJECT_REMARK"
+                    [showClearButton]="true">
+                </dx-text-area>
+            </div>
+
+        </div>
+
+    </dx-form>
+
+    <div class="col-12 button-layout text-center">
+        <dx-button id="btn-next"  type="success" text="บันทึก" (onClick)="sendMessage()">
+        </dx-button>
+    </div>
+</div>

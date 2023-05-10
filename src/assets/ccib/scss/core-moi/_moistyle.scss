@@ -1,0 +1,304 @@
+
+
+$color-main: #0b314f;
+$color-active: #fff0ba;
+$color-yellow: #e5bb30;
+$color-yellow-light: #fff0bc;
+$color-pink-darker: #DB2165;
+$black: #2d353c;
+$black_darker: #242a30;
+$black_lighter: #575d63;
+/*html,
+body,
+input,
+a,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+button,
+select,
+table,
+tbody,
+td,
+tr,
+ul,
+li,
+.dx-button-text,
+label {
+}*/
+
+
+html,
+body {
+    font-family: 'Sukhumvit Set' !important;
+}
+
+// mc
+.main-content {
+    margin-top: 0px !important;
+    padding: 0px !important;
+}
+
+.card-icon {
+    background-color: $color-pink-darker !important;
+    background: $color-pink-darker !important;
+}
+
+.card-icon>p {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    font-size: 18px;
+}
+
+.card {
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.5) !important;
+}
+
+.breadcrumb {
+    width: 100%;
+    background-color: #fff;
+    border-radius: 0px;
+}
+
+.breadcrumb li {
+    margin-left: 5px;
+}
+
+.dx-datebox-calendar {
+    width: 100% !important;
+}
+
+.card-title-bold {
+    margin-top: 10px !important;
+    font-weight: bold;
+}
+
+.dash-fa {
+    font-size: 4em;
+}
+
+div.large {
+    font-size: 3em;
+    margin: 20px 0px 20px 0px;
+}
+
+div.text-muted {
+    font-size: 2em;
+}
+
+.dash-title {
+    margin: 15px 0px 30px 0px;
+}
+
+.card-body .panel {
+    margin-bottom: 15px;
+}
+
+.collapsing ul.nav li.nav-item,
+.collapse ul.nav li.nav-item {
+    padding-left: 20px;
+}
+
+.dx-texteditor-input {
+    height: auto !important;
+}
+
+// MC
+/*
+= Start Style =
+Project: MOI-Saraban Project
+Editor: NAN
+Part: Sidebar & Headerbar
+-----------------------------------------------
+*/
+
+//import core file for login-page
+@import "login";
+.recomment {
+    background-color: rgba(#000000, 0.2);
+    img {
+        width: 13px;
+        float: left;
+        margin-right: 10px;
+        margin-top: 8px;
+    }
+    i {
+        display: none;
+    }
+}
+
+.logo {
+    &-normal {
+        img {
+            display: block;
+            margin: 0 auto;
+        }
+    }
+}
+
+.main-panel .navbar {
+    background-color: rgba(#000000, 0) !important;
+}
+
+.navbar-custom {
+    position: absolute;
+    z-index: -1;
+    height: 100% !important;
+    width: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    &:after {
+        // background-color: #ffffff;
+        position: fixed;
+        width: 100%;
+        // height: 100%;
+        content: "";
+        display: block;
+        top: 0;
+        // opacity: .3;
+    }
+}
+
+.moinavbar {
+    &-page {
+        display: block;
+        height: 100%;
+        float: left;
+    }
+    &_user {
+        display: block;
+        height: 100%;
+        color: #ffffff;
+        &-img {
+            width: 45px;
+            height: 45px;
+            border-radius: 30px;
+            overflow: hidden;
+            float: left;
+            img {
+                width: 100%;
+            }
+        }
+        i {
+            float: left;
+            margin-top: 10px;
+        }
+    }
+    &_message {
+        width: 100%;
+        height: 100%;
+    }
+    &_noti {
+        color: #ffffff;
+    }
+}
+
+.moibtn {
+    &-toggle {
+        float: left;
+        margin-right: 15px !important;
+    }
+}
+
+.txttitle {
+    color: $color-yellow;
+    font-weight: bold;
+    &-sub {
+        font-size: 0.8rem;
+        color: $color-yellow-light;
+    }
+    &-user {
+        color: #ffffff;
+        text-align: right;
+        font-size: 0.9rem;
+    }
+}
+
+.moitext-muted {
+    color: #333333 !important;
+    &:hover {
+        color: #ffffff !important;
+    }
+}
+
+.moinotification {
+    width: 85px;
+}
+
+/* start: font style */
+
+.form-check,
+label {
+    color: #000000 !important;
+}
+
+
+/* end: font style */
+
+/* start: table */
+
+.dx-datagrid-text-content {
+    overflow: inherit;
+    padding: 5px 0px;
+}
+
+/* end: table */
+
+/* start: table */
+
+
+.dx-datagrid-text-content {
+    overflow: inherit;
+    padding: 5px 0px;
+}
+
+/* end: table */
+
+//pik developer
+.label-required {
+    color: red;
+}
+
+@media (min-width: 991px) {
+    .sidebar-mini {
+        .sidebar {
+            .sidebar-wrapper {
+                .dx-field {
+                    display: none !important;
+                }
+                .recomment {
+                    i {
+                        font-size: 25px;
+                        text-align: center;
+                        display: block;
+                    }
+                }
+            }
+            &:hover {
+                .sidebar-wrapper {
+                    .dx-field {
+                        display: block !important;
+                    }
+                    .recomment {
+                        i {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 991px) {
+    .dropdown-menu-right {
+        right: -100% !important;
+    }
+}
+
+/* = End Style = */

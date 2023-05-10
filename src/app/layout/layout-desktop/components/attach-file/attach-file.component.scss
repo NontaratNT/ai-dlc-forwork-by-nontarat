@@ -1,0 +1,62 @@
+// ::ng-deep .dx-layout-manager .dx-label-h-align.dx-flex-layout {
+//     display: flex;
+//     flex-wrap: wrap;
+// }
+// ::ng-deep .dx-gridbase-container {
+//     margin-inline: -30px;
+// }
+:host {
+    .icon-inline {
+        display: inline-block;
+        img {
+            width: 30px;
+        }
+    }
+    .text-download {
+        cursor: pointer;
+        color: #333a71;
+        text-decoration: underline;
+    }
+    .text-download:hover {
+        opacity: 0.75;
+    }
+     ::ng-deep {
+        .dx-datagrid-headers {
+            // color: #ffffff;
+            background-color: #2f2b66 !important;
+            border: unset !important;
+        }
+        tr.dx-data-row>td {
+            vertical-align: middle !important;
+            white-space: normal !important;
+        }
+        .btn-upload {
+            // color: #fff;
+            // background-color: #337ab7;
+            // border-color: #337ab7;
+            // border-radius: 6px;
+            width: 100px;
+            height: 40px;
+            color: #ffffff;
+            background-color: #00B889;
+            border-radius: 6px;
+        }
+        .btn-upload:hover {
+            width: 100px;
+            height: 40px;
+            color: #ffffff;
+            background-color: #00B889;
+            opacity: 0.75;
+            // color: #fff;
+            // background-color: #296293;
+            // border-color: #296293;
+        }
+        .dx-button-mode-contained.dx-button-success.dx-state-focused {
+            width: 100px;
+            height: 40px;
+            color: #ffffff;
+            background-color: #00B889;
+            border-radius: 6px;
+        }
+    }
+}

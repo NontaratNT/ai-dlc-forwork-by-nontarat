@@ -1,0 +1,84 @@
+<section class="ftco-section mt_100">
+    <div class="main_content_iner">
+        <div class="container-fluid p-0 sm_padding_15px">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="dashboard_header mb_50">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="dashboard_header_title">
+                                    <h3>รายการแจ้งเตือน</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-xl-12">
+                    <div class="white_box mb_30" style="position: relative;">
+                        <div class="card-body ">
+                            <div class="panel panel-default">
+                                <dx-multi-view [swipeEnabled]="false" [selectedIndex]="0">
+                                    <dxi-item>
+                                        <dx-data-grid #grid [dataSource]="notification" [showColumnLines]="false"
+                                            noDataText="ไม่มีข้อมูล" [showRowLines]="true" [columnAutoWidth]="true"
+                                            [columnHidingEnabled]="false" [showBorders]="false"
+                                            [rowAlternationEnabled]="true" [showColumnLines]="true"
+                                            [hoverStateEnabled]="true" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล"
+                                            [remoteOperations]="false">
+                                            <dxo-paging [pageSize]="10"></dxo-paging>
+                                            <dxo-load-panel text="กำลังโหลดข้อมูล..."></dxo-load-panel>
+                                            <dxo-search-panel [visible]="true" [width]="200" placeholder="ค้นหา...">
+                                            </dxo-search-panel>
+                                            <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false"
+                                                [allowAdding]="false">
+                                            </dxo-editing>
+                                            <dxo-selection mode="single"></dxo-selection>
+                                            <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]"
+                                                [showInfo]="true">
+                                            </dxo-pager>
+                                            <dxi-column dataField="" caption="ลำดับที่" [width]="80" alignment="center"
+                                                [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+                                            <dxi-column dataField="" caption="#" [width]="80" alignment="center"
+                                                [allowSorting]="false" cellTemplate="cellTemplateEditRelate">
+                                            </dxi-column>
+                                            <div *dxTemplate="let cellValue of 'cellTemplateEditRelate'">
+                                                <dx-button icon="fas fa-eye" hint="ดู" type="default"
+                                                    (onClick)="view(cellValue)">
+                                                </dx-button>
+                                            </div>
+                                            <dxi-column dataField="NOTIFICATION_SUBJECT" caption="เรื่อง"
+                                                alignment="center">
+                                            </dxi-column>
+                                            <dxi-column dataField="NOTIFICATION_BODY" caption="รายละเอียด"
+                                                alignment="center">
+                                            </dxi-column>
+                                            <dxi-column dataField="" [width]="200" alignment="center" caption="วันที่"
+                                                cellTemplate="cellTemplateDate"></dxi-column>
+
+                                            <div *dxTemplate="let cellInfo of 'cellTemplateDate'">
+                                                {{displayFormatDate(cellInfo.data.NOTIFICATION_DATE)}}
+                                            </div>
+                                            <!-- <dxi-column dataField="RECORD_STATUS" caption="สถานะการใช้งาน" [width]="130"
+                                    alignment="center" [calculateDisplayValue]="GetStatus">
+                                </dxi-column> -->
+
+                                            <div *dxTemplate="let cell of 'cellTemplate'">
+                                                {{ cell.component.pageIndex() * cell.component.pageSize() +
+                                                cell.rowIndex + 1 }}
+                                            </div>
+                                        </dx-data-grid>
+                                    </dxi-item>
+                                    <dxi-item>
+                                        <!-- <ng-container *dxTemplate> -->
+                                        <app-notify-data [formData]="formNotification"></app-notify-data>
+                                        <!-- </ng-container> -->
+                                    </dxi-item>
+                                </dx-multi-view>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

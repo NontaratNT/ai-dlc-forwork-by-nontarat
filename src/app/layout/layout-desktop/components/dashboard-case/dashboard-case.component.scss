@@ -1,0 +1,88 @@
+:host {
+    .inblock-title {
+        font-size: 22px;
+        font-weight: bold;
+        color: #3d3d3d;
+    }
+    .user-case-info {
+        // width: 670px;
+        height: 140px;
+        border-radius: 8px;
+        background-color: #374784;
+        // background-image: url('/assets/image/police/desktop/user-appointment2.png'), url('/assets/image/police/desktop/user-appointment1.png'), url('/assets/image/police/desktop/user-appointment-bg.jpg');
+        // background-repeat: no-repeat, no-repeat, repeat;
+        // background-position: bottom, bottom, left top;
+        // background-size: auto, auto, 100% 100%;
+        padding: 25px;
+        .text-title {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .text {
+            color: #ffffff;
+            font-size: 14px;
+            padding-top: 20px;
+        }
+    }
+    .sub-block {
+        margin: 15px 0 0 0;
+    }
+    .user-case-myself {
+        padding: 12px;
+        height: 140px;
+        border-radius: 8px;
+        background: linear-gradient(97.57deg, #F8AA3A 0%, #F3C830 100%);
+    }
+    .user-case-other-user {
+        padding: 12px;
+        height: 140px;
+        border-radius: 8px;
+        background: linear-gradient(97.57deg, #56A4F2 0%, #708BED 100%);
+    }
+    .user-case-block {
+        margin-top: 20px;
+        position: relative;
+        .text-title {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .text {
+            color: #ffffff;
+            font-size: 14px;
+            padding-top: 5px;
+        }
+        .left-block {
+            position: absolute;
+            width: 113px;
+            bottom: 15px;
+            right: 7px;
+        }
+        .right-block {
+            position: absolute;
+            width: 98px;
+            bottom: 15px;
+            right: 7px;
+        }
+    }
+    .user-case-block.right {
+        padding-left: 15px;
+    }
+    .user-case {}
+    .padding-left-block {
+        padding-left: 33px;
+    }
+    .not-copy {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    .block-click {
+        cursor: pointer;
+    }
+    .block-click:hover {
+        opacity: 0.75;
+    }
+}

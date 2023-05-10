@@ -1,0 +1,75 @@
+<div>
+    <div>
+        <!-- <app-date-combo-picker [maxDate]="maxDate"></app-date-combo-picker> -->
+        <dx-form #formAgree>
+            <dxi-item template="tempAgreeTitle">
+                <dxo-label text=" " [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'tempAgreeTitle'">
+                <span class="text-title">ข้าพเจ้าขอแจ้งความประสงค์ ขอรับรองข้อความที่แจ้งในระบบ และให้ความยินยอม ดังต่อไปนี้</span>
+            </div>
+            <dxi-item template="tempAgree1" [isRequired]="true">
+                <dxo-label text=" " [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'tempAgree1'">
+                <!-- <span class="h4">1. การแจ้งความออนไลน์เป็นอำนวยความสะดวกแก่ผู้เสียหายในการร้องทุกข์ และแจ้งความประสงค์ให้อายัดเงินที่โอนเข้าไปในบัญชีคนร้ายและผู้เกี่ยวข้องโดยเร็ว</span> -->
+               <!-- <dx-check-box [readOnly]="false" [(value)]="formData.done" text="1. การแจ้งความออนไลน์เป็นอำนวยความสะดวกแก่ผู้เสียหายในการร้องทุกข์ และแจ้งความประสงค์ให้อายัดเงินที่โอนเข้าไปในบัญชีคนร้ายและผู้เกี่ยวข้องโดยเร็ว"></dx-check-box> -->
+               <dx-check-box [readOnly]="false" [(value)]="formData.done" text="1. ขอยืนยันว่าข้อมูลที่แจ้งความนี้เป็นความจริงทุกประการ หากข้อความที่แจ้งเป็นความเท็จ จะมีความผิดตามกฎหมาย"></dx-check-box>
+
+            </div>
+            <dxi-item template="tempAgree2" [isRequired]="true">
+                <dxo-label text=" " [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'tempAgree2'">
+                <!-- <span class="h4">2. ขอรับรองว่าข้อมูลที่แจ้งในระบบนี้เป็นความจริงทุกประการโดยเป็นการแจ้งต่อเจ้าพนักงาน และประสงค์ร้องทุกข์ให้ดำเนินคดีกับผู้กระทำความผิด และผู้เกี่ยวข้องให้ได้รับโทษตามกฏหมาย</span> -->
+               <!-- <dx-check-box [readOnly]="false" [(value)]="formData.done1" text="2. ขอรับรองว่าข้อมูลที่แจ้งในระบบนี้เป็นความจริงทุกประการโดยเป็นการแจ้งต่อเจ้าพนักงาน และประสงค์ร้องทุกข์ให้ดำเนินคดีกับผู้กระทำความผิด และผู้เกี่ยวข้องให้ได้รับโทษตามกฏหมาย"></dx-check-box> -->
+               <dx-check-box [readOnly]="false" [(value)]="formData.done1" text="2. ขอแจ้งความร้องทุกข์ให้ดำเนินคดีกับผู้กระทำผิด ทำให้ได้รับความเสียหาย"></dx-check-box>
+
+            </div>
+            <dxi-item template="tempAgree3" [isRequired]="true">
+                <dxo-label text=" " [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'tempAgree3'">
+                <!-- <span class="h4">3. ประสงค์ให้อายัดเงินของข้าพเจ้าที่โอนเข้าไปในบัญชีคนร้ายและผู้เกี่ยวข้อง</span> -->
+               <!-- <dx-check-box [readOnly]="false" [(value)]="formData.done2" text="3. ประสงค์ให้อายัดเงินของข้าพเจ้าที่โอนเข้าไปในบัญชีคนร้ายและผู้เกี่ยวข้อง"></dx-check-box> -->
+               <dx-check-box [readOnly]="false" [(value)]="formData.done2" text="3. ยินยอมให้เปิดเผยและนำข้อมูลที่แจ้งไปใช้ในการสืบสวนสอบสวนคดีนี้และคดีที่เกี่ยวข้อง"></dx-check-box>
+            </div>
+            <dxi-item template="tempAgree4" [isRequired]="true">
+                <dxo-label text=" " [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'tempAgree4'">
+                <!-- <span class="h4">4. หากเป็นกรณีความผิดอันยอมความได้ ข้าพเจ้าทราบว่าจะต้องไปพบพนักงานสอบสวนเพื่อร้องทุกข์ตามระเบียบภายในกำหนด 3 เดือน นับแต่รู้เรื่องและรู้ตัวผู้กระทำความผิด</span> -->
+               <!-- <dx-check-box [readOnly]="false" [(value)]="formData.done3" text="4. หากเป็นกรณีความผิดอันยอมความได้ ข้าพเจ้าทราบว่าจะต้องไปพบพนักงานสอบสวนเพื่อร้องทุกข์ตามระเบียบภายในกำหนด 3 เดือน นับแต่รู้เรื่องและรู้ตัวผู้กระทำความผิด"></dx-check-box> -->
+               <dx-check-box [readOnly]="false" [(value)]="formData.done3" text="4. การแจ้งความผ่านระบบรับแจ้งความออนไลน์นี้ จะต้องไปให้ปากคำกับพนักงานสอบสวนด้วย"></dx-check-box>
+            </div>
+            <dxi-item template="tempAgree5" [isRequired]="true">
+                <dxo-label text=" " [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'tempAgree5'">
+                <!-- <span class="h4">5. ยินยอมให้นำข้อมูลที่แจ้งในระบบไปใช้เป็นหลักฐานในการสืบสวนสอบสวนคดีนี้และคดีที่เกี่ยวข้อง</span> -->
+               <!-- <dx-check-box [readOnly]="false" [(value)]="formData.done4" text="5. ยินยอมให้นำข้อมูลที่แจ้งในระบบไปใช้เป็นหลักฐานในการสืบสวนสอบสวนคดีนี้และคดีที่เกี่ยวข้อง"></dx-check-box> -->
+               <dx-check-box [readOnly]="false" [(value)]="formData.done4" text="5. ทราบว่าสามารถแจ้งธนาคารให้ระงับการทำธุรกรรมชั่วคราวได้ทันที และจะต้องไปพบพนักงานสอบสวนภายใน 72 ชั่วโมง"></dx-check-box>
+            </div>
+            <dxi-item template="tempAgree6" [isRequired]="true">
+                <dxo-label text=" " [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'tempAgree6'">
+               <!-- <dx-check-box [readOnly]="false" [(value)]="formData.done5" text="6. การแจ้งความออนไลน์เป็นการอำนวยความสะดวกแก่ท่านในการร้องทุกข์และแจ้งความประสงค์ในอายัดเงินที่โอนเข้าไปในบัญชีของคนร้ายและผู้เกี่ยวข้องโดยเร็ว ทันสถานการณ์ และท่านต้องไปให้ปากคำต่อพนักงานสอบสวนตามที่นัดหมายเพื่อให้เป็นไปตามกฎหมายกำหนด"></dx-check-box> -->
+               <dx-check-box [readOnly]="false" [(value)]="formData.done5" text="6. ข้อความที่แจ้งให้ทราบผ่านระบบนี้ ให้ถือว่าข้าพเจ้าได้รับทราบข้อความนั้นแล้ว ตั้งแต่วันที่ปรากฏในระบบ"></dx-check-box>
+            </div>
+            
+            <!-- <dxi-item template="tempAgree7" [isRequired]="true">
+                <dxo-label text=" " [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'tempAgree7'">
+               <dx-check-box [readOnly]="false" [(value)]="formData.done6" text="7. ข้อความหรือหนังสือใดใดที่เจ้าหน้าที่ตำรวจแจ้งข้าพเจ้าผ่านระบบนี้ถือว่าข้าพเจ้ารับทราบข้อความหรือหนังสือนั้นแล้ว นับตั้งแต่วันเวลาที่ปรากฏในระบบ"></dx-check-box>
+            </div> -->
+        </dx-form>
+    </div>
+    <div class="text-right btn-footer">
+        <dx-button class="btn btn-back" text="ไม่ยอมรับ" (onClick)="Back($event)">
+        </dx-button>
+        &nbsp;
+        <dx-button class="btn btn-submit" text="ยอมรับ" (onClick)="SubmitForm($event)"></dx-button>
+    </div>
+</div>

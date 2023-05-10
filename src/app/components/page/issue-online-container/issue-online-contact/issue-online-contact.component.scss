@@ -1,0 +1,26 @@
+:host {
+     ::ng-deep {
+        .dx-icon.fa.fa-plus {
+            color: #fff !important;
+        }
+        // .dx-field-item-label-content .dx-field-item-required-mark {
+        //     display: none;
+        // }
+        .conten-block {
+            margin-top: 15px;
+            .content-title {
+                text-align: center;
+                padding: 20px 0 20px 0;
+                font-size: 22px;
+                color: #00529a;
+            }
+            .content-form {
+                margin-top: 10px;
+            }
+        }
+        .conten-block.content-textarea {
+            margin: auto;
+            width: 80%;
+        }
+    }
+}

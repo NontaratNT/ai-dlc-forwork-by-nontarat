@@ -1,0 +1,41 @@
+<!-- <h3>layout-desktop-main works!</h3>
+<div>
+    <h4>content</h4>
+    <router-outlet></router-outlet>
+</div> -->
+<!-- <div style="background-color: #f6f7fc;"> -->
+<!-- <dx-drawer openedStateMode="shrink" position="left" revealMode="expand" template="template" [(opened)]="isDrawerOpen" [minSize]="65" [closeOnOutsideClick]="false"> -->
+<!-- <dx-drawer openedStateMode="shrink" position="left" revealMode="expand" template="template" [(opened)]="isDrawerOpen" [minSize]="65" [closeOnOutsideClick]="false"> -->
+<!-- shrink,slide -->
+<!-- <div *dxTemplate="let data of 'template'">
+            <div id="menu-slidebar">
+                <app-sidebar [isDrawerOpen]="isDrawerOpen" (drawerMenu)="DrawerMenu()" (menuChange)="MenuChange($event)"></app-sidebar>
+            </div>
+        </div>
+        <div id="desktop-header">
+            <app-navbar [isDrawerOpen]="isDrawerOpen"></app-navbar>
+        </div>
+        <div id="desktop-content" [ngClass]="ContentSize()">
+            <router-outlet></router-outlet>
+        </div>
+    </dx-drawer>
+</div> -->
+
+
+<section id="desptop-section" [ngClass]="ContentSize()" style="background-color: #f6f7fc;height: 100vh;">
+    <dx-drawer openedStateMode="shrink" position="left" revealMode="expand" template="template" [(opened)]="isDrawerOpen" [minSize]="65" [closeOnOutsideClick]="false">
+        <div *dxTemplate="let data of 'template'">
+            <div id="menu-slidebar">
+                <app-sidebar [isDrawerOpen]="isDrawerOpen" (drawerMenu)="DrawerMenu()" (menuChange)="MenuChange($event)"></app-sidebar>
+            </div>
+        </div>
+        <div id="desktop-header">
+            <app-navbar [isDrawerOpen]="isDrawerOpen"></app-navbar>
+        </div>
+        <div id="desktop-content" [ngClass]="ContentSize()">
+            <dx-scroll-view [showScrollbar]="'always'" style="height: 100vh;">
+                <router-outlet></router-outlet>
+            </dx-scroll-view>
+        </div>
+    </dx-drawer>
+</section>

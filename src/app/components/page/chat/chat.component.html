@@ -1,0 +1,63 @@
+<div class="messaging">
+    <div class="mesgs" #scrollMe (scroll)="onScroll()" style="margin-bottom: 30px;">
+        <div class="msg_history">
+            <div *ngFor="let item of formData">
+                <div *ngIf="item.SENDER_ID !== this.userId">
+                    <div class="incoming_msg">
+                        <div class="received_msg">
+                            <div class="incoming_msg_img"> <img [src]="image(item.PERSONAL_PICTURE)" alt="sunil"> </div>
+                            <div class="received_withd_msg">
+                                <div class="received-name">{{item.PERSONAL_FULL_NAME}}
+                                </div><br>
+                                <div class="received-msg">
+                                    {{item.INST_CHAT_MASSAGE}}
+                                </div><br>
+                                <div class="received-time">
+                                    {{DisplayFormatDate(item.CREATE_DATE)}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="item.SENDER_ID === this.userId">
+                    <div class="outgoing_msg">
+                        <div class="received_sent_msg">
+                            <div class="sent_msg">
+                                <div class="sent-msg-name">
+                                    {{item.PERSONAL_FULL_NAME}}
+                                </div><br>
+                                <div class="sent-msg-msg">
+                                    {{item.INST_CHAT_MASSAGE}}
+                                </div><br>
+                                <div class="sent-msg-time">
+                                    {{DisplayFormatDate(item.CREATE_DATE)}}
+                                </div>
+                            </div>
+                            <div class="sent_msg_img"> <img [src]="image(item.PERSONAL_PICTURE)" alt="sunil"> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="input_msg_write d-flex  w-100 text-center justify-content-center">
+
+        <!-- <dx-form [formData]="formChat" class="w-100">
+                <dxi-item dataField="INST_CHAT_MASSAGE" editorType="dxTextArea" [editorOptions]="{ placeholder:'ระบุข้อความ',showClearButton:true}">
+                    <dxo-label [showColon]="false" text=" "></dxo-label>
+                </dxi-item>
+            </dx-form> -->
+        <dx-text-area class="w-100 ml-1 mr-1" style="max-width: 500px;" [(value)]="formChat.INST_CHAT_MASSAGE"
+            placeholder="ระบุข้อความ"></dx-text-area>
+        <div class="my-btn ml-1">
+            <dx-button [width]="90" icon="fa fa-paper-plane" text="ส่ง" (onClick)="sendMessage()">
+            </dx-button>
+        </div>
+
+    </div> <br> <br>
+</div>
+
+
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="_isLoading" [showIndicator]="true" [showPane]="true"
+    [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

@@ -1,0 +1,21 @@
+<section class="ftco-section mt_100">
+    <div class="issue-online-container" *ngIf="loadPageSuccess">
+        <div style="padding-top: 100px;"></div>
+        <div class="p-lg-5 pl-4 pr-4" style="overflow: auto; padding-bottom: 50px;">
+            <div class="tab-btn-back" style="margin-bottom: 30px;">
+                <dx-button type="default" hint="ย้อนกลับ" text="ย้อนกลับ" (onClick)="goUrl('main/tasklist')">
+                </dx-button>
+            </div>
+            <div class="content-title" style="margin-bottom: 12px;">
+                <span>คุณเคยแจ้งความออนไลน์มาแล้ว <label class="text-danger">{{countFlow}}</label> เรื่อง
+                    สามารถติดตามสถานะของเรื่องผ่านเมนู <span class="text-link" (click)="goUrl('main/tasklist')">ติดตาม</span></span>
+            </div>
+            <div>
+                ddd
+                <app-issue-online-container></app-issue-online-container>
+            </div>
+        </div>
+    </div>
+</section>
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

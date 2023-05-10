@@ -1,0 +1,75 @@
+<div class="card block-data">
+    <div class="card-body ">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div style="text-align: right;">
+                    <dx-button type="success" text="ลงบันทึกประจำวัน" (onClick)="add()">
+                    </dx-button>
+                </div>
+            </div>
+            <br>
+            <dx-data-grid #grid [dataSource]="_dataSource" [showColumnLines]="true" noDataText="ไม่มีข้อมูล"
+                [showRowLines]="true" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="true"
+                [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล">
+                <dxo-paging [pageSize]="10"></dxo-paging>
+                <dxo-search-panel [visible]="true" [width]="240" placeholder="ค้นหา..."></dxo-search-panel>
+                <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                </dxo-editing>
+                <dxo-pager [showPageSizeSelector]="false" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true">
+                </dxo-pager>
+                <dxo-selection mode="single"></dxo-selection>
+                <dxi-column dataField="id" caption="" [width]="80" alignment="center" [allowSorting]="false"
+                    cellTemplate="cellTemplateCommand"></dxi-column>
+                <div *dxTemplate="let cellValue of 'cellTemplateCommand'">
+                    <dx-button icon="fa fa-eye" requirePermission="EDIT" hint="แก้ไข" (onClick)="view(cellValue)"
+                        type="default">
+                    </dx-button>
+                </div>
+                <dxi-column caption="ลำดับ" [width]="80" alignment="center" [allowEditing]="false"
+                    cellTemplate="cellTemplate"></dxi-column>
+                <dxi-column dataField="RECORD_NO" [width]="80" caption="เลขที่" alignment="center">
+                </dxi-column>
+                <dxi-column dataField="RECORD_REF_NO" [width]="130" caption="หมายเลขอ้างอิง" alignment="center">
+                </dxi-column>
+
+                <dxi-column dataField="RECORD_SUBJECT" caption="เรื่อง" alignment="center">
+                </dxi-column>
+                <dxi-column dataField="CREATE_DATE" [width]="150" caption="วัน/เวลาที่แจ้งเตือน"
+                    [calculateDisplayValue]="formatDate" sortOrder="asc" alignment="center">
+                </dxi-column>
+
+                <dxi-column dataField="RECORD_ID_STATUS" caption="สถานะ" [width]="100"
+                    [calculateDisplayValue]="formatStatus" alignment="center">
+                </dxi-column>
+
+                <dxi-column dataField="statusfile" caption="เอกสารอิเล็กทรอนิกส์" [width]="130" alignment="center"
+                    cellTemplate="cellTemplateStatus">
+                </dxi-column>
+                <div *dxTemplate="let cell of 'cellTemplateStatus'">
+                    <div
+                        *ngIf="cell.key.RECORD_ID_STATUS === 'D' || cell.key.RECORD_ID_STATUS === 'W' || cell.key.RECORD_ID_STATUS === 'F' ">
+                        <!-- <div class="icon-information-edit"
+                            (click)="viewFile(_dataSource[cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex])">
+                            <img class="icon-information-edit-img"
+                                [src]="imgAttFile(_dataSource[cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex])"
+                                title="เอกสาร">
+                        </div> -->
+                    </div>
+                    <div *ngIf="cell.key.RECORD_ID_STATUS === 'CP'">
+                        <div class="icon-information-edit" (click)="viewPdf(cell)">
+                            <img class="icon-information-edit-img"
+                                [src]="imgAttPdf(_dataSource[cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex])"
+                                title="เอกสาร">
+                        </div>
+                    </div>
+
+                    <!-- {{ _listdata[cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex] |json}} -->
+
+                </div>
+                <div *dxTemplate="let cell of 'cellTemplate'">
+                    {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                </div>
+            </dx-data-grid>
+        </div>
+    </div>
+</div>

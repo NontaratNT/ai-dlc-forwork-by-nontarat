@@ -1,0 +1,33 @@
+<div id="sidebar-container" class="sidebar-expanded d-md-block p-3">
+    <div class="sidebar-header">
+        <div class="user-pic">
+            <img class="img-responsive img-rounded"
+                [src]="userImagePath"
+                alt="User picture"
+                (error)="setDefaultPic()">
+        </div>
+        <div class="user-info">
+            <span class="user-name">
+                <span>{{FullNameTH}}</span>
+            </span>
+            <span class="user-role">{{PositionNameTH}}</span>
+            <span class="user-status">
+                <i class="fa fa-circle"></i>
+                <span>Online</span>
+            </span>
+        </div>
+    </div>
+</div>
+<div class="menu-container">
+    <dx-tree-view [items]="_menuList" dataStructure="plain" parentIdExpr="parentId" keyExpr="id" selectionMode="single"
+        [focusStateEnabled]="true" expandEvent="click" (onItemClick)="onItemClick($event)" itemTemplate="menuList"
+        [expandAllEnabled]="true" id="gridHeight">
+        <div *dxTemplate="let item of 'menuList'">
+            <i class="dx-icon {{item.icon}}"></i>
+            <span>{{item.text}}</span>
+            <ng-container *ngIf="true">
+                <span class="badge badge-warning notify-text">{{item.notiCount > 99 ? "99+" : item.notiCount}}</span>
+            </ng-container>
+        </div>
+    </dx-tree-view>
+</div>

@@ -1,0 +1,359 @@
+<section class="ftco-section mt_100">
+    <div class="container-fluid" style="padding-top: 60px;">
+        <div class="card-body">
+            <div class="panel panel-default">
+                <div class="panel-body ">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="card-header card-header-rose card-header-icon">
+                                    <div class="card-icon">
+                                        <p><span class="fa fa-user">&nbsp;</span> ข้อมูลส่วนตัว
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="card-body ">
+                                    <div class="panel panel-default">
+                                        <div class="panel panel-default " style="margin-top:18px; ">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body ">
+                                                    <dx-form [formData]="formData" labelLocation="top" [colCount]="2">
+                                                        <!-- <dxi-item itemType="group" caption="ข้อมูลส่วนตัว" [colCount]="2"> -->
+                                                        <dxi-item template="templatetitle" [colSpan]="1">
+                                                            <dxo-label text="คำนำหน้า"></dxo-label>
+                                                            <dxi-validation-rule type="required" message="กรุณาเลือกคำนำหน้า">
+                                                            </dxi-validation-rule>
+                                                        </dxi-item>
+                                                        <div *dxTemplate="let data of 'templatetitle'">
+                                                            <dx-select-box [dataSource]="title" displayExpr="TITLE_NAME" valueExpr="TITLE_ID" placeholder="คำนำหน้า" [showClearButton]="true" [(value)]="formData.TITLE_ID">
+                                                            </dx-select-box><br>
+                                                            <div class="text-custom">ชื่อ:</div>
+                                                            <dx-text-box placeholder="ชื่อ" [showClearButton]="true" [(value)]="formData.PERSONAL_FNAME_THA">
+                                                                <dxi-validation-rule type="required" message="ชื่อ">
+                                                                </dxi-validation-rule>
+                                                            </dx-text-box>
+                                                        </div>
+
+                                                        <dxi-item template="templatep" [colSpan]="1">
+                                                        </dxi-item>
+                                                        <div *dxTemplate="let data of 'templatep'">
+                                                            <div class="row img-uploads">
+                                                                <div class="block-0 col-12 mb-1">
+                                                                    <img #profileImage class="img-thumbnail float-right" [src]="userImagePath" placeholder="/assets/icon/user.png" width=120 height=120 (error)="setDefaultPic()">
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <dx-button class="float-right" [width]="120" icon="fas fa-image" type="success" text="เลือกรูป" (onClick)="OpenFileDialog($event, upload)">
+                                                                    </dx-button>
+                                                                    <div class="dx-fileuploader-input-container d-none">
+                                                                        <input #upload type="file" accept="image/jpeg" tabindex="-1" class="dx-fileuploader-input" (change)="OnImageAdd(upload, profileImage)">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- <dxi-item dataField="PERSONAL_FNAME_THA" editorType="dxTextBox"
+                                                        [isRequired]="true" [editorOptions]="{ placeholder: 'ชื่อ' }">
+                                                        <dxo-label alignment="left" text="ชื่อ"></dxo-label>
+                                                        <dxi-validation-rule type="required" message="กรุณากรอกชื่อ">
+                                                        </dxi-validation-rule>
+                                                    </dxi-item> -->
+                                                        <dxi-item dataField="PERSONAL_LNAME_THA" [isRequired]="true" editorType="dxTextBox" [editorOptions]="{ placeholder: 'นามสกุล' , showClearButton:true}">
+                                                            <dxo-label alignment="left" text="นามสกุล"></dxo-label>
+                                                            <dxi-validation-rule type="required" message="กรุณากรอกนามสกุล">
+                                                            </dxi-validation-rule>
+                                                        </dxi-item>
+
+                                                        <dxi-item dataField="" template="occupations" [isRequired]="true">
+                                                            <dxo-label text="อาชีพ" [showColon]="false">
+                                                            </dxo-label>
+                                                        </dxi-item>
+                                                        <div *dxTemplate="let data of 'occupations'">
+                                                            <dx-select-box [dataSource]="occupations" [showClearButton]="true" displayExpr="OCCUPATIONS_NAME" valueExpr="OCCUPATIONS_ID" searchExpr="OCCUPATIONS_NAME" [searchEnabled]="true" [(value)]="formData.OCCUPATION_ID" placeholder="อาชีพ">
+                                                            </dx-select-box>
+                                                        </div>
+
+                                                        <dxi-item dataField="PERSONAL_EMAIL" editorType="dxTextBox" [isRequired]="true" [editorOptions]="{ showClearButton:true}">
+                                                            <dxo-label text="E-mail "></dxo-label>
+                                                        </dxi-item>
+
+                                                        <!-- <dxi-item dataField="PERSONAL_TEL_NO" editorType="dxTextBox" [editorOptions]="{ showClearButton:true,maxLength:10,valueChangeEvent:'keyup',onValueChanged: checkNumber}">
+                                                        <dxo-label text="เบอร์โทรศัพท์"></dxo-label>
+                                                    </dxi-item> -->
+
+                                                        <dxi-item template="templatePersonal-tel-no">
+                                                            <dxo-label text="เบอร์โทรศัพท์">
+                                                            </dxo-label>
+                                                        </dxi-item>
+                                                        <div *dxTemplate="let data of 'templatePersonal-tel-no'">
+                                                            <dx-text-box type="number" [(value)]="formData.PERSONAL_TEL_NO" [showClearButton]="true" [maxLength]="10" (keypress)="checkNumber($event)">
+                                                                <!-- <dx-validator>
+                                                                <dxi-validation-rule type="pattern" [pattern]="phonePattern" message="กรอกข้อมูลเฉพาะตัวเลข"></dxi-validation-rule>
+                                                            </dx-validator> -->
+                                                            </dx-text-box>
+                                                        </div>
+
+                                                        <dxi-item template="templateDate" [isRequired]="true">
+                                                            <dxo-label text="วัน/เดือน/ปีเกิด">
+                                                            </dxo-label>
+                                                            <dxi-validation-rule type="required" message="กรุณาเลือกวัน/เดือน/ปีเกิด">
+                                                            </dxi-validation-rule>
+                                                        </dxi-item>
+                                                        <div *dxTemplate="let data of 'templateDate'">
+                                                            <dx-date-box dateSerializationFormat="yyyy-MM-dd" [openOnFieldClick]="true" [acceptCustomValue]="false" [(value)]="formData.PERSONAL_BIRTH_DATE">
+                                                            </dx-date-box>
+                                                        </div>
+
+
+                                                        <dxi-item dataField="PERSONAL_GENDER" editorType="dxRadioGroup" [isRequired]="true" [editorOptions]="{value: formData.PERSONAL_GENDER,items:gender, valueExpr:'id',
+                                                         displayExpr:'text',layout:'horizontal'}">
+                                                            <dxo-label text="เพศ"></dxo-label>
+                                                        </dxi-item>
+                                                        <!-- </dxi-item> -->
+                                                    </dx-form><br>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><br>
+
+                            <div class="card">
+                                <div class="card-header card-header-rose card-header-icon">
+                                    <div class="card-icon">
+                                        <p><span class="fas fa-map-marker-alt">&nbsp;</span> ที่อยู่ปัจจุบัน
+                                        </p>
+                                    </div>
+
+                                </div>
+                                <div class="card-body ">
+                                    <div class="panel panel-default">
+                                        <div class="panel panel-default " style="margin-top:18px; ">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body ">
+
+                                                    <dx-form [formData]="formData" labelLocation="top" [colCount]="2">
+                                                        <dxi-item dataField="PERSONAL_ADDRESS" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}">
+                                                            <dxo-label text="บ้านเลขที่"></dxo-label>
+                                                        </dxi-item>
+                                                        <dxi-item dataField="PERSONAL_MOO" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}">
+                                                            <dxo-label text="หมู่"></dxo-label>
+                                                        </dxi-item>
+                                                        <dxi-item dataField="PERSONAL_STREET" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}">
+                                                            <dxo-label text="ถนน"></dxo-label>
+                                                        </dxi-item>
+                                                        <dxi-item dataField="PERSONAL_SOI" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}">
+                                                            <dxo-label text="ตรอกซอย"></dxo-label>
+                                                        </dxi-item>
+                                                        <!-- จังหวัด -->
+                                                        <dxi-item dataField="" template="tempjugwaidTruck" [isRequired]="true">
+                                                            <dxo-label text="จังหวัด" [showColon]="false">
+                                                            </dxo-label>
+                                                        </dxi-item>
+                                                        <div *dxTemplate="let data of 'tempjugwaidTruck'">
+                                                            <dx-select-box [dataSource]="province" [showClearButton]="true" displayExpr="PROVINCE_NAME_THA" valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true" [(value)]="formData.PROVINCE_ID" placeholder="จังหวัด" (onValueChanged)="OnSerectProvice($event)">
+                                                            </dx-select-box>
+                                                        </div>
+
+                                                        <!-- อำเภอเขต -->
+                                                        <dxi-item dataField="" template="temaumperTruck" [isRequired]="true">
+                                                            <dxo-label text="อำเภอ/เขต" [showColon]="false"></dxo-label>
+                                                        </dxi-item>
+                                                        <div *dxTemplate="let data of 'temaumperTruck'">
+                                                            <dx-select-box [dataSource]="district" [showClearButton]="true" displayExpr="DISTRICT_NAME_THA" valueExpr="DISTRICT_ID" searchExpr="DISTRICT_NAME_THA" [searchEnabled]="true" [(value)]="formData.DISTICT_ID" placeholder="อำเภอ/เขต" [disabled]="disableDistrict"
+                                                                (onValueChanged)="OnSerectDistrict($event)">
+                                                            </dx-select-box>
+                                                        </div>
+
+                                                        <!-- ตำบล -->
+                                                        <dxi-item dataField="" template="temptumbonTruck" [isRequired]="true">
+                                                            <dxo-label text="ตำบล" [showColon]="false"></dxo-label>
+                                                        </dxi-item>
+                                                        <div *dxTemplate="let data of 'temptumbonTruck'">
+                                                            <dx-select-box [dataSource]="subdistrict" displayExpr="SUB_DISTRICT_NAME_THA" [showClearButton]="true" valueExpr="SUB_DISTRICT_ID" searchExpr="SUB_DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="ตำบล" [disabled]="disableSubDistrict" [(value)]="formData.SUB_DISTICT_ID"
+                                                                (onValueChanged)="OnSerectSubDistrict($event)">
+                                                            </dx-select-box>
+                                                        </div>
+
+                                                        <!-- รหัสไปรษณีย์ -->
+                                                        <dxi-item dataField="POSTCODE_ID" template="temppostcode1" [isRequired]="true">
+                                                            <dxo-label text="รหัสไปรษณีย์"></dxo-label>
+                                                        </dxi-item>
+                                                        <div *dxTemplate="let data of 'temppostcode1'">
+                                                            <dx-select-box [dataSource]="postcode" [showClearButton]="true" [disabled]="disablepostcode" [(value)]="formData.POST_CODE" valueExpr="POSTCODE_ID" displayExpr="POSTCODE_CODE" placeholder="รหัสไปรษณีย์" [disabled]="disablepostcode" (onValueChanged)="OnSerectPostCode($event)">
+                                                            </dx-select-box>
+                                                        </div>
+                                                    </dx-form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><br>
+
+                            <div class="card">
+                                <div class="card-header card-header-rose card-header-icon">
+                                    <div class="card-icon">
+                                        <p><span class="fa fa-home">&nbsp;</span> ที่อยู่ตามทะเบียนบ้าน
+                                        </p>
+                                    </div>
+
+                                </div>
+                                <div class="card-body ">
+                                    <div class="panel panel-default">
+                                        <div class="panel panel-default " style="margin-top:18px; ">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body ">
+                                                    <dx-form [formData]="formData" labelLocation="top" [colCount]="2">
+                                                        <dxi-item dataField="HOME_REGISTER_ADDRESS" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}">
+                                                            <dxo-label text="บ้านเลขที่"></dxo-label>
+                                                        </dxi-item>
+                                                        <dxi-item dataField="HOME_REGISTER_MOO" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}">
+                                                            <dxo-label text="หมู่"></dxo-label>
+                                                        </dxi-item>
+                                                        <dxi-item dataField="HOME_REGISTER_STREET" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}">
+                                                            <dxo-label text="ถนน"></dxo-label>
+                                                        </dxi-item>
+                                                        <dxi-item dataField="HOME_REGISTER_SOI" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}">
+                                                            <dxo-label text="ตรอกซอย"></dxo-label>
+                                                        </dxi-item>
+                                                        <!-- จังหวัด -->
+                                                        <dxi-item dataField="" template="tempjugwaidTruck1">
+                                                            <dxo-label text="จังหวัด" [showColon]="false">
+                                                            </dxo-label>
+                                                        </dxi-item>
+                                                        <div *dxTemplate="let data of 'tempjugwaidTruck1'">
+                                                            <dx-select-box [dataSource]="province" displayExpr="PROVINCE_NAME_THA" valueExpr="PROVINCE_ID" [(value)]="formData.HOME_REGISTER_PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true" placeholder="จังหวัด" [showClearButton]="true" (onValueChanged)="OnSerectProviceHome($event)">
+                                                            </dx-select-box>
+                                                        </div>
+
+                                                        <!-- อำเภอเขต -->
+                                                        <dxi-item dataField="" template="temaumperTruck2">
+                                                            <dxo-label text="อำเภอ/เขต" [showColon]="false"></dxo-label>
+                                                        </dxi-item>
+                                                        <div *dxTemplate="let data of 'temaumperTruck2'">
+                                                            <dx-select-box [dataSource]="district1" displayExpr="DISTRICT_NAME_THA" valueExpr="DISTRICT_ID" [(value)]="formData.HOME_REGISTER_DISTICT_ID" searchExpr="DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="อำเภอ/เขต" [disabled]="disableDistrict1" (onValueChanged)="OnSerectDistrictHome($event)"
+                                                                [showClearButton]="true">
+                                                            </dx-select-box>
+                                                        </div>
+
+                                                        <!-- ตำบล -->
+                                                        <dxi-item dataField="" template="temptumbonTruck3">
+                                                            <dxo-label text="ตำบล" [showColon]="false"></dxo-label>
+                                                        </dxi-item>
+                                                        <div *dxTemplate="let data of 'temptumbonTruck3'">
+                                                            <dx-select-box [dataSource]="subdistrict1" displayExpr="SUB_DISTRICT_NAME_THA" [(value)]="formData.HOME_REGISTER_SUB_DISTICT_ID" valueExpr="SUB_DISTRICT_ID" searchExpr="SUB_DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="ตำบล" [disabled]="disableSubDistrict1"
+                                                                (onValueChanged)="OnSerectSubDistrictHome($event)" [showClearButton]="true">
+                                                            </dx-select-box>
+                                                        </div>
+
+
+                                                        <!-- รหัสไปรษณีย์ -->
+                                                        <dxi-item dataField="HOME_REGISTER_POST_CODE" template="temphomepostcode5">
+                                                            <dxo-label text="รหัสไปรษณีย์"></dxo-label>
+                                                        </dxi-item>
+                                                        <div *dxTemplate="let data of 'temphomepostcode5'">
+                                                            <dx-select-box [dataSource]="postcode1" valueExpr="POSTCODE_ID" [disabled]="disablepostcode1" [(value)]="formData.HOME_REGISTER_POST_CODE" displayExpr="POSTCODE_CODE" placeholder="รหัสไปรษณีย์" (onValueChanged)="OnSerectPostCodeHome($event)" [showClearButton]="true">
+                                                            </dx-select-box>
+                                                        </div>
+                                                    </dx-form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-header card-header-rose card-header-icon">
+                                    <div class="card-icon">
+                                        <p><span class="fa fa-briefcase">&nbsp;</span> ที่อยู่สถานที่ทำงาน
+                                        </p>
+                                    </div>
+
+                                </div>
+                                <div class="card-body ">
+                                    <div class="panel panel-default">
+                                        <div class="panel panel-default " style="margin-top:18px; ">
+                                            <div class="panel panel-default">
+                                                <div class="panel-body ">
+                                                    <dx-form [formData]="formData" labelLocation="top" [colCount]="2">
+                                                        <dxi-item dataField="WORK_ADDRESS_NO" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}">
+                                                            <dxo-label text="บ้านเลขที่"></dxo-label>
+                                                        </dxi-item>
+                                                        <dxi-item dataField="WORK_ADDRESS_MOO" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}">
+                                                            <dxo-label text="หมู่"></dxo-label>
+                                                        </dxi-item>
+                                                        <dxi-item dataField="WORK_ADDRESS_BUILDING" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}">
+                                                            <dxo-label text="ตึก/อาคาร"></dxo-label>
+                                                        </dxi-item>
+                                                        <dxi-item dataField="WORK_ADDRESS_STREET" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}">
+                                                            <dxo-label text="ถนน"></dxo-label>
+                                                        </dxi-item>
+                                                        <dxi-item dataField="WORK_ADDRESS_SOI" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}">
+                                                            <dxo-label text="ตรอกซอย"></dxo-label>
+                                                        </dxi-item>
+                                                        <!-- จังหวัด -->
+                                                        <dxi-item dataField="" template="work-province">
+                                                            <dxo-label text="จังหวัด" [showColon]="false">
+                                                            </dxo-label>
+                                                        </dxi-item>
+                                                        <div *dxTemplate="let data of 'work-province'">
+                                                            <dx-select-box [dataSource]="province" displayExpr="PROVINCE_NAME_THA" valueExpr="PROVINCE_ID" [(value)]="formData.WORK_PROVINCE" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true" placeholder="จังหวัด" [showClearButton]="true" (onValueChanged)="OnSelectProviceWork($event)">
+                                                            </dx-select-box>
+                                                        </div>
+
+                                                        <!-- อำเภอเขต -->
+                                                        <dxi-item dataField="" template="work-district">
+                                                            <dxo-label text="อำเภอ/เขต" [showColon]="false"></dxo-label>
+                                                        </dxi-item>
+                                                        <div *dxTemplate="let data of 'work-district'">
+                                                            <dx-select-box [dataSource]="district2" displayExpr="DISTRICT_NAME_THA" valueExpr="DISTRICT_ID" [(value)]="formData.WORK_DISTRICT_ID" searchExpr="DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="อำเภอ/เขต" [disabled]="disableDistrict2" (onValueChanged)="OnSelectDistrictWork($event)"
+                                                                [showClearButton]="true">
+                                                            </dx-select-box>
+                                                        </div>
+
+                                                        <!-- ตำบล -->
+                                                        <dxi-item dataField="" template="work-sub-district">
+                                                            <dxo-label text="ตำบล" [showColon]="false"></dxo-label>
+                                                        </dxi-item>
+                                                        <div *dxTemplate="let data of 'work-sub-district'">
+                                                            <dx-select-box [dataSource]="subdistrict2" displayExpr="SUB_DISTRICT_NAME_THA" [(value)]="formData.WORK_SUB_DISTRICT_ID" valueExpr="SUB_DISTRICT_ID" searchExpr="SUB_DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="ตำบล" [disabled]="disableSubDistrict2"
+                                                                (onValueChanged)="OnSelectSubDistrictWork($event)" [showClearButton]="true">
+                                                            </dx-select-box>
+                                                        </div>
+
+
+                                                        <!-- รหัสไปรษณีย์ -->
+                                                        <dxi-item dataField="WORK_POSTCODE_ID" template="work-postode">
+                                                            <dxo-label text="รหัสไปรษณีย์"></dxo-label>
+                                                        </dxi-item>
+                                                        <div *dxTemplate="let data of 'work-postode'">
+                                                            <dx-select-box [dataSource]="postcode2" valueExpr="POSTCODE_ID" [disabled]="disablepostcode2" [(value)]="formData.WORK_POSTCODE_ID" displayExpr="POSTCODE_CODE" placeholder="รหัสไปรษณีย์" (onValueChanged)="OnSelectPostCodeWork($event)" [showClearButton]="true">
+                                                            </dx-select-box>
+                                                        </div>
+                                                    </dx-form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-body ">
+                            <div class="col-md-12 mb-5">
+                                <dx-button icon="revert" type="normal" hint="ย้อนกลับ" text="ย้อนกลับ" (onClick)="Back()">
+                                </dx-button>
+                                &nbsp;
+                                <dx-button type="success" text="บันทึก" (onClick)="save()">
+                                </dx-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="_isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

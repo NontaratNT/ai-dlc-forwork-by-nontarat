@@ -1,0 +1,333 @@
+<div class="card-body row" style="padding: 20px;">
+    <div class="col-12" style="border: 1px solid #cacaca; background-color: #fff;
+padding: 10px; box-shadow: 0px 5px 5px #aaaaaa8c; margin-top: 105px;
+border-radius: 10px;">
+        <!-- <div class="row" style="margin-bottom:10px;display: flow-root;padding-right: 15px;" [hidden]="_hidden">
+            <dx-button class="float-right" [width]="140" icon="fas fa-file" type="success" text="อัพโหลดไฟล์" (onClick)="OpenFileDialog($event, upload)"></dx-button>
+            <div class="dx-fileuploader-input-container d-none">
+                <input #upload type="file" id="file" tabindex="-1" class="dx-fileuploader-input" (change)="uploadFileInput($event)">
+            </div>
+
+        </div> -->
+
+        <div style="margin-top: 20px;" class="damage">
+            <div class="content-titles">ไฟล์หลักฐาน</div>
+            <div class="text-right">
+                <dx-button [width]="140" icon="fas fa-file" class="btn-upload" type="success" text="อัพโหลดไฟล์"
+                    (onClick)="OpenFileDialog($event, upload)"></dx-button>
+                <div class="dx-fileuploader-input-container d-none">
+                    <input #upload type="file" id="file" tabindex="-1" class="dx-fileuploader-input"
+                        (change)="uploadFileInput($event)">
+                </div>
+            </div>
+            <div class="remark-table-upload">* ขนาดไฟล์แต่ละรายการไม่เกิน 5MB และไม่เกิน 20 ไฟล์</div>
+            <dx-data-grid #grid [dataSource]="formAttach" [showColumnLines]="false" [showRowLines]="false"
+                [wordWrapEnabled]="true" [columnHidingEnabled]="false" [showBorders]="false"
+                [rowAlternationEnabled]="true" [remoteOperations]="true" [hoverStateEnabled]="true"
+                noDataText="ไม่มีข้อมูล" rowTemplate="rowTemplateName">
+
+                <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                </dxo-editing>
+                <dxo-paging [pageSize]="5"></dxo-paging>
+                <dxo-selection mode="single"></dxo-selection>
+                <tbody class="employee dx-row" [ngClass]="{'dx-row-alt': cell.rowIndex % 1}"
+                    *dxTemplate="let cell of 'rowTemplateName'">
+                    <tr class="notes-row" style="
+display: flex;border: 1px solid #cacaca; background-color: #fff;
+padding: 10px; box-shadow: 0px 5px 5px #aaaaaa8c; margin-top: 15px;
+border-radius: 10px;">
+                        <td class="w-100">
+                            <!-- <div style="margin: 5px;">
+                                <div class="d-flex">
+                                    <div class="bodylist">
+                                        <div>
+                                            <div class="d-flex" *ngIf="formAttach.length > 0">
+                                                <div>
+                                                    ลำดับ :
+                                                </div>
+                                                <div style="padding-left: 55px;">
+                                                    {{ cell.component.pageIndex() *
+                                                    cell.component.pageSize() +
+                                                    cell.rowIndex + 1 }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div style="margin: 5px;">
+                                <div class="d-flex">
+                                    <div class="bodylist">
+                                        <div>
+                                            <div class="d-flex" *ngIf="formAttach.length > 0">
+                                                <div style="
+                                                                    width: 68px;">
+
+                                                    ชื่อไฟล์ :
+                                                </div>
+                                                <div style="padding-left: 25px;
+                                                width: 200px;" class="text-download"
+                                                    (click)="previewButtonClicked(cell)">
+                                                    {{cell.data.INST_ATTACHMENT_NAME}}
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div style="margin: 5px;">
+                                <div class="d-flex">
+                                    <div class="bodylist">
+                                        <div>
+                                            <div class="d-flex" *ngIf="formAttach.length > 0">
+                                                <div>
+
+                                                    วันที่และเวลา :
+                                                </div>
+                                                <div style="padding-left: 18px;">
+                                                    {{ConvertDateFullMonth(cell.data.INST_ATTACHMENT_DATE)}} เวลา
+                                                    {{ConvertDateToMomentTime(cell.data.INST_ATTACHMENT_DATE)}} น.
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div style="margin: 5px;">
+                                <div class="d-flex">
+                                    <div class="bodylist">
+                                        <div>
+                                            <div class="d-flex" *ngIf="formAttach.length > 0">
+                                                <div style="padding-left: 100px;">
+                                                    <div class="icon-inline"
+                                                        *ngIf="cell.data.INST_ATTACHMENT_ACTION_FLAG === 'A'">
+                                                        <img class="text-download" src="assets/icon/trash.png"
+                                                            alt="icon" (click)="delete(cell)">&nbsp;&nbsp;
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div> -->
+                            <dx-form #form [colCount]="1" labelLocation="left">
+                                <dxi-item template="temp01" [colSpan]="1">
+                                    <dxo-label text="ลำดับ" [showColon]="true">
+                                    </dxo-label>
+                                </dxi-item>
+                                <div *dxTemplate="let data of 'temp01'">
+
+                                    <div style="    margin-left: 15px;">
+                                        {{
+                                        cell.component.pageIndex()
+                                        *
+                                        cell.component.pageSize()
+                                        +
+                                        cell.rowIndex + 1 }}</div>
+                                </div>
+                                <dxi-item template="temp1" [colSpan]="1">
+                                    <dxo-label text="ชื่อไฟล์" [showColon]="true"></dxo-label>
+                                </dxi-item>
+                                <div *dxTemplate="let data of 'temp1'">
+
+                                    <div style="padding-left: 10px;" class="text-download"
+                                        (click)="previewButtonClicked(cell)">
+                                        {{cell.data.INST_ATTACHMENT_NAME}}
+                                    </div>
+
+
+                                </div>
+                                <dxi-item template="temp12" [colSpan]="1">
+                                    <dxo-label text="วันที่แนบไฟล์" [showColon]="true"></dxo-label>
+                                </dxi-item>
+                                <div *dxTemplate="let data of 'temp12'">
+                                    <div style="padding-left: 10px;">
+                                        {{ConvertDateFullMonth(cell.data.INST_ATTACHMENT_DATE)}}
+                                    </div>
+
+
+
+                                </div>
+                                <dxi-item template="temp13" [colSpan]="1">
+                                    <dxo-label text="เวลาที่แนบไฟล์" [showColon]="true"></dxo-label>
+                                </dxi-item>
+                                <div *dxTemplate="let data of 'temp13'">
+                                    <div style="padding-left: 10px;">
+                                        {{ConvertDateToMomentTime(cell.data.INST_ATTACHMENT_DATE)}} น.
+                                    </div>
+
+
+
+                                </div>
+
+                                <dxi-item template="temp3" [colSpan]="1">
+                                    <dxo-label text=" " [showColon]="false"></dxo-label>
+                                </dxi-item>
+                                <div *dxTemplate="let data of 'temp3'">
+                                    <div class="d-flex" *ngIf="formAttach.length > 0">
+                                        <div style="padding-left: 100px;">
+                                            <div class="icon-inline"
+                                                *ngIf="cell.data.INST_ATTACHMENT_ACTION_FLAG === 'A'">
+                                                <img class="text-download" src="assets/icon/trash.png" alt="icon"
+                                                    (click)="delete(cell)">&nbsp;&nbsp;
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </dx-form>
+                        </td>
+                    </tr>
+                </tbody>
+                <dxi-column dataField="" caption=" " alignment="center" cellTemplate="cellTemplates">
+                </dxi-column>
+
+            </dx-data-grid>
+            <!-- <div *ngFor="let i of formAttach">
+                <div class="box-att">
+                    <tr style="width: 100%;">
+                        <td>ชื่อไฟล์</td>
+                        <td style=" cursor: pointer;
+                        color: #333a71;
+                        text-decoration: underline;" (click)="previewButtonClicked(i)">{{i.INST_ATTACHMENT_NAME}}</td>
+                    </tr>
+                    <tr style="width: 100%;">
+                        <td>วันที่และเวลา</td>
+                        <td>{{ConvertDateFullMonth(i.INST_ATTACHMENT_DATE)}} เวลา
+                            {{ConvertDateToMomentTime(i.INST_ATTACHMENT_DATE)}} น.</td>
+                    </tr>
+                </div>
+            </div> -->
+            <!-- <dx-data-grid #grid [dataSource]="formAttach" [showColumnLines]="false" noDataText="ไม่มีข้อมูล" [showRowLines]="true" [columnAutoWidth]="true" [columnHidingEnabled]="true" [showBorders]="false" [rowAlternationEnabled]="true" [showColumnLines]="true"
+                [hoverStateEnabled]="true" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล" [remoteOperations]="false">
+                <dxo-paging [pageSize]="10"></dxo-paging>
+                <dxo-load-panel text="กำลังโหลดข้อมูล..."></dxo-load-panel>
+                <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                </dxo-editing>
+                <dxo-selection mode="single"></dxo-selection>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true">
+                </dxo-pager>
+                <dxi-column dataField="" caption="ลำดับที่" [width]="70" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+
+                <dxi-column alignment="center" caption="จัดการ" [width]="80" cellTemplate="cellTemplateView" [allowSearch]="false">
+                </dxi-column>
+                <div *dxTemplate="let d of 'cellTemplateView'">
+
+                    <div *ngIf="d.data.INST_ATTACHMENT_ACTION_FLAG === 'A'">
+                        <img class="text-download" src="assets/icon/trash.png" alt="icon" (click)="delete(d)">&nbsp;&nbsp;
+                    </div>
+                    <img class="text-download" src="assets/image/police/desktop/icon-view.png" alt="icon" (click)="previewButtonClicked(d)">
+
+                </div>
+                <dxi-column dataField="INST_ATTACHMENT_NAME" caption="ชื่อไฟล์เอกสาร" alignment="center">
+                </dxi-column>
+
+                <dxi-column dataField="" caption="ประเภทไฟล์" alignment="center" cellTemplate="cellTemplateType">
+                </dxi-column>
+
+                <div *dxTemplate="let cellInfo of 'cellTemplateType'" style="text-align: left;">
+                    <div *ngIf="cellInfo.data.INST_ATTACHMENT_ACTION_FLAG === 'A'">
+                        <dx-select-box id="select-status" [dataSource]="typeAttachment" displayExpr="INST_ATTACHMENT_TYPE_NAME" valueExpr="INST_ATTACHMENT_TYPE_ID" placeholder="ประเภทไฟล์" [(value)]="cellInfo.row.data.INST_ATTACHMENT_TYPE_ID" (onValueChanged)="typeSelected($event , cellInfo)">
+                        </dx-select-box>
+                    </div>
+                </div>
+
+
+                <dxi-column dataField="INST_ATTACHMENT_SIZE" alignment="center" caption="ขนาดไฟล์" cellTemplate="cellTemplateFileSize"></dxi-column>
+
+                <div *dxTemplate="let cellInfo of 'cellTemplateFileSize'">
+                    <span>{{cellInfo.value }}</span>
+                </div>
+
+                <dxi-column dataField="INST_ATTACHMENT_DATE" [calculateDisplayValue]="formatDate" caption="วันที่นำเข้าเอกสาร" alignment="center">
+                </dxi-column>
+
+                <div *dxTemplate="let cell of 'cellTemplate'">
+                    {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                </div>
+            </dx-data-grid> -->
+        </div>
+    </div>
+</div>
+<div class="d-flex" style="justify-content: center;
+    margin-top: 10px;">
+    <dx-button class="btn btn-back" style="margin: 10px;" text="ย้อนกลับ" (onClick)="Back($event)">
+    </dx-button>
+</div>
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="_isLoading" [showIndicator]="true" [showPane]="true"
+    [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>
+<dx-popup [height]="600" [showTitle]="true" title="" [dragEnabled]="false" [closeOnOutsideClick]="false"
+    [showCloseButton]="false" [visible]="popup" titleTemplate="title">
+    <div *dxTemplate="let data of 'title'">
+        <div id="popup-view-file-upload-title" class="row">
+            <div class="col text-left">
+                รายละเอียดไฟล์
+            </div>
+            <div class="col-auto text-right">
+                <div class="block-icon">
+                    <div class="icon-title-download">
+                        <i class="fa fa-download btn-icon" (click)="DownloadFile()"></i>
+                    </div>
+                    <div class="icon-title-close">
+                        <i class="fa fa-times btn-icon" (click)="onClose()"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view [showScrollbar]="'always'" style="height: calc(100% - 45px);
+        width: calc(100% - -50px);
+        margin-left: -25px;">
+            <div id="popup-view-file-upload">
+                <div class="file-title" style="display: flex;">
+                    <span class="title-first" style="min-width: 50px;">ชื่อไฟล์</span>
+                    <span class="title-split">:</span>
+                    <span class="title-detail" style="word-break: break-word;">{{data_.INST_ATTACHMENT_NAME}}</span>
+                </div>
+                <ng-container *ngIf="type > -1 ">
+                    <!-- <iframe [src]="urlSafe" [filenameForDownload]="data_.INST_ATTACHMENT_NAME" allowfullscreen style="width: 100%; min-height:  51vh;"></iframe> -->
+                    <ngx-extended-pdf-viewer [src]="urlSafe" [useBrowserLocale]="true" [showOpenFileButton]="false"
+                        [filenameForDownload]="data_.INST_ATTACHMENT_NAME" backgroundColor="#ffffff" theme="dark"
+                        [pageViewMode]="'infinite-scroll'">
+                    </ngx-extended-pdf-viewer>
+                    <!-- <ngx-extended-pdf-viewer [src]="pdfBase64" [filenameForDownload]="fileName" [useBrowserLocale]="true" [textLayer]="true" [showHandToolButton]="true" [showPresentationModeButton]="true" [showDownloadButton]="false" theme="dark">
+                    </ngx-extended-pdf-viewer> -->
+                </ng-container>
+                <ng-container *ngIf="type > -1 ">
+                    <!-- <iframe [src]="urlSafe" [filenameForDownload]="data_.INST_ATTACHMENT_NAME" allowfullscreen style="width: 100%; min-height:  51vh;"></iframe> -->
+                    <ngx-extended-pdf-viewer
+                        [src]="'http://202.139.215.148/resource/bpm/attachment/02-2022/14264/3228da09bcbc4d099fc332828a468ee9.pdf'"
+                        [useBrowserLocale]="true" [showOpenFileButton]="false"
+                        [filenameForDownload]="data_.INST_ATTACHMENT_NAME" backgroundColor="#ffffff" theme="dark"
+                        [pageViewMode]="'infinite-scroll'">
+                    </ngx-extended-pdf-viewer>
+                    <!-- <ngx-extended-pdf-viewer [src]="pdfBase64" [filenameForDownload]="fileName" [useBrowserLocale]="true" [textLayer]="true" [showHandToolButton]="true" [showPresentationModeButton]="true" [showDownloadButton]="false" theme="dark">
+                    </ngx-extended-pdf-viewer> -->
+                </ng-container>
+                <ng-container *ngIf="type === -1 ">
+                    <div class="block-img-detail">
+                        <img class="img-detail" style="width: 100%;" [src]="urlSafe" alt="img">
+                    </div>
+                </ng-container>
+
+                <!-- <div class="block-file-detail">
+                    <dx-button class="btn btn-download" text="Download" (onClick)="DownloadFile()"></dx-button>
+                </div> -->
+            </div>
+        </dx-scroll-view>
+
+    </div>
+    <!-- <iframe [src]="urlSafe" allowfullscreen style="width: 100%; height: 100%;"></iframe> -->
+
+</dx-popup>

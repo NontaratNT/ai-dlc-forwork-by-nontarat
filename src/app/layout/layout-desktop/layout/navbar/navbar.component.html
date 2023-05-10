@@ -1,0 +1,101 @@
+<nav class="desktop-navbar" [ngClass]="NavbarSize()" style="
+        background-image: url('assets/image/police/desktop/header-detail.png'),
+        url('assets/image/police/desktop/header.png');
+        background-repeat: no-repeat, repeat;
+        background-position: left, left top;
+        background-size: auto, 100% 100%;">
+    <!-- <div class="background-block" style="width: calc(100% - 200px);"> -->
+    <div class="desktop-navbar-row" [ngClass]="NavbarSize()">
+        <div class="list-detail">
+            <ul>
+
+                <li class="user-info-name">
+                    <div class="name">{{userData}}</div>
+                    <div class="personal-type">ประชาชน</div>
+                </li>
+                <li class="user-info-logo">
+                    <div class="block-border" (click)="onProfile()">
+                        <img [src]="userImagePath" class="img" (error)="setDefaultPic()" [title]="userData">
+                    </div>
+                </li>
+                <li class="notify not-copy">
+                    <div class="notify-bell">
+                        <i class="icon fa fa-bell icon-bell" style="font-size: 20px;" (click)="OpenBoxMsg($event)"></i>
+                        <div class="notify-number" *ngIf="countNoti > 0">
+                            <span *ngIf="countNoti <= 99">{{countNoti}}</span>
+                            <span class="number-over" *ngIf="countNoti > 99">99+</span>
+                        </div>
+                        <div class="notify-box-detail" *ngIf="this.notifyClassOpen" (click)="OpenBoxMsg($event)">
+                            <div class="card">
+                                <div class="card-header">
+                                    <span>แจ้งเตือน</span>
+                                </div>
+                                <div class="card-body">
+                                    <!-- <dx-scroll-view [showScrollbar]="'always'" style="height: 222px;">
+                                        <ng-container *ngFor="let items of notifyData; index as i">
+                                            <div class="notify-box-item" (click)="ViewWorkDetailList(i,items)">
+                                                <div class="notify-header">
+                                                    <span>เรื่อง ข้อความใหม่</span>
+                                                    <span class="unread" *ngIf="items.FLAG_READ === 'N'">(ยังไม่อ่าน)</span>
+                                                </div>
+                                                <div class="notify-body">{{items.NOTIFICATION_BODY}}</div>
+                                                <div class="notify-footer">วันที่ {{ displayFormatDate(items.NOTIFICATION_DATE) }}</div>
+                                            </div>
+                                        </ng-container>
+
+                                    </dx-scroll-view> -->
+                                    <dx-list [dataSource]="notifyData" keyExpr="NOTIFICATION_TO_ID" [hoverStateEnabled]="false" [focusStateEnabled]="false" [height]="208" [width]="350" [selectionMode]="'single'" [pageLoadMode]="'scrollBottom'" (onItemClick)="ViewWorkDetailList($event)"
+                                        [noDataText]="'ไม่พบข้อมูล'" [pageLoadingText]="'กำลังโหลด..'">
+                                        <div *dxTemplate="let item of 'item'">
+                                            <div class="notify-box-item">
+                                                <div class="notify-header">
+                                                    <span>เรื่อง {{item.NOTIFICATION_SUBJECT}}</span>
+                                                    <span class="unread" *ngIf="item.FLAG_READ === 'N'">(ยังไม่อ่าน)</span>
+                                                </div>
+                                                <div class="notify-body">{{item.NOTIFICATION_BODY}}</div>
+                                                <div class="notify-footer">วันที่ {{item.NOTIFICATION_DATE_STR}}</div>
+                                            </div>
+                                        </div>
+                                    </dx-list>
+                                </div>
+                                <div class="card-footer" (click)="ViewNotifyAll()">
+                                    <span>ดูทั้งหมด</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="logout">
+                    <div (click)="logout()">
+                        <img src="assets/image/police/desktop/logout.png" alt="logout">
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กำลังโหลดข้อมูล..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>
+
+<notifier-container style="position: absolute;z-index: 99999999999;">
+    <ng-template #customNotification let-notificationData="notification">
+        <my-custom-alert type="notificationData.type">
+            <div class="notifier-message">
+                <!-- <dx-button icon="fa fa-times" style="color: #000!important;position: absolute;
+            top: 0px;
+            right: 1px;
+            border-color: #ddd0;" (click)="closeNotification(notificationData.id)">
+                        </dx-button> -->
+                <div class="close">
+                    <i class="fa fa-times icon "></i>
+                </div>
+                <div>
+                    <div class="notify-header">เรื่อง {{notificationData.message.Subject}}</div>
+                    <div class="notify-body ">{{notificationData.message.body}}</div>
+                    <div class="notify-footer ">วันที่ {{ displayFormatDate(notificationData.message.sendDate) }}</div>
+                </div>
+                <!-- <div class="notify-footer ">วันที่ test }}</div> -->
+            </div>
+        </my-custom-alert>
+    </ng-template>
+</notifier-container>

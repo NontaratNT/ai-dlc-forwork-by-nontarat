@@ -1,0 +1,31 @@
+:host {
+    .footer-block {
+        background-color: #333;
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        z-index: 99;
+        min-height: 40px;
+        * {
+            font-size: 10px;
+            color: #ffffff;
+        }
+        .block-left,
+        .block-right {
+            padding-top: 10px;
+        }
+        // .block-right {
+        //     text-align: right;
+        //     padding-bottom: 10px;
+        // }
+        .block-right {
+            text-align: right;
+            padding-bottom: 10px;
+        }
+        @media screen and (max-width: 574.98px) {
+            .block-right {
+                text-align: left;
+            }
+        }
+    }
+}

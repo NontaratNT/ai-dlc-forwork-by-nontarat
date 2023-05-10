@@ -1,0 +1,48 @@
+<div class="block-content">
+    <div class="title">
+        <div class="title-left">รายการแจ้งเตือน </div>
+    </div>
+    <div class="block-main">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+
+                    <dx-data-grid #grid [dataSource]="notifyData" [showColumnLines]="true" [showRowLines]="true" [columnHidingEnabled]="true" [showBorders]="true" [rowAlternationEnabled]="true" [remoteOperations]="true" [hoverStateEnabled]="true" noDataText="ไม่มีข้อมูล">
+                        <dxo-search-panel [visible]="true" [width]="200" placeholder="ค้นหา..."></dxo-search-panel>
+                        <dxo-load-panel text="กำลังโหลดข้อมูล..."></dxo-load-panel>
+                        <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                        </dxo-editing>
+                        <dxo-selection mode="single"></dxo-selection>
+                        <dxi-column dataField="" caption="จัดการ" [width]="80" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommand"></dxi-column>
+                        <div *dxTemplate="let cell of 'cellTemplateCommand'">
+                            <img class="text-link view-data" src="assets/image/police/desktop/icon-view.png" alt="edit" (click)="ViewWorkDetailList(cell.data)">
+                        </div>
+                        <dxi-column dataField="" [width]="80" caption="ลำดับ" alignment="center" cellTemplate="cellTemplate">
+                        </dxi-column>
+                        <dxi-column dataField="NOTIFICATION_BODY" caption="รายละเอียด" alignment="center" cellTemplate="cellTemplateDescription">
+                        </dxi-column>
+                        <div *dxTemplate="let cell of 'cellTemplateDescription'">
+                            <div class="text-break text-left">
+                                <span>{{cell.data.NOTIFICATION_BODY+' '+ cell.data.NOTIFICATION_SUBJECT}}</span>
+                                <span class="unread" *ngIf="cell.data.FLAG_READ === 'N'">(ยังไม่อ่าน)</span>
+                            </div>
+                        </div>
+                        <dxi-column dataField="" caption="วันที่" alignment="center" [width]="200" cellTemplate="cellTemplateDate">
+                        </dxi-column>
+                        <div *dxTemplate="let cell of 'cellTemplateDate'">
+                            <div class="text-break text-center">{{cell.data.NOTIFICATION_DATE_STR}}</div>
+                        </div>
+
+
+                        <div *dxTemplate="let cell of 'cellTemplate'">
+                            {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                        </div>
+                    </dx-data-grid>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กำลังโหลดข้อมูล..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

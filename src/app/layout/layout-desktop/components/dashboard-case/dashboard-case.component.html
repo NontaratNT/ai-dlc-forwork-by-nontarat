@@ -1,0 +1,43 @@
+<div class="block-content">
+    <div class="title">
+        <div class="title-left">แจ้งเรื่องใหม่</div>
+        <div class="title-right">หน้าหลัก / แจ้งเรื่องใหม่</div>
+    </div>
+    <div class="block-main" (resized)="onResized($event)">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div [ngClass]="displayBlockTop" class="user-case-info not-copy">
+                                    <div class="text-title">สวัสดี {{personalInfo.FullNameTH}} !</div>
+                                    <div class="text">โปรดเลือกตัวเลือกที่ตรงกับท่าน</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div [ngClass]="displayBlock">
+                            <div class="row">
+                                <div class="col-12 user-case-myself user-case-block not-copy block-click" (click)="Link(1)">
+                                    <div class="text-title">ผู้เสียหาย</div>
+                                    <div class="text">เลือกหัวข้อนี้กรณีท่านเป็นผู้เสียหาย</div>
+                                    <img src="assets/image/police/desktop/i1.png" class="left-block">
+                                </div>
+                            </div>
+                        </div>
+                        <div [ngClass]="displayBlock" [class.padding-left-block]="blockRightClass">
+                            <div class="row">
+                                <div class="col-12 user-case-other-user user-case-block right not-copy block-click" (click)="Link(2)">
+                                    <div class="text-title">แจ้งแทน</div>
+                                    <div class="text">เลือกหัวข้อนี้หากท่านต้องการ</div>
+                                    <div class="text">แจ้งเรื่องแทนผู้เสียหาย</div>
+                                    <img src="assets/image/police/desktop/i2.png" class="right-block">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

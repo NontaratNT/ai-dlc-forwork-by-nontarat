@@ -1,0 +1,54 @@
+:host {
+    .menu-header {
+        z-index: 200;
+        position: fixed;
+        width: 100%;
+        top: -2px;
+        background-color: #000e34;
+        .container-fluid {
+            height: 60px;
+            .col-p-unset {
+                padding: 0;
+            }
+        }
+        .menu-header-list-left {
+            padding-left: 10px;
+            .list-detail {
+                color: #ffffff;
+                ul {
+                    display: table-row;
+                }
+                ul li {
+                    display: table-cell;
+                    height: 60px;
+                    list-style-type: none;
+                    margin: 0;
+                    vertical-align: middle;
+                    padding-left: 15px;
+                }
+                .btn-back {
+                    img {
+                        width: 24px;
+                        height: 21px;
+                    }
+                    .text-back {
+                        font-size: 18px;
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+    .text-link {
+        cursor: pointer;
+        &:hover {
+            opacity: 0.75;
+        }
+    }
+    .not-copy {
+        -webkit-user-select: none !important;
+        -moz-user-select: none !important;
+        -ms-user-select: none !important;
+        user-select: none !important;
+    }
+}

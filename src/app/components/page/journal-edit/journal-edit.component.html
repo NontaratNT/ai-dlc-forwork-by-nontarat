@@ -1,0 +1,38 @@
+<div class="card block-data">
+    <div class="card-body">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="block-body">
+                    <div>
+                        <h3>ลงบันทึกประจำวัน</h3>
+                    </div>
+                    <div *ngIf="_editform">
+                        <dx-form [(formData)]="formdata" labelLocation="top">
+                            <dxi-item cssClass="text-title-detail" dataField="information" editorType="dxTextArea" [editorOptions]="{ height: 200 }" [readOnly]="true">
+                                <dxo-label text="ข้อมูลส่วนตัว" [showColon]="false"></dxo-label>
+                            </dxi-item>
+                            <dxi-item cssClass="text-title-detail" dataField="description" editorType="dxTextArea" [editorOptions]="{ height: 200 }">
+                                <dxo-label text="รายละเอียด" [showColon]="false"></dxo-label>
+                            </dxi-item>
+                        </dx-form>
+                    </div>
+                    <div *ngIf="!_editform">
+                        <h4 class="text-detail">รายละเอียด</h4>
+                        <div class="showtext">
+                            <h4 class="text-detail"></h4>
+                            <div class="text-description">{{formdata.information}}</div>
+                            <div class="text-description">{{formdata.description}}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="block-footer">
+                    <dx-button [elementAttr]="{ class: 'btn-footer' }" type="normal" stylingMode="contained" text="ยกเลิก" (onClick)="!_editform ? Back():_editform = false"></dx-button>
+                    <dx-button *ngIf="!_editform" [elementAttr]="{ class: 'btn-footer' }" type="danger" stylingMode="contained" text="ไม่ถูกต้อง" (onClick)="_editform = true"></dx-button>
+                    <dx-button [elementAttr]="{ class: 'btn-footer' }" type="default" stylingMode="contained" text="{{!_editform ? 'ถูกต้อง':'บันทึกการแก้ไข' }}" (onClick)="!_editform ? Back(): onSave()"></dx-button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

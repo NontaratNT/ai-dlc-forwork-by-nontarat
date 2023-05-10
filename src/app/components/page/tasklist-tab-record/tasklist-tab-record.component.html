@@ -1,0 +1,56 @@
+<div>
+    <dx-button style="color: black !important;" hint="ย้อนกลับ" text="ย้อนกลับ" (onClick)="Back()">
+    </dx-button>
+</div>
+<div class="p-lg-5" style="overflow: auto;">
+    <dx-tab-panel id="tabPanel" [selectedIndex]="0" [loop]="false" [animationEnabled]="true" [swipeEnabled]="true">
+        <dxi-item title="ภาพรวม">
+            <ng-container>
+                <app-overview></app-overview>
+            </ng-container>
+        </dxi-item>
+        <dxi-item title="ใบคำขอ">
+            <ng-container *dxTemplate>
+                <app-cyber-journal></app-cyber-journal>
+            </ng-container>
+        </dxi-item>
+        <dxi-item title="แนบเอกสาร">
+            <ng-container *dxTemplate>
+                <app-attach-file></app-attach-file>
+            </ng-container>
+        </dxi-item>
+        <dxi-item title="สนทนา">
+            <ng-container *dxTemplate>
+                <app-chat></app-chat>
+            </ng-container>
+        </dxi-item>
+    </dx-tab-panel>
+</div>
+<!-- <dx-tab-panel id="tabPanel" style="margin-top: -30px;" [dataSource]="data" [selectedIndex]="0" [loop]="false"
+    [animationEnabled]="true" [swipeEnabled]="true">
+    <div *dxTemplate="let i of 'title'">
+        <span>{{i.title}} <span class="notifications" *ngIf="i.id === 3|| i.id === 4"></span></span>
+    </div>
+    <div *dxTemplate="let i of 'item'">
+        <div class="card-body overflowscroll" *ngIf="i.id === 1">
+            <ng-container>
+                <app-overview></app-overview>
+            </ng-container>
+        </div>
+        <div class="card-body overflowscroll" *ngIf="i.id === 2">
+            <ng-container>
+                <app-cyber-issue></app-cyber-issue>
+            </ng-container>
+        </div>
+        <div class="card-body overflowscroll" *ngIf="i.id === 3">
+            <ng-container>
+                <app-attach-file></app-attach-file>
+            </ng-container>
+        </div>
+        <div class="card-body overflowscroll" *ngIf="i.id === 4">
+            <ng-container>
+               <app-chat></app-chat>
+            </ng-container>
+        </div>
+    </div>
+</dx-tab-panel> -->

@@ -1,0 +1,18 @@
+<div class="block-content">
+    <div class="title">
+        <div class="title-left">แจ้งเรื่องใหม่</div>
+        <div class="title-right">หน้าหลัก / แจ้งเรื่องใหม่ / ผู้เสียหาย</div>
+    </div>
+    <div class="block-main">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <!-- <div class="inblock-title">การนัดหมายที่กำลังมาถึง</div> -->
+                    <div *ngIf="reloadTab" class="sub-block">
+                        <app-issue-online-container [userType]="userType"></app-issue-online-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

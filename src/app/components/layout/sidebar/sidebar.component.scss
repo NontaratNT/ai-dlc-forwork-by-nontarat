@@ -1,0 +1,188 @@
+$base-accent: #333;
+$base-bg: #f3f2f14b;
+$base-border-color: #cccce73f;
+$base-border-radius: 4px;
+$side-panel-min-width: 40px;
+$text-color: #333;
+
+:host {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    height: 100%;
+    width: 250px !important;
+    overflow: auto !important;
+    background-color: #dadde5;
+    color: $text-color;
+
+    .menu-container {
+        min-height: 100%;
+        display: flex;
+        flex: 1;
+        margin-top: -10px;
+
+        ::ng-deep .dx-treeview {
+            // ## Long text positioning
+            white-space: nowrap;
+            color: #333;
+            // ##
+
+            // ## Icon width customization
+            .dx-treeview-item {
+                padding-left: 0;
+                padding-right: 0;
+                font-size: 16px;
+
+                .dx-icon {
+                    width: $side-panel-min-width !important;
+                    margin: 0 !important;
+                }
+            }
+            // ##
+
+            // ## Arrow customization
+            .dx-treeview-node {
+                padding: 0 0 !important;
+            }
+
+            .dx-treeview-toggle-item-visibility {
+                right: 10px;
+                left: auto;
+            }
+
+            .dx-treeview-toggle-item-visibility:before {
+                color: $text-color;
+                content: "+";
+                font-weight: bolder;
+            }
+
+            .dx-treeview-toggle-item-visibility.dx-treeview-toggle-item-visibility-opened:before {
+                content: "-";
+            }
+
+            .dx-rtl .dx-treeview-toggle-item-visibility {
+                left: 10px;
+                right: auto;
+            }
+            // ##
+
+            // ## Item levels customization
+            .dx-treeview-node {
+                &[aria-level="1"] {
+                    font-weight: bold;
+                    border-bottom: 1px solid $base-border-color;
+                }
+
+                &[aria-level="2"] .dx-treeview-item-content {
+                    font-weight: normal;
+                    padding: 0 $side-panel-min-width;
+                    margin-left: -25px;
+                }
+
+                .dx-treeview-item-content span.notify-text {
+                    position: absolute;
+                    right: 29px;
+                    top: 7px;
+                    font-size: 13px;
+                    color: #000 !important;
+                }
+            }
+            // ##
+        }
+
+        // ## Selected & Focuced items customization
+        ::ng-deep .dx-treeview {
+            .dx-treeview-node-container {
+                .dx-treeview-node {
+                    &.dx-state-selected:not(.dx-state-focused) > .dx-treeview-item {
+                        background: #a3a3de;
+                    }
+
+                    &.dx-state-selected > .dx-treeview-item * {
+                        color: $base-accent;
+                    }
+
+                    &:not(.dx-state-focused) > .dx-treeview-item.dx-state-hover {
+                        background-color: lighten($base-bg, 4);
+                        color: $text-color;
+                    }
+                }
+            }
+        }
+
+        :host-context(.dx-theme-generic) ::ng-deep.dx-treeview {
+            .dx-treeview-node-container .dx-treeview-node.dx-state-selected.dx-state-focused > .dx-treeview-item * {
+                color: inherit;
+            }
+        }
+        // ##
+    }
+}
+
+::ng-deep
+    .container
+    .menu-container
+    .dx-treeview
+    .dx-treeview-node-container
+    .dx-treeview-node:not(.dx-state-focused)
+    > .dx-treeview-item.dx-state-active {
+    background-color: #a3a3de;
+}
+::ng-deep
+    .container
+    .menu-container
+    .dx-treeview
+    .dx-treeview-node-container
+    .dx-treeview-node:not(.dx-state-focused)
+    > .dx-treeview-item.dx-state-focused {
+    background-color: #a3a3de;
+}
+::ng-deep .dx-treeview-item-without-checkbox.dx-state-focused > .dx-treeview-item {
+    background-color: #a3a3de;
+    color: 333 !important;
+}
+#sidebar-container .sidebar-header .user-pic {
+    float: left;
+    width: 60px;
+    padding: 2px;
+    border-radius: 12px;
+    margin-right: 15px;
+    overflow: hidden;
+}
+
+#sidebar-container .sidebar-header .user-pic img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    border-radius: 100px;
+}
+#sidebar-container {
+    margin-top: -10px;
+}
+#sidebar-container .sidebar-header .user-info {
+    float: left;
+}
+
+#sidebar-container .sidebar-header .user-info > span {
+    display: block;
+    color: #333;
+}
+
+#sidebar-container .sidebar-header .user-info .user-role {
+    font-size: 12px;
+}
+
+#sidebar-container .sidebar-header .user-info .user-status {
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+#sidebar-container .sidebar-header .user-info .user-status i {
+    font-size: 8px;
+    margin-right: 4px;
+    color: #5cb85c;
+}
+#gridHeight {
+    height: calc(100% - 70px);
+    width: 100%;
+}

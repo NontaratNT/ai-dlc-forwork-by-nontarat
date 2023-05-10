@@ -1,0 +1,59 @@
+<dx-multi-view [swipeEnabled]="false" [selectedIndex]="0">
+    <dxi-item>
+        <div style="text-align: end; padding-right: 140px;">
+            <!-- <dx-button icon="fas fa-eye" type="success" text="ดูงาน" (onClick)="view()">
+            </dx-button> -->
+        </div>
+        <div class="card-body cms-position-mng-new" style="padding-bottom: 300px; padding-top: 10rem; background-color: #fff;
+        height: 100vh;">
+            <div class="panel panel-default">
+                <div class="panel-body ">
+
+                    <dx-form [formData]="notifyData" style="width: 75%;
+                    margin-left: 15%;">
+
+                        <!-- รหัสประเภทหน่วย -->
+                        <dxi-item dataField="NOTIFICATION_SUBJECT" editorType="dxTextBox"
+                            [editorOptions]="{ placeholder:'เรื่อง',showClearButton:true, readOnly: true }">
+                            <dxo-label text="เรื่อง"></dxo-label>
+                            <dxi-validation-rule type="required" message="กรุณากรอกเรื่อง">
+                            </dxi-validation-rule>
+                        </dxi-item>
+                        <!-- ชื่อประเภทหน่วย -->
+                        <dxi-item dataField="NOTIFICATION_BODY" editorType="dxTextArea"
+                            [editorOptions]="{ placeholder:'รายละเอียด',showClearButton:true, readOnly: true  }">
+                            <dxo-label text="รายละเอียด"></dxo-label>
+                            <dxi-validation-rule type="required" message="กรุณากรอกรายละเอียด">
+                            </dxi-validation-rule>
+                        </dxi-item>
+                        <!-- <dxi-item dataField="RECORD_STATUS" editorType="dxRadioGroup" [editorOptions]="{value: formTitleData.RECORD_STATUS,
+                                                items:radioActive, valueExpr:'id', displayExpr:'text',
+                                                layout:'horizontal'}">
+                            <dxo-label text="สถานะการใช้งาน"></dxo-label>
+                        </dxi-item> -->
+                    </dx-form>
+
+                </div>
+                <div class="panel panel-default" style="margin-top:18px; text-align: center; ">
+                    <div class="panel-body ">
+                        <div class="col-md-12">
+                            <dx-button icon="revert" style="color:black"  type="info" hint="ย้อนกลับ" text="ย้อนกลับ"
+                                (onClick)="Backtofistpage()">
+                            </dx-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </dxi-item>
+    <dxi-item>
+        <!-- <ng-container *dxTemplate>
+            <div style="padding-left: 50px;">
+                <dx-button icon="revert" type="success" text="กลับ" (onClick)="back()">
+                </dx-button>
+            </div>
+            <app-case-view *ngIf="instId" [bpmId]="instId"></app-case-view>
+        </ng-container> -->
+    </dxi-item>
+</dx-multi-view>

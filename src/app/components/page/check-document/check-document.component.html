@@ -1,0 +1,37 @@
+<section class="ftco-section" style="height: 100vh;background: #f5fdff;">
+    <div class="container" style="padding-top: 120px;">
+        <div class="row" style="width: 80%; margin: auto;">
+            <div class="subfontheading">ตรวจสอบเอกสารอิเล็กทรอนิกส์</div>
+            <div class="subfonttitle">เลือกเอกสารที่จะตรวจสอบ</div>
+            <div class="subfont">รองรับเอกสารใบแจ้งความ</div>
+            <div class="line"></div>
+            <div class="col-12 text-center padding_40">
+                <div class="subfont text-center">รหัสอ้างอิงใบแจ้งเหตุ</div>
+                <dx-form [formData]="codeData" style="width: 60%;margin: auto;">
+                    <!-- ชื่อ App -->
+                    <dxi-item dataField="Code" editorType="dxTextBox" [editorOptions]="{showClearButton:true }">
+                        <dxo-label [showColon]="false" text=" "></dxo-label>
+                    </dxi-item>
+                </dx-form>
+            </div>
+            <div class="padding_40 col-12 text-center">
+                <!-- <re-captcha (resolved)="resolved($event)" (error)="onError($event)" errorMode="handled"
+                    siteKey="6LcOuyYTAAAAAHTjFuqhA52fmfJ_j5iFk5PsfXaU"></re-captcha> -->
+                <efs-formio-render formId="60f15cb4d5510aa31a053311" [beforeSubmit]="beforeSubmit"></efs-formio-render>
+            </div>
+
+            <!-- test localhost -->
+            <!-- 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI -->
+            <!-- ccib -->
+            <!-- 6LepqJwbAAAAAFgJdxX8vOb5YvhDHjMmEbI6RowX -->
+
+            <!-- <div class="col-12 text-center padding_40">
+                <dx-button-improve style="background-color:#003764;color:white" text="ตรวจสอบ" (onClick)="save($event)">
+                </dx-button-improve>
+            </div> -->
+
+            <div class="subfont padding_40" style="font-weight: 600;">หมายเหตุ: <span class="subfont"
+                    style="font-weight: 500;">สามารถนำรหัสอ้างอิงมาจากหัวรายงานใบแจ้งเหตุ</span> </div>
+        </div>
+    </div>
+</section>

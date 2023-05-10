@@ -1,0 +1,161 @@
+:host {
+    .menu-header {
+        z-index: 200;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        opacity: 0.9;
+        background: linear-gradient(180deg, #153E73 0%, #0F2751 100%);
+        .container-fluid {
+            height: 80px;
+            .col-p-unset {
+                padding: 0;
+            }
+        }
+        .menu-header-list-left {
+            padding-left: 20px;
+            .list-detail {
+                color: #ffffff;
+                ul {
+                    // margin-right: 25px;
+                    // float: right;
+                    display: table-row;
+                }
+                ul li {
+                    display: table-cell;
+                    height: 80px;
+                    list-style-type: none;
+                    margin: 0;
+                    vertical-align: middle;
+                    padding-left: 15px;
+                }
+                .nav-logo {
+                    img {
+                        width: 50px;
+                    }
+                }
+                .nav-title {
+                    .line {
+                        border-top: 1px solid #ffffff;
+                    }
+                }
+            }
+        }
+        .menu-header-list-right {
+            padding-left: 20px;
+            .list-detail {
+                color: #ffffff;
+                ul {
+                    margin-right: 25px;
+                    float: right;
+                    display: table-row;
+                }
+                ul li {
+                    display: table-cell;
+                    height: 80px;
+                    list-style-type: none;
+                    margin: 0;
+                    vertical-align: middle;
+                    padding-left: 15px;
+                }
+            }
+        }
+        .logout-icon {
+            display: none;
+            position: absolute;
+            top: 22px;
+            right: 8px;
+            img {
+                width: 28px;
+            }
+        }
+    }
+    @media screen and (min-width: 800px) {
+        .nav-title .text-mobile {
+            display: none;
+        }
+    }
+    @media screen and (max-width: 800px) {
+        .nav-title .text-desktop {
+            display: none;
+        }
+    }
+    @media screen and (max-width: 634px) {
+        .nav-title .text-mobile {
+            font-size: 14px;
+        }
+    }
+    @media screen and (max-width: 394px) {
+        .nav-title .text-mobile {
+            font-size: 12px;
+        }
+    }
+    @media screen and (max-width: 339px) {
+        .nav-title .text-mobile {
+            font-size: 10px;
+        }
+    }
+    @media screen and (max-width: 613px) {
+        .col-menu-header {
+            display: none !important;
+        }
+    }
+    @media screen and (max-width: 575px) {
+        .menu-header-list-left {
+            padding-left: 0 !important;
+            .list-detail {
+                .nav-logo {
+                    img {
+                        width: 40px;
+                    }
+                }
+                .nav-title {
+                    // font-size: 12px;
+                    .line {
+                        border-top: 1px solid #ffffff;
+                    }
+                }
+            }
+        }
+        .logout-icon {
+            display: block !important;
+        }
+    }
+    @media screen and (max-width: 444px) {
+        .menu-header-list-left {
+            .list-detail {
+                .nav-logo {
+                    display: none !important;
+                }
+            }
+        }
+    }
+    @media screen and (max-width: 330px) {
+        .menu-header-list-left {
+            .list-detail {
+                .nav-title {
+                    font-size: 12px;
+                }
+            }
+        }
+        .logout-icon {
+            top: 20px;
+            right: 8px;
+            img {
+                width: 20px !important;
+            }
+        }
+    }
+    .text-link {
+        cursor: pointer;
+        &:hover {
+            opacity: 0.75;
+        }
+    }
+    .not-copy {
+        -webkit-user-select: none !important;
+        -moz-user-select: none !important;
+        -ms-user-select: none !important;
+        user-select: none !important;
+    }
+}

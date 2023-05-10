@@ -1,0 +1,22 @@
+:host {
+     ::ng-deep {
+        .dx-icon.fa.fa-plus {
+            color: #fff !important;
+        }
+        .conten-block {
+            margin-top: 15px;
+            .content-title {
+                text-align: center;
+                padding: 20px 0 20px 0;
+                font-size: 22px;
+                color: #00529a;
+            }
+            .content-end-line {
+                margin: auto;
+                width: 95%;
+                border-bottom: 1px solid #dddddd;
+                margin-top: 40px;
+            }
+        }
+    }
+}

@@ -1,0 +1,14 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card mt-3">
+            <!-- <div class="card-header">
+                Form Data: <strong>{{_formName}}</strong>
+                <strong>ใบรับแจ้งเหตุ</strong>
+            </div> -->
+            <div class="col-12 p-5" id="myFormio">
+                <efs-formio-render #formData [beforeSubmit]="beforeSubmit" (onFormReady)="onDataFormReady()">
+                </efs-formio-render>
+            </div>
+        </div>
+    </div>
+</div>

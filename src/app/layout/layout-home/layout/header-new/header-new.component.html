@@ -1,0 +1,64 @@
+<nav class="menu-header not-copy">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col col-p-unset">
+                        <div class="menu-header-list-left">
+                            <div class="list-detail">
+                                <ul>
+                                    <li class="nav-logo text-link">
+                                        <div>
+                                            <img src="assets/icon/logo-title.png" alt="logo" (click)="RedirectUrl('/')">
+                                        </div>
+                                    </li>
+                                    <li class="nav-title text-link" (click)="RedirectUrl('/')">
+                                        <div class="text-desktop">
+                                            <div>การรับแจ้งความทางออนไลน์คดีอาชญากรรมทางเทคโนโลยี (thaipoliceonline.com)</div>
+                                            <div>สำนักงานตำรวจแห่งชาติ</div>
+                                        </div>
+                                        <div class="text-mobile">
+                                            <div>การรับแจ้งความทางออนไลน์คดีอาชญากรรมทางเทคโนโลยี (thaipoliceonline.com)</div>
+                                            <div>สำนักงานตำรวจแห่งชาติ</div>
+                                        </div>
+                                        <!-- <div class="line"></div>
+                                        <div>สำนักงานตำรวจแห่งชาติ</div> -->
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-menu-header col-auto col-p-unset">
+                        <div class="menu-header-list-right">
+                            <div class="list-detail">
+                                <ul>
+                                    <!-- <li class="btn-menu">
+                                        <div class="text-link" (click)="RedirectUrl('/news')">ประชาสัมพันธ์</div>
+                                    </li> -->
+                                    <li class="btn-menu" *ngIf="!hasSession">
+                                        <div class="text-link" (click)="RedirectUrl('/login')">เข้าสู่ระบบ</div>
+                                    </li> 
+                                    <!-- กรณีปิดระบบชั่วคราวต้องปิด tag ไว้ เปิดใช้ระบบเอา comment ออก แล้วปิดด้านล่างไว้ -->
+                                    <!-- <li class="btn-menu" >
+                                        <div class="text-link" (click)="RedirectUrl('/')">เข้าสู่ระบบ</div>
+                                    </li> -->
+                                    <li class="btn-menu" *ngIf="hasSession">
+                                        <div class="text-link logout-text" (click)="logout()">ออกจากระบบ</div>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logout-icon" *ngIf="hasSession">
+                    <img class="text-link" src="assets/image/police/desktop/logout.png" alt="logout" (click)="logout()">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</nav>
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="_isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

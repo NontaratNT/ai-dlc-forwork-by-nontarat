@@ -1,0 +1,82 @@
+.btn-back {
+    padding-top: 100px;
+    padding-left: 40px;
+}
+
+::ng-deep .btn-ack .dx-button {
+    color: black !important;
+}
+
+.contents-tab {
+    overflow: auto;
+    margin-bottom: 20vh;
+}
+
+::ng-deep .dx-tabpanel .dx-tabpanel-tabs .dx-tab.dx-tab-selected {
+    border: solid 3px #0d74ae;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+@media screen and(max-width: 768px) {
+    .p-5 {
+        padding: 1rem !important;
+    }
+}
+
+.mt_100 {
+    top: 0%;
+    // left: 4%;
+    position: absolute !important;
+    background-color: #fff;
+    width: 100%;
+    // height: 100%;
+    // padding-bottom: 200px ;
+}
+
+:host {
+     ::ng-deep {
+        .dx-tabpanel,
+        .dx-multiview-wrapper {
+            border: unset;
+        }
+        .dx-tabpanel.dx-state-focused .dx-multiview-wrapper {
+            border: unset;
+        }
+        .dx-tabpanel>.dx-tabpanel-tabs .dx-tabs-expanded .dx-tab:not(.dx-tab-selected):first-of-type,
+        .dx-tabpanel>.dx-tabpanel-tabs .dx-tabs,
+        .dx-tabpanel>.dx-tabpanel-tabs .dx-tab.dx-tab-selected,
+        .dx-tabpanel>.dx-tabpanel-tabs .dx-item.dx-tab,
+        .dx-tabpanel.dx-state-focused>.dx-tabpanel-tabs .dx-tab,
+        .dx-tabpanel.dx-state-focused>.dx-tabpanel-tabs .dx-tabs,
+        .dx-tabpanel.dx-state-focused>.dx-tabpanel-tabs .dx-tabs-expanded .dx-tab:not(.dx-tab-selected):first-of-type,
+        .dx-tabpanel>.dx-tabpanel-tabs .dx-tabs-stretched .dx-tab:not(.dx-tab-selected):last-of-type,
+        .dx-tabpanel.dx-state-focused>.dx-tabpanel-tabs .dx-tabs-stretched .dx-tab:not(.dx-tab-selected):last-of-type {
+            box-shadow: unset;
+        }
+        .dx-tabpanel>.dx-tabpanel-tabs .dx-tabs,
+        .dx-tab {
+            background-color: unset;
+        }
+        .dx-tabpanel>.dx-tabpanel-tabs .dx-item.dx-tab {
+            width: 200px;
+            border-style: solid;
+            border-width: 1px 0px 1px 1px;
+            border-color: #dee2e6;
+            background-color: #fff;
+        }
+        .dx-tabpanel>.dx-tabpanel-tabs .dx-item.dx-tab:last-child {
+            border-right: 1px solid #dee2e6;
+        }
+        .dx-tabpanel>.dx-tabpanel-tabs .dx-item.dx-tab .dx-tab-text {
+            color: #337ab7;
+        }
+        .dx-tabpanel>.dx-tabpanel-tabs .dx-item.dx-tab.dx-tab-selected {
+            border-right: 1px solid #337ab7;
+            background-color: #337ab7;
+        }
+        .dx-tabpanel>.dx-tabpanel-tabs .dx-item.dx-tab.dx-tab-selected .dx-tab-text {
+            color: #fff;
+        }
+    }
+}

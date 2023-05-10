@@ -1,0 +1,36 @@
+::ng-deep .list-inline {
+    text-align: center;
+}
+
+::ng-deep .list-inline .list-inline-item {
+    margin-right: 0rem;
+    margin-top: 5px;
+}
+
+::ng-deep .field-wrapper {
+    display: none !important;
+}
+
+::ng-deep .formio-form {
+    margin-inline: -50px;
+}
+
+::ng-deep .formio-form .pagination {
+    padding-left: 15px;
+}
+
+::ng-deep #myFormio .page-item.active .page-link {
+    background-color: #fff;
+    border-color: #0d74ae;
+    border-bottom: solid 4px #0d74ae;
+    color: #0d74ae;
+}
+
+::ng-deep #myFormio .pagination .page-item .page-link {
+    display: grid;
+    align-items: center;
+    width: 224px;
+    height: 60px;
+    text-align: center;
+    margin: 10px;
+}

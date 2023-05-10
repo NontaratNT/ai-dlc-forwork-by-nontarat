@@ -1,0 +1,103 @@
+:host {
+     ::ng-deep {
+        .dx-icon.fa.fa-plus {
+            color: #fff !important;
+        }
+        .dx-field-item-label-content .dx-field-item-required-mark {
+            display: none;
+        }
+        .dx-texteditor-input-container {
+            background-color: #cacaca;
+        }
+        .conten-block {
+            margin-top: 15px;
+            .content-title {
+                text-align: center;
+                padding: 20px 0 20px 0;
+                font-size: 22px;
+                color: #00529a;
+            }
+            .content-form {
+                margin-top: 10px;
+            }
+        }
+        .conten-block.content-textarea {
+            margin: auto;
+            width: 80%;
+        }
+        .form-readonly .dx-texteditor-input-container {
+            background-color: #d9d9d9;
+        }
+        .form-readonly .dx-checkbox-icon {
+            border: 1px solid #265a87;
+            background-color: #d9d9d9;
+        }
+    }
+    .lang-block {
+        margin: auto;
+        width: 500px;
+    }
+}
+
+#popup-villain-case-channel-popup {
+    .case-datetime-match {
+        margin: 10px 0 10px 0px;
+    }
+    .case-doc {
+        margin: 20px 0 0 0;
+        .case-doc-title {
+            text-align: center;
+            padding: 5px 0 10px 0;
+            font-size: 22px;
+            color: #00529a;
+        }
+    }
+    .btn:focus,
+    .btn.focus {
+        box-shadow: unset;
+    }
+    .btn.btn-submit {
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+    .btn.btn-submit:hover {
+        color: #fff;
+        background-color: #0069d9;
+        border-color: #0062cc;
+    }
+     ::ng-deep {
+        .case-datetime-match .dx-checkbox-text {
+            font-size: 16px;
+        }
+        .btn .dx-icon {
+            color: #fff;
+        }
+    }
+}
+
+#popupCaseDoc {
+     ::ng-deep {
+        .dx-fileuploader-wrapper {
+            padding: 0 !important;
+        }
+        .dx-fileuploader-input-wrapper {
+            border: 0 !important;
+        }
+        .dx-fileuploader-button {
+            width: 100% !important;
+        }
+    }
+}
+
+::ng-deep {
+    .popup-form-readonly {
+        .dx-texteditor-input-container {
+            background-color: #d9d9d9;
+        }
+        .dx-checkbox-icon {
+            border: 1px solid #265a87;
+            background-color: #d9d9d9;
+        }
+    }
+}

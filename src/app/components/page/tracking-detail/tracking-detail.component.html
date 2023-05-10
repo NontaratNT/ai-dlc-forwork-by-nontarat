@@ -1,0 +1,31 @@
+<div class="Container bodyContainer-52">
+    <div class="col-md-12 pad15">
+        <h3 class="padB">Tracking Detail</h3>
+        <dx-tree-list #treeList [showColumnHeaders]="false" [dataSource]="listdata" keyExpr="CASE_ID" [autoExpandAll]="true" [columnAutoWidth]="true" [showBorders]="false" noDataText="ไม่มีข้อมูล">
+            <dxo-scrolling mode="standard" [enabled]="false"></dxo-scrolling>
+            <dxo-paging [enabled]="true" [pageSize]="pagelimit">
+            </dxo-paging>
+            <dxi-column dataField="" cssClass="table-tacking" cellTemplate="cellTemplate"></dxi-column>
+            <div *dxTemplate="let cell of 'cellTemplate'">
+                <div class="d-flex" style="background-color:unset!important;">
+                    <div class="col-1 pad">
+                        <div class="preCenter">
+                            <i class="{{calculateIcon(listdata[cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex].CASE_STATUS)}} iconCenter"></i>
+                        </div>
+                    </div>
+                    <div class="lineH"></div>
+                    <div class="triangle-left"></div>
+                    <div class="col-10 borderR">
+                        <span>{{formatDate(listdata[cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex].CREATE_DATE)}}</span><br>
+                        <span>{{calculateStatus(listdata[cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex].CASE_STATUS)}}</span>
+                    </div>
+                </div>
+
+            </div>
+        </dx-tree-list>
+        <div class="block-btn-back">
+            <dx-button class="btn btn-primary back-event" text="กลับหน้าหลัก" style="margin-left: 20px;" (onClick)="Back()"></dx-button>
+        </div>
+    </div>
+
+</div>

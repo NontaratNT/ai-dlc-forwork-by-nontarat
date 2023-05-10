@@ -1,0 +1,77 @@
+<div>
+    <div class="stepwizard">
+        <div class="stepwizard-row setup-panel">
+            <div class="stepwizard-step col-xs-3">
+                <span type="button" class="btn btn-default  btn-circle" disabled="disabled">1</span>
+                <p class="text-step">ข้อมูลผู้ใช้</p>
+            </div>
+            <div class="stepwizard-step col-xs-3">
+                <span type="button" class="btn btn-success btn-circle">2</span>
+                <p class="text-step">ยืนยันรหัส OTP</p>
+            </div>
+
+        </div>
+    </div>
+    <form action="#" method="post">
+        <div class="line-style"></div>
+        <!-- <div class="card card-mail-box-top">
+            <div class="card-body">
+                <div class="text-title">ระบบได้ส่งรหัส OTP</div>
+                <div class="sub-text">กรุณาตรวจสอบอีเมลของท่าน</div>
+                <div class="sub-text text-danger">หากไม่พบอีเมลใน Inbox กรุณาตรวจสอบใน Junk Mail</div>
+            </div>
+        </div> -->
+        <div class="card card-mail-box-top">
+            <div class="card-body">
+                <div class="text-title">เลือกช่องทางการยืนยัน OTP</div>
+                <dx-radio-group [disabled]="_sendOTP" (onContentReady)="setDetault($event)" [dataSource]="choiceOTP"
+                    valueExpr="id" displayExpr="txt" [(value)]="choiceSelect"></dx-radio-group>
+                <div *ngIf="choiceSelect === 2" class="sub-text">กรุณาตรวจสอบอีเมลของท่าน</div>
+                <div *ngIf="choiceSelect === 2" class="sub-text text-danger">หากไม่พบอีเมลใน Inbox กรุณาตรวจสอบใน Junk Mail</div>
+                <div *ngIf="!_sendOTP" class="text-center" style="margin-top: 10px;">
+                    <dx-button type="default" hint="รับรหัส" text="รับรหัส" (onClick)="sendOTP()">
+                    </dx-button>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="card card-mail-box-bottom">
+            <div class="card-body">
+                <div class="text-title">
+                    <span>อีเมล</span>
+                    <span class="colon">:</span>
+                    <span>{{formData.PERSONAL_EMAIL}}</span>
+                </div>
+            </div>
+        </div> -->
+        <dx-form *ngIf="_sendOTP" labelLocation="top" [colCount]="1" style="margin-top: 20px;">
+            <dxi-item template="otpnumber">
+                <dxo-label text="รหัส OTP"></dxo-label>
+                <dxi-validation-rule type="required" message="กรุณากรอกรหัส OTP">
+                </dxi-validation-rule>
+            </dxi-item>
+            <div *dxTemplate="let data of 'otpnumber'">
+                <dx-text-box placeholder="รหัส OTP 6 หลัก" [maxLength]="6" [showClearButton]="true"
+                    [(value)]="otpnumber">
+                </dx-text-box>
+            </div>
+        </dx-form>
+        <div *ngIf="_sendOTP" class="text-center bottom-text mt-4">
+            <span *ngIf="hiddensend ==='hidden'">ส่งอีกครั้งได้อีก </span>
+            <span *ngIf="hiddensend !=='hidden'">ไม่ได้รับรหัส OTP? </span><a (click)="sendAgain()"
+                [class]="hiddensend">ส่งอีกครั้ง</a>
+            <countdown *ngIf="hiddensend ==='hidden'" [config]="config"></countdown>
+        </div>
+        <dx-button *ngIf="_sendOTP" class="btn btn-block py-2 btn-login" (onClick)="SaveRegister()">
+            <i class="fa fa-save icon-style-button"></i> ลงทะเบียน
+        </dx-button>
+        <dx-button class="btn btn-block py-2 btn-login" (onClick)="Back()">
+            <i class="fa fa-reply icon-style-button"></i> กลับ
+        </dx-button>
+        <div class="text-center bottom-text">
+            <span>มีบัญชีผู้ใช้อยู่แล้ว? </span><a (click)="login()">เข้าสู่ระบบ</a><br>
+        </div>
+    </form>
+</div>
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="_isLoading" [showIndicator]="true" [showPane]="true"
+    [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

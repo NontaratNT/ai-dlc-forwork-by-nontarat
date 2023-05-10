@@ -1,0 +1,171 @@
+<body style="padding-top: 120px;">
+    <div class="container-fluid pb-5 mb-5 mt_100">
+        <div class="panel panel-default pl-4 pr-4">
+            <div class="panel-heading">
+                <div class="panel-body w-100">
+                    <!-- <div class="container"> -->
+                        <div class="tracking-header">
+                            <span class="subheading">ติดตามสถานะ <label class="text-danger">(หากต้องการแจ้งเหตุใหม่
+                                    ให้ไปที่หน้าหลัก กรุณาอย่าแจ้งเหตุซ้ำ)</label></span>
+                            <div class="btn-issue-and-report">
+                                <span class='btn-online-issue'><button class="btn btn-add-issue text-white dd-color"
+                                        title="แจ้งเหตุออนไลน์" (click)="onIssue()"><i
+                                            class="fa fa-exclamation">&nbsp;</i><label>แจ้งเหตุออนไลน์</label></button></span>
+                                <!-- <span class='btn-report-jurnal'><button class="btn btn-primary btn-add-jurnal" title="ลงบันทึกประจำวัน"
+                                        (click)="onJurnal()"><i class="fa fa-book">&nbsp;</i><label>ลงบันทึกประจำวัน</label></button></span> -->
+                            </div>
+                            <div class="tacking-profile block-shadow" (click)="onPersonal()">
+                                <div class="d-flex" style="flex-wrap: wrap;">
+                                    <div
+                                        style="margin: 0 auto; padding-bottom: 10px; display: flex; justify-content: center;">
+                                        <img [src]="userImagePath" *ngIf="check === true" class="detail-img"
+                                            (error)="setDefaultPic()" data-mdb-toggle="tooltip" title="{{userData}}">
+                                    </div>
+                                    <div class="tracking-detail">
+                                        <div>
+                                            <span class="paragraf header-f-size-sec">ชื่อ : <strong
+                                                    class="strong-font">{{userData}}</strong></span>
+                                        </div>
+                                        <div>
+                                            <span class="paragraf header-f-size-sec">เลขประจำตัวประชาชน : <strong
+                                                    class="strong-font">{{myCityzen}}</strong></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div style="justify-content: center; display: flex;" class="disScreenDevice" (click)="onPersonal()">
+                                <div class="w-100 block-shadow" >
+                                    <div
+                                        style="margin: 0 auto; padding-bottom: 10px; display: flex; width: 100%; justify-content: center;">
+                                        <img [src]="userImagePath" *ngIf="check === true" class="detail-img"
+                                            (error)="setDefaultPic()" data-mdb-toggle="tooltip" title="{{userData}}">
+                                    </div>
+                                    <div
+                                        style="margin: 0 auto; display: flex; width: 100%; justify-content: center; text-align: center;">
+                                        <div style="display: block;">
+                                            <div style="text-align: left;"><span class="paragraf header-f-size-sec">ชื่อ
+                                                    : <strong class="strong-font">{{userData}}</strong></span></div>
+                                            <div style="text-align: left;"><span
+                                                    class="paragraf header-f-size-sec">เลขประจำตัวประชาชน : <strong
+                                                        class="strong-font">{{myCityzen}}</strong></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                    <!-- </div> -->
+                    <div class="row my-step">
+                        <div class="stepwizard form-no">
+                            <div class="stepwizard-row setup-panel">
+                                <div *ngFor="let item of data" class="stepwizard-step col-xs-3">
+                                    <div *ngFor="let alert of alertdata">
+                                        <div *ngIf="alert.TOTAL_VALUE !== 0">
+                                            <div *ngIf="alert.GROUP_STATUS_CODE === item.GROUP_STATUS_CODE"
+                                                class="alert-task">
+                                                <span>{{alert.TOTAL_VALUE}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span style="cursor: default !important;"
+                                        class="{{item.GROUP_STATUS_CLASS_DETAIL}}">
+                                        <button type="button" class="{{item.GROUP_STATUS_CLASS}}"
+                                            (click)="bindTaskList(item.GROUP_STATUS_CODE)">
+                                            <i class=" {{item.GROUP_ICON}}"></i>
+                                        </button>
+                                    </span>
+                                    <br>
+                                    <span class="{{item.GROUP_STATUS_CLASS_TXT}}"><label
+                                            class="step-text">{{item.GROUP_STATUS_NAME }}</label></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="myContent">
+                <div class="type-contents">
+                    <!-- <div class="row mb-4">
+                        <div class="col-sm-12">
+                            <div class="col-sm-6">
+                                <h5>ประเภทการบริการ</h5>
+                                <dx-select-box id="select-status" [dataSource]="_flowCode" displayExpr="FLOW_NAME" valueExpr="FLOW_CODE" placeholder="เลือกประเภทการบริการ" [value]="_searchParam.flowCode" (onValueChanged)="onFilterChanged($event)">
+                                </dx-select-box>
+                            </div>
+                            <div class="col-sm-6 text-right">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row px-3 px-md-3 pb-3 d-md-block">
+                        <div class="col-12 flex-row">
+                            <button class="btn btn-primary btn-all-list" (click)="loadDataAll()">แสดงรายการทั้งหมด</button>
+                        </div>
+                    </div> -->
+                </div>
+
+
+                <dx-data-grid #grid [dataSource]="_dataSource" [showColumnLines]="false" [wordWrapEnabled]="true"
+                    noDataText="ไม่มีข้อมูล" [showRowLines]="true" [columnAutoWidth]="true" [columnHidingEnabled]="true"
+                    [showBorders]="false" [rowAlternationEnabled]="true" [showColumnLines]="true"
+                    [hoverStateEnabled]="true" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล"
+                    [remoteOperations]="false">
+                    <dxo-paging [pageSize]="10"></dxo-paging>
+                    <dxo-load-panel text="กำลังโหลดข้อมูล..."></dxo-load-panel>
+                    <dxo-search-panel [visible]="true" [width]="200" placeholder="ค้นหา..."></dxo-search-panel>
+                    <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                    </dxo-editing>
+                    <dxo-selection mode="single"></dxo-selection>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true">
+                    </dxo-pager>
+                    <dxi-column dataField="" caption="" [width]="40" alignment="center" [allowSorting]="false"
+                        cellTemplate="cellTemplateCommand"></dxi-column>
+                    <div *dxTemplate="let cellValue of 'cellTemplateCommand'">
+                        <!-- <dx-button icon="edit" requirePermission="EDIT" hint="แก้ไข"  type="default">
+                        </dx-button> -->
+                        <i class="fa fa-pencil-square-o bnt-icon" (click)="edit(cellValue)"></i>
+                    </div>
+                    <!-- <dxi-column dataField="" caption="ลำดับ" [width]="80" alignment="center" [allowEditing]="false"
+                        cellTemplate="cellTemplate"></dxi-column> -->
+
+                    <dxi-column dataField="TRACKING_CODE"  [width]="150" caption="เลขที่ใบรับแจ้งเหตุฯ" alignment="center">
+                    </dxi-column>
+
+                    <dxi-column dataField="FLOW_NAME" caption="ประเภทการบริการ" alignment="left">
+                    </dxi-column>
+                    <dxi-column dataField="CATEGORY_NAME" caption="เรื่อง" alignment="left">
+                    </dxi-column>
+                    <dxi-column [calculateDisplayValue]="formatDate" dataField="CREATE_DATE" caption="วันที่แจ้งเหตุ"
+                        alignment="center">
+                    </dxi-column>
+
+                    <dxi-column dataField="STATUS_NAME" caption="สถานะคดี" [width]="130" alignment="center"
+                        cellTemplate="cellTemplateStatus">
+                    </dxi-column>
+                    <div *dxTemplate="let cell of 'cellTemplateStatus'">
+                        <span class="click-tracking">{{calculateStatus(cell)}}
+                        </span>
+                    </div>
+                    <div *dxTemplate="let cell of 'cellTemplate'">
+                        {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                    </div>
+                    <tbody class="employee dx-row" [ngClass]="{'dx-row-alt': flow.rowIndex % 2}"
+                        *dxTemplate="let flow of 'rowTemplateName'">
+                        <tr class="main-row text-center">
+                            <td style="border-top-left-radius: 100px; border-bottom-left-radius: 100px;">
+                                {{flow.component.pageIndex() * flow.component.pageSize() + flow.rowIndex + 1}}
+                            </td>
+                            <td class="text-left">{{getDefinitionName(flow.data.ProcessDefinitionId)}}</td>
+                            <td class="text-left">{{flow.data.Name}}</td>
+                            <td style="border-top-right-radius: 100px; border-bottom-right-radius: 100px;">
+                                {{displayFormatDate(flow.data.Created)}}</td>
+                        </tr>
+                    </tbody>
+                </dx-data-grid>
+                <dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="_isLoading" [showIndicator]="true"
+                    [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กำลังโหลดข้อมูล..."
+                    shadingColor="rgba(0, 0, 0, 0.2)">
+                </dx-load-panel>
+            </div>
+        </div>
+    </div>
+</body>

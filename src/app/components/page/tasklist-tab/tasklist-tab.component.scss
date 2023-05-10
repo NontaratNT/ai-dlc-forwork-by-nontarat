@@ -1,0 +1,34 @@
+.btn-back {
+    padding-top: 100px;
+    padding-left: 40px;
+}
+
+::ng-deep .btn-ack .dx-button {
+    color: black !important;
+}
+
+.contents-tab {
+    overflow: auto;
+    margin-bottom: 20vh;
+}
+
+::ng-deep .dx-tabpanel .dx-tabpanel-tabs .dx-tab.dx-tab-selected {
+    border: solid 3px #0d74ae;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+@media screen and(max-width: 768px) {
+    .p-5 {
+        padding: 1rem !important;
+    }
+}
+.mt_100 {
+    top: 0%;
+    // left: 4%;
+    position: absolute !important;
+    background-color: #fff;
+    width: 100%;
+    // height: 100%;
+    // padding-bottom: 200px ;
+}

@@ -1,0 +1,34 @@
+<div class="block-main">
+    <div class="container-fluid">
+        <dx-form #formproblem [formData]="formProblem" [readOnly]="true" labelLocation="top" [colCount]="1">
+            <dxi-item template="tempproblem" [isRequired]="true" dataField="CASE_ID">
+                <dxo-label text="เลขที่รับแจ้ง "></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'tempproblem'">
+                <dx-number-box [(value)]="formProblem.CASE_ID" style="width: 35%;" (keypress)="CheckNumber($event)"></dx-number-box>
+            </div>
+            <dxi-item template="tempproblem1" dataField="FEEDBACK_NAME">
+                <dxo-label text=" " [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'tempproblem1'">
+                <dx-radio-group [dataSource]="problem" layout="horizontal" valueExpr="ID" displayExpr="TEXT"
+                [(value)]="formProblem.FEEDBACK_TYPE_CODE" (onValueChanged)="checkCasstatus($event)" layout="vertical"></dx-radio-group>
+                <!-- <dx-text-box [visible]="checkproblem" [(value)]="formProblem.FEEDBACK_NAME" style="margin-left: 70px; margin-top: -55px; width: 30%;"></dx-text-box> -->
+            </div>
+
+            <dxi-item template="tempproblem2" dataField="FEEDBACK_REMARK">
+                <dxo-label text="รายละเอียดเพิ่มเติม "></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'tempproblem2'">
+                <dx-text-area [height]="150" [(value)]="formProblem.FEEDBACK_REMARK"></dx-text-area>
+            </div>
+            <dxi-item itemType="empty"></dxi-item>
+        </dx-form>
+        <div class="text-right btn-dx">
+            <button class="btn btn-cancle" (click)="back()">ยกเลิก</button>&nbsp;
+            <button class="btn btn-submit" (click)="Save($event)">บันทึก</button>
+        </div>
+    </div>
+</div>
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="_isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กำลังโหลดข้อมูล..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

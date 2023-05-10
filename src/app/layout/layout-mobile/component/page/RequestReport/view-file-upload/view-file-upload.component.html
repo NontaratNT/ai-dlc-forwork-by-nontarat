@@ -1,0 +1,50 @@
+<dx-popup [height]="600" [showTitle]="true" title="" [dragEnabled]="false" [closeOnOutsideClick]="false" [showCloseButton]="false" [visible]="popup" titleTemplate="title">
+    <div *dxTemplate="let data of 'title'">
+        <div id="popup-view-file-upload-title" class="row">
+            <div class="col text-left">
+                รายละเอียดไฟล์
+            </div>
+            <div class="col-auto text-right">
+                <div class="block-icon">
+                    <div class="icon-title-download">
+                        <i class="fa fa-download btn-icon" (click)="DownloadFile()"></i>
+                    </div>
+                    <div class="icon-title-close">
+                        <i class="fa fa-times btn-icon" (click)="ClosePopup()"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view [showScrollbar]="'always'" style="height: calc(100% - 45px);
+        width: calc(100% - -50px);
+        margin-left: -25px;">
+            <div id="popup-view-file-upload">
+                <div class="file-title" style="display: flex;">
+                    <span class="title-first" style="min-width: 50px;">ชื่อไฟล์</span>
+                    <span class="title-split">:</span>
+                    <span class="title-detail" style="word-break: break-word;">{{fileName}}</span>
+                </div>
+                <ng-container *ngIf="typeShow === 'pdf'">
+                    <ngx-extended-pdf-viewer [src]="pdfBase64" [useBrowserLocale]="true" [showOpenFileButton]="false" [filenameForDownload]="fileName" backgroundColor="#ffffff" theme="dark" [pageViewMode]="'infinite-scroll'">
+                    </ngx-extended-pdf-viewer>
+                    <!-- <ngx-extended-pdf-viewer [src]="pdfBase64" [filenameForDownload]="fileName" [useBrowserLocale]="true" [textLayer]="true" [showHandToolButton]="true" [showPresentationModeButton]="true" [showDownloadButton]="false" theme="dark">
+                    </ngx-extended-pdf-viewer> -->
+                </ng-container>
+                <ng-container *ngIf="typeShow === 'image'">
+                    <div class="block-img-detail">
+                        <img class="img-detail"  style="width: 100%;" [src]="pdfBase64" alt="img">
+                    </div>
+                </ng-container>
+
+                <!-- <div class="block-file-detail">
+                    <dx-button class="btn btn-download" text="Download" (onClick)="DownloadFile()"></dx-button>
+                </div> -->
+            </div>
+        </dx-scroll-view>
+        <!-- <div class="footer text-right btn-dx">
+            <dx-button class="btn btn-cancle" text="ยกเลิก" (onClick)="ClosePopup()"></dx-button>
+        </div> -->
+    </div>
+</dx-popup>

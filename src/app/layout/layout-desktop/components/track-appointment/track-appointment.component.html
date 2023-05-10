@@ -1,0 +1,75 @@
+<div (resized)="onResized($event)">
+    <div class="block-title">การนัดหมายเข้าพบพนักงานสอบสวน</div>
+    <div *ngIf="appointmentHasData" class="row">
+        <div class="block-card" [ngClass]="blockClass" *ngFor="let item of appointmentList; index as i">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-title left">
+                        <span class="status-title">สถานะ</span>
+                        <span class="text-green" *ngIf="item.APPOINTMENT_DATE != '4000-01-01T00:00:00'">{{item.APP_STATUS_NAME}}</span>
+                        <span class="text-green" *ngIf="item.APPOINTMENT_DATE == '4000-01-01T00:00:00'">ยังไม่ได้ลงวันที่นัดหมาย</span>
+                    </div>
+                    <div class="card-header-title" [ngClass]="blockTitleCardRight" *ngIf="item.APPOINTMENT_DATE != '4000-01-01T00:00:00'">
+                        <!-- วันที่&nbsp;<span class="text-green">24 สิงหาคม 2564</span> -->
+                        <span class="status-title">วันที่</span>
+                        <span class="text-green">{{ConvertDateFullMonth(item.APPOINTMENT_DATE)}}</span>
+                        <span class="text-split">|</span>
+                        <span class="status-title">เวลา</span>
+                        <span class="text-green">{{ConvertDateToMomentTime(item.APPOINTMENT_DATE)}} น.</span>
+                    </div>
+                    <div class="card-header-title" [ngClass]="blockTitleCardRight" *ngIf="item.APPOINTMENT_DATE == '4000-01-01T00:00:00'">
+                        <!-- วันที่&nbsp;<span class="text-green">24 สิงหาคม 2564</span> -->
+                        <span class="status-title">วันที่</span>
+                        <span class="text-green">ยังไม่ได้ลงวันที่นัดหมาย</span>
+                        <span class="text-split">|</span>
+                        <span class="status-title">เวลา</span>
+                        <span class="text-green">ยังไม่ได้ลงเวลานัดหมาย</span>
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="content">
+                                <div class="row">
+                                    <div class="col-auto left">
+                                        <img src="assets/image/police/desktop/station.png" alt="station">
+                                    </div>
+                                    <div class="col">
+                                        <div class="card-body-title">
+                                            <span class="title">{{item.ORGANIZE_NAME_THA}}</span>
+                                        </div>
+                                        <div class="card-body-subtitle">
+                                            <span class="title">{{item.APP_PERSONAL_FULLNAME}} | โทร</span>
+                                            <span class="subtitle">{{PhoneNumberFormat(item.APPOINTMENT_PERSONAL_TEL_NO)}}</span>
+                                            
+                                        </div>
+                                        <div class="card-body-subtitle">
+                                            
+                                            <span class="title">{{item.INVESTIGATE_OFFICER_NAME}} | โทร</span>
+                                            <span class="subtitle">{{PhoneNumberFormat(item.INVESTIGATE_OFFICER_PHONE)}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="this.bpmData.STATUS_CODE === 'CTV' && this.bpmData.REJECT_FLAG !== 'Y'" class="row">
+        <div class="block-card" [ngClass]="blockClass">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-title left">
+                        <span class="status-title">สถานะ</span>
+                        <span class="text-warning">รอการนัดหมาย</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

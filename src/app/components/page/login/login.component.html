@@ -1,0 +1,81 @@
+<div class="d-md-flex half" style="overflow: hidden;">
+    <!-- <canvas id="nodes"></canvas> -->
+    <div class="row align-items-center justify-content-center imgBg_Logo mt_100">
+
+        <div class="col-md-12">
+            <div class="d-sm-flex mb-5 align-items-center  text-white" style="top: 3%;
+            position: fixed;">
+                <a [routerLink]="['/home']" class="caption register mb-3 mb-sm-0  text-white"><i
+                        class="fa fa-arrow-circle-left text-white">
+                        ย้อนกลับ</i></a>
+            </div>
+            <div class="row">
+                <div class="col-md-12 back-home">
+                    <!-- <a [routerLink]="['/home']"><i class="fa fa-home back-home-icon"></i></a> -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center mb-4">
+                    <h5 class="text-uppercase system-head text-black font-weight-bold t1" style="text-shadow: 0.5rem 0.3rem 1rem #fff;">การรับแจ้งความทาง Online</h5>
+                    <h4 class="text-uppercase system-head text-black font-weight-normal " style="text-shadow: 0.5rem 0.3rem 1rem #fff;">คดีอาชญากรรมทางเทคโนโลยี</h4>
+                    <h4 class="text-uppercase system-head text-black font-weight-normal " style="text-shadow: 0.5rem 0.3rem 1rem #fff;">สำนักงานตำรวจแห่งชาติ</h4>
+                </div>
+            </div>
+            <dx-multi-view [swipeEnabled]="false" [selectedIndex]="0">
+                <dxi-item>
+
+                    <div class="form-block mx-auto">
+                        <h2 class="text-center h-login">
+                            เข้าสู่ระบบ
+                        </h2>
+                        <form action="#" method="post">
+                            <!-- <div class="social-login">
+                                        <a class="btn btn-block py-2 btn-facebook" (click)="LogInWithFB()">
+                                            <i class="fa fa-facebook-official icon-style"></i> เข้าสู่ระบบด้วย Facebook
+                                        </a>
+                                        <a class="btn btn-block py-2 btn-google" (click)="LogInWithGoogle()">
+                                            <img class="image-icon" src="assets/icon/google.png" alt="GOOGLE">
+                                            เข้าสู่ระบบด้วย
+                                            Google</a>
+                                    </div> -->
+
+                            <div class="form-group first">
+                                <label for="username">อีเมล</label>
+                                <input #username type="text" class="form-control" placeholder="Email" id="username" (keyup.enter)="Login(username.value,password.value)">
+                            </div>
+                            <div class="form-group last mb-3">
+                                <label for="password">รหัสผ่าน</label>
+                                <input #password type="password" class="form-control" placeholder="Password" id="password" (keyup.enter)="Login(username.value,password.value)">
+                            </div>
+                            <div class="ml-auto forgot-pass mb-2 text-right" (click)="SelectForget()">ลืมรหัสผ่าน <i class="fa fa-lock"></i></div>
+                            <dx-button class="myBtn" style="width: 100%;
+                            height: 40px;" type="default" (onClick)="Login(username.value,password.value)">
+                                <i class="fa fa-sign-in" aria-hidden="true"></i> เข้าสู่ระบบ
+                            </dx-button>
+
+                            <div class="line-style w-100">
+                                <div class="" style=" margin-top: -10px; width: 100%;">
+                                    <div class="bg-white" style="width: 100px; text-align: center;
+                                    margin: 0 auto; margin-bottom: -10px;">หรือ</div>
+                                </div>
+                            </div>
+                            <dx-button style="width: 100%;
+                            height: 40px;" stylingMode="outlined" type="default" (onClick)="SelectRegister()">
+                                ลงทะเบียน
+                            </dx-button>
+                        </form>
+                    </div>
+                </dxi-item>
+                <!-- <dxi-item>
+                            <app-register-people></app-register-people>
+                        </dxi-item> -->
+                <dxi-item>
+                    <app-forget-password></app-forget-password>
+                </dxi-item>
+            </dx-multi-view>
+
+        </div>
+    </div>
+</div>
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="_isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

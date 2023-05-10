@@ -1,0 +1,34 @@
+<!-- <section class="ftco-section mt_100"> -->
+<app-header-new></app-header-new>
+    <div class="container" style="padding-top: 120px;">
+    <div class="row justify-content-center pb-5">
+        <div class="col-md-7  text-center ftco-animate">
+            <div class="organiko-title-tpl3 ">
+                <span class="subheading">ประชาสัมพันธ์</span>
+                <h6 class="subTitle text-centerk">PCT Police</h6>
+            </div>
+        </div>
+    </div>
+    <div class="row flex-container">
+        <div class="col-md-4" *ngFor="let item of news|paginate: { itemsPerPage: 6, currentPage: config }">
+
+            <div class="causes causes-2 text-center ftco-animate" style="cursor: pointer;" (click)="Read(item)">
+                <img *ngIf="item.ANNOUNCEMENT_IMAGE" class="img w-100 img-responsive" [src]="userImagePath + item.ANNOUNCEMENT_IMAGE" placeholder="" alt="Image Source">
+                <img *ngIf="!item.ANNOUNCEMENT_IMAGE" class="img w-100 img-responsive" src="https://thaigifts.or.th/wp-content/uploads/2017/03/no-image-300x300.jpg" placeholder="" alt="Image Source">
+                <div class="text-left p-3">
+                    <h2 class="title-head pointer-event">{{item.ANNOUNCEMENT_TITLE| slice:0:50}}</h2>
+                    <!-- <p class="detail-project6">{{item.ANNOUNCEMENT_DETAIL| slice:0:150}}</p> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="padding-bottom: 100px;">
+        <div class="pagging">
+            <pagination-controls (pageChange)="pageChanged(config = $event)" previousLabel="ก่อนหน้า" nextLabel="ต่อไป">
+            </pagination-controls>
+        </div>
+    </div>
+</div>
+<!-- </section> -->
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="_isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

@@ -1,0 +1,45 @@
+:host {
+    .container {
+        padding-top: 120px;
+        padding-bottom: 100px;
+    }
+    .mt_100 {
+        top: 0%;
+        // left: 4%;
+        position: absolute;
+        background-color: #fff;
+        width: 100%;
+        // height: 100%;
+    }
+    @media screen and (max-width: 1000px) {
+        .container {
+            text-align: center;
+        }
+    }
+    .ftco-section {
+        padding: 20px;
+        height: 100%;
+    }
+    @media (max-width: 899.98px) {
+        .tab-btn-back {
+            text-align: center;
+        }
+    }
+    @media (max-width: 512.98px) {
+         ::ng-deep {
+            .dx-toolbar>.dx-toolbar-items-container {
+                margin-top: 39px;
+                .dx-toolbar-before {
+                    margin-top: -50px;
+                }
+                .dx-toolbar-after {
+                    left: -30px;
+                }
+            }
+        }
+        .ftco-section {
+            padding: 20px;
+            height: auto;
+        }
+    }
+}
