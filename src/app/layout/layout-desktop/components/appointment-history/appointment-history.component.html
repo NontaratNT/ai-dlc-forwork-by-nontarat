@@ -12,7 +12,7 @@
                         <div class="panel panel-default " style="width: 100%;">
                             <div id="history-table" class="myContent" >
                                 <dx-data-grid  style="max-width: 100%!important;" #grid [dataSource]="_dataSource" [showColumnLines]="false" [wordWrapEnabled]="true" [showRowLines]="true" [columnAutoWidth]="true" 
-                                    [columnHidingEnabled]="true" [showBorders]="false" [rowAlternationEnabled]="true" [showColumnLines]="true"
+                                    [columnHidingEnabled]="false" [showBorders]="false" [rowAlternationEnabled]="true" [showColumnLines]="true"
                                     [hoverStateEnabled]="true" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล" [remoteOperations]="false">
                                     <dxo-paging [pageSize]="10"></dxo-paging>
                                     <dxo-load-panel text="กำลังโหลดข้อมูล..."></dxo-load-panel>
@@ -22,6 +22,14 @@
                                     <dxo-selection mode="single"></dxo-selection>
                                     <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true">
                                     </dxo-pager>
+                                    <dxi-column dataField="" caption="รายงาน" [width]="100" alignment="center"
+                                    [allowSorting]="false" cellTemplate="cellTemplateReport"></dxi-column>
+                                <div *dxTemplate="let cellValue of 'cellTemplateReport'">
+                                    <div class="table-icon-edit" (click)="report(cellValue)">
+                                        <img src="assets/icon/icon-report.png" alt="Report" width="25px" height="25px">
+                                    </div>
+                                </div>
+
                                     <dxi-column  [allowSearch]="false"  dataField="" [width]="80" caption="ลำดับ" alignment="center" cellTemplate="cellTemplate"></dxi-column>
                                   
                                     <dxi-column  [allowSearch]="true"  dataField="TRACKING_CODE" [width]="130" caption="เลขรับแจ้งความ" alignment="center"></dxi-column>

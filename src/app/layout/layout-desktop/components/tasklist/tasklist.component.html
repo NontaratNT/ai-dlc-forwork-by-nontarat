@@ -231,6 +231,14 @@
                                             <img src="assets/image/police/desktop/icon-view.png" alt="edit">
                                         </div>
                                     </div>
+                                    <dxi-column dataField="" caption="รายงาน" [width]="100" alignment="center"
+                                    [allowSorting]="false" cellTemplate="cellTemplateReport"></dxi-column>
+                                <div *dxTemplate="let cellValue of 'cellTemplateReport'">
+                                    <div class="table-icon-edit" (click)="report(cellValue)">
+                                        <img src="assets/icon/icon-report.png" alt="Report" width="25px" height="25px">
+                                    </div>
+                                </div>
+
                                     <dxi-column dataField="TRACKING_CODE" [width]="200" caption="เลขรับแจ้งความออนไลน์" alignment="center">
                                     </dxi-column>
                                     <!-- <dxi-column dataField="CATEGORY_NAME" caption="เรื่อง" alignment="center">

@@ -85,51 +85,51 @@
                 <br *ngIf="checkboxLocation.location_type2">
                 <dx-form #formInformertype2 [colCount]="3" labelLocation="top" *ngIf="checkboxLocation.location_type2">
                     <dxi-item template="selectorgmain" [colSpan]="2"  [isRequired]="checkboxLocation.location_type2"></dxi-item>
-                    <div *dxTemplate="let data of 'selectorgmain'">
-            
+                    <div *dxTemplate="let data of 'selectorgmain'" style="margin-left:10%;">
+
                         <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_1" layout="horizontal" valueExpr="org_id" displayExpr="org_name"  [value]="formdataOrgsendcase.ORG_LOCATION_MAIN_ID1" (onValueChanged)="onvaluechangeorgmain($event,1)">
                         </dx-radio-group>
-                        <div style="margin-left:20%;">
+                        <!-- <div style="margin-left:20%;">
                             <label>รับผิดชอบพื้นที่กรุงเทพมหานคร  (ตำรวจนครบาล)</label>
-                        </div>
-                        <div *ngIf="formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 == 3536">
+                        </div> -->
+                        <!-- <div *ngIf="formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 == 3536">
                             <dx-select-box #selectProvicemaparea [dataSource]="dsorgarea" displayExpr="PROVINCE_NAME_THA" valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true" placeholder="จังหวัด" [showClearButton]="true" (onValueChanged)="OnSelectProvicemaparea($event)"
                             [readOnly]="formReadOnly" [(value)]="formData.ORG_PROVINCE_MAP_AREA_ID">
                         </dx-select-box>
-                        </div>
+                        </div> -->
                         <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_2" layout="horizontal" valueExpr="org_id" displayExpr="org_name"  [value]="formdataOrgsendcase.ORG_LOCATION_MAIN_ID2" (onValueChanged)="onvaluechangeorgmain($event,2)">
                         </dx-radio-group>
-                        <div *ngIf="formdataOrgsendcase.ORG_LOCATION_MAIN_ID == 3548" style="margin-left:20%;">
+                        <!-- <div *ngIf="formdataOrgsendcase.ORG_LOCATION_MAIN_ID == 3548" style="margin-left:20%;">
                             <label>รับผิดชอบพื้นที่ปริมณฑล (ตำรวจภูธรภาค 1, 2 และ 7)</label>
                             <ul>
                                 <li *ngFor="let item of aria1and2">{{item}}</li>
-                              </ul> 
-                        </div>
+                              </ul>
+                        </div> -->
                         <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_3" layout="horizontal" valueExpr="org_id" displayExpr="org_name"  [value]="formdataOrgsendcase.ORG_LOCATION_MAIN_ID3" (onValueChanged)="onvaluechangeorgmain($event,3)">
                         </dx-radio-group>
-                        <div *ngIf="formdataOrgsendcase.ORG_LOCATION_MAIN_ID == 3559" style="margin-left:20%;">
+                        <!-- <div *ngIf="formdataOrgsendcase.ORG_LOCATION_MAIN_ID == 3559" style="margin-left:20%;">
                             <label>รับผิดชอบพื้นที่ภาคอีสาน (ตำรวจภูธรภาค 3 และ 4)</label>
                             <ul>
                                 <li *ngFor="let item of aria3and4">{{item}}</li>
-                              </ul> 
-                        </div>
+                              </ul>
+                        </div> -->
                         <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_4" layout="horizontal" valueExpr="org_id" displayExpr="org_name"  [value]="formdataOrgsendcase.ORG_LOCATION_MAIN_ID4" (onValueChanged)="onvaluechangeorgmain($event,4)">
                         </dx-radio-group>
-                        <div *ngIf="formdataOrgsendcase.ORG_LOCATION_MAIN_ID == 3567" style="margin-left:20%;">
+                        <!-- <div *ngIf="formdataOrgsendcase.ORG_LOCATION_MAIN_ID == 3567" style="margin-left:20%;">
                             <label>รับผิดชอบพื้นที่ภาคเหนือ (ตำรวจภูธรภาค 5 และ 6)</label>
                             <ul>
                                 <li *ngFor="let item of aria5and6">{{item}}</li>
-                              </ul> 
-                        </div>
+                              </ul>
+                        </div> -->
                         <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_5" layout="horizontal" valueExpr="org_id" displayExpr="org_name"  [value]="formdataOrgsendcase.ORG_LOCATION_MAIN_ID5" (onValueChanged)="onvaluechangeorgmain($event,5)">
                         </dx-radio-group>
-                        <div *ngIf="formdataOrgsendcase.ORG_LOCATION_MAIN_ID == 3578" style="margin-left:20%;">
+                        <!-- <div *ngIf="formdataOrgsendcase.ORG_LOCATION_MAIN_ID == 3578" style="margin-left:20%;">
                             <label>รับผิดชอบพื้นที่ภาคใต้ (ตำรวจภูธรภาค 8 และ 9)</label>
                             <ul>
                                 <li *ngFor="let item of aria8and9">{{item}}</li>
-                              </ul> 
-                        </div>
-                        
+                              </ul>
+                        </div> -->
+
                         <dxi-validation-rule type="required" message="กรุณาเลือกข้อมูล หน่วยงานที่สดวกไปพบเจ้าหน้าที่">
                         </dxi-validation-rule>
                     </div>
@@ -141,7 +141,7 @@
                 <br *ngIf="checkboxLocation.location_type3">
                 <dx-form #formInformertype3 [colCount]="3" labelLocation="top" *ngIf="checkboxLocation.location_type3">
                     <dxi-item template="selectorgcenter" [colSpan]="2"  [isRequired]="checkboxLocation.location_type3"></dxi-item>
-                    <div *dxTemplate="let data of 'selectorgcenter'">
+                    <div *dxTemplate="let data of 'selectorgcenter'" style="margin-left: 10%;">
             
                         <dx-radio-group #selectorgcenter [readOnly]="formReadOnly" [dataSource]="orgtype3" layout="horizontal" valueExpr="org_id" displayExpr="org_name"  [value]="formdataOrgsendcase.ORG_LOCATION_CENTER_ID" (onValueChanged)="onvaluechangeorgcenter($event)"></dx-radio-group>
                     </div>
