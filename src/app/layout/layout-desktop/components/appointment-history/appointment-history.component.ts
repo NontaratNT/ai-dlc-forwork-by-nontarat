@@ -99,4 +99,11 @@ export class AppointmentHistoryComponent implements OnInit {
     const year = (d.getFullYear() + 543);
     return [ddate, ' ', textMonthNow, ' ', year].join("");
   }
+  report(cellValue){
+    const data = cellValue.data;
+    if(data){
+        window.open("https://www.thaipoliceonline.com/web-report/report?ReportName=report_print_inform_report&caseId=" + data.INST_ID, "_blank");
+    }
+}
+
 }

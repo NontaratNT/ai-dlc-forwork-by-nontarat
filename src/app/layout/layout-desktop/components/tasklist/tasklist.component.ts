@@ -615,7 +615,12 @@ export class TasklistComponent implements OnInit {
             this.router.navigate(["/main/issue-online-view/" + data.INST_ID]);
         }
     }
-
+    report(cellValue){
+        const data = cellValue.data;
+        if(data){
+            window.open("https://www.thaipoliceonline.com/web-report/report?ReportName=report_print_inform_report&caseId=" + data.INST_ID, "_blank");
+        }
+    }
     onPersonal() {
         this.router.navigate(["/main/personal"]);
     }
