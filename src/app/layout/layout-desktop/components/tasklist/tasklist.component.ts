@@ -23,6 +23,7 @@ import Swal from "sweetalert2";
 import { BpmAppointmentService } from "src/app/services/bpm-appointment.service";
 import * as moment from "moment";
 import { SurveyService } from "../../../../services/survey.service";
+import { FreezeAccountService } from "src/app/services/bpm-freeze-account.service";
 
 @Component({
     selector: "app-tasklist",
@@ -89,6 +90,15 @@ export class TasklistComponent implements OnInit {
     ans3;
     ans4;
     caseId;
+    submission = {} as any;
+
+    ways = [{ id: 1, text: 'ดำเนินการแล้ว' }, { id: 2, text: 'ยังไม่ได้ดำเนินการ' }];
+    scopeWays1: boolean;
+    scopeWays2: boolean;
+    _isShow: boolean = false;
+    _isShow2: boolean = false;
+    popupConsentVisible: boolean = false;
+
     constructor(
         private router: Router,
         private servicePersonal: PersonalService,
@@ -98,7 +108,9 @@ export class TasklistComponent implements OnInit {
         private groupStatusServ: GroupStatusService,
         private _bpmAppointmentService: BpmAppointmentService,
         private surveyService: SurveyService,
-        private _loginServ: LoginService
+        private _loginServ: LoginService,
+        private freezeAccountService: FreezeAccountService
+
     ) {
         this._searchParam = {} as any;
         this._searchParam.GROUP_STATUS_CODE = "OR";
@@ -610,8 +622,9 @@ export class TasklistComponent implements OnInit {
 
     Add() {
         // this.router.navigate(["/main/issue-online/1"]);
-        this._isLoading = true;
-        location.href = "/main/issue-online/1";
+        this.popupConsentVisible = true;
+        // this._isLoading = true;
+        // location.href = "/main/issue-online/1";
     }
     gourltracking(cellValue) {
         const data = cellValue.data;
@@ -893,5 +906,67 @@ export class TasklistComponent implements OnInit {
         const re =
             /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(email);
+    }
+
+    onSkip(event: any) {
+        this.router.navigate(["/main/issue-online/1"]);
+        this.popupConsentVisible = false;
+    }
+
+    
+    onRegister(event: any) {
+
+      
+        this._isLoading = true;
+        if (this._isShow2) {
+            Swal.fire({
+                title: 'แจ้งเตือน!',
+                text: 'ระบบจะนำท่านไปสู่ขั้นตอนลงทะเบียนยืนยันตัวตน!!!',
+                icon: 'warning',
+                confirmButtonText: 'ตกลง'
+            }).then(() => {
+                this._isLoading = false;
+                this.popupConsentVisible = false;
+                this.router.navigate(["/main/issue-online/1"]);
+
+            });
+        }
+        else {
+            try {
+                this.freezeAccountService.post(this.submission).subscribe((_) => {
+                    Swal.fire({
+                        title: 'แจ้งเตือน!',
+                        text: 'ดำเนินการบันทึกข้อมูลเรียบร้อย ระบบจะนำท่านไปสู่ขั้นตอนลงทะเบียนยืนยันตัวตน!!!',
+                        icon: 'success',
+                        confirmButtonText: 'ตกลง'
+                    }).then(() => {
+                        this._isLoading = false;
+                        this.popupConsentVisible = false;
+                        this.router.navigate(["/main/issue-online/1"]);
+
+                    });
+                })
+            } catch (error) {
+
+            } finally {
+                setTimeout(() => {
+                    this._isLoading = false;
+                }, 2000);
+            }
+        }
+    }
+
+    onWaysValueChanged(event: any) {
+        let val = event.value;
+        switch (val) {
+            case 1:
+                this._isShow = true;
+                this._isShow2 = false;
+                break;
+            case 2:
+                this._isShow = false;
+                this._isShow2 = true;
+                break;
+        }
     }
 }

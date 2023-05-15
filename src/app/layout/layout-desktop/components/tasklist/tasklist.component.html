@@ -275,3 +275,97 @@
     </swal-title>
     <swal-html>Evaluation Template</swal-html>
 </template>
+
+
+
+<dx-popup [width]="1200" [height]="600" [showTitle]="true" title="แจ้งเตือนจากระบบ" [closeOnOutsideClick]="true"
+    [showCloseButton]="true" [visible]="true" [(visible)]="popupConsentVisible">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+            <div class="row">
+                <div class="col-sm-12 customtext text-center">
+                    <h4>ผู้เสียหายสามารถแจ้งธนาคารเจ้าของบัญชีตนเองเพื่ออายัดบัญชีคนร้ายได้ </h4>
+                    <h4></h4>
+                    <br>
+                    <h4>ท่านได้ดำเนินการแล้วหรือไม่</h4>
+                </div>
+                <br>
+                <div class="col-sm-12 customtext text-left" style="margin-bottom:1rem;">
+                    <dx-form id="form" [formData]="submission">
+                        <dxi-item itemType="group" [colSpan]="3">
+                            <div class="dx-field"></div>
+                            <div class="dx-field-value">
+                                <dx-radio-group [items]="ways" valueExpr="id" displayExpr="text"
+                                    [(value)]="submission.ways" layout="horizontal"
+                                    (onValueChanged)="onWaysValueChanged($event)">
+                                </dx-radio-group>
+                            </div>
+                        </dxi-item>
+                        <dxi-item itemType="group" [colSpan]="3">
+                            <div class="dx-field">
+                                <div class="dx-field-label" *ngIf="_isShow">ได้รับเลขอ้างอิงจากธนาคารแล้ว : </div>
+                                <div class="dx-field-value">
+                                    <dx-text-box [(value)]="submission.FREEZE_ACT_BANK_TRACK_NO" [maxLength]="20"
+                                        [showClearButton]="true" placeholder="กรุณาระบุ"
+                                        [(visible)]="_isShow"></dx-text-box>
+                                </div>
+                            </div>
+                        </dxi-item>
+                        <dxi-item itemType="group" [colSpan]="3">
+                            <div class="dx-field">
+                                <div class="dx-field-label" *ngIf="_isShow">ติดต่อธนาคาร : </div>
+                                <div class="dx-field-value">
+                                    <dx-text-box [(value)]="submission.FREEZE_ACT_BANK_NAME" [showClearButton]="true"
+                                        [maxLength]="200" placeholder="กรุณาระบุ" [(visible)]="_isShow"></dx-text-box>
+                                </div>
+                            </div>
+                        </dxi-item>
+                        <dxi-item itemType="group" [colSpan]="3">
+                            <div class="dx-field">
+                                <div class="dx-field-label" *ngIf="_isShow">ทางช่องทางได : </div>
+                                <div class="dx-field-value">
+                                    <dx-text-box [(value)]="submission.FREEZE_ACT_WAYS" [showClearButton]="true"
+                                        [maxLength]="200" placeholder="กรุณาระบุ" [(visible)]="_isShow"></dx-text-box>
+                                </div>
+                            </div>
+                        </dxi-item>
+                        <dxi-item itemType="group" [colSpan]="3">
+                            <div class="dx-field">
+                                <div class="dx-field-label" *ngIf="_isShow">เมื่อวันที่ : </div>
+                                <div class="dx-field-value">
+                                    <dx-date-box [(value)]="submission.FREEZE_ACT_DATE" type="date"
+                                        [showClearButton]="true" placeholder="กรุณาเลือก" [(visible)]="_isShow">
+                                    </dx-date-box>
+                                </div>
+                            </div>
+                        </dxi-item>
+                        <dxi-item itemType="group" [colSpan]="3">
+                            <div class="dx-field">
+                                <div class="dx-field-label" *ngIf="_isShow">เวลา : </div>
+                                <div class="dx-field-value">
+                                    <dx-text-box [(value)]="submission.FREEZE_ACT_TIME" [showClearButton]="true"
+                                        [maxLength]="200" placeholder="กรุณาระบุ" [(visible)]="_isShow"></dx-text-box>
+                                </div>
+                            </div>
+                        </dxi-item>
+                    </dx-form>
+                    <div class="text-center" style="margin-top: 1rem;" *ngIf="_isShow2">
+                        <img src="../../../../../assets/icon/264235.jpg" width="600" height="auto">
+                    </div>
+                </div>
+                <br>
+                <div class="col-sm-12 customtext text-center" style="margin-bottom:1rem;">
+                    <dxi-item itemType="group" [colSpan]="3">
+                        <dx-button stylingMode="contained" text="บันทึก" type="default" [width]="120"
+                            (onClick)="onRegister($event)">
+                        </dx-button>
+                        &nbsp;&nbsp;
+                        <dx-button stylingMode="contained" text="ข้ามขั้นตอน" type="default" [width]="120"
+                            (onClick)="onSkip($event)">
+                        </dx-button>
+                    </dxi-item>
+                </div>
+            </div>
+        </dx-scroll-view>
+    </div>
+</dx-popup>
