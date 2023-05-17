@@ -618,7 +618,7 @@ export class TasklistComponent implements OnInit {
     report(cellValue){
         const data = cellValue.data;
         if(data){
-            window.open("https://www.thaipoliceonline.com/web-report/report?ReportName=report_print_inform_report&caseId=" + data.INST_ID, "_blank");
+            window.open("https://www.thaipoliceonline.com/web-report/report?ReportName=report_print_inform_report&caseId=" + data.DATA_ID, "_blank");
         }
     }
     onPersonal() {

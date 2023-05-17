@@ -54,8 +54,8 @@
         </div>
         <dxi-item template="temp6" [colSpan]="1" [isRequired]="false">
             <dxo-label text="ซอย / ตรอก" [showColon]="false"></dxo-label>
-            <dxi-validation-rule type="required" message="กรุณาระบุซอย / ตรอก">
-            </dxi-validation-rule>
+            <!-- <dxi-validation-rule type="required" message="กรุณาระบุซอย / ตรอก">
+            </dxi-validation-rule> -->
         </dxi-item>
         <div *dxTemplate="let data of 'temp6'">
             <dx-text-box [readOnly]="formReadOnly" (keypress)="CheckCharacter($event)" placeholder="ซอย / ตรอก"

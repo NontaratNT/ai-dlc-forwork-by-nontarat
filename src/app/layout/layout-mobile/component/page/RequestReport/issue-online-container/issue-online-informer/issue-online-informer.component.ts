@@ -1172,28 +1172,48 @@ dsorgbyaria:IOrganizeInfo[];
             // alert(this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID);
     }
 
-  
     onvaluechangeorgcenter(e){
-        
+
         if (e.value) {
             const data: any = this.orgtype3.filter(r => r.org_id === e.value);
-            // console.log(data[0].org_id , data[0].org_name);
+            console.log(data[0].org_id , data[0].org_name);
             this.formdataOrgsendcase.ORG_LOCATION_TYPE = 3;
             this.formdataOrgsendcase.ORG_LOCATION_CENTER_ID = data[0].org_id;
             this.formdataOrgsendcase.ORG_LOCATION_CENTER_NAME = data[0].org_name;
 
                 //parame insert
                 this.formData.ORG_LOCATION_TYPE = 3;
-                this.formData.ORG_LOCATION_ID = data.org_id;
-                this.formData.ORG_LOCATION_NAME = data.org_name;
+                this.formData.ORG_LOCATION_ID = data[0].org_id;
+                this.formData.ORG_LOCATION_NAME = data[0].org_name;
 
-                
+
 
         }else{
             this.formdataOrgsendcase.ORG_LOCATION_CENTER_ID = e.value;
         }
         // alert(this.formdataOrgsendcase.ORG_LOCATION_CENTER_ID);
 }
+//     onvaluechangeorgcenter(e){
+        
+//         if (e.value) {
+//             const data: any = this.orgtype3.filter(r => r.org_id === e.value);
+//             // console.log(data[0].org_id , data[0].org_name);
+//             this.formdataOrgsendcase.ORG_LOCATION_TYPE = 3;
+//             this.formdataOrgsendcase.ORG_LOCATION_CENTER_ID = data[0].org_id;
+//             this.formdataOrgsendcase.ORG_LOCATION_CENTER_NAME = data[0].org_name;
+
+//                 //parame insert
+//                 this.formData.ORG_LOCATION_TYPE = 3;
+//                 this.formData.ORG_LOCATION_ID = data.org_id;
+//                 this.formData.ORG_LOCATION_NAME = data.org_name;
+
+                
+
+//         }else{
+//             this.formdataOrgsendcase.ORG_LOCATION_CENTER_ID = e.value;
+//         }
+//         // alert(this.formdataOrgsendcase.ORG_LOCATION_CENTER_ID);
+// }
 
 
     OnSelectProvicemaparea(e) {
