@@ -437,3 +437,13 @@
         }
     }
 }
+
+::ng-deep div.btn-dx .btn.btn-cancle{
+    width: auto;
+    margin-right: 5px;
+}
+
+::ng-deep div.btn-dx .btn.btn-cancle:hover{
+    width: auto;
+    margin-right: 5px;
+}

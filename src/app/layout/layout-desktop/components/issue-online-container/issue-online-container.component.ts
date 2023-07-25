@@ -12,6 +12,8 @@ import { IssueOnlineEventComponent } from "./issue-online-event/issue-online-eve
 import { IssueOnlineInformerComponent } from "./issue-online-informer/issue-online-informer.component";
 import { IssueOnlineVillainComponent } from "./issue-online-villain/issue-online-villain.component";
 import { IssueOnlineValidateComponent } from "./issue-online-validate/issue-online-validate.component";
+import { IssueOnlineBlessingComponent } from "./issue-online-blessing/issue-online-blessing.component";
+import { IssueOnlineQuestionareComponent } from "./issue-online-questionare/issue-online-questionare.component";
 @Component({
     selector: "app-issue-online-container",
     templateUrl: "./issue-online-container.component.html",
@@ -24,6 +26,23 @@ export class IssueOnlineContainerComponent implements OnInit {
             this.agreeComponent = content1;
             this.agreeComponent.mainConponent = this;
             this.indexLocker.agreeComponent = true;
+
+        }
+    }
+    @ViewChild(IssueOnlineBlessingComponent) set content8(content8: IssueOnlineBlessingComponent) {
+        if(content8) {
+            this.blessingComponent = content8;
+            this.blessingComponent.mainConponent = this;
+            this.indexLocker.blessingComponent = true;
+
+        }
+    }
+
+    @ViewChild(IssueOnlineQuestionareComponent) set content9(content9: IssueOnlineQuestionareComponent) {
+        if(content9) {
+            this.questionareComponent = content9;
+            this.questionareComponent.mainConponent = this;
+            this.indexLocker.questionareComponent = true;
 
         }
     }
@@ -79,10 +98,16 @@ export class IssueOnlineContainerComponent implements OnInit {
     @Input() dataForm: any;
     @Input() public userType = "mySelf";
 
+    public max = Number.MIN_VALUE;
     public indexTab = 0;
     public formDataInsert: any = {};
+    public formDataBankref: any = {};
+    public formquestionnare1: any = {};
     public formType = 'add';
     public agreeComponent: IssueOnlineAgreeComponent;
+    public blessingComponent: IssueOnlineBlessingComponent;
+    public questionareComponent: IssueOnlineQuestionareComponent;
+
     public informerConponent: IssueOnlineInformerComponent;
     public eventConponent: IssueOnlineEventComponent;
     public damageConponent: IssueOnlineDamageComponent;
@@ -92,6 +117,7 @@ export class IssueOnlineContainerComponent implements OnInit {
     public caseId: number;
     public InstId: string;
     public ProcessInstanceId: string;
+    public checkValidate : boolean;
     loadPageSuccess = false;
     isLoading = true;
     countFlow = 0;
@@ -99,15 +125,17 @@ export class IssueOnlineContainerComponent implements OnInit {
     dataTest: any = {};
     stepNavigation = [
         {text:"ข้อความยินยอม",textClass:"arrow-div arrow-first"},
+        {text:"คำถามแยกพรก.",textClass:"arrow-div arrow-center"},
         {text:"ข้อมูลผู้เสียหาย",textClass:"arrow-div arrow-center"},
         {text:"เรื่องที่เกิดขึ้น",textClass:"arrow-div arrow-center"},
         {text:"ความเสียหาย",textClass:"arrow-div arrow-center"},
         {text:"ข้อมูลคนร้าย",textClass:"arrow-div arrow-center"},
         {text:"แนบไฟล์เพิ่มเติม",textClass:"arrow-div arrow-center"},
+        {text:"การกระทำความผิด",textClass:"arrow-div arrow-center"},
         {text:"ยืนยันความถูกต้อง",textClass:"arrow-div arrow-end"}
     ];
     stepNavigationZindex = 100;
-    stepNavigationWidth = 1330;
+    stepNavigationWidth = 2800;
     public formDataAll: any = {};
 
     constructor(
@@ -120,24 +148,27 @@ export class IssueOnlineContainerComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-
         if (this.dataForm) {
-
             this.formType = 'edit';
             this.isLoading = false;
             const d = this.dataForm;
             this.formDataInsert = d.Submission;
             this.InstId = d.InstId;
             this.ProcessInstanceId = d.ProcessInstanceId;
-            this.caseId = d.Submission.backendId;
+
+            console.log('data',d);
+            // this.caseId = d.Submission.backendId;
             this.stepNavigation = [
-                {text:"ข้อมูลผู้เสียหาย",textClass:"arrow-div arrow-first"},
+                {text:"คำถามแยกพรก.",textClass:"arrow-div arrow-center"},
+                {text:"ข้อมูลผู้เสียหาย",textClass:"arrow-div arrow-center"},
                 {text:"เรื่องที่เกิดขึ้น",textClass:"arrow-div arrow-center"},
                 {text:"ความเสียหาย",textClass:"arrow-div arrow-center"},
-                {text:"เกี่ยวกับคนร้าย",textClass:"arrow-div arrow-end"}
+                {text:"ข้อมูลคนร้าย",textClass:"arrow-div arrow-center"},
+                {text:"การกระทำความผิด",textClass:"arrow-div arrow-center"}
             ];
-            this.stepNavigationWidth = 850;
+            this.stepNavigationWidth = 1900;
         }else{
+            
             this.SetFormInit();
         }
 
@@ -165,6 +196,8 @@ export class IssueOnlineContainerComponent implements OnInit {
             formDamage:{},
             formVaillain:{},
             formAttachment:{},
+            formAgree:{},
+            formQuestionnare:{},
             formConfigs:{
                 FORM_CODE: "CCIB_NOTIFY_PEOPLE@0.1",
                 env: environment.config.baseConfig,
@@ -177,7 +210,19 @@ export class IssueOnlineContainerComponent implements OnInit {
         this._router.navigate([url]);
     }
     SelectorTab(index){
-        return this.indexTab >= index ? 'arrow-selected':'arrow-default';
+        // return this.indexTab >= index ? 'arrow-selected':'arrow-default';
+        var numbers = []; // Array to store the generated numbers
+        for (var i = index; i <= this.max; i++) {
+            numbers.push(i);
+        }
+        if (this.indexTab >= index) {
+            return 'arrow-selected'; // indexTab is greater than or equal to index
+        } else if (numbers.some(number => number <= this.max)) {
+            return 'arrow-selected-back'; // Some numbers are less than max
+        } else {
+            return 'arrow-default'; // Default case
+        }
+
     }
     public NextIndex(index: number = 0){
         this.indexTab = index;
@@ -209,6 +254,31 @@ export class IssueOnlineContainerComponent implements OnInit {
     SelectTabIndex(index: number = 0){
         if (this.formType === 'edit') {
             this.indexTab = index;
+        } else {
+            this.max = Math.max(this.max, this.indexTab);
+            console.log("หน้าก่อน",this.indexTab );
+            if (this.indexTab != 0) {
+                if (this.max >= index) {
+                    switch(this.indexTab){
+                        case 1 : this.blessingComponent.SubmitForm("tab"); break;
+                        case 2 : this.informerConponent.SubmitForm("tab"); break;
+                        case 3 : this.eventConponent.SubmitForm("tab"); break;
+                        case 4 : this.damageConponent.SubmitForm("tab"); break;
+                        case 5 : this.vaillainConponent.SubmitForm("tab"); break;
+                        case 6 : this.attachmentConponent.SubmitForm("tab"); break;
+                        case 7 : this.questionareComponent.SubmitForm("tab"); break;
+                    }
+                    if(this.checkValidate == false){
+                        this.indexTab = index;
+                    }else{
+                        this.indexTab =  this.indexTab;
+                    }
+                }
+            }
+        }
+        const countItem = this.stepNavigation.length;
+        if (index === (countItem-1) && this.indexLocker.validateConponent) {
+            this.validateConponent.ReloadData();
         }
     }
     public MergeObj(formData){

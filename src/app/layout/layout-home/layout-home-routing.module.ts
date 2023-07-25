@@ -50,7 +50,7 @@ const routes: Routes = [
         children: [
             { path: 'forget-password', component: ForgetPasswordComponent, },
             { path: 'login', component: LoginComponent },//ปิดไว้กรณีปรับปรุงเว็บ วันที่ 17 มีนาคม 2566
-            { path: 'loginadmin', component: LoginComponent },//ปิดไว้กรณีปรับปรุงเว็บ วันที่ 17 มีนาคม 2566
+            { path: 'loginadmin', component: LoginComponent },//เปิดไว้กรณีปรับปรุงเว็บ วันที่ 17 มีนาคม 2566
             // { path: 'login', component: HomeVisibleComponent },//ใช้กรณีปิดเว็บเท่านั้นถ้าเปิดใช้งานต้องปิด tag นี้ไป
             { path: 'reset-password', component: ResetPasswordComponent },
             { path: 'view-case', component: ViewCaseComponent },

@@ -4,17 +4,25 @@
         position: fixed;
         width: 100%;
         top: 0;
-        opacity: 0.9;
-        background: linear-gradient(180deg, #153E73 0%, #0F2751 100%);
+        opacity: 1;
+        // background: linear-gradient(180deg, #153E73 0%, #0F2751 100%);
+        background-image: linear-gradient(to right, #4c4d522e , #f0f1f633);
+        border-style: solid;
+        border-right-width: 0px;
+        border-left-width: 0px;
+        border-top-width: 0px;
+        border-color: white;
         .container-fluid {
-            height: 80px;
+            height: 90px;
             .col-p-unset {
                 padding: 0;
             }
         }
         .menu-header-list-left {
-            padding-left: 20px;
+            padding-left: 50px;
+            margin-top: 5px;
             .list-detail {
+                padding-left: 50px;
                 color: #ffffff;
                 ul {
                     // margin-right: 25px;
@@ -31,32 +39,55 @@
                 }
                 .nav-logo {
                     img {
-                        width: 50px;
+                        width: 60px;
                     }
                 }
                 .nav-title {
                     .line {
                         border-top: 1px solid #ffffff;
                     }
+                    .text-desktop{
+                        font-size: 39px;
+                        font-weight: bold;
+                        line-height: 1.0;
+                        text-shadow: 2px 2px 14px #454545;
+                        .sub-title{
+                            font-size: 24px;
+                            letter-spacing: 11px;
+                            font-weight: normal;
+                        }
+                    }
                 }
             }
         }
         .menu-header-list-right {
+            padding-right: 90px;
             padding-left: 20px;
+            margin-top: 5px;
             .list-detail {
-                color: #ffffff;
                 ul {
                     margin-right: 25px;
                     float: right;
                     display: table-row;
                 }
                 ul li {
+                    color: #ffffff;
                     display: table-cell;
                     height: 80px;
                     list-style-type: none;
                     margin: 0;
                     vertical-align: middle;
                     padding-left: 15px;
+                    .text-link{
+                        color: #000000;
+                        padding: 10px;
+                        padding-left: 25px;
+                        padding-right: 40px;
+                        background: #ffcd57;
+                        border-radius: 5px;
+                        box-sizing: border-box;
+                        font-size: 25px;
+                    }
                 }
             }
         }
@@ -67,6 +98,25 @@
             right: 8px;
             img {
                 width: 28px;
+            }
+        }
+    }
+    @media screen and (max-width: 1100px) {
+        .menu-header-list-left {
+            padding-left: 0px !important;
+            .list-detail {
+                padding-left: 0px !important;
+            }
+        }
+        .menu-header-list-right {
+            padding-right: 0px !important;
+        }
+    }
+    @media screen and (max-width: 950px) {
+        .text-desktop{
+            font-size: 33px !important;
+            .sub-title{
+                font-size: 17px !important;
             }
         }
     }
@@ -82,17 +132,17 @@
     }
     @media screen and (max-width: 634px) {
         .nav-title .text-mobile {
-            font-size: 14px;
+            font-size: 28px;
         }
     }
     @media screen and (max-width: 394px) {
         .nav-title .text-mobile {
-            font-size: 12px;
+            font-size: 28px;
         }
     }
     @media screen and (max-width: 339px) {
         .nav-title .text-mobile {
-            font-size: 10px;
+            font-size: 20px;
         }
     }
     @media screen and (max-width: 613px) {

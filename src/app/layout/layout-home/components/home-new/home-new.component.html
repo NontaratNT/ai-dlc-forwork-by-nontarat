@@ -1,177 +1,374 @@
 <div class="block-content-detail not-copy">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="block-title">
-                    <div class="title">แจ้งความออนไลน์ (สำหรับประชาชน)</div>
-                    <div class="sub-title">เฉพาะคดีอาชญากรรมทางเทคโนโลยี</div>
+        <div class="row section1">
+            <div class="col-xl-6 col-sm-12 left-content">
+                <div class="block-title-1">
+                    <div class="title">แจ้งความออนไลน์</div>
+                    <div class="sub-title">คดีอาชญากรรมทางเทคโนโลยี</div>
                 </div>
-                <div class="block-box">
+                <div class="block-box-content-left mt-1 mb-4">
                     <div class="box-detail box1" (click)="OnIssueOnline()">
                         <div class="box-item">
                             <div class="item">
-                                <img src="../assets/icon/icon-box1.png" alt="icon">
+                                <img src="assets/icon/File_dock_light.png" alt="icon">
                             </div>
-                            <div class="item title title1">แจ้งความออนไลน์</div>
+                            <div class="item title title1"><b>แจ้งความ</b> เฉพาะคดีอาชญากรรมทางเทคโนโลยี</div>
                         </div>
                     </div>
                 </div>
-                <div class="block-box block-manual">
-                    <div class="box-detail box-manual" (click)="OpenManual()">
+                <div class="block-box-content-left">
+                    <div class="box-detail box2">
+                        <div class="box-item" (click)="OpenManual()">
+                            <div class="item">
+                                <img src="assets/icon/Order_light.png" alt="icon">
+                            </div>
+                            <div class="item title title1">คู่มือการใช้งานระบบแจ้งความออนไลน์</div>
+                        </div>
                         <div class="box-item">
                             <div class="item">
-                                <img src="../assets/icon/icon-box-manual.png" alt="icon">
+                                <img src="assets/icon/Question_light.png" alt="icon">
                             </div>
-                            <div class="item title title1">คู่มือการใช้งานระบบ</div>
+                            <div class="item title title2">คดีอาชญากรรมทางเทคโนโลยีคืออะไร</div>
                         </div>
                     </div>
                 </div>
-                <div class="block-title title2">
-                    <div class="sub-title">ปรึกษาหรือขอคำแนะนำ</div>
+            </div>
+            <div class="col-xl-6 col-sm-12 right-content">
+                <div class="block-title-2">
+                    <div class="title">บริการอื่นๆ</div>
                 </div>
-                <div class="block-box">
-                    <div class="box-detail box2" (click)="TelLink('tel:1441')">
-                        <div class="box-item">
-                            <div class="item">
-                                <img src="../assets/icon/icon-box-tel.png" alt="icon">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 mt-2 block-box-content-right box1 text-center">
+                        <div class="block-box">
+                            <div class="box-detail" (click)="TelLink('tel:1441')">
+                                <div class="box-item">
+                                    <div class="item col-12">
+                                        <img src="assets/icon/TeI-icon.png" alt="icon">
+                                    </div>
+                                    <div class="item">
+                                        <div class="title">โทร <span style="font-size: 25px; font-weight: bold">1441</span> บช.สอท.</div>
+                                        <div class="text-detail">บริการ 24 ชั่วโมง</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="item title">
-                                <div class="title2">โทร. 1441 บช.สอท.</div>
-                                <div class="text-detail">(ตลอด 24 ชั่วโมง)</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mt-2 block-box-content-right box2 text-center">
+                        <div class="block-box">
+                            <div class="box-detail" (click)="TelLink('tel:081-866-3000')">
+                                <div class="box-item">
+                                    <div class="item col-12">
+                                        <img src="assets/icon/TeI-icon.png" alt="icon">
+                                    </div>
+                                    <div class="item">
+                                        <div class="title">โทร. 081 866 3000</div>
+                                        <div class="text-detail">ศูนย์ PCT</div>
+                                        <div class="text-detail">บริการ 24 ชั่วโมง</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mt-2 block-box-content-right box3 text-center">
+                        <div class="block-box">
+                            <div class="box-detail" (click)="TelLink('tel:081-866-3000')">
+                                <div class="box-item">
+                                    <div class="item col-12">
+                                        <img src="assets/icon/358726.jpg" alt="line">
+                                    </div>
+                                    <div class="item">
+                                        <div class="text-detail">@police1441</div>
+                                        <div class="text-detail">Line Chat</div>
+                                        <div class="text-detail">แชทบอทให้คำปรึกษาคดี</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mt-2 block-box-content-right box4 text-center">
+                        <div class="block-box">
+                            <div class="box-detail" (click)="RedirectExternal('https://m.me/mysisbot')">
+                                <div class="box-item">
+                                    <div class="item col-12">
+                                        <img src="assets/icon/chat-icon.png" alt="icon">
+                                    </div>
+                                    <div class="item mt-4">
+                                        <div class="text-detail">Chat บอทให้คำปรึกษา</div>
+                                        <div class="text-detail">ความรุนแรงในครอบครัว</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mt-2 block-box-content-right box5 text-center">
+                        <div class="block-box">
+                            <div class="box-detail" (click)="RedirectExternal('https://www.facebook.com/PCTPOLICE')">
+                                <div class="box-item">
+                                    <div class="item col-12">
+                                        <img src="assets/icon/facebook-icon.png" alt="icon">
+                                    </div>
+                                    <div class="item mt-2">
+                                        <div class="text-detail">Facebook PCT Police</div>
+                                        <div class="text-detail">ข้อมูล/ปรึกษา/แนะนำ/</div>
+                                        <div class="text-detail">แจ้งเบาะแส</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mt-2 block-box-content-right box6 text-center">
+                        <div class="block-box">
+                            <div class="box-detail" (click)="RedirectExternal('https://24hicarecenter.com/cybervaccinated')">
+                                <div class="box-item">
+                                    <div class="item col-12">
+                                        <img src="assets/icon/completed-icon.png" alt="icon">
+                                    </div>
+                                    <div class="item mt-4">
+                                        <div class="text-detail">ข้อมูลประชาสัมพันธ์ <br>และเตือนภัย</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mt-2 block-box-content-right box6 text-center">
+                        <div class="block-box ext">
+                            <div class="box-detail" (click)="RedirectExternal('https://www.chaladohn.com/')">
+                                <div class="box-item">
+                                    <div class="item ext col-12">
+                                        <img src="assets/icon/logo_CHO1.png" alt="icon">
+                                    </div>
+                                    <div class="item mt-4">
+                                        <div class="text-detail">ฉลาดโอน<br>ตรวจสอบบัญชีก่อนโอนเงิน</div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="block-box"></div>
-                <div class="block-box box3">
-                    <div class="box-detail box3" (click)="TelLink('tel:081-866-3000')">
-                        <div class="box-item">
-                            <div class="item">
-                                <img src="../assets/icon/icon-box-tel.png" alt="icon">
-                            </div>
-                            <div class="item title">
-                                <div class="title3">โทร. 081 866 3000 ศูนย์ PCT</div>
-                                <div class="text-detail">(ตลอด 24 ชั่วโมง)</div>
-                            </div>
+            </div>
+        </div>
+        <div class="block-box-login col-12" *ngIf="!hasSession">
+            <div class="box-login-detail" (click)="OnIssueOnline()">เข้าสู่ระบบ</div>
+        </div>
+        <div class="row section2">
+            <div class="block-title">
+                <div class="title"><b>ท่านสามารถแจ้งธนาคารเพื่ออายัดธุรกรรม</b></div>
+                <div class="sub-title">โดยธนาคารจะดำเนินการประสานธนาคารที่เกี่ยวข้องเพื่อติดตามทรัพย์สิน โดยธนาคารจะให้ Bank Case ID ท่านสามารถนำมาแจ้งผ่านระบบ เพื่อดำเนินการต่อไป</div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 box-bank mt-2" >
+                    <div class="row m-1  p-3 d-flex h-100 item-box-bank" (click)="TelLink('tel:0-2888-8888')">
+                        <div class="col-4">
+                            <img src="assets/icon/kbank.png" alt="kbank" class="img-fluid rounded mx-auto d-block">
+                        </div>
+                        <div class="col-8">
+                            <div class="text-detail">ธนาคารกสิกรไทย</div>
+                            <div class="text-detail">0-2888-8888 กด 1</div>
                         </div>
                     </div>
                 </div>
-                <div class="block-box block-manual">
-                    <div class="box-detail box-manual news-content" (click)="RedirectExternal('https://24hicarecenter.com/cybervaccinated')">
-                        <div class="box-item">
-                            <div class="item">
-                                <img src="../assets/icon/newspaper.png" alt="icon">
-                            </div>
-                            <div class="item title title1">ประชาสัมพันธ์/เตือนภัย</div>
+                <div class="col-lg-3 col-md-6 box-bank mt-2" >
+                    <div class="row m-1  p-3 d-flex h-100 item-box-bank" (click)="TelLink('tel:0-2111-1111')">
+                        <div class="col-4">
+                            <img src="assets/icon/ktb.png" alt="ktb" class="img-fluid rounded mx-auto d-block  ">
+                        </div>
+                        <div class="col-8">
+                            <div class="text-detail">ธนาคารกรุงไทย</div>
+                            <div class="text-detail">0-2111-1111 กด 108</div>
                         </div>
                     </div>
                 </div>
-                <div>
-                    <div class="omb_login">
-                        <div class="row omb_row-sm-offset-3 omb_socialButtons content-position">
-                            <!-- <div class="col-xs-4 col-sm-3 mt-2 mb-1 qr-img">
-                                <img src="https://www.img.in.th/images/574df1baeac387cc7fe9e261d086a791.png">
-                            </div> -->
-                            <div class="col-xs-6 col-sm-6 mt-2 mb-1 " style="display: none;">
-                                <a href="https://m.me/mysisbot" class="btn btn-lg btn-block omb_btn-mysisbot" target="_blank">
-                                    <!-- <i class="fas fa-line visible-xs"></i> -->
-                                    <img src="../assets/icon/mysisbot.jpg" style="border: 3px solid #fff;
-                                    border-radius: 10px;width: 80px;" alt="line" srcset=""><br>
-                                    <span class="hidden-xs" style="font-size: 16px;color: #000;">แชทบอทให้คำปรึกษาเรื่องความรุนแรงในครอบครัว</span>
-
-                                </a>
-                            </div>
-                            <div class="col-xs-4 col-sm-3 mt-2 mb-1 line-img" style="display: none;">
-                                <a href="https://line.me/ti/p/@ccib" class="btn btn-lg btn-block omb_btn-twitter" target="_blank">
-                                    <!-- <i class="fas fa-line visible-xs"></i> -->
-                                    <img src="../assets/icon/line.png" style="border: 3px solid #fff;
-                                    border-radius: 10px;" alt="line" srcset="">
-                                    <span class="hidden-xs" style="font-size: 16px;">Line</span>
-                                </a>
-                            </div>
-                            <div class="col-xs-6 col-sm-6 mt-2 mb-1 facebook-img" style="display: none;">
-                                <a href="https://www.facebook.com/PCTPOLICE" class="btn btn-lg btn-block omb_btn-facebook" target="_blank">
-                                    <!-- <i class="fas fa-facebook visible-xs"></i> -->
-                                    <img src="../assets/icon/facebook.png" style="border: 3px solid #fff;
-                                    border-radius: 10px;    margin-top: 5%;    margin-bottom: 12%;" alt="facebook" srcset="">
-
-                                    <!-- <span class="hidden-xs" style="font-size: 16px;">Facebook</span> -->
-                                    <span class="hidden-xs" style="font-size: 16px;"><br>PCT​ police</span>
-                                </a>
-                            </div>
+                <div class="col-lg-3 col-md-6 box-bank mt-2">
+                    <div class="row m-1 p-3 d-flex item-box-bank h-100" (click)="TelLink('tel:1572')">
+                        <div class="col-4">
+                            <img src="assets/icon/bay.png" alt="bay" class="img-fluid">
+                        </div>
+                        <div class="col-8">
+                            <div class="text-detail">ธนาคารกรุงศรีอยุธยา</div>
+                            <div class="text-detail">1572 กด 5</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 box-bank mt-2">
+                    <div class="row m-1  p-3 d-flex h-100 item-box-bank"  (click)="TelLink('tel:0-2645-5555')">
+                        <div class="col-4">
+                            <img src="assets/icon/bbl.png" alt="bbl" class="img-fluid">
+                        </div>
+                        <div class="col-8">
+                            <div class="text-detail">ธนาคารกรุงเทพ</div>
+                            <div class="text-detail">1333 หรือ </div>
+                            <div class="text-detail">0-2645-5555 กด * 3</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 box-bank mt-2">
+                    <div class="row m-1  p-3 d-flex h-100 item-box-bank " (click)="TelLink('tel:0-2777-7575')">
+                        <div class="col-4">
+                            <img src="assets/icon/scb.png" alt="scb" class="img-fluid">
+                        </div>
+                        <div class="col-8">
+                            <div class="text-detail">ธนาคารไทยพาณิชย์</div>
+                            <div class="text-detail">0-2777-7575</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 box-bank mt-2">
+                    <div class="row m-1  p-3 d-flex h-100 item-box-bank" (click)="TelLink('tel:1428')">
+                        <div class="col-4">
+                            <img src="assets/icon/ttb.png" alt="ttb" class="img-fluid">
+                        </div>
+                        <div class="col-8">
+                            <div class="text-detail">ธนาคารทหารไทยธนชาต</div>
+                            <div class="text-detail">1428 กด 03</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="customlink">
-                    <div class="omb_login">
-                        <div>
-                            <p class="custometitlelink">ลิ้งค์แนะนำ</p>
-
+                <div class="col-lg-3 col-md-6 box-bank mt-2">
+                    <div class="row m-1  p-3 d-flex h-100 item-box-bank " (click)="TelLink('tel:1115')">
+                        <div class="col-4 ">
+                            <img src="assets/icon/gsb.png" alt="gsb" class="img-fluid">
                         </div>
-
-                        <div class="row omb_row-sm-offset-3 omb_socialButtons content-position">
-
-                            <div class="col-xs-4 col-sm-4 mt-2 mb-1" >
-                                <a href="https://m.me/mysisbot" class="btn btn-lg btn-block mysisbotcustom" target="_blank">
-                                    <!-- <i class="fas fa-line visible-xs"></i> -->
-                                    <img src="../assets/icon/mysisbot.jpg" style="
-                                    border-radius: 10px;width: 80px;" alt="line" srcset="">
-
-                                </a>
-                                <a href="https://m.me/mysisbot" target="_blank" class="btn btn-lg btn-block omb_btn-mysisbotdes">
-                                    <span class="hidden-xs" style="font-size: 16px;color: #fff;">แชทบอทให้คำปรึกษาเรื่องความรุนแรงในครอบครัว</span>
-                                </a>
-
-                            </div>
-
-                            <div class="col-xs-4 col-sm-4 mt-2 mb-1 facebook-img" >
-                                <a href="https://www.facebook.com/PCTPOLICE" class="btn btn-lg btn-block omb_btn-facebookcustom" target="_blank">
-                                    <!-- <i class="fas fa-facebook visible-xs"></i> -->
-                                    <img src="../assets/icon/facebook.png" style="border: 3px solid #fff;
-                                    border-radius: 10px;    margin-top: 5%;    margin-bottom: 12%;" alt="facebook" srcset="">
-
-                                    <!-- <span class="hidden-xs" style="font-size: 16px;">Facebook</span> -->
-                                </a>
-
-                                <a href="https://www.facebook.com/PCTPOLICE" target="_blank" class="btn btn-lg btn-block omb_btn-facebookdes">
-                                    <span class="hidden-xs" style="font-size: 16px;">PCT​ police</span>
-                                </a>
-
-                            </div>
-
-                            <div class="col-xs-4 col-sm-4 mt-2 mb-1 text-center">
-                                <img src="../assets/icon/358726.jpg" style="width: 130px; height: 130px;" alt="line" srcset="">
-                                <h3 style="color: #fff;">@police1441</h3>
-                                <span class="hidden-xs" style="font-size: 16px;color: #fff;">แชทบอทให้คำปรึกษาคดีออนไลน์</span>
-                            </div>
+                        <div class="col-8">
+                            <div class="text-detail">ธนาคารออมสิน</div>
+                            <div class="text-detail">1115 กด 6</div>
                         </div>
                     </div>
+                </div>
 
-                <div class="block-box-login" *ngIf="!hasSession">
-                    <div class="box-login-detail" (click)="OnIssueOnline()">เข้าสู่ระบบ</div>
+                <div class="col-lg-3 col-md-6 box-bank mt-2">
+                    <div class="row m-1  p-3 d-flex h-100 item-box-bank" (click)="TelLink('tel:0-2626-7777')">
+                        <div class="col-4">
+                            <img src="assets/icon/cimb.png" alt="cimb" class="img-fluid">
+                        </div>
+                        <div class="col-8">
+                            <div class="text-detail">ธนาคารซีไอเอ็มบี ไทย</div>
+                            <div class="text-detail">0-2626-7777 กด 00</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 box-bank mt-2">
+                    <div class="row m-1  p-3 d-flex h-100 item-box-bank " (click)="TelLink('tel:0-2697-5454')">
+                        <div class="col-4">
+                            <img src="assets/icon/tcrb.png" alt="tcrb" class="img-fluid">
+                        </div>
+                        <div class="col-8">
+                            <div class="text-detail">ธนาคารไทยเครดิต</div>
+                            <div class="text-detail">0-2697-5454</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 box-bank mt-2">
+                    <div class="row m-1  p-3 d-flex h-100 item-box-bank" (click)="TelLink('tel:0-2459-0000')">
+                        <div class="col-4">
+                            <img src="assets/icon/lhb.png" alt="lhb" class="img-fluid">
+                        </div>
+                        <div class="col-8">
+                            <div class="text-detail">ธนาคารแลนด์ แอนด์ เฮ้าส์</div>
+                            <div class="text-detail">0-2459-0000 กด 8</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 box-bank mt-2">
+                    <div class="row m-1  p-3 d-flex h-100 item-box-bank " (click)="TelLink('tel:0-2645-9000')">
+                        <div class="col-4">
+                            <img src="assets/icon/ghb.png" alt="ghb" class="img-fluid">
+                        </div>
+                        <div class="col-8">
+                            <div class="text-detail">ธนาคารอาคารสงเคราะห์</div>
+                            <div class="text-detail">0-2645-9000 กด 33</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 box-bank mt-2">
+                    <div class="row m-1  p-3 d-flex h-100 item-box-bank" (click)="TelLink('tel:0-2555-0555')">
+                        <div class="col-4">
+                            <img src="assets/icon/baac.png" alt="baac" class="img-fluid">
+                        </div>
+                        <div class="col-8">
+                            <div class="text-detail">ธนาคารเพื่อการเกษตร</div>
+                            <div class="text-detail">และสหกรณ์การเกษตร</div>
+                            <div class="text-detail">0-2555-0555 กด * 3</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 box-bank mt-2">
+                    <div class="row m-1  p-3 d-flex h-100 item-box-bank " (click)="TelLink('tel:0-2344-9555')">
+                        <div class="col-4">
+                            <img src="assets/icon/uob.png" alt="uob" class="img-fluid">
+                        </div>
+                        <div class="col-8">
+                            <div class="text-detail">ธนาคารยูโอบี</div>
+                            <div class="text-detail">0-2344-9555</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 box-bank mt-2">
+                    <div class="row m-1  p-3 d-flex h-100 item-box-bank" (click)="TelLink('tel:0-2344-9555')">
+                        <div class="col-4">
+                            <img src="assets/icon/citi.png" alt="citi" class="img-fluid">
+                        </div>
+                        <div class="col-8">
+                            <div class="text-detail">ธนาคารซิตี้แบงค์</div>
+                            <div class="text-detail">0-2344-9555</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 box-bank mt-2">
+                    <div class="row m-1  p-3 d-flex h-100 item-box-bank " (click)="TelLink('tel:0-2165-5555')">
+                        <div class="col-4">
+                            <img src="assets/icon/kk.png" alt="kk" class="img-fluid">
+                        </div>
+                        <div class="col-8">
+                            <div class="text-detail">ธนาคารเกียรตินาคินภัทร</div>
+                            <div class="text-detail">0-2165-5555 กด 6</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 box-bank mt-2">
+                    <div class="row m-1  p-3 d-flex h-100 item-box-bank" (click)="TelLink('tel:0-2633-6000')">
+                        <div class="col-4">
+                            <img src="assets/icon/tisco.png" alt="tisco" class="img-fluid">
+                        </div>
+                        <div class="col-8">
+                            <div class="text-detail">ธนาคารทิสโก้</div>
+                            <div class="text-detail">0-2633-6000 กด * 7</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<dx-popup class="popup attactment" [width]="800" [height]="600" [showTitle]="false" title="แจ้งปรับปรุงระบบชั่วคราว" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="showpopupweb" [showCloseButton]="false">
-    <div *dxTemplate="let data of 'content'">
-        <dx-scroll-view #view_form_popup_attachment [showScrollbar]="'always'" style="height: calc(100% - 45px);background-color: #2D437C;">
-            <div style="text-align: center;    margin: 20px;">
-        <h2 style="color: #fff;">ระบบบริหารจัดการคดีอาชญากรรมทางเทคโนโลยี</h2>
-        <h1 style="color: #fff;">ขอแจ้งปรับปรุงระบบชั่วคราว</h1>
-    </div>
-    <div style="    text-align: center;
-    margin-top: 10%;
-    background-color: #2D437C;
-    padding: 2%;">
-        <h1 style="color: #fff;">วันที่ 29-30 ตุลาคม 2565</h1>
-        <h1 style="background-color: #fff;padding:2%;">เวลา 22.00 น.-06.00 น.</h1>
-    </div>
-        </dx-scroll-view>
-        <div class="text-right btn-dx" style="display: none;">
-            <button class="btn btn-cancle" (click)="closepopup()">ปิด</button>&nbsp;
+
+
+
+
+
+    <!-- POPUP -->
+    <dx-popup class="popup attactment" [width]="800" [height]="600" [showTitle]="false" title="แจ้งปรับปรุงระบบชั่วคราว"
+        [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="showpopupweb" [showCloseButton]="false">
+        <div *dxTemplate="let data of 'content'">
+            <dx-scroll-view #view_form_popup_attachment [showScrollbar]="'always'"
+                style="height: calc(100% - 45px);background-color: #2D437C;">
+                <div style="text-align: center;    margin: 20px;">
+                    <h3 style="color: #fff;">ระบบบริหารจัดการคดีอาชญากรรมทางเทคโนโลยี</h3>
+                    <h1 style="color: #fff;">ขอแจ้งปรับปรุงระบบชั่วคราว</h1>
+                </div>
+                <div style=" text-align: center; margin-top: 10%; background-color: #2D437C; padding: 2%;">
+                    <h1 style="color: #fff;">วันที่ 29-30 ตุลาคม 2565</h1>
+                    <h1 style="background-color: #fff;padding:2%;">เวลา 22.00 น.-06.00 น.</h1>
+                </div>
+            </dx-scroll-view>
+            <div class="text-right btn-dx" style="display: none;">
+                <button class="btn btn-cancle" (click)="closepopup()">ปิด</button>&nbsp;
+            </div>
         </div>
-    </div>
-</dx-popup>
+    </dx-popup>

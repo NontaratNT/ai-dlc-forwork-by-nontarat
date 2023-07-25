@@ -38,6 +38,7 @@ import {
     DxToolbarModule,
     DxTreeListModule,
     DxTreeViewModule,
+    DxTooltipModule,
 } from "devextreme-angular";
 import { NewReportComponent } from "./component/page/new-report/new-report.component";
 import { DetailAppoveComponent } from "./component/page/RequestReport/detail-appove/detail-appove.component";
@@ -81,6 +82,10 @@ import { LayoutDesktopModule } from "../layout-desktop/layout-desktop.module";
 import { ViewAddressComponent } from "./component/page/RequestReport/view-address/view-address.component";
 import { ViewFileUploadComponent } from "./component/page/RequestReport/view-file-upload/view-file-upload.component";
 import { NgxExtendedPdfViewerModule } from "ngx-extended-pdf-viewer";
+import { FormsModule } from "@angular/forms";
+import { IssueOnlineDamageSubComponent } from './component/page/RequestReport/issue-online-container/issue-online-damage-sub/issue-online-damage-sub.component';
+import { IssueOnlineBlessingComponent } from './component/page/RequestReport/issue-online-container/issue-online-blessing/issue-online-blessing.component';
+import { IssueOnlineQuestionareComponent } from "./component/page/RequestReport/issue-online-container/issue-online-questionare/issue-online-questionare.component";
 
 @NgModule({
     declarations: [
@@ -110,7 +115,10 @@ import { NgxExtendedPdfViewerModule } from "ngx-extended-pdf-viewer";
         ProfileComponent,
         ViewFileUploadComponent,
         ViewAddressComponent,
-        TrackAppointmentComponent
+        TrackAppointmentComponent,
+        IssueOnlineDamageSubComponent,
+        IssueOnlineBlessingComponent,
+        IssueOnlineQuestionareComponent
     ],
     imports: [
         CommonModule,
@@ -119,6 +127,7 @@ import { NgxExtendedPdfViewerModule } from "ngx-extended-pdf-viewer";
         DxListModule,
         DxRadioGroupModule,
         DxToolbarModule,
+        DxTooltipModule,
         DxTreeListModule,
         DxTreeViewModule,
         DxTextBoxModule,
@@ -143,6 +152,7 @@ import { NgxExtendedPdfViewerModule } from "ngx-extended-pdf-viewer";
         DxButtonGroupModule,
         LayoutDesktopModule,
         NgxExtendedPdfViewerModule,
+        FormsModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })

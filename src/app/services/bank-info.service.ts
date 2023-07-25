@@ -12,58 +12,62 @@ export class BankInfoService {
 
     public GetBankInfo(): Observable<any[]> {
         return req<any[]>('CmsBankInfo')
-            .get();
+            .disableCriticalDialogError().get();
     }
     public GetBankWayOtherInfo(): Observable<any[]> {
         return req<any[]>('CmsTrasferType')
-            .get();
+            .disableCriticalDialogError().get();
     }
     public GetBankOtherInfo(): Observable<any[]> {
         return req<any[]>('CmsBankOther')
-            .get();
+            .disableCriticalDialogError().get();
     }
     public GetBankOrg(BankId: number): Observable<any[]> {
         return this._req<any[]>('CmsOrganizeBank')
             .queryString({BankId})
-            .get();
+            .disableCriticalDialogError().get();
     }
     public GetBankOrgStation(StationId: number): Observable<any[]> {
         return this._req<any[]>('CmsOrganize/station')
             .queryString({StationId})
-            .get();
+            .disableCriticalDialogError().get();
     }
     public GetSocialInfo(): Observable<any[]> {
         return req<any[]>('CmsSocialInfo')
-            .get();
+            .disableCriticalDialogError().get();
     }
     public GetNearStation(): Observable<any[]> {
         return this._req<any[]>('CmsOrganize/orgProvince')
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public SearchNearStation(searchObj: any, offset: number = 0, length: number = 10): Observable<IPagingResult<any>> {
         return this._req<IPagingResult<any>>("CmsOrganize/search")
             .body({ Condition: searchObj, Offset: offset, Length: length })
-            .post();
+            .disableCriticalDialogError().post();
     }
 
     public GetLanguage(): Observable<any[]> {
         return req<any[]>('CmsCaseLanguage')
-            .get();
+            .disableCriticalDialogError().get();
     }
     public GetCaseChannel(): Observable<any[]> {
         return req<any[]>('CmsChannel')
-            .get();
+            .disableCriticalDialogError().get();
     }
     public GetCaseType(): Observable<any[]> {
         return req<any[]>('CmsCaseType')
-            .get();
+            .disableCriticalDialogError().get();
     }
 
 
     public GetBankBranch(id: number): Observable<IBankBranch[]> {
         return req<IBankBranch[]>(`CmsBankBranch/${id}/bankId`)
-            .get();
+            .disableCriticalDialogError().get();
+    }
+    public GetBankInfoByName(Name:string): Observable<any[]> {
+        return req<any[]>(`CmsBankInfo/'${Name}'`)
+            .disableCriticalDialogError().get();
     }
 }
 

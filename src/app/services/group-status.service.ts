@@ -13,17 +13,17 @@ export class GroupStatusService {
 
     public get(): Observable<any> {
         return this._req<any>().api('CmsGroupStatus')
-            .get();
+            .disableCriticalDialogError().get();
     }
     public getStatusAll(PersonalId: number): Observable<any[]> {
         return this._req<any[]>().api('BpmProcInst/workflow/task/group-status/count')
             .queryString({PersonalId})
-            .get();
+            .disableCriticalDialogError().get();
     }
     public getStatusAllAndReject(PersonalId: number): Observable<any[]> {
         return this._req<any[]>().api('BpmProcInst/workflow/task/group-status-infomer/count')
             .queryString({PersonalId})
-            .get();
+            .disableCriticalDialogError().get();
     }
 
 }

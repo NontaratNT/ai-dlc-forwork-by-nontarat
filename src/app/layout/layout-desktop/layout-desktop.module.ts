@@ -69,6 +69,11 @@ import { AppointmentHistoryComponent } from './components/appointment-history/ap
 import { IssueOnlineWithdrawCaseComponent } from './components/issue-online-withdraw-case/issue-online-withdraw-case.component';
 import { ProblemOnlineComponent } from './components/problem-online/problem-online.component';
 import { ProblemOnlineAddComponent } from './components/problem-online-add/problem-online-add.component';
+import { IssueOnlineService } from "src/app/services/issue-online.service";
+import { IssueOnlineDamageSubComponent } from './components/issue-online-container/issue-online-damage-sub/issue-online-damage-sub.component';
+import { IssueOnlineBlessingComponent } from './components/issue-online-container/issue-online-blessing/issue-online-blessing.component';
+import { IssueOnlineQuestionareComponent } from './components/issue-online-container/issue-online-questionare/issue-online-questionare.component';
+import { DateTimeInputComponent } from "src/app/components/controls/date-time-input/date-time-input.component";
 
 
 const customNotifierOptions: NotifierOptions = {
@@ -148,9 +153,13 @@ const customNotifierOptions: NotifierOptions = {
         AppointmentHistoryComponent,
         IssueOnlineWithdrawCaseComponent,
         ProblemOnlineComponent,
-        ProblemOnlineAddComponent
+        ProblemOnlineAddComponent,
+        IssueOnlineDamageSubComponent,
+        IssueOnlineBlessingComponent,
+        IssueOnlineQuestionareComponent,
+        DateTimeInputComponent
     ],
-    exports: [DateComboPickerComponent,DateComboRegisterComponent],
+    exports: [DateComboPickerComponent, DateComboRegisterComponent],
     imports: [
         CommonModule,
         LayoutDesktopRoutingModule,
@@ -187,4 +196,4 @@ const customNotifierOptions: NotifierOptions = {
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class LayoutDesktopModule {}
+export class LayoutDesktopModule { }

@@ -48,6 +48,10 @@
             }
             .menu-content .dx-treeview-item {
                 margin: 10px 10px 10px 10px;
+                .menu-text{
+                    font-size: 24px;
+                }
+
             }
         }
         // ## Selected & Focuced items customization
@@ -75,7 +79,7 @@
                 }
             }
             .text {
-                font-size: 14px;
+                font-size: 24px;
                 color: #333a71;
             }
             .title {

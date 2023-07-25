@@ -1,4 +1,7 @@
 :host {
+    .dx-widget{
+        font-size: 16px;
+    }
     .text-download {
         cursor: pointer;
         color: #333a71;
@@ -10,54 +13,6 @@
     .tab-title {
         font-size: 18px;
         color: #2f2b66;
-    }
-     ::ng-deep {
-        .upload-file-table {
-            tr.dx-data-row>td {
-                vertical-align: middle !important;
-                white-space: normal !important;
-            }
-        }
-        .text-break {
-            white-space: normal;
-        }
-        .dx-icon.fa.fa-plus {
-            color: #fff !important;
-        }
-        .conten-block {
-            margin-top: 5px;
-            .content-title {
-                text-align: left;
-                padding: 10px 0 20px 0;
-                font-size: 18px;
-                color: #2f2b66;
-                font-weight: bold;
-            }
-            .content-title-file {
-                text-align: left;
-                padding: 10px 0 10px 0;
-                font-size: 18px;
-                color: #2f2b66;
-                font-weight: bold;
-            }
-            .content-sub-title {
-                text-align: left;
-                padding: 10px 0 20px 0;
-                font-size: 16px;
-                color: #3d3d3d;
-            }
-            .content-end-line {
-                margin: auto;
-                width: 100%;
-                border-bottom: 1px solid #dddddd;
-                margin-top: 40px;
-            }
-            .content-end-line-file {
-                margin: auto;
-                width: 100%;
-                border-bottom: 1px solid #dddddd;
-            }
-        }
     }
     #upload-file {
         .block-dropzone {
@@ -95,7 +50,7 @@
             text-align: right;
             margin: 0 0 15px 0;
             .btn-add-data {
-                width: 123px;
+                width: 130px;
                 height: 44px;
                 border-radius: 6px;
                 background: #ffd84f;
@@ -208,4 +163,32 @@
             border-bottom: 1px solid #dddddd;
         }
     }
+    #chanel_check{
+        margin-right: 10px;
+        font-size: 15px;
+    }
+    ::ng-deep .dx-widget{
+        font-size: 18px;
+    }
+}
+
+::ng-deep .content-title{
+    text-align: left;
+    padding: 10px 0 20px 0;
+    font-size: 25px;
+    color: #2f2b66;
+    font-weight: bold;
+}
+::ng-deep .dx-field-item-label-text{
+    text-align: left;
+    padding: 10px 0 20px 0;
+    font-size: 18px;
+    color: #292929;
+}
+
+::ng-deep .content-end-line {
+    margin: auto;
+    width: 100%;
+    border-bottom: 1px solid #dddddd;
+    margin-top: 20px;
 }

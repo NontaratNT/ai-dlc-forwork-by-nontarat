@@ -51,7 +51,7 @@
 
 export const environment = {
         production: true,
-        baseUrl: 'https://policeextertal.azurewebsites.net/',
+        baseUrl: 'https://green-plant-0331bd900.3.azurestaticapps.net/',
         config: {
             baseConfig: {
                 apiUrl: "https://ccibapi.azurewebsites.net/api",

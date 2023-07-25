@@ -1,0 +1,101 @@
+<div class="conten-block">
+    <div class="content-title" style="font-size: 25px;">กรุณาเลือกที่เกี่ยวข้องกับการกระทำความผิด</div>
+    <div class="content-form ml-5">
+        <dx-form #formquestionate [colCount]="1" labelLocation="top">
+            <dxi-item template="temp1" [colSpan]="1" [isRequired]="false">
+                <dxo-label text="1.มีหลอกให้ซื้อสินค้า" [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp1'" style="margin-left: 20px;">
+                <div class="row">
+                    <div class="col-6">
+                        <dx-radio-group [readOnly]="formReadOnly" [items]="group1_1" valueExpr="id" displayExpr="txt" [(value)]="formQuestionare.QUESTIONARE_1" layout="vertical">
+                        </dx-radio-group>
+                    </div>
+                    <div class="col-6">
+                        <dx-radio-group [readOnly]="formReadOnly" [items]="group1_2" valueExpr="id" displayExpr="txt" [(value)]="formQuestionare.QUESTIONARE_1" layout="vertical">
+                        </dx-radio-group>
+                    </div>
+                </div>
+            </div>
+            <dxi-item template="temp2" [colSpan]="1" [isRequired]="false">
+                <dxo-label text="2.มีการเชิญชวนกู้เงิน" [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp2'" style="margin-left: 20px;">
+                <dx-radio-group [readOnly]="formReadOnly" [items]="group2" valueExpr="id" displayExpr="txt" [(value)]="formQuestionare.QUESTIONARE_2" layout="vertical">
+                </dx-radio-group>
+            </div>
+            <dxi-item template="temp3" [colSpan]="1" [isRequired]="false">
+                <dxo-label text="3.มีการหลอกให้ทำกิจกรรมเพื่อรับผลตอบแทน" [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp3'" style="margin-left: 20px;">
+                <dx-radio-group [readOnly]="formReadOnly" [items]="group3" valueExpr="id" displayExpr="txt" [(value)]="formQuestionare.QUESTIONARE_3" layout="vertical">
+                </dx-radio-group>
+            </div>
+            <dxi-item template="temp4" [colSpan]="1" [isRequired]="false">
+                <dxo-label text="4.ติดต่อมาช่องทางต่าง ๆ เช่นโทรศัพท์ ทักแชท" [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp4'" style="margin-left: 20px;">
+                <dx-check-box [readOnly]="formReadOnly" [(value)]="formQuestionare.QUESTIONARE_4_1" text="ถามว่าจำได้ไหมฉันเป็นใครแล้วให้ผู้เสียหายบันทึกเบอร์"></dx-check-box><br>
+                <dx-check-box [readOnly]="formReadOnly" [(value)]="formQuestionare.QUESTIONARE_4_2" text="ปลอมเป็นคนอื่น แล้วหลอกยืมเงิน"></dx-check-box><br>
+                <dx-check-box [readOnly]="formReadOnly" [(value)]="formQuestionare.QUESTIONARE_4_3" text="ปลอมเป็นคนอื่น แล้วหลอกให้โอนค่าสินค้า"></dx-check-box>
+            </div>
+            <dxi-item template="temp5" [colSpan]="1" [isRequired]="false">
+                <dxo-label text="5.call center" [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp5'" style="margin-left: 20px;">
+                <dx-radio-group [readOnly]="formReadOnly" [items]="group5" valueExpr="id" displayExpr="txt" [(value)]="formQuestionare.QUESTIONARE_5" layout="vertical">
+                </dx-radio-group>
+            </div>
+            <dxi-item template="temp6" [colSpan]="1" [isRequired]="false">
+                <dxo-label text="6.หลอกให้ติดตั้งโปรแกรมไม่พึงประสงค์" [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp6'" style="margin-left: 20px;">
+                <dx-check-box [readOnly]="formReadOnly" [(value)]="formQuestionare.QUESTIONARE_6_1" text="ให้กรอกข้อมูลผ่านเว็บไซต์ หรือ แอปพลิเคชั่น"></dx-check-box><br>
+                <dx-check-box [readOnly]="formReadOnly" [(value)]="formQuestionare.QUESTIONARE_6_2" text="หลอกให้ติดตั้ง แอปรีโมทเข้าโทรศัพท์มือถือ หรือลงโปรแกรมควบคุมคอมพิวเตอร์"></dx-check-box><br>
+                <dx-check-box [readOnly]="formReadOnly" [(value)]="formQuestionare.QUESTIONARE_6_3" text="คนร้ายเข้าควบคุมอุปกรณ์แล้วถ่ายโอนทรัพย์สินผู้เสียหายออกไป"></dx-check-box>
+            </div>
+            <dxi-item template="temp7" [colSpan]="1" [isRequired]="false">
+                <dxo-label text="7.ปลอมโปรไฟล์เพื่อทำให้เชื่อถือ หลงรัก" [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp7'" style="margin-left: 20px;">
+                <div class="row">
+                    <div class="col-4">
+                        <dx-check-box [readOnly]="formReadOnly" [(value)]="formQuestionare.QUESTIONARE_7_1" text="ใช้โปรไฟล์หล่อหรูดูไฮโซทำความรู้จัก"></dx-check-box><br>
+                        <dx-check-box [readOnly]="formReadOnly" [(value)]="formQuestionare.QUESTIONARE_7_2" text="จีบให้หลงรัก"></dx-check-box>
+                    </div>
+                    <div class="col-6">
+                        <dx-check-box [readOnly]="formReadOnly" [(value)]="formQuestionare.QUESTIONARE_7_3" text="เชิญชวนให้ลงทุน เช่น หุ้น forex, crypto โดยให้ลงแอปพลิเคชั่น" ></dx-check-box><br>
+                        <dx-check-box [readOnly]="formReadOnly" [(value)]="formQuestionare.QUESTIONARE_7_4" text="ให้โอนเงินเพื่อวัตถุประสงค์บางอย่าง"></dx-check-box>
+                    </div>
+                </div>
+            </div>
+            <dxi-item template="temp8" [colSpan]="1" [isRequired]="false">
+                <dxo-label text="8.เป็นผู้เสียหาย" [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp8'" style="margin-left: 20px;">
+                <dx-check-box [readOnly]="formReadOnly" [(value)]="formQuestionare.QUESTIONARE_8_1" text="เป็นบุคคล ถูกนำ profile ไปใช้ไปใช้ในทางที่ทำให้เสียหาย"></dx-check-box><br>
+                <dx-check-box [readOnly]="formReadOnly" [(value)]="formQuestionare.QUESTIONARE_8_2" text="เป็น นิติบุคคล ถูกนำ profile ไปใช้ในทางที่ทำให้เสียหาย"></dx-check-box><br>
+                <dx-check-box [readOnly]="formReadOnly" [(value)]="formQuestionare.QUESTIONARE_8_3" text="มีการ sex video call โชว์ภาพโป๊เปลือย แล้วเรียกค่าไถ่"></dx-check-box>
+            </div>
+            <dxi-item template="temp9" [colSpan]="1" [isRequired]="false">
+                <dxo-label text="9.ถูกแฮ๊ค" [showColon]="false"></dxo-label>
+           </dxi-item>
+           <div *dxTemplate="let data of 'temp9'" style="margin-left: 20px;">
+                <dx-check-box [readOnly]="formReadOnly" [(value)]="formQuestionare.QUESTIONARE_9_1" text="ถูกแฮ๊ค facebook หรือ account สื่อโซเชียลต่างๆ แล้วนำไปทำที่ทำให้เกิดความเสียหาย"></dx-check-box><br>
+                <dx-check-box [readOnly]="formReadOnly" [(value)]="formQuestionare.QUESTIONARE_9_2" text="ถูกแฮ๊คระบบอีเมล แล้วแจ้งเปลี่ยนช่องทางการเงินโอนซื้อขายสินค้าจนทำให้เราผู้โอนไปผิด (business email compromize)"></dx-check-box><br>
+                <dx-check-box [readOnly]="formReadOnly" [(value)]="formQuestionare.QUESTIONARE_9_3" text="ถูกฝัง ransomware spyware เพื่อเรียกค่าไถ่ระบบ"></dx-check-box>
+            </div>
+         </dx-form>
+    </div>
+    <div class="btn-footer mt-4">
+        <div class="text-right">
+            <dx-button *ngIf="formType == 'add'" class="btn btn-back reset" text="ล้างค่า" (onClick)="clear()">
+            </dx-button>
+            &nbsp;&nbsp;
+            <dx-button class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)">
+            </dx-button>
+            &nbsp;
+            <dx-button class="btn btn-submit" text="ถัดไป"  *ngIf="!formReadOnly" (onClick)="SubmitForm($event)"></dx-button>
+        </div>
+    </div>
+</div>

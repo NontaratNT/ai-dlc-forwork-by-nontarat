@@ -12,24 +12,28 @@ export class OrgService {
     public GetOrganize(includeStatus = true): Observable<IOrganizeInfo[]> {
         return req<IOrganizeInfo[]>('CmsOrganize')
             .queryString({RecordStatus: <any>includeStatus })
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public GetByOrganizeId(id: number): Observable<IOrganizeInfo> {
         return req<IOrganizeInfo>(`CmsOrganize/${id}`)
             .cache()
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public getorgProvince(provinceid:any): Observable<IOrganizeInfo[]> {
         return this._req<IOrganizeInfo[]>('CmsOrganize/orgProvince')
             .queryString({provinceId: <any>provinceid })
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public getorgwalkin(): Observable<IOrganizeInfo[]> {
         return this._req<IOrganizeInfo[]>('CmsOrganize/getorgwalkin')
-            .get();
+            .disableCriticalDialogError().get();
+    }
+    public getorgwalkinall(): Observable<IOrganizeInfo[]> {
+        return this._req<IOrganizeInfo[]>('CmsOrganize/getorgall')
+            .disableCriticalDialogError().get();
     }
     // public GetApps(roleId: number): Observable<IAppInfo[]> {
     //     return req<IAppInfo[]>('CmsOrganize/app')
@@ -38,28 +42,28 @@ export class OrgService {
     // }
     public getorgmpaarea(pvid:any): Observable<IOrgmaparea[]> {
         return this._req<IOrgmaparea[]>('cmsorganize/getorgaria/'+pvid)
-            .get();
+            .disableCriticalDialogError().get();
     }
     public getorgariaall(): Observable<IOrgmaparea[]> {
         return this._req<IOrgmaparea[]>('cmsorganize/getorgariaall')
-            .get();
+            .disableCriticalDialogError().get();
     }
     public InsertOrganizeInfo(param: FormData): Observable<any> {
         return req("CmsOrganize")
             .body(param)
-            .post();
+            .disableCriticalDialogError().post();
 
     }
 
     public GetsOrganizePki(id: number): Observable<IOrganizeInfo[]> {
         return req<IOrganizeInfo[]>(`CmsOrganize/${id}/pki`)
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public UpdateOrganizeInfo(id: number, param: FormData): Observable<IOrganizeInfo> {
         return req<IOrganizeInfo>(`CmsOrganize/${id}`)
             .body(param)
-            .put();
+            .disableCriticalDialogError().put();
     }
 
     // public SearchOrganizeName(name: string, offset: number, length: number): Observable<IPagingResult<IOrganizeInfo>> {
@@ -76,7 +80,7 @@ export class OrgService {
         return req<IPagingResult<IOrganizeInfo>>("CmsOrganize/search")
             .body({ Condition: searchObj, Offset: offset, Length: length })
             // .queryString({ roleId: User.Current.Role.RoleId })
-            .post();
+            .disableCriticalDialogError().post();
     }
 }
 export interface IOrganizeInfo {

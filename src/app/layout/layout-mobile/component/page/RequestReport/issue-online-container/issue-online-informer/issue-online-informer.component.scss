@@ -9,6 +9,10 @@
         }
         .conten-block {
             margin-top: 5px;
+            &.mobile-uam {
+                margin-top: 4rem;
+            }
+          
             .content-title {
                 text-align: left;
                 padding: 10px 0 20px 0;

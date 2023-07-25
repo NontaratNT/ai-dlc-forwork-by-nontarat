@@ -132,3 +132,19 @@ body {
 ::ng-deep .damage0 .dx-layout-manager .dx-field-item:not(.dx-first-row) {
     padding-top: 0px;
 }
+
+::ng-deep .dx-checkbox-icon {
+    border: 1px solid #818181;
+  }
+
+
+::ng-deep .dx-radiobutton-icon::before {
+    display: block;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #818181;
+    background-color: #fff;
+    content: "";
+    border-radius: 11px;
+    box-sizing: content-box;
+ }

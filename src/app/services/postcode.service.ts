@@ -12,7 +12,7 @@ export class PostcodeService {
     public GetPostcode(includeStatus = true): Observable<IPostcodeInfo[]> {
         return req<IPostcodeInfo[]>('CmsPostCode')
             .queryString({ RecordStatus: includeStatus as any })
-            .get();
+            .disableCriticalDialogError().get();
     }
 }
 

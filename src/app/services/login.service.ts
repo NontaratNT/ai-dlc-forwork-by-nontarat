@@ -16,6 +16,7 @@ export class LoginService {
     }
 
     logout(redirectTo = "/home") {
+        localStorage.removeItem('inst_id');
         this.userServ.unAuthenticate();
         this.router.navigate([redirectTo]);
     }

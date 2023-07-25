@@ -16,14 +16,16 @@ import { ConvertDateService } from "src/app/services/convert-date.service";
 import { CmsCaseTypeSubService, ICaseTypeSub } from "src/app/services/cms-case-type-sub.service";
 import { FormValidatorService } from "src/app/services/form-validator.service";
 import { ViewAddressComponent } from "../../view-address/view-address.component";
+import { IssueOnlineService } from "src/app/services/issue-online.service";
+import { OnlineCaseService } from "src/app/services/online-case.service";
 
 @Component({
     selector: "app-issue-online-event",
     templateUrl: "./issue-online-event.component.html",
-    styleUrls: ["./issue-online-event.component.scss"] 
+    styleUrls: ["./issue-online-event.component.scss"]
 })
 export class IssueOnlineEventComponent implements OnInit {
-   
+
     @ViewChild('viewadress', { static: false }) child!: ViewAddressComponent;
     @ViewChild('formEvent1', { static: false }) formEvent1: DxFormComponent;
     @ViewChild('formEvent2', { static: false }) formEvent2: DxFormComponent;
@@ -58,17 +60,22 @@ export class IssueOnlineEventComponent implements OnInit {
     minBirthDate: Date;
     maxBirthDate: Date;
     formLocation: any = {};
-    formLocationLoad = true;
+    formLocationLoad = false;
     formLocationTranfer: any = {};
     formLocationTranferLoad = false;
     formLocationBankVictim: any = {};
     formLocationBankVictimLoad = false;
     formLocationBankVillain: any = {};
     formLocationBankVillainLoad = false;
-    locationRender = 'add';
+
+    checkboxaddresscard = false;
+
+    locationRender = '';
     userType = "mySelf";
     caseOpen = false;
     caseType = "";
+    issueOnline: any;
+    checkblessing = false;
     constructor(
         private router: Router,
         private servicePersonal: PersonalService,
@@ -81,27 +88,23 @@ export class IssueOnlineEventComponent implements OnInit {
         private _date: ConvertDateService,
         private _caseTypeSub: CmsCaseTypeSubService,
         private _formValidate: FormValidatorService,
+        private _issueOnlineService: IssueOnlineService,
+        private _OnlineCaseService: OnlineCaseService
+
     ) {
 
     }
 
     ngOnInit(): void {
-        console.log(this.formEvent1)
         this.isLoading = true;
         this.caseOpen = false;
+        this._issueOnlineService.issueOnline$.subscribe(value => {
+            // this.issueOnline = value;
+        });
+
         this.servBankInfo.GetCaseType().subscribe((_) => {
             this.formData.CASE_TYPE_ID = null;
             this.listCaseType = _;
-            // this.listCaseType = _.slice(0,5);
-            // const listCase = _ ?? undefined;
-            // const caseFirst = listCase[0] ?? undefined;
-            // if (caseFirst){
-            //     this.formData.CASE_TYPE_ID = caseFirst.CASE_TYPE_ID;
-            //     this.formData.CASE_TYPE_NAME = caseFirst.CASE_TYPE_NAME;
-            //     this.caseType = caseFirst.CASE_TYPE_DESC;
-            //     this.caseOpen = true;
-
-            // }
             this.serviceProvince.GetProvince().subscribe((res) => (this.province = res));
             this.SetDefaultData();
         });
@@ -125,9 +128,6 @@ export class IssueOnlineEventComponent implements OnInit {
         }
     }
     async OnSelectCaseType(e) {
-        // this.openCseTypeSub = false;
-        this.formData.CASE_TYPE_SUB_ID = undefined;
-        this.formData.CASE_TYPE_SUB_NAME = undefined;
         if (e.value) {
             const data = this.selectCaseType.instance.option("selectedItem");
             if (data) {
@@ -139,8 +139,7 @@ export class IssueOnlineEventComponent implements OnInit {
                 this.formData.CASE_TYPE_ID = e.value;
             }
 
-            // this.listCaseTypeSub = await this._caseTypeSub.Get(this.formData.CASE_TYPE_ID).toPromise();
-            // this.openCseTypeSub = (this.listCaseTypeSub) ? true : false;
+            this.listCaseTypeSub = await this._caseTypeSub.Get(this.formData.CASE_TYPE_ID).toPromise();
         }
     }
 
@@ -177,6 +176,7 @@ export class IssueOnlineEventComponent implements OnInit {
         this.formLocationBankVictimLoad = true;
         this.formLocationBankVillainLoad = true;
         // }, 500);
+        this.isLoading = false;
     }
     async SetDefaultData(){
         this.userType = this.mainConponent.userType;
@@ -186,7 +186,6 @@ export class IssueOnlineEventComponent implements OnInit {
         this.formLocationBankVictim = {};
         this.formLocationBankVillain = {};
         this.formData.CASE_TYPE_SUB_ID = undefined;
-
         if (this.mainConponent.formType === 'add') {
             this.locationRender = 'add';
             this.formType = "add";
@@ -197,29 +196,32 @@ export class IssueOnlineEventComponent implements OnInit {
             this.formLocationBankVictimLoad = true;
             this.formLocationBankVillainLoad = true;
             // this.formData.CASE_LOCATION_DATE = this._date.SetDateDefault(0);
+            this.isLoading = false;
 
         }else{
-            const dataForm = this.mainConponent.formDataInsert;
+            // const dataForm = await this.mainConponent.formDataInsert;
+            const _case_id = Number(sessionStorage.getItem("case_id"));
+            // const dataForm = this.mainConponent.formDataInsert;
+            const dataForm = await this._OnlineCaseService.getbycaseId(_case_id).toPromise();
+            var _gettype  =   this.listCaseType.find(x=>x.CASE_TYPE_ID == dataForm.CASE_TYPE_ID);
+          
+
             this.formType = "edit";
             this.formReadOnly = true;
             this.formValidate = false;
             this.formData = dataForm;
+            this.formData.CASE_TYPE_ID = dataForm.CASE_TYPE_ID;
+
+            this.formData.CASE_TYPE_NAME = _gettype.CASE_TYPE_NAME;
             this.userType = this.formData.CASE_SELF_TYPE === 'Y'? 'mySelf':'other';
             this.locationRender = 'view';
-            // this.openCseTypeSub = (dataForm.CASE_TYPE_SUB_ID) ? true : false;
-            // if (this.openCseTypeSub){
-            //     this.listCaseTypeSub = await this._caseTypeSub.Get(this.formData.CASE_TYPE_ID).toPromise();
-            //     this.formData.CASE_TYPE_SUB_ID = dataForm.CASE_TYPE_SUB_ID;
-            //     this.formData.CASE_TYPE_SUB_NAME = dataForm.CASE_TYPE_SUB_NAME;
-            // }
             this.setDataLocation(dataForm);
-            // this.formData.CASE_LOCATION_DATE = this._date.ConvertToDateFormat(this.formData.CASE_LOCATION_DATE);
         }
         // this.minBirthDate = this._date.SetDateDefault(10,true);
         // this.maxBirthDate = this._date.SetDateDefault(0);
         // console.log('this.maxBirthDate',this.maxBirthDate);
         // this.loadDateBox = true;
-        this.isLoading = false;
+
 
     }
 
@@ -316,6 +318,9 @@ export class IssueOnlineEventComponent implements OnInit {
         }
         return setData;
     }
+
+
+
     Back(e){
         this.mainConponent.NextIndex(this.mainConponent.indexTab -1);
     }
@@ -347,20 +352,22 @@ export class IssueOnlineEventComponent implements OnInit {
             //     return;
             // }
             if(this.child && !this.child.CheckRequired()){
+                this.mainConponent.checkValidate = true;
                 return;
             }
 
             this.formEvent1.instance.validate();
             if (!this.formEvent1.instance.validate().isValid){
                 this._formValidate.ValidateForm(this.formEvent1.instance.validate().brokenRules);
+                this.mainConponent.checkValidate = true;
                 return;
             }
 
-          
+
             // if(this.child){
             //     this.child.CheckRequired();
             // }
-      
+            this.mainConponent.checkValidate = false;
             this.mainConponent.formDataAll.formEvent = {};
             const dataLocation = await this.ReplaceKeyLocation('CASE_LOCATION',this.formLocation);
             const dataLocationTranfer = await this.ReplaceKeyLocation('CASE_LOCATION_TRANSFER',this.formLocationTranfer);
@@ -374,7 +381,9 @@ export class IssueOnlineEventComponent implements OnInit {
             this.mainConponent.formDataAll.formEvent = setDataFormAll;
 
         }
-        this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
+        if(e != 'tab'){
+            this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
+        }
     }
 
 

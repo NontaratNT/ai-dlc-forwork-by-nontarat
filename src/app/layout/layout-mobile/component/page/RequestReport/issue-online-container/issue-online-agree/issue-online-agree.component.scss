@@ -29,3 +29,30 @@
 ::ng-deep .dx-datagrid-headers + .dx-datagrid-rowsview {
     border-top: 1px solid #fff !important;
 }
+
+
+::ng-deep .dx-header-row > td > .dx-datagrid-text-content{
+    color: #fff;
+}
+
+::ng-deep .btn-add{
+    padding:7px  !important;
+    span{
+        padding-top: 2px;
+        top: 0px !important;
+    }
+    i{
+        font-size: 25px !important;
+    }
+}
+
+.block-add-btn {
+    // margin: 5px 0 5px 0;
+    .btn-add {
+        background-color: #ffd84f;
+ 
+        font-weight: 600;
+        font-size: large;
+
+    }
+}

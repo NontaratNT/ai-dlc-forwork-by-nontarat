@@ -13,75 +13,75 @@ export class RegisterService {
 
     public getById(registerId: number): Observable<IUserRegisterInfo> {
         return req<IUserRegisterInfo>(`CmsRegister/${registerId}`)
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public getUserRegister(registerUser: string, requestIal: number): Observable<IUserRegisterInfo> {
         return req<IUserRegisterInfo>("CmsRegister")
             .queryString({ RegisterUsername: registerUser , RequestIal: requestIal})
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public postRegister(param: FormData): Observable<HttpStatusResult> {
         return req<HttpStatusResult>('user/register')
             .body(param)
             .useSystemResult()
-            .post();
+            .disableCriticalDialogError().post();
     }
 
     public registerBefore(param: FormData): Observable<HttpStatusResult> {
         return req<HttpStatusResult>('user/register/before-otp')
             .body(param)
             .useSystemResult()
-            .post();
+            .disableCriticalDialogError().post();
     }
 
     public postRegisterMQ(param: FormData): Observable<HttpStatusResult> {
         return req<HttpStatusResult>('user/register/mq')
             .body(param)
             .useSystemResult()
-            .post();
+            .disableCriticalDialogError().post();
     }
 
     public sendSMS(username: string, tel: string): Observable<HttpStatusResult> {
         return req<HttpStatusResult>('user/register/send-sms')
             .body({Username:username, Tel:tel})
             .useSystemResult()
-            .post();
+            .disableCriticalDialogError().post();
     }
 
     public postReSend(username: string,email: string): Observable<HttpStatusResult> {
         return req<HttpStatusResult>('user/register/send-activate')
             .body({Username:username, Email:email})
             .useSystemResult()
-            .post();
+            .disableCriticalDialogError().post();
     }
     public postActive(username: string,otp: string): Observable<HttpStatusResult> {
         return req<HttpStatusResult>('user/register/activate')
             .body({Username:username,OTP:otp})
             .useSystemResult()
-            .post();
+            .disableCriticalDialogError().post();
     }
 
     public postActiveMQ(username: string,otp: string): Observable<HttpStatusResult> {
         return req<HttpStatusResult>('user/register/activate/mq')
             .body({Username:username,OTP:otp})
             .useSystemResult()
-            .post();
+            .disableCriticalDialogError().post();
     }
 
     public forgetSMS(tel: string): Observable<HttpStatusResult> {
         return req<HttpStatusResult>('user/forget-password/send-sms')
             .body({Tel:tel})
             .useSystemResult()
-            .post();
+            .disableCriticalDialogError().post();
     }
 
     public forgetSMSConfirm(tel: string, otp: string): Observable<HttpStatusResultValue<string>> {
         return req('user/forget-password/sms-confirm')
             .body({Tel:tel,OTP:otp})
             .useSystemResult<HttpStatusResultValue<string>>()
-            .post();
+            .disableCriticalDialogError().post();
     }
 }
 export interface IRegister {

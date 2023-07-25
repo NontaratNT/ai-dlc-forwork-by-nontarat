@@ -15,7 +15,7 @@ export class PersonalService {
     public Search(searchObj: any, offset: number, length: number): Observable<IPagingResult<IPersonal>> {
         return this._req<IPagingResult<IPersonal>>("CmsPersonal/search")
             .body({ Condition: searchObj, Offset: offset, Length: length })
-            .post();
+            .disableCriticalDialogError().post();
     }
 
     public SearchByName(name: string, offset: number, length: number): Observable<IPagingResult<IPersonal>> {
@@ -26,51 +26,51 @@ export class PersonalService {
     public GetPersonal(includeStatus = true): Observable<IPersonal[]> {
         return this._req<IPersonal[]>('CmsPersonal')
             .queryString({ RecordStatus: includeStatus as any })
-            .get();
+            .disableCriticalDialogError().get();
     }
     public GetPersonalById(id: number): Observable<IPersonal> {
         return this._req<IPersonal>('CmsPersonal/' + id)
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public GetPersonalManager(id: number): Observable<IOrganizeInfo[]> {
         return this._req<IOrganizeInfo[]>('CmsPersonal/' + id + '/organize/manager')
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public PutPersonal(id: number, param: FormData): Observable<IPersonal> {
         return this._req<IPersonal>('CmsPersonal/' + id)
             .body(param)
-            .put();
+            .disableCriticalDialogError().put();
     }
 
 
     public PostPersonal(param: FormData): Observable<IPersonal> {
         return this._req<IPersonal>('CmsPersonal')
             .body(param)
-            .post();
+            .disableCriticalDialogError().post();
     }
 
     public RegisterJournal(param: FormData): Observable<IPersonal> {
         return req<IPersonal>('user/register-1.3')
             .body(param)
-            .post();
+            .disableCriticalDialogError().post();
     }
 
     public RegisterJournalSendOtp(): Observable<any> {
         return req<any>('user/register-1.3/send-activate')
-            .post();
+            .disableCriticalDialogError().post();
     }
 
     public RegisterJournalActivateOtp(OPT: IOTP): Observable<IOTP> {
         return req<IOTP>('user/register-1.3/activate')
             .body(OPT)
-            .post();
+            .disableCriticalDialogError().post();
     }
     public RegisterVerifyID(param: FormData): Observable<any> {
         return req<any>('user/verify/persolnalimage')
             .body(param)
-            .post();
+            .disableCriticalDialogError().post();
     }
 
 }

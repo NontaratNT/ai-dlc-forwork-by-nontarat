@@ -92,6 +92,7 @@ export class IssueOnlineContainerComponent implements OnInit {
     indexLocker: any = {};
     stepNavigation = [
         { text: "ข้อความยินยอม", textClass: "arrow-div arrow-first" },
+        { text: "Questionare พรก.", textClass: "arrow-div arrow-first" },
         { text: "ข้อมูลผู้เสียหาย", textClass: "arrow-div arrow-center" },
         { text: "เรื่องที่เกิดขึ้น", textClass: "arrow-div arrow-center" },
         { text: "ความเสียหาย", textClass: "arrow-div arrow-center" },

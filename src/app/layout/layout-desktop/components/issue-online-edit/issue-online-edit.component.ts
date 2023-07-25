@@ -25,7 +25,7 @@ export class IssueOnlineEditComponent implements OnInit {
         { id: 3, text: 'สนทนา', icon: 'fas fa-comments',link:"/main/issue",index:2 },
         { id: 4, text: 'ข้อมูลนัดหมาย', icon: 'fas fa-calendar',link:"/main/issue",index:3 },
 
-        /* { id: 5 ถอนแจ้งความ }[OS] เงื่อนไข: ถ้าสถานะ = 'C01' สามารถถอนแจ้งความได้ */ 
+        /* { id: 5 ถอนแจ้งความ }[OS] เงื่อนไข: ถ้าสถานะ = 'C01' สามารถถอนแจ้งความได้ */
     ];
     tabIndex = 0;
     _instId: number;
@@ -70,16 +70,21 @@ export class IssueOnlineEditComponent implements OnInit {
 
     ngOnInit(): void {
         // this._instId = this.activeRoute.snapshot.params.instId;
-        this.activeRoute.params.subscribe(params => {
-            // this._isLoading = true;
-            this._instId = params.instId;
+        // this.activeRoute.params.subscribe(params => {
+        //     // this._isLoading = true;
+        //     this._instId = params.instId;
+        //     this.loadTab = false;
+        //     this.caseReject = false;
+        //     this.loaddata(this._instId);
+        //     this.LoadStatus(this._instId);
+        // });
+        setTimeout(()=>{
+            this._instId = Number(localStorage.getItem('inst_id'));
             this.loadTab = false;
             this.caseReject = false;
             this.loaddata(this._instId);
             this.LoadStatus(this._instId);
-        });
-
-       
+        }, 1000);
         // setTimeout(() => {
         //     // console.log('this.listMneu[0]',this.listMneu[0]);
         //     // this.selectMenuList.instance.selectItem(this.listMneu[0].id);
@@ -160,7 +165,7 @@ export class IssueOnlineEditComponent implements OnInit {
 
     }
     LoadStepData(marker){
-         
+
         this.groupStatusServ.get().subscribe((_) => {
             this.listGroupStatus = [];
             const listGroupStatus = _.sort(this.predicateBy("GROUP_SEQ"));
@@ -228,11 +233,13 @@ export class IssueOnlineEditComponent implements OnInit {
                 this._wfinsId = res.WF_INSTANCE_ID;
                 this._formioId = res.FORM_IO_ID;
                 this._documentId =res.DOCUMENT_ID;
+                this.isLoading = false;
+                this.loadTab = true;
 
-                this._formConfigService.get(res.FORM_IO_ID).subscribe((resdata)=>{
-                    this._formDataConfig = resdata;
-                    this.loadSubmission();
-                });
+                // this._formConfigService.get(res.FORM_IO_ID).subscribe((resdata)=>{
+                //     this._formDataConfig = resdata;
+                //     this.loadSubmission();
+                // });
 
             });
         }

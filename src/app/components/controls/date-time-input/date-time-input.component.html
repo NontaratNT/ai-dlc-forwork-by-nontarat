@@ -1,0 +1,41 @@
+<!-- <div>
+    <input [readOnly]="true" class="btn-select text-center" type="number" [(ngModel)]="hours" min="0" max="23" placeholder="HH" (input)="updateDateTime()">
+    :
+    <input [readOnly]="true" class="btn-select text-center" type="number" [(ngModel)]="minutes" min="0" max="59" placeholder="MM" (input)="updateDateTime()">
+    :
+    <input [readOnly]="true" class="btn-select text-center" type="number" [(ngModel)]="seconds" min="0" max="59" placeholder="SS" (input)="updateDateTime()">
+</div> -->
+
+<!-- <ng-container>
+    <select class="mr-2 btn-select disabled-{{disabled}}" >
+        <option *ngFor="let option of hour">
+            {{option}}
+        </option>
+    </select>
+</ng-container>
+<span>:</span>
+<ng-container>
+    <select class="mr-2 btn-select disabled-{{disabled}}" >
+        <option *ngFor="let option of minute">
+            {{option}}
+        </option>
+    </select>
+</ng-container>
+<span>:</span>
+<ng-container>
+    <select class="mr-2 btn-select disabled-{{disabled}}" >
+        <option *ngFor="let option of second">
+            {{option}}
+        </option>
+    </select>
+</ng-container> -->
+
+
+<ng-container *ngFor="let type of order">
+    <select *ngIf="selects[type].visible" class="mr-2 btn-select disabled-{{disabled}}"  [(ngModel)]="selects[type].value" (change)="updateDateTime()" [disabled]="selects[type].disabled">
+        <option *ngFor="let option of selects[type].options" [ngValue]="option.value">
+            {{option.name}}
+        </option>
+    </select>
+    <span *ngIf="type == 'h' || type == 'm'">:</span>
+</ng-container>

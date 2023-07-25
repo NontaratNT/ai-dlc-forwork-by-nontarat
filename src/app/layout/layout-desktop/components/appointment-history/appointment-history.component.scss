@@ -208,7 +208,7 @@
         margin-left: 0%;
     }
     .tracking-header label {
-        font-size: 14px;
+        font-size: 16px;
     }
     .tacking-profile {
         margin-top: 2rem;
@@ -247,6 +247,12 @@
     .btn-report-jurnal label {
         cursor: pointer;
     }
+    .dx-widget {
+        max-width: 100%!important;
+        font-size: 18px;
+        // width: 100%;
+        // overflow-x: auto;
+    }
     @media only screen and(max-width: 1600px) {
         .tacking-profile {
             margin-top: 2rem;
@@ -274,6 +280,7 @@
         }
         .dx-widget {
             max-width: 100%!important;
+            font-size: 16px;
             // width: 100%;
             // overflow-x: auto;
         }
@@ -430,8 +437,8 @@
     .table-icon-edit {
         cursor: pointer;
         img {
-            width: 25px;
-            height: 25px;
+            width: 35px;
+            height: 35px;
         }
     }
     .table-icon-edit:hover {

@@ -13,7 +13,7 @@ export class OnlineRecordService {
 
     gets() {
         return req<OnlineRecordInfo[]>("CmsOnlineRecordInfo").queryString({personalId: User.Current.PersonalId})
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     create(param: Partial<OnlineRecordParam>): Observable<HttpStatusResultValue<number>> {
@@ -21,7 +21,7 @@ export class OnlineRecordService {
             .useSystemResult<HttpStatusResultValue<number>>()
             .disableCriticalDialogError()
             .body(param)
-            .post();
+            .disableCriticalDialogError().post();
     }
 
     update(caseId: number, param: Partial<OnlineRecordParam>): Observable<HttpStatusResult> {
@@ -29,7 +29,7 @@ export class OnlineRecordService {
             .useSystemResult<HttpStatusResult>()
             .disableCriticalDialogError()
             .body(param)
-            .put();
+            .disableCriticalDialogError().put();
     }
 
 }

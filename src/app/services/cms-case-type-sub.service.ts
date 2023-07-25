@@ -12,7 +12,7 @@ export class CmsCaseTypeSubService {
 
     public Get(caseTypeId = 0): Observable<ICaseTypeSub[]> {
         return req<ICaseTypeSub[]>(`CmsCaseTypeSub/${caseTypeId}`)
-            .get();
+            .disableCriticalDialogError().get();
     }
 
 }

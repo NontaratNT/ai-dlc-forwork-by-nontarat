@@ -14,12 +14,12 @@ export class SubdistrictService {
     public GetSubDistrict(includeStatus = true): Observable<ISubDistrictInfo[]> {
         return req<ISubDistrictInfo[]>('CmsSubDistrict')
             .queryString({ RecordStatus: <any>includeStatus })
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public GetPostCode(subdistrictId: number): Observable<IPostcodeInfo[]> {
         return req<IPostcodeInfo[]>('CmsSubDistrict/' + subdistrictId + '/post-code')
-            .get();
+            .disableCriticalDialogError().get();
     }
 
 }

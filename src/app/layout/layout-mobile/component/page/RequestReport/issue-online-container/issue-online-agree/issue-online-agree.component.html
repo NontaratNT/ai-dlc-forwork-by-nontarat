@@ -1,4 +1,4 @@
-<div>
+<div class="conten-block">
     <!-- <div style="display: none;">
         <dx-form #formAgree [formData]="formData" [readOnly]="true">
             <dxi-item template="tempAgreeTitle">
@@ -101,7 +101,14 @@
            <!-- <dx-check-box [readOnly]="false" [(value)]="formData.done5" text="6. การแจ้งความออนไลน์เป็นการอำนวยความสะดวกแก่ท่านในการร้องทุกข์และแจ้งความประสงค์ในอายัดเงินที่โอนเข้าไปในบัญชีของคนร้ายและผู้เกี่ยวข้องโดยเร็ว ทันสถานการณ์ และท่านต้องไปให้ปากคำต่อพนักงานสอบสวนตามที่นัดหมายเพื่อให้เป็นไปตามกฎหมายกำหนด"></dx-check-box> -->
            <dx-check-box [readOnly]="false" [(value)]="formData.done5" text="6. ข้อความที่แจ้งให้ทราบผ่านระบบนี้ ให้ถือว่าข้าพเจ้าได้รับทราบข้อความนั้นแล้ว ตั้งแต่วันที่ปรากฏในระบบ"></dx-check-box>
         </div>
-        
+        <dxi-item template="tempAgree7" [isRequired]="true">
+            <dxo-label text=" " [showColon]="false"></dxo-label>
+        </dxi-item>
+        <div *dxTemplate="let data of 'tempAgree7'">
+           <!-- <dx-check-box [readOnly]="false" [(value)]="formData.done5" text="6. การแจ้งความออนไลน์เป็นการอำนวยความสะดวกแก่ท่านในการร้องทุกข์และแจ้งความประสงค์ในอายัดเงินที่โอนเข้าไปในบัญชีของคนร้ายและผู้เกี่ยวข้องโดยเร็ว ทันสถานการณ์ และท่านต้องไปให้ปากคำต่อพนักงานสอบสวนตามที่นัดหมายเพื่อให้เป็นไปตามกฎหมายกำหนด"></dx-check-box> -->
+           <dx-check-box [readOnly]="false" [(value)]="formData.done6" text="7. ท่านดำเนินการแจ้งธนาคารเจ้าของบัญชีที่เสียหายหรือไม่"></dx-check-box>
+        </div>
+
         <!-- <dxi-item template="tempAgree7" [isRequired]="true">
             <dxo-label text=" " [showColon]="false"></dxo-label>
         </dxi-item>
@@ -109,6 +116,15 @@
            <dx-check-box [readOnly]="false" [(value)]="formData.done6" text="7. ข้อความหรือหนังสือใดใดที่เจ้าหน้าที่ตำรวจแจ้งข้าพเจ้าผ่านระบบนี้ถือว่าข้าพเจ้ารับทราบข้อความหรือหนังสือนั้นแล้ว นับตั้งแต่วันเวลาที่ปรากฏในระบบ"></dx-check-box>
         </div> -->
     </dx-form>
+    <div *ngIf="formData.done6" style="margin-top:15px;">
+        <div class="content-form">
+            <div class="block-detail-damage">
+        <!-- <dx-radio-group [items]="ways" valueExpr="id" displayExpr="text" [(value)]="submission.ways"
+        layout="horizontal" (onValueChanged)="onWaysValueChanged($event)">
+    </dx-radio-group> -->
+    </div>
+    </div>
+    </div>
     <div class="d-flex" style="justify-content: center; margin-top: 40px;
     margin-top: 10px;">
         <dx-button class="btn btn-back"  style="margin: 10px;" text="ไม่ยอมรับ">
@@ -116,3 +132,126 @@
         <dx-button class="btn btn-submit" style="margin: 10px;" text="ยอมรับ" (onClick)="SubmitForm($event)"></dx-button>
     </div>
 </div>
+
+
+
+
+<dx-popup [width]="1100" [height]="600" [showTitle]="true" title="แจ้งเตือนจากระบบ" [closeOnOutsideClick]="false"
+    [showCloseButton]="false" [visible]="true" [(visible)]="popupConsentVisible">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+            <div class="row">
+                <div class="col-sm-12 customtext text-center">
+                    <h4>ท่านเคยแจ้งความออนไลน์ไว้แล้วหรือไม่ กรณีต้องการเพิ่มเติมข้อมูล  </h4>
+                    <h4></h4>
+                    <br>
+                    <h4>ให้แก้ไขเพิ่มเติมใน case id เดิมของท่าน</h4>
+
+
+
+                </div>
+                <div class="col-sm-12 customtext text-left my-5" style="margin-bottom:1rem;">
+                    <div class="container">
+
+                        <dx-form #formAgreeBank id="form" [formData]="submission" labelLocation="top" [colCount]="2">
+                            <dxi-item itemType="group">
+                                <div class="dx-field">
+                                    <div class="dx-field-label">ได้รับเลขอ้างอิงจากธนาคารแล้ว : </div>
+                                    <div class="dx-field-value">
+                                        <dx-text-box [(value)]="submission.FREEZE_ACT_BANK_TRACK_NO" [maxLength]="20"
+                                            [showClearButton]="true" placeholder="กรุณาระบุ"
+                                            ></dx-text-box>
+                                    </div>
+                                </div>
+                            </dxi-item>
+                            <dxi-item itemType="group">
+                                <div class="dx-field">
+                                    <div class="dx-field-label" >ติดต่อธนาคาร : </div>
+                                    <div class="dx-field-value">
+                                        <dx-text-box [(value)]="submission.FREEZE_ACT_BANK_NAME"
+                                            [showClearButton]="true" [maxLength]="200" placeholder="กรุณาระบุ"
+                                            ></dx-text-box>
+                                    </div>
+                                </div>
+                            </dxi-item>
+                            <dxi-item itemType="group">
+                                <div class="dx-field">
+                                    <div class="dx-field-label" >ทางช่องทางใด : </div>
+                                    <div class="dx-field-value">
+                                        <dx-text-box [(value)]="submission.FREEZE_ACT_WAYS" [showClearButton]="true"
+                                            [maxLength]="200" placeholder="กรุณาระบุ"
+                                            ></dx-text-box>
+                                    </div>
+                                </div>
+                            </dxi-item>
+                            <dxi-item itemType="group">
+                                <div class="dx-field">
+                                    <div class="dx-field-label" >เมื่อวันที่ : </div>
+                                    <div class="dx-field-value">
+                                        <dx-date-box dateSerializationFormat="yyyy-MM-dd"  [(value)]="submission.FREEZE_ACT_DATE" type="date"
+                                            [showClearButton]="true" placeholder="กรุณาเลือก" >
+                                        </dx-date-box>
+                                    </div>
+                                </div>
+                            </dxi-item>
+                            <dxi-item itemType="group">
+                                <div class="dx-field">
+                                    <div class="dx-field-label" >เวลา : </div>
+                                    <div class="dx-field-value">
+                                        <!-- <dx-text-box [(value)]="submission.FREEZE_ACT_TIME" [showClearButton]="true"
+                                            [maxLength]="200" placeholder="กรุณาระบุ"
+                                            ></dx-text-box> -->
+                                            <dx-date-box type="time" dateSerializationFormat="HH:mm" [openOnFieldClick]="true"
+                                            [useMaskBehavior]="true"  displayFormat="HH:mm"
+                                            [(value)]="submission.FREEZE_ACT_TIME"></dx-date-box>
+                                    </div>
+                                </div>
+                            </dxi-item>
+                        </dx-form>
+                    </div>
+                    <div class="text-center py-3" *ngIf="_isShow2">
+                        <img src="assets/icon/264235.jpg" class="img-fluid" width="600" height="auto">
+                    </div>
+                </div>
+                <br>
+                <div class="col-sm-12 customtext text-center" style="margin-bottom:1rem;">
+                    <dxi-item itemType="group" [colSpan]="3">
+                        <dx-button stylingMode="contained" text="บันทึก" type="default" [width]="120"
+                            (onClick)="onsave($event)">
+                        </dx-button>
+                        &nbsp;&nbsp;
+                        <dx-button stylingMode="contained" text="ยกเลิก" type="default" [width]="120"
+                            (onClick)="onSkip($event)">
+                        </dx-button>
+                    </dxi-item>
+                </div>
+            </div>
+        </dx-scroll-view>
+    </div>
+</dx-popup>
+
+
+
+<dx-popup [width]="800" [height]="600" [showTitle]="true" title="แจ้งเตือนจากระบบ" [closeOnOutsideClick]="false"
+    [showCloseButton]="false" [visible]="true" [(visible)]="_isShow2">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+            <div class="row">
+                <div class="col-sm-12 customtext text-center" style="margin-top:15px;">
+
+                   <h4>
+                    ท่านสามารถแจ้งธนาคารต้นทางผู้เสียหาย <br>
+                    ธนาคารจะดำเนินการประสานธนาคารที่เกี่ยวข้องเพื่อติดตามทรัพย์สินคืน  <br>
+                    จากนั้นธนาคารจะให้ bank case id ท่านสามารถนำมาแจ้งผ่านระบบ <br> เพื่อดำเนินการต่อไป</h4>
+                </div>
+            </div>
+            <div class="col-sm-12 customtext text-center" style="margin-top: 40%;" >
+                <dxi-item itemType="group" [colSpan]="3">
+                    <dx-button stylingMode="contained" text="ตกลง" type="default" [width]="120"
+                        (onClick)="onclosepopundepending($event)">
+                    </dx-button>
+                </dxi-item>
+            </div>
+        </dx-scroll-view>
+    </div>
+</dx-popup>

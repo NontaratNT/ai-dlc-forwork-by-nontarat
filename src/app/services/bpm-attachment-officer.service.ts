@@ -13,35 +13,35 @@ export class BpmAttachmentOfficerService {
     public gets(filter: IBPMAttachmentofficerParam ): Observable<IBPMAttachmentOfficer[]> {
         return this._req<IBPMAttachmentOfficer[]>().api('BpmProcInstAttachmentOfficer')
             .queryString(filter as any)
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public getPDF(filter: IBPMAttachmentofficerParamAll): Observable<IBPMAttachmentOfficerAll[]> {
         return this._req<IBPMAttachmentOfficerAll[]>().api('BpmProcInstAttachmentOfficer')
             .queryString(filter as any)
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public create(param: FormData): Observable<IBPMAttachmentOfficer> {
         return this._req<IBPMAttachmentOfficer>().api('BpmProcInstAttachmentOfficer')
             .body(param)
-            .post();
+            .disableCriticalDialogError().post();
     }
     public update(param: FormData , id: number): Observable<IBPMAttachmentOfficer> {
         return this._req<IBPMAttachmentOfficer>().api(`BpmProcInstAttachmentOfficer/${id}`)
             .body(param)
-            .put();
+            .disableCriticalDialogError().put();
     }
 
     public delete(id: number): Observable<IBPMAttachmentOfficer> {
         return this._req<IBPMAttachmentOfficer>().api(`BpmProcInstAttachmentOfficer/${id}`)
-            .delete();
+            .disableCriticalDialogError().delete();
     }
 
     public updatePublish(param: IBPMAttachmentOfficer , id: number): Observable<IBPMAttachmentOfficer> {
         return this._req<IBPMAttachmentOfficer>().api(`BpmProcInstAttachmentOfficer/${id}/update/publish-flag`)
             .body(param)
-            .post();
+            .disableCriticalDialogError().post();
     }
 }
 export interface IBPMAttachmentOfficer {

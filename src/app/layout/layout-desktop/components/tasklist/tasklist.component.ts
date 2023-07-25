@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import DataSource from "devextreme/data/data_source";
 import { formatDate } from "devextreme/localization";
@@ -23,7 +23,13 @@ import Swal from "sweetalert2";
 import { BpmAppointmentService } from "src/app/services/bpm-appointment.service";
 import * as moment from "moment";
 import { SurveyService } from "../../../../services/survey.service";
-import { FreezeAccountService } from "src/app/services/bpm-freeze-account.service";
+import { FreezeAccountService } from 'src/app/services/bpm-freeze-account.service';
+import { IssueOnlineService } from "src/app/services/issue-online.service";
+import { DxDataGridComponent } from "devextreme-angular";
+import { BankInfoService } from "src/app/services/bank-info.service";
+import { DatePipe } from '@angular/common';
+// import { IssueOnlineService } from "src/app/services/issue-online.service";
+
 
 @Component({
     selector: "app-tasklist",
@@ -34,7 +40,11 @@ export class TasklistComponent implements OnInit {
     // listAppointment = [
     //     {id:1,title:"การหลอกลวงออนไลน์ทางด้านการเงิน",date:"3 มกราคม 2564",station:"สน.บางนา"},
     //     {id:2,title:"Romance Scam",date:"4 มกราคม 2564",station:"สน.ทองหล่อ"},
+
     // ];
+
+    @ViewChild('gridlist', { static: false }) gridlist: DxDataGridComponent;
+
     monthShortTh = [
         "ม.ค.",
         "ก.พ.",
@@ -85,20 +95,22 @@ export class TasklistComponent implements OnInit {
     showAppointmentList = false;
     countAppointmentList = 0;
     statusWidth = 1000;
+    popupHeight = 400;
     ans1;
     ans2;
     ans3;
     ans4;
     caseId;
-    submission = {} as any;
+    now: Date;
+    maxDateValue:Date = new Date();
+    blockSave = true;
 
-    ways = [{ id: 1, text: 'ดำเนินการแล้ว' }, { id: 2, text: 'ยังไม่ได้ดำเนินการ' }];
-    scopeWays1: boolean;
-    scopeWays2: boolean;
+    popupConsentVisible: boolean = false;
+    submission = {} as any;
     _isShow: boolean = false;
     _isShow2: boolean = false;
-    popupConsentVisible: boolean = false;
-
+    ways = [{ id: 1, text: 'ดำเนินการแล้ว' }, { id: 2, text: 'ยังไม่ได้ดำเนินการ' }];
+    selectcaseID: any;
     constructor(
         private router: Router,
         private servicePersonal: PersonalService,
@@ -109,17 +121,48 @@ export class TasklistComponent implements OnInit {
         private _bpmAppointmentService: BpmAppointmentService,
         private surveyService: SurveyService,
         private _loginServ: LoginService,
-        private freezeAccountService: FreezeAccountService
+        private freezeAccountService: FreezeAccountService,
+        private _issueOnlineService: IssueOnlineService,
+        private _bankInfoService: BankInfoService,
+        private datePipe: DatePipe
 
     ) {
         this._searchParam = {} as any;
         this._searchParam.GROUP_STATUS_CODE = "OR";
         this._searchParam.FLOW_ID = 3;
+        this.submission = {} as any;
     }
-
+;
     ngOnInit(): void {
+        this.maxDateValue.setHours(this.maxDateValue.getHours() + 1);
         this._isLoading = true;
+        // this.popupConsentVisible = true;
+    //     this._dataSource = [
+    //         {
+    //         TRACKING_CODE: '1254658975',
+    //         OPTIONAL_DATA: 'testsss',
+    //         OPTIONAL_DATA_REPLACE: 'testsss',
+    //         ORGANIZE_NAME_THA: 'testss',
+    //         OFFICER_FULL_NAME:'05151515',
+    //         PERSONAL_TEL_NO: '02515151515',
+    //         CREATE_DATE_TEXT: Date.now(),
+    //         GROUP_STATUS_NAME: 'test',
+    //         DATA_ID: 123
 
+    //     },
+    //     {
+    //         TRACKING_CODE: '5555555555',
+    //         OPTIONAL_DATA: 'testsss',
+    //         OPTIONAL_DATA_REPLACE: 'testsss',
+    //         ORGANIZE_NAME_THA: 'testss',
+    //         OFFICER_FULL_NAME:'05151515',
+    //         PERSONAL_TEL_NO: '02515151515',
+    //         CREATE_DATE_TEXT: Date.now(),
+    //         GROUP_STATUS_NAME: 'test',
+    //         DATA_ID: 12345
+
+    //     }
+    // ]
         // this.surveyService.getSurveyByCaseId(123456).subscribe(res => {
         //     console.log(res);
         //     // if (res.) {
@@ -127,6 +170,7 @@ export class TasklistComponent implements OnInit {
         //     // }
         // });
 
+        // this.popupConsentVisible = true;
         this.servicePersonal
             .GetPersonalById(User.Current.PersonalId)
             .subscribe((_) => {
@@ -152,6 +196,7 @@ export class TasklistComponent implements OnInit {
                             "/bpm"
                         ) + _.USER_PICTURE;
                 }
+
             });
         // mainDataList
         const statusGroup = (this._searchParam.GROUP_STATUS_CODE = "");
@@ -548,7 +593,9 @@ export class TasklistComponent implements OnInit {
     GotoUrlTaskList(data) {
         // console.log('data',data);
         // this.router.navigate(["/main/issue-online/" + data.INST_ID + "/" + data.DOCUMENT_ID]);
-        this.router.navigate(["/main/issue-online-view/" + data.INST_ID]);
+        localStorage.removeItem('inst_id');
+        localStorage.setItem('inst_id',data.INST_ID);
+        this.router.navigate(["/main/issue-online-view"]);
         // this.router.navigate([`/main/issue-online/5833/61e7e47aa74b8625a24f97a2${d.id}`]);
     }
     AppointmentColorClass(index) {
@@ -612,7 +659,9 @@ export class TasklistComponent implements OnInit {
         // }).then(() => {  });
         const data = cellValue.data;
         if (data) {
-            this.router.navigate(["/main/issue-online-view/" + data.INST_ID]);
+            localStorage.removeItem('inst_id');
+            localStorage.setItem('inst_id',data.INST_ID);
+            this.router.navigate(["/main/issue-online-view"]);
         }
     }
     report(cellValue){
@@ -621,15 +670,22 @@ export class TasklistComponent implements OnInit {
             window.open("https://www.thaipoliceonline.com/web-report/report?ReportName=report_print_inform_report&caseId=" + data.DATA_ID, "_blank");
         }
     }
+
     onPersonal() {
         this.router.navigate(["/main/personal"]);
     }
 
     Add() {
-        // this.router.navigate(["/main/issue-online/1"]);
+
         this.popupConsentVisible = true;
+        // this.router.navigate(["/main/issue-online/1"]);
+
         // this._isLoading = true;
         // location.href = "/main/issue-online/1";
+
+        // this.popupConsentVisible = true;
+
+
     }
     gourltracking(cellValue) {
         const data = cellValue.data;
@@ -680,9 +736,11 @@ export class TasklistComponent implements OnInit {
             .toPromise();
         if (listTask) {
             for (const item of listTask) {
-                item.CREATE_DATE_TEXT = this.displayFormatDate(
-                    item.CREATE_DATE
-                );
+                // item.CREATE_DATE_TEXT = this.displayFormatDate(
+                //     item.CREATE_DATE
+                // );
+                item.CREATE_DATE_TEXT =  item.CREATE_DATE;
+
                 item.OPTIONAL_DATA_REPLACE = this.CountStr(item.OPTIONAL_DATA);
                 if (item.REJECT_FLAG === "Y") {
                     item.GROUP_STATUS_NAME = "สิ้นสุด (จำหน่าย)";
@@ -691,6 +749,10 @@ export class TasklistComponent implements OnInit {
                 // if (item.GROUP_STATUS_CODE !== 'C01' && item.GROUP_STATUS_CODE !== 'C02') {
                 //     this.onLoadSurvey(item.DATA_ID);
                 // }
+            }
+
+            if(listTask.length>0){
+                // this.popupConsentVisible = true;
             }
             this._dataSource = listTask;
         }
@@ -786,6 +848,7 @@ export class TasklistComponent implements OnInit {
                     this.bindTaskList(setData[isIndex].GROUP_STATUS_CODE);
                 }
                 this.data = setData;
+
                 // bindTaskList
             });
     }
@@ -913,44 +976,88 @@ export class TasklistComponent implements OnInit {
         return re.test(email);
     }
 
-    onSkip(event: any) {
-        this.router.navigate(["/main/issue-online/1"]);
-        this.popupConsentVisible = false;
+
+    onWaysValueChanged(event: any) {
+        console.log(event);
+        let val = event;
+        switch (val) {
+            case 1:
+                this._isShow = true;
+                this._isShow2 = false;
+                this.popupHeight = 600;
+                break;
+            case 2:
+                this._isShow = false;
+                this._isShow2 = true;
+                this.popupHeight = 600;
+                break;
+        }
     }
 
-    
     onRegister(event: any) {
-
-      
+        if(!this.submission.FREEZE_ACT_DATE && !this.submission.FREEZE_ACT_TIME){
+            Swal.fire({
+                title: 'ผิดพลาด!',
+                text: 'กรุณาเลือกกรอกวันและเวลา',
+                icon: 'warning',
+                confirmButtonText: 'Ok',
+            }).then(() => {
+            });
+            return;
+        }
+        // console.clear();
+        // console.log("User.Current.PersonalId",User.Current.PersonalId)
+        // console.log(event);
+        // console.log(this.submission);
         this._isLoading = true;
         if (this._isShow2) {
             Swal.fire({
                 title: 'แจ้งเตือน!',
-                text: 'ระบบจะนำท่านไปสู่ขั้นตอนลงทะเบียนยืนยันตัวตน!!!',
+                text: 'ระบบจะนำท่านไปสู่ขั้นตอนแจ้งเรื่องใหม่!!!',
                 icon: 'warning',
                 confirmButtonText: 'ตกลง'
             }).then(() => {
-                this._isLoading = false;
-                this.popupConsentVisible = false;
-                this.router.navigate(["/main/issue-online/1"]);
-
+                this._isLoading = true;
+                location.href = "/main/issue-online/1";
             });
         }
         else {
             try {
-                this.freezeAccountService.post(this.submission).subscribe((_) => {
+                this.submission.CREATE_USER_ID = User.Current.PersonalId;
+                this.submission.PERSONAL_ID = User.Current.PersonalId;
+
+                // const rowData = this.gridlist.instance.getSelectedRowsData();
+
+
+                this.submission.CASE_ID = this.selectcaseID;
+
+                console.log(this.selectcaseID);
+                this.freezeAccountService.post(this.submission)
+                .subscribe(() => {
+                        this.popupConsentVisible = false;
+                });
+                // if(rowData.length>0){
+                //     rowData.forEach(element => {
+                //         this.submission.CASE_ID = element.DATA_ID;
+                //         this.freezeAccountService.post(this.submission)
+                //         .subscribe(() => {
+                //                 this.popupConsentVisible = false;
+                //         });
+                //     });
+                // }
+
+                // this._issueOnlineService.issueOnline = this.submission;
+
                     Swal.fire({
                         title: 'แจ้งเตือน!',
-                        text: 'ดำเนินการบันทึกข้อมูลเรียบร้อย ระบบจะนำท่านไปสู่ขั้นตอนลงทะเบียนยืนยันตัวตน!!!',
+                        text: 'ดำเนินการบันทึกข้อมูลเรียบร้อย ระบบจะนำท่านไปสู่ขั้นตอนแจ้งเรื่องใหม่!!!',
                         icon: 'success',
                         confirmButtonText: 'ตกลง'
                     }).then(() => {
-                        this._isLoading = false;
-                        this.popupConsentVisible = false;
-                        this.router.navigate(["/main/issue-online/1"]);
 
+                        // this._isLoading = true;
+                        // this.router.navigate(["/main/issue-online/1"]);
                     });
-                })
             } catch (error) {
 
             } finally {
@@ -961,17 +1068,128 @@ export class TasklistComponent implements OnInit {
         }
     }
 
-    onWaysValueChanged(event: any) {
-        let val = event.value;
-        switch (val) {
-            case 1:
-                this._isShow = true;
-                this._isShow2 = false;
-                break;
-            case 2:
-                this._isShow = false;
-                this._isShow2 = true;
-                break;
+    onSkip(event: any) {
+        // setTimeout(() => {
+        //         // this._isLoading = true;
+        //         location.href = "/main/issue-online/1";
+        // }, 2000);
+        // this.router.navigate(["/main/issue-online/1"]);
+        this.submission = {};
+        this.now = undefined;
+        this.popupConsentVisible = false;
+    }
+    TelLink(href) {
+        const downloadLink = document.createElement("a");
+        downloadLink.href = href;
+        downloadLink.click();
+    }
+    setDate(){
+        this.now = this.now == undefined ? new Date() : this.now;
+    }
+    OnSelectDate(e) {
+        if(e.value){
+            const mydate = this.datePipe.transform(e.value, 'yyyy-MM-dd');
+            const mytime = this.datePipe.transform(e.value, 'HH:mm:ss');
+            this.submission.FREEZE_ACT_TIME = mytime;
+            this.submission.FREEZE_ACT_DATE = mydate;
         }
     }
+    convertDate(date,time){
+        const dateIN = String(date+" "+time);
+        const [datePart, timePart] = dateIN.split(" ");
+        const [year, month, day] = datePart.split("-");
+        const [hours, minutes, seconds] = timePart.split(":");
+        return [Number(year),Number(month)-1,Number(day),Number(hours),Number(minutes),Number(seconds)]
+    }
+    convertTimezone(time){
+        const timeZoneOffset = 7 * 60;
+        const timeZoneOffsetMs = 7 * 60 * 60 * 1000;
+        const dateWithTimeZone = new Date(time.getTime() + timeZoneOffsetMs);
+        const formattedString = dateWithTimeZone.toISOString().replace("Z", `+${timeZoneOffset.toString().padStart(2, "0")}:00`);
+        return formattedString;
+    }
+    async checkBank(e){
+        if (!e.event || e.event.type === "change") {
+            if(e.value){
+                if(e.value.length >= 15){
+                    var value = e.value;
+                    let nameBamk = ["BBL","KBNK","KTB","TTB","SCB","BAY","KKP","CIMBT","TISCO","UOBT","TCD","LHFG","ICBCT","SME","BAAC","EXIM","GSB","GHB","ISBT"];
+                    let numvalue = 0;
+                    for (var i = 0; i < nameBamk.length; i++) {
+                        var upperString = value.toUpperCase();
+                        const bankMatch = upperString.search(nameBamk[i]);
+                        if(bankMatch >= 0){
+                            await this._bankInfoService.GetBankInfoByName(nameBamk[i]).subscribe((_) =>{
+                                this.submission.FREEZE_ACT_BANK_NAME = _[0].BANK_NAME;
+                                this.blockSave=false;
+                            });
+                            numvalue+=1;
+                            break;
+                        }
+                    }
+                    if(numvalue == 0) {
+                        Swal.fire({
+                            title: "ผิดพลาด!",
+                            text: "กรอกเลขอ้างอิงไม่ถูกต้อง",
+                            icon: "warning",
+                            confirmButtonText: "Ok",
+                        }).then(() => {this.submission.FREEZE_ACT_BANK_NAME = "";this.blockSave=true;});
+                        return
+                    }
+                }else{
+                    Swal.fire({
+                        title: "ผิดพลาด!",
+                        text: "กรอกเลขอ้างอิงอย่างน้อย 15 หลัก",
+                        icon: "warning",
+                        confirmButtonText: "Ok",
+                    }).then(() => {this.blockSave=true;});
+                    return
+                }
+            }
+        }
+    }
+
+    addbankcaseid(cellValue){
+        const data = cellValue.data;
+        if(data){
+            this.popupConsentVisible = true;
+            this.selectcaseID = data.DATA_ID;
+
+            let val = 1;
+            switch (val) {
+                case 1:
+                    this._isShow = true;
+                    this._isShow2 = false;
+                    this.popupHeight = 600;
+                    break;
+                case 2:
+                    this._isShow = false;
+                    this._isShow2 = true;
+                    this.popupHeight = 600;
+                    break;
+            }
+        }
+    }
+
+    CheckBankID(event) {
+        // const seperator  = '^[ก-๏\\s]+$';
+        const seperator = '^[A-Za-z0-9]';
+        const maskSeperator = new RegExp(seperator, 'g');
+        const result = maskSeperator.test(event.key);
+        return result;
+    }
+    PasteCheckBankID(event) {
+        const clipboardData = event.clipboardData;
+        const pastedText = clipboardData.getData('text');
+        // const seperator  = '^[ก-๏\\s]+$';
+        const seperator = '^[A-Za-z0-9]';
+        const maskSeperator = new RegExp(seperator, 'g');
+        const result = maskSeperator.test(pastedText);
+        return result;
+    }
+
+    displayFormatDateTime(date) {
+        return formatDate(new Date(date), 'dateShortTimeThai');
+    }
+
 }

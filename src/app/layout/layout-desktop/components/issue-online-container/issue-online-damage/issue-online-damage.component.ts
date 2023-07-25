@@ -2,8 +2,6 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import {
     DxFormComponent,
-    DxMultiViewComponent,
-    DxRadioGroupComponent,
     DxScrollViewComponent,
     DxSelectBoxComponent,
 } from "devextreme-angular";
@@ -29,8 +27,11 @@ import * as $ from "jquery";
 // import { NgxImageCompressService } from "ngx-image-compress";
 import { async } from "rxjs/internal/scheduler/async";
 import { AnyRecord } from "dns";
+import { DatePipe } from '@angular/common';
+import { OnlineCaseService } from "src/app/services/online-case.service";
 
 @Component({
+
     selector: "app-issue-online-damage",
     templateUrl: "./issue-online-damage.component.html",
     styleUrls: ["./issue-online-damage.component.scss"],
@@ -44,11 +45,18 @@ export class IssueOnlineDamageComponent implements OnInit {
     @ViewChild("form2", { static: false }) form2: DxFormComponent;
     @ViewChild("form3", { static: false }) form3: DxFormComponent;
     @ViewChild("formAddData", { static: false }) subForm: DxFormComponent;
+    @ViewChild("formbanknew", { static: false }) formbanknew: DxFormComponent;
+    @ViewChild("formbanknewpopup", { static: false }) formbanknewpopup: DxFormComponent;
     @ViewChild("view_form", { static: false })
     scrollViewForm: DxScrollViewComponent;
     @ViewChild("selectWayOther", { static: false })
     selectWayOther: DxSelectBoxComponent;
     @ViewChild("UploadFileDamageList") tagsUploadFileDamageList;
+
+    @ViewChild("selectBankInfoOriginlist", { static: false }) selectBankInfoOriginlist: DxSelectBoxComponent;
+    @ViewChild("selectdirection", { static: false }) selectdirection: DxSelectBoxComponent;
+
+    @ViewChild("selectBankInfolist", { static: false }) selectBankInfolist: DxSelectBoxComponent;
     public mainConponent: IssueOnlineContainerComponent;
     personalInfo: any = {};
     isLoading = false;
@@ -67,6 +75,8 @@ export class IssueOnlineDamageComponent implements OnInit {
     WayOtherList: any = [];
     socialInfo = [];
     popup = false;
+    popupbanklist = false;
+    popupbanklistvillain = false;
     reloadDataPopup = false;
     bankAccountType = [
         { ID: "villain", TEXT: "ผู้เสียหาย" },
@@ -105,7 +115,8 @@ export class IssueOnlineDamageComponent implements OnInit {
     popupBankTransferType = "T";
     popupAddData = true;
     popupsaveData = false;
-
+    bgColorTypeTransfer = "st-sufferer-bg-last";
+    checkCount = 0;
     indexIsDamage = 0;
     displayBlockTop = "col-8";
     displayBlock = "col-6";
@@ -135,9 +146,8 @@ export class IssueOnlineDamageComponent implements OnInit {
     titlePopup = "";
     popupConfigs: any = {};
     listUploadFileWayOther: any = [];
+
     loadDateBox = false;
-    minBirthDate: Date;
-    maxBirthDate: Date;
 
     loadDateBoxOther = false;
     minBirthDateOther: Date;
@@ -151,8 +161,55 @@ export class IssueOnlineDamageComponent implements OnInit {
     limitSizeBank = 0;
     limitSizeBankOther = 0;
     limitSizeOther = 0;
-
+    bankDate: Date;
+    maxDateValue:Date = new Date();
     maxSizeBuffer = 0;
+
+    _buttonaddblank = {
+        icon: "plus",
+        type: "primary",
+        disabled: false,
+        onClick: (e) => this.onaddbanklist(e)
+    };
+    _buttonaddblankvillain = {
+        icon: "plus",
+        type: "primary",
+        disabled: false,
+        onClick: (e) => this.onaddbanklistvilain(e)
+    };
+    bankListstart: any = [
+        // {
+        //     BANK_ORIGIN_ACCOUNT: "1111111",
+        //     BANK_ORIGIN_ACCOUNT_NAME: "aaaaaaaaaa",
+        //     BANK_ORIGIN_ID: 5,
+        //     BANK_ORIGIN_NAME: "ธนาคารออมสิน",
+        //     SHOW_NAME: "ธนาคารออมสิน: 1111111(aaaaaaaaaa)"
+        // }
+    ];
+    dsdirection: any = [{ id: 1, text: 'รับเงิน' }, { id: 2, text: 'โอนเงิน' }]
+    bankListend: any = [
+        // {
+        //     BANK_ACCOUNT: "55555555555",
+        //     BANK_ACCOUNT_NAME: "zzzzzzzzzzzzzz",
+        //     BANK_ID: 3,
+        //     BANK_NAME: "ธนาคารแห่งประเทศจีน (ไทย) จำกัด (มหาชน)",
+        //     SHOW_NAME: "ธนาคารแห่งประเทศจีน (ไทย) จำกัด (มหาชน): 55555555555(zzzzzzzzzzzzzz)",
+        // }
+    ];
+    wayStart : number ;
+    wayEnd : number ;
+    formmoney: any = {};
+    formmoneySub: any = {};
+    listDamageBankmoey: any = [];
+
+    isAdding = true;
+    editTransferData: any = {};
+
+    listUploadFileformmoney: any = [];
+    now: Date;
+    sumvillan:any = 0.0;
+    sumpersonal:any  = 0.0;
+    sumothermoney:any = 0.0;
     constructor(
         private router: Router,
         private servicePersonal: PersonalService,
@@ -163,16 +220,26 @@ export class IssueOnlineDamageComponent implements OnInit {
         private serviceTitle: TitleService,
         private servBankInfo: BankInfoService,
         private _date: ConvertDateService,
-        private _issueFile: IssueOnlineFileUploadService
-    ) {}
+        private _issueFile: IssueOnlineFileUploadService,
+        private datePipe: DatePipe,
+        private _OnlineCaseService: OnlineCaseService
+
+    ) { }
 
     ngOnInit(): void {
+        this.maxDateValue.setHours(this.maxDateValue.getHours() + 1);
         this.isLoading = true;
         const userId = User.Current.PersonalId;
         this.servicePersonal.GetPersonalById(userId).subscribe((_) => {
             this.personalInfo = _;
             this.SetDefaultData();
         });
+
+        setTimeout(() => {
+            console.log('formData',this.formData);
+        }, 2000);
+       
+
         // $(document).on('click', '#testalert', ()=> {
         //     // console.log('$(this)',$('#testalert').data('optionid'));
         // });
@@ -215,7 +282,7 @@ export class IssueOnlineDamageComponent implements OnInit {
             text: myText,
             icon: "warning",
             confirmButtonText: "Ok",
-        }).then(() => {});
+        }).then(() => { });
     }
     async SetDefaultData() {
         const bankData = await this.servBankInfo.GetBankInfo().toPromise();
@@ -244,10 +311,37 @@ export class IssueOnlineDamageComponent implements OnInit {
 
             this.DefaultCheckbox();
             this.defaultDamageType = null;
-            this.formData = this.mainConponent.formDataInsert;
-            if (this.CheckArray(this.formData.CASE_MONEY)) {
+            // this.formData = this.mainConponent.formDataInsert;
+
+            
+            const _case_id = Number(sessionStorage.getItem("case_id"))
+           const _CASE_MONEY = await this._OnlineCaseService.Getcasemoney(_case_id).toPromise();
+
+           setTimeout(async () => {
+            if (this.CheckArray(_CASE_MONEY)) {
+                this.formData.CASE_MONEY = _CASE_MONEY;
+                this.formData.CASE_MONEY_DAMAGE === "Y";
+                _CASE_MONEY.forEach(element => {
+                    if(element.CASE_MONEY_BANK_TRANFER == "T"){
+                        this.formData.CASE_MONEY_TYPE1 =  'Y';
+                        
+                        this.checkboxDamage.case_type1 = true;
+                        this.defaultDamageType = 1;
+    
+                     }
+
+                     this.formData.CASE_MONEY_DAMAGE_VALUE = Number(element.DAMAGE_VALUE);
+                });
+              
                 await this.SetDataToListBank(this.formData.CASE_MONEY);
+            
+
             }
+           }, 1000);
+          
+            // if (this.CheckArray(this.formData.CASE_MONEY)) {
+            //     await this.SetDataToListBank(this.formData.CASE_MONEY);
+            // }
             this.defaultDamageType =
                 this.formData.CASE_MONEY_DAMAGE === "Y" ? 1 : 2;
 
@@ -268,8 +362,13 @@ export class IssueOnlineDamageComponent implements OnInit {
                     this.formData.CASE_MONEY_TYPE4,
                     "type1"
                 ),
+                case_type5: this.CheckMoneyTypeEdit(
+                    this.formData.CASE_MONEY_TYPE5,
+                    "type1"
+                ),
             };
         }
+
         this.isLoading = false;
     }
     async SetDataToListBank(data) {
@@ -394,6 +493,7 @@ export class IssueOnlineDamageComponent implements OnInit {
             CASE_MONEY_TYPE2: "N",
             CASE_MONEY_TYPE3: "N",
             CASE_MONEY_TYPE4: "N",
+            CASE_MONEY_TYPE5: "N",
             CASE_MONEY_DAMAGE_VALUE: 0,
             CASE_MONEY: [],
         };
@@ -402,6 +502,7 @@ export class IssueOnlineDamageComponent implements OnInit {
             case_type2: false,
             case_type3: false,
             case_type4: false,
+            case_type5: false,
         };
     }
     onResized(event: ResizedEvent): void {
@@ -442,26 +543,8 @@ export class IssueOnlineDamageComponent implements OnInit {
                         CASE_MONEY_TYPE2: "N",
                         CASE_MONEY_TYPE3: "N",
                         CASE_MONEY_TYPE4: "N",
+                        CASE_MONEY_TYPE5: "N",
                         CASE_MONEY_DAMAGE_VALUE: 0,
-                        // CASE_MONEY: [
-                        //     {
-                        //         CASE_MONEY_CHANNEL_TYPE: "T", // 'T','P','O',
-                        //         BANK_DAMAGE_VALUE: 0,
-                        //         BANK_ID: bankInfoList.BANK_ID,
-                        //         BANK_NAME: bankInfoList.BANK_NAME,
-                        //         BANK_ACCOUNT_NAME: "XXXXXXX XXXXXXX",
-                        //         BANK_ACCOUNT: undefined,
-                        //         BANK_DETAIL: []
-                        //     },{
-                        //         CASE_MONEY_CHANNEL_TYPE: "T", // 'T','P','O',
-                        //         BANK_DAMAGE_VALUE: 0,
-                        //         BANK_ID: bankInfoList.BANK_ID,
-                        //         BANK_NAME: bankInfoList.BANK_NAME,
-                        //         BANK_ACCOUNT_NAME: "XXXXXXX XXXXXXX",
-                        //         BANK_ACCOUNT: undefined,
-                        //         BANK_DETAIL: []
-                        //     }
-                        // ]
                     };
                     this.checkboxDamage.case_type1 = true;
                 } else {
@@ -481,21 +564,53 @@ export class IssueOnlineDamageComponent implements OnInit {
         this.formData[type] = e.value ? "Y" : "N";
         if (this.mainConponent.formType === "add") {
             if (type === "CASE_MONEY_TYPE1") {
-                this.limitSizeBank = 0;
-                this.limitSizeBankOther = 0;
-                this.listDamageBank = [];
-                this.listDamageBankOther = [];
-                this.formData.CASE_MONEY_TYPE3 = "N";
-                this.formData.CASE_MONEY_TYPE4 = "N";
+                if (e.value == false) {
+                    Swal.fire({
+                        title: "แจ้งเตือน!",
+                        text: "ต้องการลบข้อมูลของความเสียหายประเภทเงินหรือไม่ ?",
+                        icon: "warning",
+                        confirmButtonText: "ตกลง",
+                        showDenyButton: true,
+                        denyButtonText: "ยกเลิก",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.limitSizeBank = 0;
+                            this.limitSizeBankOther = 0;
+                            this.listDamageBank = [];
+                            this.listDamageBankOther = [];
+                            this.formData.CASE_MONEY_TYPE3 = "N";
+                            this.formData.CASE_MONEY_TYPE4 = "N";
+                            this.formData.CASE_MONEY_DAMAGE_VALUE = 0;
+                        }
+                    });
+                }
             } else if (type === "CASE_MONEY_TYPE2") {
-                this.limitSizeOther = 0;
-                this.listDamageOther = [];
+                this.checkCount += 1;
+                if (e.value == false && this.checkCount >= 2) {
+                    Swal.fire({
+                        title: "แจ้งเตือน!",
+                        text: "ต้องการลบข้อมูลที่กรอกแล้วหรือไม่?",
+                        icon: "warning",
+                        confirmButtonText: "ตกลง",
+                        showDenyButton: true,
+                        denyButtonText: "ยกเลิก",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.limitSizeOther = 0;
+                            this.listDamageOther = [];
+                        }
+                    });
+                }
+
             } else if (type === "CASE_MONEY_TYPE3") {
                 this.limitSizeBank = 0;
                 this.listDamageBank = [];
             } else if (type === "CASE_MONEY_TYPE4") {
                 this.limitSizeBankOther = 0;
                 this.listDamageBankOther = [];
+            }
+            else if (type === "CASE_MONEY_TYPE5") {
+
             }
         }
     }
@@ -510,6 +625,8 @@ export class IssueOnlineDamageComponent implements OnInit {
             this.popupConfigs.LabelBankAccount =
                 d[0].ID === "T" ? "เลขบัญชี" : "เลขพร้อมเพย์";
         }
+
+        this.bgColorTypeTransfer = e.value === "T" ? "st-sufferer-bg-last" : "";
     }
     ChangeRadioDamage(e) {
         if (e.value) {
@@ -563,8 +680,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                 CASE_MONEY_BANK_OTHER_NAME: WayOtherList.BANK_OTHER_NAME,
                 CASE_MONEY_BANK_OTHER_CODE: WayOtherList.BANK_OTHER_CODE,
             };
-            this.popupFormData.BANK_TRANSFER_DATE =
-                this._date.SetDateDefault(0);
+            this.popupFormData.BANK_TRANSFER_DATE = this._date.SetDateDefault(0);
             this.minBirthDateOther = this._date.SetDateDefault(10, true);
             this.maxBirthDateOther = this._date.SetDateDefault(0);
             this.loadDateBoxOther = true;
@@ -682,9 +798,6 @@ export class IssueOnlineDamageComponent implements OnInit {
     ItemDamageSubAdd() {
         this.popupSubFormAddOpen = true;
         this.popupSubFormData = {};
-        this.popupSubFormData.BANK_TRANSFER_DATE = this._date.SetDateDefault(0);
-        this.minBirthDate = this._date.SetDateDefault(10, true);
-        this.maxBirthDate = this._date.SetDateDefault(0);
         this.loadDateBox = true;
         this.popupSubFormuploadFileBufferStatus = false;
         this.popupSubFormuploadFileBuffer = {};
@@ -717,7 +830,7 @@ export class IssueOnlineDamageComponent implements OnInit {
     }
     ItemDataTableDelete(index) {
         Swal.fire({
-            title: "ยืนยันการลบไฟล์?",
+            title: "ยืนยันการลบข้อมูล?",
             text: " ",
             icon: "warning",
             showCancelButton: true,
@@ -728,8 +841,7 @@ export class IssueOnlineDamageComponent implements OnInit {
         }).then((result) => {
             if (result.isConfirmed) {
                 // const type = this.popupFormData.CASE_MONEY_CHANNEL_TYPE;
-                this.maxSizeBuffer -=
-                    this.popupSubFormList[index].BANK_DOC.size ?? 0;
+                this.maxSizeBuffer -= this.popupSubFormList[index].BANK_DOC.size ?? 0;
                 this.popupSubFormList[index].BANK_DOC = null;
             }
         });
@@ -752,6 +864,50 @@ export class IssueOnlineDamageComponent implements OnInit {
         }
         return;
     }
+
+    onresetbanklist() {
+        this.isAdding = true;
+        this.editTransferData = {}
+        var backupformmoney = this.formmoney;
+        this.formmoney = {};
+
+        this.formmoney.BANK_LIST_ID = backupformmoney.BANK_LIST_ID
+        this.formmoney.BANK_ORIGIN_LIST_ID = backupformmoney.BANK_ORIGIN_LIST_ID
+        this.formmoney.BANK_TRANSFER_DATE = backupformmoney.BANK_TRANSFER_DATE
+        this.formmoney.BANK_DAMAGE_VALUE_UNIT = backupformmoney.BANK_DAMAGE_VALUE_UNIT
+        this.formmoney.TYPE_BANK_ID = backupformmoney.TYPE_BANK_ID
+
+        if (this.formmoney.TYPE_BANK_ID == 1 || this.formmoney.TYPE_BANK_ID == 2) {
+            this.formmoney.BANK_DAMAGE_VALUE_UNIT = "บาท";
+        } else {
+            this.formmoney.BANK_DAMAGE_VALUE_UNIT = "";
+        }
+        this.now = null;
+        this.listUploadFileformmoney = [];
+    }
+
+    async OS_ItemDamageSubEdit(index = null, data = {} as any) {
+        this.isAdding = false;
+        this.editTransferData = { ...data, index }
+
+        this.formmoney.BANK_ORIGIN_LIST_ID = data.BANK_ORIGIN_LIST_ID;
+        this.formmoney.BANK_LIST_ID = data.BANK_LIST_ID;
+        this.formmoney.BANK_TRANSFER_DATE = data.BANK_TRANSFER_DATE;
+        this.formmoney.BANK_TRANSFER_TIME = data.BANK_TRANSFER_TIME;
+        this.formmoney.BANK_DAMAGE_VALUE = data.BANK_DAMAGE_VALUE;
+        this.formmoney.DIRECTION = data.DIRECTION;
+        this.formmoney.BANK_REMARK = data.BANK_REMARK;
+        this.formmoney.BANK_DAMAGE_VALUE_UNIT = data.BANK_DAMAGE_VALUE_UNIT;
+        this.formmoney.BANK_DAMAGE_VALUE_BAHT = data.BANK_DAMAGE_VALUE_BAHT;
+        this.formmoney.CASE_MONEY_CHANNEL_TYPE = "T";
+        this.formmoney.MONNEY_DOC = data.MONNEY_DOC;
+        if (data.MONNEY_DOC.length > 0) {
+            this.listUploadFileformmoney.push(data.MONNEY_DOC[0]);
+        }
+        const date = this.convertDate(this.formmoney.BANK_TRANSFER_DATE,this.formmoney.BANK_TRANSFER_TIME);
+        this.now = new Date(date[0],date[1],date[2],date[3],date[4],date[5]);
+    }
+
     async ItemDamageSubEdit(index = null, data = {} as any) {
         this.popupType = "edit";
         this.popupIndex = index;
@@ -798,33 +954,38 @@ export class IssueOnlineDamageComponent implements OnInit {
         return 0;
     }
     SumAllDamageValue(num, type = "sum") {
-        const numfloat = parseFloat(num);
-        if (num > 0) {
-            const SumAll = parseFloat(this.formData.CASE_MONEY_DAMAGE_VALUE);
-            if (type === "sum") {
-                this.formData.CASE_MONEY_DAMAGE_VALUE = SumAll + numfloat;
-            } else if (type === "remove") {
-                this.formData.CASE_MONEY_DAMAGE_VALUE = SumAll - numfloat;
-            }
-            this.formData.CASE_MONEY_DAMAGE_VALUE = parseFloat(
-                this.formData.CASE_MONEY_DAMAGE_VALUE
-            ).toFixed(2);
-        }
-    }
-    SumSubDamageValue(num, type = "sum") {
-        const numfloat = parseFloat(num);
-        if (num > 0) {
-            const SumAll = parseFloat(this.popupFormData.BANK_DAMAGE_VALUE);
-            if (type === "sum") {
-                this.popupFormData.BANK_DAMAGE_VALUE = SumAll + numfloat;
-            } else if (type === "remove") {
-                this.popupFormData.BANK_DAMAGE_VALUE = SumAll - numfloat;
-            }
-            this.popupFormData.BANK_DAMAGE_VALUE = parseFloat(
-                this.popupFormData.BANK_DAMAGE_VALUE
-            ).toFixed(2);
-        }
-    }
+
+
+        this.calulatemoney(this.listDamageBank);
+    // const numfloat = parseFloat(num);
+    // if (num > 0) {
+    //     const SumAll = parseFloat(this.formData.CASE_MONEY_DAMAGE_VALUE);
+    //     if (type === "sum") {
+    //         this.formData.CASE_MONEY_DAMAGE_VALUE = SumAll + numfloat;
+    //     } else if (type === "remove") {
+    //         this.formData.CASE_MONEY_DAMAGE_VALUE = SumAll - numfloat;
+    //     }
+    //     this.formData.CASE_MONEY_DAMAGE_VALUE = parseFloat(
+    //         this.formData.CASE_MONEY_DAMAGE_VALUE
+    //     ).toFixed(2);
+    // }
+}
+SumSubDamageValue(num, type = "sum") {
+
+    this.calulatemoney(this.listDamageBank);
+
+    // const numfloat = parseFloat(num);
+    // if (num > 0) {
+    //     const SumAll = parseFloat(this.popupFormData.BANK_DAMAGE_VALUE);
+    //     if (type === "sum") {
+    //         this.popupFormData.BANK_DAMAGE_VALUE = SumAll + numfloat;
+    //     } else if (type === "remove") {
+    //         this.popupFormData.BANK_DAMAGE_VALUE = SumAll - numfloat;
+    //     }
+    //     this.popupFormData.BANK_DAMAGE_VALUE = parseFloat(this.popupFormData.BANK_DAMAGE_VALUE).toFixed(2);
+    // }
+}
+
 
     // ItemDamageSubSave(){
     //     if (!this.subForm.instance.validate().isValid) {
@@ -849,12 +1010,11 @@ export class IssueOnlineDamageComponent implements OnInit {
         }
         const DmValue = this.popupSubFormData.BANK_DAMAGE_VALUE ?? 0;
         const saveData = {
-            BANK_TRANSFER_DATE: this._date.ConvertToDateFormat(
-                this.popupSubFormData.BANK_TRANSFER_DATE
-            ),
+            BANK_TRANSFER_DATE: this._date.ConvertToDateFormat(this.popupSubFormData.BANK_TRANSFER_DATE),
             BANK_TRANSFER_TIME: this.popupSubFormData.BANK_TRANSFER_TIME,
             BANK_DAMAGE_VALUE: DmValue,
         };
+
         if (this.popupSubFormuploadFileBuffer) {
             const key = "BANK_DOC";
             saveData[key] = this.popupSubFormuploadFileBuffer;
@@ -959,19 +1119,24 @@ export class IssueOnlineDamageComponent implements OnInit {
         return result;
     }
     PopupViewFile(data) {
-        // console.log('data.url',data.url);
-        // const splitStr = data.url.split('base64,');
-        // splitStr[0] = splitStr[0] + "base64,";
-        // window.open(splitStr[0] + encodeURI(splitStr[1]));
-        this.popupViewFile = true;
-        const setData = {};
-        const d = data;
-        for (const key in d) {
-            if (d[key] !== null && d[key] !== undefined) {
-                setData[key] = d[key];
+
+        if(data){
+            console.log("datafile", data);
+            // console.log('data.url',data.url);
+            // const splitStr = data.url.split('base64,');
+            // splitStr[0] = splitStr[0] + "base64,";
+            // window.open(splitStr[0] + encodeURI(splitStr[1]));
+            this.popupViewFile = true;
+            const setData = {};
+            const d = data;
+            for (const key in d) {
+                if (d[key] !== null && d[key] !== undefined) {
+                    setData[key] = d[key];
+                }
             }
+            this.popupViewFileData = data;
         }
-        this.popupViewFileData = data;
+        
     }
     ClosePopupViewFile(e) {
         this.popupViewFile = false;
@@ -1048,6 +1213,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                         this.listDamageOther[index].BANK_DAMAGE_VALUE ?? 0;
                     this.SumAllDamageValue(dmValueAll, "remove");
                     this.listDamageOther.splice(index, 1);
+                    this.SumAllDamageValue(dmValueAll, "remove");
                 }
             }
         });
@@ -1069,6 +1235,7 @@ export class IssueOnlineDamageComponent implements OnInit {
         return sumSize;
     }
     ItemDamageSubDelete(index, subIndex, type) {
+        console.log(this.listDamageBank[index])
         Swal.fire({
             title: "ยืนยันการลบไฟล์?",
             text: " ",
@@ -1081,28 +1248,56 @@ export class IssueOnlineDamageComponent implements OnInit {
         }).then((result) => {
             if (result.isConfirmed) {
                 if (type === "T") {
-                    const dmValueItem =
-                        this.listDamageBank[index].BANK_DETAIL[subIndex]
-                            .BANK_DAMAGE_VALUE ?? 0;
+                    const dmValueItem = this.listDamageBank[index].BANK_DAMAGE_VALUE ?? 0;
                     const numfloat = parseFloat(dmValueItem);
+                    // this.formData.CASE_MONEY_DAMAGE_VALUE = this.formData.CASE_MONEY_DAMAGE_VALUE - numfloat;
+
+
+
+                    // //โอนเงิน
+                    // if (this.listDamageBank[index].DIRECTION == 2) {
+                    //     //ผู้เสียหาย ต้นทาง
+                    //     if (this.listDamageBank[index].WAYS_ORIGIN == 2) {
+                    //         this.formData.CASE_MONEY_DAMAGE_VALUE = this.formData.CASE_MONEY_DAMAGE_VALUE - numfloat
+                    //     }
+                    //     //ผู้ร้าย ต้นทาง
+                    //     else {
+                    //         this.formData.CASE_MONEY_DAMAGE_VALUE = this.formData.CASE_MONEY_DAMAGE_VALUE + numfloat
+                    //     }
+                    // }
+                    // //รับเงิน
+                    // else {
+                    //     //ผู้เสียหาย ปลายทาง
+                    //     if (this.listDamageBank[index].WAYS_ORIGIN == 2) {
+                    //         this.formData.CASE_MONEY_DAMAGE_VALUE = this.formData.CASE_MONEY_DAMAGE_VALUE  +  numfloat
+                    //     }
+                    //     //ผู้ร้าย ปลายทาง
+                    //     else {
+                    //         this.formData.CASE_MONEY_DAMAGE_VALUE = this.formData.CASE_MONEY_DAMAGE_VALUE -  numfloat
+                    //     }
+                    // }
+
+                    // console.log('this.listDamageBank', this.listDamageBank);
+                    // //ผู้เสียหาย ต้นทาง
+                    // if (this.listDamageBank[index].WAYS_ORIGIN == 2) {
+                    //     this.formData.CASE_MONEY_DAMAGE_VALUE = this.formData.CASE_MONEY_DAMAGE_VALUE - numfloat
+                    // }
+                    // //ผู้ร้าย ต้นทาง
+                    // else {
+                    //     this.formData.CASE_MONEY_DAMAGE_VALUE = this.formData.CASE_MONEY_DAMAGE_VALUE + numfloat
+                    // }
+
+
                     if (dmValueItem > 0) {
-                        const SumAll = parseFloat(
-                            this.listDamageBank[index].BANK_DAMAGE_VALUE
-                        );
+                        const SumAll = parseFloat(this.listDamageBank[index].BANK_DAMAGE_VALUE);
                         const samary: any = SumAll - numfloat;
-                        this.listDamageBank[index].BANK_DAMAGE_VALUE =
-                            parseFloat(samary).toFixed(2);
-                        this.SumAllDamageValue(dmValueItem, "remove");
+                        this.listDamageBank[index].BANK_DAMAGE_VALUE = parseFloat(samary).toFixed(2);
+                        // this.SumAllDamageValue(dmValueItem, "remove");
                     }
-                    if (
-                        this.listDamageBank[index].BANK_DETAIL[subIndex]
-                            .BANK_DOC
-                    ) {
-                        this.limitSizeBank -=
-                            this.listDamageBank[index].BANK_DETAIL[subIndex]
-                                .BANK_DOC.size ?? 0;
+                    if (this.listDamageBank[index].BANK_DOC) {
+                        this.limitSizeBank -= this.listDamageBank[index].BANK_DOC.size ?? 0;
                     }
-                    this.listDamageBank[index].BANK_DETAIL.splice(subIndex, 1);
+                    this.listDamageBank.splice(index, 1);
 
                     // const dmValueAll = this.listDamageBank[index].BANK_DAMAGE_VALUE ?? 0;
                     // console.log('dmValueAll',dmValueAll);
@@ -1140,6 +1335,8 @@ export class IssueOnlineDamageComponent implements OnInit {
                     // this.SumAllDamageValue(dmValueAll,'remove');
                     // this.listDamageBankOther.splice(index, 1);
                 }
+
+                this.calulatemoney(this.listDamageBank);
             }
         });
     }
@@ -1194,6 +1391,10 @@ export class IssueOnlineDamageComponent implements OnInit {
     ReplaceTextEdit(key) {
         return `POPUP_${key}`;
     }
+
+
+
+
     async ItemDamageSave() {
         // console.log('= this.popupFormData->>>',this.popupFormData);
         // console.log('= this.popupFormData->>>',this.popupSubFormList);
@@ -1341,6 +1542,8 @@ export class IssueOnlineDamageComponent implements OnInit {
                 data[setKey] = this.listUploadFileWayOther;
             }
             this.listDamageOther.push(data);
+            this.calulatemoney(this.listDamageBank);
+
         }
     }
     SaveEditDataByType(index, type, data) {
@@ -1378,14 +1581,12 @@ export class IssueOnlineDamageComponent implements OnInit {
         for (const [key, item] of textArray.entries()) {
             if (key === 0) {
                 const comma = checkMoreOneItem ? "," : "";
-                textError += `<span>กรุณาเพิ่มรายละเอียด ${
-                    item + comma
-                }</span><br>`;
+                textError += `<span>กรุณาเพิ่มรายละเอียด ${item + comma
+                    }</span><br>`;
             } else {
                 const comma = key !== textArray.length - 1 ? "," : "";
-                textError += `<span style="padding-left: 5px;">${
-                    item + comma
-                }</span>`;
+                textError += `<span style="padding-left: 5px;">${item + comma
+                    }</span>`;
             }
         }
         return textError;
@@ -1428,7 +1629,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                 html: `<div>${textAlert}</div>`,
                 icon: "warning",
                 confirmButtonText: "Ok",
-            }).then(() => {});
+            }).then(() => { });
         }
 
         return status;
@@ -1439,10 +1640,19 @@ export class IssueOnlineDamageComponent implements OnInit {
             if (this.defaultDamageType === 1 && this.CheckInvalidListDamage()) {
                 return;
             } else if (this.defaultDamageType === 1 && dmValue <= 0) {
-                this.ShowInvalidDialog("กรุณาเพิ่มรายละเอียดความเสียหาย");
-                return;
+                if (this.formData.CASE_MONEY_TYPE1 === 'Y' || this.formData.CASE_MONEY_TYPE2 === 'Y') {
+                    this.ShowInvalidDialog("กรุณาเพิ่มรายละเอียดความเสียหาย");
+                    this.mainConponent.checkValidate = true;
+                    return;
+                } else if (this.formData.CASE_MONEY_TYPE5 === 'Y') {
+                    if (this.formData.REPUTATION == '' || this.formData.REPUTATION == null) {
+                        this.ShowInvalidDialog("กรุณาเพิ่มรายละเอียดชื่อเสียงที่เสียหาย");
+                        this.mainConponent.checkValidate = true;
+                        return;
+                    }
+                }
             }
-
+            this.mainConponent.checkValidate = false;
             this.mainConponent.formDataAll.DataDamageShow = {};
             // this.mainConponent.formDataAll.DataDamageShow = this.formData;
             const listMoney = this.MergeArray(
@@ -1453,14 +1663,15 @@ export class IssueOnlineDamageComponent implements OnInit {
             this.mainConponent.formDataAll.formDamage = {};
             this.mainConponent.formDataAll.formDamage = this.formData;
             this.mainConponent.formDataAll.formDamage.CASE_MONEY = listMoney;
-            this.mainConponent.formDataAll.formDamage.listDamageBank =
-                this.listDamageBank;
-            this.mainConponent.formDataAll.formDamage.listDamageBankOther =
-                this.listDamageBankOther;
-            this.mainConponent.formDataAll.formDamage.listDamageOther =
-                this.listDamageOther;
+            if (this.checkboxDamage.case_type1) {
+                this.mainConponent.formDataAll.formDamage.listDamageBank = this.listDamageBank;
+            }
+            this.mainConponent.formDataAll.formDamage.listDamageBankOther = this.listDamageBankOther;
+            this.mainConponent.formDataAll.formDamage.listDamageOther = this.listDamageOther;
         }
-        this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
+        if(e != 'tab'){
+            this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
+        }
     }
 
     InputConidtions(event) {
@@ -1638,7 +1849,877 @@ export class IssueOnlineDamageComponent implements OnInit {
         }
     }
 
-    tester(data) {
-        console.log(data);
+    onaddbanklist(e) {
+        this.popupbanklist = e;
+    }
+    onaddbanklistvilain(e) {
+        this.popupbanklistvillain = e;
+    }
+
+    outputdatabank(value) {
+        console.log('submit sufferer', value);
+        if (value.TYPE_NAME === 'ธนาคาร' && value.ways === 1) {
+            value["SHOW_NAME"] = '(ธนาคาร ผู้ร้าย)' + value.BANK_ORIGIN_NAME + ': ' + value.BANK_ORIGIN_ACCOUNT + '(' + value.BANK_ORIGIN_ACCOUNT_NAME + ')';
+        }
+        else if (value.TYPE_NAME === 'ธนาคาร' && value.ways === 2) {
+            value["SHOW_NAME"] = '(ธนาคาร ผู้เสียหาย)' + value.BANK_ORIGIN_NAME + ': ' + value.BANK_ORIGIN_ACCOUNT + '(' + value.BANK_ORIGIN_ACCOUNT_NAME + ')';
+        }
+        else if (value.TYPE_NAME === 'พร้อมเพย์' && value.ways === 1) {
+            value["SHOW_NAME"] = '(พร้อมเพย์ ผู้ร้าย)' + value.BANK_ORIGIN_ACCOUNT_PROMPAY + '(' + value.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY + ')';
+            value['BANK_ORIGIN_ACCOUNT'] = value.BANK_ORIGIN_ACCOUNT_PROMPAY;
+        }
+        else if (value.TYPE_NAME === 'พร้อมเพย์' && value.ways === 2) {
+            value["SHOW_NAME"] = '(พร้อมเพย์ ผู้เสียหาย)' + value.BANK_ORIGIN_ACCOUNT_PROMPAY + '(' + value.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY + ')';
+            value['BANK_ORIGIN_ACCOUNT'] = value.BANK_ORIGIN_ACCOUNT_PROMPAY;
+        }
+        else if (value.TYPE_NAME === 'True Money' && value.ways === 1) {
+            value["SHOW_NAME"] = '(True Money ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT + '(' + value.TRUEMONEY_TYPE_NAME + ')';
+            value['BANK_ORIGIN_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
+        }
+        else if (value.TYPE_NAME === 'True Money' && value.ways === 2) {
+            value["SHOW_NAME"] = '(True Money ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + '(' + value.TRUEMONEY_TYPE_NAME + ')';
+            value['BANK_ORIGIN_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
+        }
+        else if (value.TYPE_NAME === 'เงินดิจิทัล (Cryptocurrency)' && value.ways === 1) {
+            value["SHOW_NAME"] = '(Cryptocurrency ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT;
+            value['BANK_ORIGIN_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
+        }
+        else if (value.TYPE_NAME === 'เงินดิจิทัล (Cryptocurrency)' && value.ways === 2) {
+            value["SHOW_NAME"] = '(Cryptocurrency ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT;
+            value['BANK_ORIGIN_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
+        }
+        else if (value.TYPE_NAME === 'Paypal' && value.ways === 1) {
+            value["SHOW_NAME"] = '(Paypal ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT;
+            value['BANK_ORIGIN_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
+        }
+        else if (value.TYPE_NAME === 'Paypal' && value.ways === 2) {
+            value["SHOW_NAME"] = '(Paypal ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT;
+            value['BANK_ORIGIN_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
+        }
+        else if (value.TYPE_NAME === 'อื่นๆ' && value.ways === 1) {
+            value["SHOW_NAME"] = '(อื่นๆ ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT + '(' + value.CASE_MONEY_BANK_OTHER_DETAIL + ')';
+            value['BANK_ORIGIN_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
+        }
+        else if (value.TYPE_NAME === 'อื่นๆ' && value.ways === 2) {
+            value["SHOW_NAME"] = '(อื่นๆ ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + '(' + value.CASE_MONEY_BANK_OTHER_DETAIL + ')';
+            value['BANK_ORIGIN_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
+        }
+
+        // if(value.ways === 1){
+        //     value["SHOW_NAME"] += '(ผู้ร้าย)';
+        // }else if(value.ways === 2){
+        //     value["SHOW_NAME"] += '(ผู้เสียหาย)';
+        // }
+        this.bankListstart.push(value);
+        // this.formmoney.BANK_ORIGIN_LIST_ID = value["BANK_ORIGIN_ID"]
+        this.formmoney.BANK_ORIGIN_LIST_ID = value["BANK_ORIGIN_ACCOUNT"];
+
+        // console.log("valueemit",value);
+        // console.log("bankliststart",this.bankListstart);
+    }
+    outputdatabankvillain(value) {
+        console.log('submit origin', value);
+        if (value.TYPE_NAME === 'ธนาคาร' && value.ways === 1) {
+            value["SHOW_NAME"] = '(ธนาคาร ผู้ร้าย)' + value.BANK_NAME + ': ' + value.BANK_ACCOUNT + '(' + value.BANK_ACCOUNT_NAME + ')';
+        }
+        else if (value.TYPE_NAME === 'ธนาคาร' && value.ways === 2) {
+            value["SHOW_NAME"] = '(ธนาคาร ผู้เสียหาย)' + value.BANK_NAME + ': ' + value.BANK_ACCOUNT + '(' + value.BANK_ACCOUNT_NAME + ')';
+        }
+        else if (value.TYPE_NAME === 'พร้อมเพย์' && value.ways === 1) {
+            value["SHOW_NAME"] = '(พร้อมเพย์ ผู้ร้าย)' + value.BANK_ORIGIN_ACCOUNT_PROMPAY + '(' + value.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY + ')';
+            value['BANK_ACCOUNT'] = value.BANK_ORIGIN_ACCOUNT_PROMPAY;
+        }
+        else if (value.TYPE_NAME === 'พร้อมเพย์' && value.ways === 2) {
+            value["SHOW_NAME"] = '(พร้อมเพย์ ผู้เสียหาย)' + value.BANK_ORIGIN_ACCOUNT_PROMPAY + '(' + value.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY + ')';
+            value['BANK_ACCOUNT'] = value.BANK_ORIGIN_ACCOUNT_PROMPAY;
+        }
+        else if (value.TYPE_NAME === 'True Money' && value.ways === 1) {
+            value["SHOW_NAME"] = '(True Money ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT + '(' + value.TRUEMONEY_TYPE_NAME + ')';
+            value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
+        }
+        else if (value.TYPE_NAME === 'True Money' && value.ways === 2) {
+            value["SHOW_NAME"] = '(True Money ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + '(' + value.TRUEMONEY_TYPE_NAME + ')';
+            value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
+        }
+        else if (value.TYPE_NAME === 'เงินดิจิทัล (Cryptocurrency)' && value.ways === 1) {
+            value["SHOW_NAME"] = '(Cryptocurrency ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT;
+            value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
+        }
+        else if (value.TYPE_NAME === 'เงินดิจิทัล (Cryptocurrency)' && value.ways === 2) {
+            value["SHOW_NAME"] = '(Cryptocurrency ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT;
+            value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
+        }
+        else if (value.TYPE_NAME === 'Paypal' && value.ways === 1) {
+            value["SHOW_NAME"] = '(Paypal ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT;
+            value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
+        }
+        else if (value.TYPE_NAME === 'Paypal' && value.ways === 2) {
+            value["SHOW_NAME"] = '(Paypal ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT;
+            value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
+        }
+        else if (value.TYPE_NAME === 'อื่นๆ' && value.ways === 1) {
+            value["SHOW_NAME"] = '(อื่นๆ ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT + '(' + value.CASE_MONEY_BANK_OTHER_DETAIL + ')';
+            value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
+        }
+        else if (value.TYPE_NAME === 'อื่นๆ' && value.ways === 2) {
+            value["SHOW_NAME"] = '(อื่นๆ ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + '(' + value.CASE_MONEY_BANK_OTHER_DETAIL + ')';
+            value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
+        }
+        this.bankListend.push(value);
+        // this.formmoney.BANK_LIST_ID = value["BANK_ID"]
+        this.formmoney.BANK_LIST_ID = value["BANK_ACCOUNT"];
+
+        // console.log("valueemitvillain",value);
+        // console.log("banklistendvillain",this.bankListend);
+    }
+
+    // onsavelistbanklist(e) {
+    //     if (this.formbanknew.instance.validate().isValid) {
+    //         //โอนเงิน
+    //         // if (this.formmoney.DIRECTION == 2) {
+    //         //     //ผู้เสียหาย ต้นทาง
+    //         //     if (this.formmoney.WAYS_ORIGIN == 2) {
+    //         //         this.formData.CASE_MONEY_DAMAGE_VALUE += this.formmoney.BANK_DAMAGE_VALUE
+    //         //     }
+    //         //     //ผู้ร้าย ต้นทาง
+    //         //     else {
+    //         //         this.formData.CASE_MONEY_DAMAGE_VALUE -= this.formmoney.BANK_DAMAGE_VALUE
+    //         //     }
+    //         // }
+    //         // //รับเงิน
+    //         // else {
+    //         //     //ผู้เสียหาย ปลายทาง
+    //         //     if (this.formmoney.WAYS_ORIGIN == 2) {
+    //         //         this.formData.CASE_MONEY_DAMAGE_VALUE -= this.formmoney.BANK_DAMAGE_VALUE
+    //         //     }
+    //         //     //ผู้ร้าย ปลายทาง
+    //         //     else {
+    //         //         this.formData.CASE_MONEY_DAMAGE_VALUE += this.formmoney.BANK_DAMAGE_VALUE
+    //         //     }
+    //         // }
+
+    //         //ผู้เสียหาย ต้นทาง
+    //         this.formmoney.BANK_ORIGIN_ACCOUNT = this.formmoneySub.BANK_ORIGIN_ACCOUNT
+    //         this.formmoney.BANK_ORIGIN_ACCOUNT_NAME = this.formmoneySub.BANK_ORIGIN_ACCOUNT_NAME
+    //         this.formmoney.BANK_ORIGIN_ID = this.formmoneySub.BANK_ORIGIN_ID
+    //         this.formmoney.BANK_ORIGIN_NAME = this.formmoneySub.BANK_ORIGIN_NAME
+    //         this.formmoney.SHOW_NAME = this.formmoneySub.SHOW_NAME
+    //         this.formmoney.TYPE_BANK_ID = this.formmoneySub.TYPE_BANK_ID
+    //         this.formmoney.WAYS_ORIGIN = this.formmoneySub.WAYS_ORIGIN
+    //         this.formmoney.BANK_ORIGIN_MONEY_REMARK = this.formmoneySub.BANK_ORIGIN_MONEY_REMARK;
+
+    //         this.formmoney.CASE_MONEY_CHANNEL_TYPE = this.formmoneySub.CASE_MONEY_CHANNEL_TYPE
+    //         this.formmoney.CASE_MONEY_BANK_TRANFER = this.formmoneySub.CASE_MONEY_BANK_TRANFER
+    //         this.formmoney.CASE_MONEY_BANK_TRANFER_NAME = this.formmoneySub.CASE_MONEY_BANK_TRANFER_NAME
+
+    //         this.formmoney.BANK_MONEY_OTHER_ID = this.formmoneySub.BANK_MONEY_OTHER_ID
+    //         this.formmoney.BANK_MONEY_OTHER_NAME = this.formmoneySub.BANK_MONEY_OTHER_NAME
+
+    //         this.formmoney.BANK_ACCOUNT = this.formmoneySub.BANK_ACCOUNT
+    //         this.formmoney.BANK_ACCOUNT_NAME = this.formmoneySub.BANK_ACCOUNT_NAME
+    //         this.formmoney.BANK_ID = this.formmoneySub.BANK_ID
+    //         this.formmoney.BANK_NAME = this.formmoneySub.BANK_NAME
+    //         this.formmoney.SHOW_NAME_END = this.formmoneySub.SHOW_NAME_END
+    //         this.formmoney.WAYS_DESTINATION = this.formmoneySub.WAYS_DESTINATION
+    //         this.formmoney.BANK_MONEY_REMARK = this.formmoneySub.BANK_MONEY_REMARK;
+
+    //         // // this.formmoney = this.formmoneySub;
+    //         // if (this.formmoney.WAYS_ORIGIN == 2) {
+    //         //     this.formData.CASE_MONEY_DAMAGE_VALUE = Number(this.formmoney.BANK_DAMAGE_VALUE) + Number(this.formData.CASE_MONEY_DAMAGE_VALUE);
+    //         // }
+    //         // //ผู้ร้าย ต้นทาง
+    //         // else {
+    //         //     const summoney = Number(this.formData.CASE_MONEY_DAMAGE_VALUE) - Number(this.formmoney.BANK_DAMAGE_VALUE)  ;
+    //         //     if(summoney<0){
+    //         //         this.formData.CASE_MONEY_DAMAGE_VALUE = 0;
+    //         //     }else{
+    //         //         this.formData.CASE_MONEY_DAMAGE_VALUE = summoney;
+
+    //         //     }
+    //         // }
+
+
+    //         this.formmoney.CASE_MONEY_CHANNEL_TYPE = "T";
+    //         this.formmoney.MONNEY_DOC = [];
+    //         if (this.listUploadFileformmoney.length > 0) {
+    //             this.formmoney.MONNEY_DOC.push(this.listUploadFileformmoney[0]);
+
+    //         }
+    //         this.listDamageBank.push(this.formmoney);
+    //         var backupformmoney = this.formmoney;
+    //         this.formmoney = {};
+
+    //         this.formmoney.BANK_LIST_ID = backupformmoney.BANK_LIST_ID;
+    //         this.formmoney.BANK_ORIGIN_LIST_ID = backupformmoney.BANK_ORIGIN_LIST_ID;
+    //         this.formmoney.BANK_TRANSFER_DATE = backupformmoney.BANK_TRANSFER_DATE;
+    //         this.formmoney.BANK_TRANSFER_TIME = backupformmoney.BANK_TRANSFER_TIME;
+    //         this.formmoney.BANK_DAMAGE_VALUE_UNIT = backupformmoney.BANK_DAMAGE_VALUE_UNIT;
+    //         this.formmoney.TYPE_BANK_ID = backupformmoney.TYPE_BANK_ID;
+    //         this.formmoney.WAYS_ORIGIN = backupformmoney.WAYS_ORIGIN;
+
+    //         this.formmoney.BANK_ORIGIN_ACCOUNT = backupformmoney.BANK_ORIGIN_ACCOUNT;
+    //         this.formmoney.BANK_ORIGIN_ACCOUNT_NAME = backupformmoney.BANK_ORIGIN_ACCOUNT_NAME;
+    //         this.formmoney.BANK_ORIGIN_ID = backupformmoney.BANK_ORIGIN_ID;
+    //         this.formmoney.BANK_ORIGIN_NAME = backupformmoney.BANK_ORIGIN_NAME;
+    //         this.formmoney.SHOW_NAME = backupformmoney.SHOW_NAME;
+    //         this.formmoney.BANK_ORIGIN_MONEY_REMARK = backupformmoney.BANK_ORIGIN_MONEY_REMARK;
+
+
+    //         this.formmoney.BANK_ACCOUNT = backupformmoney.BANK_ACCOUNT;
+    //         this.formmoney.BANK_ACCOUNT_NAME = backupformmoney.BANK_ACCOUNT_NAME;
+    //         this.formmoney.BANK_ID = backupformmoney.BANK_ID;
+    //         this.formmoney.BANK_NAME = backupformmoney.BANK_NAME;
+    //         this.formmoney.SHOW_NAME_END = backupformmoney.SHOW_NAME_END;
+    //         this.formmoney.WAYS_DESTINATION = backupformmoney.WAYS_DESTINATION;
+    //         this.formmoney.BANK_MONEY_REMARK = backupformmoney.BANK_MONEY_REMARK;
+    //         if (backupformmoney.TYPE_BANK_ID == 1) {
+    //             this.formmoney.CASE_MONEY_CHANNEL_TYPE = backupformmoney.TYPE_MAIN;
+    //             this.formmoney.CASE_MONEY_BANK_TRANFER = backupformmoney.TYPE_ID;
+    //             this.formmoney.CASE_MONEY_BANK_TRANFER_NAME = backupformmoney.TYPE_NAME;
+    //         } else {
+    //             this.formmoney.CASE_MONEY_CHANNEL_TYPE = backupformmoney.TYPE_MAIN;
+    //             this.formmoney.BANK_MONEY_OTHER_ID = backupformmoney.TYPE_ID;
+    //             this.formmoney.BANK_MONEY_OTHER_NAME = backupformmoney.TYPE_NAME;
+
+    //         }
+
+    //         if (this.formmoney.TYPE_BANK_ID == 1 || this.formmoney.TYPE_BANK_ID == 2) {
+    //             this.formmoney.BANK_DAMAGE_VALUE_UNIT = "บาท";
+    //         } else {
+    //             this.formmoney.BANK_DAMAGE_VALUE_UNIT = "";
+    //         }
+
+    //         this.listUploadFileformmoney.splice(0, 1);
+    //     }
+    //     this.now = null;
+
+
+
+    //         this.calulatemoney(this.listDamageBank);
+
+
+    //     console.log("formmoney", this.listDamageBank);
+    // }
+    onsavelistbanklist(e) {
+        if(this.wayStart==this.wayEnd){
+            Swal.fire({
+                title: "ผิดพลาด!",
+                html: "บัญชีต้นทางและปลายทางไม่ถูกต้อง"+'<br>'+"กรุณาตรวจสอบเส้นทางการทำธุรกรรมให้ถูกต้อง",
+                icon: "warning",
+                confirmButtonText: "Ok",
+            }).then(() => {
+                this.formmoney.BANK_LIST_ID = null;
+                this.formmoney.BANK_ORIGIN_LIST_ID = null;
+            });
+            return
+        }
+        if (this.formbanknew.instance.validate().isValid) {
+            //โอนเงิน
+            // if (this.formmoney.DIRECTION == 2) {
+            //     //ผู้เสียหาย ต้นทาง
+            //     if (this.formmoney.WAYS_ORIGIN == 2) {
+            //         this.formData.CASE_MONEY_DAMAGE_VALUE += this.formmoney.BANK_DAMAGE_VALUE
+            //     }
+            //     //ผู้ร้าย ต้นทาง
+            //     else {
+            //         this.formData.CASE_MONEY_DAMAGE_VALUE -= this.formmoney.BANK_DAMAGE_VALUE
+            //     }
+            // }
+            // //รับเงิน
+            // else {
+            //     //ผู้เสียหาย ปลายทาง
+            //     if (this.formmoney.WAYS_ORIGIN == 2) {
+            //         this.formData.CASE_MONEY_DAMAGE_VALUE -= this.formmoney.BANK_DAMAGE_VALUE
+            //     }
+            //     //ผู้ร้าย ปลายทาง
+            //     else {
+            //         this.formData.CASE_MONEY_DAMAGE_VALUE += this.formmoney.BANK_DAMAGE_VALUE
+            //     }
+            // }
+
+
+            console.log('formoneySub',this.formmoneySub);
+            //ผู้เสียหาย ต้นทาง
+            this.formmoney.BANK_ORIGIN_ACCOUNT = this.formmoneySub.BANK_ORIGIN_ACCOUNT
+            this.formmoney.BANK_ORIGIN_ACCOUNT_NAME = this.formmoneySub.BANK_ORIGIN_ACCOUNT_NAME
+            this.formmoney.BANK_ORIGIN_ID = this.formmoneySub.BANK_ORIGIN_ID
+            this.formmoney.BANK_ORIGIN_NAME = this.formmoneySub.BANK_ORIGIN_NAME
+            this.formmoney.SHOW_NAME = this.formmoneySub.SHOW_NAME
+            this.formmoney.TYPE_BANK_ID = this.formmoneySub.TYPE_BANK_ID
+            this.formmoney.WAYS_ORIGIN = this.formmoneySub.WAYS_ORIGIN
+            this.formmoney.BANK_ORIGIN_MONEY_REMARK= this.formmoneySub.BANK_ORIGIN_MONEY_REMARK;
+
+            this.formmoney.CASE_MONEY_CHANNEL_TYPE = this.formmoneySub.CASE_MONEY_CHANNEL_TYPE
+            this.formmoney.CASE_MONEY_BANK_TRANFER = this.formmoneySub.CASE_MONEY_BANK_TRANFER
+            this.formmoney.CASE_MONEY_BANK_TRANFER_NAME = this.formmoneySub.CASE_MONEY_BANK_TRANFER_NAME
+
+            this.formmoney.BANK_MONEY_OTHER_ID = this.formmoneySub.BANK_MONEY_OTHER_ID
+            this.formmoney.BANK_MONEY_OTHER_NAME =  this.formmoneySub.BANK_MONEY_OTHER_NAME
+
+            this.formmoney.BANK_ACCOUNT = this.formmoneySub.BANK_ACCOUNT
+            this.formmoney.BANK_ACCOUNT_NAME = this.formmoneySub.BANK_ACCOUNT_NAME
+            this.formmoney.BANK_ID = this.formmoneySub.BANK_ID
+            this.formmoney.BANK_NAME = this.formmoneySub.BANK_NAME
+            this.formmoney.SHOW_NAME_END = this.formmoneySub.SHOW_NAME_END
+            this.formmoney.WAYS_DESTINATION = this.formmoneySub.WAYS_DESTINATION
+            this.formmoney.BANK_MONEY_REMARK= this.formmoneySub.BANK_MONEY_REMARK;
+
+            // // this.formmoney = this.formmoneySub;
+            // if (this.formmoney.WAYS_ORIGIN == 2) {
+            //     this.formData.CASE_MONEY_DAMAGE_VALUE = Number(this.formmoney.BANK_DAMAGE_VALUE) + Number(this.formData.CASE_MONEY_DAMAGE_VALUE);
+            // }
+            // //ผู้ร้าย ต้นทาง
+            // else {
+            //     this.formData.CASE_MONEY_DAMAGE_VALUE =  Number(this.formmoney.BANK_DAMAGE_VALUE) - Number(this.formData.CASE_MONEY_DAMAGE_VALUE);
+            // }
+            this.formmoney.CASE_MONEY_CHANNEL_TYPE = "T";
+            this.formmoney.MONNEY_DOC = [];
+            if(this.listUploadFileformmoney.length>0){
+                this.formmoney.MONNEY_DOC.push(this.listUploadFileformmoney[0]);
+
+            }
+            this.listDamageBank.push(this.formmoney);
+            const backupformmoney = this.formmoney;
+            this.formmoney = {};
+
+            this.formmoney.BANK_LIST_ID = backupformmoney.BANK_LIST_ID;
+            this.formmoney.BANK_ORIGIN_LIST_ID = backupformmoney.BANK_ORIGIN_LIST_ID;
+            this.formmoney.BANK_TRANSFER_DATE = backupformmoney.BANK_TRANSFER_DATE;
+            this.formmoney.BANK_TRANSFER_TIME = backupformmoney.BANK_TRANSFER_TIME;
+            this.formmoney.BANK_DAMAGE_VALUE_UNIT = backupformmoney.BANK_DAMAGE_VALUE_UNIT;
+            this.formmoney.TYPE_BANK_ID = backupformmoney.TYPE_BANK_ID;
+            this.formmoney.WAYS_ORIGIN = backupformmoney.WAYS_ORIGIN;
+
+            this.formmoney.BANK_ORIGIN_ACCOUNT = backupformmoney.BANK_ORIGIN_ACCOUNT;
+            this.formmoney.BANK_ORIGIN_ACCOUNT_NAME = backupformmoney.BANK_ORIGIN_ACCOUNT_NAME;
+            this.formmoney.BANK_ORIGIN_ID = backupformmoney.BANK_ORIGIN_ID;
+            this.formmoney.BANK_ORIGIN_NAME = backupformmoney.BANK_ORIGIN_NAME;
+            this.formmoney.SHOW_NAME = backupformmoney.SHOW_NAME;
+            this.formmoney.BANK_ORIGIN_MONEY_REMARK = backupformmoney.BANK_ORIGIN_MONEY_REMARK;
+
+
+            this.formmoney.BANK_ACCOUNT = backupformmoney.BANK_ACCOUNT;
+            this.formmoney.BANK_ACCOUNT_NAME = backupformmoney.BANK_ACCOUNT_NAME;
+            this.formmoney.BANK_ID = backupformmoney.BANK_ID;
+            this.formmoney.BANK_NAME = backupformmoney.BANK_NAME;
+            this.formmoney.SHOW_NAME_END = backupformmoney.SHOW_NAME_END;
+            this.formmoney.WAYS_DESTINATION = backupformmoney.WAYS_DESTINATION;
+            this.formmoney.BANK_MONEY_REMARK = backupformmoney.BANK_MONEY_REMARK;
+            if (backupformmoney.TYPE_BANK_ID == 1) {
+                this.formmoney.CASE_MONEY_CHANNEL_TYPE = backupformmoney.TYPE_MAIN;
+                this.formmoney.CASE_MONEY_BANK_TRANFER = backupformmoney.TYPE_ID;
+                this.formmoney.CASE_MONEY_BANK_TRANFER_NAME = backupformmoney.TYPE_NAME;
+            } else {
+                this.formmoney.CASE_MONEY_CHANNEL_TYPE = backupformmoney.TYPE_MAIN;
+                this.formmoney.BANK_MONEY_OTHER_ID = backupformmoney.TYPE_ID;
+                this.formmoney.BANK_MONEY_OTHER_NAME = backupformmoney.TYPE_NAME;
+
+            }
+
+
+            if(this.formmoney.TYPE_BANK_ID == 1 || this.formmoney.TYPE_BANK_ID == 2){
+                this.formmoney.BANK_DAMAGE_VALUE_UNIT = "บาท";
+            }else{
+                this.formmoney.BANK_DAMAGE_VALUE_UNIT = "";
+            }
+
+
+            console.log('saveformmoney',this.formmoney);
+            this.listUploadFileformmoney.splice(0,1);
+            this.now = null;
+
+            this.calulatemoney(this.listDamageBank);
+
+        }
+    }
+    // calulatemoney(data){
+
+
+
+    //      //calculate money
+    //      const cehckorigin1 = data.filter(x=>x.WAYS_ORIGIN == 1);
+    //      const cehckorigin2 = data.filter(x=>x.WAYS_ORIGIN == 2);
+    //      this.sumvillan = 0.0;
+    //      this.sumpersonal = 0.0;
+    //      if(cehckorigin1){
+    //          cehckorigin1.forEach(element => {
+    //                  this.sumvillan = Number(this.sumvillan) +  Number(element.BANK_DAMAGE_VALUE);
+    //          });
+    //      }
+    //      if(cehckorigin2){
+    //          cehckorigin2.forEach(element => {
+    //              this.sumpersonal = Number(this.sumpersonal) +  Number(element.BANK_DAMAGE_VALUE);
+    //          });
+    //      }
+    //      const summoney = this.sumpersonal - this.sumvillan;
+    //      if(summoney<0){
+    //         this.formData.CASE_MONEY_DAMAGE_VALUE = 0;
+    //         }
+    //         else{
+    //                 this.formData.CASE_MONEY_DAMAGE_VALUE =   summoney;
+
+    //         }
+    //      if(summoney<0){
+    //         this.formData.CASE_MONEY_DAMAGE_VALUE = 0;
+    //         }
+    //         else{
+    //                 this.formData.CASE_MONEY_DAMAGE_VALUE =   summoney;
+
+    //         }
+    //         this.sumothermoney = 0.0;
+    //         if(this.listDamageOther){
+    //             this.listDamageOther.forEach(element => {
+    //                     this.sumothermoney = this.sumothermoney + element.BANK_DAMAGE_VALUE;
+    //             });
+    //         }
+    //         //ถ้ามีเงินทรัพย์สินความเสียหายให้เอามาบวกเพิ่ม
+    //         if(this.sumothermoney>0){
+    //             this.formData.CASE_MONEY_DAMAGE_VALUE = summoney+this.sumothermoney;
+    //         }
+
+    //       console.log(summoney);
+    //       console.log('cehckorigin1',cehckorigin1);
+    //       console.log('cehckorigin2',cehckorigin2);
+    //           // end calculate money
+    // }
+    calulatemoney(data){
+
+
+
+
+        //calculate money
+        const cehckorigin1 = data.filter(x=>x.WAYS_ORIGIN == 1);
+        const cehckorigin2 = data.filter(x=>x.WAYS_ORIGIN == 2);
+        this.sumvillan = 0.0;
+        this.sumpersonal = 0.0;
+        if(cehckorigin1){
+            cehckorigin1.forEach(element => {
+                    this.sumvillan = Number(this.sumvillan) +  Number(element.BANK_DAMAGE_VALUE);
+            });
+        }
+        if(cehckorigin2){
+            cehckorigin2.forEach(element => {
+                this.sumpersonal = Number(this.sumpersonal) +  Number(element.BANK_DAMAGE_VALUE);
+            });
+        }
+        const summoney = this.sumpersonal - this.sumvillan;
+        if(summoney<0){
+           this.formData.CASE_MONEY_DAMAGE_VALUE = 0;
+           }
+           else{
+                   this.formData.CASE_MONEY_DAMAGE_VALUE =   summoney;
+
+           }
+        if(summoney<0){
+           this.formData.CASE_MONEY_DAMAGE_VALUE = 0;
+           }
+           else{
+                   this.formData.CASE_MONEY_DAMAGE_VALUE =   summoney;
+
+           }
+           this.sumothermoney = 0.0;
+
+
+           if(this.listDamageOther){
+
+            for (let i = 0; i < this.listDamageOther.length; i++) {
+                this.sumothermoney = Number(this.sumothermoney) + Number(this.listDamageOther[i].BANK_DAMAGE_VALUE);
+             }
+
+        }
+
+
+           //ถ้ามีเงินทรัพย์สินความเสียหายให้เอามาบวกเพิ่ม
+           if(this.sumothermoney>0){
+               this.formData.CASE_MONEY_DAMAGE_VALUE = summoney+ Number(this.sumothermoney);
+
+           }
+
+           if(this.formData.CASE_MONEY_DAMAGE_VALUE < 0){
+            this.formData.CASE_MONEY_DAMAGE_VALUE = 0;
+           }
+
+
+             // end calculate money
+   }
+    onEditlistbanklist(e) {
+        if (this.formbanknew.instance.validate().isValid) {
+
+            this.formmoney.BANK_ORIGIN_ACCOUNT = this.formmoneySub.BANK_ORIGIN_ACCOUNT
+            this.formmoney.BANK_ORIGIN_ACCOUNT_NAME = this.formmoneySub.BANK_ORIGIN_ACCOUNT_NAME
+            this.formmoney.BANK_ORIGIN_ID = this.formmoneySub.BANK_ORIGIN_ID
+            this.formmoney.BANK_ORIGIN_NAME = this.formmoneySub.BANK_ORIGIN_NAME
+            this.formmoney.SHOW_NAME = this.formmoneySub.SHOW_NAME
+            this.formmoney.TYPE_BANK_ID = this.formmoneySub.TYPE_BANK_ID
+            this.formmoney.WAYS_ORIGIN = this.formmoneySub.WAYS_ORIGIN
+            this.formmoney.BANK_ORIGIN_MONEY_REMARK = this.formmoneySub.BANK_ORIGIN_MONEY_REMARK;
+
+            this.formmoney.CASE_MONEY_CHANNEL_TYPE = this.formmoneySub.CASE_MONEY_CHANNEL_TYPE
+            this.formmoney.CASE_MONEY_BANK_TRANFER = this.formmoneySub.CASE_MONEY_BANK_TRANFER
+            this.formmoney.CASE_MONEY_BANK_TRANFER_NAME = this.formmoneySub.CASE_MONEY_BANK_TRANFER_NAME
+
+            this.formmoney.BANK_MONEY_OTHER_ID = this.formmoneySub.BANK_MONEY_OTHER_ID
+            this.formmoney.BANK_MONEY_OTHER_NAME = this.formmoneySub.BANK_MONEY_OTHER_NAME
+
+            this.formmoney.BANK_ACCOUNT = this.formmoneySub.BANK_ACCOUNT
+            this.formmoney.BANK_ACCOUNT_NAME = this.formmoneySub.BANK_ACCOUNT_NAME
+            this.formmoney.BANK_ID = this.formmoneySub.BANK_ID
+            this.formmoney.BANK_NAME = this.formmoneySub.BANK_NAME
+            this.formmoney.SHOW_NAME_END = this.formmoneySub.SHOW_NAME_END
+            this.formmoney.WAYS_DESTINATION = this.formmoneySub.WAYS_DESTINATION
+            this.formmoney.BANK_MONEY_REMARK = this.formmoneySub.BANK_MONEY_REMARK;
+
+
+            // this.formmoney = this.formmoneySub;
+            // this.formData.CASE_MONEY_DAMAGE_VALUE -= this.listDamageBank[this.editTransferData.index].BANK_DAMAGE_VALUE;
+            // this.formData.CASE_MONEY_DAMAGE_VALUE += this.formmoney.BANK_DAMAGE_VALUE; //โอนเงิน
+            // if (this.formmoney.DIRECTION == 2) {
+            //     //ผู้เสียหาย
+            //     if (this.formmoney.WAYS_ORIGIN == 2) {
+            //         this.formData.CASE_MONEY_DAMAGE_VALUE -= this.listDamageBank[this.editTransferData.index].BANK_DAMAGE_VALUE;
+            //         this.formData.CASE_MONEY_DAMAGE_VALUE += this.formmoney.BANK_DAMAGE_VALUE;
+            //     }
+            //     //ผู้ร้าย
+            //     else {
+            //         this.formData.CASE_MONEY_DAMAGE_VALUE += this.listDamageBank[this.editTransferData.index].BANK_DAMAGE_VALUE;
+            //         this.formData.CASE_MONEY_DAMAGE_VALUE -= this.formmoney.BANK_DAMAGE_VALUE;
+            //     }
+            // }
+            // //รับเงิน
+            // else {
+            //     //ผู้เสียหาย
+            //     if (this.formmoney.WAYS_ORIGIN == 2) {
+            //         this.formData.CASE_MONEY_DAMAGE_VALUE += this.listDamageBank[this.editTransferData.index].BANK_DAMAGE_VALUE;
+            //         this.formData.CASE_MONEY_DAMAGE_VALUE -= this.formmoney.BANK_DAMAGE_VALUE;
+            //     }
+            //     //ผู้ร้าย
+            //     else {
+            //         this.formData.CASE_MONEY_DAMAGE_VALUE -= this.listDamageBank[this.editTransferData.index].BANK_DAMAGE_VALUE;
+            //         this.formData.CASE_MONEY_DAMAGE_VALUE += this.formmoney.BANK_DAMAGE_VALUE;
+            //     }
+            // }
+
+
+            //ผู้เสียหาย
+            // if (this.formmoney.WAYS_ORIGIN == 2) {
+            //     this.formData.CASE_MONEY_DAMAGE_VALUE = Number(this.formData.CASE_MONEY_DAMAGE_VALUE) - Number(this.listDamageBank[this.editTransferData.index].BANK_DAMAGE_VALUE);
+            //     this.formData.CASE_MONEY_DAMAGE_VALUE = Number(this.formData.CASE_MONEY_DAMAGE_VALUE) + Number(this.formmoney.BANK_DAMAGE_VALUE);
+            // }
+            // //ผู้ร้าย
+            // else {
+            //     this.formData.CASE_MONEY_DAMAGE_VALUE = Number(this.formData.CASE_MONEY_DAMAGE_VALUE) + Number(this.listDamageBank[this.editTransferData.index].BANK_DAMAGE_VALUE);
+            //     const summoney = Number(this.formData.CASE_MONEY_DAMAGE_VALUE) - Number(this.formmoney.BANK_DAMAGE_VALUE);
+
+            //     if(summoney<0){
+            //         this.formData.CASE_MONEY_DAMAGE_VALUE = 0;
+            //     }else{
+            //         this.formData.CASE_MONEY_DAMAGE_VALUE = summoney;
+            //     }
+            // }
+
+
+            //   //ผู้เสียหาย
+            //   if (this.formmoney.WAYS_ORIGIN == 2) {
+            //     this.formData.CASE_MONEY_DAMAGE_VALUE -= this.listDamageBank[this.editTransferData.index].BANK_DAMAGE_VALUE;
+            //     this.formData.CASE_MONEY_DAMAGE_VALUE += this.formmoney.BANK_DAMAGE_VALUE;
+            // }
+            // //ผู้ร้าย
+            // else {
+            //     this.formData.CASE_MONEY_DAMAGE_VALUE += this.listDamageBank[this.editTransferData.index].BANK_DAMAGE_VALUE;
+            //     this.formData.CASE_MONEY_DAMAGE_VALUE -= this.formmoney.BANK_DAMAGE_VALUE;
+            // }
+            this.formmoney.CASE_MONEY_CHANNEL_TYPE = "T";
+            this.listDamageBank[this.editTransferData.index] = this.formmoney;
+            this.calulatemoney(this.listDamageBank);
+            this.onresetbanklist()
+        }
+    }
+    // onbankoriginlistchange(e) {
+
+    //     if (e.value) {
+    //         const data = this.selectBankInfoOriginlist.instance.option("selectedItem");
+    //         console.log("orginlist", data);
+    //         if (data) {
+
+
+    //             this.formmoney.BANK_ORIGIN_ACCOUNT = data.BANK_ORIGIN_ACCOUNT;
+    //             this.formmoney.BANK_ORIGIN_ACCOUNT_NAME = data.BANK_ORIGIN_ACCOUNT_NAME;
+    //             this.formmoney.BANK_ORIGIN_ID = data.BANK_ORIGIN_ID;
+    //             this.formmoney.BANK_ORIGIN_NAME = data.BANK_ORIGIN_NAME;
+    //             this.formmoney.SHOW_NAME = data.SHOW_NAME;
+    //             this.formmoney.TYPE_BANK_ID = data.TYPE_BANK_ID;
+    //             this.formmoney.WAYS_ORIGIN = data.ways;
+    //             this.formmoney.BANK_ORIGIN_MONEY_REMARK = data.BANK_ORIGIN_MONEY_REMARK;
+
+    //             if (data.TYPE_BANK_ID == 1) {
+    //                 this.formmoney.CASE_MONEY_CHANNEL_TYPE = data.TYPE_MAIN;
+    //                 this.formmoney.CASE_MONEY_BANK_TRANFER = data.TYPE_ID;
+    //                 this.formmoney.CASE_MONEY_BANK_TRANFER_NAME = data.TYPE_NAME;
+    //             } else {
+    //                 this.formmoney.CASE_MONEY_CHANNEL_TYPE = data.TYPE_MAIN;
+    //                 this.formmoney.BANK_MONEY_OTHER_ID = data.TYPE_ID;
+    //                 this.formmoney.BANK_MONEY_OTHER_NAME = data.TYPE_NAME;
+
+    //             }
+
+    //             if (this.formmoney.TYPE_BANK_ID == 1 || this.formmoney.TYPE_BANK_ID == 2) {
+    //                 this.formmoney.BANK_DAMAGE_VALUE_UNIT = "บาท";
+    //             } else {
+    //                 this.formmoney.BANK_DAMAGE_VALUE_UNIT = "";
+    //             }
+    //             this.formmoneySub = this.formmoney;
+
+    //         } else {
+
+    //         }
+    //     }
+    // }
+    // onbanklistchange(e) {
+
+    //     if (e.value) {
+    //         const data = this.selectBankInfolist.instance.option("selectedItem");
+    //         console.log("defaullist", data);
+
+    //         if (data) {
+    //             this.formmoney.BANK_ACCOUNT = data.BANK_ACCOUNT;
+    //             this.formmoney.BANK_ACCOUNT_NAME = data.BANK_ACCOUNT_NAME;
+    //             this.formmoney.BANK_ID = data.BANK_ID;
+    //             this.formmoney.BANK_NAME = data.BANK_NAME;
+    //             this.formmoney.SHOW_NAME_END = data.SHOW_NAME;
+    //             this.formmoney.WAYS_DESTINATION = data.ways;
+    //             this.formmoney.BANK_MONEY_REMARK = data.BANK_MONEY_REMARK;
+    //             this.formmoneySub = this.formmoney;
+    //         } else {
+
+    //         }
+    //     }
+    // }
+    onbankoriginlistchange(e) {
+
+        if (e.value) {
+            const data = this.selectBankInfoOriginlist.instance.option("selectedItem");
+            // console.log("orginlist", data);
+
+            if (data) {
+                this.wayStart = data.ways;
+                this.formmoney.BANK_ORIGIN_ACCOUNT = data.BANK_ORIGIN_ACCOUNT;
+                this.formmoney.BANK_ORIGIN_ACCOUNT_NAME = data.BANK_ORIGIN_ACCOUNT_NAME;
+                this.formmoney.BANK_ORIGIN_ID = data.BANK_ORIGIN_ID;
+                this.formmoney.BANK_ORIGIN_NAME = data.BANK_ORIGIN_NAME;
+                this.formmoney.SHOW_NAME = data.SHOW_NAME;
+                this.formmoney.TYPE_BANK_ID = data.TYPE_BANK_ID;
+                this.formmoney.WAYS_ORIGIN = data.ways;
+                this.formmoney.BANK_ORIGIN_MONEY_REMARK= data.BANK_ORIGIN_MONEY_REMARK;
+
+                if(data.TYPE_BANK_ID == 1){
+                    this.formmoney.CASE_MONEY_CHANNEL_TYPE = data.TYPE_MAIN;
+                    this.formmoney.CASE_MONEY_BANK_TRANFER = data.TYPE_ID;
+                    this.formmoney.CASE_MONEY_BANK_TRANFER_NAME =  data.TYPE_NAME;
+                }else{
+                    this.formmoney.CASE_MONEY_CHANNEL_TYPE = data.TYPE_MAIN;
+                    this.formmoney.BANK_MONEY_OTHER_ID = data.TYPE_ID;
+                    this.formmoney.BANK_MONEY_OTHER_NAME =  data.TYPE_NAME;
+
+                }
+
+                if(this.formmoney.TYPE_BANK_ID == 1 || this.formmoney.TYPE_BANK_ID == 2){
+                    this.formmoney.BANK_DAMAGE_VALUE_UNIT = "บาท";
+                }else{
+                    this.formmoney.BANK_DAMAGE_VALUE_UNIT = "";
+                }
+
+                const dataend = this.selectBankInfolist.instance.option("selectedItem");
+
+                if (dataend) {
+                    this.formmoney.BANK_ACCOUNT = dataend.BANK_ACCOUNT;
+                    this.formmoney.BANK_ACCOUNT_NAME = dataend.BANK_ACCOUNT_NAME;
+                    this.formmoney.BANK_ID = dataend.BANK_ID;
+                    this.formmoney.BANK_NAME = dataend.BANK_NAME;
+                    this.formmoney.SHOW_NAME_END = dataend.SHOW_NAME;
+                    this.formmoney.WAYS_DESTINATION = dataend.ways;
+                    this.formmoney.BANK_MONEY_REMARK= dataend.BANK_MONEY_REMARK;
+                }
+                this.formmoneySub = this.formmoney;
+
+                console.log('formmoney',this.formmoney);
+
+            } else {
+
+            }
+
+        }
+    }
+    onbanklistchange(e) {
+
+        if (e.value) {
+            const data = this.selectBankInfolist.instance.option("selectedItem");
+            // console.log("defaullist", data);
+            if (data) {
+
+                this.wayEnd = data.ways;
+                this.formmoney.BANK_ACCOUNT = data.BANK_ACCOUNT;
+                this.formmoney.BANK_ACCOUNT_NAME = data.BANK_ACCOUNT_NAME;
+                this.formmoney.BANK_ID = data.BANK_ID;
+                this.formmoney.BANK_NAME = data.BANK_NAME;
+                this.formmoney.SHOW_NAME_END = data.SHOW_NAME;
+                this.formmoney.WAYS_DESTINATION = data.ways;
+                this.formmoney.BANK_MONEY_REMARK= data.BANK_MONEY_REMARK;
+
+                const dataorigin = this.selectBankInfoOriginlist.instance.option("selectedItem");
+
+                if (data) {
+
+
+                this.formmoney.BANK_ORIGIN_ACCOUNT = dataorigin.BANK_ORIGIN_ACCOUNT;
+                this.formmoney.BANK_ORIGIN_ACCOUNT_NAME = dataorigin.BANK_ORIGIN_ACCOUNT_NAME;
+                this.formmoney.BANK_ORIGIN_ID = dataorigin.BANK_ORIGIN_ID;
+                this.formmoney.BANK_ORIGIN_NAME = dataorigin.BANK_ORIGIN_NAME;
+                this.formmoney.SHOW_NAME = dataorigin.SHOW_NAME;
+                this.formmoney.TYPE_BANK_ID = dataorigin.TYPE_BANK_ID;
+                this.formmoney.WAYS_ORIGIN = dataorigin.ways;
+                this.formmoney.BANK_ORIGIN_MONEY_REMARK= dataorigin.BANK_ORIGIN_MONEY_REMARK;
+
+                if(dataorigin.TYPE_BANK_ID == 1){
+                    this.formmoney.CASE_MONEY_CHANNEL_TYPE = dataorigin.TYPE_MAIN;
+                    this.formmoney.CASE_MONEY_BANK_TRANFER = dataorigin.TYPE_ID;
+                    this.formmoney.CASE_MONEY_BANK_TRANFER_NAME =  dataorigin.TYPE_NAME;
+                }else{
+                    this.formmoney.CASE_MONEY_CHANNEL_TYPE = dataorigin.TYPE_MAIN;
+                    this.formmoney.BANK_MONEY_OTHER_ID = dataorigin.TYPE_ID;
+                    this.formmoney.BANK_MONEY_OTHER_NAME =  dataorigin.TYPE_NAME;
+
+                }
+
+                if(this.formmoney.TYPE_BANK_ID == 1 || this.formmoney.TYPE_BANK_ID == 2){
+                    this.formmoney.BANK_DAMAGE_VALUE_UNIT = "บาท";
+                }else{
+                    this.formmoney.BANK_DAMAGE_VALUE_UNIT = "";
+                }
+            }
+                this.formmoneySub = this.formmoney;
+
+                console.log('formmoney',this.formmoney);
+            } else {
+
+            }
+        }
+    }
+    // uploadfile money
+    formmoneyOpenFileDialog(uploadTag) {
+        uploadTag.value = "";
+        uploadTag.click();
+    }
+    async formmoneyFilesDropped(e) {
+        this.listUploadFileformmoney = [];
+        const files = e;
+        if (files.length > 0) {
+            this.isLoading = true;
+            const fileCheck =
+                await this._issueFile.CheckFileUploadAllowListSizeDrop(
+                    this.maxSizeBuffer,
+                    files
+                );
+
+            if (fileCheck.status) {
+                this.maxSizeBuffer = fileCheck.uploadSizeAll ?? 0;
+                for (const item of fileCheck.filebase64Array) {
+                    this.listUploadFileformmoney.push(item);
+                }
+            }
+            this.isLoading = false;
+        }
+    }
+
+    async formmoneyUploadFile(uploadTag) {
+
+        this.listUploadFileformmoney = [];
+        const files: any = uploadTag.files;
+
+        if (this.isAdding) {
+            if (files.length > 0) {
+                this.isLoading = true;
+                const fileCheck =
+                    await this._issueFile.CheckFileUploadAllowListSizeDialog(
+                        this.maxSizeBuffer,
+                        files
+                    );
+
+                if (fileCheck.status) {
+                    this.maxSizeBuffer = fileCheck.uploadSizeAll ?? 0;
+                    for (const item of fileCheck.filebase64Array) {
+                        this.listUploadFileformmoney.push(item);
+                    }
+                }
+
+                console.log('fileupload', this.listUploadFileformmoney);
+                this.isLoading = false;
+            }
+        } else {
+            if (files.length > 0) {
+                this.isLoading = true;
+                const fileCheck =
+                    await this._issueFile.CheckFileUploadAllowListSizeDialog(
+                        this.maxSizeBuffer,
+                        files
+                    );
+
+                if (fileCheck.status) {
+                    this.maxSizeBuffer = fileCheck.uploadSizeAll ?? 0;
+                    for (const item of fileCheck.filebase64Array) {
+                        this.listUploadFileformmoney.push(item);
+                        this.formmoney.MONNEY_DOC = [];
+                        this.formmoney.MONNEY_DOC.push(this.listUploadFileformmoney[0]);
+                        console.log(this.formmoney.MONNEY_DOC);
+                    }
+                }
+
+                console.log('fileupload', this.listUploadFileformmoney);
+                this.isLoading = false;
+            }
+        }
+
+    }
+
+    ItemDamageformmoneyPopupDelete(index = null) {
+        Swal.fire({
+            title: "ยืนยันการลบข้อมูล?",
+            text: " ",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#7d7d7d",
+            cancelButtonText: "ยกเลิก",
+            confirmButtonText: "ตกลง",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const file = this.listUploadFileformmoney[index];
+                this.maxSizeBuffer -= file.size ?? 0;
+                this.listUploadFileformmoney.splice(index, 1);
+            }
+        });
+    }
+    OnSelectDate(e) {
+        if(e.value){
+            const mydate = this.datePipe.transform(e.value, 'yyyy-MM-dd');
+            const mytime = this.datePipe.transform(e.value, 'HH:mm:ss');
+            console.log(mydate);
+            console.log(mytime);
+            this.formmoney.BANK_TRANSFER_TIME = mytime;
+            this.formmoney.BANK_TRANSFER_DATE = mydate;
+        }
+    }
+    convertDate(date, time) {
+        const dateIN = String(date + " " + time);
+        const [datePart, timePart] = dateIN.split(" ");
+        const [year, month, day] = datePart.split("-");
+        const [hours, minutes, seconds] = timePart.split(":");
+        return [Number(year), Number(month) - 1, Number(day), Number(hours), Number(minutes), Number(seconds)]
+    }
+    convertTimezone(time) {
+        const timeZoneOffset = 7 * 60;
+        const timeZoneOffsetMs = 7 * 60 * 60 * 1000;
+        const dateWithTimeZone = new Date(time.getTime() + timeZoneOffsetMs);
+        const formattedString = dateWithTimeZone.toISOString().replace("Z", `+${timeZoneOffset.toString().padStart(2, "0")}:00`);
+        return formattedString;
     }
 }

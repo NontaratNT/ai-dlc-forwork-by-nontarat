@@ -14,11 +14,11 @@ export class ProvinceService {
     public GetProvince(includeStatus = true): Observable<IProvinceinfo[]> {
         return req<IProvinceinfo[]>('CmsProvince')
             .queryString({ RecordStatus: <any>includeStatus })
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public GetDistrictofProvince(provice: number): Observable<IDistrictInfo[]> {
-        return req<IDistrictInfo[]>('CmsProvince/' + provice + '/district').get();
+        return req<IDistrictInfo[]>('CmsProvince/' + provice + '/district').disableCriticalDialogError().get();
     }
 
 }

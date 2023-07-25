@@ -13,6 +13,6 @@ export class BpmMdmFlowService {
     constructor(@Inject(EFORM_REQUEST) private _req: EformRequestFactory) { }
     public gets(): Observable<IFlowInfo[]> {
         return this._req<IFlowInfo[]>('BpmFlow/1/group')
-            .get();
+            .disableCriticalDialogError().get();
     }
 }

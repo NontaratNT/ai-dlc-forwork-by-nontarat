@@ -13,6 +13,6 @@ export class CheckDocumentService {
     public getDocument(code: string): Observable<any> {
         return req<any>().api('CmsOnlineCaseInfo/case/search')
             .queryString({ recodeRefNo: code})
-            .get();
+            .disableCriticalDialogError().get();
     }
 }

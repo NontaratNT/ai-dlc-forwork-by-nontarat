@@ -142,7 +142,95 @@
                                             </div>
                                         </div>
                                     </div><br>
+                                    <div class="card">
+                                        <div class="card-header card-header-rose card-header-icon">
+                                            <div class="card-icon">
+                                                <p><span class="fa fa-home">&nbsp;</span> ที่อยู่ตามบัตรประจำตัวประชาชน
+                                                </p>
+                                            </div>
 
+                                        </div>
+                                        <div class="card-body ">
+                                            <div class="panel panel-default">
+                                                <div class="panel panel-default " style="margin-top:18px; ">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-body ">
+                                                            <dx-form [formData]="formData" labelLocation="top" [colCount]="2">
+                                                                <!-- <dxi-item dataField="HOME_REGISTER_ADDRESS" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}">
+                                                                    <dxo-label text="บ้านเลขที่"></dxo-label>
+                                                                </dxi-item>
+                                                                <dxi-item dataField="HOME_REGISTER_MOO" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}">
+                                                                    <dxo-label text="หมู่"></dxo-label>
+                                                                </dxi-item> -->
+                                                                <dxi-item template="temp1">
+                                                                    <dxo-label text="บ้านเลขที่"></dxo-label>
+                                                                </dxi-item>
+                                                                <div *dxTemplate="let data of 'temp1'">
+                                                                    <dx-text-box [(value)]="formData.HOME_REGISTER_ADDRESS" (keypress)="CheckNumberSlash($event)" (paste)="PasteCheckNumberSlash($event)">
+                                                                    </dx-text-box>
+                                                                </div>
+                                                                <dxi-item template="temp2">
+                                                                    <dxo-label text="หมู่"></dxo-label>
+                                                                </dxi-item>
+                                                                <div *dxTemplate="let data of 'temp2'">
+                                                                    <dx-text-box [(value)]="formData.HOME_REGISTER_MOO" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)">
+                                                                    </dx-text-box>
+                                                                </div>
+                                                                <dxi-item dataField="HOME_REGISTER_STREET" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}">
+                                                                    <dxo-label text="ถนน"></dxo-label>
+                                                                </dxi-item>
+                                                                <dxi-item dataField="HOME_REGISTER_SOI" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}">
+                                                                    <dxo-label text="ตรอกซอย"></dxo-label>
+                                                                </dxi-item>
+                                                                <!-- จังหวัด -->
+                                                                <dxi-item dataField="" template="tempjugwaidTruck1">
+                                                                    <dxo-label text="จังหวัด" [showColon]="false">
+                                                                    </dxo-label>
+                                                                </dxi-item>
+                                                                <div *dxTemplate="let data of 'tempjugwaidTruck1'">
+                                                                    <dx-select-box [dataSource]="province" displayExpr="PROVINCE_NAME_THA" valueExpr="PROVINCE_ID" [(value)]="formData.HOME_REGISTER_PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true" placeholder="จังหวัด" [showClearButton]="true" (onValueChanged)="OnSerectProviceHome($event)">
+                                                                    </dx-select-box>
+                                                                </div>
+
+                                                                <!-- อำเภอเขต -->
+                                                                <dxi-item dataField="" template="temaumperTruck2">
+                                                                    <dxo-label text="อำเภอ/เขต" [showColon]="false">
+                                                                    </dxo-label>
+                                                                </dxi-item>
+                                                                <div *dxTemplate="let data of 'temaumperTruck2'">
+                                                                    <dx-select-box [dataSource]="district1" displayExpr="DISTRICT_NAME_THA" valueExpr="DISTRICT_ID" [(value)]="formData.HOME_REGISTER_DISTICT_ID" searchExpr="DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="อำเภอ/เขต" [disabled]="disableDistrict1" (onValueChanged)="OnSerectDistrictHome($event)"
+                                                                        [showClearButton]="true">
+                                                                    </dx-select-box>
+                                                                </div>
+
+                                                                <!-- ตำบล -->
+                                                                <dxi-item dataField="" template="temptumbonTruck3">
+                                                                    <dxo-label text="ตำบล" [showColon]="false">
+                                                                    </dxo-label>
+                                                                </dxi-item>
+                                                                <div *dxTemplate="let data of 'temptumbonTruck3'">
+                                                                    <dx-select-box [dataSource]="subdistrict1" displayExpr="SUB_DISTRICT_NAME_THA" [(value)]="formData.HOME_REGISTER_SUB_DISTICT_ID" valueExpr="SUB_DISTRICT_ID" searchExpr="SUB_DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="ตำบล" [disabled]="disableSubDistrict1"
+                                                                        (onValueChanged)="OnSerectSubDistrictHome($event)" [showClearButton]="true">
+                                                                    </dx-select-box>
+                                                                </div>
+
+
+                                                                <!-- รหัสไปรษณีย์ -->
+                                                                <dxi-item dataField="HOME_REGISTER_POST_CODE" template="temphomepostcode5">
+                                                                    <dxo-label text="รหัสไปรษณีย์"></dxo-label>
+                                                                </dxi-item>
+                                                                <div *dxTemplate="let data of 'temphomepostcode5'">
+                                                                    <dx-select-box [dataSource]="postcode1" valueExpr="POSTCODE_ID" [disabled]="disablepostcode1" [(value)]="formData.HOME_REGISTER_POST_CODE" displayExpr="POSTCODE_CODE" placeholder="รหัสไปรษณีย์" (onValueChanged)="OnSerectPostCodeHome($event)" [showClearButton]="true">
+                                                                    </dx-select-box>
+                                                                </div>
+                                                            </dx-form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
                                     <div class="card">
                                         <div class="card-header card-header-rose card-header-icon">
                                             <div class="card-icon">
@@ -230,96 +318,6 @@
                                             </div>
                                         </div>
                                     </div><br>
-
-                                    <div class="card">
-                                        <div class="card-header card-header-rose card-header-icon">
-                                            <div class="card-icon">
-                                                <p><span class="fa fa-home">&nbsp;</span> ที่อยู่ตามทะเบียนบ้าน
-                                                </p>
-                                            </div>
-
-                                        </div>
-                                        <div class="card-body ">
-                                            <div class="panel panel-default">
-                                                <div class="panel panel-default " style="margin-top:18px; ">
-                                                    <div class="panel panel-default">
-                                                        <div class="panel-body ">
-                                                            <dx-form [formData]="formData" labelLocation="top" [colCount]="2">
-                                                                <!-- <dxi-item dataField="HOME_REGISTER_ADDRESS" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}">
-                                                                    <dxo-label text="บ้านเลขที่"></dxo-label>
-                                                                </dxi-item>
-                                                                <dxi-item dataField="HOME_REGISTER_MOO" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}">
-                                                                    <dxo-label text="หมู่"></dxo-label>
-                                                                </dxi-item> -->
-                                                                <dxi-item template="temp1">
-                                                                    <dxo-label text="บ้านเลขที่"></dxo-label>
-                                                                </dxi-item>
-                                                                <div *dxTemplate="let data of 'temp1'">
-                                                                    <dx-text-box [(value)]="formData.HOME_REGISTER_ADDRESS" (keypress)="CheckNumberSlash($event)" (paste)="PasteCheckNumberSlash($event)">
-                                                                    </dx-text-box>
-                                                                </div>
-                                                                <dxi-item template="temp2">
-                                                                    <dxo-label text="หมู่"></dxo-label>
-                                                                </dxi-item>
-                                                                <div *dxTemplate="let data of 'temp2'">
-                                                                    <dx-text-box [(value)]="formData.HOME_REGISTER_MOO" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)">
-                                                                    </dx-text-box>
-                                                                </div>
-                                                                <dxi-item dataField="HOME_REGISTER_STREET" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}">
-                                                                    <dxo-label text="ถนน"></dxo-label>
-                                                                </dxi-item>
-                                                                <dxi-item dataField="HOME_REGISTER_SOI" editorType="dxTextBox" [editorOptions]="{ showClearButton:true}">
-                                                                    <dxo-label text="ตรอกซอย"></dxo-label>
-                                                                </dxi-item>
-                                                                <!-- จังหวัด -->
-                                                                <dxi-item dataField="" template="tempjugwaidTruck1">
-                                                                    <dxo-label text="จังหวัด" [showColon]="false">
-                                                                    </dxo-label>
-                                                                </dxi-item>
-                                                                <div *dxTemplate="let data of 'tempjugwaidTruck1'">
-                                                                    <dx-select-box [dataSource]="province" displayExpr="PROVINCE_NAME_THA" valueExpr="PROVINCE_ID" [(value)]="formData.HOME_REGISTER_PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true" placeholder="จังหวัด" [showClearButton]="true" (onValueChanged)="OnSerectProviceHome($event)">
-                                                                    </dx-select-box>
-                                                                </div>
-
-                                                                <!-- อำเภอเขต -->
-                                                                <dxi-item dataField="" template="temaumperTruck2">
-                                                                    <dxo-label text="อำเภอ/เขต" [showColon]="false">
-                                                                    </dxo-label>
-                                                                </dxi-item>
-                                                                <div *dxTemplate="let data of 'temaumperTruck2'">
-                                                                    <dx-select-box [dataSource]="district1" displayExpr="DISTRICT_NAME_THA" valueExpr="DISTRICT_ID" [(value)]="formData.HOME_REGISTER_DISTICT_ID" searchExpr="DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="อำเภอ/เขต" [disabled]="disableDistrict1" (onValueChanged)="OnSerectDistrictHome($event)"
-                                                                        [showClearButton]="true">
-                                                                    </dx-select-box>
-                                                                </div>
-
-                                                                <!-- ตำบล -->
-                                                                <dxi-item dataField="" template="temptumbonTruck3">
-                                                                    <dxo-label text="ตำบล" [showColon]="false">
-                                                                    </dxo-label>
-                                                                </dxi-item>
-                                                                <div *dxTemplate="let data of 'temptumbonTruck3'">
-                                                                    <dx-select-box [dataSource]="subdistrict1" displayExpr="SUB_DISTRICT_NAME_THA" [(value)]="formData.HOME_REGISTER_SUB_DISTICT_ID" valueExpr="SUB_DISTRICT_ID" searchExpr="SUB_DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="ตำบล" [disabled]="disableSubDistrict1"
-                                                                        (onValueChanged)="OnSerectSubDistrictHome($event)" [showClearButton]="true">
-                                                                    </dx-select-box>
-                                                                </div>
-
-
-                                                                <!-- รหัสไปรษณีย์ -->
-                                                                <dxi-item dataField="HOME_REGISTER_POST_CODE" template="temphomepostcode5">
-                                                                    <dxo-label text="รหัสไปรษณีย์"></dxo-label>
-                                                                </dxi-item>
-                                                                <div *dxTemplate="let data of 'temphomepostcode5'">
-                                                                    <dx-select-box [dataSource]="postcode1" valueExpr="POSTCODE_ID" [disabled]="disablepostcode1" [(value)]="formData.HOME_REGISTER_POST_CODE" displayExpr="POSTCODE_CODE" placeholder="รหัสไปรษณีย์" (onValueChanged)="OnSerectPostCodeHome($event)" [showClearButton]="true">
-                                                                    </dx-select-box>
-                                                                </div>
-                                                            </dx-form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <br>
                                     <div class="card mb-5">
                                         <div class="card-header card-header-rose card-header-icon">
                                             <div class="card-icon">

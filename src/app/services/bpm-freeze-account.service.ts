@@ -14,7 +14,7 @@ export class FreezeAccountService {
     public post(param: any): Observable<any> {
         return req<any>("BpmFreezeAccount")
             .body(param)
-            .post();
+            .disableCriticalDialogError().post();
     }
 }
 

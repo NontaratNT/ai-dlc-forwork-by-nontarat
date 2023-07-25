@@ -11,24 +11,24 @@ export class CmsOccupationsService {
 
     public getOccupations(): Observable<IOcupationsInfo[]> {
         return this._req<IOcupationsInfo[]>('CmsOccupations')
-            .get();
+            .disableCriticalDialogError().get();
     }
     public getOccupationsById(id: number): Observable<IOcupationsInfo> {
         return this._req<IOcupationsInfo>('CmsOccupations/' + id)
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public putOccupations(id: number, param: any): Observable<IOcupationsInfo> {
         return this._req<IOcupationsInfo>('CmsOccupations/' + id)
             .body(param)
-            .put();
+            .disableCriticalDialogError().put();
     }
 
 
     public postOccupations(param: any): Observable<IOcupationsInfo> {
         return this._req<IOcupationsInfo>('CmsOccupations')
             .body(param)
-            .post();
+            .disableCriticalDialogError().post();
     }
 }
 

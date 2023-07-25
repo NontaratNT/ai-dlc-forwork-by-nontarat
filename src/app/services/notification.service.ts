@@ -17,7 +17,7 @@ export class NotificationService {
 
         return this._req<INotification[]>('BpmNotification')
             .queryString(param)
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public getsPaging(filter: Partial<NotificationFilter> , offset: number , length: number): Observable<IPagingResult<INotification>> {
@@ -27,24 +27,24 @@ export class NotificationService {
 
         return this._req<IPagingResult<INotification>>('BpmNotification/paging')
             .body(param)
-            .post();
+            .disableCriticalDialogError().post();
     }
 
     public getฺById(id: number): Observable<INotification> {
         return this._req<INotification>(`BpmNotification/${id}`)
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public getUnReadCount(id: number): Observable<number> {
         return this._req<number>('BpmNotification/unread/count')
             .queryString({PersonalId : id  })
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public read(notificationToId: number): Observable<any> {
         return this._req<any>('BpmNotification/read')
             .body({NotificationToId : notificationToId })
-            .post();
+            .disableCriticalDialogError().post();
     }
 
 }

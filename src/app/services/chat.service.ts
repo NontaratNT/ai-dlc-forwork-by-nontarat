@@ -13,36 +13,36 @@ export class ChatService {
         return this._req<IChat[]>()
             .api("BpmProcInstChat")
             .queryString({ BpmInstanceId: id })
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public postChat(param: IChat): Observable<IChat> {
-        return this._req<IChat>().api("BpmProcInstChat").body(param).post();
+        return this._req<IChat>().api("BpmProcInstChat").body(param).disableCriticalDialogError().post();
     }
 
     public postChatPerson(param: IChat): Observable<IChat> {
-        return req<IChat>().api("BpmProcInstChat/person-chat").body(param).post();
+        return req<IChat>().api("BpmProcInstChat/person-chat").body(param).disableCriticalDialogError().post();
     }
 
     public getCountChat(id: number): Observable<any> {
         return this._req<any>()
             .api("BpmProcInstChat/count")
             .queryString({ BpmInstanceId: id })
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public getCountNoChat(id: number): Observable<any> {
         return this._req<any>()
             .api("BpmProcInstChat/count/un-read")
             .queryString({ BpmInstanceId: id })
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public getCountReadChat(id: number): Observable<any> {
         return this._req<any>()
             .api("BpmProcInstChat/read")
             .queryString({ BpmInstanceId: id })
-            .get();
+            .disableCriticalDialogError().get();
     }
 }
 

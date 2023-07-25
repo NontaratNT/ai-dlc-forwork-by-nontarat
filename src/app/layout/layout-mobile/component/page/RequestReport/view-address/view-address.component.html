@@ -1,6 +1,16 @@
-<dx-form #form [colCount]="3" labelLocation="top" *ngIf="isLoadForm">
-    <dxi-item *ngIf="renderView === 'view1'" template="renderView1Temp1" [colSpan]="2">
+<dx-form #formAddressValidate [colCount]="3" labelLocation="top" *ngIf="isLoadForm">
+    <dxi-item [colSpan]="3">
+        <dx-check-box text="ใช้ข้อมูลที่อยู่ตามที่อยู่ปัจจุบัน" [(value)]="checkboxaddressnow"
+        (onValueChanged)="onvaluecheckaddressnow($event)"></dx-check-box>
+    </dxi-item>
+    <dxi-item [colSpan]="3">
+        <dx-check-box text="ใช้ข้อมูลที่อยู่ตามบัตรประจำตัวประชาชน" [(value)]="checkboxaddresscard"
+            (onValueChanged)="onvaluecheckaddresscard($event)"></dx-check-box>
+    </dxi-item>
+    <dxi-item *ngIf="renderView === 'view1'" template="renderView1Temp1" [colSpan]="2" [isRequired]="checkRequirement">
         <dxo-label text="ชื่อสถานที่ (เช่น ห้างสรรพสินค้า, ที่พักอาศัย)" [showColon]="false"></dxo-label>
+        <dxi-validation-rule type="required" message="กรุณาระบุชื่อสถานที่"  *ngIf="checkRequirement">
+        </dxi-validation-rule>
     </dxi-item>
     <div *dxTemplate="let data of 'renderView1Temp1'">
         <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.ADDRESS"></dx-text-box>
@@ -41,10 +51,9 @@
     
     <!-- OS -->
     <ng-container *ngIf="renderView === 'view1'">
-        <dxi-item template="temp5" [colSpan]="1" [isRequired]="formValidate">
+        <!-- <dxi-item template="temp5" [colSpan]="1" [isRequired]="false">
             <dxo-label text="ถนน" [showColon]="false"></dxo-label>
-            <dxi-validation-rule type="required" message="กรุณาระบุถนน">
-            </dxi-validation-rule>
+           
         </dxi-item>
         <div *dxTemplate="let data of 'temp5'">
             <dx-text-box [readOnly]="formReadOnly"  placeholder="ถนน"
@@ -52,30 +61,48 @@
         </div>
         <dxi-item template="temp6" [colSpan]="1" [isRequired]="false">
             <dxo-label text="ซอย / ตรอก" [showColon]="false"></dxo-label>
-            <!-- <dxi-validation-rule type="required" message="กรุณาระบุซอย / ตรอก">
-            </dxi-validation-rule> -->
+          
         </dxi-item>
         <div *dxTemplate="let data of 'temp6'">
             <dx-text-box [readOnly]="formReadOnly"  placeholder="ซอย / ตรอก"
                 [(value)]="formData.INFORMER_ADDRESS_SOI"></dx-text-box>
         </div>
 
-        <dxi-item template="temp7" [colSpan]="1" [isRequired]="formValidate">
+        <dxi-item template="temp7" [colSpan]="1" [isRequired]="false">
             <dxo-label text="หมู่ที่" [showColon]="false"></dxo-label>
-            <dxi-validation-rule type="required" message="กรุณาระบุหมู่ที่">
-            </dxi-validation-rule>
+         
         </dxi-item>
         <div *dxTemplate="let data of 'temp7'">
             <dx-text-box [readOnly]="formReadOnly" placeholder="หมู่ที่"
                 [(value)]="formData.CASE_INFORMER_ADDRESS_MOO"></dx-text-box>
+        </div> -->
+
+        <dxi-item template="temp1" [colSpan]="1" [isRequired]="checkRequirement">
+            <dxo-label text="บ้านเลขที่/ ซอย/ หมู่ที่/ ถนน" [showColon]="false"></dxo-label>
+            <dxi-validation-rule type="required" message="กรุณาระบุบ้านเลขที่/ ซอย/ หมู่ที่/ ถนน"  *ngIf="checkRequirement">
+            </dxi-validation-rule>
+        </dxi-item>
+        <div *dxTemplate="let data of 'temp1'">
+            <dx-text-box id="ctrlCardAddress" [readOnly]="formReadOnly" [(value)]="formData.CASE_INFORMER_ADDRESS" ></dx-text-box>
+            <dx-tooltip
+                target="#ctrlCardAddress"
+                showEvent="dxhoverstart"
+                hideEvent="dxhoverend"
+                position="top"
+                [hideOnOutsideClick]="false">
+                <div *dxTemplate="let data of 'content'">
+                    <p>ตัวอย่าง 84/4</p>
+                </div>
+            </dx-tooltip>
         </div>
     </ng-container>
     <!-- END -->
 
     <ng-container *ngIf="renderView === 'view1' || renderView === 'view2'">
-        <dxi-item template="temp2" [isRequired]="formValidate">
-            <dxo-label text="จังหวัด" [showColon]="false">
-            </dxo-label>
+        <dxi-item template="temp2" [isRequired]="checkRequirement">
+            <dxo-label text="จังหวัด" [showColon]="false"></dxo-label>
+            <dxi-validation-rule type="required" message="กรุณาเลือกจังหวัด"  *ngIf="checkRequirement">
+            </dxi-validation-rule>
         </dxi-item>
 
         <div *dxTemplate="let data of 'temp2'">
@@ -85,8 +112,10 @@
                 [(value)]="formData.PROVINCE_ID">
             </dx-select-box>
         </div>
-        <dxi-item template="temp3" [isRequired]="formValidate">
+        <dxi-item template="temp3" [isRequired]="checkRequirement">
             <dxo-label text="อำเภอ/เขต" [showColon]="false"></dxo-label>
+            <dxi-validation-rule type="required" message="กรุณาเลือกอำเภอ/เขต" *ngIf="checkRequirement">
+            </dxi-validation-rule>
         </dxi-item>
         <div *dxTemplate="let data of 'temp3'">
             <dx-select-box #selectPresentDistrict [dataSource]="presentAddress.district" displayExpr="DISTRICT_NAME_THA"
@@ -95,8 +124,10 @@
                 [readOnly]="formReadOnly" [(value)]="formData.DISTRICT_ID" [showClearButton]="true">
             </dx-select-box>
         </div>
-        <dxi-item template="temp4" [isRequired]="formValidate">
+        <dxi-item template="temp4" [isRequired]="checkRequirement">
             <dxo-label text="ตำบล/แขวง" [showColon]="false"></dxo-label>
+            <dxi-validation-rule type="required" message="กรุณาเลือกตำบล/แขวง" *ngIf="checkRequirement">
+            </dxi-validation-rule>
         </dxi-item>
         <div *dxTemplate="let data of 'temp4'">
             <dx-select-box #selectPresentSubDistrict [dataSource]="presentAddress.subDistrict"

@@ -23,7 +23,7 @@ export class UserService {
     public authenticate(username: string, password: string, aal: number): Observable<IAccessToken> {
         return this._req<IAccessToken>("user/auth")
             .body({ UserName: username, Password: password, RequireAal: aal })
-            .post()
+            .disableCriticalDialogError().post()
             .pipe(
                 map(_ => {
                     const userInfo = this.createProfile(_.Token);
@@ -48,13 +48,13 @@ export class UserService {
         return this._req<IAccessToken>("user/refresh")
             .disableDialogError()
             .body(CookieStorage.accessToken)
-            .post();
+            .disableCriticalDialogError().post();
     }
 
     public renewUser(token: string, refreshToken: string): Observable<IAccessToken> {
         return this._req<IAccessToken>("user/renew")
             .body({ Token: token, RefreshToken: refreshToken })
-            .post()
+            .disableCriticalDialogError().post()
             .pipe(
                 map(_ => {
                     const userInfo = this.createProfile(_.Token);
@@ -99,13 +99,13 @@ export class UserService {
     public postForgetPassword(UserEmail: string): Observable<IForgetPassword> {
         return req<IForgetPassword>('user/forget-password')
             .body({ Email: UserEmail })
-            .post();
+            .disableCriticalDialogError().post();
     }
     // eslint-disable-next-line @typescript-eslint/member-ordering
     public postResetPassword(SessionId: string, UserPassword: string): Observable<IResetPassword> {
         return req<IResetPassword>('user/reset-password')
             .body({ Token: SessionId, Password: UserPassword })
-            .post();
+            .disableCriticalDialogError().post();
     }
 
 }

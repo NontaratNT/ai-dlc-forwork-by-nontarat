@@ -46,7 +46,7 @@ const routes: Routes = [
                 component: IssueOnlineComponent,
             },
             {
-                path: 'issue-online-view/:instId',
+                path: 'issue-online-view',
                 component: IssueOnlineEditComponent,
             },
             {

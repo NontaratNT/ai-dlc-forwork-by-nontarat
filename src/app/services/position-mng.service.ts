@@ -12,7 +12,7 @@ export class PositionMngService {
     public getPositionMng(includeStatus = true): Observable<IPositionMngInfo[]> {
         return req<IPositionMngInfo[]>('CmsPositionMng')
             .queryString({ RecordStatus: includeStatus as any })
-            .get();
+            .disableCriticalDialogError().get();
     }
 }
 

@@ -90,13 +90,12 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.appServ.hideHeader = false;
         this.appServ.hideFooter = false;
     }
-
     SelectRegister() {
         // this.multiView.selectedIndex = 1;
-        // this.router.navigate(["register"]);
-        // document.body.scrollTop = document.documentElement.scrollTop = 0;
-
-        this.popupConsentVisible = true;
+        this.router.navigate(["register"]);
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
+        // this.onSkip(event);
+        // this.popupConsentVisible = true;
     }
     SelectForget() {
         // this.multiView.selectedIndex = 1;
@@ -297,13 +296,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     onSkip(event: any) {
         this._isLoading = true;
-        
+
         setTimeout(() => {
             this._isLoading = false;
             this.router.navigate(["register"]);
             document.body.scrollTop = document.documentElement.scrollTop = 0;
         }, 2000);
-       
+
     }
 
 }

@@ -13,11 +13,11 @@ export class DistrictService {
     public GetDistrict(includeStatus = true): Observable<IDistrictInfo[]> {
         return req<IDistrictInfo[]>('CmsDistrict')
             .queryString({ RecordStatus: <any>includeStatus })
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public GetSubDistrictOfDistrict(district: number): Observable<ISubDistrictInfo[]> {
-        return req<ISubDistrictInfo[]>('CmsDistrict/' + district + '/sub-district').get();
+        return req<ISubDistrictInfo[]>('CmsDistrict/' + district + '/sub-district').disableCriticalDialogError().get();
     }
 
 }

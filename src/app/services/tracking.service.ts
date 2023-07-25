@@ -18,6 +18,6 @@ export class TrackingService {
         // console.log(case_id);
         return req<any>('CmsOnlineCaseInfo/'+case_id+'/track')
             .queryString({ RecordStatus: <any>includeStatus })
-            .get();
+            .disableCriticalDialogError().get();
     }
 }

@@ -13,17 +13,17 @@ export class SurveyService {
 
     getSurveyByCaseId(caseId: number): Observable<any> {
         return req(`CmsSurvey?caseId=${caseId}`)
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     getSurveyByCaseIdAndCategoryId(caseId: number, categoryId: number): Observable<any> {
         return req(`CmsSurvey?caseId=${caseId}&categoryId=${categoryId}`)
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     getSurveyByCaseIdAndCategoryCode(caseId: number, categoryCode: string): Observable<any> {
         return req(`CmsSurvey?caseId=${caseId}&categoryCode=${categoryCode}`)
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public postSurvey(param: any): Observable<HttpStatusResultValue<number>> {
@@ -31,7 +31,7 @@ export class SurveyService {
             .useSystemResult<HttpStatusResultValue<number>>()
             .disableCriticalDialogError()
             .body(param)
-            .post();
+            .disableCriticalDialogError().post();
     }
 
 }

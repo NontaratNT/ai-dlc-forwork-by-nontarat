@@ -14,29 +14,29 @@ export class BpmProcinstService {
     public getByPersonalId(groupStatusCode: string): Observable<any> {
         return this._req<any>().api('BpmProcInst')
             .queryString({ personalId: User.Current.PersonalId, GroupStatusCode: groupStatusCode})
-            .get();
+            .disableCriticalDialogError().get();
     }
     public getTaskList(groupStatusCode: string): Observable<IBpmProcInst[]> {
         return this._req<IBpmProcInst[]>().api('BpmProcInst')
             .queryString({ personalId: User.Current.PersonalId, GroupStatusCode: groupStatusCode})
-            .get();
+            .disableCriticalDialogError().get();
     }
     public getTaskListAndReject(filter: any): Observable<IBpmProcInst[]> {
         return this._req<IBpmProcInst[]>().api('BpmProcInst')
             .queryString(filter)
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public getTaskListAndRejectMobile(filter: any): Observable<any> {
         return this._req<any>().api('BpmProcInst')
             .queryString(filter)
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public getByFlowCode(groupStatusCode: string, flowcode: string): Observable<IBpmProcInst[]> {
         return this._req<IBpmProcInst[]>().api('BpmProcInst')
             .queryString({ personalId: User.Current.PersonalId, GroupStatusCode: groupStatusCode, flowCode: flowcode})
-            .get();
+            .disableCriticalDialogError().get();
     }
     // public getByPersonalId(param: IBpmProcInst): Observable<IBpmProcInst> {
     //     return req<IBpmProcInst>('BpmProcInst')
@@ -46,15 +46,15 @@ export class BpmProcinstService {
     // }
     public getByInstId(instid: number): Observable<any> {
         return this._req<any>().api('BpmProcInst/'+instid)
-            .get();
+            .disableCriticalDialogError().get();
     }
 
 
-    // OS 
+    // OS
     public userWithDrawCase(id: number, param: IWithdrawCase): Observable<any> {
         return this._req<IWithdrawCase>().api(`BpmProcInst/revoke/${id}`)
             .body(param)
-            .put();
+            .disableCriticalDialogError().put();
     }
 
 }

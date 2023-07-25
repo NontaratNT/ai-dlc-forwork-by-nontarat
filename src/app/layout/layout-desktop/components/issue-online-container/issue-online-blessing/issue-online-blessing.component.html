@@ -1,0 +1,440 @@
+<div class="conten-block">
+    <div class="content-form">
+
+
+        <dx-form #formblessing [colCount]="1" labelLocation="top">
+            <dxi-item template="temp1" [colSpan]="1" [isRequired]="true">
+             <dxo-label text="1.ความประสงค์ของประชาชน" [showColon]="false"></dxo-label>
+             <dxi-validation-rule type="required" message="กรุณาเลือกคำตอบข้อ 1">
+             </dxi-validation-rule>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp1'">
+             <dx-radio-group [readOnly]="formReadOnly" [items]="group1" valueExpr="id" displayExpr="txt" [(value)]="formblessingdata.BLESSINGNO1"
+             layout="vertical" (onValueChanged)="onchanecheckblessing($event)" >
+         </dx-radio-group>
+            </div>
+            <dxi-item template="temp2" [colSpan]="1" [isRequired]="true" *ngIf="formblessingdata.BLESSINGNO1 === '1.3'">
+             <dxo-label text="2.ท่านได้รับความเสียหายอย่างไร" [showColon]="false"></dxo-label>
+             <dxi-validation-rule type="required" message="กรุณาเลือกคำตอบข้อ 2">
+             </dxi-validation-rule>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp2'">
+             <dx-radio-group [readOnly]="formReadOnly" [items]="group2" valueExpr="id" displayExpr="txt" (onValueChanged)="onchanecheckblessing($event)" [(value)]="formblessingdata.BLESSINGNO2"
+             layout="vertical" >
+         </dx-radio-group>
+                 <div style="margin-left:5%;" *ngIf="formblessingdata.BLESSINGNO2 === '2.3'">
+                     <dx-radio-group [readOnly]="formReadOnly" [items]="group2_3" valueExpr="id" (onValueChanged)="onchanecheckblessing($event)" displayExpr="txt" [(value)]="formblessingdata.BLESSINGNO2_3"
+                     layout="vertical" >
+                 </dx-radio-group>
+                 </div>
+            </div>
+
+            <dxi-item template="temp3" [colSpan]="1" [isRequired]="true" *ngIf="formblessingdata.BLESSINGNO1 === '1.3'">
+             <dxo-label text="3.ท่านกับคนร้ายใช้ช่องทางใดในการกระทำความผิด" [showColon]="false"></dxo-label>
+             <dxi-validation-rule type="required" message="กรุณาเลือกคำตอบข้อ 3">
+             </dxi-validation-rule>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp3'">
+             <dx-radio-group [readOnly]="formReadOnly" [items]="group3" valueExpr="id"  (onValueChanged)="onchanecheckblessing($event)" displayExpr="txt" [(value)]="formblessingdata.BLESSINGNO3"
+             layout="vertical" >
+         </dx-radio-group>
+            </div>
+
+            <!-- <dxi-item template="temp4" [colSpan]="1" [isRequired]="true" *ngIf="formblessingdata.BLESSINGNO1 === 3">
+             <dxo-label text="4.รู้จักหรือพบเห็นคนร้าย (ตัวจริง) หรือไม่" [showColon]="false"></dxo-label>
+             <dxi-validation-rule type="required" message="กรุณาเลือกคำตอบข้อ 4">
+             </dxi-validation-rule>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp4'">
+             <dx-radio-group [items]="group4" valueExpr="id" displayExpr="txt" [(value)]="formblessingdata.BLESSINGNO4"
+             layout="vertical" >
+         </dx-radio-group>
+            </div>
+
+            <dxi-item template="temp5" [colSpan]="1" [isRequired]="true" *ngIf="formblessingdata.BLESSINGNO1 === 3">
+             <dxo-label text="5.พบเห็นหรือรู้จักคนร้ายผ่านช่องทางไหน" [showColon]="false"></dxo-label>
+             <dxi-validation-rule type="required" message="กรุณาเลือกคำตอบข้อ 5">
+             </dxi-validation-rule>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp5'">
+             <dx-radio-group [items]="group5" valueExpr="id" displayExpr="txt" [(value)]="formblessingdata.BLESSINGNO5"
+             layout="vertical" >
+         </dx-radio-group>
+            </div> -->
+         </dx-form>
+
+
+
+    </div>
+    <div style="display:inline-block;margin: 5%;" *ngIf="_isShow3">
+        <div style="font-size: 30px;"><b>ท่านได้ติดต่อธนาคาร (เจ้าของบัญชีผู้เสียหาย) แล้วใช่หรือไม่ ธนาคารจะประสานไปยังธนาคารปลายทางเพื่อระงับบัญชีชั่วคราว (บัญชีคนร้าย)</b></div>
+
+        <dx-radio-group [readOnly]="formReadOnly" [items]="ways" valueExpr="id" displayExpr="text" [(value)]="submission.ways"
+        layout="horizontal" (onValueChanged)="onWaysValueChanged($event)">
+        </dx-radio-group>
+
+    <div *ngIf="_isShow" class="text-center">
+        <div *ngIf="!formReadOnly" class="block-add-btn d-flex justify-content-end mb-3" >
+            <button class="btn-add btn d-flex  align-items-center justify-content-center" (click)="Addbankref()" >
+                <span class="px-3 ">รหัสอ้างอิงธนาคาร</span>
+            </button>
+        </div>
+        <dx-data-grid #grid [dataSource]="_dataSourcebankref" [showColumnLines]="false"
+        [wordWrapEnabled]="true" [showRowLines]="true" [columnAutoWidth]="true"
+        [columnHidingEnabled]="true" [showBorders]="false" [rowAlternationEnabled]="true"
+        [showColumnLines]="true" [hoverStateEnabled]="true" [selectedRowKeys]="[]"
+        noDataText="ไม่มีข้อมูล" [remoteOperations]="false">
+        <dxo-paging [pageSize]="10"></dxo-paging>
+        <dxo-load-panel text="กำลังโหลดข้อมูล..."></dxo-load-panel>
+        <!-- <dxo-search-panel [visible]="true" [width]="250"
+            placeholder="ค้นหา..."></dxo-search-panel> -->
+        <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false"
+            [allowAdding]="false">
+        </dxo-editing>
+        <dxo-selection mode="single"></dxo-selection>
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]"
+            [showInfo]="true">
+        </dxo-pager>
+        <dxi-column dataField="" caption="จัดการ" [width]="100" alignment="center"
+            [allowSorting]="false" cellTemplate="cellTemplateCommand"></dxi-column>
+        <div *dxTemplate="let cellValue of 'cellTemplateCommand'">
+            <img class="text-download" src="assets/icon/edit2.png" alt="icon" (click)="onEdit('edit',cellValue.data,cellValue.component.pageIndex() * cellValue.component.pageSize() + cellValue.rowIndex)">&nbsp;
+            <img class="text-download" src="assets/icon/trash.png" alt="icon" (click)="onDelete(cellValue.component.pageIndex() * cellValue.component.pageSize() + cellValue.rowIndex)">
+        </div>
+        <dxi-column dataField="" caption="ลำดับที่" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+
+        <dxi-column dataField="FREEZE_ACT_BANK_TRACK_NO" caption="รหัสอ้างอิงธนาคาร" alignment="center">
+        </dxi-column>
+        <dxi-column dataField="FREEZE_ACT_BANK_NAME" caption="ธนาคาร" alignment="center">
+        </dxi-column>
+        <!-- <dxi-column dataField="FREEZE_ACT_WAYS" caption="ช่องทางติดต่อ" alignment="center"
+            [width]="200">
+        </dxi-column> -->
+        <dxi-column dataField="FREEZE_ACT_DATE" caption="วันที่" alignment="center">
+        </dxi-column>
+
+        <dxi-column dataField="FREEZE_ACT_TIME" caption="เวลา" alignment="center">
+        </dxi-column>
+        <!-- <div *dxTemplate="let cell of 'cellTemplateStatus'">
+            <span class="click-tracking">{{calculateStatus(cell)}}</span>
+        </div> -->
+        <div *dxTemplate="let cell of 'cellTemplate'">
+            {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+        </div>
+
+        </dx-data-grid>
+    </div>
+
+    </div>
+    <div class="text-right btn-footer">
+        <dx-button *ngIf="formType === 'add'" class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)">
+        </dx-button>
+        &nbsp;
+        <dx-button *ngIf="checkcase" class="btn btn-submit" text="ถัดไป" (onClick)="SubmitForm($event)"></dx-button>
+    </div>
+</div>
+
+
+
+<dx-popup [width]="1300" [height]="600" [showTitle]="true" title="แจ้งเตือนจากระบบ" [closeOnOutsideClick]="false"
+    [showCloseButton]="false" [visible]="true" [(visible)]="popupConsentVisible">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+            <div class="row">
+                <div class="col-sm-12 ml-5">
+                    <div class="title-popup"><b>ผู้เสียหายดำเนินการแจ้งธนาคารเพื่ออายัดบัญชีคนร้ายเรียบร้อยแล้วหรือไม่</b></div>
+                    <div class="sub-title-popup" style="font-size: 20px;"><b>คำแนะนำ</b><br>
+                        กรุณาเตรียมข้อมูลเลขอ้างอิง รายละเอียดการแจ้งจากธนาคาร<br>
+                        สามารถสอบถาม-แจ้งเหตุกับธนาคารเจ้าของบัญชีทันที ตลอด 24 ชั่วโมง</div>
+                </div>
+                <div class="col-sm-12 text-left my-5" style="margin-bottom:1rem;">
+                    <div class="container">
+                        <dx-form #formAgreeBank id="form" [formData]="submission" labelLocation="top" [colCount]="2">
+                            <dxi-item itemType="group">
+                                <div class="dx-field">
+                                    <div class="dx-field-label">ได้รับเลขอ้างอิงจากธนาคารแล้ว : </div>
+                                    <div class="dx-field-value">
+                                        <dx-text-box [(value)]="submission.FREEZE_ACT_BANK_TRACK_NO" (keypress)="CheckBankID($event)" (paste)="PasteCheckBankID($event)"
+                                            [showClearButton]="true" placeholder="กรุณาระบุ" (onValueChanged)="checkBank($event)"
+                                            ></dx-text-box>
+                                    </div>
+                                </div>
+                            </dxi-item>
+                            <dxi-item itemType="group">
+                                <div class="dx-field">
+                                    <div class="dx-field-label" >ติดต่อธนาคาร : </div>
+                                    <div class="dx-field-value">
+                                        <dx-text-box [(value)]="submission.FREEZE_ACT_BANK_NAME" [readOnly]="true"
+                                            [showClearButton]="true" [maxLength]="200"
+                                            ></dx-text-box>
+                                    </div>
+                                </div>
+                            </dxi-item>
+                            <dxi-item template="datetime">
+                                <dxo-label text="" [showColon]="false"></dxo-label>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'datetime'">
+                                <div class="dx-field">
+                                    <div class="dx-field-label">วันและเวลาที่ได้รับเลขอ้างอิงจากธนาคาร :</div>
+                                    <div class="dx-field-value">
+                                        <dx-date-box id="default" (onValueChanged)="OnSelectDate($event)" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา"
+                                        type="datetime" [max]="maxDateValue" [(value)]="now"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
+                                        </dx-date-box>
+                                    </div>
+                                </div>
+                            </div>
+                        </dx-form>
+                    </div>
+                    <div class="text-center py-3" *ngIf="_isShow2">
+                        <img src="../../../../../assets/icon/264235.jpg" class="img-fluid" width="600" height="auto">
+                    </div>
+                </div>
+                <br>
+                <div class="col-sm-12 customtext text-center" style="margin-bottom:1rem;">
+                    <dxi-item itemType="group" [colSpan]="3">
+                        <dx-button stylingMode="contained" text="บันทึก" [disabled]="blockSave" type="default" [width]="120"
+                            (onClick)="onsave($event)">
+                        </dx-button>
+                        &nbsp;&nbsp;
+                        <dx-button stylingMode="contained" text="ยกเลิก" type="default" [width]="120"
+                            (onClick)="onSkip($event)">
+                        </dx-button>
+                    </dxi-item>
+                </div>
+            </div>
+        </dx-scroll-view>
+    </div>
+</dx-popup>
+
+
+
+<dx-popup [width]="1200" [height]="600" [showTitle]="true" title="แจ้งเตือนจากระบบ" [closeOnOutsideClick]="false"
+    [showCloseButton]="false" [visible]="true" [(visible)]="_isShow2">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+            <div class="row">
+                <div class="col-sm-12 text-center" style="margin-top:15px;margin-bottom: 20px;">
+                    <div class="sub-title-popup" style="font-size: 25px;">ท่านสามารถแจ้งธนาคารต้นทางผู้เสียหาย <br>
+                        ธนาคารจะดำเนินการประสานธนาคารที่เกี่ยวข้องเพื่อติดตามทรัพย์สินคืน<br>
+                        จากนั้นธนาคารจะให้ Bank case ID ท่านสามารถนำมาแจ้งผ่านระบบ เพื่อดำเนินการต่อไป
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="section2 col-12 col-lg-12 col-xl-12 mt-md-5 mt-lg-0 pt-md-5 pt-lg-0">
+                        <div class="mt-5 mx-5 mt-sm-0 px-2 py-2 mb-2" style=" background: #ffffffe8;">
+                            <div class="row">
+                                <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2" >
+                                    <div class="row m-1 p-3 item-box-bank" (click)="TelLink('tel:0-2888-8888')">
+                                        <div class="col-4">
+                                            <img src="../../../../../assets/icon/kbank.png" alt="kbank" class="img-fluid">
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="text-detail">ธนาคารกสิกรไทย</div>
+                                            <div class="text-detail">0 2888 8888 กด 1</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2" >
+                                    <div class="row m-1 p-3 item-box-bank" (click)="TelLink('tel:0-2111-1111')">
+                                        <div class="col-4">
+                                            <img src="../../../../../assets/icon/ktb.png" alt="ktb" class="img-fluid">
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="text-detail">ธนาคารกรุงไทย</div>
+                                            <div class="text-detail">0 2111 1111 กด 108</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2">
+                                    <div class="row m-1 p-3 item-box-bank" (click)="TelLink('tel:1572')">
+                                        <div class="col-4">
+                                            <img src="../../../../../assets/icon/bay.png" alt="bay" class="img-fluid">
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="text-detail">ธนาคารกรุงศรีอยุธยา</div>
+                                            <div class="text-detail">1572 กด 5</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2">
+                                    <div class="row m-1 p-3 item-box-bank"  (click)="TelLink('tel:0-2645-5555')">
+                                        <div class="col-4">
+                                            <img src="../../../../../assets/icon/bbl.png" alt="bbl" class="img-fluid">
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="text-detail">ธนาคารกรุงเทพ</div>
+                                            <div class="text-detail">1333 หรือ 0 2645 5555 กด *3</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2">
+                                    <div class="row m-1 p-3 item-box-bank " (click)="TelLink('tel:0-2777-7575')">
+                                        <div class="col-4">
+                                            <img src="../../../../../assets/icon/scb.png" alt="scb" class="img-fluid">
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="text-detail">ธนาคารไทยพาณิชย์</div>
+                                            <div class="text-detail">0 2777 7575</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2">
+                                    <div class="row m-1 p-3 item-box-bank" (click)="TelLink('tel:1428')">
+                                        <div class="col-4">
+                                            <img src="../../../../../assets/icon/ttb.png" alt="ttb" class="img-fluid">
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="text-detail">ธนาคารทหารไทยธนชาต</div>
+                                            <div class="text-detail">1428 กด 03</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2">
+                                    <div class="row m-1 p-3 item-box-bank " (click)="TelLink('tel:1115')">
+                                        <div class="col-4 ">
+                                            <img src="../../../../../assets/icon/gsb.png" alt="gsb" class="img-fluid">
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="text-detail">ธนาคารออมสิน</div>
+                                            <div class="text-detail">1115 กด 6</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2">
+                                    <div class="row m-1 p-3 item-box-bank" (click)="TelLink('tel:0-2626-7777')">
+                                        <div class="col-4">
+                                            <img src="../../../../../assets/icon/cimb.png" alt="cimb" class="img-fluid">
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="text-detail">ธนาคารซีไอเอ็มบี ไทย</div>
+                                            <div class="text-detail">0 2626 7777 กด 00</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2">
+                                    <div class="row m-1  p-3 item-box-bank " (click)="TelLink('tel:0-2697-5454')">
+                                        <div class="col-4">
+                                            <img src="../../../../../assets/icon/tcrb.png" alt="tcrb" class="img-fluid">
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="text-detail">ธนาคารไทยเครดิต</div>
+                                            <div class="text-detail">0 2697 5454</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2">
+                                    <div class="row m-1  p-3 item-box-bank" (click)="TelLink('tel:0-2459-0000')">
+                                        <div class="col-4">
+                                            <img src="../../../../../assets/icon/lhb.png" alt="lhb" class="img-fluid">
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="text-detail">ธนาคารแลนด์ แอนด์ เฮ้าส์</div>
+                                            <div class="text-detail">0 2459 0000 กด 8</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2">
+                                    <div class="row m-1 p-3 item-box-bank " (click)="TelLink('tel:0-2645-9000')">
+                                        <div class="col-4">
+                                            <img src="../../../../../assets/icon/ghb.png" alt="ghb" class="img-fluid">
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="text-detail">ธนาคารอาคารสงเคราะห์</div>
+                                            <div class="text-detail">0 2645 9000 กด 33</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2">
+                                    <div class="row m-1  p-3 item-box-bank" (click)="TelLink('tel:0-2555-0555')">
+                                        <div class="col-4">
+                                            <img src="../../../../../assets/icon/baac.png" alt="baac" class="img-fluid">
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="text-detail">ธนาคารเพื่อการเกษตร</div>
+                                            <div class="text-detail">และสหกรณ์การเกษตร</div>
+                                            <div class="text-detail">0 2555 0555 กด *3</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2">
+                                    <div class="row m-1 p-3 item-box-bank " (click)="TelLink('tel:0-2344-9555')">
+                                        <div class="col-4">
+                                            <img src="../../../../../assets/icon/uob.png" alt="uob" class="img-fluid">
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="text-detail">ธนาคารยูโอบี</div>
+                                            <div class="text-detail">0 2344 9555</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2">
+                                    <div class="row m-1 p-3 item-box-bank" (click)="TelLink('tel:0-2344-9555')">
+                                        <div class="col-4">
+                                            <img src="../../../../../assets/icon/citi.png" alt="citi" class="img-fluid">
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="text-detail">ธนาคารซิตี้แบงค์</div>
+                                            <div class="text-detail">0 2344 9555</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2">
+                                    <div class="row m-1 p-3 item-box-bank " (click)="TelLink('tel:0-2165-5555')">
+                                        <div class="col-4">
+                                            <img src="../../../../../assets/icon/kk.png" alt="kk" class="img-fluid">
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="text-detail">ธนาคารเกียรตินาคินภัทร</div>
+                                            <div class="text-detail">0 2165 5555 กด 6</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2">
+                                    <div class="row m-1 p-3 item-box-bank" (click)="TelLink('tel:0-2633-6000')">
+                                        <div class="col-4">
+                                            <img src="../../../../../assets/icon/tisco.png" alt="tisco" class="img-fluid">
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="text-detail">ธนาคารทิสโก้</div>
+                                            <div class="text-detail">0 2633 6000 กด *7</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 text-center" style="position: fixed;bottom: 0;margin-bottom: 20px;">
+                    <dxi-item itemType="group" [colSpan]="3">
+                        <dx-button stylingMode="contained" text="ตกลง" type="default" [width]="120" style="box-shadow:2px 2px 6px 0px #00000045"
+                            (onClick)="onclosepopundepending($event)">
+                        </dx-button>
+                    </dxi-item>
+                </div>
+            </div>
+
+        </dx-scroll-view>
+    </div>
+</dx-popup>
+
+<dx-popup [width]="1100" [height]="500" [showTitle]="true" title="ยืนยันการแจ้งเรื่องเข้าสู่ระบบ" [closeOnOutsideClick]="false"
+    [showCloseButton]="false" [visible]="true" [(visible)]="_isShowNOT">
+    <div class="row mt-4">
+        <div class="col-sm-4" style=" display: flex;justify-content: center">
+            <img src="assets/icon/warning-home.png" style="width:200px;height: 200px;" alt="warning-home" class="img-fluid">
+        </div>
+        <div class="col-sm-8" style="display: grid;align-content: center;">
+            <div class="title-popup" style="font-size: 31px;">การแจ้งความออนไลน์เป็นการอำนวยความสะดวกแก่ท่านในการร้องทุกข์เกี่ยวกับคดีอาชญากรรมทางเทคโนโลยี</div>
+            <div class="title-popup" style="font-size: 22px;">หากท่านมีความประสงค์ในการแจ้งความเป็นหลักฐาน หรือแจ้งความเอกสารหาย</div>
+            <div class="title-popup" style="font-size: 22px;">กรุณาเข้าพบเจ้าหน้าที่ในสถานีตำรวจที่ท่านสะดวกเพื่อทำการแจ้งความ</div>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-sm-12 align-items-end d-flex align-content-center" style="display: flex;justify-content: center;">
+            <dx-button type="button" class="btn-block text-white" text="ตกลง" style="background-color: #06C755;border: 1px solid #079C44;
+            border-radius: 5px; width: 330px;height: 60px;" (onClick)="onclosepopShownot($event)"></dx-button>
+        </div>
+    </div>
+</dx-popup>
+
+

@@ -13,21 +13,24 @@ export class OnlineCaseService {
 
     get() {
         return req<OnlineCaseInfo[]>("CmsOnlineCaseInfo").queryString({personalId: User.Current.PersonalId})
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     getbyId(caseid: number): Observable<OnlineCaseInfo> {
         return req<OnlineCaseInfo>(`CmsOnlineCaseInfo/${caseid}`)
-            .get();
+            .disableCriticalDialogError().get();
     }
 
-
+    getbycaseId(caseid: number): Observable<any> {
+        return req<any>(`CmsOnlineCaseInfo/getbycaseid/${caseid}`)
+            .disableCriticalDialogError().get();
+    }
     create(param: Partial<OnlineCaseParam>): Observable<HttpStatusResultValue<number>> {
         return req("CmsOnlineCaseInfo")
             .useSystemResult<HttpStatusResultValue<number>>()
             .disableCriticalDialogError()
             .body(param)
-            .post();
+            .disableCriticalDialogError().post();
     }
 
     update(caseId: number, param: Partial<OnlineCaseParam>): Observable<HttpStatusResult> {
@@ -35,33 +38,42 @@ export class OnlineCaseService {
             .useSystemResult<HttpStatusResult>()
             .disableCriticalDialogError()
             .body(param)
-            .put();
+            .disableCriticalDialogError().put();
     }
     // ส่งฟอร์มแบบ Angular
     public InsertData(param: any): Observable<any> {
         return req("CmsOnlineCaseInfo")
             .body(param)
-            .post();
+            .disableCriticalDialogError().post();
     }
 
     public InsertDataMQ(param: any): Observable<any> {
         return req("CmsOnlineCaseInfo/submit")
             .body(param)
-            .post();
+            .disableCriticalDialogError().post();
     }
+
+   
 
     public UpdateData(caseId: number,param: any): Observable<any> {
         return req(`CmsOnlineCaseInfo/${caseId}`)
             .body(param)
-            .put();
+            .disableCriticalDialogError().put();
     }
+
+    
     public GetOnlineRequest(caseId: number,): Observable<any> {
-        return req(`CmsOnlineCaseInfoRequest/${caseId}`).get();
+        return req(`CmsOnlineCaseInfoRequest/${caseId}`).disableCriticalDialogError().get();
 
     }
     public CreateOnlineRequest(param: any): Observable<any> {
         return req('CmsOnlineCaseInfoRequest')
             .body(param)
-            .post();
+            .disableCriticalDialogError().post();
+    }
+
+    public Getcasemoney(caseId: number,): Observable<any> {
+        return req(`CmsOnlineCaseInfo/casemoney/${caseId}`).disableCriticalDialogError().get();
+
     }
 }

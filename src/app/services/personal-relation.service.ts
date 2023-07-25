@@ -9,6 +9,6 @@ export class PersonalRelationService {
     constructor(@Inject(EFORM_REQUEST) private _req: EformRequestFactory) {}
     public GetRelation(): Observable<any> {
         return this._req<any>("CmsRelation")
-            .get();
+            .disableCriticalDialogError().get();
     }
 }

@@ -16,6 +16,7 @@ export class HomeNewComponent implements OnInit {
     deviceInfo = null;
     hasSession = false;
     showpopupweb = false;
+    popupVisible = false;
     constructor(
         private router: Router,
         private _loginServ: LoginService,
@@ -30,6 +31,7 @@ export class HomeNewComponent implements OnInit {
         this.checkdatetimepopup();
     }
     OnIssueOnline() {
+        // this.popupVisible = true;
         this.CheckDeviceMode();
     }
     CheckDeviceMode() {
@@ -69,6 +71,10 @@ export class HomeNewComponent implements OnInit {
          }else{
             this.showpopupweb = false;
          }
+    }
+    closePopupWarning(){
+        this.popupVisible = false;
+        this.CheckDeviceMode();
     }
 }
 

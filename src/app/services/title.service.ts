@@ -14,19 +14,19 @@ export class TitleService {
     public GetTitle(includeStatus = true): Observable<ITitleInfo[]> {
         return this._req<ITitleInfo[]>('CmsTitle')
             .queryString({ RecordStatus: <any>includeStatus })
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public GetTitleInfomer(includeStatus = true): Observable<ITitleInfo[]> {
         return this._req<ITitleInfo[]>('CmsTitle/informer')
             .queryString({ RecordStatus: <any>includeStatus })
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public putTakeBack(id: number, param: any): Observable<IReject> {
         return this._req<IReject>('BpmProcInst/' + id)
             .body(param)
-            .put();
+            .disableCriticalDialogError().put();
     }
 }
 

@@ -247,6 +247,8 @@ export class IssueOnlineAttachmentComponent implements OnInit {
         // console.log('formData->>>>',isData);
         this.mainConponent.formDataAll.formAttachment = {};
         this.mainConponent.formDataAll.formAttachment = setData;
-        this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
+        if(e != 'tab'){
+            this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
+        }
     }
 }

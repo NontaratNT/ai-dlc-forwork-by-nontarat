@@ -11,15 +11,15 @@ export class NewsService {
     constructor() { }
 
     public GetNewInfo(): Observable<INewInfo[]> {
-        return req<INewInfo[]>("CmdAnnouncement").get();
+        return req<INewInfo[]>("CmdAnnouncement").disableCriticalDialogError().get();
     }
 
     public getNewInfo(): Observable<INewInfo> {
-        return req<INewInfo>("CmdAnnouncement").get();
+        return req<INewInfo>("CmdAnnouncement").disableCriticalDialogError().get();
     }
 
     public GetNewInfoById(ANNOUNCEMENT_ID: number): Observable<INewInfo> {
-        return req<INewInfo>("CmdAnnouncement/" + ANNOUNCEMENT_ID).get();
+        return req<INewInfo>("CmdAnnouncement/" + ANNOUNCEMENT_ID).disableCriticalDialogError().get();
     }
 
 }

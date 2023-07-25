@@ -1,0 +1,78 @@
+:host {
+    // ::ng-deep {
+    //     .dx-field-item-label-content .dx-field-item-required-mark {
+    //         display: none;
+    //     }
+        // .dx-checkbox-container .dx-checkbox-icon {
+        //     border-radius: 10px;
+        // }
+//         ::ng-deep  .conten-block {
+//             margin-top: 20px;
+//             .content-title {
+//                 text-align: left;
+//                 padding: 10px 0 20px 0;
+//                 font-size: 32px;
+//                 color: #2f2b66;
+//                 font-weight: bold;
+//             }
+//             .content-end-line {
+//                 margin: auto;
+//                 width: 100%;
+//                 border-bottom: 1px solid #dddddd;
+//                 margin-top: 40px;
+//             }
+//         }
+//         // .dx-checkbox-text:after {
+//         //     content: " *";
+//         //     color: red;
+//         // }
+//         .dx-checkbox-container .dx-checkbox-icon {
+//             border-radius: 10px;
+//         }
+//         .dx-checkbox-checked .dx-checkbox-icon {
+//             background-color: #374784;
+//         }
+//         .dx-checkbox-checked .dx-checkbox-icon::before {
+//             color: #ffffff;
+//         }
+//         @media (max-width: 899.98px) {
+//             .dx-checkbox-container .dx-checkbox-icon {
+//                 margin-top: 4px;
+//             }
+//             .dx-checkbox-has-text .dx-checkbox-text {
+//                 vertical-align: top;
+//             }
+//         }
+//     }
+// }
+
+// ::ng-deep .btn-add {
+//     padding: 7px !important;
+//     span {
+//         padding-top: 2px;
+//         top: 0px !important;
+//     }
+//     i {
+//         font-size: 25px !important;
+//     }
+// }
+
+// .block-add-btn {
+//     // margin: 5px 0 5px 0;
+//     .btn-add {
+//         background-color: #ffd84f;
+//         width: 250px;
+//         height: 50px;
+//         font-weight: 600;
+//         font-size: large;
+//     }
+}
+
+::ng-deep .btn{
+    &.reset{
+        background-color: #cbcbcb !important;
+        .dx-button-text{
+            color: black;
+        }
+    }
+}

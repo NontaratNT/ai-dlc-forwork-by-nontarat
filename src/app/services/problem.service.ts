@@ -9,30 +9,30 @@ export class ProblemService {
 
     constructor() { }
     public GetProblem(): Observable<IProblemInfo[]>{
-        return req<IProblemInfo[]>('cmsonlinefeedback').get();
+        return req<IProblemInfo[]>('cmsonlinefeedback').disableCriticalDialogError().get();
     }
     public GetProblembyId(id: string): Observable<IProblemInfo[]> {
         return req<IProblemInfo[]>('cmsonlinefeedback/' + id)
-            .get();
+            .disableCriticalDialogError().get();
     }
     public GetProblembyUser(createuserid: number): Observable<IProblemInfo[]> {
         return req<IProblemInfo[]>('cmsonlinefeedback/getbyuser/' + createuserid)
-            .get();
+            .disableCriticalDialogError().get();
     }
     public Put(id: number, param: IProblemInfo): Observable<IProblemInfo> {
         return req<IProblemInfo>(`cmsonlinefeedback/${id}`)
             .body(param)
-            .put();
+            .disableCriticalDialogError().put();
     }
 
     public Post(param: IProblemInfo): Observable<IProblemInfo> {
         return req<IProblemInfo>('cmsonlinefeedback')
             .body(param)
-            .post();
+            .disableCriticalDialogError().post();
     }
     public delete(id: number): Observable<IProblemInfo> {
         return req<IProblemInfo>(`cmsonlinefeedback/${id}`)
-            .delete();
+            .disableCriticalDialogError().delete();
     }
 }
 export interface IProblemInfo {

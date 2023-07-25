@@ -7,11 +7,12 @@
                 <dxi-validation-rule type="required" message="กรุณาเลือกประเภทของเรื่อง">
                 </dxi-validation-rule>
                 <div *dxTemplate="let data of 'temp1'">
-                    <dx-select-box #selectCaseType [dataSource]="listCaseType" displayExpr="CASE_TYPE_NAME"
+                    <dx-select-box *ngIf="!formReadOnly" #selectCaseType [dataSource]="listCaseType" displayExpr="CASE_TYPE_NAME"
                         valueExpr="CASE_TYPE_ID" placeholder="ประเภทของเรื่อง"
                         (onValueChanged)="OnSelectCaseType($event)" [(value)]="formData.CASE_TYPE_ID"
                         [readOnly]="formReadOnly">
                     </dx-select-box>
+                    <dx-text-box *ngIf="formReadOnly" [readOnly]="formReadOnly" [(value)]="formData.CASE_TYPE_NAME"></dx-text-box>
                 </div>
             </dxi-item>
             <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
@@ -80,8 +81,8 @@
 
 
             <dxi-item template="temp2" [colSpan]="2" [isRequired]="formValidate">
-                <dxo-label text="รายละเอียดโดยย่อ" [showColon]="false"></dxo-label>
-                <dxi-validation-rule type="required" message="กรุณากรอกรายละเอียดโดยย่อ"></dxi-validation-rule>
+                <dxo-label text="รายละเอียดของการเกิดเหตุโดยย่อ" [showColon]="false"></dxo-label>
+                <dxi-validation-rule type="required" message="กรุณากรอกรายละเอียดของการเกิดเหตุโดยย่อ"></dxi-validation-rule>
                 <div *dxTemplate="let data of 'temp2'">
                     <dx-text-area [readOnly]="formReadOnly" [height]="130" [(value)]="formData.CASE_BEHAVIOR" [maxLength]="5000"></dx-text-area>
                 </div>
@@ -96,7 +97,7 @@
         <div class="content-form">
             <div class="card location-collaps">
                 <div class="card-header collaps-header not-copy active">
-                    <div>สถานที่ถูกหลอกให้หลงเชื่อ หรือสถานที่ได้ทราบข้อความ (กรณีเป็นเรื่องของหมิ่นประมาท)</div>
+                    <div>สถานที่ถูกหลอกให้หลงเชื่อ</div>
                     <div class="icon">
                         <i class="collaps fa fa-angle-down"></i>
                         <i class="expand fa fa-angle-up"></i>
@@ -104,10 +105,10 @@
                 </div>
                 <div class="card-body collaps-body" style="display: block;">
                     <div *ngIf="formLocationLoad">
-                        <app-view-address #viewadress 
-                            [renderView]="'view1'" 
-                            [type]="locationRender" 
-                            [replaceKey]="'CASE_LOCATION'" 
+                        <app-view-address #viewadress
+                            [renderView]="'view1'"
+                            [type]="locationRender"
+                            [replaceKey]="'CASE_LOCATION'"
                             [(dataForm)]="formLocation"></app-view-address>
                     </div>
                 </div>
@@ -127,7 +128,9 @@
                 </div>
                 <div class="card-body collaps-body">
                     <div *ngIf="formLocationTranferLoad">
-                        <app-view-address [renderView]="'view2'" [type]="locationRender"
+                        <app-view-address
+                            [renderView]="'view2'"
+                            [type]="locationRender"
                             [replaceKey]="'CASE_LOCATION_TRANSFER'"
                             [(dataForm)]="formLocationTranfer"></app-view-address>
                     </div>
@@ -136,7 +139,7 @@
         </div>
         <div class="content-end-line"></div>
     </div>
-    <div class="content-block">
+    <!-- <div class="content-block">
         <div class="content-form">
             <div class="card location-collaps">
                 <div class="card-header collaps-header not-copy">
@@ -181,7 +184,7 @@
             </div>
         </div>
         <div class="content-end-line"></div>
-    </div>
+    </div> -->
     <!-- <div class="content-block">
         <div class="content-title">ที่ตั้งบัญชีธนาคารคนร้าย</div>
         <div class="content-form" *ngIf="formLocationBankVillainLoad">

@@ -58,8 +58,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this._nhs.start();
+        // ปิดแจ้งเตือนไปก่อน
+        // this._nhs.start();
         this.userImagePath = "assets/icon/user.png";
+
         this.SetDefaultValue();
     }
     ngOnDestroy(): void {
@@ -71,30 +73,31 @@ export class NavbarComponent implements OnInit, OnDestroy {
     async SetDefaultValue() {
         this.countNoti = 0;
         if (User.Current) {
-            this.LoadNotify();
+            // this.LoadNotify();
             const userInfo = await this.servicePersonal.GetPersonalById(User.Current.PersonalId).toPromise();
             this.userData = User.Current.FullNameTH;
             this.userImagePath = environment.config.baseConfig.resourceUrl.replace("/ccib", "/bpm") +
             userInfo.USER_PICTURE + "?" + Date.now().toString();
 
-            // this.notifyData = await this._notifactionSerice
-            //     .gets({ personalId: User.Current.PersonalId, unRead: true }, 0, 10).toPromise();
-            this.countNoti = await this._notifactionSerice.getUnReadCount(User.Current.PersonalId).toPromise();
-            this.$notificationReady = this._appNotification.notificationReady.subscribe(_ => {
-                this.showNotification(_);
-                this._appNotification.notificationCountChange.next();
-            });
+            //ปิด แจ้งเตือนไว้ก่อน ถ้าเปิด เลือกที่ comment ทั้งหมดแล้วเปิด
+            // // this.notifyData = await this._notifactionSerice
+            // //     .gets({ personalId: User.Current.PersonalId, unRead: true }, 0, 10).toPromise();
+            // this.countNoti = await this._notifactionSerice.getUnReadCount(User.Current.PersonalId).toPromise();
+            // this.$notificationReady = this._appNotification.notificationReady.subscribe(_ => {
+            //     this.showNotification(_);
+            //     this._appNotification.notificationCountChange.next();
+            // });
 
-            this.$notificationCountChange = this._appNotification.notificationCountChange.subscribe(async () => {
-                // this.notifyData = await this._notifactionSerice
-                //     .gets({ personalId: User.Current.PersonalId, unRead: true }, 0, 10).toPromise();
-                this.countNoti = await this._notifactionSerice
-                    .getUnReadCount(User.Current.PersonalId).toPromise();
-                this.LoadNotify();
-                // this._notifactionSerice.gets({ personalId: User.Current.PersonalId, unRead: true }, 0, 10).subscribe(notiData => {
-                //     this.notifyData = notiData;
-                // });
-            });
+            // this.$notificationCountChange = this._appNotification.notificationCountChange.subscribe(async () => {
+            //     // this.notifyData = await this._notifactionSerice
+            //     //     .gets({ personalId: User.Current.PersonalId, unRead: true }, 0, 10).toPromise();
+            //     this.countNoti = await this._notifactionSerice
+            //         .getUnReadCount(User.Current.PersonalId).toPromise();
+            //     this.LoadNotify();
+            //     // this._notifactionSerice.gets({ personalId: User.Current.PersonalId, unRead: true }, 0, 10).subscribe(notiData => {
+            //     //     this.notifyData = notiData;
+            //     // });
+            // });
         }
     }
     LoadNotify(){

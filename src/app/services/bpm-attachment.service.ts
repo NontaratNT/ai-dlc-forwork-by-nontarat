@@ -13,22 +13,22 @@ export class BpmAttachmentService {
     public get(id: number): Observable<IBPMAttachment[]> {
         return this._req<IBPMAttachment[]>().api('BpmProcInstAttachment')
             .queryString({ BpmInstanceId: id })
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public create(param: FormData): Observable<IBPMAttachment> {
         return this._req<IBPMAttachment>().api('BpmProcInstAttachment')
             .body(param)
-            .post();
+            .disableCriticalDialogError().post();
     }
     public update(param: FormData , id: number): Observable<IBPMAttachment> {
         return this._req<IBPMAttachment>().api(`BpmProcInstAttachment/${id}`)
             .body(param)
-            .put();
+            .disableCriticalDialogError().put();
     }
     public delete(id: number): Observable<IBPMAttachment> {
         return this._req<IBPMAttachment>().api(`BpmProcInstAttachment/${id}`)
-            .delete();
+            .disableCriticalDialogError().delete();
     }
 }
 

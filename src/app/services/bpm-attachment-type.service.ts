@@ -11,13 +11,13 @@ export class BpmAttachmentTypeService {
 
     public get(): Observable<IBPMAttachmentType[]> {
         return this._req<IBPMAttachmentType[]>().api('BpmProcInstAttachmentType')
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public gets(filter: IBPMAttachmentTypeParam): Observable<IBPMAttachmentType[]> {
         return this._req<IBPMAttachmentType[]>().api('BpmProcInstAttachmentType')
             .queryString(filter as any)
-            .get();
+            .disableCriticalDialogError().get();
     }
 }
 export interface IBPMAttachmentTypeParam {

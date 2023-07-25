@@ -26,3 +26,26 @@
         }
     }
 }
+
+::ng-deep .btn-add{
+    padding:7px  !important;
+    span{
+        padding-top: 2px;
+        top: 0px !important;
+    }
+    i{
+        font-size: 25px !important;
+    }
+}
+
+.block-add-btn {
+    // margin: 5px 0 5px 0;
+    .btn-add {
+        background-color: #ffd84f;
+        width: 250px;
+        height: 50px;
+        font-weight: 600;
+        font-size: large;
+
+    }
+}

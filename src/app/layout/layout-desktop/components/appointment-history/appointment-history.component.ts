@@ -105,5 +105,7 @@ export class AppointmentHistoryComponent implements OnInit {
         window.open("https://www.thaipoliceonline.com/web-report/report?ReportName=report_print_inform_report&caseId=" + data.DATA_ID, "_blank");
     }
 }
-
+displayFormatDateTime(date) {
+  return formatDate(new Date(date), 'dateShortTimeThai');
+}
 }

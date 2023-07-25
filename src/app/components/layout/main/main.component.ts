@@ -16,12 +16,14 @@ export class MainComponent implements OnInit, OnDestroy {
                 private _appNotification: ApplicationNotificationService) { }
 
     ngOnInit(): void {
-        this._nhs.start();
+        //ปิดแจ้งเตือนไปก่อน
+        // this._nhs.start();
     }
 
     ngOnDestroy(): void {
-        this._nhs.stop();
-        this._appNotification.clear();
+        //ปิดแจ้งเตือนไปก่อน
+        // this._nhs.stop();
+        // this._appNotification.clear();
     }
     /**
      * เช็ค event ตอนที่ click กรณีนี้เอามาใช้กับปุ่ม "ถัดไป" เพื่อ scroll top.

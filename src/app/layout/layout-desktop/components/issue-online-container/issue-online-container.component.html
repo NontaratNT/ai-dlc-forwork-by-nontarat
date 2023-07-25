@@ -1,11 +1,12 @@
 <div id="issue-online-desktop">
     <div>
-        <dx-scroll-view [height]="70" direction="horizontal">
+        <dx-scroll-view [height]="80" direction="horizontal">
             <!-- <div style="width: 1330px;"  [ngStyle]="{'width.px': stepNavigationWidth}"> -->
             <div [ngStyle]="{'width.px': stepNavigationWidth}">
                 <div class="block-arrow">
                     <div *ngFor="let item of stepNavigation; index as i;" class="arrow-div">
-                        <div class="{{item.textClass}}" [ngClass]="SelectorTab(i)" [style.z-index]="GetzIndexTab(i)" (click)="SelectTabIndex(i)">
+                        <div class="{{item.textClass}}" [ngClass]="SelectorTab(i)" [style.z-index]="GetzIndexTab(i)"
+                            (click)="SelectTabIndex(i)">
                             <div [ngClass]="formType === 'add' ? 'circle':'circle-edit' ">
                                 <span>{{i+1}}</span>
                             </div>
@@ -19,10 +20,17 @@
                 </div>
             </div>
         </dx-scroll-view>
-        <dx-multi-view [focusStateEnabled]="false" [animationEnabled]="false" [swipeEnabled]="false" [selectedIndex]="indexTab">
+        <dx-multi-view [focusStateEnabled]="false" [animationEnabled]="false" [swipeEnabled]="false"
+            [selectedIndex]="indexTab">
+
             <dxi-item *ngIf="this.formType === 'add'">
                 <ng-container>
                     <app-issue-online-agree></app-issue-online-agree>
+                </ng-container>
+            </dxi-item>
+            <dxi-item>
+                <ng-container *dxTemplate>
+                    <app-issue-online-blessing></app-issue-online-blessing>
                 </ng-container>
             </dxi-item>
             <dxi-item>
@@ -48,6 +56,11 @@
             <dxi-item *ngIf="this.formType === 'add'">
                 <ng-container *dxTemplate>
                     <app-issue-online-attachment></app-issue-online-attachment>
+                </ng-container>
+            </dxi-item>
+            <dxi-item>
+                <ng-container *dxTemplate>
+                    <app-issue-online-questionare></app-issue-online-questionare>
                 </ng-container>
             </dxi-item>
             <dxi-item *ngIf="this.formType === 'add'">

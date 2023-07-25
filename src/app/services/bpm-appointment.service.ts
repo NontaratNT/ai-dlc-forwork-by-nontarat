@@ -14,22 +14,22 @@ export class BpmAppointmentService {
     public Appointment(instId: number, statusId: number): Observable<IAppointment[]> {
         return this._req<IAppointment[]>('BpmProcInstAppointment')
             .queryString({ InstId: instId, StatusId: statusId})
-            .get();
+            .disableCriticalDialogError().get();
     }
     public GetAppointment(PersonId: number): Observable<any> {
         return this._req<any>('BpmProcInstAppointment')
             .queryString({PersonId})
-            .get();
+            .disableCriticalDialogError().get();
     }
     public GetAppointmentList(filter: any): Observable<any> {
         return this._req<any>('BpmProcInstAppointment')
             .queryString(filter)
-            .get();
+            .disableCriticalDialogError().get();
     }
     public GetAppointmentInsId(InstId: number): Observable<any> {
         return this._req<any>(`BpmProcInstAppointment`)
             .queryString({InstId})
-            .get();
+            .disableCriticalDialogError().get();
     }
 }
 

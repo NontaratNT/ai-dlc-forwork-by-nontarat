@@ -18,7 +18,7 @@
                         <img [src]="userImagePath" class="img" (error)="setDefaultPic()" [title]="userData">
                     </div>
                 </li>
-                <li class="notify not-copy">
+                <!-- <li class="notify not-copy">
                     <div class="notify-bell">
                         <i class="icon fa fa-bell icon-bell" style="font-size: 20px;" (click)="OpenBoxMsg($event)"></i>
                         <div class="notify-number" *ngIf="countNoti > 0">
@@ -31,19 +31,7 @@
                                     <span>แจ้งเตือน</span>
                                 </div>
                                 <div class="card-body">
-                                    <!-- <dx-scroll-view [showScrollbar]="'always'" style="height: 222px;">
-                                        <ng-container *ngFor="let items of notifyData; index as i">
-                                            <div class="notify-box-item" (click)="ViewWorkDetailList(i,items)">
-                                                <div class="notify-header">
-                                                    <span>เรื่อง ข้อความใหม่</span>
-                                                    <span class="unread" *ngIf="items.FLAG_READ === 'N'">(ยังไม่อ่าน)</span>
-                                                </div>
-                                                <div class="notify-body">{{items.NOTIFICATION_BODY}}</div>
-                                                <div class="notify-footer">วันที่ {{ displayFormatDate(items.NOTIFICATION_DATE) }}</div>
-                                            </div>
-                                        </ng-container>
-
-                                    </dx-scroll-view> -->
+                                    
                                     <dx-list [dataSource]="notifyData" keyExpr="NOTIFICATION_TO_ID" [hoverStateEnabled]="false" [focusStateEnabled]="false" [height]="208" [width]="350" [selectionMode]="'single'" [pageLoadMode]="'scrollBottom'" (onItemClick)="ViewWorkDetailList($event)"
                                         [noDataText]="'ไม่พบข้อมูล'" [pageLoadingText]="'กำลังโหลด..'">
                                         <div *dxTemplate="let item of 'item'">
@@ -64,7 +52,7 @@
                             </div>
                         </div>
                     </div>
-                </li>
+                </li> -->
                 <li class="logout">
                     <div (click)="logout()">
                         <img src="assets/image/police/desktop/logout.png" alt="logout">

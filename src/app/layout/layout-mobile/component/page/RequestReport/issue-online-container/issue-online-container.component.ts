@@ -18,6 +18,8 @@ import { DxMultiViewComponent } from "devextreme-angular";
 import { ChatComponent } from "../chat/chat.component";
 import { ChatService } from "src/app/services/chat.service";
 import { UserSettingService } from "src/app/services/user-setting.service";
+import { IssueOnlineBlessingComponent } from "./issue-online-blessing/issue-online-blessing.component";
+import { IssueOnlineQuestionareComponent } from "./issue-online-questionare/issue-online-questionare.component";
 @Component({
     selector: "app-issue-online-container",
     templateUrl: "./issue-online-container.component.html",
@@ -26,15 +28,32 @@ import { UserSettingService } from "src/app/services/user-setting.service";
 export class IssueOnlineContainerComponent implements OnInit {
     // @ViewChild(IssueOnlineAgreeComponent, { static: true }) agreeComponent: IssueOnlineAgreeComponent;
     @ViewChild(IssueOnlineAgreeComponent) set content(content1: IssueOnlineAgreeComponent) {
-        if (content1) {
+        if(content1) {
             this.agreeComponent = content1;
             this.agreeComponent.mainConponent = this;
             this.indexLocker.agreeComponent = true;
 
         }
     }
+    @ViewChild(IssueOnlineBlessingComponent) set content8(content8: IssueOnlineBlessingComponent) {
+        if(content8) {
+            this.blessingComponent = content8;
+            this.blessingComponent.mainConponent = this;
+            this.indexLocker.blessingComponent = true;
+
+        }
+    }
+
+    @ViewChild(IssueOnlineQuestionareComponent) set content9(content9: IssueOnlineQuestionareComponent) {
+        if(content9) {
+            this.questionareComponent = content9;
+            this.questionareComponent.mainConponent = this;
+            this.indexLocker.questionareComponent = true;
+
+        }
+    }
     @ViewChild(IssueOnlineInformerComponent) set content2(content2: IssueOnlineInformerComponent) {
-        if (content2) {
+        if(content2) {
             this.informerConponent = content2;
             this.informerConponent.mainConponent = this;
             this.indexLocker.informerConponent = true;
@@ -42,7 +61,7 @@ export class IssueOnlineContainerComponent implements OnInit {
         }
     }
     @ViewChild(IssueOnlineEventComponent) set content3(content3: IssueOnlineEventComponent) {
-        if (content3) {
+        if(content3) {
 
             this.eventConponent = content3;
             this.eventConponent.mainConponent = this;
@@ -51,7 +70,7 @@ export class IssueOnlineContainerComponent implements OnInit {
         }
     }
     @ViewChild(IssueOnlineDamageComponent) set content4(content4: IssueOnlineDamageComponent) {
-        if (content4) {
+        if(content4) {
             this.damageConponent = content4;
             this.damageConponent.mainConponent = this;
             this.indexLocker.damageConponent = true;
@@ -59,7 +78,7 @@ export class IssueOnlineContainerComponent implements OnInit {
         }
     }
     @ViewChild(IssueOnlineVillainComponent) set content5(content5: IssueOnlineVillainComponent) {
-        if (content5) {
+        if(content5) {
             this.vaillainConponent = content5;
             this.vaillainConponent.mainConponent = this;
             this.indexLocker.vaillainConponent = true;
@@ -67,7 +86,7 @@ export class IssueOnlineContainerComponent implements OnInit {
         }
     }
     @ViewChild(IssueOnlineAttachmentComponent) set content6(content6: IssueOnlineAttachmentComponent) {
-        if (content6) {
+        if(content6) {
             this.attachmentConponent = content6;
             this.attachmentConponent.mainConponent = this;
             this.indexLocker.attachmentConponent = true;
@@ -75,24 +94,10 @@ export class IssueOnlineContainerComponent implements OnInit {
         }
     }
     @ViewChild(IssueOnlineValidateComponent) set content7(content7: IssueOnlineValidateComponent) {
-        if (content7) {
+        if(content7) {
             this.validateConponent = content7;
             this.validateConponent.mainConponent = this;
             this.indexLocker.validateConponent = true;
-
-        }
-    }
-    @ViewChild(AttachFileComponent) set content8(content8: AttachFileComponent) {
-        if (content8) {
-            this.attachmentFileConponent = content8;
-            this.attachmentFileConponent.mainConponent = this;
-
-        }
-    }
-    @ViewChild(TrackAppointmentComponent) set content9(content9: TrackAppointmentComponent) {
-        if (content9) {
-            this.trackAppointmentConponent = content9;
-            this.trackAppointmentConponent.mainConponent = this;
 
         }
     }
@@ -110,7 +115,11 @@ export class IssueOnlineContainerComponent implements OnInit {
     @Input() indexCount: number;
     public indexTab = 0;
     public formDataInsert: any = {};
+    public formquestionnare1: any = {};
+
     public formType = 'add';
+    public blessingComponent: IssueOnlineBlessingComponent;
+
     public agreeComponent: IssueOnlineAgreeComponent;
     public informerConponent: IssueOnlineInformerComponent;
     public eventConponent: IssueOnlineEventComponent;
@@ -119,6 +128,7 @@ export class IssueOnlineContainerComponent implements OnInit {
     public attachmentConponent: IssueOnlineAttachmentComponent;
     public validateConponent: IssueOnlineValidateComponent;
     public attachmentFileConponent: AttachFileComponent;
+    public questionareComponent: IssueOnlineQuestionareComponent;
     public chatConponent: ChatComponent;
     public trackAppointmentConponent: TrackAppointmentComponent;
     public caseId: number;
@@ -131,17 +141,19 @@ export class IssueOnlineContainerComponent implements OnInit {
     indexLocker: any = {};
     bpmData = [];
     stepNavigation = [
-        { text: "ข้อความยินยอม", textClass: "arrow-div arrow-first" },
-        { text: "ข้อมูลผู้แจ้ง", textClass: "arrow-div arrow-center" },
-        { text: "เรื่องที่เกิดขึ้น", textClass: "arrow-div arrow-center" },
-        { text: "ความเสียหาย", textClass: "arrow-div arrow-center" },
-        { text: "ข้อมูลคนร้าย", textClass: "arrow-div arrow-center" },
-        { text: "แนบไฟล์", textClass: "arrow-div arrow-center" },
-        { text: "ยืนยันความถูกต้อง", textClass: "arrow-div arrow-end" }
+        {text:"ข้อความยินยอม",textClass:"arrow-div arrow-first"},
+        {text:"คำถามแยกพรก.",textClass:"arrow-div arrow-center"},
+        {text:"ข้อมูลผู้เสียหาย",textClass:"arrow-div arrow-center"},
+        {text:"เรื่องที่เกิดขึ้น",textClass:"arrow-div arrow-center"},
+        {text:"ความเสียหาย",textClass:"arrow-div arrow-center"},
+        {text:"ข้อมูลคนร้าย",textClass:"arrow-div arrow-center"},
+        {text:"แนบไฟล์เพิ่มเติม",textClass:"arrow-div arrow-center"},
+        {text:"การกระทำความผิด",textClass:"arrow-div arrow-center"},
+        {text:"ยืนยันความถูกต้อง",textClass:"arrow-div arrow-end"}
     ];
     stepNavigationZindex = 100;
     public formDataAll: any = {};
-
+    formDataBankref: any = {};
     constructor(
         private _router: Router,
         private _flowServ: BpmMdmFlowService,
@@ -166,11 +178,12 @@ export class IssueOnlineContainerComponent implements OnInit {
             this.caseId = d.Submission.backendId;
             this.LoadStatus(this.InstId);
             this.stepNavigation = [
-                { text: "ข้อมูลผู้เสียหาย", textClass: "arrow-div arrow-first" },
-                { text: "เรื่องที่เกิดขึ้น", textClass: "arrow-div arrow-center" },
-                { text: "ความเสียหาย", textClass: "arrow-div arrow-center" },
-                { text: "เกี่ยวกับคนร้าย", textClass: "arrow-div arrow-center" },
-                { text: "ดูข้อมูลนัดหมาย", textClass: "arrow-div arrow-end" },
+                {text:"คำถามแยกพรก.",textClass:"arrow-div arrow-center"},
+                {text:"ข้อมูลผู้เสียหาย",textClass:"arrow-div arrow-center"},
+                {text:"เรื่องที่เกิดขึ้น",textClass:"arrow-div arrow-center"},
+                {text:"ความเสียหาย",textClass:"arrow-div arrow-center"},
+                {text:"ข้อมูลคนร้าย",textClass:"arrow-div arrow-center"},
+                {text:"การกระทำความผิด",textClass:"arrow-div arrow-center"}
             ];
         } else {
             this.SetFormInit();
@@ -194,12 +207,12 @@ export class IssueOnlineContainerComponent implements OnInit {
         }
         return "";
     }
-    SetFormInit() {
+    SetFormInit(){
         this.formDataInsert.FORM_CODE = "CCIB_NOTIFY_PEOPLE@0.1";
         this.formDataInsert.env = environment.config.baseConfig;
         this.formDataInsert.CASE_TYPE_ID = 1;
         this.formDataInsert.CASE_FLAG = "O";
-        this.formDataInsert.CASE_SELF_TYPE = (this.userType === "mySelf") ? "Y" : "N";
+        this.formDataInsert.CASE_SELF_TYPE = (this.userType === "mySelf")?"Y":"N";
         // public agreeComponent: IssueOnlineAgreeComponent;
         // public informerConponent: IssueOnlineInformerComponent;
         // public eventConponent: IssueOnlineEventComponent;
@@ -208,16 +221,19 @@ export class IssueOnlineContainerComponent implements OnInit {
         // public attachmentConponent: IssueOnlineAttachmentComponent;
         // public validateConponent: IssueOnlineValidateComponent;
         this.formDataAll = {
-            formInformer: {},
-            formEvent: {},
-            formDamage: {},
-            formVaillain: {},
-            formAttachment: {},
-            formConfigs: {
+            DataDamageShow:{},
+            formInformer:{},
+            formEvent:{},
+            formDamage:{},
+            formVaillain:{},
+            formAttachment:{},
+            formAgree:{},
+            formQuestionnare:{},
+            formConfigs:{
                 FORM_CODE: "CCIB_NOTIFY_PEOPLE@0.1",
                 env: environment.config.baseConfig,
                 CASE_FLAG: "O",
-                CASE_SELF_TYPE: (this.userType === "mySelf") ? "Y" : "N",
+                CASE_SELF_TYPE: (this.userType === "mySelf")?"Y":"N",
             },
         };
     }

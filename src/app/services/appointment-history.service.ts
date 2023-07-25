@@ -7,14 +7,14 @@ import { Observable } from 'rxjs';
 })
 export class BpmAppointmentHistoryService {
     constructor(@Inject(EFORM_REQUEST) private _req: EformRequestFactory) { }
-    
+
     public gets(filter: any): Observable<any[]> {
         return this._req<any[]>().api('BpmProcInstAppointment/history')
             .queryString(filter as any)
-            .get();
+            .disableCriticalDialogError().get();
     }
 }
- 
+
 export interface IAppointmentHistory {
-    
+
 }

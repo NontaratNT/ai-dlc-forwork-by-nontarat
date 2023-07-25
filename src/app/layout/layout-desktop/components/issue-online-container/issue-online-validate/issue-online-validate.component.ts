@@ -9,6 +9,8 @@ import Swal from "sweetalert2";
 import { ConvertDateService } from "src/app/services/convert-date.service";
 import { BankInfoService } from "src/app/services/bank-info.service";
 import { DxSelectBoxComponent } from "devextreme-angular";
+import { IOrganizeInfo, IOrgmaparea, OrgService } from "src/app/services/org.service";
+import { ProvinceService } from "src/app/services/province.service";
 
 @Component({
     selector: "app-issue-online-validate",
@@ -17,11 +19,15 @@ import { DxSelectBoxComponent } from "devextreme-angular";
 })
 export class IssueOnlineValidateComponent implements OnInit {
     @ViewChild("selectCaseChannel", { static: false }) selectCaseChannel: DxSelectBoxComponent;
+    @ViewChild("selectorgwalkin", { static: false }) selectorgwalkin: DxSelectBoxComponent;
+    @ViewChild("selectPresentProvicelocation", { static: false }) selectPresentProvicelocation: DxSelectBoxComponent;
+    @ViewChild("selectProvicemaparea", { static: false }) selectProvicemaparea: DxSelectBoxComponent;
+
     public mainConponent: IssueOnlineContainerComponent;
     monthFulltTh = [
-        'มกราคม','กุมภาพันธ์','มีนาคม','เมษายน',
-        'พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม',
-        'กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'
+        'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน',
+        'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม',
+        'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
     ];
     personalInfo = {};
     formData: any = {};
@@ -30,6 +36,7 @@ export class IssueOnlineValidateComponent implements OnInit {
     userType = 'mySelf';
     listDamageBank: any = [];
     listDamageBankOther: any = [];
+    listMeetCriminal: any = {};
     listDamageOther: any = [];
     loadDateBox = false;
     formLocation: any = {};
@@ -40,47 +47,527 @@ export class IssueOnlineValidateComponent implements OnInit {
     formLocationBankVictimLoad = false;
     formLocationBankVillain: any = {};
     formLocationBankVillainLoad = false;
+    formQuestionare: any = {}
     popupCaseChannel = false;
+    popupCaseChannel2 = false;
     popupIndex = 0;
     formPopup: any = {};
     listDocFile: any = [];
     listCaseChannel: any = [];
-    showCaseLabelName ="";
-    showcaseLabelID ="";
-    showcaseCode ="";
-    showcaseOption ="";
+    showCaseLabelName = "";
+    showcaseLabelID = "";
+    showcaseCode = "";
+    showcaseOption = "";
     popupViewFile = false;
     popupViewFileData: any = {};
     minBirthDate: Date;
     maxBirthDate: Date;
     popupFormData: any = {};
     promote = [
-        {ID:"ใช่",TEXT:"ใช่"},
-        {ID:"ไม่ใช่",TEXT:"ไม่ใช่"},
+        { ID: "ไม่ได้รับ", TEXT: "ไม่ได้รับ" },
+        { ID: "ได้รับ", TEXT: "ได้รับ" },
     ];
+    groupquestion1_1 = [
+        { id: "1.1", txt: "ซื้อของใน social (เช่น facebook twitter) โอนเงินแล้วบล๊อกเลย" },
+        { id: "1.2", txt: "ซื้อของใน platform  (lazada,shopee) แต่ ส่งให้ไปจ่ายเงินช่องทางอื่นๆ" },
+        { id: "1.3", txt: "ซื้อแล้ว หลายวันยังไม่ส่ง ยังติดต่อได้บ่ายเบี่ยง ผลัดวันประกันพรุ่ง" },
+    ];
+    groupquestion1_2 = [
+        { id: "1.4", txt: "ซื้อแล้วส่งสินค้าอย่างอื่น (ซื้อโทรศัพท์ ส่ง สบู่)" },
+        { id: "1.5", txt: "ซื้อของแล้วส่งสินค้าไม่ตรงสเปค (ซื้อ tv 55 นิ้ว ส่ง 50 นิ้ว)" },
+        { id: "1.6", txt: "เคยซื้อสินค้ากันมาก่อนแล้ว และเคยได้สินค้า" },
+    ];
+    groupquestion2 = [
+        { id: "2.1", txt: "กู้เงิน ได้เงิน เรียกเก็บดอกเบี้ยเกินอัตรา" },
+        { id: "2.2", txt: "เป็นผู้ถูกรบกวนถูกแก๊งค์ปล่อยเงินกู้ โดยคนร้ายโทรมาทวงเงิน โดยที่ไม่ได้เกี่ยวข้อง" },
+        { id: "2.3", txt: "กู้เงิน ไม่ได้เงิน หลอกให้โอนค่าธรรมเนียมเพิ่มขึ้นเรื่อยๆ" },
+    ];
+    groupquestion3 = [
+        { id: "3.1", txt: "ทำกิจกรรมต่างๆ หรืออ้างว่าซื้อขายสินค้า แล้วได้เงินรางวัลเพิ่มขึ้นเรื่อยๆ แต่ไม่มีการรับส่งสินค้าจริงๆ" },
+        { id: "3.2", txt: "แชร์ลูกโซ่ หรือชักชวนลงทุนใน แชร์ทองบ้านออมทอง หรือแชร์รูปแบบต่างๆ" },
+    ];
+    groupquestion5 = [
+        { id: "5.1", txt: "อ้างเป็นหน่วยงานรัฐ  เช่น สรรพากร ตำรวจ ดีเอสไอ ปปง." },
+        { id: "5.2", txt: "อ้างเป็นหน่วยงานเอกชน เช่น ขนส่ง หรือพัสดุตกค้าง" },
+        { id: "5.3", txt: "ข่มขู่ และหรือหลอกลวงว่าจะช่วยเหลือ  และให้โอนเงินไปให้" },
+    ];
+
+    //เพิ่ม หน่วยงานให้เลือก
+    checkboxLocation: any = {};
+    checkboxaddresscard = false;
+    checkboxlocationreadonly: any = {};
+    formdataOrgsendcase: any = {
+
+        ORG_LOCATION_TYPE: null,
+        ORG_LOCATION_ID: null,
+        ORG_LOCATION_NAME: "",
+        ORG_PROVINCE_ID: null,
+        ORG_PROVICE_NAME: "",
+        ORG_LOCATION_MAIN_ID1: null,
+        ORG_LOCATION_MAIN_NAME1: "",
+        ORG_LOCATION_MAIN_ID2: null,
+        ORG_LOCATION_MAIN_NAME2: "",
+        ORG_LOCATION_MAIN_ID3: null,
+        ORG_LOCATION_MAIN_NAME3: "",
+        ORG_LOCATION_MAIN_ID4: null,
+        ORG_LOCATION_MAIN_NAME4: "",
+        ORG_LOCATION_MAIN_ID5: null,
+        ORG_LOCATION_MAIN_NAME5: "",
+        ORG_LOCATION_CENTER_ID: null,
+        ORG_LOCATION_CENTER_NAME: ""
+
+
+    };
+    showSelect = false;
+    dsorgbyaria: IOrganizeInfo[];
+    dsorgbyarialocation: IOrganizeInfo[];
+    dswalkinstatuspolice: IOrganizeInfo[];
+    dsorgarea: IOrgmaparea[];
+    province = [];
+    checkBlessing = false;
+
+
+    group1 = [
+        { id: "1.1", txt: "1.1 แจ้งความเป็นหลักฐาน" },
+        { id: "1.2", txt: "1.2 แจ้งความเอกสารหาย" },
+        { id: "1.3", txt: "1.3 แจ้งความร้องทุกข์ ดำเนินคดี" },
+    ];
+    group2 = [
+        { id: "2.1", txt: "2.1 ชีวิต ร่างกาย" },
+        { id: "2.2", txt: "2.2 ชื่อเสียง" },
+        { id: "2.3", txt: "2.3 ทรัพย์สิน" },
+    ];
+    group2_3 = [
+        {
+            id: "2.3.1",
+            txt: "2.3.1 ทรัพย์สินคงรูป/กรรมสิทธิ์ในทรัพย์สิน/เงินสด",
+        },
+        { id: "2.3.2", txt: "2.3.2 เงินในบัญชี" },
+        { id: "2.3.3", txt: "2.3.3 สกุลเงินดิจิทัล" },
+    ];
+
+    group3 = [
+        { id: "3.1", txt: "3.1 ช่องทางออนไลน์/โทรศัพท์" },
+        { id: "3.2", txt: "3.2 ได้พบเจอ/ทำผิดต่อหน้า" },
+    ];
+    ways = [
+        { id: 2, text: "ยังไม่ได้แจ้งธนาคาร" },
+        { id: 1, text: "ดำเนินการแจ้งธนาคาร" },
+    ];
+
+    orgtype2_1 = [
+        { org_id: 3536, org_name: "กองบังคับการตำรวจสืบสวนสอบสวนอาชญากรรมทางเทคโนโลยี 1 ที่ตั้ง  กรุงเทพฯ   อาคารรัฐประศาสนภักดี (อาคาร B) ศูนย์ราชการฯ แจ้งวัฒนะ ชั้น 4 ถนนแจ้งวัฒนะ แขวงทุ่งสองห้อง เขตหลักสี่ " },
+    ];
+    orgtype2_2 = [
+        { org_id: 3548, org_name: "กองบังคับการตำรวจสืบสวนสอบสวนอาชญากรรมทางเทคโนโลยี 2 ที่ตั้ง จังหวัดนนทบุรี อาคารเฉลิมพระเกียรติฯ เลขที่ 904 ชั้น 19 ตำบลบ้านใหม่ อำเภอปากเกร็ด " },
+    ];
+    orgtype2_3 = [
+        { org_id: 3559, org_name: "กองบังคับการตำรวจสืบสวนสอบสวนอาชญากรรมทางเทคโนโลยี 3 ที่ตั้ง จังหวัดขอนแก่น เลขที่ 102 ถนนมิตรภาพ ตำบลในเมือง อำเภอเมืองขอนแก่น " },
+    ];
+    orgtype2_4 = [
+        { org_id: 3567, org_name: "กองบังคับการตำรวจสืบสวนสอบสวนอาชญากรรมทางเทคโนโลยี 4 ที่ตั้ง จังหวัดเชียงใหม่ เลขที่ 299 หมู่ 12 ถนนสมโภชเชียงใหม่ 700 ปี ตำบลป่าแดด อำเภอเมืองเชียงใหม่ " },
+    ];
+    orgtype2_5 = [
+        { org_id: 3578, org_name: "กองบังคับการตำรวจสืบสวนสอบสวนอาชญากรรมทางเทคโนโลยี 5 ที่ตั้ง จังหวัดสุราษฎร์ธานี เลขที่ 14 หมู่ 1 ตำบลบางกุ้ง อำเภอเมืองสุราษฎร์ธานี " }
+    ];
+    orgtype3 = [
+        { org_id: 2375, org_name: "กองบัญชาการตำรวจสอบสวนกลาง ที่ตั้ง กรุงเทพฯ ถนนพหลโยธิน แขวงจอมพล เขตจตุจักร" }
+    ];
+    aria1and2 = [
+        'ตำรวจภูธรภาค 1 (ชัยนาท,นนทบุรี,ปทุมธานี,พระนครศรีอยุธยา,ลพบุรี,สมุทรปราการ,สระบุรี,สิงห์บุรี,อ่างทอง)',
+        'ตำรวจภูธรภาค 2 (จันทบุรี,ฉะเชิงเทรา,ชลบุรี,ตราด,นครนายก,ปราจีนบุรี,ระยอง,สระแก้ว)',
+        'ตำรวจภูธรภาค 7 (กาญจนบุรี,นครปฐม,ประจวบคีรีขันธ์,เพชรบุรี,ราชบุรี,สมุทรสงคราม,สมุทรสาคร,สุพรรณบุรี)'
+    ]
+
+
+    aria3and4 = [
+        'ตำรวจภูธรภาค 3 (ชัยภูมิ,นครราชสีมา,บุรีรัมย์,ยโสธร,ศรีสะเกษ,สุรินทร์,อำนาจเจริญ,อุบลราชธานี)',
+        'ตำรวจภูธรภาค 4 (กาฬสินธุ์,ขอนแก่น,นครพนม,บึงกาฬ,มหาสารคาม,มุกดาหาร,ร้อยเอ็ด,เลย,สกลนคร,หนองคาย,หนองบัวลำภู,อุดรธานี)'
+    ]
+
+    groupQuestion1_1 = [
+        { id: "1.1", txt: "ซื้อของใน social (เช่น facebook twitter) โอนเงินแล้วบล๊อกเลย" },
+        { id: "1.2", txt: "ซื้อของใน platform  (lazada,shopee) แต่ ส่งให้ไปจ่ายเงินช่องทางอื่นๆ" },
+        { id: "1.3", txt: "ซื้อแล้ว หลายวันยังไม่ส่ง ยังติดต่อได้บ่ายเบี่ยง ผลัดวันประกันพรุ่ง" },
+    ];
+    groupQuestion1_2 = [
+        { id: "1.4", txt: "ซื้อแล้วส่งสินค้าอย่างอื่น (ซื้อโทรศัพท์ ส่ง สบู่)" },
+        { id: "1.5", txt: "ซื้อของแล้วส่งสินค้าไม่ตรงสเปค (ซื้อ tv 55 นิ้ว ส่ง 50 นิ้ว)" },
+        { id: "1.6", txt: "เคยซื้อสินค้ากันมาก่อนแล้ว และเคยได้สินค้า" },
+    ];
+    groupQuestion2 = [
+        { id: "2.1", txt: "กู้เงิน ได้เงิน เรียกเก็บดอกเบี้ยเกินอัตรา" },
+        { id: "2.2", txt: "เป็นผู้ถูกรบกวนถูกแก๊งค์ปล่อยเงินกู้ โดยคนร้ายโทรมาทวงเงิน โดยที่ไม่ได้เกี่ยวข้อง" },
+        { id: "2.3", txt: "กู้เงิน ไม่ได้เงิน หลอกให้โอนค่าธรรมเนียมเพิ่มขึ้นเรื่อยๆ" },
+    ];
+    groupQuestion3 = [
+        { id: "3.1", txt: "ทำกิจกรรมต่างๆ หรืออ้างว่าซื้อขายสินค้า แล้วได้เงินรางวัลเพิ่มขึ้นเรื่อยๆ แต่ไม่มีการรับส่งสินค้าจริงๆ" },
+        { id: "3.2", txt: "แชร์ลูกโซ่ หรือชักชวนลงทุนใน แชร์ทองบ้านออมทอง หรือแชร์รูปแบบต่างๆ" },
+    ];
+    groupQuestion5 = [
+        { id: "5.1", txt: "อ้างเป็นหน่วยงานรัฐ  เช่น สรรพากร ตำรวจ ดีเอสไอ ปปง." },
+        { id: "5.2", txt: "อ้างเป็นหน่วยงานเอกชน เช่น ขนส่ง หรือพัสดุตกค้าง" },
+        { id: "5.3", txt: "ข่มขู่ และหรือหลอกลวงว่าจะช่วยเหลือ  และให้โอนเงินไปให้" },
+    ];
+
+    aria5and6 = [
+        'ตำรวจภูธรภาค 5 (เชียงใหม่,น่าน,พะเยา,แพร่,แม่ฮ่องสอน,ลำปาง,ลำพูน)',
+        'ตำรวจภูธรภาค 6 (กำแพงเพชร,ตาก,นครสวรรค์,พิจิตร,พิษณุโลก,เพชรบูรณ์,สุโขทัย,อุตรดิตถ์,อุทัยธานี)'
+    ]
+
+    aria8and9 = [
+        'ตำรวจภูธรภาค 8 (กระบี่,ชุมพร,นครศรีธรรมราช,พังงา,ภูเก็ต,ระนอง,สุราษฎร์ธานี)',
+        'ตำรวจภูธรภาค 9 (ตรัง,นราธิวาส,ปัตตานี,พัทลุง,ยะลา,สงขลา,สตูล)'
+    ]
+    formReadOnly = true;
+    bankInfoList: any = [];
+
     constructor(
         private servicePersonal: PersonalService,
         private _onlineCaseServ: OnlineCaseService,
         private _router: Router,
         private _date: ConvertDateService,
         private servBankInfo: BankInfoService,
+        private _OrgService: OrgService,
+        private serviceProvince: ProvinceService,
 
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         const userId = User.Current.PersonalId;
+        // this.popupCaseChannel2 = true;
+
         this.servicePersonal
             .GetPersonalById(userId)
             .subscribe((_) => {
 
-                this.minBirthDate = this._date.SetDateDefault(80,true,true,true);
+                this.minBirthDate = this._date.SetDateDefault(80, true, true, true);
                 this.maxBirthDate = this._date.SetDateDefault(0);
                 this.personalInfo = _;
+                this.DefaultCheckbox();
                 this.ReloadData();
+
             });
 
+
     }
-    setDataLocation(){
+    PromoteChange(e) {
+        if (e.value) {
+            this.formData.IS_PROMOTE_RADIO = e.value;
+            this.showSelect = e.value == "ได้รับ" ? true : false;
+        }
+    }
+
+    OnSelectProvicemaparea(e) {
+
+        if (e.value) {
+            const data = this.selectProvicemaparea.instance.option("selectedItem");
+
+            if (data) {
+
+                this.formData.ORG_PROVINCE_MAP_AREA_ID = data.PROVINCE_ID;
+                this.formData.ORG_PROVINCE_MAP_AREA_NAME = data.PROVINCE_NAME_THA;
+                //parame insert
+                this.formData.ORG_LOCATION_TYPE = 2;
+                this.formData.ORG_LOCATION_ID = data.ORG_ID;
+                this.formData.ORG_LOCATION_NAME = data.ORGANIZE_FULL_NAME;
+            } else {
+                this.formData.ORG_PROVINCE_MAP_AREA_ID = e.value;
+            }
+
+
+        }
+    }
+    OnSelectProvicePresentlocation(e) {
+
+        if (e.value) {
+            const data = this.selectPresentProvicelocation.instance.option("selectedItem");
+            //     if (data) {
+            //         this.formdataOrgsendcase.ORG_PROVINCE_ID = data.PROVINCE_ID;
+            //         this.formdataOrgsendcase.ORG_PROVINCE_NAME = data.PROVINCE_NAME_THA;
+            //     }else{
+            //         this.formData.ORG_PROVINCE_ID = e.value;
+            //     }
+            // this._OrgService.getorgProvince(e.value).subscribe((_)=>{
+            //         this.dsorgbyarialocation = _;
+            // });
+            if (data) {
+                this.formData.ORG_PROVINCE_ID = data.PROVINCE_ID;
+                this.formData.ORG_PROVINCE_NAME = data.PROVINCE_NAME_THA;
+
+            } else {
+                this.formData.ORG_PROVINCE_ID = e.value;
+            }
+            this._OrgService.getorgProvince(e.value).subscribe((_) => {
+                this.dsorgbyarialocation = _;
+            });
+
+        }
+    }
+
+    Onorglocationwalkin(e) {
+        if (e.value) {
+            const data = this.selectorgwalkin.instance.option("selectedItem");
+
+            // if (data) {
+            //     this.formdataOrgsendcase.ORG_LOCATION_TYPE = 1;
+            //     this.formdataOrgsendcase.ORG_LOCATION_ID = data.ORGANIZE_ID;
+            //     this.formdataOrgsendcase.ORG_LOCATION_NAME = data.ORGANIZE_NAME_THA;
+            //     this.formdataOrgsendcase.ORG_PROVINCE_ID = Number(data.ORGANIZE_ARIA_CODE);
+
+            // }else{
+            //     this.formdataOrgsendcase.ORG_LOCATION_ID = e.value;
+            // }
+            // console.log('selectorgwalkin',data)
+            if (data) {
+                this.formData.ORG_LOCATION_TYPE = 1;
+                this.formData.ORG_LOCATION_ID = data.ORGANIZE_ID;
+                this.formData.ORG_LOCATION_NAME = data.ORGANIZE_NAME_THA;
+                this.formData.ORG_PROVINCE_LOCATION_ID = data.ORGANIZE_ID;
+                this.formData.ORG_PROVINCE_ID = Number(data.ORGANIZE_ARIA_CODE);
+
+            } else {
+                this.formData.ORG_LOCATION_ID = e.value;
+            }
+
+        }
+
+
+    }
+    onvaluechangeorgmain(e, type) {
+        // const data = this.selectorgmain.instance.option("selectedItem");
+        this.formData.ORG_PROVINCE_MAP_AREA_ID = null;
+        this.formData.ORG_PROVINCE_MAP_AREA_NAME = null;
+
+        if (e.value) {
+
+            if (type == 1) {
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = null;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = null;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = null;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = null;
+                const data: any = this.orgtype2_1.filter(r => r.org_id === e.value);
+                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = data[0].org_id;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME1 = data[0].org_name;
+
+                //parame insert
+                this.formData.ORG_LOCATION_TYPE = 2;
+                this.formData.ORG_LOCATION_ID = data[0].org_id;
+                this.formData.ORG_LOCATION_NAME = data[0].org_name;
+            }
+            if (type == 2) {
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = null;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = null;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = null;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = null;
+                const data: any = this.orgtype2_2.filter(r => r.org_id === e.value);
+                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = data[0].org_id;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME2 = data[0].org_name;
+
+                //parame insert
+                this.formData.ORG_LOCATION_TYPE = 2;
+                this.formData.ORG_LOCATION_ID = data[0].org_id;
+                this.formData.ORG_LOCATION_NAME = data[0].org_name;
+            } else if (type == 3) {
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = null;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = null;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = null;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = null;
+                const data: any = this.orgtype2_3.filter(r => r.org_id === e.value);
+                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = data[0].org_id;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME3 = data[0].org_name;
+
+                //parame insert
+                this.formData.ORG_LOCATION_TYPE = 2;
+                this.formData.ORG_LOCATION_ID = data[0].org_id;
+                this.formData.ORG_LOCATION_NAME = data[0].org_name;
+            } else if (type == 4) {
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = null;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = null;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = null;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = null;
+                const data: any = this.orgtype2_4.filter(r => r.org_id === e.value);
+                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = data[0].org_id;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME4 = data[0].org_name;
+
+                //parame insert
+                this.formData.ORG_LOCATION_TYPE = 2;
+                this.formData.ORG_LOCATION_ID = data[0].org_id;
+                this.formData.ORG_LOCATION_NAME = data[0].org_name;
+            } else if (type == 5) {
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = null;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = null;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = null;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = null;
+                const data: any = this.orgtype2_5.filter(r => r.org_id === e.value);
+                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = data[0].org_id;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME5 = data[0].org_name;
+
+                //parame insert
+                this.formData.ORG_LOCATION_TYPE = 2;
+                this.formData.ORG_LOCATION_ID = data[0].org_id;
+                this.formData.ORG_LOCATION_NAME = data[0].org_name;
+            }
+
+        }
+        // else{
+        //     this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID = e.value;
+        // }
+
+        console.log(this.formData.ORG_LOCATION_ID, this.formData.ORG_LOCATION_NAME);
+        // alert(this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID);
+    }
+
+
+    onvaluechangeorgcenter(e) {
+
+        if (e.value) {
+            const data: any = this.orgtype3.filter(r => r.org_id === e.value);
+            // console.log(data[0].org_id , data[0].org_name);
+            this.formdataOrgsendcase.ORG_LOCATION_TYPE = 3;
+            this.formdataOrgsendcase.ORG_LOCATION_CENTER_ID = data[0].org_id;
+            this.formdataOrgsendcase.ORG_LOCATION_CENTER_NAME = data[0].org_name;
+
+            //parame insert
+            this.formData.ORG_LOCATION_TYPE = 3;
+            this.formData.ORG_LOCATION_ID = data[0].org_id;
+            this.formData.ORG_LOCATION_NAME = data[0].org_name;
+
+
+
+        } else {
+            this.formdataOrgsendcase.ORG_LOCATION_CENTER_ID = e.value;
+        }
+        // alert(this.formdataOrgsendcase.ORG_LOCATION_CENTER_ID);
+    }
+
+    onvaluecheckboxlocationchange(e, type_location) {
+
+
+        this.formdataOrgsendcase = {
+
+            ORG_LOCATION_TYPE: null,
+            ORG_LOCATION_ID: null,
+            ORG_LOCATION_NAME: "",
+            ORG_PROVINCE_ID: null,
+            ORG_PROVICE_NAME: "",
+            ORG_LOCATION_MAIN_ID: null,
+            ORG_LOCATION_MAIN_NAME: "",
+            ORG_LOCATION_CENTER_ID: null,
+            ORG_LOCATION_CENTER_NAME: ""
+
+
+        };
+        if (type_location == 1) {
+
+            this.checkboxLocation.location_type1 = e.value;
+            this.checkboxLocation.location_type2 = false;
+            this.checkboxLocation.location_type3 = false;
+            if (e.value == true) {
+                this.checkboxlocationreadonly.readonly_type2 = true;
+                this.checkboxlocationreadonly.readonly_type3 = true;
+                this.formData.location_type1 = 1;
+                this.formData.ORG_LOCATION_TYPE = 1;
+            } else {
+                // this.checkboxlocationreadonly.readonly_type2 = false;
+                // this.checkboxlocationreadonly.readonly_type3 = false;
+                if (this.formData.CASE_ORG_TYPE_ID == 1) {
+                    this.checkboxLocation.location_type1 = true;
+                    this.checkboxlocationreadonly.readonly_type1 = false;
+                    this.checkboxlocationreadonly.readonly_type2 = true;
+                    this.checkboxlocationreadonly.readonly_type3 = true;
+                } else if (this.formData.CASE_ORG_TYPE_ID == 2) {
+                    this.checkboxlocationreadonly.readonly_type1 = false;
+                    this.checkboxlocationreadonly.readonly_type2 = false;
+                    this.checkboxlocationreadonly.readonly_type3 = true;
+                } else if (this.formData.CASE_ORG_TYPE_ID == 3) {
+                    this.checkboxlocationreadonly.readonly_type1 = true;
+                    this.checkboxlocationreadonly.readonly_type2 = true;
+                    this.checkboxlocationreadonly.readonly_type3 = false;
+                }
+            }
+
+        } else if (type_location == 2) {
+
+
+            this.checkboxLocation.location_type2 = e.value;
+            this.checkboxLocation.location_type1 = false;
+            this.checkboxLocation.location_type3 = false;
+            if (e.value == true) {
+                this.checkboxlocationreadonly.readonly_type1 = true;
+                this.checkboxlocationreadonly.readonly_type3 = true;
+                this.formData.location_type1 = 2;
+                this.formData.ORG_LOCATION_TYPE = 2;
+            } else {
+                // this.checkboxlocationreadonly.readonly_type1 = false;
+                // this.checkboxlocationreadonly.readonly_type3 = false;
+                if (this.formData.CASE_ORG_TYPE_ID == 1) {
+                    this.checkboxLocation.location_type1 = true;
+                    this.checkboxlocationreadonly.readonly_type1 = false;
+                    this.checkboxlocationreadonly.readonly_type2 = true;
+                    this.checkboxlocationreadonly.readonly_type3 = true;
+                } else if (this.formData.CASE_ORG_TYPE_ID == 2) {
+                    this.checkboxlocationreadonly.readonly_type1 = false;
+                    this.checkboxlocationreadonly.readonly_type2 = false;
+                    this.checkboxlocationreadonly.readonly_type3 = true;
+                } else if (this.formData.CASE_ORG_TYPE_ID == 3) {
+                    this.checkboxlocationreadonly.readonly_type1 = true;
+                    this.checkboxlocationreadonly.readonly_type2 = true;
+                    this.checkboxlocationreadonly.readonly_type3 = false;
+                }
+            }
+        } else if (type_location == 3) {
+            this.checkboxLocation.location_type2 = false;
+            this.checkboxLocation.location_type1 = false;
+            this.checkboxLocation.location_type3 = e.value;
+            if (e.value == true) {
+                this.checkboxlocationreadonly.readonly_type2 = true;
+                this.checkboxlocationreadonly.readonly_type1 = true;
+                this.checkboxLocation.location_type3 = true;
+                this.formData.location_type1 = 3;
+
+                this.formData.ORG_LOCATION_TYPE = 3;
+            } else {
+                // this.checkboxlocationreadonly.readonly_type2 = false;
+                // this.checkboxlocationreadonly.readonly_type1 = false;
+                if (this.formData.CASE_ORG_TYPE_ID == 1) {
+                    this.checkboxLocation.location_type1 = true;
+                    this.checkboxlocationreadonly.readonly_type1 = false;
+                    this.checkboxlocationreadonly.readonly_type2 = true;
+                    this.checkboxlocationreadonly.readonly_type3 = true;
+                } else if (this.formData.CASE_ORG_TYPE_ID == 2) {
+                    this.checkboxlocationreadonly.readonly_type1 = false;
+                    this.checkboxlocationreadonly.readonly_type2 = false;
+                    this.checkboxlocationreadonly.readonly_type3 = true;
+                } else if (this.formData.CASE_ORG_TYPE_ID == 3) {
+                    this.checkboxlocationreadonly.readonly_type1 = true;
+                    this.checkboxlocationreadonly.readonly_type2 = true;
+                    this.checkboxlocationreadonly.readonly_type3 = false;
+                }
+            }
+        }
+    }
+    DefaultCheckbox() {
+
+        this.checkboxLocation = {
+            location_type1: false,
+            location_type2: false,
+            location_type3: false
+        };
+
+        this.checkboxlocationreadonly = {
+            readonly_type1: false,
+            readonly_type2: false,
+            readonly_type3: false
+        }
+
+    }
+    setDataLocation() {
         const d = this.mainConponent.formDataAll.formEvent;
         this.formLocation = d;
         this.formLocationTranfer = d;
@@ -92,32 +579,106 @@ export class IssueOnlineValidateComponent implements OnInit {
         this.formLocationBankVictimLoad = true;
         this.formLocationBankVillainLoad = true;
     }
-    async ReloadData(){
+    async ReloadData() {
         this.isLoading = true;
-        this.listCaseChannel  = await this.servBankInfo.GetCaseChannel().toPromise();
-
+        this.listCaseChannel = await this.servBankInfo.GetCaseChannel().toPromise();
+        this.province = await this.serviceProvince.GetProvince().toPromise();
+        this.bankInfoList = await this.servBankInfo.GetBankInfo().toPromise();
+        this.dsorgbyarialocation = await this._OrgService.getorgwalkin().toPromise();
+        this.dswalkinstatuspolice = await this._OrgService.getorgwalkin().toPromise();
+        // this.dsorgarea = await this._OrgService.getorgariaall().toPromise();
         this.loadDateBox = false;
         this.reload = false;
         this.formLocationLoad = false;
         this.formData = {};
-        setTimeout(()=>{
+        setTimeout(() => {
             this.userType = this.mainConponent.userType;
             const d = this.mainConponent.formDataAll;
             const formSubmit = Object.assign({},
-                d.formInformer,d.formEvent,
-                d.formDamage,d.formVaillain,
-                d.formAttachment,d.formConfigs
+                d.formInformer, d.formEvent,
+                d.formDamage, d.formVaillain,
+                d.formAttachment, d.formConfigs,
+                d.formQuestionnare
             );
             this.formData = formSubmit;
-
-            this.listDamageBank = d.formDamage.listDamageBank ?? [];
-            this.listDamageBankOther = d.formDamage.listDamageBankOther ?? [];
-            this.listDamageOther = d.formDamage.listDamageOther ?? [];
+            if(this.formData.BANK_REF){
+                this.formData.WAY = this.formData.BANK_REF.length > 0 ? 1 :2;
+            }
+            if(d.formVaillain.CASE_CRIMINAL_MEET){
+                this.listMeetCriminal = d.formVaillain.CASE_CRIMINAL_MEET[0] ?? [];
+            }else{
+                this.listMeetCriminal = {
+                    CASE_CRIMINAL_MEET_INPERSON:false,
+                    CASE_CRIMINAL_MEET_VDOCALL:false,
+                    CASE_CRIMINAL_MEET_WITHNESSEDPERSON:false,
+                    CASE_CRIMINAL_MEET_WITHNESSEDVDOCALL:false,
+                    CASE_CRIMINAL_MEET_SOCAIL:false,
+                    CASE_CRIMINAL_NOT_MEET:false,
+                    CASE_CRIMINAL_MEET_OTHER:false,
+                }
+            }
+            if(d.formQuestionnare.CASE_QUESTIONARE){
+                this.formQuestionare = d.formQuestionnare.CASE_QUESTIONARE[0] ?? [];
+            }else{
+                this.formQuestionare = {
+                    QUESTIONARE_4_1:false,
+                    QUESTIONARE_4_2:false,
+                    QUESTIONARE_4_3:false,
+                    QUESTIONARE_6_1:false,
+                    QUESTIONARE_6_2:false,
+                    QUESTIONARE_6_3:false,
+                    QUESTIONARE_7_1:false,
+                    QUESTIONARE_7_2:false,
+                    QUESTIONARE_7_3:false,
+                    QUESTIONARE_7_4:false,
+                    QUESTIONARE_8_1:false,
+                    QUESTIONARE_8_2:false,
+                    QUESTIONARE_8_3:false,
+                    QUESTIONARE_9_1:false,
+                    QUESTIONARE_9_2:false,
+                    QUESTIONARE_9_3:false,
+                }
+            }
+            this.checkBlessing = this.mainConponent.formDataInsert.CHECK_BLESSING;
             this.reload = true;
             this.loadDateBox = true;
             this.isLoading = false;
             this.popupFormData = this.formData.Bank_personal_list;
             this.setDataLocation();
+
+            if (this.mainConponent.formType === "add") {
+
+                this.formData.ORG_PROVINCE_LOCATION_ID = null;
+                this.formData.ORG_PROVINCE_ID = null;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = null;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = null;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = null;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = null;
+                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = null;
+                this.formdataOrgsendcase.ORG_LOCATION_CENTER_ID = null;
+                this.checkboxLocation.location_type1 = false;
+                this.checkboxLocation.location_type2 = false;
+                this.checkboxLocation.location_type3 = false;
+                if (this.formData.CASE_ORG_TYPE_ID == 1) {
+                    this.checkboxLocation.location_type1 = true;
+                    this.checkboxlocationreadonly.readonly_type1 = false;
+                    this.checkboxlocationreadonly.readonly_type2 = true;
+                    this.checkboxlocationreadonly.readonly_type3 = true;
+                } else if (this.formData.CASE_ORG_TYPE_ID == 2) {
+                    this.checkboxlocationreadonly.readonly_type1 = false;
+                    this.checkboxlocationreadonly.readonly_type2 = false;
+                    this.checkboxlocationreadonly.readonly_type3 = true;
+                } else if (this.formData.CASE_ORG_TYPE_ID == 3) {
+                    this.checkboxLocation.location_type3 = true;
+                    this.checkboxlocationreadonly.readonly_type1 = true;
+                    this.checkboxlocationreadonly.readonly_type2 = true;
+                    this.checkboxlocationreadonly.readonly_type3 = false;
+                }
+
+
+            }
+
+
 
         }, 500);
 
@@ -125,38 +686,38 @@ export class IssueOnlineValidateComponent implements OnInit {
         // this.formData.CASE_INFORMER_DATE = this._date.ConvertToDateFormat(this.formData.CASE_INFORMER_DATE);
 
     }
-    CheckStatusDamage(){
+    CheckStatusDamage() {
         if (this.formData.CASE_MONEY_TYPE1 === 'Y'
             || this.formData.CASE_MONEY_TYPE2 === 'Y'
             || this.formData.CASE_MONEY_TYPE3 === 'Y'
-            || this.formData.CASE_MONEY_TYPE4 === 'Y'){
+            || this.formData.CASE_MONEY_TYPE4 === 'Y') {
             return true;
         }
         return false;
 
     }
-    CheckStatusLeft(){
-        if (this.formData.CASE_MONEY_TYPE1 ==='Y' && this.formData.CASE_MONEY_TYPE2 ==='Y'){
+    CheckStatusLeft() {
+        if (this.formData.CASE_MONEY_TYPE1 === 'Y' && this.formData.CASE_MONEY_TYPE2 === 'Y') {
             return "เงิน,ทรัพย์สินอื่นๆ";
-        }else if (this.formData.CASE_MONEY_TYPE1 ==='Y'){
+        } else if (this.formData.CASE_MONEY_TYPE1 === 'Y') {
             return "เงิน";
-        }else if (this.formData.CASE_MONEY_TYPE2 ==='Y'){
+        } else if (this.formData.CASE_MONEY_TYPE2 === 'Y') {
             return "เงิน";
         }
         return "";
     }
-    CheckStatusRight(){
-        if (this.formData.CASE_MONEY_TYPE3 ==='Y' && this.formData.CASE_MONEY_TYPE4 ==='Y'){
+    CheckStatusRight() {
+        if (this.formData.CASE_MONEY_TYPE3 === 'Y' && this.formData.CASE_MONEY_TYPE4 === 'Y') {
             return "โอนเงินผ่านธนาคาร, โอนเงินด้วยวิธีอื่น";
-        }else if (this.formData.CASE_MONEY_TYPE3 ==='Y'){
+        } else if (this.formData.CASE_MONEY_TYPE3 === 'Y') {
             return "โอนเงินผ่านธนาคาร";
-        }else if (this.formData.CASE_MONEY_TYPE4 ==='Y'){
+        } else if (this.formData.CASE_MONEY_TYPE4 === 'Y') {
             return "โอนเงินด้วยวิธีอื่น";
         }
         return "";
     }
-    CheckSammaryValue(num){
-        if (num){
+    CheckSammaryValue(num) {
+        if (num) {
             return parseFloat(num).toFixed(2);
         }
         return 0;
@@ -167,7 +728,7 @@ export class IssueOnlineValidateComponent implements OnInit {
         const ddate = ` ${d.getDate()} `;
         const textMonthNow = ` ${this.monthFulltTh[month]}`;
         const year = (d.getFullYear() + 543);
-        return [ddate,' ' , textMonthNow , ' ', year].join("");
+        return [ddate, ' ', textMonthNow, ' ', year].join("");
     }
     DownloadFile(data) {
         const linkSource = data.url;
@@ -176,24 +737,24 @@ export class IssueOnlineValidateComponent implements OnInit {
         downloadLink.download = data.originalName;
         downloadLink.click();
     }
-    CheckArray(data: any = []){
+    CheckArray(data: any = []) {
         const countArray = data.length ?? 0;
-        if (countArray > 0){
+        if (countArray > 0) {
             return true;
         }
         return false;
 
     }
-    async CaseChannelSetDoc(data: any = []){
+    async CaseChannelSetDoc(data: any = []) {
         this.listDocFile = data.CHANNEL_DOC ?? [];
         // eslint-disable-next-line @typescript-eslint/prefer-for-of
         for (let i = 0; i < data.length; i++) {
             const item = data[i];
             this.listDocFile.push(item);
         }
-        return ;
+        return;
     }
-    async CaseChannelEditData(data = {} as any, index = null){
+    async CaseChannelEditData(data = {} as any, index = null) {
         this.isLoading = true;
         this.popupCaseChannel = true;
         this.popupIndex = index;
@@ -203,9 +764,9 @@ export class IssueOnlineValidateComponent implements OnInit {
         const d = data;
         for (const key in d) {
             if (d[key] !== null && d[key] !== undefined) {
-                if (key === 'CHANNEL_DOC'){
+                if (key === 'CHANNEL_DOC') {
                     await this.CaseChannelSetDoc(d[key]);
-                }else{
+                } else {
                     setData[key] = d[key];
                 }
             }
@@ -220,9 +781,22 @@ export class IssueOnlineValidateComponent implements OnInit {
 
         this.isLoading = false;
     }
-    CaseChannelclose(){
+    CaseChannelclose() {
         this.popupCaseChannel = false;
         this.formPopup = {};
+    }
+
+    CaseChannelclose1() {
+        this.popupCaseChannel2 = false;
+    }
+
+    onshowcheck2() {
+        this.popupCaseChannel2 = true;
+
+    }
+    onsubmitcheck() {
+        this.popupCaseChannel2 = false;
+
     }
     OnSelectCaseChannel(e) {
         if (e.value) {
@@ -236,7 +810,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                 this.showcaseCode = data.CHANNEL_CODE;
                 this.showcaseOption = data.CHANNEL_OPTION_FLAG;
 
-            }else{
+            } else {
                 this.formPopup.CHANNEL_ID = e.value;
             }
 
@@ -258,13 +832,35 @@ export class IssueOnlineValidateComponent implements OnInit {
         this.popupViewFile = false;
         this.popupViewFileData = {};
     }
-    Back(e){
-        this.mainConponent.NextIndex(this.mainConponent.indexTab -1);
+    Back(e) {
+        this.mainConponent.NextIndex(this.mainConponent.indexTab - 1);
     }
     SubmitForm(e) {
+        this.popupCaseChannel2 = false;
         if (this.mainConponent.formType === 'add') {
-            this.InsertForm(e,this.formData);
-        }else{
+            // if(this.formData.ORG_LOCATION_TYPE == 1 ){
+            //     if (!this.formData.ORG_LOCATION_ID){
+            //         this.alertmessagecustom('กรุณาเลือกสถานี');
+            //         return;
+            //     }
+            // }else if(this.formData.ORG_LOCATION_TYPE == 2){
+            //     if (!this.formData.ORG_LOCATION_ID){
+            //         this.alertmessagecustom('กรุณาเลือกสถานี');
+            //         return;
+            //     }
+            // }else if(this.formData.ORG_LOCATION_TYPE == 3){
+            //     if (!this.formData.ORG_LOCATION_ID){
+            //         this.alertmessagecustom('กรุณาเลือกสถานี');
+            //         return;
+            //     }
+            // }else{
+            //     if (!this.formData.ORG_LOCATION_ID){
+            //         this.alertmessagecustom('กรุณาเลือกสถานี');
+            //         return;
+            //     }
+            // }
+            this.InsertForm(e, this.formData);
+        } else {
             // delete formdataAll._id;
             // delete formdataAll.backendId;
             // this.UpdateForm({
@@ -276,7 +872,18 @@ export class IssueOnlineValidateComponent implements OnInit {
 
 
     }
-    InsertForm(e,data){
+
+    alertmessagecustom(msg) {
+        Swal.fire({
+            title: "ผิดพลาด!",
+            text: msg ?? "กรุณากรอกข้อมูล",
+            icon: "warning",
+            confirmButtonText: "Ok",
+        }).then(() => { });
+        return;
+    }
+
+    InsertForm(e, data) {
         this.isLoading = true;
         const setData = {};
         for (const key in data) {
@@ -289,35 +896,70 @@ export class IssueOnlineValidateComponent implements OnInit {
                 setData[key] = data[key];
             }
         }
-        Swal.fire({
-            title: 'ยืนยันการแจ้งเรื่องเข้าสู่ระบบ!!',
-            text: "การแจ้งความออนไลน์เป็นการอำนวยความสะดวกแก่ท่านในการร้องทุกข์และแจ้งความประสงค์" +
-                "ให้อายัดเงินที่โอนเข้าไปในบัญชีคนร้ายและผู้เกี่ยวข้องโดยเร็ว " +
-                "ทันสถานการณ์ และท่านต้องไปให้ปากคำต่อพนักงานสอบสวนตามที่นัดหมาย เพื่อให้เป็นไปตามกฏหมายกำหนด"+
-                "ระบบจะส่งเรื่องไปที่หน่วยงาน "+this.formData.ORG_LOCATION_NAME+" กรุณาตรวจสอบข้อมูลก่อนกดยืนยัน",
-            icon: 'warning',
-            confirmButtonText: 'ตกลง',
-            showCancelButton: true,
-            cancelButtonText: 'ยกเลิก'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                this._onlineCaseServ.InsertDataMQ(setData)
-                    .pipe(finalize(() => this.isLoading = false))
-                    .subscribe(() => {
-                        Swal.fire({
-                            title: 'แจ้งเรื่องสำเร็จ!',
-                            text: 'กรุณารอเรื่องเข้าสู่ระบบ 1-3 นาที',
-                            icon: 'success',
-                            confirmButtonText: 'ตกลง'
-                        }).then(() => {
-                            this._router.navigate(['/main/task-list']);
+
+        if(this.formData.CHECK_BLESSING){
+            Swal.fire({
+                title: 'ยืนยันการแจ้งเรื่องเข้าสู่ระบบ!!',
+                text: "การแจ้งความออนไลน์เป็นการอำนวยความสะดวกแก่ท่านในการร้องทุกข์และแจ้งความประสงค์" +
+                    "ให้อายัดเงินที่โอนเข้าไปในบัญชีคนร้ายและผู้เกี่ยวข้องโดยเร็ว " +
+                    "ทันสถานการณ์ และท่านต้องไปให้ปากคำต่อพนักงานสอบสวนตามที่นัดหมาย เพื่อให้เป็นไปตามกฏหมายกำหนด" +
+                    "ระบบจะส่งเรื่องไปที่หน่วยงาน " + this.formData.ORG_LOCATION_NAME + " กรุณาตรวจสอบข้อมูลก่อนกดยืนยัน",
+                icon: 'warning',
+                confirmButtonText: 'ยืนยัน',
+                showCancelButton: true,
+                cancelButtonText: 'กลับไปแก้ไข'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this._onlineCaseServ.InsertDataMQ(setData)
+                        .pipe(finalize(() => this.isLoading = false))
+                        .subscribe(() => {
+                            Swal.fire({
+                                title: 'แจ้งเรื่องสำเร็จ!',
+                                text: 'กรุณารอเรื่องเข้าสู่ระบบ 1-3 นาที',
+                                icon: 'success',
+                                confirmButtonText: 'ตกลง'
+                            }).then(() => {
+                                this._router.navigate(['/main/task-list']);
+                            });
                         });
-                    });
-            } else {
-                this.isLoading = false;
-                console.log();
-            }
-        });
+                } else {
+                    this.isLoading = false;
+                    console.log();
+                }
+            });
+        }else{
+            Swal.fire({
+                title: 'ยืนยันการแจ้งเรื่องเข้าสู่ระบบ!!',
+                text: "การแจ้งความออนไลน์เป็นการอำนวยความสะดวกแก่ท่านในการร้องทุกข์และแจ้งความประสงค์" +
+                    "ให้อายัดเงินที่โอนเข้าไปในบัญชีคนร้ายและผู้เกี่ยวข้องโดยเร็ว " +
+                    "ทันสถานการณ์ และท่านต้องไปให้ปากคำต่อพนักงานสอบสวนตามที่นัดหมาย เพื่อให้เป็นไปตามกฏหมายกำหนด" +
+                    "ระบบจะส่งเรื่องไปที่หน่วยงานที่เกี่ยวข้อง กรุณาตรวจสอบข้อมูลก่อนกดยืนยัน",
+                icon: 'warning',
+                confirmButtonText: 'ยืนยัน',
+                showCancelButton: true,
+                cancelButtonText: 'กลับไปแก้ไข'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this._onlineCaseServ.InsertDataMQ(setData)
+                        .pipe(finalize(() => this.isLoading = false))
+                        .subscribe(() => {
+                            Swal.fire({
+                                title: 'แจ้งเรื่องสำเร็จ!',
+                                text: 'กรุณารอเรื่องเข้าสู่ระบบ 1-3 นาที',
+                                icon: 'success',
+                                confirmButtonText: 'ตกลง'
+                            }).then(() => {
+                                this._router.navigate(['/main/task-list']);
+                            });
+                        });
+                } else {
+                    this.isLoading = false;
+                    console.log();
+                }
+            });
+        }
+
+
     }
     // UpdateForm(data){
     //     this.isLoading = true;

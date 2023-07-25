@@ -14,18 +14,18 @@ export class StatusService {
 
     public getStatus(): Observable<ICmsStatus[]> {
         return this._req<ICmsStatus[]>().api('CmsStatus')
-            .get();
+            .disableCriticalDialogError().get();
     }
 
     public getStatusCode(statuscode: string): Observable<ICmsStatus[]> {
         return this._req<ICmsStatus[]>().api('CmsStatus')
             .queryString({ StatusCode: statuscode})
-            .get();
+            .disableCriticalDialogError().get();
     }
     public getStatusCount(statusCode: string): Observable<IBpmCountStatus[]> {
         return this._req<IBpmCountStatus[]>().api('BpmCountStatus')
             .queryString({  personalId: User.Current.PersonalId, StatusCode: statusCode})
-            .get();
+            .disableCriticalDialogError().get();
     }
 }
 export interface ICmsStatus {

@@ -12,7 +12,7 @@ export class BpmOutputDocService {
     public get(): Observable<IBPMOutPutDoc> {
         return this._req<IBPMOutPutDoc>().api('BpmOutputDoc')
             .queryString({ personalId: User.Current.PersonalId})
-            .get();
+            .disableCriticalDialogError().get();
     }
 }
 export interface IBPMOutPutDoc {

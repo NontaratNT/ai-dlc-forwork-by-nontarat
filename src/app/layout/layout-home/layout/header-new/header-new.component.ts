@@ -4,6 +4,7 @@ import { User } from 'src/app/services/user';
 import Swal from 'sweetalert2';
 import { UserSettingService } from 'src/app/services/user-setting.service';
 import { LoginService } from 'src/app/services/login.service';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
     selector: 'app-header-new',
@@ -13,11 +14,13 @@ import { LoginService } from 'src/app/services/login.service';
 export class HeaderNewComponent implements OnInit {
     _isLoading = false;
     hasSession = false;
+    popupVisible = false;
+    deviceInfo = null;
     constructor(
         private _router: Router,
         private userSetting: UserSettingService,
         private _loginServ: LoginService,
-
+        private deviceService: DeviceDetectorService
     ) { }
 
     ngOnInit(): void {
@@ -28,6 +31,10 @@ export class HeaderNewComponent implements OnInit {
     }
     RedirectUrl(url){
         this._router.navigate([url]);
+    }
+    OnIssueOnline() {
+        this.CheckDeviceMode();
+        // this.popupVisible = true;
     }
     logout() {
         Swal.fire({
@@ -57,5 +64,19 @@ export class HeaderNewComponent implements OnInit {
 
             }
         });
+    }
+    closePopupWarning(){
+        console.log("object");
+        this.popupVisible = false;
+        this.CheckDeviceMode();
+    }
+    CheckDeviceMode() {
+        this.deviceInfo = this.deviceService.getDeviceInfo();
+        const isMobile = this.deviceService.isMobile();
+        if (isMobile) {
+            this._router.navigate(["/mobile/track-status?openExternalBrowser=1"]);
+        }else{
+            this._router.navigate(["/main/issue-online/1"]);
+        }
     }
 }

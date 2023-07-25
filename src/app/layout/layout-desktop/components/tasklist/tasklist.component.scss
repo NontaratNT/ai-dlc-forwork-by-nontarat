@@ -1,10 +1,12 @@
 :host {
+
+
     .text-break {
         white-space: normal;
     }
     .inblock-title {
         margin-bottom: 15px;
-        font-size: 22px;
+        font-size: 30px;
         font-weight: bold;
         color: #3d3d3d;
     }
@@ -49,7 +51,8 @@
         margin-top: 10px;
         // left: 100px;
     }
-    .stepwizard-step button[disabled] {}
+    .stepwizard-step button[disabled] {
+    }
     .stepwizard .btn.disabled,
     .stepwizard .btn[disabled],
     .stepwizard fieldset[disabled] .btn {
@@ -76,6 +79,7 @@
         position: relative;
         /* top: 0px; */
         margin: 10px;
+        font-size: 19px;
         // font-size: 17px !important;
     }
     .type-contents {
@@ -247,6 +251,12 @@
     .btn-report-jurnal label {
         cursor: pointer;
     }
+    .dx-widget{
+        font-size: 18px;
+        @media only screen and(min-width: 2000px) {
+            font-size: 24px;
+        }
+    }
     @media only screen and(max-width: 1600px) {
         .tacking-profile {
             margin-top: 2rem;
@@ -270,11 +280,7 @@
         .step-text {
             position: relative;
             margin: 5px;
-            font-size: 12px;
-        }
-        .dx-widget {
-            // width: 100%;
-            // overflow-x: auto;
+            font-size: 19px;
         }
         .btn-all-list {
             margin-left: 0px;
@@ -429,36 +435,28 @@
     .table-icon-edit {
         cursor: pointer;
         img {
-            width: 25px;
-            height: 25px;
+            width: 40px;
+            height: 40px;
         }
     }
     .table-icon-edit:hover {
         opacity: 0.75;
     }
-    #tasklist-table.myContent {
-        .block-add-btn {
-            text-align: right;
-            margin: 5px 0 5px 0;
-            .btn-add {
-                background-color: #ffd84f;
-            }
-        }
-        //  ::ng-deep .dx-toolbar {
-        //     .dx-toolbar-before {
-        //         position: absolute;
-        //         right: 0;
-        //     }
-        //     .dx-toolbar-after {
-        //         position: absolute;
-        //         left: 0;
-        //         margin-left: -30px;
-        //     }
-        // }
-    }
+
+    //  ::ng-deep .dx-toolbar {
+    //     .dx-toolbar-before {
+    //         position: absolute;
+    //         right: 0;
+    //     }
+    //     .dx-toolbar-after {
+    //         position: absolute;
+    //         left: 0;
+    //         margin-left: -30px;
+    //     }
+    // }
     #appointment-now {
         .user-appointment {
-            width: 670px;
+            width: 700px;
             height: 140px;
             border-radius: 8px;
             background-color: #374784;
@@ -469,15 +467,39 @@
             user-select: none;
             .text-title {
                 color: #ffffff;
-                font-size: 22px;
+                font-size: 35px;
                 font-weight: bold;
             }
             .text {
                 color: #ffffff;
-                font-size: 18px;
+                font-size: 25px;
                 // padding-top: 15px;
                 .count-appointment {
                     font-size: 30px;
+                }
+            }
+            @media only screen and(min-width: 2000px) {
+                width: 850px;
+                height: 180px;
+                border-radius: 8px;
+                background-color: #374784;
+                padding: 25px;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                .text-title {
+                    color: #ffffff;
+                    font-size: 40px;
+                    font-weight: bold;
+                }
+                .text {
+                    color: #ffffff;
+                    font-size: 30px;
+                    // padding-top: 15px;
+                    .count-appointment {
+                        font-size: 35px;
+                    }
                 }
             }
         }
@@ -488,7 +510,7 @@
             }
             .appointment-list {
                 cursor: pointer;
-                border: 1px solid #E4E4E4;
+                border: 1px solid #e4e4e4;
                 box-sizing: border-box;
                 box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
                 border-radius: 10px;
@@ -502,13 +524,13 @@
                         border-radius: 10px 0px 0px 10px;
                     }
                     .color1 {
-                        background: linear-gradient(180deg, #2D4E95 0%, #005C9E 100%);
+                        background: linear-gradient(180deg, #2d4e95 0%, #005c9e 100%);
                     }
                     .color2 {
-                        background: linear-gradient(180deg, #FF9E44 0%, #F8B400 100%);
+                        background: linear-gradient(180deg, #ff9e44 0%, #f8b400 100%);
                     }
                     .border-center {
-                        border-left: 1px solid #E4E4E4;
+                        border-left: 1px solid #e4e4e4;
                     }
                     .nopadding {
                         padding-left: 0;
@@ -521,7 +543,7 @@
                         padding-left: 3px;
                     }
                     .marker {
-                        color: #333A71;
+                        color: #333a71;
                         font-weight: bold;
                     }
                     .appointment-data-box1,
@@ -549,19 +571,19 @@
                         }
                     }
                     .appointment-data-box1.color1 {
-                        background: linear-gradient(180deg, #2D4E95 0%, #005C9E 100%);
+                        background: linear-gradient(180deg, #2d4e95 0%, #005c9e 100%);
                     }
                     .appointment-data-box1.color2 {
-                        background: linear-gradient(180deg, #FF9E44 0%, #F8B400 100%);
+                        background: linear-gradient(180deg, #ff9e44 0%, #f8b400 100%);
                     }
                     .appointment-data-box2 {
                         .text-title {
                             font-weight: bold;
-                            font-size: 20px;
+                            font-size: 25px;
                         }
                         .text-subtitle {
                             margin-top: 10px;
-                            font-size: 16px;
+                            font-size: 20px;
                         }
                         .text-title.track-code {
                             margin-top: 10px;
@@ -583,14 +605,58 @@
                         margin-right: 15px;
                         .text-title {
                             font-weight: bold;
-                            font-size: 20px;
+                            font-size: 25px;
                         }
                         .text-subtitle {
-                            font-size: 16px;
+                            font-size: 20px;
                             margin-top: 10px;
                             .marker {
-                                color: #333A71;
+                                color: #333a71;
                                 font-weight: bold;
+                            }
+                        }
+                    }
+                    @media only screen and(min-width: 2000px) {
+                        .appointment-data-box1 {
+                            .text-title {
+                                font-weight: bold;
+                                font-size: 28px;
+                            }
+                            .text-subtitle {
+                                font-size: 28px;
+                            }
+                        }
+                        .appointment-data-box2 {
+                            .text-title {
+                                font-weight: bold;
+                                font-size: 30px;
+                            }
+                            .text-subtitle {
+                                margin-top: 10px;
+                                font-size: 30px;
+                            }
+                            .text-title.track-code {
+                                margin-top: 10px;
+                            }
+                            .text-title.category {
+                                margin-top: 10px;
+                            }
+                        }
+                        .appointment-data-box4 {
+                            // margin-left: 15px;
+                            margin-top: 21px;
+                            margin-right: 15px;
+                            .text-title {
+                                font-weight: bold;
+                                font-size: 30px;
+                            }
+                            .text-subtitle {
+                                font-size: 30px;
+                                margin-top: 10px;
+                                .marker {
+                                    color: #333a71;
+                                    font-weight: bold;
+                                }
                             }
                         }
                     }
@@ -610,5 +676,74 @@
         z-index: 98;
         top: -4px;
         right: -7px;
+    }
+}
+
+::ng-deep .btn-add {
+    padding: 7px !important;
+    span {
+        padding-top: 2px;
+        top: 0px !important;
+    }
+    i {
+        font-size: 25px !important;
+    }
+}
+
+::ng-deep .btn-block {
+    &-block1{
+        background-color: #C7252D;
+        border: 1px solid #951218;
+        border-radius: 5px;
+        width: 400px;
+        height: 50px;
+        &.dx-state-hover{
+            background-color: #970007;
+        }
+        &.dx-state-focused{
+            background-color: #686868;
+        }
+    }
+    &-block2{
+        background-color: #06C755;
+        border: 1px solid #079C44;
+        border-radius: 5px;
+        width: 400px;
+        height: 50px;
+        &.dx-state-hover{
+            background-color: #006329;
+        }
+        &.dx-state-focused{
+            background-color: #686868;
+        }
+    }
+
+  }
+::ng-deep .section2 {
+    .block-title {
+        padding: 30px 20px;
+        text-decoration-line: underline;
+        color: #0b2652;
+        font-size: 20px;
+    }
+    .box-bank {
+        cursor: pointer;
+        width: 50%;
+        font-size: 20px;
+        .item-box-bank {
+            align-content: center;
+            align-items: center;
+        }
+    }
+}
+
+.block-add-btn {
+    // margin: 5px 0 5px 0;
+    .btn-add {
+        background-color: #ffd84f;
+        width: 250px;
+        height: 50px;
+        font-weight: 600;
+        font-size: large;
     }
 }
