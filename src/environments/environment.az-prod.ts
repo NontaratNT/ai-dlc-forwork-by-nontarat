@@ -5,7 +5,7 @@ export const environment = {
         baseConfig: {
             apiUrl: "https://thaipoliceapimgmt.azure-api.net/ccibazure/api",
             reportUrl: "http://192.168.10.70/web-report/",
-            resourceUrl: "http://192.168.10.71/resource/ccib/",
+            resourceUrl: "https://thaipoliceapimgmt.azure-api.net/ccibazure/api/resource",
             hubUrl: "http://192.168.10.73/hub"
         },
         eFormHost: "https://thaipoliceapimgmt.azure-api.net/eformazure/api",
