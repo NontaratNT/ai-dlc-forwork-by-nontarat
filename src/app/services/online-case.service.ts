@@ -78,6 +78,8 @@ export class OnlineCaseService {
     }
     public Getcasechannel(caseId: number,): Observable<any> {
         return req(`CmsOnlineCaseInfo/casechannel/${caseId}`).disableCriticalDialogError().get();
-
+    }
+    public GetcaseQuestionare(caseId: number,): Observable<any> {
+        return req(`CmsOnlineCaseInfo/casequestionate/${caseId}`).disableCriticalDialogError().get();
     }
 }

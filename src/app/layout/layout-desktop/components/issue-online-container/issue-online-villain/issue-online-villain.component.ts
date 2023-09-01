@@ -269,7 +269,7 @@ export class IssueOnlineVillainComponent implements OnInit {
                 this.formAddData = false;
                 this.formValidate = false;
 
-                const _case_id = Number(sessionStorage.getItem("case_id"))
+                const _case_id = Number(sessionStorage.getItem("case_id"));
                 const _CASE_CHANNEL = await this._OnlineCaseService.Getcasechannel(_case_id).toPromise();
                 this.uploadFileBufferList = [];
                 this.formCriminal = {};
@@ -298,24 +298,22 @@ export class IssueOnlineVillainComponent implements OnInit {
                         this.fileChannel = await this._fileService.getChannelFile(this.formData.CASE_CHANNEL[i].CASE_CHANNEL_ID).toPromise();
                         console.log(this.fileChannel);
                         if(this.fileChannel){
-                            for(let j=0;j<this.fileChannel.length;j++){
-                                for (let item of this.fileChannel[j]) {
-                                    switch (item.typeChannel){
-                                        case "email" : this.formData.CASE_CHANNEL[i].CHANNEL_EMAIL_DOC.push(item); break;
-                                        case "facebook" : this.formData.CASE_CHANNEL[i].CHANNEL_FACEBOOK_DOC.push(item); break;
-                                        case "instargram" : this.formData.CASE_CHANNEL[i].CHANNEL_INSTARGRAM_DOC.push(item); break;
-                                        case "line" : this.formData.CASE_CHANNEL[i].CHANNEL_LINE_DOC.push(item); break;
-                                        case "messenger" : this.formData.CASE_CHANNEL[i].CHANNEL_MESSENGER_DOC.push(item); break;
-                                        case "others" : this.formData.CASE_CHANNEL[i].CHANNEL_OTHERS_DOC.push(item); break;
-                                        case "phone" : this.formData.CASE_CHANNEL[i].CHANNEL_PHONE_DOC.push(item); break;
-                                        case "sms" : this.formData.CASE_CHANNEL[i].CHANNEL_SMS_DOC.push(item); break;
-                                        case "telegram" : this.formData.CASE_CHANNEL[i].CHANNEL_TELEGRAM_DOC.push(item); break;
-                                        case "twitter" : this.formData.CASE_CHANNEL[i].CHANNEL_TWITTER_DOC.push(item); break;
-                                        case "website" : this.formData.CASE_CHANNEL[i].CHANNEL_WEBSITE_DOC.push(item); break;
-                                        case "whatsapp" : this.formData.CASE_CHANNEL[i].CHANNEL_WHATAPP_DOC.push(item); break;
-                                    }
+                            this.fileChannel.forEach(element => {
+                                switch (element.typeChannel){
+                                    case "email" : this.formData.CASE_CHANNEL[i].CHANNEL_EMAIL_DOC.push(element); break;
+                                    case "facebook" : this.formData.CASE_CHANNEL[i].CHANNEL_FACEBOOK_DOC.push(element); break;
+                                    case "instargram" : this.formData.CASE_CHANNEL[i].CHANNEL_INSTARGRAM_DOC.push(element); break;
+                                    case "line" : this.formData.CASE_CHANNEL[i].CHANNEL_LINE_DOC.push(element); break;
+                                    case "messenger" : this.formData.CASE_CHANNEL[i].CHANNEL_MESSENGER_DOC.push(element); break;
+                                    case "others" : this.formData.CASE_CHANNEL[i].CHANNEL_OTHERS_DOC.push(element); break;
+                                    case "phone" : this.formData.CASE_CHANNEL[i].CHANNEL_PHONE_DOC.push(element); break;
+                                    case "sms" : this.formData.CASE_CHANNEL[i].CHANNEL_SMS_DOC.push(element); break;
+                                    case "telegram" : this.formData.CASE_CHANNEL[i].CHANNEL_TELEGRAM_DOC.push(element); break;
+                                    case "twitter" : this.formData.CASE_CHANNEL[i].CHANNEL_TWITTER_DOC.push(element); break;
+                                    case "website" : this.formData.CASE_CHANNEL[i].CHANNEL_WEBSITE_DOC.push(element); break;
+                                    case "whatsapp" : this.formData.CASE_CHANNEL[i].CHANNEL_WHATAPP_DOC.push(element); break;
                                 }
-                            }
+                            });
                         }
                     }
                 }

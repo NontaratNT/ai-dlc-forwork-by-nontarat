@@ -4,6 +4,7 @@ import { DxFormComponent } from 'devextreme-angular';
 import { PersonalService } from 'src/app/services/personal.service';
 import { User } from 'src/app/services/user';
 import Swal from 'sweetalert2';
+import { OnlineCaseService } from 'src/app/services/online-case.service';
 
 @Component({
   selector: 'app-issue-online-questionare',
@@ -72,7 +73,7 @@ export class IssueOnlineQuestionareComponent implements OnInit {
     checkBlessing = false;
     formType = 'add';
 
-    constructor(private servicePersonal: PersonalService,) { }
+    constructor(private servicePersonal: PersonalService,private _OnlineCaseService: OnlineCaseService,) { }
 
     ngOnInit(): void {
         const userId = User.Current.PersonalId;
@@ -87,7 +88,7 @@ export class IssueOnlineQuestionareComponent implements OnInit {
         }, 100);
     }
 
-    setDefaultData(){
+    async setDefaultData(){
         this.checkBlessing = this.mainConponent.formDataInsert.CHECK_BLESSING;
         if (this.mainConponent.formType === 'add') {
             this.formData.CASE_QUESTIONARE = []
@@ -110,8 +111,27 @@ export class IssueOnlineQuestionareComponent implements OnInit {
         }else{
             this.formReadOnly = true;
             this.formType = 'edit';
-            const dataForm = this.mainConponent.formDataInsert;
-            this.formQuestionare = dataForm.CASE_QUESTIONARE[0] ?? [];
+            const _case_id = Number(sessionStorage.getItem("case_id"));
+            const _CASE_QUESTIONARE = await this._OnlineCaseService.GetcaseQuestionare(_case_id).toPromise();
+            this.formQuestionare = _CASE_QUESTIONARE[0] ?? null;
+            if(this.formQuestionare == null){
+                this.formQuestionare.QUESTIONARE_4_1 = false;
+                this.formQuestionare.QUESTIONARE_4_2 = false;
+                this.formQuestionare.QUESTIONARE_4_3 = false;
+                this.formQuestionare.QUESTIONARE_6_1 = false;
+                this.formQuestionare.QUESTIONARE_6_2 = false;
+                this.formQuestionare.QUESTIONARE_6_3 = false;
+                this.formQuestionare.QUESTIONARE_7_1 = false;
+                this.formQuestionare.QUESTIONARE_7_2 = false;
+                this.formQuestionare.QUESTIONARE_7_3 = false;
+                this.formQuestionare.QUESTIONARE_7_4 = false;
+                this.formQuestionare.QUESTIONARE_8_1 = false;
+                this.formQuestionare.QUESTIONARE_8_2 = false;
+                this.formQuestionare.QUESTIONARE_8_3 = false;
+                this.formQuestionare.QUESTIONARE_9_1 = false;
+                this.formQuestionare.QUESTIONARE_9_2 = false;
+                this.formQuestionare.QUESTIONARE_9_3 = false;
+            }
         }
     }
 
