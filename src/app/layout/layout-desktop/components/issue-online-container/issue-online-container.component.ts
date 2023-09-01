@@ -14,6 +14,7 @@ import { IssueOnlineVillainComponent } from "./issue-online-villain/issue-online
 import { IssueOnlineValidateComponent } from "./issue-online-validate/issue-online-validate.component";
 import { IssueOnlineBlessingComponent } from "./issue-online-blessing/issue-online-blessing.component";
 import { IssueOnlineQuestionareComponent } from "./issue-online-questionare/issue-online-questionare.component";
+import { ProvinceService } from "src/app/services/province.service";
 @Component({
     selector: "app-issue-online-container",
     templateUrl: "./issue-online-container.component.html",
@@ -118,6 +119,7 @@ export class IssueOnlineContainerComponent implements OnInit {
     public InstId: string;
     public ProcessInstanceId: string;
     public checkValidate : boolean;
+    public province = [];
     loadPageSuccess = false;
     isLoading = true;
     countFlow = 0;
@@ -144,6 +146,7 @@ export class IssueOnlineContainerComponent implements OnInit {
         private _groupStatusServ: GroupStatusService,
         private _bpmProcinstServ: BpmProcinstService,
         private _activeRoute: ActivatedRoute,
+        private serviceProvince: ProvinceService
 
     ) {}
 
@@ -155,9 +158,6 @@ export class IssueOnlineContainerComponent implements OnInit {
             this.formDataInsert = d.Submission;
             this.InstId = d.InstId;
             this.ProcessInstanceId = d.ProcessInstanceId;
-
-            console.log('data',d);
-            // this.caseId = d.Submission.backendId;
             this.stepNavigation = [
                 {text:"คำถามแยกพรก.",textClass:"arrow-div arrow-center"},
                 {text:"ข้อมูลผู้เสียหาย",textClass:"arrow-div arrow-center"},
@@ -167,11 +167,17 @@ export class IssueOnlineContainerComponent implements OnInit {
                 {text:"การกระทำความผิด",textClass:"arrow-div arrow-center"}
             ];
             this.stepNavigationWidth = 1900;
+            this.getProvince();
         }else{
-            
+
             this.SetFormInit();
+            this.getProvince();
         }
 
+    }
+    async getProvince(){
+        this.province = await this.serviceProvince.GetProvince().toPromise();
+        this.isLoading = false;
     }
     GetzIndexTab(index: number = 0){
         return this.stepNavigationZindex-index;
@@ -198,6 +204,7 @@ export class IssueOnlineContainerComponent implements OnInit {
             formAttachment:{},
             formAgree:{},
             formQuestionnare:{},
+            formBlessing:{},
             formConfigs:{
                 FORM_CODE: "CCIB_NOTIFY_PEOPLE@0.1",
                 env: environment.config.baseConfig,
@@ -292,5 +299,18 @@ export class IssueOnlineContainerComponent implements OnInit {
     }
     tetData(){
         // console.log('this.dataTest',this.dataTest);
+    }
+
+    public checkReload(page){
+        // console.log("เรียกข้อมูลไม่สำเร็จกำลังเรียกข้อมูลใหม่ที่หน้า ",page);
+        switch(page){
+            case 1 : this.blessingComponent.ngOnInit(); break;
+            case 2 : this.informerConponent.ngOnInit(); break;
+            case 3 : this.eventConponent.ngOnInit(); break;
+            case 4 : this.damageConponent.ngOnInit(); break;
+            case 5 : this.vaillainConponent.ngOnInit(); break;
+            case 6 : this.attachmentConponent.ngOnInit(); break;
+            case 7 : this.questionareComponent.ngOnInit(); break;
+        }
     }
 }

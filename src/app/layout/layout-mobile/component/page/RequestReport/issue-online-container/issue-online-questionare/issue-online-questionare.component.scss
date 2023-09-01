@@ -1,4 +1,11 @@
 :host {
+    .content-title-edit {
+        text-align: left;
+        padding: 10px 0 12px 0;
+        font-size: 18px;
+        color: #2f2b66;
+        font-weight: bold;
+    }
     // ::ng-deep {
     //     .dx-field-item-label-content .dx-field-item-required-mark {
     //         display: none;

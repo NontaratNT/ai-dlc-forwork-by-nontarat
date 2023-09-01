@@ -53,7 +53,7 @@ export class OnlineCaseService {
             .disableCriticalDialogError().post();
     }
 
-   
+
 
     public UpdateData(caseId: number,param: any): Observable<any> {
         return req(`CmsOnlineCaseInfo/${caseId}`)
@@ -61,7 +61,7 @@ export class OnlineCaseService {
             .disableCriticalDialogError().put();
     }
 
-    
+
     public GetOnlineRequest(caseId: number,): Observable<any> {
         return req(`CmsOnlineCaseInfoRequest/${caseId}`).disableCriticalDialogError().get();
 
@@ -74,6 +74,10 @@ export class OnlineCaseService {
 
     public Getcasemoney(caseId: number,): Observable<any> {
         return req(`CmsOnlineCaseInfo/casemoney/${caseId}`).disableCriticalDialogError().get();
+
+    }
+    public Getcasechannel(caseId: number,): Observable<any> {
+        return req(`CmsOnlineCaseInfo/casechannel/${caseId}`).disableCriticalDialogError().get();
 
     }
 }

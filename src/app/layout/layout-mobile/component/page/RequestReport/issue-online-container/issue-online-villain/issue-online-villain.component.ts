@@ -18,6 +18,7 @@ import { IssueOnlineFileUploadService } from "src/app/services/issue-online-file
 import { UserSettingService } from "src/app/services/user-setting.service";
 import { FormValidatorService } from "src/app/services/form-validator.service";
 import { DatePipe } from '@angular/common';
+import { ConvertDateService } from "src/app/services/convert-date.service";
 
 @Component({
     selector: "app-issue-online-villain",
@@ -158,9 +159,13 @@ export class IssueOnlineVillainComponent implements OnInit {
     dateTwitterEnd: Date;
     dateMessengerEnd: Date;
 
+    datePhone: Date;
+    dateSMS: Date;
     dateWebsite: Date;
     dateEmail: Date;
     dateOther: Date;
+    minBirthDate: Date;
+    maxBirthDate: Date;
 
     defaultLanguagePhoneType = 2;
     defaultLanguageSmsType = 2;
@@ -175,6 +180,19 @@ export class IssueOnlineVillainComponent implements OnInit {
     defaultLanguageEmailType = 2;
     defaultLanguageOtherType = 2;
 
+    formChannelPhone: any = {};
+    formChannelSMS: any = {};
+    formChannelLINE: any = {};
+    formChannelFACEBOOK: any = {};
+    formChannelINSTARGRAM: any = {};
+    formChannelWEBSITE: any = {};
+    formChannelEMAIL: any = {};
+    formChannelTELEGRAM: any = {};
+    formChannelWHATAPP: any = {};
+    formChannelOTHERS: any = {};
+    formChannelTWITTER: any = {};
+    formChannelMESSENGER: any = {};
+
     constructor(
         private servicePersonal: PersonalService,
         private serviceProvince: ProvinceService,
@@ -183,8 +201,8 @@ export class IssueOnlineVillainComponent implements OnInit {
         private servBankInfo: BankInfoService,
         private _issueFile: IssueOnlineFileUploadService,
         private _formValidate: FormValidatorService,
+        private _date: ConvertDateService,
         private datePipe: DatePipe
-
     ) {
         this.onReorder = this.onReorder.bind(this);
     }
@@ -194,87 +212,99 @@ export class IssueOnlineVillainComponent implements OnInit {
         const userId = User.Current.PersonalId;
         this.isLoading = true;
         this.uploadFileBufferList = [];
-        this.servicePersonal
-            .GetPersonalById(userId)
-            .subscribe((_) => {
-                this.personalInfo = _;
-                this.SetDefault();
-            });
+        // this.servicePersonal
+        //     .GetPersonalById(userId)
+        //     .subscribe((_) => {
+        //         this.personalInfo = _;
+        //         this.SetDefault();
+        //     });
+        setTimeout(async () => {
+            this.SetDefault();
+        }, 1000);
 
     }
     async SetDefault(){
-        this.uploadFileBufferStatus = false;
-        this.province  = await this.serviceProvince.GetProvince().toPromise();
-        this.listCaseChannel  = await this.servBankInfo.GetCaseChannel().toPromise();
-        // this.servBankInfo.GetCaseChannel().subscribe((_) => (this.listCaseChannel = _));
-        if (this.mainConponent.formType === 'add') {
-            this.presentAddress.disableDistrict = true;
-            this.presentAddress.disableSubDistrict = true;
-            this.presentAddress.disablepostcode = true;
+        try{
+            this.uploadFileBufferStatus = false;
+            this.province = this.mainConponent.province;
+            // this.listCaseChannel  = await this.servBankInfo.GetCaseChannel().toPromise();
+            this.minBirthDate = this._date.SetDateDefault(80, true, true, true);
+            this.maxBirthDate = this._date.SetDateDefault(0);
+            // this.servBankInfo.GetCaseChannel().subscribe((_) => (this.listCaseChannel = _));
+            if (this.mainConponent.formType === 'add') {
+                this.presentAddress.disableDistrict = true;
+                this.presentAddress.disableSubDistrict = true;
+                this.presentAddress.disablepostcode = true;
 
-            this.formType = "add";
-            this.formReadOnly = false;
-            this.formAddData = true;
-            this.formValidate = true;
-            this.formMeetCriminal.CASE_CRIMINAL_MEET_INPERSON = false;
-            this.formMeetCriminal.CASE_CRIMINAL_MEET_VDOCALL = false;
-            this.formMeetCriminal.CASE_CRIMINAL_MEET_WITHNESSEDPERSON = false;
-            this.formMeetCriminal.CASE_CRIMINAL_MEET_WITHNESSEDVDOCALL = false;
-            this.formMeetCriminal.CASE_CRIMINAL_MEET_SOCAIL = false;
-            this.formMeetCriminal.CASE_CRIMINAL_NOT_MEET = false;
-            this.formMeetCriminal.CASE_CRIMINAL_MEET_OTHER = false;
+                this.formType = "add";
+                this.formReadOnly = false;
+                this.formAddData = true;
+                this.formValidate = true;
+                this.formMeetCriminal.CASE_CRIMINAL_MEET_INPERSON = false;
+                this.formMeetCriminal.CASE_CRIMINAL_MEET_VDOCALL = false;
+                this.formMeetCriminal.CASE_CRIMINAL_MEET_WITHNESSEDPERSON = false;
+                this.formMeetCriminal.CASE_CRIMINAL_MEET_WITHNESSEDVDOCALL = false;
+                this.formMeetCriminal.CASE_CRIMINAL_MEET_SOCAIL = false;
+                this.formMeetCriminal.CASE_CRIMINAL_NOT_MEET = false;
+                this.formMeetCriminal.CASE_CRIMINAL_MEET_OTHER = false;
 
-            this.uploadFileBufferList = [];
-            this.formCriminal = {};
-            this.formData = {};
-            this.formData.CRIMINAL= 'Y';
-            this.formData.CASE_CRIMINAL = [];
-            this.formData.CASE_CRIMINAL_MEET = [];
-            this.formData.CASE_CHANNEL = [];
-            this.formPopupvillain.CASE_CHANNEL_LANGUAGE = [];
-        }else{
-            this.formType = "edit";
-            this.formReadOnly = true;
-            this.formAddData = false;
-            this.formValidate = false;
+                this.uploadFileBufferList = [];
+                this.formCriminal = {};
+                this.formData = {};
+                this.formData.CRIMINAL= 'Y';
+                this.formData.CASE_CRIMINAL = [];
+                this.formData.CASE_CRIMINAL_MEET = [];
+                this.formData.CASE_CHANNEL = [];
+                this.formPopupvillain.CASE_CHANNEL_LANGUAGE = [];
+            }else{
+                this.formType = "edit";
+                this.formReadOnly = true;
+                this.formAddData = false;
+                this.formValidate = false;
 
-            this.uploadFileBufferList = [];
-            this.formCriminal = {};
-            this.formData = {};
-            const dataForm = this.mainConponent.formDataInsert;
-            this.defaultCriminalType = dataForm.CRIMINAL === 'Y'? 1 : 2;
+                this.uploadFileBufferList = [];
+                this.formCriminal = {};
+                this.formData = {};
+                const dataForm = this.mainConponent.formDataInsert;
+                if(dataForm){
+                    this.defaultCriminalType = dataForm.CRIMINAL === 'Y'? 1 : 2;
+                    if (dataForm.CASE_CRIMINAL_PROVINCE_ID) {
+                        this.presentAddress.district = await this.serviceProvince
+                            .GetDistrictofProvince(dataForm.CASE_CRIMINAL_PROVINCE_ID)
+                            .toPromise();
+                        this.presentAddress.disableDistrict = false;
 
-            if (dataForm.CASE_CRIMINAL_PROVINCE_ID) {
-                this.presentAddress.district = await this.serviceProvince
-                    .GetDistrictofProvince(dataForm.CASE_CRIMINAL_PROVINCE_ID)
-                    .toPromise();
-                this.presentAddress.disableDistrict = false;
+                    }
+                    if (dataForm.CASE_CRIMINAL_DISTRICT_ID) {
+                        this.presentAddress.subDistrict = await this.serviceDistrict
+                            .GetSubDistrictOfDistrict(dataForm.CASE_CRIMINAL_DISTRICT_ID)
+                            .toPromise();
+                        this.presentAddress.disableSubDistrict = false;
+
+                    }
+                    if (dataForm.CASE_CRIMINAL_SUB_DISTRICT_ID) {
+                        this.presentAddress.postcode = await this.serviceSubDistrict
+                            .GetPostCode(dataForm.CASE_CRIMINAL_SUB_DISTRICT_ID)
+                            .toPromise();
+                        this.presentAddress.disablepostcode = false;
+
+                    }
+
+                    this.SelectTypeMeet();
+                    this.formData = dataForm;
+                    this.formCriminal = dataForm;
+                    this.formMeetCriminal = dataForm.CASE_CRIMINAL_MEET[0] ?? [];
+                    // this.uploadFileBufferList = dataForm.CASE_CRIMINAL_ATTACHMENT ?? [];
+                }
+
 
             }
-            if (dataForm.CASE_CRIMINAL_DISTRICT_ID) {
-                this.presentAddress.subDistrict = await this.serviceDistrict
-                    .GetSubDistrictOfDistrict(dataForm.CASE_CRIMINAL_DISTRICT_ID)
-                    .toPromise();
-                this.presentAddress.disableSubDistrict = false;
 
-            }
-            if (dataForm.CASE_CRIMINAL_SUB_DISTRICT_ID) {
-                this.presentAddress.postcode = await this.serviceSubDistrict
-                    .GetPostCode(dataForm.CASE_CRIMINAL_SUB_DISTRICT_ID)
-                    .toPromise();
-                this.presentAddress.disablepostcode = false;
-
-            }
-
-            this.SelectTypeMeet();
-            this.formData = dataForm;
-            this.formCriminal = dataForm;
-            this.formMeetCriminal = dataForm.CASE_CRIMINAL_MEET[0] ?? [];
-            // this.uploadFileBufferList = dataForm.CASE_CRIMINAL_ATTACHMENT ?? [];
-
+            this.isLoading = false;
+        }catch (error){
+            console.log(error);
+            this.SetDefault();
         }
-
-        this.isLoading = false;
     }
     ChangeCriminal(e){
         if (e.value) {
@@ -610,6 +640,19 @@ export class IssueOnlineVillainComponent implements OnInit {
         this.popupType = 'add';
         this.popupCaseChannel = true;
         this.formPopupvillain = {};
+        this.formPopupvillain = {};
+        this.formChannelPhone = {};
+        this.formChannelSMS = {};
+        this.formChannelLINE = {};
+        this.formChannelFACEBOOK = {};
+        this.formChannelINSTARGRAM = {};
+        this.formChannelWEBSITE = {};
+        this.formChannelEMAIL = {};
+        this.formChannelTELEGRAM = {};
+        this.formChannelWHATAPP = {};
+        this.formChannelOTHERS = {};
+        this.formChannelTWITTER = {};
+        this.formChannelMESSENGER = {};
         this.formPopupvillain.CHANEL_PHONE = false;
         this.formPopupvillain.CHANEL_SMS = false;
         this.formPopupvillain.CHANEL_LINE = false;
@@ -732,7 +775,6 @@ export class IssueOnlineVillainComponent implements OnInit {
         this.defaultLanguageEmailType = 2;
         this.defaultLanguageOtherType = 2;
         this.maxSizeBuffer = this.limitCaseChanelSize ?? 0;
-        console.log("ค่าเริ่ม",this.formPopupvillain.CASE_CHANNEL_LANGUAGE);
         this.SelectTypeChanel();
     }
     async CaseChannelSetDoc(data: any = [] , type){
@@ -835,7 +877,6 @@ export class IssueOnlineVillainComponent implements OnInit {
             }
         }
         this.formPopupvillain = setData;
-        console.log(this.formPopupvillain);
         if(this.formPopupvillain.CHANEL_LINE && this.formPopupvillain.CASE_CHANNEL_LINE_DATE_START != null){
             const dateStart = this.convertDate(this.formPopupvillain.CASE_CHANNEL_LINE_DATE_START,this.formPopupvillain.CASE_CHANNEL_LINE_TIME_START);
             this.dateLineStart = new Date(dateStart[0],dateStart[1],dateStart[2],dateStart[3],dateStart[4],dateStart[5]);
@@ -890,6 +931,15 @@ export class IssueOnlineVillainComponent implements OnInit {
         const dateStart = this.convertDate(this.formPopupvillain.CASE_CHANNEL_OCHANEL_OTHERS_DATE,this.formPopupvillain.CASE_CHANNEL_OCHANEL_OTHERS_TIME);
         this.dateOther = new Date(dateStart[0],dateStart[1],dateStart[2],dateStart[3],dateStart[4],dateStart[5]);
         }
+        if(this.formPopupvillain.CHANEL_PHONE && this.formPopupvillain.CASE_CHANNEL_PHONE_DATE != null){
+            const dateStart = this.convertDate(this.formPopupvillain.CASE_CHANNEL_PHONE_DATE,this.formPopupvillain.CASE_CHANNEL_PHONE_TIME);
+            this.datePhone = new Date(dateStart[0],dateStart[1],dateStart[2],dateStart[3],dateStart[4],dateStart[5]);
+        }
+        if(this.formPopupvillain.CHANEL_SMS && this.formPopupvillain.CASE_CHANNEL_SMS_DATE != null){
+            const dateStart = this.convertDate(this.formPopupvillain.CASE_CHANNEL_SMS_DATE,this.formPopupvillain.CASE_CHANNEL_SMS_TIME);
+            this.dateSMS = new Date(dateStart[0],dateStart[1],dateStart[2],dateStart[3],dateStart[4],dateStart[5]);
+        }
+
         this.defaultLanguagePhoneType = this.formChannelLanguage.PHONE_CHANNEL_LANGUAGE_FROMTRANSLATE ? 1 : 2;
         this.defaultLanguageSmsType = this.formChannelLanguage.SMS_CHANNEL_LANGUAGE_FROMTRANSLATE ? 1 : 2;
         this.defaultLanguageLineType = this.formChannelLanguage.LINE_CHANNEL_LANGUAGE_FROMTRANSLATE ? 1 : 2;
@@ -937,6 +987,20 @@ export class IssueOnlineVillainComponent implements OnInit {
                 }
                 this.formPopupvillain.CHANEL_PHONE_NAME = 'เบอร์โทรศัพท​์';
                 arr.push('เบอร์โทรศัพท​์');
+                this.formPopupvillain.CHANNEL_PHONE_DOC = this.listDocFilePhone ?? [];
+                this.formPopupvillain.CASE_CHANNEL_PHONE_DATE = this.formChannelPhone.CASE_CHANNEL_PHONE_DATE;
+                this.formPopupvillain.CASE_CHANNEL_PHONE_TIME = this.formChannelPhone.CASE_CHANNEL_PHONE_TIME;
+            }else{
+                this.formPopupvillain.CASE_CHANNEL_PHONE_ORIGINAL = null;
+                this.formPopupvillain.CASE_CHANNEL_PHONE_SERVICE = null;
+                this.formPopupvillain.CASE_CHANNEL_PHONE_DESTINATION = null;
+                this.formChannelLanguage.PHONE_CHANNEL_LANGUAGE_FROMTRANSLATE = false;
+                this.formChannelLanguage.PHONE_CHANNEL_LANGUAGE_THAI = false;
+                this.formChannelLanguage.PHONE_CHANNEL_LANGUAGE_ENG = false;
+                this.formChannelLanguage.PHONE_CHANNEL_LANGUAGE_CHINESS = false;
+                this.formChannelLanguage.PHONE_CHANNEL_LANGUAGE_JAPAN = false;
+                this.formChannelLanguage.PHONE_CHANNEL_LANGUAGE_OTHER = false;
+                this.formChannelLanguage.PHONE_CHANEL_CHANNEL_LANGUAGE_OTHER_DETAIL = null;
             }
             if(this.formPopupvillain.CHANEL_SMS){
                 if(this.validateLanguageSMS){
@@ -945,6 +1009,21 @@ export class IssueOnlineVillainComponent implements OnInit {
                 }
                 this.formPopupvillain.CHANEL_SMS_NAME = 'SMS';
                 arr.push('SMS');
+                this.formPopupvillain.CHANNEL_SMS_DOC = this.listDocFileSMS ?? [];
+                this.formPopupvillain.CASE_CHANNEL_SMS_DATE = this.formChannelSMS.CASE_CHANNEL_SMS_DATE;
+                this.formPopupvillain.CASE_CHANNEL_SMS_TIME = this.formChannelSMS.CASE_CHANNEL_SMS_TIME;
+            }else{
+                this.formPopupvillain.CASE_CHANNEL_SMS_ORIGINAL = null;
+                this.formPopupvillain.CASE_CHANNEL_SMS_SERVICE = null;
+                this.formPopupvillain.CASE_CHANNEL_SMS_DESTINATION = null;
+                this.formChannelLanguage.SMS_CHANNEL_LANGUAGE_FROMTRANSLATE = false;
+                this.formChannelLanguage.SMS_CHANNEL_LANGUAGE_THAI = false;
+                this.formChannelLanguage.SMS_CHANNEL_LANGUAGE_ENG = false;
+                this.formChannelLanguage.SMS_CHANNEL_LANGUAGE_CHINESS = false;
+                this.formChannelLanguage.SMS_CHANNEL_LANGUAGE_JAPAN = false;
+                this.formChannelLanguage.SMS_CHANNEL_LANGUAGE_OTHER = false;
+                this.formChannelLanguage.SMS_CHANEL_CHANNEL_LANGUAGE_OTHER_DETAIL = null;
+                this.listDocFileSMS = [];
             }
             if(this.formPopupvillain.CHANEL_LINE){
                 if(this.validateLanguageLINE){
@@ -953,9 +1032,30 @@ export class IssueOnlineVillainComponent implements OnInit {
                 }
                 this.formPopupvillain.CHANEL_LINE_NAME = 'LINE';
                 arr.push('LINE');
-                this.showtext += '<b>'+'ชื่อ LINE: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_LINE_DETAIL_NAME+'<br>';
-                this.showtext += '<b>'+'LINE ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_LINE_DETAIL_ID+'<br>';
-                this.showtext += '<b>'+'LINE URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_LINE_DETAIL_URL+'<br>';
+                this.formPopupvillain.CHANNEL_LINE_DOC = this.listDocFileLINE ?? [];
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_LINE_DETAIL_NAME == undefined ? this.showtext : this.showtext += '<b>'+'ชื่อ LINE: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_LINE_DETAIL_NAME+'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_LINE_DETAIL_ID == undefined ? this.showtext : this.showtext += '<b>'+'LINE ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_LINE_DETAIL_ID+'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_LINE_DETAIL_URL == undefined ? this.showtext : this.showtext += '<b>'+'LINE URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_LINE_DETAIL_URL+'<br>';
+                if(this.formChannelLINE.CASE_CHANNEL_LINE_TIME_START)
+                    this.formPopupvillain.CASE_CHANNEL_LINE_TIME_START = this.formChannelLINE.CASE_CHANNEL_LINE_TIME_START;
+                if(this.formChannelLINE.CASE_CHANNEL_LINE_DATE_START)
+                    this.formPopupvillain.CASE_CHANNEL_LINE_DATE_START = this.formChannelLINE.CASE_CHANNEL_LINE_DATE_START;
+                if(this.formChannelLINE.CASE_CHANNEL_LINE_TIME_END)
+                    this.formPopupvillain.CASE_CHANNEL_LINE_TIME_END = this.formChannelLINE.CASE_CHANNEL_LINE_TIME_END;
+                if(this.formChannelLINE.CASE_CHANNEL_LINE_DATE_END)
+                    this.formPopupvillain.CASE_CHANNEL_LINE_DATE_END = this.formChannelLINE.CASE_CHANNEL_LINE_DATE_END;
+            }else{
+                this.formPopupvillain.CASE_CHANNEL_LINE_DETAIL_URL = null;
+                this.formPopupvillain.CASE_CHANNEL_LINE_DETAIL_ID = null;
+                this.formPopupvillain.CASE_CHANNEL_LINE_DETAIL_NAME = null;
+                this.formChannelLanguage.LINE_CHANNEL_LANGUAGE_FROMTRANSLATE = false;
+                this.formChannelLanguage.LINE_CHANNEL_LANGUAGE_THAI = false;
+                this.formChannelLanguage.LINE_CHANNEL_LANGUAGE_ENG = false;
+                this.formChannelLanguage.LINE_CHANNEL_LANGUAGE_CHINESS = false;
+                this.formChannelLanguage.LINE_CHANNEL_LANGUAGE_JAPAN = false;
+                this.formChannelLanguage.LINE_CHANNEL_LANGUAGE_OTHER = false;
+                this.formChannelLanguage.LINE_CHANEL_CHANNEL_LANGUAGE_OTHER_DETAIL = null;
+                this.listDocFileLINE = [];
             }
             if(this.formPopupvillain.CHANEL_FACEBOOK){
                 if(this.validateLanguageFACEBOOK){
@@ -964,9 +1064,30 @@ export class IssueOnlineVillainComponent implements OnInit {
                 }
                 this.formPopupvillain.CHANEL_FACEBOOK_NAME = 'FACEBOOK';
                 arr.push('FACEBOOK');
-                this.showtext += '<b>'+'ชื่อ FACEBOOK: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_NAME +'<br>';
-                this.showtext += '<b>'+'FACEBOOK ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_ID+'<br>';
-                this.showtext += '<b>'+'FACEBOOK URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_URL+'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_NAME == undefined ? this.showtext : this.showtext += '<b>'+'ชื่อ FACEBOOK: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_NAME +'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_ID == undefined ? this.showtext : this.showtext += '<b>'+'FACEBOOK ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_ID+'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_URL == undefined ? this.showtext : this.showtext += '<b>'+'FACEBOOK URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_URL+'<br>';
+                this.formPopupvillain.CHANNEL_FACEBOOK_DOC = this.listDocFileFACEBOOK ?? [];
+                if(this.formChannelFACEBOOK.CASE_CHANNEL_FACEBOOK_TIME_START)
+                    this.formPopupvillain.CASE_CHANNEL_FACEBOOK_TIME_START = this.formChannelFACEBOOK.CASE_CHANNEL_FACEBOOK_TIME_START ;
+                if(this.formChannelFACEBOOK.CASE_CHANNEL_FACEBOOK_DATE_START)
+                    this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DATE_START = this.formChannelFACEBOOK.CASE_CHANNEL_FACEBOOK_DATE_START ;
+                if(this.formChannelFACEBOOK.CASE_CHANNEL_FACEBOOK_TIME_END)
+                    this.formPopupvillain.CASE_CHANNEL_FACEBOOK_TIME_END = this.formChannelFACEBOOK.CASE_CHANNEL_FACEBOOK_TIME_END ;
+                if(this.formChannelFACEBOOK.CASE_CHANNEL_FACEBOOK_DATE_END)
+                    this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DATE_END = this.formChannelFACEBOOK.CASE_CHANNEL_FACEBOOK_DATE_END;
+            }else{
+                this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_URL = null;
+                this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_ID = null;
+                this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_NAME = null;
+                this.formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_FROMTRANSLATE = false;
+                this.formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_THAI = false;
+                this.formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_ENG = false;
+                this.formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_CHINESS = false;
+                this.formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_JAPAN = false;
+                this.formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_OTHER = false;
+                this.formChannelLanguage.FACEBOOK_CHANEL_CHANNEL_LANGUAGE_OTHER_DETAIL = null;
+                this.listDocFileFACEBOOK = [];
             }
             if(this.formPopupvillain.CHANEL_MESSENGER){
                 if(this.validateLanguageMESSENGER){
@@ -975,9 +1096,30 @@ export class IssueOnlineVillainComponent implements OnInit {
                 }
                 this.formPopupvillain.CHANEL_MESSENGER_NAME = 'MESSENGER';
                 arr.push('MESSENGER');
-                this.showtext += '<b>'+'ชื่อ MESSENGER: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_NAME +'<br>';
-                this.showtext += '<b>'+'MESSENGER ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_ID+'<br>';
-                this.showtext += '<b>'+'MESSENGER URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_URL+'<br>';
+                this.formPopupvillain.CHANNEL_MESSENGER_DOC = this.listDocFileMESSENGER ?? [];
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_NAME == undefined ? this.showtext : this.showtext += '<b>'+'ชื่อ MESSENGER: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_NAME +'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_ID == undefined ? this.showtext : this.showtext += '<b>'+'MESSENGER ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_ID+'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_URL == undefined ? this.showtext : this.showtext += '<b>'+'MESSENGER URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_URL+'<br>';
+                if(this.formChannelMESSENGER.CASE_CHANNEL_MESSENGER_TIME_START)
+                    this.formPopupvillain.CASE_CHANNEL_MESSENGER_TIME_START = this.formChannelMESSENGER.CASE_CHANNEL_MESSENGER_TIME_START;
+                if(this.formChannelMESSENGER.CASE_CHANNEL_MESSENGER_DATE_START)
+                    this.formPopupvillain.CASE_CHANNEL_MESSENGER_DATE_START = this.formChannelMESSENGER.CASE_CHANNEL_MESSENGER_DATE_START;
+                if(this.formChannelMESSENGER.CASE_CHANNEL_MESSENGER_TIME_END)
+                    this.formPopupvillain.CASE_CHANNEL_MESSENGER_TIME_END = this.formChannelMESSENGER.CASE_CHANNEL_MESSENGER_TIME_END;
+                if(this.formChannelMESSENGER.CASE_CHANNEL_MESSENGER_DATE_END)
+                    this.formPopupvillain.CASE_CHANNEL_MESSENGER_DATE_END = this.formChannelMESSENGER.CASE_CHANNEL_MESSENGER_DATE_END;
+            }else{
+                this.formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_URL = null;
+                this.formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_ID = null;
+                this.formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_NAME = null;
+                this.formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_FROMTRANSLATE = false;
+                this.formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_THAI = false;
+                this.formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_ENG = false;
+                this.formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_CHINESS = false;
+                this.formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_JAPAN = false;
+                this.formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_OTHER = false;
+                this.formChannelLanguage.MESSENGER_CHANEL_CHANNEL_LANGUAGE_OTHER_DETAIL = null;
+                this.listDocFileMESSENGER = [];
             }
             if(this.formPopupvillain.CHANEL_INSTARGRAM){
                 if(this.validateLanguageINSTARGRAM){
@@ -986,9 +1128,30 @@ export class IssueOnlineVillainComponent implements OnInit {
                 }
                 this.formPopupvillain.CHANEL_INSTARGRAM_NAME = 'INSTAGRAM';
                 arr.push('INSTAGRAM');
-                this.showtext += '<b>'+'ชื่อ INSTAGRAM: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_INSTAGRAM_DETAIL_NAME+'<br>';
-                this.showtext += '<b>'+'INSTAGRAM ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_INSTAGRAM_DETAIL_ID+'<br>';
-                this.showtext += '<b>'+'INSTAGRAM URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_INSTAGRAM_DETAIL_URL+'<br>';
+                this.formPopupvillain.CHANNEL_INSTARGRAM_DOC = this.listDocFileINSTARGRAM ?? [];
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_DETAIL_NAME == undefined ? this.showtext : this.showtext += '<b>'+'ชื่อ INSTAGRAM: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_DETAIL_NAME+'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_DETAIL_ID == undefined ? this.showtext : this.showtext += '<b>'+'INSTAGRAM ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_DETAIL_ID+'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_DETAIL_URL == undefined ? this.showtext : this.showtext += '<b>'+'INSTAGRAM URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_DETAIL_URL+'<br>';
+                if(this.formChannelINSTARGRAM.CASE_CHANNEL_INSTARGRAM_TIME_START)
+                    this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_TIME_START = this.formChannelINSTARGRAM.CASE_CHANNEL_INSTARGRAM_TIME_START;
+                if(this.formChannelINSTARGRAM.CASE_CHANNEL_INSTARGRAM_DATE_START)
+                    this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_DATE_START = this.formChannelINSTARGRAM.CASE_CHANNEL_INSTARGRAM_DATE_START;
+                if(this.formChannelINSTARGRAM.CASE_CHANNEL_INSTARGRAM_TIME_END)
+                    this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_TIME_END = this.formChannelINSTARGRAM.CASE_CHANNEL_INSTARGRAM_TIME_END;
+                if(this.formChannelINSTARGRAM.CASE_CHANNEL_INSTARGRAM_DATE_END)
+                    this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_DATE_END = this.formChannelINSTARGRAM.CASE_CHANNEL_INSTARGRAM_DATE_END;
+            }else{
+                this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_DETAIL_URL = null;
+                this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_DETAIL_ID = null;
+                this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_DETAIL_NAME = null;
+                this.formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_FROMTRANSLATE = false;
+                this.formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_THAI = false;
+                this.formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_ENG = false;
+                this.formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_CHINESS = false;
+                this.formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_JAPAN = false;
+                this.formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_OTHER = false;
+                this.formChannelLanguage.INSTARGRAM_CHANEL_CHANNEL_LANGUAGE_OTHER_DETAIL = null;
+                this.listDocFileINSTARGRAM = [];
             }
             if(this.formPopupvillain.CHANEL_WEBSITE){
                 if(this.validateLanguageWEBSITE){
@@ -997,7 +1160,22 @@ export class IssueOnlineVillainComponent implements OnInit {
                 }
                 this.formPopupvillain.CHANEL_WEBSITE_NAME = 'WEBSITE';
                 arr.push('WEBSITE');
+                this.formPopupvillain.CHANNEL_WEBSITE_DOC = this.listDocFileWEBSITE ?? [];
                 this.showtext += '<b>'+'WEBSITE URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_WEBSITE_DETAIL+'<br>';
+                if(this.formChannelWEBSITE.CASE_CHANNEL_WEBSITE_TIME)
+                    this.formPopupvillain.CASE_CHANNEL_WEBSITE_TIME = this.formChannelWEBSITE.CASE_CHANNEL_WEBSITE_TIME;
+                if(this.formChannelWEBSITE.CASE_CHANNEL_WEBSITE_DATE)
+                    this.formPopupvillain.CASE_CHANNEL_WEBSITE_DATE = this.formChannelWEBSITE.CASE_CHANNEL_WEBSITE_DATE;
+            }else{
+                this.formPopupvillain.CASE_CHANNEL_WEBSITE_DETAIL = null;
+                this.formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_FROMTRANSLATE = false;
+                this.formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_THAI = false;
+                this.formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_ENG = false;
+                this.formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_CHINESS = false;
+                this.formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_JAPAN = false;
+                this.formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_OTHER = false;
+                this.formChannelLanguage.WEBSITE_CHANEL_CHANNEL_LANGUAGE_OTHER_DETAIL = null;
+                this.listDocFileWEBSITE = [];
             }
             if(this.formPopupvillain.CHANEL_EMAIL){
                 if(this.validateLanguageEMAIL){
@@ -1006,7 +1184,22 @@ export class IssueOnlineVillainComponent implements OnInit {
                 }
                 this.formPopupvillain.CHANEL_EMAIL_NAME = 'EMAIL';
                 arr.push('EMAIL');
+                this.formPopupvillain.CHANNEL_EMAIL_DOC = this.listDocFileEMAIL ?? [];
                 this.showtext += '<b>'+'EMAIL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_EMAIL_DETAIL+'<br>';
+                if(this.formChannelEMAIL.CASE_CHANNEL_EMAIL_TIME)
+                    this.formPopupvillain.CASE_CHANNEL_EMAIL_TIME = this.formChannelEMAIL.CASE_CHANNEL_EMAIL_TIME;
+                if(this.formChannelEMAIL.CASE_CHANNEL_EMAIL_DATE)
+                    this.formPopupvillain.CASE_CHANNEL_EMAIL_DATE = this.formChannelEMAIL.CASE_CHANNEL_EMAIL_DATE;
+            }else{
+                this.formPopupvillain.CASE_CHANNEL_EMAIL_DETAIL = null;
+                this.formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_FROMTRANSLATE = false;
+                this.formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_THAI = false;
+                this.formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_ENG = false;
+                this.formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_CHINESS = false;
+                this.formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_JAPAN = false;
+                this.formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_OTHER = false;
+                this.formChannelLanguage.EMAIL_CHANEL_CHANNEL_LANGUAGE_OTHER_DETAIL = null;
+                this.listDocFileEMAIL = [];
             }
             if(this.formPopupvillain.CHANEL_TELEGRAM){
                 if(this.validateLanguageTELEGRAM){
@@ -1015,9 +1208,30 @@ export class IssueOnlineVillainComponent implements OnInit {
                 }
                 this.formPopupvillain.CHANEL_TELEGRAM_NAME = 'TELEGRAM';
                 arr.push('TELEGRAM');
-                this.showtext += '<b>'+'ชื่อ TELEGRAM: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_NAME+'<br>';
-                this.showtext += '<b>'+'TELEGRAM ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_ID+'<br>';
-                this.showtext += '<b>'+'TELEGRAM URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_URL+'<br>';
+                this.formPopupvillain.CHANNEL_TELEGRAM_DOC = this.listDocFileTELEGRAM ?? [];
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_NAME == undefined ? this.showtext : this.showtext += '<b>'+'ชื่อ TELEGRAM: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_NAME+'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_ID == undefined ? this.showtext : this.showtext += '<b>'+'TELEGRAM ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_ID+'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_URL == undefined ? this.showtext : this.showtext += '<b>'+'TELEGRAM URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_URL+'<br>';
+                if(this.formChannelTELEGRAM.CASE_CHANNEL_TELEGRAM_TIME_START)
+                    this.formPopupvillain.CASE_CHANNEL_TELEGRAM_TIME_START = this.formChannelTELEGRAM.CASE_CHANNEL_TELEGRAM_TIME_START;
+                if(this.formChannelTELEGRAM.CASE_CHANNEL_TELEGRAM_DATE_START)
+                    this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DATE_START = this.formChannelTELEGRAM.CASE_CHANNEL_TELEGRAM_DATE_START;
+                if(this.formChannelTELEGRAM.CASE_CHANNEL_TELEGRAM_TIME_END)
+                    this.formPopupvillain.CASE_CHANNEL_TELEGRAM_TIME_END = this.formChannelTELEGRAM.CASE_CHANNEL_TELEGRAM_TIME_END;
+                if(this.formChannelTELEGRAM.CASE_CHANNEL_TELEGRAM_DATE_END)
+                    this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DATE_END = this.formChannelTELEGRAM.CASE_CHANNEL_TELEGRAM_DATE_END;
+            }else{
+                this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_URL = null;
+                this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_ID = null;
+                this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_NAME = null;
+                this.formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_FROMTRANSLATE = false;
+                this.formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_THAI = false;
+                this.formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_ENG = false;
+                this.formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_CHINESS = false;
+                this.formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_JAPAN = false;
+                this.formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_OTHER = false;
+                this.formChannelLanguage.TELEGRAM_CHANEL_CHANNEL_LANGUAGE_OTHER_DETAIL = null;
+                this.listDocFileTELEGRAM = [];
             }
             if(this.formPopupvillain.CHANEL_WHATAPP){
                 if(this.validateLanguageWHATAPP){
@@ -1026,9 +1240,30 @@ export class IssueOnlineVillainComponent implements OnInit {
                 }
                 this.formPopupvillain.CHANEL_WHATAPP_NAME = 'WHATSAPP';
                 arr.push('WHATSAPP');
-                this.showtext += '<b>'+'ชื่อ WHATSAPP: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_NAME+'<br>';
-                this.showtext += '<b>'+'WHATSAPP ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_ID+'<br>';
-                this.showtext += '<b>'+'WHATSAPP URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_URL+'<br>';
+                this.formPopupvillain.CHANNEL_WHATAPP_DOC = this.listDocFileWHATAPP ?? [];
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_NAME == undefined ? this.showtext : this.showtext += '<b>'+'ชื่อ WHATSAPP: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_NAME+'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_ID == undefined ? this.showtext : this.showtext += '<b>'+'WHATSAPP ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_ID+'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_URL == undefined ? this.showtext : this.showtext += '<b>'+'WHATSAPP URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_URL+'<br>';
+                if(this.formChannelWHATAPP.CASE_CHANNEL_WHATSAPP_TIME_START)
+                    this.formPopupvillain.CASE_CHANNEL_WHATSAPP_TIME_START = this.formChannelWHATAPP.CASE_CHANNEL_WHATSAPP_TIME_START;
+                if(this.formChannelWHATAPP.CASE_CHANNEL_WHATSAPP_DATE_START)
+                    this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DATE_START = this.formChannelWHATAPP.CASE_CHANNEL_WHATSAPP_DATE_START;
+                if(this.formChannelWHATAPP.CASE_CHANNEL_WHATSAPP_TIME_END)
+                    this.formPopupvillain.CASE_CHANNEL_WHATSAPP_TIME_END = this.formChannelWHATAPP.CASE_CHANNEL_WHATSAPP_TIME_END;
+                if(this.formChannelWHATAPP.CASE_CHANNEL_WHATSAPP_DATE_END)
+                    this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DATE_END = this.formChannelWHATAPP.CASE_CHANNEL_WHATSAPP_DATE_END;
+            }else{
+                this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_URL = null;
+                this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_ID = null;
+                this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_NAME = null;
+                this.formChannelLanguage.WHATSAPP_CHANNEL_LANGUAGE_FROMTRANSLATE = false;
+                this.formChannelLanguage.WHATSAPP_CHANNEL_LANGUAGE_THAI = false;
+                this.formChannelLanguage.WHATSAPP_CHANNEL_LANGUAGE_ENG = false;
+                this.formChannelLanguage.WHATSAPP_CHANNEL_LANGUAGE_CHINESS = false;
+                this.formChannelLanguage.WHATSAPP_CHANNEL_LANGUAGE_JAPAN = false;
+                this.formChannelLanguage.WHATSAPP_CHANNEL_LANGUAGE_OTHER = false;
+                this.formChannelLanguage.WHATSAPP_CHANEL_CHANNEL_LANGUAGE_OTHER_DETAIL = null;
+                this.listDocFileWHATAPP = [];
             }
             if(this.formPopupvillain.CHANEL_TWITTER){
                 if(this.validateLanguageTWITTER){
@@ -1037,9 +1272,30 @@ export class IssueOnlineVillainComponent implements OnInit {
                 }
                 this.formPopupvillain.CHANEL_TWITTER_NAME = 'TWITTER';
                 arr.push('TWITTER');
-                this.showtext += '<b>'+'ชื่อ TWITTER: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_NAME +'<br>';
-                this.showtext += '<b>'+'TWITTER ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_ID+'<br>';
-                this.showtext += '<b>'+'TWITTER URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_URL+'<br>';
+                this.formPopupvillain.CHANNEL_TWITTER_DOC = this.listDocFileTWITTER ?? [];
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_NAME == undefined ? this.showtext : this.showtext += '<b>'+'ชื่อ TWITTER: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_NAME +'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_ID == undefined ? this.showtext : this.showtext += '<b>'+'TWITTER ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_ID+'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_URL == undefined ? this.showtext : this.showtext += '<b>'+'TWITTER URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_URL+'<br>';
+                if(this.formChannelTWITTER.CASE_CHANNEL_TWITTER_TIME_START)
+                    this.formPopupvillain.CASE_CHANNEL_TWITTER_TIME_START = this.formChannelTWITTER.CASE_CHANNEL_TWITTER_TIME_START;
+                if(this.formChannelTWITTER.CASE_CHANNEL_TWITTER_DATE_START)
+                    this.formPopupvillain.CASE_CHANNEL_TWITTER_DATE_START = this.formChannelTWITTER.CASE_CHANNEL_TWITTER_DATE_START;
+                if(this.formChannelTWITTER.CASE_CHANNEL_TWITTER_TIME_END)
+                    this.formPopupvillain.CASE_CHANNEL_TWITTER_TIME_END = this.formChannelTWITTER.CASE_CHANNEL_TWITTER_TIME_END;
+                if(this.formChannelTWITTER.CASE_CHANNEL_TWITTER_DATE_END)
+                    this.formPopupvillain.CASE_CHANNEL_TWITTER_DATE_END = this.formChannelTWITTER.CASE_CHANNEL_TWITTER_DATE_END;
+            }else{
+                this.formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_URL = null;
+                this.formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_ID = null;
+                this.formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_NAME = null;
+                this.formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_FROMTRANSLATE = false;
+                this.formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_THAI = false;
+                this.formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_ENG = false;
+                this.formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_CHINESS = false;
+                this.formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_JAPAN = false;
+                this.formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_OTHER = false;
+                this.formChannelLanguage.TWITTER_CHANEL_CHANNEL_LANGUAGE_OTHER_DETAIL = null;
+                this.listDocFileTWITTER = [];
             }
             if(this.formPopupvillain.CHANEL_OTHERS){
                 if(this.validateLanguageOTHERS){
@@ -1048,27 +1304,37 @@ export class IssueOnlineVillainComponent implements OnInit {
                 }
                 this.formPopupvillain.CHANEL_OTHERS_NAME = 'อื่นๆ';
                 arr.push('อื่นๆ');
-                this.showtext += '<b>'+'ประเภทช่องทาง: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_OTHER_TYPE +'<br>';
-                this.showtext += '<b>'+'URL/ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_OTHER_DETAIL;
+                this.formPopupvillain.CHANNEL_OTHERS_DOC = this.listDocFileOTHERS ?? [];
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_OTHER_TYPE == undefined ? this.showtext : this.showtext += '<b>'+'ประเภทช่องทาง: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_OTHER_TYPE+'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_OTHER_DETAIL == undefined ? this.showtext : this.showtext += '<b>'+'URL/ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_OTHER_DETAIL;
+                if(this.formChannelOTHERS.CASE_CHANNEL_OTHER_TIME)
+                    this.formPopupvillain.CASE_CHANNEL_OTHER_TIME = this.formChannelOTHERS.CASE_CHANNEL_OTHER_TIME;
+                if(this.formChannelOTHERS.CASE_CHANNEL_OTHER_DATE)
+                    this.formPopupvillain.CASE_CHANNEL_OTHER_DATE = this.formChannelOTHERS.CASE_CHANNEL_OTHER_DATE;
+            }else{
+                this.formPopupvillain.CASE_CHANNEL_OTHER_TYPE = null;
+                this.formPopupvillain.CASE_CHANNEL_OTHER_DETAIL = null;
+                this.formChannelLanguage.OTHER_CHANNEL_LANGUAGE_FROMTRANSLATE = false;
+                this.formChannelLanguage.OTHER_CHANNEL_LANGUAGE_THAI = false;
+                this.formChannelLanguage.OTHER_CHANNEL_LANGUAGE_ENG = false;
+                this.formChannelLanguage.OTHER_CHANNEL_LANGUAGE_CHINESS = false;
+                this.formChannelLanguage.OTHER_CHANNEL_LANGUAGE_JAPAN = false;
+                this.formChannelLanguage.OTHER_CHANNEL_LANGUAGE_OTHER = false;
+                this.formChannelLanguage.OTHER_CHANNEL_LANGUAGE_OTHER = false;
+                this.formChannelLanguage.OTHER_CHANEL_CHANNEL_LANGUAGE_OTHER_DETAIL = null;
+                this.listDocFileOTHERS = [];
+            }
+            for (const prop in this.formPopupvillain) {
+                if (this.formPopupvillain[prop] === null ||this.formPopupvillain[prop] === undefined) {
+                  delete this.formPopupvillain[prop];
+                }
             }
             this.showLanguage();
             this.formPopupvillain.CHANNEL_NAME = arr.join(',').toString();
             if(this.formChannelLanguage){
                 this.formPopupvillain.CASE_CHANNEL_LANGUAGE.push(this.formChannelLanguage);
-
             }
-            this.formPopupvillain.CHANNEL_PHONE_DOC = this.listDocFilePhone ?? [];
-            this.formPopupvillain.CHANNEL_SMS_DOC = this.listDocFileSMS ?? [];
-            this.formPopupvillain.CHANNEL_LINE_DOC = this.listDocFileLINE ?? [];
-            this.formPopupvillain.CHANNEL_FACEBOOK_DOC = this.listDocFileFACEBOOK ?? [];
-            this.formPopupvillain.CHANNEL_INSTARGRAM_DOC = this.listDocFileINSTARGRAM ?? [];
-            this.formPopupvillain.CHANNEL_WEBSITE_DOC = this.listDocFileWEBSITE ?? [];
-            this.formPopupvillain.CHANNEL_EMAIL_DOC = this.listDocFileEMAIL ?? [];
-            this.formPopupvillain.CHANNEL_TELEGRAM_DOC = this.listDocFileTELEGRAM ?? [];
-            this.formPopupvillain.CHANNEL_WHATAPP_DOC = this.listDocFileWHATAPP ?? [];
-            this.formPopupvillain.CHANNEL_TWITTER_DOC = this.listDocFileTWITTER ?? [];
-            this.formPopupvillain.CHANNEL_MESSENGER_DOC = this.listDocFileMESSENGER ?? [];
-            this.formPopupvillain.CHANNEL_OTHERS_DOC = this.listDocFileOTHERS ?? [];
+
             this.formPopupvillain.SHOW_TEXT = this.showtext;
             this.formPopupvillain.SHOW_LANGUAGE = this.showlanguage;
             this.formData.CASE_CHANNEL.push(this.formPopupvillain);
@@ -1081,6 +1347,20 @@ export class IssueOnlineVillainComponent implements OnInit {
                 }
                 this.formPopupvillain.CHANEL_PHONE_NAME = 'เบอร์โทรศัพท​์';
                 arr.push('เบอร์โทรศัพท​์');
+                this.formPopupvillain.CHANNEL_PHONE_DOC = this.listDocFilePhone ?? [];
+                this.formPopupvillain.CASE_CHANNEL_PHONE_DATE = this.formChannelPhone.CASE_CHANNEL_PHONE_DATE;
+                this.formPopupvillain.CASE_CHANNEL_PHONE_TIME = this.formChannelPhone.CASE_CHANNEL_PHONE_TIME;
+            }else{
+                this.formPopupvillain.CASE_CHANNEL_PHONE_ORIGINAL = null;
+                this.formPopupvillain.CASE_CHANNEL_PHONE_SERVICE = null;
+                this.formPopupvillain.CASE_CHANNEL_PHONE_DESTINATION = null;
+                this.formChannelLanguage.PHONE_CHANNEL_LANGUAGE_FROMTRANSLATE = false;
+                this.formChannelLanguage.PHONE_CHANNEL_LANGUAGE_THAI = false;
+                this.formChannelLanguage.PHONE_CHANNEL_LANGUAGE_ENG = false;
+                this.formChannelLanguage.PHONE_CHANNEL_LANGUAGE_CHINESS = false;
+                this.formChannelLanguage.PHONE_CHANNEL_LANGUAGE_JAPAN = false;
+                this.formChannelLanguage.PHONE_CHANNEL_LANGUAGE_OTHER = false;
+                this.formChannelLanguage.PHONE_CHANEL_CHANNEL_LANGUAGE_OTHER_DETAIL = null;
             }
             if(this.formPopupvillain.CHANEL_SMS){
                 if(this.validateLanguageSMS){
@@ -1089,6 +1369,21 @@ export class IssueOnlineVillainComponent implements OnInit {
                 }
                 this.formPopupvillain.CHANEL_SMS_NAME = 'SMS';
                 arr.push('SMS');
+                this.formPopupvillain.CHANNEL_SMS_DOC = this.listDocFileSMS ?? [];
+                this.formPopupvillain.CASE_CHANNEL_SMS_DATE = this.formChannelSMS.CASE_CHANNEL_SMS_DATE;
+                this.formPopupvillain.CASE_CHANNEL_SMS_TIME = this.formChannelSMS.CASE_CHANNEL_SMS_TIME;
+            }else{
+                this.formPopupvillain.CASE_CHANNEL_SMS_ORIGINAL = null;
+                this.formPopupvillain.CASE_CHANNEL_SMS_SERVICE = null;
+                this.formPopupvillain.CASE_CHANNEL_SMS_DESTINATION = null;
+                this.formChannelLanguage.SMS_CHANNEL_LANGUAGE_FROMTRANSLATE = false;
+                this.formChannelLanguage.SMS_CHANNEL_LANGUAGE_THAI = false;
+                this.formChannelLanguage.SMS_CHANNEL_LANGUAGE_ENG = false;
+                this.formChannelLanguage.SMS_CHANNEL_LANGUAGE_CHINESS = false;
+                this.formChannelLanguage.SMS_CHANNEL_LANGUAGE_JAPAN = false;
+                this.formChannelLanguage.SMS_CHANNEL_LANGUAGE_OTHER = false;
+                this.formChannelLanguage.SMS_CHANEL_CHANNEL_LANGUAGE_OTHER_DETAIL = null;
+                this.listDocFileSMS = [];
             }
             if(this.formPopupvillain.CHANEL_LINE){
                 if(this.validateLanguageLINE){
@@ -1097,9 +1392,30 @@ export class IssueOnlineVillainComponent implements OnInit {
                 }
                 this.formPopupvillain.CHANEL_LINE_NAME = 'LINE';
                 arr.push('LINE');
-                this.showtext += '<b>'+'ชื่อ LINE: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_LINE_DETAIL_NAME+'<br>';
-                this.showtext += '<b>'+'LINE ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_LINE_DETAIL_ID+'<br>';
-                this.showtext += '<b>'+'LINE URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_LINE_DETAIL_URL+'<br>';
+                this.formPopupvillain.CHANNEL_LINE_DOC = this.listDocFileLINE ?? [];
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_LINE_DETAIL_NAME == undefined ? this.showtext : this.showtext += '<b>'+'ชื่อ LINE: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_LINE_DETAIL_NAME+'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_LINE_DETAIL_ID == undefined ? this.showtext : this.showtext += '<b>'+'LINE ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_LINE_DETAIL_ID+'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_LINE_DETAIL_URL == undefined ? this.showtext : this.showtext += '<b>'+'LINE URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_LINE_DETAIL_URL+'<br>';
+                if(this.formChannelLINE.CASE_CHANNEL_LINE_TIME_START)
+                    this.formPopupvillain.CASE_CHANNEL_LINE_TIME_START = this.formChannelLINE.CASE_CHANNEL_LINE_TIME_START;
+                if(this.formChannelLINE.CASE_CHANNEL_LINE_DATE_START)
+                    this.formPopupvillain.CASE_CHANNEL_LINE_DATE_START = this.formChannelLINE.CASE_CHANNEL_LINE_DATE_START;
+                if(this.formChannelLINE.CASE_CHANNEL_LINE_TIME_END)
+                    this.formPopupvillain.CASE_CHANNEL_LINE_TIME_END = this.formChannelLINE.CASE_CHANNEL_LINE_TIME_END;
+                if(this.formChannelLINE.CASE_CHANNEL_LINE_DATE_END)
+                    this.formPopupvillain.CASE_CHANNEL_LINE_DATE_END = this.formChannelLINE.CASE_CHANNEL_LINE_DATE_END;
+            }else{
+                this.formPopupvillain.CASE_CHANNEL_LINE_DETAIL_URL = null;
+                this.formPopupvillain.CASE_CHANNEL_LINE_DETAIL_ID = null;
+                this.formPopupvillain.CASE_CHANNEL_LINE_DETAIL_NAME = null;
+                this.formChannelLanguage.LINE_CHANNEL_LANGUAGE_FROMTRANSLATE = false;
+                this.formChannelLanguage.LINE_CHANNEL_LANGUAGE_THAI = false;
+                this.formChannelLanguage.LINE_CHANNEL_LANGUAGE_ENG = false;
+                this.formChannelLanguage.LINE_CHANNEL_LANGUAGE_CHINESS = false;
+                this.formChannelLanguage.LINE_CHANNEL_LANGUAGE_JAPAN = false;
+                this.formChannelLanguage.LINE_CHANNEL_LANGUAGE_OTHER = false;
+                this.formChannelLanguage.LINE_CHANEL_CHANNEL_LANGUAGE_OTHER_DETAIL = null;
+                this.listDocFileLINE = [];
             }
             if(this.formPopupvillain.CHANEL_FACEBOOK){
                 if(this.validateLanguageFACEBOOK){
@@ -1108,9 +1424,30 @@ export class IssueOnlineVillainComponent implements OnInit {
                 }
                 this.formPopupvillain.CHANEL_FACEBOOK_NAME = 'FACEBOOK';
                 arr.push('FACEBOOK');
-                this.showtext += '<b>'+'ชื่อ FACEBOOK: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_NAME +'<br>';
-                this.showtext += '<b>'+'FACEBOOK ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_ID+'<br>';
-                this.showtext += '<b>'+'FACEBOOK URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_URL+'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_NAME == undefined ? this.showtext : this.showtext += '<b>'+'ชื่อ FACEBOOK: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_NAME +'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_ID == undefined ? this.showtext : this.showtext += '<b>'+'FACEBOOK ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_ID+'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_URL == undefined ? this.showtext : this.showtext += '<b>'+'FACEBOOK URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_URL+'<br>';
+                this.formPopupvillain.CHANNEL_FACEBOOK_DOC = this.listDocFileFACEBOOK ?? [];
+                if(this.formChannelFACEBOOK.CASE_CHANNEL_FACEBOOK_TIME_START)
+                    this.formPopupvillain.CASE_CHANNEL_FACEBOOK_TIME_START = this.formChannelFACEBOOK.CASE_CHANNEL_FACEBOOK_TIME_START ;
+                if(this.formChannelFACEBOOK.CASE_CHANNEL_FACEBOOK_DATE_START)
+                    this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DATE_START = this.formChannelFACEBOOK.CASE_CHANNEL_FACEBOOK_DATE_START ;
+                if(this.formChannelFACEBOOK.CASE_CHANNEL_FACEBOOK_TIME_END)
+                    this.formPopupvillain.CASE_CHANNEL_FACEBOOK_TIME_END = this.formChannelFACEBOOK.CASE_CHANNEL_FACEBOOK_TIME_END ;
+                if(this.formChannelFACEBOOK.CASE_CHANNEL_FACEBOOK_DATE_END)
+                    this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DATE_END = this.formChannelFACEBOOK.CASE_CHANNEL_FACEBOOK_DATE_END;
+            }else{
+                this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_URL = null;
+                this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_ID = null;
+                this.formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_NAME = null;
+                this.formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_FROMTRANSLATE = false;
+                this.formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_THAI = false;
+                this.formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_ENG = false;
+                this.formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_CHINESS = false;
+                this.formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_JAPAN = false;
+                this.formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_OTHER = false;
+                this.formChannelLanguage.FACEBOOK_CHANEL_CHANNEL_LANGUAGE_OTHER_DETAIL = null;
+                this.listDocFileFACEBOOK = [];
             }
             if(this.formPopupvillain.CHANEL_MESSENGER){
                 if(this.validateLanguageMESSENGER){
@@ -1119,9 +1456,30 @@ export class IssueOnlineVillainComponent implements OnInit {
                 }
                 this.formPopupvillain.CHANEL_MESSENGER_NAME = 'MESSENGER';
                 arr.push('MESSENGER');
-                this.showtext += '<b>'+'ชื่อ MESSENGER: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_NAME +'<br>';
-                this.showtext += '<b>'+'MESSENGER ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_ID+'<br>';
-                this.showtext += '<b>'+'MESSENGER URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_URL+'<br>';
+                this.formPopupvillain.CHANNEL_MESSENGER_DOC = this.listDocFileMESSENGER ?? [];
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_NAME == undefined ? this.showtext : this.showtext += '<b>'+'ชื่อ MESSENGER: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_NAME +'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_ID == undefined ? this.showtext : this.showtext += '<b>'+'MESSENGER ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_ID+'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_URL == undefined ? this.showtext : this.showtext += '<b>'+'MESSENGER URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_URL+'<br>';
+                if(this.formChannelMESSENGER.CASE_CHANNEL_MESSENGER_TIME_START)
+                    this.formPopupvillain.CASE_CHANNEL_MESSENGER_TIME_START = this.formChannelMESSENGER.CASE_CHANNEL_MESSENGER_TIME_START;
+                if(this.formChannelMESSENGER.CASE_CHANNEL_MESSENGER_DATE_START)
+                    this.formPopupvillain.CASE_CHANNEL_MESSENGER_DATE_START = this.formChannelMESSENGER.CASE_CHANNEL_MESSENGER_DATE_START;
+                if(this.formChannelMESSENGER.CASE_CHANNEL_MESSENGER_TIME_END)
+                    this.formPopupvillain.CASE_CHANNEL_MESSENGER_TIME_END = this.formChannelMESSENGER.CASE_CHANNEL_MESSENGER_TIME_END;
+                if(this.formChannelMESSENGER.CASE_CHANNEL_MESSENGER_DATE_END)
+                    this.formPopupvillain.CASE_CHANNEL_MESSENGER_DATE_END = this.formChannelMESSENGER.CASE_CHANNEL_MESSENGER_DATE_END;
+            }else{
+                this.formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_URL = null;
+                this.formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_ID = null;
+                this.formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_NAME = null;
+                this.formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_FROMTRANSLATE = false;
+                this.formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_THAI = false;
+                this.formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_ENG = false;
+                this.formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_CHINESS = false;
+                this.formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_JAPAN = false;
+                this.formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_OTHER = false;
+                this.formChannelLanguage.MESSENGER_CHANEL_CHANNEL_LANGUAGE_OTHER_DETAIL = null;
+                this.listDocFileMESSENGER = [];
             }
             if(this.formPopupvillain.CHANEL_INSTARGRAM){
                 if(this.validateLanguageINSTARGRAM){
@@ -1130,9 +1488,30 @@ export class IssueOnlineVillainComponent implements OnInit {
                 }
                 this.formPopupvillain.CHANEL_INSTARGRAM_NAME = 'INSTAGRAM';
                 arr.push('INSTAGRAM');
-                this.showtext += '<b>'+'ชื่อ INSTAGRAM: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_DETAIL_NAME+'<br>';
-                this.showtext += '<b>'+'INSTAGRAM ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_DETAIL_ID+'<br>';
-                this.showtext += '<b>'+'INSTAGRAM URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_DETAIL_URL+'<br>';
+                this.formPopupvillain.CHANNEL_INSTARGRAM_DOC = this.listDocFileINSTARGRAM ?? [];
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_DETAIL_NAME == undefined ? this.showtext : this.showtext += '<b>'+'ชื่อ INSTAGRAM: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_DETAIL_NAME+'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_DETAIL_ID == undefined ? this.showtext : this.showtext += '<b>'+'INSTAGRAM ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_DETAIL_ID+'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_DETAIL_URL == undefined ? this.showtext : this.showtext += '<b>'+'INSTAGRAM URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_DETAIL_URL+'<br>';
+                if(this.formChannelINSTARGRAM.CASE_CHANNEL_INSTARGRAM_TIME_START)
+                    this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_TIME_START = this.formChannelINSTARGRAM.CASE_CHANNEL_INSTARGRAM_TIME_START;
+                if(this.formChannelINSTARGRAM.CASE_CHANNEL_INSTARGRAM_DATE_START)
+                    this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_DATE_START = this.formChannelINSTARGRAM.CASE_CHANNEL_INSTARGRAM_DATE_START;
+                if(this.formChannelINSTARGRAM.CASE_CHANNEL_INSTARGRAM_TIME_END)
+                    this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_TIME_END = this.formChannelINSTARGRAM.CASE_CHANNEL_INSTARGRAM_TIME_END;
+                if(this.formChannelINSTARGRAM.CASE_CHANNEL_INSTARGRAM_DATE_END)
+                    this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_DATE_END = this.formChannelINSTARGRAM.CASE_CHANNEL_INSTARGRAM_DATE_END;
+            }else{
+                this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_DETAIL_URL = null;
+                this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_DETAIL_ID = null;
+                this.formPopupvillain.CASE_CHANNEL_INSTARGRAM_DETAIL_NAME = null;
+                this.formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_FROMTRANSLATE = false;
+                this.formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_THAI = false;
+                this.formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_ENG = false;
+                this.formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_CHINESS = false;
+                this.formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_JAPAN = false;
+                this.formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_OTHER = false;
+                this.formChannelLanguage.INSTARGRAM_CHANEL_CHANNEL_LANGUAGE_OTHER_DETAIL = null;
+                this.listDocFileINSTARGRAM = [];
             }
             if(this.formPopupvillain.CHANEL_WEBSITE){
                 if(this.validateLanguageWEBSITE){
@@ -1141,7 +1520,22 @@ export class IssueOnlineVillainComponent implements OnInit {
                 }
                 this.formPopupvillain.CHANEL_WEBSITE_NAME = 'WEBSITE';
                 arr.push('WEBSITE');
+                this.formPopupvillain.CHANNEL_WEBSITE_DOC = this.listDocFileWEBSITE ?? [];
                 this.showtext += '<b>'+'WEBSITE URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_WEBSITE_DETAIL+'<br>';
+                if(this.formChannelWEBSITE.CASE_CHANNEL_WEBSITE_TIME)
+                    this.formPopupvillain.CASE_CHANNEL_WEBSITE_TIME = this.formChannelWEBSITE.CASE_CHANNEL_WEBSITE_TIME;
+                if(this.formChannelWEBSITE.CASE_CHANNEL_WEBSITE_DATE)
+                    this.formPopupvillain.CASE_CHANNEL_WEBSITE_DATE = this.formChannelWEBSITE.CASE_CHANNEL_WEBSITE_DATE;
+            }else{
+                this.formPopupvillain.CASE_CHANNEL_WEBSITE_DETAIL = null;
+                this.formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_FROMTRANSLATE = false;
+                this.formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_THAI = false;
+                this.formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_ENG = false;
+                this.formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_CHINESS = false;
+                this.formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_JAPAN = false;
+                this.formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_OTHER = false;
+                this.formChannelLanguage.WEBSITE_CHANEL_CHANNEL_LANGUAGE_OTHER_DETAIL = null;
+                this.listDocFileWEBSITE = [];
             }
             if(this.formPopupvillain.CHANEL_EMAIL){
                 if(this.validateLanguageEMAIL){
@@ -1150,7 +1544,22 @@ export class IssueOnlineVillainComponent implements OnInit {
                 }
                 this.formPopupvillain.CHANEL_EMAIL_NAME = 'EMAIL';
                 arr.push('EMAIL');
+                this.formPopupvillain.CHANNEL_EMAIL_DOC = this.listDocFileEMAIL ?? [];
                 this.showtext += '<b>'+'EMAIL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_EMAIL_DETAIL+'<br>';
+                if(this.formChannelEMAIL.CASE_CHANNEL_EMAIL_TIME)
+                    this.formPopupvillain.CASE_CHANNEL_EMAIL_TIME = this.formChannelEMAIL.CASE_CHANNEL_EMAIL_TIME;
+                if(this.formChannelEMAIL.CASE_CHANNEL_EMAIL_DATE)
+                    this.formPopupvillain.CASE_CHANNEL_EMAIL_DATE = this.formChannelEMAIL.CASE_CHANNEL_EMAIL_DATE;
+            }else{
+                this.formPopupvillain.CASE_CHANNEL_EMAIL_DETAIL = null;
+                this.formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_FROMTRANSLATE = false;
+                this.formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_THAI = false;
+                this.formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_ENG = false;
+                this.formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_CHINESS = false;
+                this.formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_JAPAN = false;
+                this.formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_OTHER = false;
+                this.formChannelLanguage.EMAIL_CHANEL_CHANNEL_LANGUAGE_OTHER_DETAIL = null;
+                this.listDocFileEMAIL = [];
             }
             if(this.formPopupvillain.CHANEL_TELEGRAM){
                 if(this.validateLanguageTELEGRAM){
@@ -1159,9 +1568,30 @@ export class IssueOnlineVillainComponent implements OnInit {
                 }
                 this.formPopupvillain.CHANEL_TELEGRAM_NAME = 'TELEGRAM';
                 arr.push('TELEGRAM');
-                this.showtext += '<b>'+'ชื่อ TELEGRAM: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_NAME+'<br>';
-                this.showtext += '<b>'+'TELEGRAM ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_ID+'<br>';
-                this.showtext += '<b>'+'TELEGRAM URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_URL+'<br>';
+                this.formPopupvillain.CHANNEL_TELEGRAM_DOC = this.listDocFileTELEGRAM ?? [];
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_NAME == undefined ? this.showtext : this.showtext += '<b>'+'ชื่อ TELEGRAM: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_NAME+'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_ID == undefined ? this.showtext : this.showtext += '<b>'+'TELEGRAM ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_ID+'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_URL == undefined ? this.showtext : this.showtext += '<b>'+'TELEGRAM URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_URL+'<br>';
+                if(this.formChannelTELEGRAM.CASE_CHANNEL_TELEGRAM_TIME_START)
+                    this.formPopupvillain.CASE_CHANNEL_TELEGRAM_TIME_START = this.formChannelTELEGRAM.CASE_CHANNEL_TELEGRAM_TIME_START;
+                if(this.formChannelTELEGRAM.CASE_CHANNEL_TELEGRAM_DATE_START)
+                    this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DATE_START = this.formChannelTELEGRAM.CASE_CHANNEL_TELEGRAM_DATE_START;
+                if(this.formChannelTELEGRAM.CASE_CHANNEL_TELEGRAM_TIME_END)
+                    this.formPopupvillain.CASE_CHANNEL_TELEGRAM_TIME_END = this.formChannelTELEGRAM.CASE_CHANNEL_TELEGRAM_TIME_END;
+                if(this.formChannelTELEGRAM.CASE_CHANNEL_TELEGRAM_DATE_END)
+                    this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DATE_END = this.formChannelTELEGRAM.CASE_CHANNEL_TELEGRAM_DATE_END;
+            }else{
+                this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_URL = null;
+                this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_ID = null;
+                this.formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_NAME = null;
+                this.formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_FROMTRANSLATE = false;
+                this.formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_THAI = false;
+                this.formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_ENG = false;
+                this.formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_CHINESS = false;
+                this.formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_JAPAN = false;
+                this.formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_OTHER = false;
+                this.formChannelLanguage.TELEGRAM_CHANEL_CHANNEL_LANGUAGE_OTHER_DETAIL = null;
+                this.listDocFileTELEGRAM = [];
             }
             if(this.formPopupvillain.CHANEL_WHATAPP){
                 if(this.validateLanguageWHATAPP){
@@ -1170,9 +1600,30 @@ export class IssueOnlineVillainComponent implements OnInit {
                 }
                 this.formPopupvillain.CHANEL_WHATAPP_NAME = 'WHATSAPP';
                 arr.push('WHATSAPP');
-                this.showtext += '<b>'+'ชื่อ WHATSAPP: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_NAME+'<br>';
-                this.showtext += '<b>'+'WHATSAPP ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_ID+'<br>';
-                this.showtext += '<b>'+'WHATSAPP URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_URL+'<br>';
+                this.formPopupvillain.CHANNEL_WHATAPP_DOC = this.listDocFileWHATAPP ?? [];
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_NAME == undefined ? this.showtext : this.showtext += '<b>'+'ชื่อ WHATSAPP: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_NAME+'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_ID == undefined ? this.showtext : this.showtext += '<b>'+'WHATSAPP ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_ID+'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_URL == undefined ? this.showtext : this.showtext += '<b>'+'WHATSAPP URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_URL+'<br>';
+                if(this.formChannelWHATAPP.CASE_CHANNEL_WHATSAPP_TIME_START)
+                    this.formPopupvillain.CASE_CHANNEL_WHATSAPP_TIME_START = this.formChannelWHATAPP.CASE_CHANNEL_WHATSAPP_TIME_START;
+                if(this.formChannelWHATAPP.CASE_CHANNEL_WHATSAPP_DATE_START)
+                    this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DATE_START = this.formChannelWHATAPP.CASE_CHANNEL_WHATSAPP_DATE_START;
+                if(this.formChannelWHATAPP.CASE_CHANNEL_WHATSAPP_TIME_END)
+                    this.formPopupvillain.CASE_CHANNEL_WHATSAPP_TIME_END = this.formChannelWHATAPP.CASE_CHANNEL_WHATSAPP_TIME_END;
+                if(this.formChannelWHATAPP.CASE_CHANNEL_WHATSAPP_DATE_END)
+                    this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DATE_END = this.formChannelWHATAPP.CASE_CHANNEL_WHATSAPP_DATE_END;
+            }else{
+                this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_URL = null;
+                this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_ID = null;
+                this.formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_NAME = null;
+                this.formChannelLanguage.WHATSAPP_CHANNEL_LANGUAGE_FROMTRANSLATE = false;
+                this.formChannelLanguage.WHATSAPP_CHANNEL_LANGUAGE_THAI = false;
+                this.formChannelLanguage.WHATSAPP_CHANNEL_LANGUAGE_ENG = false;
+                this.formChannelLanguage.WHATSAPP_CHANNEL_LANGUAGE_CHINESS = false;
+                this.formChannelLanguage.WHATSAPP_CHANNEL_LANGUAGE_JAPAN = false;
+                this.formChannelLanguage.WHATSAPP_CHANNEL_LANGUAGE_OTHER = false;
+                this.formChannelLanguage.WHATSAPP_CHANEL_CHANNEL_LANGUAGE_OTHER_DETAIL = null;
+                this.listDocFileWHATAPP = [];
             }
             if(this.formPopupvillain.CHANEL_TWITTER){
                 if(this.validateLanguageTWITTER){
@@ -1181,9 +1632,30 @@ export class IssueOnlineVillainComponent implements OnInit {
                 }
                 this.formPopupvillain.CHANEL_TWITTER_NAME = 'TWITTER';
                 arr.push('TWITTER');
-                this.showtext += '<b>'+'ชื่อ TWITTER: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_NAME +'<br>';
-                this.showtext += '<b>'+'TWITTER ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_ID+'<br>';
-                this.showtext += '<b>'+'TWITTER URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_URL+'<br>';
+                this.formPopupvillain.CHANNEL_TWITTER_DOC = this.listDocFileTWITTER ?? [];
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_NAME == undefined ? this.showtext : this.showtext += '<b>'+'ชื่อ TWITTER: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_NAME +'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_ID == undefined ? this.showtext : this.showtext += '<b>'+'TWITTER ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_ID+'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_URL == undefined ? this.showtext : this.showtext += '<b>'+'TWITTER URL: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_URL+'<br>';
+                if(this.formChannelTWITTER.CASE_CHANNEL_TWITTER_TIME_START)
+                    this.formPopupvillain.CASE_CHANNEL_TWITTER_TIME_START = this.formChannelTWITTER.CASE_CHANNEL_TWITTER_TIME_START;
+                if(this.formChannelTWITTER.CASE_CHANNEL_TWITTER_DATE_START)
+                    this.formPopupvillain.CASE_CHANNEL_TWITTER_DATE_START = this.formChannelTWITTER.CASE_CHANNEL_TWITTER_DATE_START;
+                if(this.formChannelTWITTER.CASE_CHANNEL_TWITTER_TIME_END)
+                    this.formPopupvillain.CASE_CHANNEL_TWITTER_TIME_END = this.formChannelTWITTER.CASE_CHANNEL_TWITTER_TIME_END;
+                if(this.formChannelTWITTER.CASE_CHANNEL_TWITTER_DATE_END)
+                    this.formPopupvillain.CASE_CHANNEL_TWITTER_DATE_END = this.formChannelTWITTER.CASE_CHANNEL_TWITTER_DATE_END;
+            }else{
+                this.formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_URL = null;
+                this.formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_ID = null;
+                this.formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_NAME = null;
+                this.formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_FROMTRANSLATE = false;
+                this.formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_THAI = false;
+                this.formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_ENG = false;
+                this.formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_CHINESS = false;
+                this.formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_JAPAN = false;
+                this.formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_OTHER = false;
+                this.formChannelLanguage.TWITTER_CHANEL_CHANNEL_LANGUAGE_OTHER_DETAIL = null;
+                this.listDocFileTWITTER = [];
             }
             if(this.formPopupvillain.CHANEL_OTHERS){
                 if(this.validateLanguageOTHERS){
@@ -1192,8 +1664,30 @@ export class IssueOnlineVillainComponent implements OnInit {
                 }
                 this.formPopupvillain.CHANEL_OTHERS_NAME = 'อื่นๆ';
                 arr.push('อื่นๆ');
-                this.showtext += '<b>'+'ประเภทช่องทาง: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_OTHER_TYPE;
-                this.showtext += '<b>'+'URL/ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_OTHER_DETAIL;
+                this.formPopupvillain.CHANNEL_OTHERS_DOC = this.listDocFileOTHERS ?? [];
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_OTHER_TYPE == undefined ? this.showtext : this.showtext += '<b>'+'ประเภทช่องทาง: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_OTHER_TYPE+'<br>';
+                this.showtext = this.formPopupvillain.CASE_CHANNEL_OTHER_DETAIL == undefined ? this.showtext : this.showtext += '<b>'+'URL/ID: '+'</b>'+this.formPopupvillain.CASE_CHANNEL_OTHER_DETAIL;
+                if(this.formChannelOTHERS.CASE_CHANNEL_OTHER_TIME)
+                    this.formPopupvillain.CASE_CHANNEL_OTHER_TIME = this.formChannelOTHERS.CASE_CHANNEL_OTHER_TIME;
+                if(this.formChannelOTHERS.CASE_CHANNEL_OTHER_DATE)
+                    this.formPopupvillain.CASE_CHANNEL_OTHER_DATE = this.formChannelOTHERS.CASE_CHANNEL_OTHER_DATE;
+            }else{
+                this.formPopupvillain.CASE_CHANNEL_OTHER_TYPE = null;
+                this.formPopupvillain.CASE_CHANNEL_OTHER_DETAIL = null;
+                this.formChannelLanguage.OTHER_CHANNEL_LANGUAGE_FROMTRANSLATE = false;
+                this.formChannelLanguage.OTHER_CHANNEL_LANGUAGE_THAI = false;
+                this.formChannelLanguage.OTHER_CHANNEL_LANGUAGE_ENG = false;
+                this.formChannelLanguage.OTHER_CHANNEL_LANGUAGE_CHINESS = false;
+                this.formChannelLanguage.OTHER_CHANNEL_LANGUAGE_JAPAN = false;
+                this.formChannelLanguage.OTHER_CHANNEL_LANGUAGE_OTHER = false;
+                this.formChannelLanguage.OTHER_CHANNEL_LANGUAGE_OTHER = false;
+                this.formChannelLanguage.OTHER_CHANEL_CHANNEL_LANGUAGE_OTHER_DETAIL = null;
+                this.listDocFileOTHERS = [];
+            }
+            for (const prop in this.formPopupvillain) {
+                if (this.formPopupvillain[prop] === null ||this.formPopupvillain[prop] === undefined) {
+                  delete this.formPopupvillain[prop];
+                }
             }
             this.showLanguage();
             this.formPopupvillain.CHANNEL_NAME = arr.join(',').toString();
@@ -1248,6 +1742,18 @@ export class IssueOnlineVillainComponent implements OnInit {
             return;
         }
         const d = this.formPopup;
+        if(this.formCriminal.CASE_CRIMINAL_PROVINCE_ID == null || this.formCriminal.CASE_CRIMINAL_PROVINCE_ID == undefined){
+            this.formCriminal.CASE_CRIMINAL_DISTRICT_ID = null;
+            this.formCriminal.CASE_CRIMINAL_SUB_DISTRICT_ID = null;
+            this.formCriminal.CASE_CRIMINAL_PROVINCE_NAME_THA = null;
+            this.formCriminal.CASE_CRIMINAL_DISTRICT_NAME_THA = null;
+            this.formCriminal.CASE_CRIMINAL_SUB_DISTRICT_NAME_THA = null;
+        }
+        for (const prop in this.formCriminal) {
+            if (this.formCriminal[prop] === null ||this.formCriminal[prop] === undefined) {
+              delete this.formCriminal[prop];
+            }
+        }
         if (this.popupType === 'add') {
             this.formData.CASE_CRIMINAL.push(this.formCriminal);
         }else{
@@ -1526,6 +2032,8 @@ export class IssueOnlineVillainComponent implements OnInit {
         this.dateWebsite = undefined;
         this.dateEmail = undefined;
         this.dateOther = undefined;
+        this.datePhone = undefined;
+        this.dateSMS = undefined;
         this.listDocFilePhone = [];
         this.listDocFileSMS = [];
         this.listDocFileLINE = [];
@@ -1595,7 +2103,7 @@ export class IssueOnlineVillainComponent implements OnInit {
             if (this.formData.CRIMINAL === 'Y'){
                 this.SelectTypeMeet();
                 if (!this.formMeetVillain2.instance.validate().isValid) {
-                    this.ShowInvalidDialog("กรุณากกรุณากรอกรูปแบบการพบเจอคนร้ายแบบอื่นๆรอกข้อมูลคนร้าย");
+                    this.ShowInvalidDialog("กรุณากรอกรูปแบบการพบเจอคนร้ายแบบอื่นๆ");
                     return;
                 }
                 if(this.formMeetVillainvalidate){
@@ -1656,7 +2164,9 @@ export class IssueOnlineVillainComponent implements OnInit {
             formData = Object.assign({},formUpload,formData);
             this.mainConponent.formDataAll.formVaillain = {};
             this.mainConponent.formDataAll.formVaillain = formData;
-            this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
+            if(e != 'tab'){
+                this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
+            }
 
         }else{
             this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
@@ -1868,7 +2378,6 @@ export class IssueOnlineVillainComponent implements OnInit {
         if(e.value){
             const mydate = this.datePipe.transform(e.value, 'yyyy-MM-dd');
             const mytime = this.datePipe.transform(e.value, 'HH:mm:ss');
-            console.log(e.value,type,when);
             if(this.formPopupvillain.CHANEL_LINE && type == "line"){
                 if(when=='start'){
                     this.formPopupvillain.CASE_CHANNEL_LINE_TIME_START = mytime;
@@ -1943,6 +2452,14 @@ export class IssueOnlineVillainComponent implements OnInit {
             if(this.formPopupvillain.CHANEL_OTHERS && type == "other"){
                 this.formPopupvillain.CASE_CHANNEL_OTHERS_TIME = mytime;
                 this.formPopupvillain.CASE_CHANNEL_OTHERS_DATE = mydate;
+            }
+            if(this.formPopupvillain.CHANEL_PHONE && type == "phone"){
+                this.formChannelPhone.CASE_CHANNEL_PHONE_TIME = mytime;
+                this.formChannelPhone.CASE_CHANNEL_PHONE_DATE = mydate;
+            }
+            if(this.formPopupvillain.CHANEL_SMS && type == "sms"){
+                this.formChannelSMS.CASE_CHANNEL_SMS_TIME = mytime;
+                this.formChannelSMS.CASE_CHANNEL_SMS_DATE = mydate;
             }
         }
     }
@@ -2140,7 +2657,6 @@ export class IssueOnlineVillainComponent implements OnInit {
             this.formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_FROMTRANSLATE,
             this.formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_FROMTRANSLATE,
             this.formChannelLanguage.OTHERS_CHANNEL_LANGUAGE_FROMTRANSLATE].some((value) => value === true) ? this.showlanguage += "มาจากเครื่องมือแปลภาษา"+"<br>" : "";
-        console.log(this.showlanguage);
     }
 
 }

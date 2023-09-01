@@ -3,9 +3,16 @@
         <dx-form #formproblem [formData]="formProblem" [readOnly]="true" labelLocation="top" [colCount]="1">
             <dxi-item template="tempproblem" [isRequired]="true" dataField="CASE_ID">
                 <dxo-label text="เลขที่รับแจ้ง "></dxo-label>
+                <dxi-validation-rule
+                                    type="pattern"
+                                    [pattern]="caseIdPattern"
+                                    message="กรุณาระบุเคสไอดีให้ถูกต้อง">
+                                </dxi-validation-rule>
+                                <dxi-validation-rule type="required" message="กรุณาระบุเคสไอดี" >
+                                </dxi-validation-rule>
             </dxi-item>
             <div *dxTemplate="let data of 'tempproblem'">
-                <dx-number-box [(value)]="formProblem.CASE_ID" style="width: 35%;" (keypress)="CheckNumber($event)"></dx-number-box>
+                <dx-text-box (onValueChanged)="CheckCaseID($event)" [(value)]="formProblem.CASE_ID" style="width: 35%;" (keypress)="CheckCaseIDpress($event)" (paste)="PasteCheckCaseIDpress($event)"></dx-text-box>
             </div>
             <dxi-item template="tempproblem1" dataField="FEEDBACK_NAME">
                 <dxo-label text=" " [showColon]="false"></dxo-label>

@@ -256,9 +256,9 @@
                                         <span class="px-3 ">แจ้งเรื่องใหม่</span>
                                     </button> -->
                                 </div>
-                                <dx-data-grid #grid [dataSource]="_dataSource" [showColumnLines]="false"
+                                <dx-data-grid #grid [dataSource]="_dataSource" [showColumnLines]="false" [rowAlternationEnabled]="true"
                                     [wordWrapEnabled]="true" [showRowLines]="true" [columnAutoWidth]="true"
-                                    [columnHidingEnabled]="true" [showBorders]="false" [rowAlternationEnabled]="true"
+                                    [columnHidingEnabled]="false" [showBorders]="false" [rowAlternationEnabled]="true"
                                     [showColumnLines]="true" [hoverStateEnabled]="true" [selectedRowKeys]="[]"
                                     noDataText="ไม่มีข้อมูล" [remoteOperations]="false">
                                     <dxo-paging [pageSize]="10"></dxo-paging>
@@ -401,21 +401,22 @@
                             <dx-form #formAgreeBank id="form" [formData]="submission" labelLocation="top" [colCount]="2"
                             [(visible)]="_isShow">
                                 <dxi-item itemType="group">
-                                    <div class="dx-field">
-                                        <div class="dx-field-label" *ngIf="_isShow">ได้รับเลขอ้างอิงจากธนาคารแล้ว : </div>
+                                    <div class="dx-field" id="bankid-container">
+                                        <div class="dx-field-label">ได้รับเลขอ้างอิงจากธนาคารแล้ว : </div>
                                         <div class="dx-field-value">
-                                            <dx-text-box [(value)]="submission.FREEZE_ACT_BANK_TRACK_NO" (keypress)="CheckBankID($event)" (paste)="PasteCheckBankID($event)"
+                                            <dx-text-box [(value)]="submission.FREEZE_ACT_BANK_TRACK_NO" [maxLength]="20" (keypress)="CheckBankID($event)" (paste)="PasteCheckBankID($event)"
                                                 [showClearButton]="true" placeholder="กรุณาระบุ" (onValueChanged)="checkBank($event)"
-                                                [(visible)]="_isShow"></dx-text-box>
+                                                ></dx-text-box>
                                         </div>
                                     </div>
                                 </dxi-item>
                                 <dxi-item itemType="group">
-                                    <div class="dx-field">
-                                        <div class="dx-field-label" *ngIf="_isShow">ติดต่อธนาคาร : </div>
+                                    <div class="dx-field" id="bankname-container">
+                                        <div class="dx-field-label" >ติดต่อธนาคาร : </div>
                                         <div class="dx-field-value">
-                                            <dx-text-box [(value)]="submission.FREEZE_ACT_BANK_NAME" [showClearButton]="true"
-                                                [maxLength]="200" [readOnly]="true" [(visible)]="_isShow"></dx-text-box>
+                                            <dx-text-box [(value)]="submission.FREEZE_ACT_BANK_NAME" [readOnly]="true"
+                                                [showClearButton]="true" [maxLength]="200"
+                                                ></dx-text-box>
                                         </div>
                                     </div>
                                 </dxi-item>
@@ -423,8 +424,8 @@
                                     <dxo-label text="" [showColon]="false"></dxo-label>
                                 </dxi-item>
                                 <div *dxTemplate="let data of 'datetime'">
-                                    <div class="dx-field">
-                                        <div class="dx-field-label">วันและเวลาที่ได้รับเลขอ้างอิงจากธนาคาร :</div>
+                                    <div class="dx-field" id="bankdate-container">
+                                        <div class="dx-field-label">วันและเวลาที่ได้รับเลขอ้างอิง<br>จากธนาคาร :</div>
                                         <div class="dx-field-value">
                                             <dx-date-box id="default" (onValueChanged)="OnSelectDate($event)" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา"
                                             type="datetime" [max]="maxDateValue" [(value)]="now"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
@@ -490,7 +491,7 @@
                                                 </div>
                                                 <div class="col-8">
                                                     <div class="text-detail">ธนาคารกสิกรไทย</div>
-                                                    <div class="text-detail">0 2888 8888 กด 1</div>
+                                                    <div class="text-detail">0 2888 8888 กด 001</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -567,7 +568,7 @@
                                                 </div>
                                                 <div class="col-8">
                                                     <div class="text-detail">ธนาคารซีไอเอ็มบี ไทย</div>
-                                                    <div class="text-detail">0 2626 7777 กด 00</div>
+                                                    <div class="text-detail">0 2626 7777 กด 12</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -657,6 +658,83 @@
                                                 <div class="col-8">
                                                     <div class="text-detail">ธนาคารทิสโก้</div>
                                                     <div class="text-detail">0 2633 6000 กด *7</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2">
+                                            <div class="row m-1 p-3 item-box-bank" (click)="TelLink('tel:0-2629-5588')">
+                                                <div class="col-4">
+                                                    <img src="assets/icon/icbc.png" alt="icbc" class="img-fluid">
+                                                </div>
+                                                <div class="col-8">
+                                                    <div class="text-detail">ธนาคารไอซีบีซี(ไทย)</div>
+                                                    <div class="text-detail">0 2629 5588 กด 4</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2">
+                                            <div class="row m-1 p-3 item-box-bank" (click)="TelLink('tel:1302')">
+                                                <div class="col-4">
+                                                    <img src="assets/icon/ibank.png" alt="ibank" class="img-fluid">
+                                                </div>
+                                                <div class="col-8">
+                                                    <div class="text-detail">ธนาคารอิสลามแห่งประเทศไทย</div>
+                                                    <div class="text-detail">1302 กด 6</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2">
+                                            <div class="row m-1 p-3 item-box-bank" (click)="TelLink('tel:1240')">
+                                                <div class="col-4">
+                                                    <img src="assets/icon/true.png" alt="true" class="img-fluid">
+                                                </div>
+                                                <div class="col-8">
+                                                    <div class="text-detail">ทรูมันนี่</div>
+                                                    <div class="text-detail">1240 กด 6</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2">
+                                            <div class="row m-1 p-3 item-box-bank" (click)="TelLink('tel:0-2026-3000')">
+                                                <div class="col-4">
+                                                    <img src="assets/icon/2C2P.png" alt="2C2P" class="img-fluid">
+                                                </div>
+                                                <div class="col-8">
+                                                    <div class="text-detail">ทูซีทูพี(ประเทศไทย)</div>
+                                                    <div class="text-detail">0 2026 3000 กด 0</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2">
+                                            <div class="row m-1 p-3 item-box-bank" (click)="TelLink('tel:0-2078-9299')">
+                                                <div class="col-4">
+                                                    <img src="assets/icon/mpay.png" alt="mpay" class="img-fluid">
+                                                </div>
+                                                <div class="col-8">
+                                                    <div class="text-detail">แอดวานซ์ เอ็มเปย์</div>
+                                                    <div class="text-detail">0 2078 9299 กด 1</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2">
+                                            <div class="row m-1 p-3 item-box-bank" (click)="TelLink('tel:0-2633-6000')">
+                                                <div class="col-4">
+                                                    <img src="assets/icon/tmc.jpg" alt="tmc" class="img-fluid">
+                                                </div>
+                                                <div class="col-8">
+                                                    <div class="text-detail">ธนาคารไทยไมโคร ดิจิทัล โซลูชั่นส์</div>
+                                                    <div class="text-detail">0 2697 5353 กด 0</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2">
+                                            <div class="row m-1 p-3 item-box-bank" (click)="TelLink('tel:1614')">
+                                                <div class="col-4">
+                                                    <img src="assets/icon/max.jpg" alt="max" class="img-fluid">
+                                                </div>
+                                                <div class="col-8">
+                                                    <div class="text-detail">แมกซ์ การ์ด</div>
+                                                    <div class="text-detail">1614 กด 4</div>
                                                 </div>
                                             </div>
                                         </div>

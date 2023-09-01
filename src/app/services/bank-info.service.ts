@@ -66,7 +66,7 @@ export class BankInfoService {
             .disableCriticalDialogError().get();
     }
     public GetBankInfoByName(Name:string): Observable<any[]> {
-        return req<any[]>(`CmsBankInfo/'${Name}'`)
+        return req<any[]>(`CmsBankInfo/${Name}`)
             .disableCriticalDialogError().get();
     }
 }

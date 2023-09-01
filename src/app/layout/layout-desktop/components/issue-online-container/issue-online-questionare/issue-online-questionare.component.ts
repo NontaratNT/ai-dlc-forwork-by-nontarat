@@ -77,11 +77,14 @@ export class IssueOnlineQuestionareComponent implements OnInit {
     ngOnInit(): void {
         const userId = User.Current.PersonalId;
         this.isLoading = true;
-        this.servicePersonal.GetPersonalById(userId)
-            .subscribe((_) => {
-                this.personalInfo = _;
+        // this.servicePersonal.GetPersonalById(userId)
+        //     .subscribe((_) => {
+        //         this.personalInfo = _;
+        //         this.setDefaultData();
+        //     });
+        setTimeout(async () => {
                 this.setDefaultData();
-            });
+        }, 100);
     }
 
     setDefaultData(){

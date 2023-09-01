@@ -20,6 +20,7 @@ import { ChatService } from "src/app/services/chat.service";
 import { UserSettingService } from "src/app/services/user-setting.service";
 import { IssueOnlineBlessingComponent } from "./issue-online-blessing/issue-online-blessing.component";
 import { IssueOnlineQuestionareComponent } from "./issue-online-questionare/issue-online-questionare.component";
+import { ProvinceService } from "src/app/services/province.service";
 @Component({
     selector: "app-issue-online-container",
     templateUrl: "./issue-online-container.component.html",
@@ -101,6 +102,22 @@ export class IssueOnlineContainerComponent implements OnInit {
 
         }
     }
+    @ViewChild(TrackAppointmentComponent) set content10(content10: TrackAppointmentComponent) {
+        if(content10) {
+            this.trackAppointmentConponent = content10;
+            this.trackAppointmentConponent.mainConponent = this;
+            this.indexLocker.trackAppointmentConponent = true;
+
+        }
+    }
+    @ViewChild(AttachFileComponent) set content11(content11: AttachFileComponent) {
+        if(content11) {
+            this.attachmentFileConponent = content11;
+            this.attachmentFileConponent.mainConponent = this;
+            this.indexLocker.attachmentFileConponent = true;
+
+        }
+    }
     // @ViewChild(ChatComponent) set content10(content10: ChatComponent) {
     //     if (content10) {
     //         this.chatConponent = content10;
@@ -134,6 +151,7 @@ export class IssueOnlineContainerComponent implements OnInit {
     public caseId: number;
     public InstId: string;
     public ProcessInstanceId: string;
+    public province = [];
     loadPageSuccess = false;
     isLoading = true;
     countFlow = 0;
@@ -162,37 +180,43 @@ export class IssueOnlineContainerComponent implements OnInit {
         private _activeRoute: ActivatedRoute,
         private servChat: ChatService,
         private userSetting: UserSettingService,
+        private serviceProvince: ProvinceService
     ) { }
 
     ngOnInit(): void {
-        if (this.dataForm) {
-            this.userSetting.userSetting.iconVisible = false;
-            this.formType = 'edit';
-            this.isLoading = false;
-            const d = this.dataForm;
-            this.formDataInsert = d.Submission;
-            this.formDataInsert.Track_code = d.Track_code;
-            this.formDataInsert.Status_name = d.Status_name;
-            this.InstId = d.InstId;
-            this.ProcessInstanceId = d.ProcessInstanceId;
-            this.caseId = d.Submission.backendId;
-            this.LoadStatus(this.InstId);
-            this.stepNavigation = [
-                {text:"คำถามแยกพรก.",textClass:"arrow-div arrow-center"},
-                {text:"ข้อมูลผู้เสียหาย",textClass:"arrow-div arrow-center"},
-                {text:"เรื่องที่เกิดขึ้น",textClass:"arrow-div arrow-center"},
-                {text:"ความเสียหาย",textClass:"arrow-div arrow-center"},
-                {text:"ข้อมูลคนร้าย",textClass:"arrow-div arrow-center"},
-                {text:"การกระทำความผิด",textClass:"arrow-div arrow-center"}
-            ];
-        } else {
-            this.SetFormInit();
-        }
-
-
+        setTimeout(async () => {
+            if (this.dataForm) {
+                this.userSetting.userSetting.iconVisible = false;
+                this.formType = 'edit';
+                this.isLoading = false;
+                const d = this.dataForm;
+                this.formDataInsert = d.Submission;
+                this.formDataInsert.Track_code = d.Track_code;
+                this.formDataInsert.Status_name = d.Status_name;
+                this.InstId = d.InstId;
+                this.ProcessInstanceId = d.ProcessInstanceId;
+                this.caseId = d.Submission.backendId;
+                this.LoadStatus(this.InstId);
+                this.stepNavigation = [
+                    {text:"คำถามแยกพรก.",textClass:"arrow-div arrow-center"},
+                    {text:"ข้อมูลผู้เสียหาย",textClass:"arrow-div arrow-center"},
+                    {text:"เรื่องที่เกิดขึ้น",textClass:"arrow-div arrow-center"},
+                    {text:"ความเสียหาย",textClass:"arrow-div arrow-center"},
+                    {text:"ข้อมูลคนร้าย",textClass:"arrow-div arrow-center"},
+                    {text:"การกระทำความผิด",textClass:"arrow-div arrow-center"}
+                ];
+                this.getProvince();
+            } else {
+                this.SetFormInit();
+                this.getProvince();
+            }
+        }, 1000);
 
     }
-
+    async getProvince(){
+        this.province = await this.serviceProvince.GetProvince().toPromise();
+        this.isLoading = false;
+    }
     LoadStatus(id){
         this._bpmProcinstServ.getByInstId(id).subscribe(res => {
             this.bpmData = res;
@@ -208,6 +232,7 @@ export class IssueOnlineContainerComponent implements OnInit {
         return "";
     }
     SetFormInit(){
+        console.log(this.formType);
         this.formDataInsert.FORM_CODE = "CCIB_NOTIFY_PEOPLE@0.1";
         this.formDataInsert.env = environment.config.baseConfig;
         this.formDataInsert.CASE_TYPE_ID = 1;
@@ -229,6 +254,7 @@ export class IssueOnlineContainerComponent implements OnInit {
             formAttachment:{},
             formAgree:{},
             formQuestionnare:{},
+            formBlessing:{},
             formConfigs:{
                 FORM_CODE: "CCIB_NOTIFY_PEOPLE@0.1",
                 env: environment.config.baseConfig,
@@ -285,14 +311,26 @@ export class IssueOnlineContainerComponent implements OnInit {
 
     }
     openAppoi() {
-        this.indexTab = 5;
+        this.indexTab = 2;
         // console.log(this.indexTab);
     }
     openChat(e) {
-        this.indexTab = 6;
+        this.indexTab = 7;
         this.servChat.getCountReadChat(this.insId).subscribe(_ => {
             this.numCount = _;
         });
         document.body.scrollTop = document.documentElement.scrollTop = 0;
+    }
+    public checkReload(page){
+        // console.log("เรียกข้อมูลไม่สำเร็จกำลังเรียกข้อมูลใหม่ที่หน้า ",page);
+        switch(page){
+            case 1 : this.blessingComponent.ngOnInit(); break;
+            case 2 : this.informerConponent.ngOnInit(); break;
+            case 3 : this.eventConponent.ngOnInit(); break;
+            case 4 : this.damageConponent.ngOnInit(); break;
+            case 5 : this.vaillainConponent.ngOnInit(); break;
+            case 6 : this.attachmentConponent.ngOnInit(); break;
+            case 7 : this.questionareComponent.ngOnInit(); break;
+        }
     }
 }

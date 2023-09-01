@@ -108,7 +108,9 @@
                         <app-view-address #viewadress
                             [renderView]="'view1'"
                             [type]="locationRender"
+                            [province]="province"
                             [replaceKey]="'CASE_LOCATION'"
+                            [checkValidate]="checkValidateAddress"
                             [(dataForm)]="formLocation"></app-view-address>
                     </div>
                 </div>
@@ -131,7 +133,9 @@
                         <app-view-address
                             [renderView]="'view2'"
                             [type]="locationRender"
+                            [province]="province"
                             [replaceKey]="'CASE_LOCATION_TRANSFER'"
+                            [checkValidate]="checkValidateAddress"
                             [(dataForm)]="formLocationTranfer"></app-view-address>
                     </div>
                 </div>

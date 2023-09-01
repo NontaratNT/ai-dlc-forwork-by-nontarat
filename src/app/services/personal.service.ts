@@ -165,6 +165,7 @@ export interface IPersonal {
     CONFIRM_PASSWORD?: string;
     FACEBOOK_URL?: string;
     LINE_ID?: string;
+    OCCUPATIONS_OTHER_NAME?: string;
 }
 
 export interface IOTP {

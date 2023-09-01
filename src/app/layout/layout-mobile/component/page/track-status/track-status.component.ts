@@ -314,6 +314,8 @@ export class TrackStatusComponent implements OnInit {
         // }).then(() => {  });
         const data = cellValue.data;
         if (data) {
+            localStorage.removeItem('inst_id');
+            localStorage.setItem('inst_id',data.INST_ID);
             this.userSetting.userSetting.issue_status = false;
             this.router.navigate(["/mobile/issue-online/" + data.INST_ID + "/" + data.DOCUMENT_ID]);
             this.userSetting.userSetting.tabIndex = undefined;

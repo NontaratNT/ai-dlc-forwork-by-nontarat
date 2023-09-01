@@ -9,6 +9,8 @@ import * as moment from 'moment';
 import { IssueOnlineService } from "src/app/services/issue-online.service";
 import { BankInfoService } from "src/app/services/bank-info.service";
 import { DatePipe } from '@angular/common';
+import { OnlineCaseService } from "src/app/services/online-case.service";
+import { BpmProcinstService } from "src/app/services/bpm-procinst.service";
 
 @Component({
   selector: 'app-issue-online-blessing',
@@ -82,16 +84,21 @@ export class IssueOnlineBlessingComponent implements OnInit {
         private _issueOnlineService: IssueOnlineService,
         private _bankInfoService: BankInfoService,
         private servicePersonal: PersonalService,
-        private datePipe: DatePipe
+        private datePipe: DatePipe,
+        private _BpmProcinstService: BpmProcinstService,
+        private _OnlineCaseService: OnlineCaseService
     ) {}
     ngOnInit(): void {
         this.maxDateValue.setHours(this.maxDateValue.getHours() + 1);
         const userId = User.Current.PersonalId;
-        this.servicePersonal
-            .GetPersonalById(userId)
-            .subscribe((_) => {
-                this.setDefaultData();
-            });
+        // this.servicePersonal
+        //     .GetPersonalById(userId)
+        //     .subscribe((_) => {
+        //         this.setDefaultData();
+        //     });
+        setTimeout(async () => {
+            this.setDefaultData();
+        }, 1000);
     }
     async setDefaultData() {
         if (this.mainConponent.formType === "add") {
@@ -104,15 +111,23 @@ export class IssueOnlineBlessingComponent implements OnInit {
             this.formData = value;
         });
         }else{
-            const dataForm = await this.mainConponent.formDataInsert;
+            const _inst_id = Number(localStorage.getItem("inst_id"));
+            // const dataForm = await this.mainConponent.formDataInsert;
+            const procinstdata = await this._BpmProcinstService.getByInstId(_inst_id).toPromise();
+            sessionStorage.setItem("case_id",procinstdata.DATA_ID);
+
             this.formReadOnly = true;
             this.formType ="edit"
-            this.formData = dataForm;
+            const dataForm = await this._OnlineCaseService.getbycaseId(procinstdata.DATA_ID).toPromise();
             this.formblessingdata.BLESSINGNO1   = dataForm.BLESSINGNO1 ?? '';
             this.formblessingdata.BLESSINGNO2   = dataForm.BLESSINGNO2 ?? '';
             this.formblessingdata.BLESSINGNO2_3   = dataForm.BLESSINGNO2_3 ?? '';
             this.formblessingdata.BLESSINGNO3   = dataForm.BLESSINGNO3 ?? '';
-            this.submission.ways = dataForm.WAY ?? '';
+            this.submission.ways = Number(dataForm.WAY) ?? '';
+
+            if(dataForm.WAY == '2'){
+                this._isShow3 = true;
+            }
             this._dataSourcebankref =   dataForm.BANK_REF ?? [];
         }
     }
@@ -157,11 +172,15 @@ export class IssueOnlineBlessingComponent implements OnInit {
             this.formData.BANK_REF = this._dataSourcebankref;
             this.mainConponent.formDataInsert = this.formData;
             this._issueOnlineService.issueOnline = this.formData;
-            console.log(this.formData);
+            this.mainConponent.formDataAll.formBlessing = this.formData;
 
             //   this.mainConponent.formquestionnare1 = this.formblessingdata;
             // console.log("this.formData",this.formData);
-            this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
+            if(this.mainConponent.formType === "add"){
+                this.mainConponent.NextIndex(this.mainConponent.indexTab = 2);
+            }else{
+                this.mainConponent.NextIndex(this.mainConponent.indexTab + 1 );
+            }
         }
         //   this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
 

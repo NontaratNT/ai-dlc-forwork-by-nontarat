@@ -67,6 +67,7 @@ export class IssueOnlineEventComponent implements OnInit {
     formLocationBankVictimLoad = false;
     formLocationBankVillain: any = {};
     formLocationBankVillainLoad = false;
+    checkValidateAddress = false;
 
     checkboxaddresscard = false;
 
@@ -105,8 +106,11 @@ export class IssueOnlineEventComponent implements OnInit {
         this.servBankInfo.GetCaseType().subscribe((_) => {
             this.formData.CASE_TYPE_ID = null;
             this.listCaseType = _;
-            this.serviceProvince.GetProvince().subscribe((res) => (this.province = res));
+            // this.serviceProvince.GetProvince().subscribe((res) => (this.province = res));
             this.SetDefaultData();
+        },error => {
+            if(error.status == 500 || error.status == 524)
+                this.mainConponent.checkReload(3);
         });
         this.presentAddress.disableDistrict = true;
         this.presentAddress.disableSubDistrict = true;
@@ -179,48 +183,57 @@ export class IssueOnlineEventComponent implements OnInit {
         this.isLoading = false;
     }
     async SetDefaultData(){
-        this.userType = this.mainConponent.userType;
-        this.bankInfoList = await this.servBankInfo.GetBankInfo().toPromise();
-        this.formLocation = {};
-        this.formLocationTranfer = {};
-        this.formLocationBankVictim = {};
-        this.formLocationBankVillain = {};
-        this.formData.CASE_TYPE_SUB_ID = undefined;
-        if (this.mainConponent.formType === 'add') {
-            this.locationRender = 'add';
-            this.formType = "add";
-            this.formReadOnly = false;
-            this.formValidate = true;
-            this.formLocationLoad = true;
-            this.formLocationTranferLoad = true;
-            this.formLocationBankVictimLoad = true;
-            this.formLocationBankVillainLoad = true;
-            // this.formData.CASE_LOCATION_DATE = this._date.SetDateDefault(0);
-            this.isLoading = false;
+        try{
+            this.userType = this.mainConponent.userType;
+            this.province = this.mainConponent.province;
+            // this.bankInfoList = await this.servBankInfo.GetBankInfo().toPromise();
+            this.formLocation = {};
+            this.formLocationTranfer = {};
+            this.formLocationBankVictim = {};
+            this.formLocationBankVillain = {};
+            if(this.mainConponent.formDataAll.formBlessing){
+                this.checkValidateAddress = !this.mainConponent.formDataAll.formBlessing.CHECK_BLESSING;
+            }
+            this.formData.CASE_TYPE_SUB_ID = undefined;
+            if (this.mainConponent.formType === 'add') {
+                this.locationRender = 'add';
+                this.formType = "add";
+                this.formReadOnly = false;
+                this.formValidate = true;
+                this.formLocationLoad = true;
+                this.formLocationTranferLoad = true;
+                this.formLocationBankVictimLoad = true;
+                this.formLocationBankVillainLoad = true;
+                // this.formData.CASE_LOCATION_DATE = this._date.SetDateDefault(0);
+                this.isLoading = false;
 
-        }else{
-            // const dataForm = await this.mainConponent.formDataInsert;
-            const _case_id = Number(sessionStorage.getItem("case_id"));
-            // const dataForm = this.mainConponent.formDataInsert;
-            const dataForm = await this._OnlineCaseService.getbycaseId(_case_id).toPromise();
-            var _gettype  =   this.listCaseType.find(x=>x.CASE_TYPE_ID == dataForm.CASE_TYPE_ID);
-          
+            }else{
+                // const dataForm = await this.mainConponent.formDataInsert;
+                const _case_id = Number(sessionStorage.getItem("case_id"));
+                // const dataForm = this.mainConponent.formDataInsert;
+                const dataForm = await this._OnlineCaseService.getbycaseId(_case_id).toPromise();
+                var _gettype  =   this.listCaseType.find(x=>x.CASE_TYPE_ID == dataForm.CASE_TYPE_ID);
 
-            this.formType = "edit";
-            this.formReadOnly = true;
-            this.formValidate = false;
-            this.formData = dataForm;
-            this.formData.CASE_TYPE_ID = dataForm.CASE_TYPE_ID;
 
-            this.formData.CASE_TYPE_NAME = _gettype.CASE_TYPE_NAME;
-            this.userType = this.formData.CASE_SELF_TYPE === 'Y'? 'mySelf':'other';
-            this.locationRender = 'view';
-            this.setDataLocation(dataForm);
+                this.formType = "edit";
+                this.formReadOnly = true;
+                this.formValidate = false;
+                this.formData = dataForm;
+                this.formData.CASE_TYPE_ID = dataForm.CASE_TYPE_ID;
+
+                this.formData.CASE_TYPE_NAME = _gettype.CASE_TYPE_NAME;
+                this.userType = this.formData.CASE_SELF_TYPE === 'Y'? 'mySelf':'other';
+                this.locationRender = 'view';
+                this.setDataLocation(dataForm);
+            }
+            // this.minBirthDate = this._date.SetDateDefault(10,true);
+            // this.maxBirthDate = this._date.SetDateDefault(0);
+            // console.log('this.maxBirthDate',this.maxBirthDate);
+            // this.loadDateBox = true;
+        }catch (error){
+            console.log(error);
+            this.SetDefaultData();
         }
-        // this.minBirthDate = this._date.SetDateDefault(10,true);
-        // this.maxBirthDate = this._date.SetDateDefault(0);
-        // console.log('this.maxBirthDate',this.maxBirthDate);
-        // this.loadDateBox = true;
 
 
     }

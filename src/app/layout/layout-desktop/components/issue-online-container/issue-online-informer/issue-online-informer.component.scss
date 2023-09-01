@@ -28,3 +28,20 @@
         margin-top: 20px;
     }
 }
+.custom-ratio{
+    ::ng-deep .dx-widget.dx-collection > .dx-item.dx-radiobutton {
+        width: 500px;
+        ::ng-deep .dx-radio-value-container{
+            width: 40px;
+            vertical-align: top
+        }
+        .sub-content {
+            padding-top: 10px;
+        }
+        .sub-content > .location{
+            padding-left: 28px;
+            padding-right: 0px;
+        }
+    }
+}
+

@@ -27,6 +27,7 @@ export class ProblemOnlineAddComponent implements OnInit {
     ];
     checkproblem = true;
     _isLoading = false;
+    caseIdPattern: any = /^(W|L|C)\d+$/;
 
     constructor(
         private problemService: ProblemService,
@@ -120,10 +121,35 @@ export class ProblemOnlineAddComponent implements OnInit {
     public ClearForm() {
         this.form.instance.resetValues();
     }
-    CheckNumber(event) {
-        const seperator = '^([0-9])';
-        const maskSeperator =  new RegExp(seperator , 'g');
-        const result =maskSeperator.test(event.key);
+    CheckCaseIDpress(event) {
+        const seperator = '^[WLCwcl0-9]+$';
+        const maskSeperator = new RegExp(seperator, 'g');
+        const result = maskSeperator.test(event.key);
         return result;
+    }
+
+    PasteCheckCaseIDpress(event) {
+        const clipboardData = event.clipboardData;
+        const pastedText = clipboardData.getData('text');
+        const seperator = '^[WLCwcl0-9]+$';
+        const maskSeperator = new RegExp(seperator, 'g');
+        const result = maskSeperator.test(pastedText);
+        return result;
+    }
+
+    CheckCaseID(e){
+        if(e.value){
+            e.value = e.value.toUpperCase();
+            if(e.value[0] == 'W' || e.value[0] == 'L' || e.value[0] == 'C'){
+                this.formProblem.CASE_ID = e.value;
+            }else{
+                Swal.fire({
+                    title: 'ผิดพลาด!',
+                    html: 'กรุณากรอกเลขเคสไอดีให้ถูกต้อง'+'<br><b>'+'ตัวอย่าง '+'</b>'+'W665210 , L665210 , C665210',
+                    icon: 'warning',
+                    confirmButtonText: 'Ok',
+                }).then(() => {});
+            }
+        }
     }
 }

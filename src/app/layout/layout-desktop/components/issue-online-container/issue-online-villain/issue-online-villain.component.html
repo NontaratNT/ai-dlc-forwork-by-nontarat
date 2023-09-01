@@ -500,7 +500,15 @@
                                 </div>
                             </dx-tooltip>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_PHONE" itemType="empty" [colSpan]="1"></dxi-item>
+                        <dxi-item template="tempdatephone" [isRequired]="true" *ngIf="formPopupvillain.CHANEL_PHONE">
+                            <dxo-label text="วันเวลา" [showColon]="false"></dxo-label>
+                        </dxi-item>
+                        <div *dxTemplate="let data of 'tempdatephone'">
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'phone')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา"
+                                    type="datetime" [max]="maxDateValue" [value]="datePhone"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
+                            </dx-date-box>
+                        </div>
+                        <!-- <dxi-item *ngIf="formPopupvillain.CHANEL_PHONE" itemType="empty" [colSpan]="1"></dxi-item>
                         <dxi-item *ngIf="formPopupvillain.CHANEL_PHONE" template="tempdatephone" [colSpan]="1">
                             <dxo-label text="วันที่" [showColon]="false"></dxo-label>
                             <dxi-validation-rule type="required" message="กรุณาเลือกวันที่">
@@ -519,7 +527,7 @@
                             <dx-date-box type="time" dateSerializationFormat="HH:mm" [openOnFieldClick]="true"
                             [(value)]="formPopupvillain.CASE_CHANNEL_PHONE_TIME" [useMaskBehavior]="true" displayFormat="HH:mm">
                             </dx-date-box>
-                        </div>
+                        </div> -->
                         <dxi-item *ngIf="formPopupvillain.CHANEL_PHONE" template="tempfilephone" [colSpan]="2">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
@@ -588,11 +596,15 @@
                         <div *dxTemplate="let data of 'selectLanguagephone'">
                             <dx-radio-group [readOnly]="formReadOnly" [dataSource]="typeLanguage" layout="vertical" valueExpr="ID" displayExpr="TEXT" [(value)]="defaultLanguagePhoneType" (onValueChanged)="ChangeTypelanguage($event,'PHONE')"></dx-radio-group>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_PHONE && !formChannelLanguage.PHONE_CHANNEL_LANGUAGE_FROMTRANSLATE" [colSpan]="2">
-                            <div class="content-sub-title">
-                                <div class="remark-table-upload" style="font-size:16px">* กรุณาเลือกภาษาอย่างน้อย 1 ภาษา</div>
-                            </div>
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_PHONE" [colSpan]="2" template="labellanguagephone">
                         </dxi-item>
+                        <div *dxTemplate="let data of 'labellanguagephone'">
+                            <ng-container *ngIf="!formChannelLanguage.PHONE_CHANNEL_LANGUAGE_FROMTRANSLATE">
+                                <div class="content-sub-title">
+                                    <div class="remark-table-upload" style="font-size:16px">* กรุณาเลือกภาษาอย่างน้อย 1 ภาษา</div>
+                                </div>
+                            </ng-container>
+                        </div>
                         <dxi-item *ngIf="formPopupvillain.CHANEL_PHONE" template="languagephone" [colSpan]="2" [isRequired]="validateLanguagePHONE" (isRequiredChange)="SelectTypeLanguage()">
                             <dxo-label text="" class="content-title" [showColon]="false"></dxo-label>
                         </dxi-item>
@@ -694,7 +706,16 @@
                                 </div>
                             </dx-tooltip>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_SMS" template="tempdatesms" [colSpan]="1">
+                        <dxi-item template="tempdatesms" [isRequired]="true" *ngIf="formPopupvillain.CHANEL_SMS">
+                            <dxo-label text="วันเวลา" [showColon]="false"></dxo-label>
+                        </dxi-item>
+                        <div *dxTemplate="let data of 'tempdatesms'">
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'sms')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา"
+                                    type="datetime" [max]="maxDateValue" [value]="dateSMS"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
+                            </dx-date-box>
+                        </div>
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_SMS" itemType="empty" [colSpan]="1"></dxi-item>
+                        <!-- <dxi-item *ngIf="formPopupvillain.CHANEL_SMS" template="tempdatesms" [colSpan]="1">
                             <dxo-label text="วันที่" [showColon]="false"></dxo-label>
                             <dxi-validation-rule type="required" message="กรุณาเลือกวันที่">
                             </dxi-validation-rule>
@@ -712,7 +733,7 @@
                                 [(value)]="formPopupvillain.CASE_CHANNEL_SMS_TIME" [useMaskBehavior]="true" displayFormat="HH:mm"
                                    ></dx-date-box>
                             </div>
-                        </dxi-item>
+                        </dxi-item> -->
                         <dxi-item *ngIf="formPopupvillain.CHANEL_SMS" template="tempfilesms" [colSpan]="2">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
@@ -781,11 +802,15 @@
                         <div *dxTemplate="let data of 'selectLanguagesms'">
                             <dx-radio-group [readOnly]="formReadOnly" [dataSource]="typeLanguage" layout="vertical" valueExpr="ID" displayExpr="TEXT" [(value)]="defaultLanguageSmsType" (onValueChanged)="ChangeTypelanguage($event,'SMS')"></dx-radio-group>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_SMS && !formChannelLanguage.SMS_CHANNEL_LANGUAGE_FROMTRANSLATE" [colSpan]="2">
-                            <div class="content-sub-title">
-                                <div class="remark-table-upload" style="font-size:16px">* กรุณาเลือกภาษาอย่างน้อย 1 ภาษา</div>
-                            </div>
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_SMS" [colSpan]="2" template="labellanguagesms">
                         </dxi-item>
+                        <div *dxTemplate="let data of 'labellanguagesms'">
+                            <ng-container *ngIf="!formChannelLanguage.SMS_CHANNEL_LANGUAGE_FROMTRANSLATE">
+                                <div class="content-sub-title">
+                                    <div class="remark-table-upload" style="font-size:16px">* กรุณาเลือกภาษาอย่างน้อย 1 ภาษา</div>
+                                </div>
+                            </ng-container>
+                        </div>
                         <dxi-item *ngIf="formPopupvillain.CHANEL_SMS"  template="languagesms" [colSpan]="2" [isRequired]="validateLanguageSMS" (isRequiredChange)="SelectTypeLanguage()">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
@@ -953,11 +978,15 @@
                         <div *dxTemplate="let data of 'selectLanguageline'">
                             <dx-radio-group [readOnly]="formReadOnly" [dataSource]="typeLanguage" layout="vertical" valueExpr="ID" displayExpr="TEXT" [(value)]="defaultLanguageLineType" (onValueChanged)="ChangeTypelanguage($event,'LINE')"></dx-radio-group>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_LINE && !formChannelLanguage.LINE_CHANNEL_LANGUAGE_FROMTRANSLATE" [colSpan]="2">
-                            <div class="content-sub-title">
-                                <div class="remark-table-upload" style="font-size:16px">* กรุณาเลือกภาษาอย่างน้อย 1 ภาษา</div>
-                            </div>
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_LINE" [colSpan]="2" template="labellanguageline">
                         </dxi-item>
+                        <div *dxTemplate="let data of 'labellanguageline'">
+                            <ng-container *ngIf="!formChannelLanguage.LINE_CHANNEL_LANGUAGE_FROMTRANSLATE">
+                                <div class="content-sub-title">
+                                    <div class="remark-table-upload" style="font-size:16px">* กรุณาเลือกภาษาอย่างน้อย 1 ภาษา</div>
+                                </div>
+                            </ng-container>
+                        </div>
                         <dxi-item *ngIf="formPopupvillain.CHANEL_LINE"  template="languageline" [colSpan]="2" [isRequired]="validateLanguageLINE" (isRequiredChange)="SelectTypeLanguage()">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
@@ -1127,11 +1156,15 @@
                         <div *dxTemplate="let data of 'selectLanguagefacebook'">
                             <dx-radio-group [readOnly]="formReadOnly" [dataSource]="typeLanguage" layout="vertical" valueExpr="ID" displayExpr="TEXT" [(value)]="defaultLanguageFacebookType" (onValueChanged)="ChangeTypelanguage($event,'FACEBOOK')"></dx-radio-group>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_FACEBOOK && !formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_FROMTRANSLATE" [colSpan]="2">
-                            <div class="content-sub-title">
-                                <div class="remark-table-upload" style="font-size:16px">* กรุณาเลือกภาษาอย่างน้อย 1 ภาษา</div>
-                            </div>
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_FACEBOOK" [colSpan]="2" template="labellanguagefacebook">
                         </dxi-item>
+                        <div *dxTemplate="let data of 'labellanguagefacebook'">
+                            <ng-container *ngIf="!formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_FROMTRANSLATE">
+                                <div class="content-sub-title">
+                                    <div class="remark-table-upload" style="font-size:16px">* กรุณาเลือกภาษาอย่างน้อย 1 ภาษา</div>
+                                </div>
+                            </ng-container>
+                        </div>
                         <dxi-item *ngIf="formPopupvillain.CHANEL_FACEBOOK"  template="languagefacebook" [colSpan]="2" [isRequired]="validateLanguageFACEBOOK" (isRequiredChange)="SelectTypeLanguage()">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
@@ -1299,11 +1332,15 @@
                         <div *dxTemplate="let data of 'selectLanguagemessenger'">
                             <dx-radio-group [readOnly]="formReadOnly" [dataSource]="typeLanguage" layout="vertical" valueExpr="ID" displayExpr="TEXT" [(value)]="defaultLanguageMessengerType" (onValueChanged)="ChangeTypelanguage($event,'MESSENGER')"></dx-radio-group>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_MESSENGER && !formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_FROMTRANSLATE" [colSpan]="2">
-                            <div class="content-sub-title">
-                                <div class="remark-table-upload" style="font-size:16px">* กรุณาเลือกภาษาอย่างน้อย 1 ภาษา</div>
-                            </div>
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_MESSENGER" [colSpan]="2" template="labellanguagemessenger">
                         </dxi-item>
+                        <div *dxTemplate="let data of 'labellanguagemessenger'">
+                            <ng-container *ngIf="!formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_FROMTRANSLATE">
+                                <div class="content-sub-title">
+                                    <div class="remark-table-upload" style="font-size:16px">* กรุณาเลือกภาษาอย่างน้อย 1 ภาษา</div>
+                                </div>
+                            </ng-container>
+                        </div>
                         <dxi-item *ngIf="formPopupvillain.CHANEL_MESSENGER"  template="languagemessenger" [colSpan]="2" [isRequired]="validateLanguageMESSENGER" (isRequiredChange)="SelectTypeLanguage()">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
@@ -1472,11 +1509,15 @@
                         <div *dxTemplate="let data of 'selectLanguageinstargram'">
                             <dx-radio-group [readOnly]="formReadOnly" [dataSource]="typeLanguage" layout="vertical" valueExpr="ID" displayExpr="TEXT" [(value)]="defaultLanguageInstargramType" (onValueChanged)="ChangeTypelanguage($event,'INSTARGRAM')"></dx-radio-group>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_INSTARGRAM && !formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_FROMTRANSLATE" [colSpan]="2">
-                            <div class="content-sub-title">
-                                <div class="remark-table-upload" style="font-size:16px">* กรุณาเลือกภาษาอย่างน้อย 1 ภาษา</div>
-                            </div>
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_INSTARGRAM" [colSpan]="2" template="labellanguageinstargram">
                         </dxi-item>
+                        <div *dxTemplate="let data of 'labellanguageinstargram'">
+                            <ng-container *ngIf="!formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_FROMTRANSLATE">
+                                <div class="content-sub-title">
+                                    <div class="remark-table-upload" style="font-size:16px">* กรุณาเลือกภาษาอย่างน้อย 1 ภาษา</div>
+                                </div>
+                            </ng-container>
+                        </div>
                         <dxi-item *ngIf="formPopupvillain.CHANEL_INSTARGRAM"  template="languageinstargram" [colSpan]="2" [isRequired]="validateLanguageINSTARGRAM" (isRequiredChange)="SelectTypeLanguage()">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
@@ -1599,11 +1640,15 @@
                         <div *dxTemplate="let data of 'selectLanguagewebsite'">
                             <dx-radio-group [readOnly]="formReadOnly" [dataSource]="typeLanguage" layout="vertical" valueExpr="ID" displayExpr="TEXT" [(value)]="defaultLanguageWebsiteType" (onValueChanged)="ChangeTypelanguage($event,'WEBSITE')"></dx-radio-group>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_WEBSITE && !formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_FROMTRANSLATE" [colSpan]="2">
-                            <div class="content-sub-title">
-                                <div class="remark-table-upload" style="font-size:16px">* กรุณาเลือกภาษาอย่างน้อย 1 ภาษา</div>
-                            </div>
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_WEBSITE" [colSpan]="2" template="labellanguagewebsite">
                         </dxi-item>
+                        <div *dxTemplate="let data of 'labellanguagewebsite'">
+                            <ng-container *ngIf="!formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_FROMTRANSLATE">
+                                <div class="content-sub-title">
+                                    <div class="remark-table-upload" style="font-size:16px">* กรุณาเลือกภาษาอย่างน้อย 1 ภาษา</div>
+                                </div>
+                            </ng-container>
+                        </div>
                         <dxi-item *ngIf="formPopupvillain.CHANEL_WEBSITE"  template="languagewebsite" [colSpan]="2" [isRequired]="validateLanguageWEBSITE" (isRequiredChange)="SelectTypeLanguage()">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
@@ -1732,11 +1777,15 @@
                         <div *dxTemplate="let data of 'selectLanguageemail'">
                             <dx-radio-group [readOnly]="formReadOnly" [dataSource]="typeLanguage" layout="vertical" valueExpr="ID" displayExpr="TEXT" [(value)]="defaultLanguageEmailType" (onValueChanged)="ChangeTypelanguage($event,'EMAIL')"></dx-radio-group>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_EMAIL && !formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_FROMTRANSLATE" [colSpan]="2">
-                            <div class="content-sub-title">
-                                <div class="remark-table-upload" style="font-size:16px">* กรุณาเลือกภาษาอย่างน้อย 1 ภาษา</div>
-                            </div>
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_EMAIL" [colSpan]="2" template="labellanguageemail">
                         </dxi-item>
+                        <div *dxTemplate="let data of 'labellanguageemail'">
+                            <ng-container *ngIf="!formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_FROMTRANSLATE">
+                                <div class="content-sub-title">
+                                    <div class="remark-table-upload" style="font-size:16px">* กรุณาเลือกภาษาอย่างน้อย 1 ภาษา</div>
+                                </div>
+                            </ng-container>
+                        </div>
                         <dxi-item *ngIf="formPopupvillain.CHANEL_EMAIL"  template="languageemail" [colSpan]="2" [isRequired]="validateLanguageEMAIL" (isRequiredChange)="SelectTypeLanguage()">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
@@ -1905,11 +1954,15 @@
                         <div *dxTemplate="let data of 'selectLanguagetelegram'">
                             <dx-radio-group [readOnly]="formReadOnly" [dataSource]="typeLanguage" layout="vertical" valueExpr="ID" displayExpr="TEXT" [(value)]="defaultLanguageTelegramType" (onValueChanged)="ChangeTypelanguage($event,'TELEGRAM')"></dx-radio-group>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_TELEGRAM && !formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_FROMTRANSLATE" [colSpan]="2">
-                            <div class="content-sub-title">
-                                <div class="remark-table-upload" style="font-size:16px">* กรุณาเลือกภาษาอย่างน้อย 1 ภาษา</div>
-                            </div>
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_TELEGRAM" [colSpan]="2" template="labellanguagetelegram">
                         </dxi-item>
+                        <div *dxTemplate="let data of 'labellanguagetelegram'">
+                            <ng-container *ngIf="!formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_FROMTRANSLATE">
+                                <div class="content-sub-title">
+                                    <div class="remark-table-upload" style="font-size:16px">* กรุณาเลือกภาษาอย่างน้อย 1 ภาษา</div>
+                                </div>
+                            </ng-container>
+                        </div>
                         <dxi-item *ngIf="formPopupvillain.CHANEL_TELEGRAM"  template="languagetelegram" [colSpan]="2" [isRequired]="validateLanguageTELEGRAM" (isRequiredChange)="SelectTypeLanguage()">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
@@ -2077,11 +2130,15 @@
                         <div *dxTemplate="let data of 'selectLanguagewhatapp'">
                             <dx-radio-group [readOnly]="formReadOnly" [dataSource]="typeLanguage" layout="vertical" valueExpr="ID" displayExpr="TEXT" [(value)]="defaultLanguageWhatsappType" (onValueChanged)="ChangeTypelanguage($event,'WHATAPP')"></dx-radio-group>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_WHATAPP && !formChannelLanguage.WHATAPP_CHANNEL_LANGUAGE_FROMTRANSLATE" [colSpan]="2">
-                            <div class="content-sub-title">
-                                <div class="remark-table-upload" style="font-size:16px">* กรุณาเลือกภาษาอย่างน้อย 1 ภาษา</div>
-                            </div>
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_WHATAPP" [colSpan]="2" template="labellanguagewhatapp">
                         </dxi-item>
+                        <div *dxTemplate="let data of 'labellanguagewhatapp'">
+                            <ng-container *ngIf="!formChannelLanguage.WHATAPP_CHANNEL_LANGUAGE_FROMTRANSLATE">
+                                <div class="content-sub-title">
+                                    <div class="remark-table-upload" style="font-size:16px">* กรุณาเลือกภาษาอย่างน้อย 1 ภาษา</div>
+                                </div>
+                            </ng-container>
+                        </div>
                         <dxi-item *ngIf="formPopupvillain.CHANEL_WHATAPP"  template="languagewhatapp" [colSpan]="2" [isRequired]="validateLanguageWHATAPP" (isRequiredChange)="SelectTypeLanguage()">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
@@ -2249,11 +2306,15 @@
                         <div *dxTemplate="let data of 'selectLanguagetwitter'">
                             <dx-radio-group [readOnly]="formReadOnly" [dataSource]="typeLanguage" layout="vertical" valueExpr="ID" displayExpr="TEXT" [(value)]="defaultLanguageTwitterType" (onValueChanged)="ChangeTypelanguage($event,'TWITTER')"></dx-radio-group>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_TWITTER && !formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_FROMTRANSLATE" [colSpan]="2">
-                            <div class="content-sub-title">
-                                <div class="remark-table-upload" style="font-size:16px">* กรุณาเลือกภาษาอย่างน้อย 1 ภาษา</div>
-                            </div>
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_TWITTER" [colSpan]="2" template="labellanguagetwitter">
                         </dxi-item>
+                        <div *dxTemplate="let data of 'labellanguagetwitter'">
+                            <ng-container *ngIf="!formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_FROMTRANSLATE">
+                                <div class="content-sub-title">
+                                    <div class="remark-table-upload" style="font-size:16px">* กรุณาเลือกภาษาอย่างน้อย 1 ภาษา</div>
+                                </div>
+                            </ng-container>
+                        </div>
                         <dxi-item *ngIf="formPopupvillain.CHANEL_TWITTER"  template="languagetwitter" [colSpan]="2" [isRequired]="validateLanguageTWITTER" (isRequiredChange)="SelectTypeLanguage()">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
@@ -2394,11 +2455,15 @@
                         <div *dxTemplate="let data of 'selectLanguageother'">
                             <dx-radio-group [readOnly]="formReadOnly" [dataSource]="typeLanguage" layout="vertical" valueExpr="ID" displayExpr="TEXT" [(value)]="defaultLanguageOtherType" (onValueChanged)="ChangeTypelanguage($event,'OTHERS')"></dx-radio-group>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_OTHERS && !formChannelLanguage.OTHERS_CHANNEL_LANGUAGE_FROMTRANSLATE" [colSpan]="2">
-                            <div class="content-sub-title">
-                                <div class="remark-table-upload" style="font-size:16px">* กรุณาเลือกภาษาอย่างน้อย 1 ภาษา</div>
-                            </div>
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_OTHERS" [colSpan]="2" template="labellanguageother">
                         </dxi-item>
+                        <div *dxTemplate="let data of 'labellanguageother'">
+                            <ng-container *ngIf="!formChannelLanguage.OTHERS_CHANNEL_LANGUAGE_FROMTRANSLATE">
+                                <div class="content-sub-title">
+                                    <div class="remark-table-upload" style="font-size:16px">* กรุณาเลือกภาษาอย่างน้อย 1 ภาษา</div>
+                                </div>
+                            </ng-container>
+                        </div>
                         <dxi-item *ngIf="formPopupvillain.CHANEL_OTHERS"  template="languageother" [colSpan]="2" [isRequired]="validateLanguageOTHERS" (isRequiredChange)="SelectTypeLanguage()">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>

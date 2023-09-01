@@ -17,16 +17,16 @@
                 <div class="row block-damage-type">
                     <div class="col-12  col-sm-5 block left">
                         <div class="title">ประเภทของความเสียหาย (เลือกได้มากกว่า 1 รายการ)</div>
-                        <dx-check-box [readOnly]="formReadOnly" text="เงิน" [value]="checkboxDamage.case_type1"
+                        <dx-check-box [readOnly]="formReadOnly" text="เงิน" [(value)]="checkboxDamage.case_type1"
                             (onValueChanged)="ChangeMoneyType($event,'CASE_MONEY_TYPE1')"></dx-check-box>
                         <!-- CASE_TYPE1,2,3,4 เก็บเป็น Y,N -->
                         &nbsp;
                         <dx-check-box [readOnly]="formReadOnly" text="ทรัพย์สินอื่นๆ"
-                            [value]="checkboxDamage.case_type2"
+                            [(value)]="checkboxDamage.case_type2"
                             (onValueChanged)="ChangeMoneyType($event,'CASE_MONEY_TYPE2')"></dx-check-box>
                             &nbsp;
                         <dx-check-box [readOnly]="formReadOnly" text="ชื่อเสียง"
-                            [value]="checkboxDamage.case_type5"
+                            [(value)]="checkboxDamage.case_type5"
                             (onValueChanged)="ChangeMoneyType($event,'CASE_MONEY_TYPE5')"></dx-check-box>
                     </div>
                     <!-- <ng-container *ngIf="formData.CASE_MONEY_TYPE1 === 'Y'">
@@ -103,15 +103,19 @@
                             </dxi-item>
                             <div *dxTemplate="let data of 'datetime'">
                                 <dx-date-box id="default" (onValueChanged)="OnSelectDate($event)" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา"
-                                        type="datetime" [max]="maxDateValue" [value]="now"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
+                                        type="datetime" [max]="maxDateValue" [(value)]="now"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
                                 </dx-date-box>
                             </div>
-                            <dxi-item template="tempbankmoney" [colSpan]="1" [isRequired]="true">
+                            <dxi-item *ngIf="show_value" template="tempbankmoney" [colSpan]="1" [isRequired]="true">
                                 <dxo-label text="จำนวน" [showColon]="false"></dxo-label>
                                 <dxi-validation-rule type="required" message="กรุณากรอกมูลค่า"></dxi-validation-rule>
                                 <div *dxTemplate="let data of 'tempbankmoney'">
-                                    <dx-number-box format="#,##0.##" [focusStateEnabled]="false"
+                                        <dx-number-box format="#,##0.##" [focusStateEnabled]="false"
                                         [(value)]="formmoney.BANK_DAMAGE_VALUE_BAHT"></dx-number-box>
+                                        <!-- <dx-text-box id="ctrlBankACCtemp4-sufferer" [(value)]="formmoney.BANK_DAMAGE_VALUE_BAHT"
+                                        (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)">
+                                      </dx-text-box> -->
+
                                 </div>
                             </dxi-item>
                             <dxi-item template="tempbankmoneyunit" [colSpan]="1" [isRequired]="true">
@@ -128,8 +132,12 @@
                                 <dxo-label text="มูลค่า(บาท)" [showColon]="false"></dxo-label>
                                 <dxi-validation-rule type="required" message="กรุณากรอกมูลค่าบาท"></dxi-validation-rule>
                                 <div *dxTemplate="let data of 'tempbankmoneyvaluebaht'">
+                                    <!-- <dx-text-box id="ctrlBankACCtemp4-sufferer" [(value)]="formmoney.BANK_DAMAGE_VALUE"
+                                      (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)">
+                                    </dx-text-box> -->
                                     <dx-number-box format="#,##0.##" [focusStateEnabled]="false"
                                         [(value)]="formmoney.BANK_DAMAGE_VALUE"></dx-number-box>
+
                                 </div>
                             </dxi-item>
                             <dxi-item template="tempmoneydetail" [colSpan]="3" [isRequired]="false">
@@ -648,10 +656,10 @@
         </div>
     </div>
     <div class="text-right btn-footer block-btn-footer">
-        <dx-button class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)">
+        <dx-button *ngIf="formType==='add'" class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)">
         </dx-button>
         &nbsp;
-        <dx-button class="btn btn-submit" text="ถัดไป" (onClick)="SubmitForm($event)"></dx-button>
+        <dx-button *ngIf="formType==='add'" class="btn btn-submit" text="ถัดไป" (onClick)="SubmitForm($event)"></dx-button>
     </div>
 </div>
 

@@ -22,9 +22,9 @@ import { ProvinceService } from "src/app/services/province.service";
 export class IssueOnlineValidateComponent implements OnInit {
     @ViewChild("selectCaseChannel", { static: false }) selectCaseChannel: DxSelectBoxComponent;
     @ViewChild("selectorgwalkin", { static: false }) selectorgwalkin: DxSelectBoxComponent;
-
     @ViewChild("selectPresentProvicelocation", { static: false }) selectPresentProvicelocation: DxSelectBoxComponent;
     @ViewChild("selectProvicemaparea", { static: false }) selectProvicemaparea: DxSelectBoxComponent;
+
     public mainConponent: IssueOnlineContainerComponent;
     monthFulltTh = [
         'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน',
@@ -239,17 +239,23 @@ export class IssueOnlineValidateComponent implements OnInit {
         const userId = User.Current.PersonalId;
         // this.popupCaseChannel2 = true;
 
-        this.servicePersonal
-            .GetPersonalById(userId)
-            .subscribe((_) => {
+        setTimeout(async () => {
+            this.minBirthDate = this._date.SetDateDefault(80, true, true, true);
+            this.maxBirthDate = this._date.SetDateDefault(0);
+            this.DefaultCheckbox();
+            this.ReloadData();
+        }, 1000);
+        // this.servicePersonal
+        //     .GetPersonalById(userId)
+        //     .subscribe((_) => {
 
-                this.minBirthDate = this._date.SetDateDefault(80, true, true, true);
-                this.maxBirthDate = this._date.SetDateDefault(0);
-                this.personalInfo = _;
-                this.DefaultCheckbox();
-                this.ReloadData();
+        //         this.minBirthDate = this._date.SetDateDefault(80, true, true, true);
+        //         this.maxBirthDate = this._date.SetDateDefault(0);
+        //         this.personalInfo = _;
+        //         this.DefaultCheckbox();
+        //         this.ReloadData();
 
-            });
+        //     });
 
 
     }
@@ -583,11 +589,11 @@ export class IssueOnlineValidateComponent implements OnInit {
     }
     async ReloadData() {
         this.isLoading = true;
-        this.listCaseChannel = await this.servBankInfo.GetCaseChannel().toPromise();
-        this.province = await this.serviceProvince.GetProvince().toPromise();
-        this.bankInfoList = await this.servBankInfo.GetBankInfo().toPromise();
-        this.dsorgbyarialocation = await this._OrgService.getorgwalkin().toPromise();
-        this.dswalkinstatuspolice = await this._OrgService.getorgwalkin().toPromise();
+        // this.listCaseChannel = await this.servBankInfo.GetCaseChannel().toPromise();
+        // this.province = await this.serviceProvince.GetProvince().toPromise();
+        // this.bankInfoList = await this.servBankInfo.GetBankInfo().toPromise();
+        // this.dsorgbyarialocation = await this._OrgService.getorgwalkin().toPromise();
+        // this.dswalkinstatuspolice = await this._OrgService.getorgwalkin().toPromise();
         // this.dsorgarea = await this._OrgService.getorgariaall().toPromise();
         this.loadDateBox = false;
         this.reload = false;
@@ -600,15 +606,12 @@ export class IssueOnlineValidateComponent implements OnInit {
                 d.formInformer, d.formEvent,
                 d.formDamage, d.formVaillain,
                 d.formAttachment, d.formConfigs,
-                d.formQuestionnare
+                d.formQuestionnare,d.formBlessing
             );
             this.formData = formSubmit;
             if(this.formData.BANK_REF){
                 this.formData.WAY = this.formData.BANK_REF.length > 0 ? 1 :2;
             }
-            this.listDamageBank = d.formDamage.listDamageBank ?? [];
-            this.listDamageBankOther = d.formDamage.listDamageBankOther ?? [];
-            this.listDamageOther = d.formDamage.listDamageOther ?? [];
             if(d.formVaillain.CASE_CRIMINAL_MEET){
                 this.listMeetCriminal = d.formVaillain.CASE_CRIMINAL_MEET[0] ?? [];
             }else{
@@ -841,6 +844,15 @@ export class IssueOnlineValidateComponent implements OnInit {
         this.mainConponent.NextIndex(this.mainConponent.indexTab - 1);
     }
     SubmitForm(e) {
+        if (this.formData.IS_PROMOTE_RADIO == "ได้รับ" && (this.formData.PROMOTE_CHANEL == "" || this.formData.PROMOTE_CHANEL == undefined || this.formData.PROMOTE_CHANEL == null)) {
+            Swal.fire({
+                title: "ผิดพลาด!",
+                html: "กรุณากรอกช่องทางใด",
+                icon: "warning",
+                confirmButtonText: "Ok",
+            }).then(() => {});
+            return;
+        }
         this.popupCaseChannel2 = false;
         if (this.mainConponent.formType === 'add') {
             // if(this.formData.ORG_LOCATION_TYPE == 1 ){

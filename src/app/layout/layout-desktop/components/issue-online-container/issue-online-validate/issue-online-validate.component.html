@@ -147,16 +147,26 @@
                     </dxi-item>
                     <div *dxTemplate="let data of 'temp4'">
                         <!-- <dx-text-box [readOnly]="true" [value]="formData.CASE_INFORMER_DATE"></dx-text-box> -->
-                        <app-date-combo-picker *ngIf="loadDateBox" [disabled]="true" [timezone]="'UTC+7'"
+                        <!-- <app-date-combo-picker *ngIf="loadDateBox" [disabled]="true" [timezone]="'UTC+7'"
                             [minDate]="minBirthDate" [maxDate]="maxBirthDate"
-                            [date]="formData.CASE_INFORMER_DATE"></app-date-combo-picker>
-
+                            [date]="formData.CASE_INFORMER_DATE"></app-date-combo-picker> -->
+                            <dx-text-box [readOnly]="true" [value]="ConvertDateFullMonth(formData.CASE_INFORMER_DATE)">
+                            </dx-text-box>
                     </div>
                     <dxi-item template="temp5" [colSpan]="1">
                         <dxo-label text="อาชีพ" [showColon]="false"></dxo-label>
                     </dxi-item>
                     <div *dxTemplate="let data of 'temp5'">
                         <dx-text-box [readOnly]="true" [value]="formData.OCCUPATIONS_NAME"></dx-text-box>
+                    </div>
+                    <dxi-item *ngIf="formData.OCCUPATIONS_NAME == 'อื่นๆ'" template="tempworkother" [colSpan]="1">
+                        <dxo-label text="ระบุอาชีพเพิ่มเติม" [showColon]="false"></dxo-label>
+                        <dxi-validation-rule type="required" message="กรุณาระบุอาชีพเพิ่มเติม">
+                        </dxi-validation-rule>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'tempworkother'">
+                        <dx-text-box id="ctllname"
+                             [readOnly]="formReadOnly" [(value)]="formData.OCCUPATIONS_OTHER_NAME"></dx-text-box>
                     </div>
                     <dxi-item template="temp7" [colSpan]="1">
                         <dxo-label text="เบอร์โทรศัพท์มือถือ" [showColon]="false"></dxo-label>
@@ -328,7 +338,7 @@
                             </div>
                             <div class="card-body">
                                 <div *ngIf="formLocationLoad">
-                                    <app-view-address [renderView]="'view1'" [type]="'view'"
+                                    <app-view-address [renderView]="'view1'" [type]="'view'" [province]="province"
                                         [replaceKey]="'CASE_LOCATION'" [dataForm]="formLocation"></app-view-address>
                                 </div>
                             </div>
@@ -345,7 +355,7 @@
                             <div class="card-body">
                                 <div *ngIf="formLocationTranferLoad">
                                     <app-view-address [renderView]="'view2'" [type]="'view'"
-                                        [replaceKey]="'CASE_LOCATION_TRANSFER'"
+                                        [replaceKey]="'CASE_LOCATION_TRANSFER'" [province]="province"
                                         [dataForm]="formLocationTranfer"></app-view-address>
                                 </div>
                             </div>
@@ -359,7 +369,7 @@
     </div>
     <div class="conten-block">
         <div class="content-title">
-            <h4>ความเสียหาย</h4>
+            <div class="content-title">ความเสียหาย</div>
             <div class="block-detail">
                 <span class="detail">{{(formData['CASE_MONEY_DAMAGE'] ===
                     'Y')?'เกิดความเสียหาย':'ยังไม่เกิดความเสียหาย'}}</span>
@@ -1102,10 +1112,10 @@
                             <div *dxTemplate="let data of 'temp001'" style="display: flex;">
                                 <dx-radio-group [readOnly]="false" [dataSource]="promote" layout="horizontal" valueExpr="ID" displayExpr="TEXT"(onValueChanged)="PromoteChange($event)" [(value)]="formData.IS_PROMOTE_RADIO" style="margin-right: 20px;">
                                 </dx-radio-group>
-                                <ng-container *ngIf="showSelect">
-                                    <dx-select-box [width]="150" [dataSource]="[]" displayExpr="" valueExpr="" searchExpr="" [searchEnabled]="true" placeholder="เลือกช่องทาง" [showClearButton]="true" [(value)]="formData.PROMOTE_CHANEL" [readOnly]="false">
-                                    </dx-select-box>
-                                    <dx-text-box [width]="300"  placeholder="อื่นๆ ระบุ" [readOnly]="false" [(value)]="formData.PROMOTE_CHANEL_DETAIL">
+                                <ng-container *ngIf="formData.IS_PROMOTE_RADIO == 'ได้รับ'">
+                                    <!-- <dx-select-box [width]="150" [dataSource]="[]" displayExpr="" valueExpr="" searchExpr="" [searchEnabled]="true" placeholder="เลือกช่องทาง" [showClearButton]="true" [(value)]="formData.PROMOTE_CHANEL" [readOnly]="false">
+                                    </dx-select-box> -->
+                                    <dx-text-box [width]="300"  placeholder="ทางช่องทางใด" [readOnly]="false" [(value)]="formData.PROMOTE_CHANEL">
                                     </dx-text-box>
                                 </ng-container>
                             </div>

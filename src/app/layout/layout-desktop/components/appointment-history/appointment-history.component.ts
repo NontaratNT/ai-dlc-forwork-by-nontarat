@@ -21,6 +21,7 @@ import * as moment from 'moment';
 import { SurveyService } from "../../../../services/survey.service";
 import { BpmAppointmentHistoryService } from 'src/app/services/appointment-history.service';
 
+import { enc, MD5 } from 'crypto-js';
 
 @Component({
   selector: 'app-appointment-history',
@@ -102,7 +103,10 @@ export class AppointmentHistoryComponent implements OnInit {
   report(cellValue){
     const data = cellValue.data;
     if(data){
-        window.open("https://www.thaipoliceonline.com/web-report/report?ReportName=report_print_inform_report&caseId=" + data.DATA_ID, "_blank");
+      const datahash = 'Pw!@'+data.DATA_ID.toString();
+      const hash = MD5(datahash).toString(enc.Hex);
+
+        window.open("https://www.thaipoliceonline.com/web-report/report?ReportName=report_print_inform_report&caseId=" + hash, "_blank");
     }
 }
 displayFormatDateTime(date) {

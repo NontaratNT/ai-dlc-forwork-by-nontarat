@@ -747,3 +747,26 @@
         font-size: large;
     }
 }
+
+#bankid-container > .dx-field-value {
+    ::ng-deep .dx-texteditor.dx-editor-outlined {
+        border: 1px solid #808080;
+    }
+}
+#bankname-container > .dx-field-label {
+    width: 25%;
+}
+#bankname-container > .dx-field-value {
+    width: 75%;
+    ::ng-deep .dx-texteditor.dx-editor-outlined{
+        border: 1px dashed #555 !important;
+    }
+}
+#bankdate-container > .dx-field-label {
+    padding: 0px 15px 9px 0;
+}
+#bankdate-container > .dx-field-value {
+    ::ng-deep .dx-texteditor.dx-editor-outlined {
+        border: 1px solid #808080;
+    }
+}

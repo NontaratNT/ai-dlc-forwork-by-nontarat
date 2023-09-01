@@ -28,7 +28,7 @@
                     <dxi-validation-rule type="required" message="กรุณากรอกประเภทบัญชี">
                     </dxi-validation-rule>
                 </dxi-item>
-                <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
+                <dxi-item  [colSpan]="1" itemType="empty" ></dxi-item>
                 <div *dxTemplate="let data of 'temp2-type'">
                     <dx-select-box #selectBanktype [dataSource]="bankdatatypeselect" [searchEnabled]="true"
                         valueExpr="type_bank_id" displayExpr="type_name" placeholder="ประเภทบัญชี"
@@ -185,19 +185,12 @@
     [closeOnOutsideClick]="false" [showCloseButton]="false" [(visible)]="popupbanklistvillain">
     <div *dxTemplate="let data of 'content'">
         <dx-scroll-view [showScrollbar]="'always'" style="height: calc(100% - 45px);">
-
+            <dx-radio-group [items]="ways" valueExpr="id" displayExpr="text" [(value)]="popupFormDatavillain.ways"  [isRequired]="true" class="my-2"
+            layout="horizontal"  >
+        </dx-radio-group>
 
             <dx-form #formbanknewpopupvillain [colCount]="2" labelLocation="top">
-                <dxi-item template="temp2-typeway"  [colSpan]="2" [isRequired]="true">
-                    <dxo-label text="เส้นทางการโอนเงิน" [showColon]="false"></dxo-label>
-                    <dxi-validation-rule type="required" message="กรุณากรอกเส้นทางการโอนเงิน">
-                    </dxi-validation-rule>
-                </dxi-item>
-                <div *dxTemplate="let data of 'temp2-typeway'">
-                    <dx-radio-group [items]="ways" valueExpr="id" displayExpr="text" [(value)]="popupFormDatavillain.ways"  [isRequired]="true" class="my-2"
-                    layout="horizontal"  >
-                </dx-radio-group>
-                </div>
+
                 <!-- <dxi-item itemType="empty" [colSpan]="2"></dxi-item>
                 <dxi-item :cssClass="st-sufferer-bg-first" [colSpan]="2"  >
                     <dxo-label text="บัญชีปลายทาง" [showColon]="false"></dxo-label>
@@ -207,7 +200,7 @@
                     <dxi-validation-rule type="required" message="กรุณากรอกประเภทบัญชี">
                     </dxi-validation-rule>
                 </dxi-item>
-                <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
+                <dxi-item  [colSpan]="1" itemType="empty" ></dxi-item>
                 <div *dxTemplate="let data of 'temp2-type'">
                     <dx-select-box #selectBanktypevalian [dataSource]="bankdatatypeselect" [searchEnabled]="true"
                         valueExpr="type_bank_id" displayExpr="type_name" placeholder="ประเภทบัญชี"

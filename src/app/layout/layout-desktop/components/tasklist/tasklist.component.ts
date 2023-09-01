@@ -28,6 +28,8 @@ import { IssueOnlineService } from "src/app/services/issue-online.service";
 import { DxDataGridComponent } from "devextreme-angular";
 import { BankInfoService } from "src/app/services/bank-info.service";
 import { DatePipe } from '@angular/common';
+import { enc, MD5 } from 'crypto-js';
+import { LogExportService } from "src/app/services/log-export.service";
 // import { IssueOnlineService } from "src/app/services/issue-online.service";
 
 
@@ -124,7 +126,8 @@ export class TasklistComponent implements OnInit {
         private freezeAccountService: FreezeAccountService,
         private _issueOnlineService: IssueOnlineService,
         private _bankInfoService: BankInfoService,
-        private datePipe: DatePipe
+        private datePipe: DatePipe,
+        private _logService : LogExportService
 
     ) {
         this._searchParam = {} as any;
@@ -667,7 +670,15 @@ export class TasklistComponent implements OnInit {
     report(cellValue){
         const data = cellValue.data;
         if(data){
-            window.open("https://www.thaipoliceonline.com/web-report/report?ReportName=report_print_inform_report&caseId=" + data.DATA_ID, "_blank");
+            const datahash = 'Pw!@'+data.DATA_ID.toString();
+            const hash = MD5(datahash).toString(enc.Hex);
+            const log = {
+                INST_ID : data.INST_ID,
+                LOG_NAME : "print รายงาน",
+            };
+            this._logService.logExport(log).subscribe(() => {
+                window.open("https://www.thaipoliceonline.com/web-report/report?ReportName=report_print_inform_report&caseId=" + hash, "_blank");
+            });
         }
     }
 
@@ -994,6 +1005,10 @@ export class TasklistComponent implements OnInit {
         }
     }
 
+    isBankID(bankid): boolean {
+        const pattern = /^[A-Za-z0-9]+$/;
+        return pattern.test(bankid);
+    }
     onRegister(event: any) {
         if(!this.submission.FREEZE_ACT_DATE && !this.submission.FREEZE_ACT_TIME){
             Swal.fire({
@@ -1003,6 +1018,15 @@ export class TasklistComponent implements OnInit {
                 confirmButtonText: 'Ok',
             }).then(() => {
             });
+            return;
+        }
+        if(!this.isBankID(this.submission.FREEZE_ACT_BANK_TRACK_NO)){
+            Swal.fire({
+                title: 'ผิดพลาด!',
+                html: 'กรุณาเลขอ้างอิงให้ถูกต้อง<br><b>ตัวอย่าง</b> 25550115KTB06111',
+                icon: 'warning',
+                confirmButtonText: 'Ok',
+            }).then(() => {});
             return;
         }
         // console.clear();
@@ -1112,30 +1136,32 @@ export class TasklistComponent implements OnInit {
         if (!e.event || e.event.type === "change") {
             if(e.value){
                 if(e.value.length >= 15){
-                    var value = e.value;
-                    let nameBamk = ["BBL","KBNK","KTB","TTB","SCB","BAY","KKP","CIMBT","TISCO","UOBT","TCD","LHFG","ICBCT","SME","BAAC","EXIM","GSB","GHB","ISBT"];
-                    let numvalue = 0;
-                    for (var i = 0; i < nameBamk.length; i++) {
-                        var upperString = value.toUpperCase();
-                        const bankMatch = upperString.search(nameBamk[i]);
-                        if(bankMatch >= 0){
-                            await this._bankInfoService.GetBankInfoByName(nameBamk[i]).subscribe((_) =>{
-                                this.submission.FREEZE_ACT_BANK_NAME = _[0].BANK_NAME;
-                                this.blockSave=false;
-                            });
-                            numvalue+=1;
-                            break;
+                    const value = e.value;
+                    const bank_name = value.replace(/\d+/g, '');
+                    const upperString = bank_name.toUpperCase();
+                    // var haveBank = await this._bankInfoService.GetBankTrackNo(upperString).toPromise();
+                    // if(haveBank){
+                    //     Swal.fire({
+                    //         title: 'ผิดพลาด!',
+                    //         html: 'เลขอ้างอิงนี้มีการแจ้งแล้ว',
+                    //         icon: 'warning',
+                    //         confirmButtonText: 'Ok',
+                    //     }).then(() => {this.submission.FREEZE_ACT_BANK_NAME = "";this.blockSave=true;});
+                    //     return;
+                    // }
+                    await this._bankInfoService.GetBankInfoByName(upperString).subscribe((_) =>{
+                        if(_ != null){
+                            this.submission.FREEZE_ACT_BANK_NAME = _[0].BANK_NAME;
+                            this.blockSave=false;
+                        }else{
+                            Swal.fire({
+                                title: "ผิดพลาด!",
+                                text: "กรอกเลขอ้างอิงไม่ถูกต้อง",
+                                icon: "warning",
+                                confirmButtonText: "Ok",
+                            }).then(() => {this.submission.FREEZE_ACT_BANK_NAME = "";this.blockSave=true;});
                         }
-                    }
-                    if(numvalue == 0) {
-                        Swal.fire({
-                            title: "ผิดพลาด!",
-                            text: "กรอกเลขอ้างอิงไม่ถูกต้อง",
-                            icon: "warning",
-                            confirmButtonText: "Ok",
-                        }).then(() => {this.submission.FREEZE_ACT_BANK_NAME = "";this.blockSave=true;});
-                        return
-                    }
+                    });
                 }else{
                     Swal.fire({
                         title: "ผิดพลาด!",

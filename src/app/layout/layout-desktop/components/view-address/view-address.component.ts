@@ -40,8 +40,9 @@ export class ViewAddressComponent implements OnInit, OnChanges {
     @Input() type;
     @Input() renderView = "view1";
     @Input() replaceKey = "";
+    @Input() checkValidate = false;
     @Output() dataFormChange = new EventEmitter<any>();
-    province: any = [];
+    @Input() province: any = [];
     bankBranch: any = [];
     bankInfoList: any = [];
     presentAddress: any = {};
@@ -67,8 +68,9 @@ export class ViewAddressComponent implements OnInit, OnChanges {
     ) { }
 
     ngOnInit(): void {
+        this.checkRequirement = this.checkValidate;
         this._issueOnlineService.issueOnline$.subscribe(value => {
-            this.checkRequirement = !value.CHECK_BLESSING;
+            // this.checkRequirement = !value.CHECK_BLESSING;
             this.SetDefault(this.dataForm);
         });
     }
@@ -99,12 +101,13 @@ export class ViewAddressComponent implements OnInit, OnChanges {
     }
     async SetDefault(dataFormAll: any = {}) {
         this.isLoading = true;
+        console.log(this.province);
         this.isLoadForm = false;
         this.presentAddress.disableDistrict = true;
         this.presentAddress.disableSubDistrict = true;
         this.presentAddress.disablepostcode = true;
-        this.province = await this.serviceProvince.GetProvince().toPromise();
-        this.bankInfoList = await this.servBankInfo.GetBankInfo().toPromise();
+        // this.province = await this.serviceProvince.GetProvince().toPromise();
+        // this.bankInfoList = await this.servBankInfo.GetBankInfo().toPromise();
         if (this.type === "add") {
             this.formReadOnly = false;
             this.formValidate = false || this.renderView === "view1";

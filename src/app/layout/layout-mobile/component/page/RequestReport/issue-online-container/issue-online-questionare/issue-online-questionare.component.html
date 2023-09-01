@@ -1,5 +1,6 @@
 <div class="conten-block">
-    <div class="content-title" style="font-size: 25px;">กรุณาเลือกที่เกี่ยวข้องกับการกระทำความผิด</div>
+    <div *ngIf="formType === 'add'" class="content-title" style="font-size: 25px;">กรุณาเลือกที่เกี่ยวข้องกับการกระทำความผิด</div>
+    <div *ngIf="formType === 'edit'" class="content-title-edit">เลือกที่เกี่ยวข้องกับการกระทำความผิด</div>
     <div class="content-form ml-5">
         <dx-form #formquestionate [colCount]="1" labelLocation="top">
             <dxi-item template="temp1" [colSpan]="1" [isRequired]="false">
@@ -93,7 +94,7 @@
             </dx-button>
         </div>
         <div class="text-right">
-            <dx-button class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)">
+            <dx-button *ngIf="formType==='add'" class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)">
             </dx-button>
             &nbsp;
             <dx-button class="btn btn-submit" text="ถัดไป"  *ngIf="!formReadOnly" (onClick)="SubmitForm($event)"></dx-button>

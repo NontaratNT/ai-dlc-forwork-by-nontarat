@@ -29,6 +29,7 @@ import { async } from "rxjs/internal/scheduler/async";
 import { AnyRecord } from "dns";
 import { DatePipe } from '@angular/common';
 import { OnlineCaseService } from "src/app/services/online-case.service";
+import { FileService } from "src/app/services/file.service";
 
 @Component({
 
@@ -148,6 +149,7 @@ export class IssueOnlineDamageComponent implements OnInit {
     listUploadFileWayOther: any = [];
 
     loadDateBox = false;
+    show_value = false;
 
     loadDateBoxOther = false;
     minBirthDateOther: Date;
@@ -162,7 +164,7 @@ export class IssueOnlineDamageComponent implements OnInit {
     limitSizeBankOther = 0;
     limitSizeOther = 0;
     bankDate: Date;
-    maxDateValue:Date = new Date();
+    maxDateValue: Date = new Date();
     maxSizeBuffer = 0;
 
     _buttonaddblank = {
@@ -196,20 +198,21 @@ export class IssueOnlineDamageComponent implements OnInit {
         //     SHOW_NAME: "ธนาคารแห่งประเทศจีน (ไทย) จำกัด (มหาชน): 55555555555(zzzzzzzzzzzzzz)",
         // }
     ];
-    wayStart : number ;
-    wayEnd : number ;
+    wayStart: number;
+    wayEnd: number;
     formmoney: any = {};
     formmoneySub: any = {};
     listDamageBankmoey: any = [];
+    fileMoney : any;
 
     isAdding = true;
     editTransferData: any = {};
 
     listUploadFileformmoney: any = [];
     now: Date;
-    sumvillan:any = 0.0;
-    sumpersonal:any  = 0.0;
-    sumothermoney:any = 0.0;
+    sumvillan: any = 0.0;
+    sumpersonal: any = 0.0;
+    sumothermoney: any = 0.0;
     constructor(
         private router: Router,
         private servicePersonal: PersonalService,
@@ -222,7 +225,8 @@ export class IssueOnlineDamageComponent implements OnInit {
         private _date: ConvertDateService,
         private _issueFile: IssueOnlineFileUploadService,
         private datePipe: DatePipe,
-        private _OnlineCaseService: OnlineCaseService
+        private _OnlineCaseService: OnlineCaseService,
+        private _fileService :FileService
 
     ) { }
 
@@ -230,15 +234,17 @@ export class IssueOnlineDamageComponent implements OnInit {
         this.maxDateValue.setHours(this.maxDateValue.getHours() + 1);
         this.isLoading = true;
         const userId = User.Current.PersonalId;
-        this.servicePersonal.GetPersonalById(userId).subscribe((_) => {
-            this.personalInfo = _;
+        // this.servicePersonal.GetPersonalById(userId).subscribe((_) => {
+        //     this.personalInfo = _;
+        //     this.SetDefaultData();
+        // });
+        setTimeout(async () => {
             this.SetDefaultData();
-        });
+        }, 1000);
+        // setTimeout(() => {
+        //     console.log('formData',this.formData);
+        // }, 2000);
 
-        setTimeout(() => {
-            console.log('formData',this.formData);
-        }, 2000);
-       
 
         // $(document).on('click', '#testalert', ()=> {
         //     // console.log('$(this)',$('#testalert').data('optionid'));
@@ -285,91 +291,114 @@ export class IssueOnlineDamageComponent implements OnInit {
         }).then(() => { });
     }
     async SetDefaultData() {
-        const bankData = await this.servBankInfo.GetBankInfo().toPromise();
-        this.bankInfoList = bankData;
-        this.bankInfoListOrigin = bankData;
+        try {
+            const bankData = await this.servBankInfo.GetBankInfo().toPromise();
+            this.bankInfoList = bankData;
+            this.bankInfoListOrigin = bankData;
 
-        this.bankOtherList = await this.servBankInfo
-            .GetBankWayOtherInfo()
-            .toPromise();
-        this.WayOtherList = await this.servBankInfo
-            .GetBankOtherInfo()
-            .toPromise();
-        this.listDamageBank = [];
-        this.listDamageBankOther = [];
-        this.listDamageOther = [];
+            this.bankOtherList = await this.servBankInfo
+                .GetBankWayOtherInfo()
+                .toPromise();
+            this.WayOtherList = await this.servBankInfo
+                .GetBankOtherInfo()
+                .toPromise();
+            this.listDamageBank = [];
+            this.listDamageBankOther = [];
+            this.listDamageOther = [];
 
-        if (this.mainConponent.formType === "add") {
-            this.formType = "edit";
-            this.formReadOnly = false;
-            this.formAddData = true;
-            this.ChangeHasDamage({ value: 1 });
-        } else {
-            this.formType = "edit";
-            this.formReadOnly = true;
-            this.formAddData = false;
+            if (this.mainConponent.formType === "add") {
+                this.formType = "add";
+                this.formReadOnly = false;
+                this.formAddData = true;
+                this.ChangeHasDamage({ value: 1 });
+            } else {
+                this.formType = "edit";
+                this.formReadOnly = true;
+                this.formAddData = false;
 
-            this.DefaultCheckbox();
-            this.defaultDamageType = null;
-            // this.formData = this.mainConponent.formDataInsert;
+                this.DefaultCheckbox();
+                this.defaultDamageType = null;
+                // this.formData = this.mainConponent.formDataInsert;
 
-            
-            const _case_id = Number(sessionStorage.getItem("case_id"))
-           const _CASE_MONEY = await this._OnlineCaseService.Getcasemoney(_case_id).toPromise();
 
-           setTimeout(async () => {
-            if (this.CheckArray(_CASE_MONEY)) {
-                this.formData.CASE_MONEY = _CASE_MONEY;
-                this.formData.CASE_MONEY_DAMAGE === "Y";
-                _CASE_MONEY.forEach(element => {
-                    if(element.CASE_MONEY_BANK_TRANFER == "T"){
-                        this.formData.CASE_MONEY_TYPE1 =  'Y';
-                        
-                        this.checkboxDamage.case_type1 = true;
-                        this.defaultDamageType = 1;
-    
-                     }
+                const _case_id = Number(sessionStorage.getItem("case_id"))
+                const _CASE_MONEY = await this._OnlineCaseService.Getcasemoney(_case_id).toPromise();
+                setTimeout(async () => {
+                    if (this.CheckArray(_CASE_MONEY)) {
+                        this.formData.CASE_MONEY = _CASE_MONEY;
+                        this.formData.CASE_MONEY_DAMAGE = "Y";
+                        _CASE_MONEY.forEach(element => {
+                            if (element.CASE_MONEY_BANK_TRANFER == "T") {
+                                this.formData.CASE_MONEY_TYPE1 = 'Y';
 
-                     this.formData.CASE_MONEY_DAMAGE_VALUE = Number(element.DAMAGE_VALUE);
-                });
-              
-                await this.SetDataToListBank(this.formData.CASE_MONEY);
-            
+                                this.checkboxDamage.case_type1 = true;
+                                this.defaultDamageType = 1;
 
+                            }
+
+                            this.formData.CASE_MONEY_DAMAGE_VALUE = Number(element.DAMAGE_VALUE);
+                        });
+
+                        await this.SetDataToListBank(this.formData.CASE_MONEY);
+                    }else{
+                        this.formData.CASE_MONEY_DAMAGE = "N";
+                    }
+                    this.defaultDamageType =
+                    this.formData.CASE_MONEY_DAMAGE === "Y" ? 1 : 2;
+
+                    if(this.mainConponent.InstId){
+                        this.fileMoney = await this._fileService.getCaseMoneyFile(Number(this.mainConponent.InstId)).toPromise();
+                    }
+                    if (this.CheckArray(_CASE_MONEY)) {
+                        console.log(_CASE_MONEY);
+                        if(this.fileMoney){
+                            console.log("money : ",_CASE_MONEY);
+                            console.log("file : ",this.fileMoney);
+                            // for(let i=0; i<res.CASE_MONEY.length ;i++){
+                            //     res.CASE_MONEY[i].MONNEY_DOC = [];
+                            //     this.fileMoney.forEach((item, index) => {
+                            //         if(index==i){
+                            //             res.CASE_MONEY[i].MONNEY_DOC.push(item);
+                            //         }
+                            //     });
+                            // }
+                        }
+                    }
+
+                    this.checkboxDamage = {
+                        case_type1: this.CheckMoneyTypeEdit(
+                            this.formData.CASE_MONEY_TYPE1,
+                            "type1"
+                        ),
+                        case_type2: this.CheckMoneyTypeEdit(
+                            this.formData.CASE_MONEY_TYPE2,
+                            "type1"
+                        ),
+                        case_type3: this.CheckMoneyTypeEdit(
+                            this.formData.CASE_MONEY_TYPE3,
+                            "type1"
+                        ),
+                        case_type4: this.CheckMoneyTypeEdit(
+                            this.formData.CASE_MONEY_TYPE4,
+                            "type1"
+                        ),
+                        case_type5: this.CheckMoneyTypeEdit(
+                            this.formData.CASE_MONEY_TYPE5,
+                            "type1"
+                        ),
+                    };
+                }, 1000);
+
+                // if (this.CheckArray(this.formData.CASE_MONEY)) {
+                //     await this.SetDataToListBank(this.formData.CASE_MONEY);
+                // }
             }
-           }, 1000);
-          
-            // if (this.CheckArray(this.formData.CASE_MONEY)) {
-            //     await this.SetDataToListBank(this.formData.CASE_MONEY);
-            // }
-            this.defaultDamageType =
-                this.formData.CASE_MONEY_DAMAGE === "Y" ? 1 : 2;
 
-            this.checkboxDamage = {
-                case_type1: this.CheckMoneyTypeEdit(
-                    this.formData.CASE_MONEY_TYPE1,
-                    "type1"
-                ),
-                case_type2: this.CheckMoneyTypeEdit(
-                    this.formData.CASE_MONEY_TYPE2,
-                    "type1"
-                ),
-                case_type3: this.CheckMoneyTypeEdit(
-                    this.formData.CASE_MONEY_TYPE3,
-                    "type1"
-                ),
-                case_type4: this.CheckMoneyTypeEdit(
-                    this.formData.CASE_MONEY_TYPE4,
-                    "type1"
-                ),
-                case_type5: this.CheckMoneyTypeEdit(
-                    this.formData.CASE_MONEY_TYPE5,
-                    "type1"
-                ),
-            };
+            this.isLoading = false;
+        } catch (error) {
+            // console.log(error);
+            this.SetDefaultData();
         }
-
-        this.isLoading = false;
     }
     async SetDataToListBank(data) {
         for (const item of data) {
@@ -581,6 +610,8 @@ export class IssueOnlineDamageComponent implements OnInit {
                             this.formData.CASE_MONEY_TYPE3 = "N";
                             this.formData.CASE_MONEY_TYPE4 = "N";
                             this.formData.CASE_MONEY_DAMAGE_VALUE = 0;
+                        } else {
+                            this.checkboxDamage.case_type1 = true;
                         }
                     });
                 }
@@ -598,6 +629,8 @@ export class IssueOnlineDamageComponent implements OnInit {
                         if (result.isConfirmed) {
                             this.limitSizeOther = 0;
                             this.listDamageOther = [];
+                        } else {
+                            this.checkboxDamage.case_type2 = true;
                         }
                     });
                 }
@@ -610,7 +643,23 @@ export class IssueOnlineDamageComponent implements OnInit {
                 this.listDamageBankOther = [];
             }
             else if (type === "CASE_MONEY_TYPE5") {
-
+                this.checkCount += 1;
+                if (e.value == false && this.checkCount >= 3) {
+                    Swal.fire({
+                        title: "แจ้งเตือน!",
+                        text: "ต้องการลบข้อมูลที่กรอกแล้วหรือไม่?",
+                        icon: "warning",
+                        confirmButtonText: "ตกลง",
+                        showDenyButton: true,
+                        denyButtonText: "ยกเลิก",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.formData.REPUTATION = "";
+                        } else {
+                            this.checkboxDamage.case_type5 = true;
+                        }
+                    });
+                }
             }
         }
     }
@@ -904,8 +953,8 @@ export class IssueOnlineDamageComponent implements OnInit {
         if (data.MONNEY_DOC.length > 0) {
             this.listUploadFileformmoney.push(data.MONNEY_DOC[0]);
         }
-        const date = this.convertDate(this.formmoney.BANK_TRANSFER_DATE,this.formmoney.BANK_TRANSFER_TIME);
-        this.now = new Date(date[0],date[1],date[2],date[3],date[4],date[5]);
+        const date = this.convertDate(this.formmoney.BANK_TRANSFER_DATE, this.formmoney.BANK_TRANSFER_TIME);
+        this.now = new Date(date[0], date[1], date[2], date[3], date[4], date[5]);
     }
 
     async ItemDamageSubEdit(index = null, data = {} as any) {
@@ -941,9 +990,11 @@ export class IssueOnlineDamageComponent implements OnInit {
         }
     }
     CheckArray(data: any = []) {
-        const countArray = data.length ?? 0;
-        if (countArray > 0) {
-            return true;
+        if(data){
+            const countArray = data.length ?? 0;
+            if (countArray > 0) {
+                return true;
+            }
         }
         return false;
     }
@@ -957,34 +1008,34 @@ export class IssueOnlineDamageComponent implements OnInit {
 
 
         this.calulatemoney(this.listDamageBank);
-    // const numfloat = parseFloat(num);
-    // if (num > 0) {
-    //     const SumAll = parseFloat(this.formData.CASE_MONEY_DAMAGE_VALUE);
-    //     if (type === "sum") {
-    //         this.formData.CASE_MONEY_DAMAGE_VALUE = SumAll + numfloat;
-    //     } else if (type === "remove") {
-    //         this.formData.CASE_MONEY_DAMAGE_VALUE = SumAll - numfloat;
-    //     }
-    //     this.formData.CASE_MONEY_DAMAGE_VALUE = parseFloat(
-    //         this.formData.CASE_MONEY_DAMAGE_VALUE
-    //     ).toFixed(2);
-    // }
-}
-SumSubDamageValue(num, type = "sum") {
+        // const numfloat = parseFloat(num);
+        // if (num > 0) {
+        //     const SumAll = parseFloat(this.formData.CASE_MONEY_DAMAGE_VALUE);
+        //     if (type === "sum") {
+        //         this.formData.CASE_MONEY_DAMAGE_VALUE = SumAll + numfloat;
+        //     } else if (type === "remove") {
+        //         this.formData.CASE_MONEY_DAMAGE_VALUE = SumAll - numfloat;
+        //     }
+        //     this.formData.CASE_MONEY_DAMAGE_VALUE = parseFloat(
+        //         this.formData.CASE_MONEY_DAMAGE_VALUE
+        //     ).toFixed(2);
+        // }
+    }
+    SumSubDamageValue(num, type = "sum") {
 
-    this.calulatemoney(this.listDamageBank);
+        this.calulatemoney(this.listDamageBank);
 
-    // const numfloat = parseFloat(num);
-    // if (num > 0) {
-    //     const SumAll = parseFloat(this.popupFormData.BANK_DAMAGE_VALUE);
-    //     if (type === "sum") {
-    //         this.popupFormData.BANK_DAMAGE_VALUE = SumAll + numfloat;
-    //     } else if (type === "remove") {
-    //         this.popupFormData.BANK_DAMAGE_VALUE = SumAll - numfloat;
-    //     }
-    //     this.popupFormData.BANK_DAMAGE_VALUE = parseFloat(this.popupFormData.BANK_DAMAGE_VALUE).toFixed(2);
-    // }
-}
+        // const numfloat = parseFloat(num);
+        // if (num > 0) {
+        //     const SumAll = parseFloat(this.popupFormData.BANK_DAMAGE_VALUE);
+        //     if (type === "sum") {
+        //         this.popupFormData.BANK_DAMAGE_VALUE = SumAll + numfloat;
+        //     } else if (type === "remove") {
+        //         this.popupFormData.BANK_DAMAGE_VALUE = SumAll - numfloat;
+        //     }
+        //     this.popupFormData.BANK_DAMAGE_VALUE = parseFloat(this.popupFormData.BANK_DAMAGE_VALUE).toFixed(2);
+        // }
+    }
 
 
     // ItemDamageSubSave(){
@@ -1120,7 +1171,7 @@ SumSubDamageValue(num, type = "sum") {
     }
     PopupViewFile(data) {
 
-        if(data){
+        if (data) {
             console.log("datafile", data);
             // console.log('data.url',data.url);
             // const splitStr = data.url.split('base64,');
@@ -1136,7 +1187,7 @@ SumSubDamageValue(num, type = "sum") {
             }
             this.popupViewFileData = data;
         }
-        
+
     }
     ClosePopupViewFile(e) {
         this.popupViewFile = false;
@@ -1669,7 +1720,7 @@ SumSubDamageValue(num, type = "sum") {
             this.mainConponent.formDataAll.formDamage.listDamageBankOther = this.listDamageBankOther;
             this.mainConponent.formDataAll.formDamage.listDamageOther = this.listDamageOther;
         }
-        if(e != 'tab'){
+        if (e != 'tab') {
             this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
         }
     }
@@ -2101,10 +2152,10 @@ SumSubDamageValue(num, type = "sum") {
     //     console.log("formmoney", this.listDamageBank);
     // }
     onsavelistbanklist(e) {
-        if(this.wayStart==this.wayEnd){
+        if (this.wayStart == this.wayEnd) {
             Swal.fire({
                 title: "ผิดพลาด!",
-                html: "บัญชีต้นทางและปลายทางไม่ถูกต้อง"+'<br>'+"กรุณาตรวจสอบเส้นทางการทำธุรกรรมให้ถูกต้อง",
+                html: "บัญชีต้นทางและปลายทางไม่ถูกต้อง" + '<br>' + "กรุณาตรวจสอบเส้นทางการทำธุรกรรมให้ถูกต้อง",
                 icon: "warning",
                 confirmButtonText: "Ok",
             }).then(() => {
@@ -2138,7 +2189,7 @@ SumSubDamageValue(num, type = "sum") {
             // }
 
 
-            console.log('formoneySub',this.formmoneySub);
+            console.log('formoneySub', this.formmoneySub);
             //ผู้เสียหาย ต้นทาง
             this.formmoney.BANK_ORIGIN_ACCOUNT = this.formmoneySub.BANK_ORIGIN_ACCOUNT
             this.formmoney.BANK_ORIGIN_ACCOUNT_NAME = this.formmoneySub.BANK_ORIGIN_ACCOUNT_NAME
@@ -2147,14 +2198,14 @@ SumSubDamageValue(num, type = "sum") {
             this.formmoney.SHOW_NAME = this.formmoneySub.SHOW_NAME
             this.formmoney.TYPE_BANK_ID = this.formmoneySub.TYPE_BANK_ID
             this.formmoney.WAYS_ORIGIN = this.formmoneySub.WAYS_ORIGIN
-            this.formmoney.BANK_ORIGIN_MONEY_REMARK= this.formmoneySub.BANK_ORIGIN_MONEY_REMARK;
+            this.formmoney.BANK_ORIGIN_MONEY_REMARK = this.formmoneySub.BANK_ORIGIN_MONEY_REMARK;
 
             this.formmoney.CASE_MONEY_CHANNEL_TYPE = this.formmoneySub.CASE_MONEY_CHANNEL_TYPE
             this.formmoney.CASE_MONEY_BANK_TRANFER = this.formmoneySub.CASE_MONEY_BANK_TRANFER
             this.formmoney.CASE_MONEY_BANK_TRANFER_NAME = this.formmoneySub.CASE_MONEY_BANK_TRANFER_NAME
 
             this.formmoney.BANK_MONEY_OTHER_ID = this.formmoneySub.BANK_MONEY_OTHER_ID
-            this.formmoney.BANK_MONEY_OTHER_NAME =  this.formmoneySub.BANK_MONEY_OTHER_NAME
+            this.formmoney.BANK_MONEY_OTHER_NAME = this.formmoneySub.BANK_MONEY_OTHER_NAME
 
             this.formmoney.BANK_ACCOUNT = this.formmoneySub.BANK_ACCOUNT
             this.formmoney.BANK_ACCOUNT_NAME = this.formmoneySub.BANK_ACCOUNT_NAME
@@ -2162,7 +2213,7 @@ SumSubDamageValue(num, type = "sum") {
             this.formmoney.BANK_NAME = this.formmoneySub.BANK_NAME
             this.formmoney.SHOW_NAME_END = this.formmoneySub.SHOW_NAME_END
             this.formmoney.WAYS_DESTINATION = this.formmoneySub.WAYS_DESTINATION
-            this.formmoney.BANK_MONEY_REMARK= this.formmoneySub.BANK_MONEY_REMARK;
+            this.formmoney.BANK_MONEY_REMARK = this.formmoneySub.BANK_MONEY_REMARK;
 
             // // this.formmoney = this.formmoneySub;
             // if (this.formmoney.WAYS_ORIGIN == 2) {
@@ -2174,7 +2225,7 @@ SumSubDamageValue(num, type = "sum") {
             // }
             this.formmoney.CASE_MONEY_CHANNEL_TYPE = "T";
             this.formmoney.MONNEY_DOC = [];
-            if(this.listUploadFileformmoney.length>0){
+            if (this.listUploadFileformmoney.length > 0) {
                 this.formmoney.MONNEY_DOC.push(this.listUploadFileformmoney[0]);
 
             }
@@ -2217,15 +2268,15 @@ SumSubDamageValue(num, type = "sum") {
             }
 
 
-            if(this.formmoney.TYPE_BANK_ID == 1 || this.formmoney.TYPE_BANK_ID == 2){
+            if (this.formmoney.TYPE_BANK_ID == 1 || this.formmoney.TYPE_BANK_ID == 2) {
                 this.formmoney.BANK_DAMAGE_VALUE_UNIT = "บาท";
-            }else{
+            } else {
                 this.formmoney.BANK_DAMAGE_VALUE_UNIT = "";
             }
 
 
-            console.log('saveformmoney',this.formmoney);
-            this.listUploadFileformmoney.splice(0,1);
+            console.log('saveformmoney', this.formmoney);
+            this.listUploadFileformmoney.splice(0, 1);
             this.now = null;
 
             this.calulatemoney(this.listDamageBank);
@@ -2282,66 +2333,66 @@ SumSubDamageValue(num, type = "sum") {
     //       console.log('cehckorigin2',cehckorigin2);
     //           // end calculate money
     // }
-    calulatemoney(data){
+    calulatemoney(data) {
 
 
 
 
         //calculate money
-        const cehckorigin1 = data.filter(x=>x.WAYS_ORIGIN == 1);
-        const cehckorigin2 = data.filter(x=>x.WAYS_ORIGIN == 2);
+        const cehckorigin1 = data.filter(x => x.WAYS_ORIGIN == 1);
+        const cehckorigin2 = data.filter(x => x.WAYS_ORIGIN == 2);
         this.sumvillan = 0.0;
         this.sumpersonal = 0.0;
-        if(cehckorigin1){
+        if (cehckorigin1) {
             cehckorigin1.forEach(element => {
-                    this.sumvillan = Number(this.sumvillan) +  Number(element.BANK_DAMAGE_VALUE);
+                this.sumvillan = Number(this.sumvillan) + Number(element.BANK_DAMAGE_VALUE);
             });
         }
-        if(cehckorigin2){
+        if (cehckorigin2) {
             cehckorigin2.forEach(element => {
-                this.sumpersonal = Number(this.sumpersonal) +  Number(element.BANK_DAMAGE_VALUE);
+                this.sumpersonal = Number(this.sumpersonal) + Number(element.BANK_DAMAGE_VALUE);
             });
         }
         const summoney = this.sumpersonal - this.sumvillan;
-        if(summoney<0){
-           this.formData.CASE_MONEY_DAMAGE_VALUE = 0;
-           }
-           else{
-                   this.formData.CASE_MONEY_DAMAGE_VALUE =   summoney;
+        if (summoney < 0) {
+            this.formData.CASE_MONEY_DAMAGE_VALUE = 0;
+        }
+        else {
+            this.formData.CASE_MONEY_DAMAGE_VALUE = summoney;
 
-           }
-        if(summoney<0){
-           this.formData.CASE_MONEY_DAMAGE_VALUE = 0;
-           }
-           else{
-                   this.formData.CASE_MONEY_DAMAGE_VALUE =   summoney;
+        }
+        if (summoney < 0) {
+            this.formData.CASE_MONEY_DAMAGE_VALUE = 0;
+        }
+        else {
+            this.formData.CASE_MONEY_DAMAGE_VALUE = summoney;
 
-           }
-           this.sumothermoney = 0.0;
+        }
+        this.sumothermoney = 0.0;
 
 
-           if(this.listDamageOther){
+        if (this.listDamageOther) {
 
             for (let i = 0; i < this.listDamageOther.length; i++) {
                 this.sumothermoney = Number(this.sumothermoney) + Number(this.listDamageOther[i].BANK_DAMAGE_VALUE);
-             }
+            }
 
         }
 
 
-           //ถ้ามีเงินทรัพย์สินความเสียหายให้เอามาบวกเพิ่ม
-           if(this.sumothermoney>0){
-               this.formData.CASE_MONEY_DAMAGE_VALUE = summoney+ Number(this.sumothermoney);
+        //ถ้ามีเงินทรัพย์สินความเสียหายให้เอามาบวกเพิ่ม
+        if (this.sumothermoney > 0) {
+            this.formData.CASE_MONEY_DAMAGE_VALUE = summoney + Number(this.sumothermoney);
 
-           }
+        }
 
-           if(this.formData.CASE_MONEY_DAMAGE_VALUE < 0){
+        if (this.formData.CASE_MONEY_DAMAGE_VALUE < 0) {
             this.formData.CASE_MONEY_DAMAGE_VALUE = 0;
-           }
+        }
 
 
-             // end calculate money
-   }
+        // end calculate money
+    }
     onEditlistbanklist(e) {
         if (this.formbanknew.instance.validate().isValid) {
 
@@ -2509,23 +2560,29 @@ SumSubDamageValue(num, type = "sum") {
                 this.formmoney.SHOW_NAME = data.SHOW_NAME;
                 this.formmoney.TYPE_BANK_ID = data.TYPE_BANK_ID;
                 this.formmoney.WAYS_ORIGIN = data.ways;
-                this.formmoney.BANK_ORIGIN_MONEY_REMARK= data.BANK_ORIGIN_MONEY_REMARK;
+                this.formmoney.BANK_ORIGIN_MONEY_REMARK = data.BANK_ORIGIN_MONEY_REMARK;
 
-                if(data.TYPE_BANK_ID == 1){
+                if (data.TYPE_BANK_ID == 1) {
                     this.formmoney.CASE_MONEY_CHANNEL_TYPE = data.TYPE_MAIN;
                     this.formmoney.CASE_MONEY_BANK_TRANFER = data.TYPE_ID;
-                    this.formmoney.CASE_MONEY_BANK_TRANFER_NAME =  data.TYPE_NAME;
-                }else{
+                    this.formmoney.CASE_MONEY_BANK_TRANFER_NAME = data.TYPE_NAME;
+                } else {
                     this.formmoney.CASE_MONEY_CHANNEL_TYPE = data.TYPE_MAIN;
                     this.formmoney.BANK_MONEY_OTHER_ID = data.TYPE_ID;
-                    this.formmoney.BANK_MONEY_OTHER_NAME =  data.TYPE_NAME;
+                    this.formmoney.BANK_MONEY_OTHER_NAME = data.TYPE_NAME;
 
                 }
 
-                if(this.formmoney.TYPE_BANK_ID == 1 || this.formmoney.TYPE_BANK_ID == 2){
+                if (this.formmoney.TYPE_BANK_ID == 1 || this.formmoney.TYPE_BANK_ID == 2) {
                     this.formmoney.BANK_DAMAGE_VALUE_UNIT = "บาท";
-                }else{
-                    this.formmoney.BANK_DAMAGE_VALUE_UNIT = "";
+                } else {
+                    this.formmoney.BANK_DAMAGE_VALUE_UNIT = "0";
+                }
+
+                if (this.formmoney.TYPE_BANK_ID == 4) {
+                    this.show_value = true;
+                } else {
+                    this.show_value = false;
                 }
 
                 const dataend = this.selectBankInfolist.instance.option("selectedItem");
@@ -2537,11 +2594,11 @@ SumSubDamageValue(num, type = "sum") {
                     this.formmoney.BANK_NAME = dataend.BANK_NAME;
                     this.formmoney.SHOW_NAME_END = dataend.SHOW_NAME;
                     this.formmoney.WAYS_DESTINATION = dataend.ways;
-                    this.formmoney.BANK_MONEY_REMARK= dataend.BANK_MONEY_REMARK;
+                    this.formmoney.BANK_MONEY_REMARK = dataend.BANK_MONEY_REMARK;
                 }
                 this.formmoneySub = this.formmoney;
 
-                console.log('formmoney',this.formmoney);
+                console.log('formmoney', this.formmoney);
 
             } else {
 
@@ -2563,42 +2620,42 @@ SumSubDamageValue(num, type = "sum") {
                 this.formmoney.BANK_NAME = data.BANK_NAME;
                 this.formmoney.SHOW_NAME_END = data.SHOW_NAME;
                 this.formmoney.WAYS_DESTINATION = data.ways;
-                this.formmoney.BANK_MONEY_REMARK= data.BANK_MONEY_REMARK;
+                this.formmoney.BANK_MONEY_REMARK = data.BANK_MONEY_REMARK;
 
                 const dataorigin = this.selectBankInfoOriginlist.instance.option("selectedItem");
 
                 if (data) {
 
 
-                this.formmoney.BANK_ORIGIN_ACCOUNT = dataorigin.BANK_ORIGIN_ACCOUNT;
-                this.formmoney.BANK_ORIGIN_ACCOUNT_NAME = dataorigin.BANK_ORIGIN_ACCOUNT_NAME;
-                this.formmoney.BANK_ORIGIN_ID = dataorigin.BANK_ORIGIN_ID;
-                this.formmoney.BANK_ORIGIN_NAME = dataorigin.BANK_ORIGIN_NAME;
-                this.formmoney.SHOW_NAME = dataorigin.SHOW_NAME;
-                this.formmoney.TYPE_BANK_ID = dataorigin.TYPE_BANK_ID;
-                this.formmoney.WAYS_ORIGIN = dataorigin.ways;
-                this.formmoney.BANK_ORIGIN_MONEY_REMARK= dataorigin.BANK_ORIGIN_MONEY_REMARK;
+                    this.formmoney.BANK_ORIGIN_ACCOUNT = dataorigin.BANK_ORIGIN_ACCOUNT;
+                    this.formmoney.BANK_ORIGIN_ACCOUNT_NAME = dataorigin.BANK_ORIGIN_ACCOUNT_NAME;
+                    this.formmoney.BANK_ORIGIN_ID = dataorigin.BANK_ORIGIN_ID;
+                    this.formmoney.BANK_ORIGIN_NAME = dataorigin.BANK_ORIGIN_NAME;
+                    this.formmoney.SHOW_NAME = dataorigin.SHOW_NAME;
+                    this.formmoney.TYPE_BANK_ID = dataorigin.TYPE_BANK_ID;
+                    this.formmoney.WAYS_ORIGIN = dataorigin.ways;
+                    this.formmoney.BANK_ORIGIN_MONEY_REMARK = dataorigin.BANK_ORIGIN_MONEY_REMARK;
 
-                if(dataorigin.TYPE_BANK_ID == 1){
-                    this.formmoney.CASE_MONEY_CHANNEL_TYPE = dataorigin.TYPE_MAIN;
-                    this.formmoney.CASE_MONEY_BANK_TRANFER = dataorigin.TYPE_ID;
-                    this.formmoney.CASE_MONEY_BANK_TRANFER_NAME =  dataorigin.TYPE_NAME;
-                }else{
-                    this.formmoney.CASE_MONEY_CHANNEL_TYPE = dataorigin.TYPE_MAIN;
-                    this.formmoney.BANK_MONEY_OTHER_ID = dataorigin.TYPE_ID;
-                    this.formmoney.BANK_MONEY_OTHER_NAME =  dataorigin.TYPE_NAME;
+                    if (dataorigin.TYPE_BANK_ID == 1) {
+                        this.formmoney.CASE_MONEY_CHANNEL_TYPE = dataorigin.TYPE_MAIN;
+                        this.formmoney.CASE_MONEY_BANK_TRANFER = dataorigin.TYPE_ID;
+                        this.formmoney.CASE_MONEY_BANK_TRANFER_NAME = dataorigin.TYPE_NAME;
+                    } else {
+                        this.formmoney.CASE_MONEY_CHANNEL_TYPE = dataorigin.TYPE_MAIN;
+                        this.formmoney.BANK_MONEY_OTHER_ID = dataorigin.TYPE_ID;
+                        this.formmoney.BANK_MONEY_OTHER_NAME = dataorigin.TYPE_NAME;
 
+                    }
+
+                    if (this.formmoney.TYPE_BANK_ID == 1 || this.formmoney.TYPE_BANK_ID == 2) {
+                        this.formmoney.BANK_DAMAGE_VALUE_UNIT = "บาท";
+                    } else {
+                        this.formmoney.BANK_DAMAGE_VALUE_UNIT = "";
+                    }
                 }
-
-                if(this.formmoney.TYPE_BANK_ID == 1 || this.formmoney.TYPE_BANK_ID == 2){
-                    this.formmoney.BANK_DAMAGE_VALUE_UNIT = "บาท";
-                }else{
-                    this.formmoney.BANK_DAMAGE_VALUE_UNIT = "";
-                }
-            }
                 this.formmoneySub = this.formmoney;
 
-                console.log('formmoney',this.formmoney);
+                console.log('formmoney', this.formmoney);
             } else {
 
             }
@@ -2699,7 +2756,7 @@ SumSubDamageValue(num, type = "sum") {
         });
     }
     OnSelectDate(e) {
-        if(e.value){
+        if (e.value) {
             const mydate = this.datePipe.transform(e.value, 'yyyy-MM-dd');
             const mytime = this.datePipe.transform(e.value, 'HH:mm:ss');
             console.log(mydate);

@@ -1,6 +1,6 @@
 
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { DxFormComponent, DxTextBoxModule } from 'devextreme-angular';
+import { DxFormComponent, DxSelectBoxComponent, DxTextBoxModule } from 'devextreme-angular';
 import { ITitleInfo, TitleService } from 'src/app/services/title.service';
 import { IProvinceinfo, ProvinceService } from 'src/app/services/province.service';
 import { DistrictService, IDistrictInfo } from 'src/app/services/district.service';
@@ -23,6 +23,8 @@ import { ConvertDateService } from 'src/app/services/convert-date.service';
     styleUrls: ['./personal.component.scss']
 })
 export class PersonalComponent implements OnInit {
+    @ViewChild("selectOccupation", { static: false })
+    selectOccupation: DxSelectBoxComponent;
 
     @ViewChild(DxFormComponent, { static: true }) form: DxFormComponent;
     id: number;
@@ -57,6 +59,7 @@ export class PersonalComponent implements OnInit {
     disableDistrict2 = true;
     disableSubDistrict2 = true;
     disablepostcode2 = true;
+    occupationOther = false;
     imageFile: File;
     _isLoading = false;
     displayText = '';
@@ -87,6 +90,7 @@ export class PersonalComponent implements OnInit {
         this.serviceTitle.GetTitleInfomer().subscribe(_ => this.title = _);
         this.servicePersonal.GetPersonalById(User.Current.PersonalId).subscribe(_ => {
             this.formData = _;
+            console.log(this.formData);
             if (this.formData.USER_PICTURE) {
                 this.userImagePath = environment.config.baseConfig.resourceUrl.replace("/ccib", "/bpm") +
                  this.formData.USER_PICTURE + "?" + Date.now().toString();
@@ -159,6 +163,18 @@ export class PersonalComponent implements OnInit {
                 });
         }
     }
+
+    OnSelectOccupation(e) {
+        if (e.value) {
+            if(this.formData.OCCUPATIONS_OTHER_NAME && e.value != 10){
+                this.formData.OCCUPATIONS_OTHER_NAME = "";
+            }
+            setTimeout(() => {
+                this.occupationOther = e.value == 10 ? true : false;
+            }, 200);
+        }
+    }
+
     checkNumber(event) {
         const seperator = '^([0-9])';
         const maskSeperator = new RegExp(seperator, 'g');
@@ -342,3 +358,4 @@ export class PersonalComponent implements OnInit {
         this._checkEdit = false;
     }
 }
+

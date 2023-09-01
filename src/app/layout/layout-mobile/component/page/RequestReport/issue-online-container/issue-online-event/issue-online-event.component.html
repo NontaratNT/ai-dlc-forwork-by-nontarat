@@ -108,7 +108,9 @@
                             <app-view-address #viewadress
                                 [renderView]="'view1'"
                                 [type]="locationRender"
+                                [province]="province"
                                 [replaceKey]="'CASE_LOCATION'"
+                                [checkValidate]="checkValidateAddress"
                                 [(dataForm)]="formLocation"></app-view-address>
                         </div>
                     </div>
@@ -131,7 +133,9 @@
                             <app-view-address
                                 [renderView]="'view2'"
                                 [type]="locationRender"
+                                [province]="province"
                                 [replaceKey]="'CASE_LOCATION_TRANSFER'"
+                                [checkValidate]="checkValidateAddress"
                                 [(dataForm)]="formLocationTranfer"></app-view-address>
                         </div>
                     </div>
@@ -160,10 +164,10 @@
     </div>
 </div>
 <div class="text-center btn-footer">
-    <dx-button class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)">
+    <dx-button *ngIf="formType==='add'" class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)">
     </dx-button>
     &nbsp;
-    <dx-button class="btn btn-submit" text="ถัดไป" (onClick)="SubmitForm($event)"></dx-button>
+    <dx-button *ngIf="formType==='add'" class="btn btn-submit" text="ถัดไป" (onClick)="SubmitForm($event)"></dx-button>
 </div>
 <dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
 </dx-load-panel>

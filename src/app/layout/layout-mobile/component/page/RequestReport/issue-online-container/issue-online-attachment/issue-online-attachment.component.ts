@@ -39,11 +39,11 @@ export class IssueOnlineAttachmentComponent implements OnInit {
 
     ngOnInit(): void {
         const userId = User.Current.PersonalId;
-        this.servicePersonal
-            .GetPersonalById(userId)
-            .subscribe((_) => {
-                this.personalInfo = _;
-            });
+        // this.servicePersonal
+        //     .GetPersonalById(userId)
+        //     .subscribe((_) => {
+        //         this.personalInfo = _;
+        //     });
 
     }
     ShowInvalidDialog(){

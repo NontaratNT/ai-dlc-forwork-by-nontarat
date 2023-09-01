@@ -89,11 +89,14 @@ export class IssueOnlineBlessingComponent implements OnInit {
     ngOnInit(): void {
         this.maxDateValue.setHours(this.maxDateValue.getHours() + 1);
         const userId = User.Current.PersonalId;
-        this.servicePersonal
-            .GetPersonalById(userId)
-            .subscribe((_) => {
-                this.setDefaultData();
-            });
+        // this.servicePersonal
+        //     .GetPersonalById(userId)
+        //     .subscribe((_) => {
+        //         this.setDefaultData();
+        //     });
+        setTimeout(async () => {
+            this.setDefaultData();
+        }, 1000);
     }
     async setDefaultData() {
         if (this.mainConponent.formType === "add") {
@@ -111,7 +114,7 @@ export class IssueOnlineBlessingComponent implements OnInit {
             // const dataForm = await this.mainConponent.formDataInsert;
             const procinstdata = await this._BpmProcinstService.getByInstId(_inst_id).toPromise();
             sessionStorage.setItem("case_id",procinstdata.DATA_ID);
-         
+
             this.formReadOnly = true;
             this.formType ="edit"
             const dataForm = await this._OnlineCaseService.getbycaseId(procinstdata.DATA_ID).toPromise();
@@ -120,7 +123,7 @@ export class IssueOnlineBlessingComponent implements OnInit {
             this.formblessingdata.BLESSINGNO2   = dataForm.BLESSINGNO2 ?? '';
             this.formblessingdata.BLESSINGNO2_3   = dataForm.BLESSINGNO2_3 ?? '';
             this.formblessingdata.BLESSINGNO3   = dataForm.BLESSINGNO3 ?? '';
-            this.submission.ways = dataForm.WAY ?? '';
+            this.submission.ways = Number(dataForm.WAY) ?? '';
 
             if(dataForm.WAY == '2'){
                 this._isShow3 = true;
@@ -172,11 +175,16 @@ export class IssueOnlineBlessingComponent implements OnInit {
             this.formData.BANK_REF = this._dataSourcebankref;
             this.mainConponent.formDataInsert = this.formData;
             this._issueOnlineService.issueOnline = this.formData;
+            this.mainConponent.formDataAll.formBlessing = this.formData;
 
             //   this.mainConponent.formquestionnare1 = this.formblessingdata;
             // console.log("this.formData",this.formData);
             if(e != 'tab'){
-                this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
+                if(this.mainConponent.formType === "add"){
+                    this.mainConponent.NextIndex(this.mainConponent.indexTab = 2);
+                }else{
+                    this.mainConponent.NextIndex(this.mainConponent.indexTab + 1 );
+                }
             }
         }
         //   this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
@@ -201,6 +209,15 @@ export class IssueOnlineBlessingComponent implements OnInit {
             Swal.fire({
                 title: 'ผิดพลาด!',
                 text: 'กรุณาเลือกกรอกวันและเวลา',
+                icon: 'warning',
+                confirmButtonText: 'Ok',
+            }).then(() => {});
+            return;
+        }
+        if(!this.isBankID(this.submission.FREEZE_ACT_BANK_TRACK_NO)){
+            Swal.fire({
+                title: 'ผิดพลาด!',
+                html: 'กรุณาเลขอ้างอิงให้ถูกต้อง<br><b>ตัวอย่าง</b> 25550115KTB06111',
                 icon: 'warning',
                 confirmButtonText: 'Ok',
             }).then(() => {});
@@ -266,6 +283,7 @@ export class IssueOnlineBlessingComponent implements OnInit {
             case 2:
                 this._isShow = false;
                 this._isShow2 = true;
+                this._dataSourcebankref = [];
                 break;
         }
     }
@@ -312,7 +330,11 @@ export class IssueOnlineBlessingComponent implements OnInit {
                 formblessingdata.BLESSINGNO2 === "2.1" ||
                 formblessingdata.BLESSINGNO2_3 === "2.3.1" ||
                 formblessingdata.BLESSINGNO3 === "3.2");
-
+            if(!this._isShow3){
+                this.submission.ways = null;
+                this._isShow = false;
+                this._dataSourcebankref = [];
+            }
             // this._isShow3 = (formblessingdata.BLESSINGNO1 === "1.3" &&
             // (formblessingdata.BLESSINGNO2 === "2.2" || formblessingdata.BLESSINGNO2 === "2.3") &&
             // (formblessingdata.BLESSINGNO2_3 === "2.3.2" ||formblessingdata.BLESSINGNO2_3 === "2.3.3") &&
@@ -329,29 +351,32 @@ export class IssueOnlineBlessingComponent implements OnInit {
         if (!e.event || e.event.type === "change") {
             if(e.value){
                 if(e.value.length >= 15){
-                    var value = e.value;
-                    let nameBamk = ["BBL","KBNK","KTB","TTB","SCB","BAY","KKP","CIMBT","TISCO","UOBT","TCD","LHFG","ICBCT","SME","BAAC","EXIM","GSB","GHB","ISBT"];
-                    let numvalue = 0;
-                    for (var i = 0; i < nameBamk.length; i++) {
-                        var upperString = value.toUpperCase();
-                        const bankMatch = upperString.search(nameBamk[i]);
-                        if(bankMatch >= 0){
-                            await this._bankInfoService.GetBankInfoByName(nameBamk[i]).subscribe((_) =>{
-                                this.submission.FREEZE_ACT_BANK_NAME = _[0].BANK_NAME;
-                                this.blockSave=false;
-                            });
-                            numvalue+=1;
-                            break;
-                        }
-                    }
-                    if(numvalue == 0) {
-                        Swal.fire({
-                            title: "ผิดพลาด!",
-                            text: "กรอกเลขอ้างอิงไม่ถูกต้อง",
-                            icon: "warning",
-                            confirmButtonText: "Ok",
-                        }).then(() => {this.submission.FREEZE_ACT_BANK_NAME = "";this.blockSave=true;});
-                    }
+                    const value = e.value;
+                    const bank_name = value.replace(/\d+/g, '');
+                    const upperString = bank_name.toUpperCase();
+                    // var haveBank = await this._bankInfoService.GetBankTrackNo(upperString).toPromise();
+                    // if(haveBank){
+                    //     Swal.fire({
+                    //         title: 'ผิดพลาด!',
+                    //         html: 'เลขอ้างอิงนี้มีการแจ้งแล้ว',
+                    //         icon: 'warning',
+                    //         confirmButtonText: 'Ok',
+                    //     }).then(() => {this.submission.FREEZE_ACT_BANK_NAME = "";this.blockSave=true;});
+                    //     return;
+                    // }
+                    await this._bankInfoService.GetBankInfoByName(upperString).subscribe((_) =>{
+                        if(_ != null){
+                            this.submission.FREEZE_ACT_BANK_NAME = _[0].BANK_NAME;
+                            this.blockSave=false;
+                        }else{
+                            Swal.fire({
+                                title: "ผิดพลาด!",
+                                text: "กรอกเลขอ้างอิงไม่ถูกต้อง",
+                                icon: "warning",
+                                confirmButtonText: "Ok",
+                                }).then(() => {this.submission.FREEZE_ACT_BANK_NAME = "";this.blockSave=true;});
+                            }
+                    });
                 }else{
                     Swal.fire({
                         title: "ผิดพลาด!",
@@ -402,5 +427,9 @@ export class IssueOnlineBlessingComponent implements OnInit {
         const maskSeperator = new RegExp(seperator, 'g');
         const result = maskSeperator.test(pastedText);
         return result;
+    }
+    isBankID(bankid): boolean {
+        const pattern = /^[A-Za-z0-9]+$/;
+        return pattern.test(bankid);
     }
 }

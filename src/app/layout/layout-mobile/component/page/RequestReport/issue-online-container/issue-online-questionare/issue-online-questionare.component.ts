@@ -77,16 +77,18 @@ export class IssueOnlineQuestionareComponent implements OnInit {
     ngOnInit(): void {
         const userId = User.Current.PersonalId;
         this.isLoading = true;
-        this.servicePersonal.GetPersonalById(userId)
-            .subscribe((_) => {
-                this.personalInfo = _;
+        // this.servicePersonal.GetPersonalById(userId)
+        //     .subscribe((_) => {
+        //         this.personalInfo = _;
+        //         this.setDefaultData();
+        //     });
+        setTimeout(async () => {
                 this.setDefaultData();
-            });
+        }, 100);
     }
 
     setDefaultData(){
         this.checkBlessing = this.mainConponent.formDataInsert.CHECK_BLESSING;
-        console.log(this.checkBlessing);
         if (this.mainConponent.formType === 'add') {
             this.formData.CASE_QUESTIONARE = []
             this.formQuestionare.QUESTIONARE_4_1 = false;
@@ -126,7 +128,9 @@ export class IssueOnlineQuestionareComponent implements OnInit {
             }
             const formData = Object.assign({},this.formData);
             this.mainConponent.formDataAll.formQuestionnare = formData;
-            this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
+            if(e != 'tab'){
+                this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
+            }
         }
     }
     validateQuestionare(){

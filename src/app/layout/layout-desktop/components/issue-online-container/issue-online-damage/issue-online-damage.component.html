@@ -17,16 +17,16 @@
                 <div class="row block-damage-type">
                     <div class="col-12  col-sm-5 block left">
                         <div class="title">ประเภทของความเสียหาย (เลือกได้มากกว่า 1 รายการ)</div>
-                        <dx-check-box [readOnly]="formReadOnly" text="เงิน" [value]="checkboxDamage.case_type1"
+                        <dx-check-box [readOnly]="formReadOnly" text="เงิน" [(value)]="checkboxDamage.case_type1"
                             (onValueChanged)="ChangeMoneyType($event,'CASE_MONEY_TYPE1')"></dx-check-box>
                         <!-- CASE_TYPE1,2,3,4 เก็บเป็น Y,N -->
                         &nbsp;
                         <dx-check-box [readOnly]="formReadOnly" text="ทรัพย์สินอื่นๆ"
-                            [value]="checkboxDamage.case_type2"
+                            [(value)]="checkboxDamage.case_type2"
                             (onValueChanged)="ChangeMoneyType($event,'CASE_MONEY_TYPE2')"></dx-check-box>
                             &nbsp;
                         <dx-check-box [readOnly]="formReadOnly" text="ชื่อเสียง"
-                            [value]="checkboxDamage.case_type5"
+                            [(value)]="checkboxDamage.case_type5"
                             (onValueChanged)="ChangeMoneyType($event,'CASE_MONEY_TYPE5')"></dx-check-box>
                     </div>
                     <!-- <ng-container *ngIf="formData.CASE_MONEY_TYPE1 === 'Y'">
@@ -42,8 +42,6 @@
                         </div>
                     </ng-container> -->
                 </div>
-
-              <h1> this.formData.CASE_MONEY_TYPE1 {{this.formData.CASE_MONEY_TYPE1}}</h1> 
                 <div class="conten-block"
                     *ngIf="this.formData.CASE_MONEY_TYPE1 === 'Y' ">
                     <div class="content-end-line"></div>
@@ -108,7 +106,7 @@
                                         type="datetime" [max]="maxDateValue" [value]="now"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
                                 </dx-date-box>
                             </div>
-                            <dxi-item template="tempbankmoney" [colSpan]="1" [isRequired]="true">
+                            <dxi-item *ngIf="show_value" template="tempbankmoney" [colSpan]="1" [isRequired]="true">
                                 <dxo-label text="จำนวน" [showColon]="false"></dxo-label>
                                 <dxi-validation-rule type="required" message="กรุณากรอกมูลค่า"></dxi-validation-rule>
                                 <div *dxTemplate="let data of 'tempbankmoney'">
@@ -279,7 +277,7 @@
                                 <dxi-column dataField="" caption="แนบไฟล์" alignment="center"
                                 cellTemplate="cellTemplateAttachment"></dxi-column>
                                 <div *dxTemplate="let cell of 'cellTemplateAttachment'">
-                                    <div class="text-break text-left" *ngIf="this.formType === 'add' && cell.data.MONNEY_DOC[0]">
+                                    <div class="text-break text-left" *ngIf="cell.data.MONNEY_DOC[0]">
                                         <span class="text-download"
                                             (click)="PopupViewFile(cell.data.MONNEY_DOC[0])">แสดงไฟล์</span>
                                     </div>
