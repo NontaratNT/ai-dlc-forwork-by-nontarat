@@ -10,12 +10,12 @@
                 <div *dxTemplate="let data of 'temp1'">
                     <dx-radio-group [readOnly]="formReadOnly" [dataSource]="damageType" layout="horizontal"
                         valueExpr="ID" displayExpr="TEXT" (onValueChanged)="ChangeHasDamage($event)"
-                        [value]="defaultDamageType"></dx-radio-group>
+                        [(value)]="defaultDamageType"></dx-radio-group>
                 </div>
             </dx-form>
             <div *ngIf="defaultDamageType === 1">
                 <div class="row block-damage-type">
-                    <div class="col-12  col-sm-5 block left">
+                    <div class="col-12 col-sm-5 block left">
                         <div class="title">ประเภทของความเสียหาย (เลือกได้มากกว่า 1 รายการ)</div>
                         <dx-check-box [readOnly]="formReadOnly" text="เงิน" [(value)]="checkboxDamage.case_type1"
                             (onValueChanged)="ChangeMoneyType($event,'CASE_MONEY_TYPE1')"></dx-check-box>
@@ -24,7 +24,7 @@
                         <dx-check-box [readOnly]="formReadOnly" text="ทรัพย์สินอื่นๆ"
                             [(value)]="checkboxDamage.case_type2"
                             (onValueChanged)="ChangeMoneyType($event,'CASE_MONEY_TYPE2')"></dx-check-box>
-                            &nbsp;
+                        &nbsp;
                         <dx-check-box [readOnly]="formReadOnly" text="ชื่อเสียง"
                             [(value)]="checkboxDamage.case_type5"
                             (onValueChanged)="ChangeMoneyType($event,'CASE_MONEY_TYPE5')"></dx-check-box>
@@ -252,7 +252,7 @@
                                 <div *dxTemplate="let cell of 'cellTemplateDate'">
                                     <div class="text-break">
                                         <span>{{ConvertDateFullMonth(cell.data.BANK_TRANSFER_DATE)}}</span>
-                                        <span> {{cell.data.BANK_TRANSFER_TIME}} น.</span>
+                                        <span *ngIf="cell.data.BANK_TRANSFER_DATE"> {{cell.data.BANK_TRANSFER_TIME}} น.</span>
                                     </div>
                                 </div>
 

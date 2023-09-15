@@ -167,6 +167,7 @@ export class IssueOnlineDamageComponent implements OnInit {
     maxDateValue: Date = new Date();
     maxSizeBuffer = 0;
 
+
     _buttonaddblank = {
         icon: "plus",
         type: "primary",
@@ -204,6 +205,8 @@ export class IssueOnlineDamageComponent implements OnInit {
     formmoneySub: any = {};
     listDamageBankmoey: any = [];
     fileMoney : any;
+    fileType1 : any;
+    fileType2 : any;
 
     isAdding = true;
     editTransferData: any = {};
@@ -268,12 +271,16 @@ export class IssueOnlineDamageComponent implements OnInit {
     //     $(`#${elementId}-show`).fadeOut(timmer);
     // }
     ConvertDateFullMonth(date) {
-        const d = new Date(date);
-        const month = d.getMonth();
-        const ddate = ` ${d.getDate()} `;
-        const textMonthNow = ` ${this.monthFulltTh[month]}`;
-        const year = d.getFullYear() + 543;
-        return [ddate, " ", textMonthNow, " ", year].join("");
+        if(date){
+            const d = new Date(date);
+            const month = d.getMonth();
+            const ddate = ` ${d.getDate()} `;
+            const textMonthNow = ` ${this.monthFulltTh[month]}`;
+            const year = d.getFullYear() + 543;
+            return [ddate, " ", textMonthNow, " ", year].join("");
+        }else{
+            return "ไม่ระบุ";
+        }
     }
 
     ConvertDateToMomentTime(date) {
@@ -315,25 +322,65 @@ export class IssueOnlineDamageComponent implements OnInit {
                 this.formType = "edit";
                 this.formReadOnly = true;
                 this.formAddData = false;
-
                 this.DefaultCheckbox();
-                this.defaultDamageType = null;
-                // this.formData = this.mainConponent.formDataInsert;
-
 
                 const _case_id = Number(sessionStorage.getItem("case_id"))
                 const _CASE_MONEY = await this._OnlineCaseService.Getcasemoney(_case_id).toPromise();
                 setTimeout(async () => {
                     if (this.CheckArray(_CASE_MONEY)) {
+                        if(this.mainConponent.InstId){
+                            this.fileMoney = await this._fileService.getCaseMoneyFile(Number(this.mainConponent.InstId)).toPromise();
+                            if(this.fileMoney){
+                                this.fileMoney.forEach(element => {
+                                    if (element.TypeDamage == 4) {
+                                       this.fileType1.push(element);
+                                    }
+                                    if (element.TypeDamage == 10) {
+                                        this.fileType2.push(element);
+                                    }
+                                });
+                            }
+                        }
+
                         this.formData.CASE_MONEY = _CASE_MONEY;
-                        this.formData.CASE_MONEY_DAMAGE = "Y";
-                        _CASE_MONEY.forEach(element => {
-                            if (element.CASE_MONEY_BANK_TRANFER == "T") {
+                        this.defaultDamageType = 1;
+                        let indexType1 = 0;
+                        let indexType2 = 0;
+                        this.formData.CASE_MONEY.forEach(element => {
+                            for (const prop in element) {
+                                if (element[prop] === "0001-01-01T00:00:00") {
+                                   element[prop] = null;
+                                }
+                            }
+                            if (element.CASE_MONEY_CHANNEL_TYPE == "T") {
+                                element.MONNEY_DOC = [];
+                                element.index = indexType1;
                                 this.formData.CASE_MONEY_TYPE1 = 'Y';
-
                                 this.checkboxDamage.case_type1 = true;
-                                this.defaultDamageType = 1;
-
+                                if(this.fileType1){
+                                    this.fileType1.forEach((item, index) => {
+                                        if(index==indexType1){
+                                            element.MONNEY_DOC.push(item);
+                                        }
+                                    });
+                                }
+                                console.log(indexType1);
+                                indexType1++;
+                            }
+                            if (element.CASE_MONEY_CHANNEL_TYPE == "O") {
+                                element.BANK_OTHER_ATTACHMENT = [];
+                                element.index = indexType2;
+                                this.formData.CASE_MONEY_TYPE2 = 'Y';
+                                this.checkboxDamage.case_type2 = true;
+                                if(this.fileType2){
+                                    this.fileType2.forEach((item, index) => {
+                                        if(index==indexType2){
+                                            element.MONNEY_DOC.push(item);
+                                        }
+                                    });
+                                }
+                                console.log(indexType2);
+                                indexType2++;
                             }
 
                             this.formData.CASE_MONEY_DAMAGE_VALUE = Number(element.DAMAGE_VALUE);
@@ -343,50 +390,45 @@ export class IssueOnlineDamageComponent implements OnInit {
                     }else{
                         this.formData.CASE_MONEY_DAMAGE = "N";
                     }
-                    this.defaultDamageType =
-                    this.formData.CASE_MONEY_DAMAGE === "Y" ? 1 : 2;
+                    // if(this.fileMoney){
+                    //     for(let i=0; i<this.formData.CASE_MONEY.length ;i++){
+                    //         this.formData.CASE_MONEY[i].MONNEY_DOC = [];
+                            // this.fileMoney.forEach((item, index) => {
+                            //     if(index==i){
+                            //         this.formData.CASE_MONEY[i].MONNEY_DOC.push(item);
+                            //     }
+                            // });
+                    //     }
+                    //     this.fileMoney.forEach(element => {
 
-                    if(this.mainConponent.InstId){
-                        this.fileMoney = await this._fileService.getCaseMoneyFile(Number(this.mainConponent.InstId)).toPromise();
-                    }
-                    if (this.CheckArray(_CASE_MONEY)) {
-                        console.log(_CASE_MONEY);
-                        if(this.fileMoney){
-                            console.log("money : ",_CASE_MONEY);
-                            console.log("file : ",this.fileMoney);
-                            // for(let i=0; i<res.CASE_MONEY.length ;i++){
-                            //     res.CASE_MONEY[i].MONNEY_DOC = [];
-                            //     this.fileMoney.forEach((item, index) => {
-                            //         if(index==i){
-                            //             res.CASE_MONEY[i].MONNEY_DOC.push(item);
-                            //         }
-                            //     });
-                            // }
-                        }
-                    }
+                    //     });
+                    // }
+                    // this.defaultDamageType =
+                    // this.formData.CASE_MONEY_DAMAGE === "Y" ? 1 : 2;
 
-                    this.checkboxDamage = {
-                        case_type1: this.CheckMoneyTypeEdit(
-                            this.formData.CASE_MONEY_TYPE1,
-                            "type1"
-                        ),
-                        case_type2: this.CheckMoneyTypeEdit(
-                            this.formData.CASE_MONEY_TYPE2,
-                            "type1"
-                        ),
-                        case_type3: this.CheckMoneyTypeEdit(
-                            this.formData.CASE_MONEY_TYPE3,
-                            "type1"
-                        ),
-                        case_type4: this.CheckMoneyTypeEdit(
-                            this.formData.CASE_MONEY_TYPE4,
-                            "type1"
-                        ),
-                        case_type5: this.CheckMoneyTypeEdit(
-                            this.formData.CASE_MONEY_TYPE5,
-                            "type1"
-                        ),
-                    };
+
+                    // this.checkboxDamage = {
+                    //     case_type1: this.CheckMoneyTypeEdit(
+                    //         this.formData.CASE_MONEY_TYPE1,
+                    //         "type1"
+                    //     ),
+                    //     case_type2: this.CheckMoneyTypeEdit(
+                    //         this.formData.CASE_MONEY_TYPE2,
+                    //         "type1"
+                    //     ),
+                    //     case_type3: this.CheckMoneyTypeEdit(
+                    //         this.formData.CASE_MONEY_TYPE3,
+                    //         "type1"
+                    //     ),
+                    //     case_type4: this.CheckMoneyTypeEdit(
+                    //         this.formData.CASE_MONEY_TYPE4,
+                    //         "type1"
+                    //     ),
+                    //     case_type5: this.CheckMoneyTypeEdit(
+                    //         this.formData.CASE_MONEY_TYPE5,
+                    //         "type1"
+                    //     ),
+                    // };
                 }, 1000);
 
                 // if (this.CheckArray(this.formData.CASE_MONEY)) {

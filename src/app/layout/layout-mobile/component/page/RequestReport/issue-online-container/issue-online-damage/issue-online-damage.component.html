@@ -10,7 +10,7 @@
                 <div *dxTemplate="let data of 'temp1'">
                     <dx-radio-group [readOnly]="formReadOnly" [dataSource]="damageType" layout="horizontal"
                         valueExpr="ID" displayExpr="TEXT" (onValueChanged)="ChangeHasDamage($event)"
-                        [value]="defaultDamageType"></dx-radio-group>
+                        [(value)]="defaultDamageType"></dx-radio-group>
                 </div>
             </dx-form>
             <div *ngIf="defaultDamageType === 1">
@@ -260,7 +260,7 @@
                                 <div *dxTemplate="let cell of 'cellTemplateDate'">
                                     <div class="text-break">
                                         <span>{{ConvertDateFullMonth(cell.data.BANK_TRANSFER_DATE)}}</span>
-                                        <span> {{cell.data.BANK_TRANSFER_TIME}} น.</span>
+                                        <span *ngIf="cell.data.BANK_TRANSFER_DATE"> {{cell.data.BANK_TRANSFER_TIME}} น.</span>
                                     </div>
                                 </div>
 
