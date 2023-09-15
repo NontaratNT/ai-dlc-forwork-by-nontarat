@@ -49,6 +49,7 @@ export class IssueOnlineEventComponent implements OnInit {
     presentAddress: any = {};
     province = [];
     bankInfoList: any = [];
+    dataLocation: any = {};
     socialInfo = [];
     listCaseType = [];
     listCaseTypeSub: ICaseTypeSub[];
@@ -218,8 +219,7 @@ export class IssueOnlineEventComponent implements OnInit {
                 // const dataForm = this.mainConponent.formDataInsert;
                 const dataForm = await this._OnlineCaseService.getbycaseId(_case_id).toPromise();
                 var _gettype  =   this.listCaseType.find(x=>x.CASE_TYPE_ID == dataForm.CASE_TYPE_ID);
-
-
+                const location = await this._OnlineCaseService.getLocation(_case_id).toPromise();
                 this.formType = "edit";
                 this.formReadOnly = true;
                 this.formValidate = false;
@@ -229,7 +229,45 @@ export class IssueOnlineEventComponent implements OnInit {
                 this.formData.CASE_TYPE_NAME = _gettype.CASE_TYPE_NAME;
                 this.userType = this.formData.CASE_SELF_TYPE === 'Y'? 'mySelf':'other';
                 this.locationRender = 'view';
-                this.setDataLocation(dataForm);
+                if(location != null){
+                    this.dataLocation.CASE_LOCATION_PROVINCE_ID = location.CASE_LOCATION_PROVINCE_ID ?? undefined;
+                    this.dataLocation.CASE_LOCATION_CASE_INFORMER_ADDRESS = location.CASE_LOCATION_CASE_INFORMER_ADDRESS ?? undefined;
+                    this.dataLocation.CASE_LOCATION_PROVINCE_NAME_THA = location.CASE_LOCATION_PROVINCE_NAME_THA ?? undefined;
+                    this.dataLocation.CASE_LOCATION_DISTRICT_ID = location.CASE_LOCATION_DISTRICT_ID ?? undefined;
+                    this.dataLocation.CASE_LOCATION_DISTRICT_NAME_THA = location.CASE_LOCATION_DISTRICT_NAME_THA ?? undefined;
+                    this.dataLocation.CASE_LOCATION_SUB_DISTRICT_ID = location.CASE_LOCATION_SUB_DISTRICT_ID ?? undefined;
+                    this.dataLocation.CASE_LOCATION_SUB_DISTRICT_NAME_THA = location.CASE_LOCATION_SUB_DISTRICT_NAME_THA ?? undefined;
+                    this.dataLocation.CASE_LOCATION_ADDRESS = location.CASE_LOCATION_ADDRESS ?? undefined;
+                    this.dataLocation.CASE_LOCATION_TRANSFER_PROVINCE_ID = location.CASE_LOCATION_TRANSFER_PROVINCE_ID ?? undefined;
+                    this.dataLocation.CASE_LOCATION_TRANSFER_CASE_INFORMER_ADDRESS = location.CASE_LOCATION_TRANSFER_CASE_INFORMER_ADDRESS ?? undefined;
+                    this.dataLocation.CASE_LOCATION_TRANSFER_PROVINCE_NAME_THA = location.CASE_LOCATION_TRANSFER_PROVINCE_NAME_THA ?? undefined;
+                    this.dataLocation.CASE_LOCATION_TRANSFER_DISTRICT_ID = location.CASE_LOCATION_TRANSFER_DISTRICT_ID ?? undefined;
+                    this.dataLocation.CASE_LOCATION_TRANSFER_DISTRICT_NAME_THA = location.CASE_LOCATION_TRANSFER_DISTRICT_NAME_THA ?? undefined;
+                    this.dataLocation.CASE_LOCATION_TRANSFER_SUB_DISTRICT_ID = location.CASE_LOCATION_TRANSFER_SUB_DISTRICT_ID ?? undefined;
+                    this.dataLocation.CASE_LOCATION_TRANSFER_SUB_DISTRICT_NAME_THA = location.CASE_LOCATION_TRANSFER_SUB_DISTRICT_NAME_THA ?? undefined;
+                    this.dataLocation.CASE_LOCATION_TRANSFER_ADDRESS = location.CASE_LOCATION_TRANSFER_ADDRESS ?? undefined;
+                }else{
+                    this.dataLocation.CASE_LOCATION_PROVINCE_ID =  undefined;
+                    this.dataLocation.CASE_LOCATION_CASE_INFORMER_ADDRESS = undefined;
+                    this.dataLocation.CASE_LOCATION_PROVINCE_NAME_THA = undefined;
+                    this.dataLocation.CASE_LOCATION_DISTRICT_ID = undefined;
+                    this.dataLocation.CASE_LOCATION_DISTRICT_NAME_THA = undefined;
+                    this.dataLocation.CASE_LOCATION_SUB_DISTRICT_ID = undefined;
+                    this.dataLocation.CASE_LOCATION_SUB_DISTRICT_NAME_THA = undefined;
+                    this.dataLocation.CASE_LOCATION_ADDRESS = undefined;
+                    this.dataLocation.CASE_LOCATION_TRANSFER_PROVINCE_ID = undefined;
+                    this.dataLocation.CASE_LOCATION_TRANSFER_CASE_INFORMER_ADDRESS =  undefined;
+                    this.dataLocation.CASE_LOCATION_TRANSFER_PROVINCE_NAME_THA =  undefined;
+                    this.dataLocation.CASE_LOCATION_TRANSFER_DISTRICT_ID = undefined;
+                    this.dataLocation.CASE_LOCATION_TRANSFER_DISTRICT_NAME_THA = undefined;
+                    this.dataLocation.CASE_LOCATION_TRANSFER_SUB_DISTRICT_ID = undefined;
+                    this.dataLocation.CASE_LOCATION_TRANSFER_SUB_DISTRICT_NAME_THA = undefined;
+                    this.dataLocation.CASE_LOCATION_TRANSFER_ADDRESS = undefined;
+                }
+
+
+
+                this.setDataLocation(this.dataLocation);
             }
             // this.minBirthDate = this._date.SetDateDefault(10,true);
             // this.maxBirthDate = this._date.SetDateDefault(0);

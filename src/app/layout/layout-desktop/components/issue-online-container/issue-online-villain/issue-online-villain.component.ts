@@ -144,6 +144,7 @@ export class IssueOnlineVillainComponent implements OnInit {
     showtext = '';
     showlanguage = '';
     maxDateValue:Date = new Date();
+    languageChannel : any;
 
     dateLineStart: Date;
     dateFacebookStart: Date;
@@ -283,6 +284,9 @@ export class IssueOnlineVillainComponent implements OnInit {
                 }
                 if(this.formData.CASE_CHANNEL){
                     for(let i=0; i<this.formData.CASE_CHANNEL.length;i++){
+                        let text = this.setDefaultShowTextChannel(this.formData.CASE_CHANNEL[i]);
+                        this.formData.CASE_CHANNEL[i].SHOW_TEXT = text.showtext_channel;
+                        this.formData.CASE_CHANNEL[i].CHANNEL_NAME = text.channel_name;
                         this.formData.CASE_CHANNEL[i].CHANNEL_EMAIL_DOC = [];
                         this.formData.CASE_CHANNEL[i].CHANNEL_FACEBOOK_DOC = [];
                         this.formData.CASE_CHANNEL[i].CHANNEL_INSTARGRAM_DOC = [];
@@ -295,8 +299,19 @@ export class IssueOnlineVillainComponent implements OnInit {
                         this.formData.CASE_CHANNEL[i].CHANNEL_TWITTER_DOC = [];
                         this.formData.CASE_CHANNEL[i].CHANNEL_WEBSITE_DOC = [];
                         this.formData.CASE_CHANNEL[i].CHANNEL_WHATAPP_DOC = [];
+                        this.formData.CASE_CHANNEL[i].CASE_CHANNEL_LANGUAGE = [];
+                        if(this.formData.CASE_CHANNEL_LANGUAGE){
+                            this.formData.CASE_CHANNEL_LANGUAGE.forEach(element => {
+                                if(element.CASE_CHANNEL_ID == this.formData.CASE_CHANNEL[i].CASE_CHANNEL_ID){
+                                    this.formData.CASE_CHANNEL[i].CASE_CHANNEL_LANGUAGE.push(element);
+                                }
+                            });
+                            if(this.formData.CASE_CHANNEL[i].CASE_CHANNEL_LANGUAGE){
+                                this.formData.CASE_CHANNEL[i].SHOW_LANGUAGE = this.setDefaultShowTextLanguage(this.formData.CASE_CHANNEL[i].CASE_CHANNEL_LANGUAGE[0]);
+                            }
+                            console.log(this.formData.CASE_CHANNEL[i].SHOW_LANGUAGE);
+                        }
                         this.fileChannel = await this._fileService.getChannelFile(this.formData.CASE_CHANNEL[i].CASE_CHANNEL_ID).toPromise();
-                        console.log(this.fileChannel);
                         if(this.fileChannel){
                             this.fileChannel.forEach(element => {
                                 switch (element.typeChannel){
@@ -316,6 +331,7 @@ export class IssueOnlineVillainComponent implements OnInit {
                             });
                         }
                     }
+                    console.log(this.formData.CASE_CHANNEL);
                 }
                 // if(dataForm){
                     // this.defaultCriminalType = dataForm.CASE_CRIMINAL_MEET ? 1 : 2;
@@ -885,6 +901,7 @@ export class IssueOnlineVillainComponent implements OnInit {
         return ;
     }
     async CaseChannelEditData(type, data = {} as any, index = null){
+        console.log(data);
         this.isLoading = true;
         this.popupType = 'edit';
         this.popupCaseChannel = true;
@@ -928,6 +945,14 @@ export class IssueOnlineVillainComponent implements OnInit {
             }
         }
         this.formPopupvillain = setData;
+        for (const prop in this.formPopupvillain) {
+            if (this.formPopupvillain[prop] === "0001-01-01T00:00:00") {
+               this.formPopupvillain[prop] = null;
+            }
+            if(typeof(this.formPopupvillain[prop]) == "string"){
+                this.formPopupvillain[prop] = this.formPopupvillain[prop][10] == 'T' && this.formPopupvillain[prop][11] == '0' ? this.formPopupvillain[prop].substring(0, this.formPopupvillain[prop].indexOf('T')) : this.formPopupvillain[prop];
+            }
+        }
         if(this.formPopupvillain.CHANEL_LINE && this.formPopupvillain.CASE_CHANNEL_LINE_DATE_START != null){
             const dateStart = this.convertDate(this.formPopupvillain.CASE_CHANNEL_LINE_DATE_START,this.formPopupvillain.CASE_CHANNEL_LINE_TIME_START);
             this.dateLineStart = new Date(dateStart[0],dateStart[1],dateStart[2],dateStart[3],dateStart[4],dateStart[5]);
@@ -2711,6 +2736,159 @@ export class IssueOnlineVillainComponent implements OnInit {
             this.formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_FROMTRANSLATE,
             this.formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_FROMTRANSLATE,
             this.formChannelLanguage.OTHERS_CHANNEL_LANGUAGE_FROMTRANSLATE].some((value) => value === true) ? this.showlanguage += "มาจากเครื่องมือแปลภาษา"+"<br>" : "";
+        this.languageChannel = this.showlanguage;
+    }
+
+    setDefaultShowTextChannel(data){
+        var showtext_channel = "";
+        var arr = new Array();
+        if(data.CHANEL_LINE){
+            arr.push('LINE');
+            showtext_channel = data.CASE_CHANNEL_LINE_DETAIL_NAME == null ? showtext_channel : showtext_channel += '<b>'+'ชื่อ LINE: '+'</b>'+data.CASE_CHANNEL_LINE_DETAIL_NAME+'<br>';
+            showtext_channel = data.CASE_CHANNEL_LINE_DETAIL_ID == null ? showtext_channel : showtext_channel += '<b>'+'LINE ID: '+'</b>'+data.CASE_CHANNEL_LINE_DETAIL_ID+'<br>';
+            showtext_channel = data.CASE_CHANNEL_LINE_DETAIL_URL == null ? showtext_channel : showtext_channel += '<b>'+'LINE URL: '+'</b>'+data.CASE_CHANNEL_LINE_DETAIL_URL+'<br>';
+        }
+        if(data.CHANEL_FACEBOOK){
+            arr.push('FACEBOOK');
+            showtext_channel = data.CASE_CHANNEL_FACEBOOK_DETAIL_NAME == null ? showtext_channel : showtext_channel += '<b>'+'ชื่อ FACEBOOK: '+'</b>'+data.CASE_CHANNEL_FACEBOOK_DETAIL_NAME +'<br>';
+            showtext_channel = data.CASE_CHANNEL_FACEBOOK_DETAIL_ID == null ? showtext_channel : showtext_channel += '<b>'+'FACEBOOK ID: '+'</b>'+data.CASE_CHANNEL_FACEBOOK_DETAIL_ID+'<br>';
+            showtext_channel = data.CASE_CHANNEL_FACEBOOK_DETAIL_URL == null ? showtext_channel : showtext_channel += '<b>'+'FACEBOOK URL: '+'</b>'+data.CASE_CHANNEL_FACEBOOK_DETAIL_URL+'<br>';
+        }
+        if(data.CHANEL_MESSENGER){
+            arr.push('MESSENGER');
+            showtext_channel = data.CASE_CHANNEL_MESSENGER_DETAIL_NAME == null ? showtext_channel : showtext_channel += '<b>'+'ชื่อ MESSENGER: '+'</b>'+data.CASE_CHANNEL_MESSENGER_DETAIL_NAME +'<br>';
+            showtext_channel = data.CASE_CHANNEL_MESSENGER_DETAIL_ID == null ? showtext_channel : showtext_channel += '<b>'+'MESSENGER ID: '+'</b>'+data.CASE_CHANNEL_MESSENGER_DETAIL_ID+'<br>';
+            showtext_channel = data.CASE_CHANNEL_MESSENGER_DETAIL_URL == null ? showtext_channel : showtext_channel += '<b>'+'MESSENGER URL: '+'</b>'+data.CASE_CHANNEL_MESSENGER_DETAIL_URL+'<br>';
+        }
+        if(data.CHANEL_INSTARGRAM){
+            arr.push('INSTAGRAM');
+            showtext_channel = data.CASE_CHANNEL_INSTARGRAM_DETAIL_NAME == null ? showtext_channel : showtext_channel += '<b>'+'ชื่อ INSTAGRAM: '+'</b>'+data.CASE_CHANNEL_INSTARGRAM_DETAIL_NAME+'<br>';
+            showtext_channel = data.CASE_CHANNEL_INSTARGRAM_DETAIL_ID == null ? showtext_channel : showtext_channel += '<b>'+'INSTAGRAM ID: '+'</b>'+data.CASE_CHANNEL_INSTARGRAM_DETAIL_ID+'<br>';
+            showtext_channel = data.CASE_CHANNEL_INSTARGRAM_DETAIL_URL == null ? showtext_channel : showtext_channel += '<b>'+'INSTAGRAM URL: '+'</b>'+data.CASE_CHANNEL_INSTARGRAM_DETAIL_URL+'<br>';
+        }
+        if(data.CHANEL_WEBSITE){
+            arr.push('WEBSITE');
+            showtext_channel += '<b>'+'WEBSITE URL: '+'</b>'+data.CASE_CHANNEL_WEBSITE_DETAIL+'<br>';
+        }
+        if(data.CHANEL_EMAIL){
+            arr.push('EMAIL');
+            showtext_channel += '<b>'+'EMAIL: '+'</b>'+data.CASE_CHANNEL_EMAIL_DETAIL+'<br>';
+        }
+        if(data.CHANEL_TELEGRAM){
+            arr.push('TELEGRAM');
+            showtext_channel = data.CASE_CHANNEL_TELEGRAM_DETAIL_NAME == null ? showtext_channel : showtext_channel += '<b>'+'ชื่อ TELEGRAM: '+'</b>'+data.CASE_CHANNEL_TELEGRAM_DETAIL_NAME+'<br>';
+            showtext_channel = data.CASE_CHANNEL_TELEGRAM_DETAIL_ID == null ? showtext_channel : showtext_channel += '<b>'+'TELEGRAM ID: '+'</b>'+data.CASE_CHANNEL_TELEGRAM_DETAIL_ID+'<br>';
+            showtext_channel = data.CASE_CHANNEL_TELEGRAM_DETAIL_URL == null ? showtext_channel : showtext_channel += '<b>'+'TELEGRAM URL: '+'</b>'+data.CASE_CHANNEL_TELEGRAM_DETAIL_URL+'<br>';
+        }
+        if(data.CHANEL_WHATAPP){
+            arr.push('WHATSAPP');
+            showtext_channel = data.CASE_CHANNEL_WHATSAPP_DETAIL_NAME == null ? showtext_channel : showtext_channel += '<b>'+'ชื่อ WHATSAPP: '+'</b>'+data.CASE_CHANNEL_WHATSAPP_DETAIL_NAME+'<br>';
+            showtext_channel = data.CASE_CHANNEL_WHATSAPP_DETAIL_ID == null ? showtext_channel : showtext_channel += '<b>'+'WHATSAPP ID: '+'</b>'+data.CASE_CHANNEL_WHATSAPP_DETAIL_ID+'<br>';
+            showtext_channel = data.CASE_CHANNEL_WHATSAPP_DETAIL_URL == null ? showtext_channel : showtext_channel += '<b>'+'WHATSAPP URL: '+'</b>'+data.CASE_CHANNEL_WHATSAPP_DETAIL_URL+'<br>';
+        }
+        if(data.CHANEL_TWITTER){
+            arr.push('TWITTER');
+            showtext_channel = data.CASE_CHANNEL_TWITTER_DETAIL_NAME == null ? showtext_channel : showtext_channel += '<b>'+'ชื่อ TWITTER: '+'</b>'+data.CASE_CHANNEL_TWITTER_DETAIL_NAME +'<br>';
+            showtext_channel = data.CASE_CHANNEL_TWITTER_DETAIL_ID == null ? showtext_channel : showtext_channel += '<b>'+'TWITTER ID: '+'</b>'+data.CASE_CHANNEL_TWITTER_DETAIL_ID+'<br>';
+            showtext_channel = data.CASE_CHANNEL_TWITTER_DETAIL_URL == null ? showtext_channel : showtext_channel += '<b>'+'TWITTER URL: '+'</b>'+data.CASE_CHANNEL_TWITTER_DETAIL_URL+'<br>';
+        }
+        if(data.CHANEL_OTHERS){
+            arr.push('อื่นๆ');
+            showtext_channel = data.CASE_CHANNEL_OTHER_TYPE == null ? showtext_channel : showtext_channel += '<b>'+'ประเภทช่องทาง: '+'</b>'+data.CASE_CHANNEL_OTHER_TYPE+'<br>';
+            showtext_channel = data.CASE_CHANNEL_OTHER_DETAIL == null ? showtext_channel : showtext_channel += '<b>'+'URL/ID: '+'</b>'+data.CASE_CHANNEL_OTHER_DETAIL;
+        }
+        const channel_name = arr.join(',').toString();
+        return {showtext_channel,channel_name};
+    }
+
+    setDefaultShowTextLanguage(data){
+        console.log(data);
+        let showlanguage_channel = ""
+        showlanguage_channel += [data.PHONE_CHANNEL_LANGUAGE_THAI,
+            data.SMS_CHANNEL_LANGUAGE_THAI,
+            data.LINE_CHANNEL_LANGUAGE_THAI,
+            data.FACEBOOK_CHANNEL_LANGUAGE_THAI,
+            data.INSTARGRAM_CHANNEL_LANGUAGE_THAI,
+            data.WEBSITE_CHANNEL_LANGUAGE_THAI,
+            data.EMAIL_CHANNEL_LANGUAGE_THAI,
+            data.TELEGRAM_CHANNEL_LANGUAGE_THAI,
+            data.WHATAPP_CHANNEL_LANGUAGE_THAI,
+            data.TWITTER_CHANNEL_LANGUAGE_THAI,
+            data.MESSENGER_CHANNEL_LANGUAGE_THAI,
+            data.OTHERS_CHANNEL_LANGUAGE_THAI].some((value) => value === true) ? "ภาษาไทย"+"<br>" : "";
+        showlanguage_channel += [data.PHONE_CHANNEL_LANGUAGE_ENG,
+            data.SMS_CHANNEL_LANGUAGE_ENG,
+            data.LINE_CHANNEL_LANGUAGE_ENG,
+            data.FACEBOOK_CHANNEL_LANGUAGE_ENG,
+            data.INSTARGRAM_CHANNEL_LANGUAGE_ENG,
+            data.WEBSITE_CHANNEL_LANGUAGE_ENG,
+            data.EMAIL_CHANNEL_LANGUAGE_ENG,
+            data.TELEGRAM_CHANNEL_LANGUAGE_ENG,
+            data.WHATAPP_CHANNEL_LANGUAGE_ENG,
+            data.TWITTER_CHANNEL_LANGUAGE_ENG,
+            data.MESSENGER_CHANNEL_LANGUAGE_ENG,
+            data.OTHERS_CHANNEL_LANGUAGE_ENG].some((value) => value === true) ? "ภาษาอังกฤษ"+"<br>" : "";
+        showlanguage_channel += [data.PHONE_CHANNEL_LANGUAGE_CHINESS,
+            data.SMS_CHANNEL_LANGUAGE_CHINESS,
+            data.LINE_CHANNEL_LANGUAGE_CHINESS,
+            data.FACEBOOK_CHANNEL_LANGUAGE_CHINESS,
+            data.INSTARGRAM_CHANNEL_LANGUAGE_CHINESS,
+            data.WEBSITE_CHANNEL_LANGUAGE_CHINESS,
+            data.EMAIL_CHANNEL_LANGUAGE_CHINESS,
+            data.TELEGRAM_CHANNEL_LANGUAGE_CHINESS,
+            data.WHATAPP_CHANNEL_LANGUAGE_CHINESS,
+            data.TWITTER_CHANNEL_LANGUAGE_CHINESS,
+            data.MESSENGER_CHANNEL_LANGUAGE_CHINESS,
+            data.OTHERS_CHANNEL_LANGUAGE_CHINESS].some((value) => value === true) ? "ภาษาจีน"+"<br>" : "";
+        showlanguage_channel += [data.PHONE_CHANNEL_LANGUAGE_JAPAN,
+            data.SMS_CHANNEL_LANGUAGE_JAPAN,
+            data.LINE_CHANNEL_LANGUAGE_JAPAN,
+            data.FACEBOOK_CHANNEL_LANGUAGE_JAPAN,
+            data.INSTARGRAM_CHANNEL_LANGUAGE_JAPAN,
+            data.WEBSITE_CHANNEL_LANGUAGE_JAPAN,
+            data.EMAIL_CHANNEL_LANGUAGE_JAPAN,
+            data.TELEGRAM_CHANNEL_LANGUAGE_JAPAN,
+            data.WHATAPP_CHANNEL_LANGUAGE_JAPAN,
+            data.TWITTER_CHANNEL_LANGUAGE_JAPAN,
+            data.MESSENGER_CHANNEL_LANGUAGE_JAPAN,
+            data.OTHERS_CHANNEL_LANGUAGE_JAPAN].some((value) => value === true) ? "ภาษาญี่ปุ่น"+"<br>" : "";
+        showlanguage_channel += [data.PHONE_CHANNEL_LANGUAGE_KOREAN,
+            data.SMS_CHANNEL_LANGUAGE_KOREAN,
+            data.LINE_CHANNEL_LANGUAGE_KOREAN,
+            data.FACEBOOK_CHANNEL_LANGUAGE_KOREAN,
+            data.INSTARGRAM_CHANNEL_LANGUAGE_KOREAN,
+            data.WEBSITE_CHANNEL_LANGUAGE_KOREAN,
+            data.EMAIL_CHANNEL_LANGUAGE_KOREAN,
+            data.TELEGRAM_CHANNEL_LANGUAGE_KOREAN,
+            data.WHATAPP_CHANNEL_LANGUAGE_KOREAN,
+            data.TWITTER_CHANNEL_LANGUAGE_KOREAN,
+            data.MESSENGER_CHANNEL_LANGUAGE_KOREAN,
+            data.OTHERS_CHANNEL_LANGUAGE_KOREAN].some((value) => value === true) ? "ภาษาเกาหลี"+"<br>" : "";
+        showlanguage_channel += [data.PHONE_CHANNEL_LANGUAGE_OTHER,
+            data.SMS_CHANNEL_LANGUAGE_OTHER,
+            data.LINE_CHANNEL_LANGUAGE_OTHER,
+            data.FACEBOOK_CHANNEL_LANGUAGE_OTHER,
+            data.INSTARGRAM_CHANNEL_LANGUAGE_OTHER,
+            data.WEBSITE_CHANNEL_LANGUAGE_OTHER,
+            data.EMAIL_CHANNEL_LANGUAGE_OTHER,
+            data.TELEGRAM_CHANNEL_LANGUAGE_OTHER,
+            data.WHATAPP_CHANNEL_LANGUAGE_OTHER,
+            data.TWITTER_CHANNEL_LANGUAGE_OTHER,
+            data.MESSENGER_CHANNEL_LANGUAGE_OTHER,
+            data.OTHERS_CHANNEL_LANGUAGE_OTHER].some((value) => value === true) ? "ภาษาอื่น"+"<br>" : "";
+        showlanguage_channel += [data.PHONE_CHANNEL_LANGUAGE_FROMTRANSLATE,
+            data.SMS_CHANNEL_LANGUAGE_FROMTRANSLATE,
+            data.LINE_CHANNEL_LANGUAGE_FROMTRANSLATE,
+            data.FACEBOOK_CHANNEL_LANGUAGE_FROMTRANSLATE,
+            data.INSTARGRAM_CHANNEL_LANGUAGE_FROMTRANSLATE,
+            data.WEBSITE_CHANNEL_LANGUAGE_FROMTRANSLATE,
+            data.EMAIL_CHANNEL_LANGUAGE_FROMTRANSLATE,
+            data.TELEGRAM_CHANNEL_LANGUAGE_FROMTRANSLATE,
+            data.WHATAPP_CHANNEL_LANGUAGE_FROMTRANSLATE,
+            data.TWITTER_CHANNEL_LANGUAGE_FROMTRANSLATE,
+            data.MESSENGER_CHANNEL_LANGUAGE_FROMTRANSLATE,
+            data.OTHERS_CHANNEL_LANGUAGE_FROMTRANSLATE].some((value) => value === true) ? "มาจากเครื่องมือแปลภาษา"+"<br>" : "";
+        return showlanguage_channel;
     }
 
 }

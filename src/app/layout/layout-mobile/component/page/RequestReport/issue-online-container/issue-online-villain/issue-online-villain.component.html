@@ -425,18 +425,18 @@
                             <dxo-label text="ประเภทช่องทางการติดต่อ" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'temp1'">
-                            <dx-check-box id="chanel_check" text="เบอร์โทรศัพท​์" [(value)]="formPopupvillain.CHANEL_PHONE"></dx-check-box>
-                            <dx-check-box id="chanel_check" text="SMS" [(value)]="formPopupvillain.CHANEL_SMS"></dx-check-box>
-                            <dx-check-box id="chanel_check" text="LINE" [(value)]="formPopupvillain.CHANEL_LINE"></dx-check-box>
-                            <dx-check-box id="chanel_check" text="FACEBOOK" [(value)]="formPopupvillain.CHANEL_FACEBOOK"></dx-check-box>
-                            <dx-check-box id="chanel_check" text="MESSENGER" [(value)]="formPopupvillain.CHANEL_MESSENGER"></dx-check-box>
-                            <dx-check-box id="chanel_check" text="INSTAGRAM" [(value)]="formPopupvillain.CHANEL_INSTARGRAM"></dx-check-box>
-                            <dx-check-box id="chanel_check" text="WEBSITE" [(value)]="formPopupvillain.CHANEL_WEBSITE"></dx-check-box>
-                            <dx-check-box id="chanel_check" text="EMAIL" [(value)]="formPopupvillain.CHANEL_EMAIL"></dx-check-box>
-                            <dx-check-box id="chanel_check" text="TELEGRAM" [(value)]="formPopupvillain.CHANEL_TELEGRAM"></dx-check-box>
-                            <dx-check-box id="chanel_check" text="WHATSAPP" [(value)]="formPopupvillain.CHANEL_WHATAPP"></dx-check-box>
-                            <dx-check-box id="chanel_check" text="TWITTER" [(value)]="formPopupvillain.CHANEL_TWITTER"></dx-check-box>
-                            <dx-check-box id="chanel_check" text="อื่นๆ" [(value)]="formPopupvillain.CHANEL_OTHERS"></dx-check-box>
+                            <dx-check-box [readOnly]="formReadOnly" id="chanel_check" text="เบอร์โทรศัพท​์" [(value)]="formPopupvillain.CHANEL_PHONE"></dx-check-box>
+                            <dx-check-box [readOnly]="formReadOnly" id="chanel_check" text="SMS" [(value)]="formPopupvillain.CHANEL_SMS"></dx-check-box>
+                            <dx-check-box [readOnly]="formReadOnly" id="chanel_check" text="LINE" [(value)]="formPopupvillain.CHANEL_LINE"></dx-check-box>
+                            <dx-check-box [readOnly]="formReadOnly" id="chanel_check" text="FACEBOOK" [(value)]="formPopupvillain.CHANEL_FACEBOOK"></dx-check-box>
+                            <dx-check-box [readOnly]="formReadOnly" id="chanel_check" text="MESSENGER" [(value)]="formPopupvillain.CHANEL_MESSENGER"></dx-check-box>
+                            <dx-check-box [readOnly]="formReadOnly" id="chanel_check" text="INSTAGRAM" [(value)]="formPopupvillain.CHANEL_INSTARGRAM"></dx-check-box>
+                            <dx-check-box [readOnly]="formReadOnly" id="chanel_check" text="WEBSITE" [(value)]="formPopupvillain.CHANEL_WEBSITE"></dx-check-box>
+                            <dx-check-box [readOnly]="formReadOnly" id="chanel_check" text="EMAIL" [(value)]="formPopupvillain.CHANEL_EMAIL"></dx-check-box>
+                            <dx-check-box [readOnly]="formReadOnly" id="chanel_check" text="TELEGRAM" [(value)]="formPopupvillain.CHANEL_TELEGRAM"></dx-check-box>
+                            <dx-check-box [readOnly]="formReadOnly" id="chanel_check" text="WHATSAPP" [(value)]="formPopupvillain.CHANEL_WHATAPP"></dx-check-box>
+                            <dx-check-box [readOnly]="formReadOnly" id="chanel_check" text="TWITTER" [(value)]="formPopupvillain.CHANEL_TWITTER"></dx-check-box>
+                            <dx-check-box [readOnly]="formReadOnly" id="chanel_check" text="อื่นๆ" [(value)]="formPopupvillain.CHANEL_OTHERS"></dx-check-box>
                         </div>
                     </dx-form>
                     <div class="content-end-line"></div>
@@ -504,7 +504,7 @@
                             <dxo-label text="วันเวลา" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'tempdatephone'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'phone')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา"
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'phone')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
                                     type="datetime" [max]="maxDateValue" [value]="datePhone"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
@@ -613,14 +613,14 @@
                                 <ng-container *ngIf="formPopupvillain.CHANEL_PHONE && !formChannelLanguage.PHONE_CHANNEL_LANGUAGE_FROMTRANSLATE">
                                     <div class="col-1"></div>
                                     <div class="col-3 ">
-                                        <dx-check-box text="ภาษาไทย" [(value)]="formChannelLanguage.PHONE_CHANNEL_LANGUAGE_THAI"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาอังกฤษ" [(value)]="formChannelLanguage.PHONE_CHANNEL_LANGUAGE_ENG"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาจีน" [(value)]="formChannelLanguage.PHONE_CHANNEL_LANGUAGE_CHINESS"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาไทย" [(value)]="formChannelLanguage.PHONE_CHANNEL_LANGUAGE_THAI"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาอังกฤษ" [(value)]="formChannelLanguage.PHONE_CHANNEL_LANGUAGE_ENG"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาจีน" [(value)]="formChannelLanguage.PHONE_CHANNEL_LANGUAGE_CHINESS"></dx-check-box><br><br>
                                     </div>
                                     <div class="col-6">
-                                        <dx-check-box text="ภาษาญี่ปุ่น" [(value)]="formChannelLanguage.PHONE_CHANNEL_LANGUAGE_JAPAN"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาเกาหลี" [(value)]="formChannelLanguage.PHONE_CHANNEL_LANGUAGE_KOREAN"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาอื่นๆ (กรุณาระบุ)" [(value)]="formChannelLanguage.PHONE_CHANNEL_LANGUAGE_OTHER"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาญี่ปุ่น" [(value)]="formChannelLanguage.PHONE_CHANNEL_LANGUAGE_JAPAN"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาเกาหลี" [(value)]="formChannelLanguage.PHONE_CHANNEL_LANGUAGE_KOREAN"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาอื่นๆ (กรุณาระบุ)" [(value)]="formChannelLanguage.PHONE_CHANNEL_LANGUAGE_OTHER"></dx-check-box><br><br>
                                         <ng-container *ngIf="formChannelLanguage.PHONE_CHANNEL_LANGUAGE_OTHER">
                                             <dx-text-box [readOnly]="formReadOnly" [(value)]="formChannelLanguage.PHONE_CHANEL_CHANNEL_LANGUAGE_OTHER_DETAIL"></dx-text-box>
                                         </ng-container>
@@ -710,7 +710,7 @@
                             <dxo-label text="วันเวลา" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'tempdatesms'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'sms')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา"
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'sms')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
                                     type="datetime" [max]="maxDateValue" [value]="dateSMS"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
@@ -819,14 +819,14 @@
                                 <ng-container *ngIf="formPopupvillain.CHANEL_SMS && !formChannelLanguage.SMS_CHANNEL_LANGUAGE_FROMTRANSLATE">
                                     <div class="col-1"></div>
                                     <div class="col-3 ">
-                                        <dx-check-box text="ภาษาไทย" [(value)]="formChannelLanguage.SMS_CHANNEL_LANGUAGE_THAI"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาอังกฤษ" [(value)]="formChannelLanguage.SMS_CHANNEL_LANGUAGE_ENG"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาจีน" [(value)]="formChannelLanguage.SMS_CHANNEL_LANGUAGE_CHINESS"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาไทย" [(value)]="formChannelLanguage.SMS_CHANNEL_LANGUAGE_THAI"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาอังกฤษ" [(value)]="formChannelLanguage.SMS_CHANNEL_LANGUAGE_ENG"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาจีน" [(value)]="formChannelLanguage.SMS_CHANNEL_LANGUAGE_CHINESS"></dx-check-box><br><br>
                                     </div>
                                     <div class="col-6">
-                                        <dx-check-box text="ภาษาญี่ปุ่น" [(value)]="formChannelLanguage.SMS_CHANNEL_LANGUAGE_JAPAN"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาเกาหลี" [(value)]="formChannelLanguage.SMS_CHANNEL_LANGUAGE_KOREAN"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาอื่นๆ (กรุณาระบุ)" [(value)]="formChannelLanguage.SMS_CHANNEL_LANGUAGE_OTHER"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาญี่ปุ่น" [(value)]="formChannelLanguage.SMS_CHANNEL_LANGUAGE_JAPAN"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาเกาหลี" [(value)]="formChannelLanguage.SMS_CHANNEL_LANGUAGE_KOREAN"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาอื่นๆ (กรุณาระบุ)" [(value)]="formChannelLanguage.SMS_CHANNEL_LANGUAGE_OTHER"></dx-check-box><br><br>
                                         <ng-container *ngIf="formChannelLanguage.SMS_CHANNEL_LANGUAGE_OTHER">
                                             <dx-text-box [readOnly]="formReadOnly" [(value)]="formChannelLanguage.SMS_CHANEL_CHANNEL_LANGUAGE_OTHER_DETAIL"></dx-text-box>
                                         </ng-container>
@@ -898,7 +898,7 @@
                             <dxo-label text="ตั้งแต่วันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimelineS'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'line','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา"
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'line','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
                                     type="datetime" [max]="maxDateValue" [value]="dateLineStart"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
@@ -906,7 +906,7 @@
                             <dxo-label text="ถึงวันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimelineE'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'line','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา"
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'line','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
                                     type="datetime" [max]="maxDateValue" [value]="dateLineEnd"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
@@ -995,14 +995,14 @@
                                 <ng-container *ngIf="formPopupvillain.CHANEL_LINE && !formChannelLanguage.LINE_CHANNEL_LANGUAGE_FROMTRANSLATE">
                                     <div class="col-1"></div>
                                     <div class="col-3 ">
-                                        <dx-check-box text="ภาษาไทย" [(value)]="formChannelLanguage.LINE_CHANNEL_LANGUAGE_THAI"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาอังกฤษ" [(value)]="formChannelLanguage.LINE_CHANNEL_LANGUAGE_ENG"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาจีน" [(value)]="formChannelLanguage.LINE_CHANNEL_LANGUAGE_CHINESS"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาไทย" [(value)]="formChannelLanguage.LINE_CHANNEL_LANGUAGE_THAI"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาอังกฤษ" [(value)]="formChannelLanguage.LINE_CHANNEL_LANGUAGE_ENG"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาจีน" [(value)]="formChannelLanguage.LINE_CHANNEL_LANGUAGE_CHINESS"></dx-check-box><br><br>
                                     </div>
                                     <div class="col-6">
-                                        <dx-check-box text="ภาษาญี่ปุ่น" [(value)]="formChannelLanguage.LINE_CHANNEL_LANGUAGE_JAPAN"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาเกาหลี" [(value)]="formChannelLanguage.LINE_CHANNEL_LANGUAGE_KOREAN"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาอื่นๆ (กรุณาระบุ)" [(value)]="formChannelLanguage.LINE_CHANNEL_LANGUAGE_OTHER"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาญี่ปุ่น" [(value)]="formChannelLanguage.LINE_CHANNEL_LANGUAGE_JAPAN"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาเกาหลี" [(value)]="formChannelLanguage.LINE_CHANNEL_LANGUAGE_KOREAN"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาอื่นๆ (กรุณาระบุ)" [(value)]="formChannelLanguage.LINE_CHANNEL_LANGUAGE_OTHER"></dx-check-box><br><br>
                                         <ng-container *ngIf="formChannelLanguage.LINE_CHANNEL_LANGUAGE_OTHER">
                                             <dx-text-box [readOnly]="formReadOnly" [(value)]="formChannelLanguage.LINE_CHANNEL_LANGUAGE_OTHER_DETAIL"></dx-text-box>
                                         </ng-container>
@@ -1076,7 +1076,7 @@
                             <dxo-label text="ตั้งแต่วันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimefacebookS'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'facebook','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา"
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'facebook','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
                                     type="datetime" [max]="maxDateValue" [value]="dateFacebookStart"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
@@ -1084,7 +1084,7 @@
                             <dxo-label text="ถึงวันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimefacebookE'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'facebook','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา"
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'facebook','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
                                     type="datetime" [max]="maxDateValue" [value]="dateFacebookEnd"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
@@ -1173,14 +1173,14 @@
                                 <ng-container *ngIf="formPopupvillain.CHANEL_FACEBOOK && !formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_FROMTRANSLATE">
                                     <div class="col-1"></div>
                                     <div class="col-3 ">
-                                        <dx-check-box text="ภาษาไทย" [(value)]="formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_THAI"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาอังกฤษ" [(value)]="formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_ENG"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาจีน" [(value)]="formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_CHINESS"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาไทย" [(value)]="formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_THAI"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาอังกฤษ" [(value)]="formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_ENG"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาจีน" [(value)]="formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_CHINESS"></dx-check-box><br><br>
                                     </div>
                                     <div class="col-6">
-                                        <dx-check-box text="ภาษาญี่ปุ่น" [(value)]="formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_JAPAN"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาเกาหลี" [(value)]="formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_KOREAN"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาอื่นๆ (กรุณาระบุ)" [(value)]="formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_OTHER"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาญี่ปุ่น" [(value)]="formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_JAPAN"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาเกาหลี" [(value)]="formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_KOREAN"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาอื่นๆ (กรุณาระบุ)" [(value)]="formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_OTHER"></dx-check-box><br><br>
                                         <ng-container *ngIf="formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_OTHER">
                                             <dx-text-box [readOnly]="formReadOnly" [(value)]="formChannelLanguage.FACEBOOK_CHANNEL_LANGUAGE_OTHER_DETAIL"></dx-text-box>
                                         </ng-container>
@@ -1252,7 +1252,7 @@
                             <dxo-label text="ตั้งแต่วันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimemessengerS'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'messenger','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา"
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'messenger','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
                                     type="datetime" [max]="maxDateValue" [value]="dateMessengerStart"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
@@ -1260,7 +1260,7 @@
                             <dxo-label text="ถึงวันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimemessengerE'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'messenger','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา"
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'messenger','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
                                     type="datetime" [max]="maxDateValue" [value]="dateMessengerEnd"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
@@ -1349,15 +1349,15 @@
                                 <ng-container *ngIf="formPopupvillain.CHANEL_MESSENGER && !formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_FROMTRANSLATE">
                                     <div class="col-1"></div>
                                     <div class="col-3 ">
-                                        <dx-check-box text="ภาษาไทย" [(value)]="formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_THAI"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาอังกฤษ" [(value)]="formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_ENG"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาจีน" [(value)]="formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_CHINESS"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาไทย" [(value)]="formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_THAI"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาอังกฤษ" [(value)]="formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_ENG"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาจีน" [(value)]="formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_CHINESS"></dx-check-box><br><br>
 
                                     </div>
                                     <div class="col-6">
-                                        <dx-check-box text="ภาษาญี่ปุ่น" [(value)]="formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_JAPAN"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาเกาหลี" [(value)]="formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_KOREAN"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาอื่นๆ (กรุณาระบุ)" [(value)]="formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_OTHER"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาญี่ปุ่น" [(value)]="formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_JAPAN"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาเกาหลี" [(value)]="formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_KOREAN"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาอื่นๆ (กรุณาระบุ)" [(value)]="formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_OTHER"></dx-check-box><br><br>
                                         <ng-container *ngIf="formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_OTHER">
                                             <dx-text-box [readOnly]="formReadOnly" [(value)]="formChannelLanguage.MESSENGER_CHANNEL_LANGUAGE_OTHER_DETAIL"></dx-text-box>
                                         </ng-container>
@@ -1429,7 +1429,7 @@
                             <dxo-label text="ตั้งแต่วันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimeinstargramS'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'instargram','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา"
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'instargram','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
                                     type="datetime" [max]="maxDateValue" [value]="dateInstargramStart"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
@@ -1437,7 +1437,7 @@
                             <dxo-label text="ถึงวันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimeinstargramE'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'instargram','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา"
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'instargram','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
                                     type="datetime" [max]="maxDateValue" [value]="dateInstargramEnd"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
@@ -1526,14 +1526,14 @@
                                 <ng-container *ngIf="formPopupvillain.CHANEL_INSTARGRAM && !formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_FROMTRANSLATE">
                                     <div class="col-1"></div>
                                     <div class="col-3 ">
-                                        <dx-check-box text="ภาษาไทย" [(value)]="formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_THAI"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาอังกฤษ" [(value)]="formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_ENG"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาจีน" [(value)]="formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_CHINESS"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาไทย" [(value)]="formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_THAI"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาอังกฤษ" [(value)]="formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_ENG"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาจีน" [(value)]="formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_CHINESS"></dx-check-box><br><br>
                                     </div>
                                     <div class="col-6">
-                                        <dx-check-box text="ภาษาญี่ปุ่น" [(value)]="formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_JAPAN"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาเกาหลี" [(value)]="formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_KOREAN"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาอื่นๆ (กรุณาระบุ)" [(value)]="formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_OTHER"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาญี่ปุ่น" [(value)]="formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_JAPAN"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาเกาหลี" [(value)]="formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_KOREAN"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาอื่นๆ (กรุณาระบุ)" [(value)]="formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_OTHER"></dx-check-box><br><br>
                                         <ng-container *ngIf="formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_OTHER">
                                             <dx-text-box [readOnly]="formReadOnly" [(value)]="formChannelLanguage.INSTARGRAM_CHANNEL_LANGUAGE_OTHER_DETAIL"></dx-text-box>
                                         </ng-container>
@@ -1568,7 +1568,7 @@
                             <dxo-label text="วันเวลา" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimewebsite'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'website')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา"
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'website')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
                                     type="datetime" [max]="maxDateValue" [value]="dateWebsite"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
@@ -1657,14 +1657,14 @@
                                 <ng-container *ngIf="formPopupvillain.CHANEL_WEBSITE && !formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_FROMTRANSLATE">
                                     <div class="col-1"></div>
                                     <div class="col-3 ">
-                                        <dx-check-box text="ภาษาไทย" [(value)]="formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_THAI"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาอังกฤษ" [(value)]="formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_ENG"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาจีน" [(value)]="formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_CHINESS"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาไทย" [(value)]="formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_THAI"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาอังกฤษ" [(value)]="formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_ENG"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาจีน" [(value)]="formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_CHINESS"></dx-check-box><br><br>
                                     </div>
                                     <div class="col-6">
-                                        <dx-check-box text="ภาษาญี่ปุ่น" [(value)]="formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_JAPAN"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาเกาหลี" [(value)]="formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_KOREAN"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาอื่นๆ (กรุณาระบุ)" [(value)]="formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_OTHER"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาญี่ปุ่น" [(value)]="formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_JAPAN"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาเกาหลี" [(value)]="formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_KOREAN"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาอื่นๆ (กรุณาระบุ)" [(value)]="formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_OTHER"></dx-check-box><br><br>
                                         <ng-container *ngIf="formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_OTHER">
                                             <dx-text-box [readOnly]="formReadOnly" [(value)]="formChannelLanguage.WEBSITE_CHANNEL_LANGUAGE_OTHER_DETAIL"></dx-text-box>
                                         </ng-container>
@@ -1705,7 +1705,7 @@
                             <dxo-label text="วันเวลา" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimeemail'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'email')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา"
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'email')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
                                     type="datetime" [max]="maxDateValue" [value]="dateEmail"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
@@ -1794,14 +1794,14 @@
                                 <ng-container *ngIf="formPopupvillain.CHANEL_EMAIL && !formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_FROMTRANSLATE">
                                     <div class="col-1"></div>
                                     <div class="col-3 ">
-                                        <dx-check-box text="ภาษาไทย" [(value)]="formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_THAI"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาอังกฤษ" [(value)]="formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_ENG"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาจีน" [(value)]="formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_CHINESS"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาไทย" [(value)]="formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_THAI"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาอังกฤษ" [(value)]="formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_ENG"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาจีน" [(value)]="formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_CHINESS"></dx-check-box><br><br>
                                     </div>
                                     <div class="col-6">
-                                        <dx-check-box text="ภาษาญี่ปุ่น" [(value)]="formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_JAPAN"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาเกาหลี" [(value)]="formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_KOREAN"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาอื่นๆ (กรุณาระบุ)" [(value)]="formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_OTHER"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาญี่ปุ่น" [(value)]="formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_JAPAN"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาเกาหลี" [(value)]="formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_KOREAN"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาอื่นๆ (กรุณาระบุ)" [(value)]="formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_OTHER"></dx-check-box><br><br>
                                         <ng-container *ngIf="formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_OTHER">
                                             <dx-text-box [readOnly]="formReadOnly" [(value)]="formChannelLanguage.EMAIL_CHANNEL_LANGUAGE_OTHER_DETAIL"></dx-text-box>
                                         </ng-container>
@@ -1874,7 +1874,7 @@
                             <dxo-label text="ตั้งแต่วันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimetelegramS'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'telegram','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา"
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'telegram','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
                                     type="datetime" [max]="maxDateValue" [value]="dateTelegramStart"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
@@ -1882,7 +1882,7 @@
                             <dxo-label text="ถึงวันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimetelegramE'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'telegram','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา"
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'telegram','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
                                     type="datetime" [max]="maxDateValue" [value]="dateTelegramEnd"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
@@ -1971,14 +1971,14 @@
                                 <ng-container *ngIf="formPopupvillain.CHANEL_TELEGRAM && !formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_FROMTRANSLATE">
                                     <div class="col-1"></div>
                                     <div class="col-3 ">
-                                        <dx-check-box text="ภาษาไทย" [(value)]="formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_THAI"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาอังกฤษ" [(value)]="formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_ENG"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาจีน" [(value)]="formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_CHINESS"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" [readOnly]="formReadOnly" text="ภาษาไทย" [(value)]="formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_THAI"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" [readOnly]="formReadOnly" text="ภาษาอังกฤษ" [(value)]="formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_ENG"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" [readOnly]="formReadOnly" text="ภาษาจีน" [(value)]="formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_CHINESS"></dx-check-box><br><br>
                                     </div>
                                     <div class="col-6">
-                                        <dx-check-box text="ภาษาญี่ปุ่น" [(value)]="formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_JAPAN"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาเกาหลี" [(value)]="formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_KOREAN"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาอื่นๆ (กรุณาระบุ)" [(value)]="formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_OTHER"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" [readOnly]="formReadOnly" text="ภาษาญี่ปุ่น" [(value)]="formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_JAPAN"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" [readOnly]="formReadOnly" text="ภาษาเกาหลี" [(value)]="formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_KOREAN"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" [readOnly]="formReadOnly" text="ภาษาอื่นๆ (กรุณาระบุ)" [(value)]="formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_OTHER"></dx-check-box><br><br>
                                         <ng-container *ngIf="formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_OTHER">
                                             <dx-text-box [readOnly]="formReadOnly" [(value)]="formChannelLanguage.TELEGRAM_CHANNEL_LANGUAGE_OTHER_DETAIL"></dx-text-box>
                                         </ng-container>
@@ -2050,7 +2050,7 @@
                             <dxo-label text="ตั้งแต่วันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimewhatsappS'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'whatsapp','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา"
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'whatsapp','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
                                     type="datetime" [max]="maxDateValue" [value]="dateWhatappStart"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
@@ -2058,7 +2058,7 @@
                             <dxo-label text="ถึงวันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimewhatsappE'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'whatsapp','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา"
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'whatsapp','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
                                     type="datetime" [max]="maxDateValue" [value]="dateWhatappEnd"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
@@ -2147,14 +2147,14 @@
                                 <ng-container *ngIf="formPopupvillain.CHANEL_WHATAPP && !formChannelLanguage.WHATAPP_CHANNEL_LANGUAGE_FROMTRANSLATE">
                                     <div class="col-1"></div>
                                     <div class="col-3 ">
-                                        <dx-check-box text="ภาษาไทย" [(value)]="formChannelLanguage.WHATAPP_CHANNEL_LANGUAGE_THAI"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาอังกฤษ" [(value)]="formChannelLanguage.WHATAPP_CHANNEL_LANGUAGE_ENG"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาจีน" [(value)]="formChannelLanguage.WHATAPP_CHANNEL_LANGUAGE_CHINESS"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาไทย" [(value)]="formChannelLanguage.WHATAPP_CHANNEL_LANGUAGE_THAI"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาอังกฤษ" [(value)]="formChannelLanguage.WHATAPP_CHANNEL_LANGUAGE_ENG"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาจีน" [(value)]="formChannelLanguage.WHATAPP_CHANNEL_LANGUAGE_CHINESS"></dx-check-box><br><br>
                                     </div>
                                     <div class="col-6">
-                                        <dx-check-box text="ภาษาญี่ปุ่น" [(value)]="formChannelLanguage.WHATAPP_CHANNEL_LANGUAGE_JAPAN"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาเกาหลี" [(value)]="formChannelLanguage.WHATAPP_CHANNEL_LANGUAGE_KOREAN"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาอื่นๆ (กรุณาระบุ)" [(value)]="formChannelLanguage.WHATAPP_CHANNEL_LANGUAGE_OTHER"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาญี่ปุ่น" [(value)]="formChannelLanguage.WHATAPP_CHANNEL_LANGUAGE_JAPAN"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาเกาหลี" [(value)]="formChannelLanguage.WHATAPP_CHANNEL_LANGUAGE_KOREAN"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาอื่นๆ (กรุณาระบุ)" [(value)]="formChannelLanguage.WHATAPP_CHANNEL_LANGUAGE_OTHER"></dx-check-box><br><br>
                                         <ng-container *ngIf="formChannelLanguage.WHATAPP_CHANNEL_LANGUAGE_OTHER">
                                             <dx-text-box [readOnly]="formReadOnly" [(value)]="formChannelLanguage.WHATAPP_CHANNEL_LANGUAGE_OTHER_DETAIL"></dx-text-box>
                                         </ng-container>
@@ -2226,7 +2226,7 @@
                             <dxo-label text="ตั้งแต่วันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimetwitterS'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'twitter','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา"
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'twitter','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
                                     type="datetime" [max]="maxDateValue" [value]="dateTwitterStart"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
@@ -2234,7 +2234,7 @@
                             <dxo-label text="ถึงวันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimetwitterE'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'twitter','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา"
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'twitter','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
                                     type="datetime" [max]="maxDateValue" [value]="dateTwitterEnd"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
@@ -2323,14 +2323,14 @@
                                 <ng-container *ngIf="formPopupvillain.CHANEL_TWITTER && !formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_FROMTRANSLATE">
                                     <div class="col-1"></div>
                                     <div class="col-3 ">
-                                        <dx-check-box text="ภาษาไทย" [(value)]="formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_THAI"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาอังกฤษ" [(value)]="formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_ENG"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาจีน" [(value)]="formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_CHINESS"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาไทย" [(value)]="formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_THAI"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาอังกฤษ" [(value)]="formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_ENG"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาจีน" [(value)]="formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_CHINESS"></dx-check-box><br><br>
                                     </div>
                                     <div class="col-6">
-                                        <dx-check-box text="ภาษาญี่ปุ่น" [(value)]="formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_JAPAN"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาเกาหลี" [(value)]="formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_KOREAN"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาอื่นๆ (กรุณาระบุ)" [(value)]="formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_OTHER"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาญี่ปุ่น" [(value)]="formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_JAPAN"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาเกาหลี" [(value)]="formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_KOREAN"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาอื่นๆ (กรุณาระบุ)" [(value)]="formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_OTHER"></dx-check-box><br><br>
                                         <ng-container *ngIf="formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_OTHER">
                                             <dx-text-box [readOnly]="formReadOnly" [(value)]="formChannelLanguage.TWITTER_CHANNEL_LANGUAGE_OTHER_DETAIL"></dx-text-box>
                                         </ng-container>
@@ -2383,7 +2383,7 @@
                             <dxo-label text="วันเวลา" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimeother'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'other')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา"
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'other')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
                                     type="datetime" [max]="maxDateValue" [value]="dateOther"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
@@ -2472,15 +2472,15 @@
                                 <ng-container *ngIf="formPopupvillain.CHANEL_OTHERS && !formChannelLanguage.OTHERS_CHANNEL_LANGUAGE_FROMTRANSLATE">
                                     <div class="col-1"></div>
                                     <div class="col-3 ">
-                                        <dx-check-box text="ภาษาไทย" [(value)]="formChannelLanguage.OTHERS_CHANNEL_LANGUAGE_THAI"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาอังกฤษ" [(value)]="formChannelLanguage.OTHERS_CHANNEL_LANGUAGE_ENG"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาจีน" [(value)]="formChannelLanguage.OTHERS_CHANNEL_LANGUAGE_CHINESS"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาไทย" [(value)]="formChannelLanguage.OTHERS_CHANNEL_LANGUAGE_THAI"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาอังกฤษ" [(value)]="formChannelLanguage.OTHERS_CHANNEL_LANGUAGE_ENG"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาจีน" [(value)]="formChannelLanguage.OTHERS_CHANNEL_LANGUAGE_CHINESS"></dx-check-box><br><br>
 
                                     </div>
                                     <div class="col-6">
-                                        <dx-check-box text="ภาษาญี่ปุ่น" [(value)]="formChannelLanguage.OTHERS_CHANNEL_LANGUAGE_JAPAN"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาเกาหลี" [(value)]="formChannelLanguage.OTHERS_CHANNEL_LANGUAGE_KOREAN"></dx-check-box><br><br>
-                                        <dx-check-box text="ภาษาอื่นๆ (กรุณาระบุ)" [(value)]="formChannelLanguage.OTHERS_CHANNEL_LANGUAGE_OTHER"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาญี่ปุ่น" [(value)]="formChannelLanguage.OTHERS_CHANNEL_LANGUAGE_JAPAN"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาเกาหลี" [(value)]="formChannelLanguage.OTHERS_CHANNEL_LANGUAGE_KOREAN"></dx-check-box><br><br>
+                                        <dx-check-box [readOnly]="formReadOnly" text="ภาษาอื่นๆ (กรุณาระบุ)" [(value)]="formChannelLanguage.OTHERS_CHANNEL_LANGUAGE_OTHER"></dx-check-box><br><br>
                                         <ng-container *ngIf="formChannelLanguage.OTHERS_CHANNEL_LANGUAGE_OTHER">
                                             <dx-text-box [readOnly]="formReadOnly" [(value)]="formChannelLanguage.OTHERS_CHANNEL_LANGUAGE_OTHER_DETAIL"></dx-text-box>
                                         </ng-container>

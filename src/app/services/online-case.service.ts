@@ -82,4 +82,31 @@ export class OnlineCaseService {
     public GetcaseQuestionare(caseId: number,): Observable<any> {
         return req(`CmsOnlineCaseInfo/casequestionate/${caseId}`).disableCriticalDialogError().get();
     }
+    public getLocation(caseid: number): Observable<LocationInfo> {
+        return req<LocationInfo>(`CmsOnlineCaseInfo/caselocation/${caseid}`)
+            .disableCriticalDialogError().get();
+    }
+    public getBankRef(caseid: number): Observable<any> {
+        return req<any>(`CmsOnlineCaseInfo/bankref/${caseid}`)
+            .disableCriticalDialogError().get();
+    }
+}
+
+export interface LocationInfo {
+    CASE_LOCATION_PROVINCE_ID ?: number;
+    CASE_LOCATION_CASE_INFORMER_ADDRESS ?: string;
+    CASE_LOCATION_PROVINCE_NAME_THA ?: string;
+    CASE_LOCATION_DISTRICT_ID ?: number;
+    CASE_LOCATION_DISTRICT_NAME_THA ?: string;
+    CASE_LOCATION_SUB_DISTRICT_ID ?: number;
+    CASE_LOCATION_SUB_DISTRICT_NAME_THA ?: string;
+    CASE_LOCATION_ADDRESS ?: string;
+    CASE_LOCATION_TRANSFER_PROVINCE_ID?: number;
+    CASE_LOCATION_TRANSFER_CASE_INFORMER_ADDRESS ?: string;
+    CASE_LOCATION_TRANSFER_PROVINCE_NAME_THA ?: string;
+    CASE_LOCATION_TRANSFER_DISTRICT_ID ?: number;
+    CASE_LOCATION_TRANSFER_DISTRICT_NAME_THA ?: string;
+    CASE_LOCATION_TRANSFER_SUB_DISTRICT_ID ?: number;
+    CASE_LOCATION_TRANSFER_SUB_DISTRICT_NAME_THA ?: string;
+    CASE_LOCATION_TRANSFER_ADDRESS ?: string;
 }

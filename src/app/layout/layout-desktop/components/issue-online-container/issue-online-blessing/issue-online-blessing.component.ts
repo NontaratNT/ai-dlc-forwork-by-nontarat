@@ -118,7 +118,7 @@ export class IssueOnlineBlessingComponent implements OnInit {
             this.formReadOnly = true;
             this.formType ="edit"
             const dataForm = await this._OnlineCaseService.getbycaseId(procinstdata.DATA_ID).toPromise();
-            console.log(dataForm);
+            const bankRef = await this._OnlineCaseService.getBankRef(procinstdata.DATA_ID).toPromise();
             this.formblessingdata.BLESSINGNO1   = dataForm.BLESSINGNO1 ?? '';
             this.formblessingdata.BLESSINGNO2   = dataForm.BLESSINGNO2 ?? '';
             this.formblessingdata.BLESSINGNO2_3   = dataForm.BLESSINGNO2_3 ?? '';
@@ -128,7 +128,7 @@ export class IssueOnlineBlessingComponent implements OnInit {
             if(dataForm.WAY == '2'){
                 this._isShow3 = true;
             }
-            this._dataSourcebankref =   dataForm.BANK_REF ?? [];
+            this._dataSourcebankref =   bankRef ?? [];
         }
     }
     Back(e) {
