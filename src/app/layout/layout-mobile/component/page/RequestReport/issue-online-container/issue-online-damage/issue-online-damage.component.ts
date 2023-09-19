@@ -202,8 +202,8 @@ export class IssueOnlineDamageComponent implements OnInit {
     formmoneySub: any = {};
     listDamageBankmoey: any = [];
     fileMoney : any;
-    fileType1 : any;
-    fileType2 : any;
+    fileType1 : any = [];
+    fileType2 : any = [];
 
     isAdding = true;
     editTransferData: any = {};
@@ -328,10 +328,10 @@ export class IssueOnlineDamageComponent implements OnInit {
                             this.fileMoney = await this._fileService.getCaseMoneyFile(Number(this.mainConponent.InstId)).toPromise();
                             if(this.fileMoney){
                                 this.fileMoney.forEach(element => {
-                                    if (element.TypeDamage == 4) {
+                                    if (element.typeDamage == 4) {
                                        this.fileType1.push(element);
                                     }
-                                    if (element.TypeDamage == 10) {
+                                    if (element.typeDamage == 10) {
                                         this.fileType2.push(element);
                                     }
                                 });

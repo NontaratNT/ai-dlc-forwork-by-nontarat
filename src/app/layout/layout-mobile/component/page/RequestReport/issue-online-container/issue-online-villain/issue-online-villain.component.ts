@@ -277,7 +277,7 @@ export class IssueOnlineVillainComponent implements OnInit {
                 if(_CASE_CHANNEL){
                     this.formData = _CASE_CHANNEL;
                     if(_CASE_CHANNEL.CASE_CRIMINAL_MEET){
-                        this.formMeetCriminal = _CASE_CHANNEL.CASE_CRIMINAL_MEET;
+                        this.formMeetCriminal = _CASE_CHANNEL.CASE_CRIMINAL_MEET[0];
                         this.defaultCriminalType = 1;
                     }
                 }
