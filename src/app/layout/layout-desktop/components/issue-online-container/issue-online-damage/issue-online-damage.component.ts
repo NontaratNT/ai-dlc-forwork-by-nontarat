@@ -314,10 +314,44 @@ export class IssueOnlineDamageComponent implements OnInit {
             this.listDamageOther = [];
 
             if (this.mainConponent.formType === "add") {
+                localStorage.setItem("form-index","4");
                 this.formType = "add";
                 this.formReadOnly = false;
                 this.formAddData = true;
-                this.ChangeHasDamage({ value: 1 });
+                if(localStorage.getItem("form-damage")){
+                    this.formData = JSON.parse(localStorage.getItem("form-damage"));
+                    console.log(this.formData);
+                    if (this.CheckArray(this.formData.CASE_MONEY)) {
+                        await this.SetDataToListBank(this.formData.CASE_MONEY);
+                    }
+                    this.defaultDamageType =
+                        this.formData.CASE_MONEY_DAMAGE === "Y" ? 1 : 2;
+
+                    this.checkboxDamage = {
+                        case_type1: this.CheckMoneyTypeEdit(
+                            this.formData.CASE_MONEY_TYPE1,
+                            "type1"
+                        ),
+                        case_type2: this.CheckMoneyTypeEdit(
+                            this.formData.CASE_MONEY_TYPE2,
+                            "type1"
+                        ),
+                        case_type3: this.CheckMoneyTypeEdit(
+                            this.formData.CASE_MONEY_TYPE3,
+                            "type1"
+                        ),
+                        case_type4: this.CheckMoneyTypeEdit(
+                            this.formData.CASE_MONEY_TYPE4,
+                            "type1"
+                        ),
+                        case_type5: this.CheckMoneyTypeEdit(
+                            this.formData.CASE_MONEY_TYPE5,
+                            "type1"
+                        ),
+                    };
+                }else{
+                    this.ChangeHasDamage({ value: 1 });
+                }
             } else {
                 this.formType = "edit";
                 this.formReadOnly = true;
@@ -1761,6 +1795,7 @@ export class IssueOnlineDamageComponent implements OnInit {
             }
             this.mainConponent.formDataAll.formDamage.listDamageBankOther = this.listDamageBankOther;
             this.mainConponent.formDataAll.formDamage.listDamageOther = this.listDamageOther;
+            localStorage.setItem("form-damage",JSON.stringify(this.formData));
         }
         if (e != 'tab') {
             this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
@@ -2005,7 +2040,7 @@ export class IssueOnlineDamageComponent implements OnInit {
         // }
         this.bankListstart.push(value);
         // this.formmoney.BANK_ORIGIN_LIST_ID = value["BANK_ORIGIN_ID"]
-        this.formmoney.BANK_ORIGIN_LIST_ID = value["BANK_ORIGIN_ACCOUNT"];
+        this.formmoney.BANK_ORIGIN_LIST_ID = value["SHOW_NAME"];
 
         // console.log("valueemit",value);
         // console.log("bankliststart",this.bankListstart);
@@ -2060,7 +2095,7 @@ export class IssueOnlineDamageComponent implements OnInit {
         }
         this.bankListend.push(value);
         // this.formmoney.BANK_LIST_ID = value["BANK_ID"]
-        this.formmoney.BANK_LIST_ID = value["BANK_ACCOUNT"];
+        this.formmoney.BANK_LIST_ID = value["SHOW_NAME"];
 
         // console.log("valueemitvillain",value);
         // console.log("banklistendvillain",this.bankListend);

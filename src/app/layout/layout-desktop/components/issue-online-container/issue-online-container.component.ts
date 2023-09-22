@@ -15,6 +15,7 @@ import { IssueOnlineValidateComponent } from "./issue-online-validate/issue-onli
 import { IssueOnlineBlessingComponent } from "./issue-online-blessing/issue-online-blessing.component";
 import { IssueOnlineQuestionareComponent } from "./issue-online-questionare/issue-online-questionare.component";
 import { ProvinceService } from "src/app/services/province.service";
+import Swal from "sweetalert2";
 @Component({
     selector: "app-issue-online-container",
     templateUrl: "./issue-online-container.component.html",
@@ -183,6 +184,29 @@ export class IssueOnlineContainerComponent implements OnInit {
         return this.stepNavigationZindex-index;
     }
     SetFormInit(){
+        if(localStorage.getItem("form-index")){
+            Swal.fire({
+                title: 'แจ้งเตือน!!',
+                html: "คุณมีข้อมูลแจ้งความที่ยังกรอกไม่เสร็จ<br>ต้องการไปกรอกข้อมูลต่อหรือไม่",
+                icon: 'warning',
+                confirmButtonText: 'ยืนยัน',
+                showCancelButton: true,
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.indexTab = Number(localStorage.getItem("form-index"));
+                } else {
+                    localStorage.removeItem("form-blessing");
+                    localStorage.removeItem("form-informer");
+                    localStorage.removeItem("form-event");
+                    localStorage.removeItem("form-damage");
+                    localStorage.removeItem("form-villain");
+                    localStorage.removeItem("form-attachment");
+                    localStorage.removeItem("form-questionare");
+                    localStorage.removeItem("form-index");
+                }
+            });
+        }
         this.formDataInsert.FORM_CODE = "CCIB_NOTIFY_PEOPLE@0.1";
         this.formDataInsert.env = environment.config.baseConfig;
         this.formDataInsert.CASE_TYPE_ID = 1;
@@ -212,6 +236,7 @@ export class IssueOnlineContainerComponent implements OnInit {
                 CASE_SELF_TYPE: (this.userType === "mySelf")?"Y":"N",
             },
         };
+        localStorage.setItem("form-config",JSON.stringify(this.formDataAll.formConfigs));
     }
     goUrl(url = 'main/tasklist'){
         this._router.navigate([url]);

@@ -239,6 +239,32 @@ export class IssueOnlineVillainComponent implements OnInit {
             this.maxBirthDate = this._date.SetDateDefault(0);
             // this.servBankInfo.GetCaseChannel().subscribe((_) => (this.listCaseChannel = _));
             if (this.mainConponent.formType === 'add') {
+                localStorage.setItem("form-index","5");
+                if(localStorage.getItem("form-villain")){
+                    this.formData = JSON.parse(localStorage.getItem("form-villain"));
+                    this.formMeetCriminal = this.formData.CASE_CRIMINAL_MEET[0] ?? [];
+                    this.formCriminal = this.formData.CASE_CRIMINAL ?? [];
+                    this.formPopupvillain = this.formData.CASE_CHANNEL ?? [];
+                    this.defaultCriminalType = this.formData.CRIMINAL === 'Y'? 1 : 2;
+                    // console.log(this.formData);
+                }else{
+                    this.formMeetCriminal.CASE_CRIMINAL_MEET_INPERSON = false;
+                    this.formMeetCriminal.CASE_CRIMINAL_MEET_VDOCALL = false;
+                    this.formMeetCriminal.CASE_CRIMINAL_MEET_WITHNESSEDPERSON = false;
+                    this.formMeetCriminal.CASE_CRIMINAL_MEET_WITHNESSEDVDOCALL = false;
+                    this.formMeetCriminal.CASE_CRIMINAL_MEET_SOCAIL = false;
+                    this.formMeetCriminal.CASE_CRIMINAL_NOT_MEET = false;
+                    this.formMeetCriminal.CASE_CRIMINAL_MEET_OTHER = false;
+
+                    this.uploadFileBufferList = [];
+                    this.formCriminal = {};
+                    this.formData = {};
+                    this.formData.CRIMINAL= 'Y';
+                    this.formData.CASE_CRIMINAL = [];
+                    this.formData.CASE_CRIMINAL_MEET = [];
+                    this.formData.CASE_CHANNEL = [];
+                    this.formPopupvillain.CASE_CHANNEL_LANGUAGE = [];
+                }
                 this.presentAddress.disableDistrict = true;
                 this.presentAddress.disableSubDistrict = true;
                 this.presentAddress.disablepostcode = true;
@@ -247,22 +273,6 @@ export class IssueOnlineVillainComponent implements OnInit {
                 this.formReadOnly = false;
                 this.formAddData = true;
                 this.formValidate = true;
-                this.formMeetCriminal.CASE_CRIMINAL_MEET_INPERSON = false;
-                this.formMeetCriminal.CASE_CRIMINAL_MEET_VDOCALL = false;
-                this.formMeetCriminal.CASE_CRIMINAL_MEET_WITHNESSEDPERSON = false;
-                this.formMeetCriminal.CASE_CRIMINAL_MEET_WITHNESSEDVDOCALL = false;
-                this.formMeetCriminal.CASE_CRIMINAL_MEET_SOCAIL = false;
-                this.formMeetCriminal.CASE_CRIMINAL_NOT_MEET = false;
-                this.formMeetCriminal.CASE_CRIMINAL_MEET_OTHER = false;
-
-                this.uploadFileBufferList = [];
-                this.formCriminal = {};
-                this.formData = {};
-                this.formData.CRIMINAL= 'Y';
-                this.formData.CASE_CRIMINAL = [];
-                this.formData.CASE_CRIMINAL_MEET = [];
-                this.formData.CASE_CHANNEL = [];
-                this.formPopupvillain.CASE_CHANNEL_LANGUAGE = [];
             }else{
                 this.formType = "edit";
                 this.defaultCriminalType = 2;
@@ -309,7 +319,6 @@ export class IssueOnlineVillainComponent implements OnInit {
                             if(this.formData.CASE_CHANNEL[i].CASE_CHANNEL_LANGUAGE){
                                 this.formData.CASE_CHANNEL[i].SHOW_LANGUAGE = this.setDefaultShowTextLanguage(this.formData.CASE_CHANNEL[i].CASE_CHANNEL_LANGUAGE[0]);
                             }
-                            console.log(this.formData.CASE_CHANNEL[i].SHOW_LANGUAGE);
                         }
                         this.fileChannel = await this._fileService.getChannelFile(this.formData.CASE_CHANNEL[i].CASE_CHANNEL_ID).toPromise();
                         if(this.fileChannel){
@@ -333,36 +342,6 @@ export class IssueOnlineVillainComponent implements OnInit {
                     }
                     console.log(this.formData.CASE_CHANNEL);
                 }
-                // if(dataForm){
-                    // this.defaultCriminalType = dataForm.CASE_CRIMINAL_MEET ? 1 : 2;
-                //     if (dataForm.CASE_CRIMINAL_PROVINCE_ID) {
-                //         this.presentAddress.district = await this.serviceProvince
-                //             .GetDistrictofProvince(dataForm.CASE_CRIMINAL_PROVINCE_ID)
-                //             .toPromise();
-                //         this.presentAddress.disableDistrict = false;
-
-                //     }
-                //     if (dataForm.CASE_CRIMINAL_DISTRICT_ID) {
-                //         this.presentAddress.subDistrict = await this.serviceDistrict
-                //             .GetSubDistrictOfDistrict(dataForm.CASE_CRIMINAL_DISTRICT_ID)
-                //             .toPromise();
-                //         this.presentAddress.disableSubDistrict = false;
-
-                //     }
-                //     if (dataForm.CASE_CRIMINAL_SUB_DISTRICT_ID) {
-                //         this.presentAddress.postcode = await this.serviceSubDistrict
-                //             .GetPostCode(dataForm.CASE_CRIMINAL_SUB_DISTRICT_ID)
-                //             .toPromise();
-                //         this.presentAddress.disablepostcode = false;
-
-                //     }
-
-                //     this.SelectTypeMeet();
-                //     this.formData = dataForm;
-                //     this.formCriminal = dataForm;
-                //     this.formMeetCriminal = dataForm.CASE_CRIMINAL_MEET[0] ?? [];
-                //     // this.uploadFileBufferList = dataForm.CASE_CRIMINAL_ATTACHMENT ?? [];
-                // }
 
 
             }
@@ -2243,6 +2222,7 @@ export class IssueOnlineVillainComponent implements OnInit {
             formData = Object.assign({},formUpload,formData);
             this.mainConponent.formDataAll.formVaillain = {};
             this.mainConponent.formDataAll.formVaillain = formData;
+            localStorage.setItem("form-villain",JSON.stringify(formData));
             if(e != 'tab'){
                 this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
             }

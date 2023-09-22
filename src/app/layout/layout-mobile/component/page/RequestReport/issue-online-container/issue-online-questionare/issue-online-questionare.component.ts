@@ -90,6 +90,11 @@ export class IssueOnlineQuestionareComponent implements OnInit {
     setDefaultData(){
         this.checkBlessing = this.mainConponent.formDataInsert.CHECK_BLESSING;
         if (this.mainConponent.formType === 'add') {
+            if(localStorage.getItem("form-blessing")){
+                this.checkBlessing = JSON.parse(localStorage.getItem("form-blessing"));
+            }else{
+                this.checkBlessing = this.mainConponent.formDataInsert.CHECK_BLESSING;
+            }
             this.formData.CASE_QUESTIONARE = []
             this.formQuestionare.QUESTIONARE_4_1 = false;
             this.formQuestionare.QUESTIONARE_4_2 = false;
@@ -128,6 +133,7 @@ export class IssueOnlineQuestionareComponent implements OnInit {
             }
             const formData = Object.assign({},this.formData);
             this.mainConponent.formDataAll.formQuestionnare = formData;
+            localStorage.setItem("form-questionare",JSON.stringify(formData));
             if(e != 'tab'){
                 this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
             }

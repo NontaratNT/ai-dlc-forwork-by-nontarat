@@ -529,7 +529,7 @@
                    </dxi-validation-rule>
                 </dxi-item>
                 <div *dxTemplate="let data of 'temp5'">
-                    <dx-select-box #selectOccupation [dataSource]="occupationList" displayExpr="OCCUPATIONS_NAME" valueExpr="OCCUPATIONS_ID" searchExpr="OCCUPATIONS_NAME" [searchEnabled]="true" placeholder="อาชีพ" [readOnly]="formReadOnly" [(value)]="formData.OCCUPATIONS_ID"
+                    <dx-select-box #selectOccupation [dataSource]="occupationList" displayExpr="OCCUPATIONS_NAME" valueExpr="OCCUPATIONS_ID" searchExpr="OCCUPATIONS_NAME" [searchEnabled]="true" placeholder="อาชีพ" [readOnly]="formReadOnly" [(value)]="formData.OCCUPATION_ID"
                         (onValueChanged)="OnSelectOccupation($event)"></dx-select-box>
                 </div>
                 <dxi-item *ngIf="!occupationOther" itemType="empty" [colSpan]="1"></dxi-item>

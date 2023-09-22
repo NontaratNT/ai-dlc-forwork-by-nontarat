@@ -32,7 +32,13 @@ export class IssueOnlineAttachmentComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        const userId = User.Current.PersonalId;
+        // if(this.mainConponent.formType === "add"){
+        //     localStorage.setItem("form-index","6");
+        //     if(localStorage.getItem("form-attachment")){
+        //         this.listAttachment = JSON.parse(localStorage.getItem("form-attachment")).CASE_ATTACHMENT ?? [];
+        //     }
+        // }
+        // const userId = User.Current.PersonalId;
         // this.servicePersonal
         //     .GetPersonalById(userId)
         //     .subscribe((_) => {
@@ -239,14 +245,17 @@ export class IssueOnlineAttachmentComponent implements OnInit {
         this.mainConponent.NextIndex(this.mainConponent.indexTab -1);
     }
     SubmitForm(e) {
-        const setData = {
-            CASE_ATTACHMENT:this.listAttachment ?? []
-        };
-        // console.log('formSubmit->>>>',setData);
-        // this.mainConponent.MergeObj(setData);
-        // console.log('formData->>>>',isData);
-        this.mainConponent.formDataAll.formAttachment = {};
-        this.mainConponent.formDataAll.formAttachment = setData;
+        if(this.mainConponent.formType === "add"){
+            const setData = {
+                CASE_ATTACHMENT:this.listAttachment ?? []
+            };
+            // console.log('formSubmit->>>>',setData);
+            // this.mainConponent.MergeObj(setData);
+            // console.log('formData->>>>',isData);
+            this.mainConponent.formDataAll.formAttachment = {};
+            this.mainConponent.formDataAll.formAttachment = setData;
+            localStorage.setItem("form-attachment",JSON.stringify(setData));
+        }
         if(e != 'tab'){
             this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
         }

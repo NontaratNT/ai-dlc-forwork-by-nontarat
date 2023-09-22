@@ -88,7 +88,7 @@ export class IssueOnlineBlessingComponent implements OnInit {
     ) {}
     ngOnInit(): void {
         this.maxDateValue.setHours(this.maxDateValue.getHours() + 1);
-        const userId = User.Current.PersonalId;
+        // const userId = User.Current.PersonalId;
         // this.servicePersonal
         //     .GetPersonalById(userId)
         //     .subscribe((_) => {
@@ -100,14 +100,27 @@ export class IssueOnlineBlessingComponent implements OnInit {
     }
     async setDefaultData() {
         if (this.mainConponent.formType === "add") {
-        this.formData = {};
-
-        //เก็บค่าที่ส่งมาจากแจ้งเตือนใหม่ไว้ในนี้นะครับ
-        this._issueOnlineService.issueOnline$.subscribe((value) => {
-            this.issueOnline = value;
-            this.formBankref = value;
-            this.formData = value;
-        });
+            localStorage.setItem("form-index","1");
+            this.formData = {};
+            if(localStorage.getItem("form-blessing")){
+                this.formData = JSON.parse(localStorage.getItem("form-blessing"));
+                this.formblessingdata.BLESSINGNO1   = this.formData.BLESSINGNO1 ?? '';
+                this.formblessingdata.BLESSINGNO2   = this.formData.BLESSINGNO2 ?? '';
+                this.formblessingdata.BLESSINGNO2_3   = this.formData.BLESSINGNO2_3 ?? '';
+                this.formblessingdata.BLESSINGNO3   = this.formData.BLESSINGNO3 ?? '';
+                this.submission.ways = this.formData.WAY ?? '';
+                this._dataSourcebankref = this.formData.BANK_REF ?? [];
+                if(this._dataSourcebankref){
+                    this._isShow = true;
+                }
+            }else{
+                //เก็บค่าที่ส่งมาจากแจ้งเตือนใหม่ไว้ในนี้นะครับ
+                this._issueOnlineService.issueOnline$.subscribe((value) => {
+                    this.issueOnline = value;
+                    this.formBankref = value;
+                    this.formData = value;
+                });
+            }
         }else{
 
             const _inst_id = Number(localStorage.getItem("inst_id"));
@@ -140,51 +153,53 @@ export class IssueOnlineBlessingComponent implements OnInit {
 
     }
     SubmitForm(e) {
-        if (!this.formblessing.instance.validate().isValid) {
-            Swal.fire({
-                title: "ผิดพลาด!",
-                text: "กรุณาเลือกตอบคำถามให้ครบทุกข้อ",
-                icon: "warning",
-                confirmButtonText: "Ok",
-            }).then(() => {});
-            this.mainConponent.checkValidate = true;
-            return;
+        if(this.mainConponent.formType === "add"){
+            if (!this.formblessing.instance.validate().isValid) {
+                Swal.fire({
+                    title: "ผิดพลาด!",
+                    text: "กรุณาเลือกตอบคำถามให้ครบทุกข้อ",
+                    icon: "warning",
+                    confirmButtonText: "Ok",
+                }).then(() => {});
+                this.mainConponent.checkValidate = true;
+                return;
+            }
+            if(this._dataSourcebankref.length <= 0 && this._isShow){
+                Swal.fire({
+                    title: "ผิดพลาด!",
+                    text: "กรุณาเพิ่มเลขอ้างอิงธนาคาร",
+                    icon: "warning",
+                    confirmButtonText: "Ok",
+                }).then(() => {});
+                this.mainConponent.checkValidate = true;
+                return;
+            } else {
+                this.mainConponent.checkValidate = false;
+                // this.formData.FORMQUESTIONARE = this.formblessingdata;
+                this.formData.BLESSINGNO1   = this.formblessingdata.BLESSINGNO1 ;
+                this.formData.BLESSINGNO2   = this.formblessingdata.BLESSINGNO2 ;
+                this.formData.BLESSINGNO2_3   = this.formblessingdata.BLESSINGNO2_3 ;
+                this.formData.BLESSINGNO3   = this.formblessingdata.BLESSINGNO3 ;
+                this.formData.CHECK_BLESSING == false ? this.formData.BLESSING_STATUS = 'N' : this.formData.BLESSING_STATUS = 'Y';
+                this.formData.BLESSINGNO1    ? this.formData.BLESSINGTXT1    = this.group1.filter(res => res.id == this.formData.BLESSINGNO1).map(_ => _.txt)[0]     : this.formData.BLESSINGTXT1    = null;
+                this.formData.BLESSINGNO2    ? this.formData.BLESSINGTXT2    = this.group2.filter(res => res.id == this.formData.BLESSINGNO2).map(_ => _.txt)[0]     : this.formData.BLESSINGTXT2    = null;
+                this.formData.BLESSINGNO2_3  ? this.formData.BLESSINGTXT2_3  = this.group2_3.filter(res => res.id == this.formData.BLESSINGNO2_3).map(_ => _.txt)[0] : this.formData.BLESSINGTXT2_3  = null;
+                this.formData.BLESSINGNO3    ? this.formData.BLESSINGTXT3    = this.group3.filter(res => res.id == this.formData.BLESSINGNO3).map(_ => _.txt)[0]     : this.formData.BLESSINGTXT3    = null;
+                this.formData.WAY = this.submission.ways;
+                this.formData.BANK_REF = this._dataSourcebankref;
+                this.mainConponent.formDataInsert = this.formData;
+                this._issueOnlineService.issueOnline = this.formData;
+                this.mainConponent.formDataAll.formBlessing = this.formData;
+                localStorage.setItem("form-blessing",JSON.stringify(this.formData));
+                //   this.mainConponent.formquestionnare1 = this.formblessingdata;
+                // console.log("this.formData",this.formData);
+            }
         }
-        if(this._dataSourcebankref.length <= 0 && this._isShow){
-            Swal.fire({
-                title: "ผิดพลาด!",
-                text: "กรุณาเพิ่มเลขอ้างอิงธนาคาร",
-                icon: "warning",
-                confirmButtonText: "Ok",
-            }).then(() => {});
-            this.mainConponent.checkValidate = true;
-            return;
-        } else {
-            this.mainConponent.checkValidate = false;
-            // this.formData.FORMQUESTIONARE = this.formblessingdata;
-            this.formData.BLESSINGNO1   = this.formblessingdata.BLESSINGNO1 ;
-            this.formData.BLESSINGNO2   = this.formblessingdata.BLESSINGNO2 ;
-            this.formData.BLESSINGNO2_3   = this.formblessingdata.BLESSINGNO2_3 ;
-            this.formData.BLESSINGNO3   = this.formblessingdata.BLESSINGNO3 ;
-            this.formData.CHECK_BLESSING == false ? this.formData.BLESSING_STATUS = 'N' : this.formData.BLESSING_STATUS = 'Y';
-            this.formData.BLESSINGNO1    ? this.formData.BLESSINGTXT1    = this.group1.filter(res => res.id == this.formData.BLESSINGNO1).map(_ => _.txt)[0]     : this.formData.BLESSINGTXT1    = null;
-            this.formData.BLESSINGNO2    ? this.formData.BLESSINGTXT2    = this.group2.filter(res => res.id == this.formData.BLESSINGNO2).map(_ => _.txt)[0]     : this.formData.BLESSINGTXT2    = null;
-            this.formData.BLESSINGNO2_3  ? this.formData.BLESSINGTXT2_3  = this.group2_3.filter(res => res.id == this.formData.BLESSINGNO2_3).map(_ => _.txt)[0] : this.formData.BLESSINGTXT2_3  = null;
-            this.formData.BLESSINGNO3    ? this.formData.BLESSINGTXT3    = this.group3.filter(res => res.id == this.formData.BLESSINGNO3).map(_ => _.txt)[0]     : this.formData.BLESSINGTXT3    = null;
-            this.formData.WAY = this.submission.ways;
-            this.formData.BANK_REF = this._dataSourcebankref;
-            this.mainConponent.formDataInsert = this.formData;
-            this._issueOnlineService.issueOnline = this.formData;
-            this.mainConponent.formDataAll.formBlessing = this.formData;
-
-            //   this.mainConponent.formquestionnare1 = this.formblessingdata;
-            // console.log("this.formData",this.formData);
-            if(e != 'tab'){
-                if(this.mainConponent.formType === "add"){
-                    this.mainConponent.NextIndex(this.mainConponent.indexTab = 2);
-                }else{
-                    this.mainConponent.NextIndex(this.mainConponent.indexTab + 1 );
-                }
+        if(e != 'tab'){
+            if(this.mainConponent.formType === "add"){
+                this.mainConponent.NextIndex(this.mainConponent.indexTab = 2);
+            }else{
+                this.mainConponent.NextIndex(this.mainConponent.indexTab + 1 );
             }
         }
         //   this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);

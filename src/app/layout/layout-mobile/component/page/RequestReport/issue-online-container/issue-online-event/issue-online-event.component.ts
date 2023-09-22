@@ -83,6 +83,7 @@ export class IssueOnlineEventComponent implements OnInit {
     caseType = "";
     issueOnline: any;
     checkblessing = false;
+    recovery = false;
     constructor(
         private router: Router,
         private servicePersonal: PersonalService,
@@ -202,14 +203,28 @@ export class IssueOnlineEventComponent implements OnInit {
             }
             this.formData.CASE_TYPE_SUB_ID = undefined;
             if (this.mainConponent.formType === 'add') {
+                localStorage.setItem("form-index","3");
                 this.locationRender = 'add';
                 this.formType = "add";
                 this.formReadOnly = false;
                 this.formValidate = true;
-                this.formLocationLoad = true;
-                this.formLocationTranferLoad = true;
-                this.formLocationBankVictimLoad = true;
-                this.formLocationBankVillainLoad = true;
+                if(localStorage.getItem("form-event")){
+                    this.formData = JSON.parse(localStorage.getItem("form-event"));
+                    this.recovery = true;
+                    this.setDataLocation(this.formData);
+                }else{
+                    this.formLocationLoad = true;
+                    this.formLocationTranferLoad = true;
+                    // this.formLocationBankVictimLoad = true;
+                    // this.formLocationBankVillainLoad = true;
+                    this.recovery = false;
+                }
+                if(localStorage.getItem("form-blessing")){
+                    this.issueOnline = JSON.parse(localStorage.getItem("form-blessing"));
+                    this.checkValidateAddress = !this.issueOnline.CHECK_BLESSING;
+                }else if(this.mainConponent.formDataAll.formBlessing){
+                    this.checkValidateAddress = !this.mainConponent.formDataAll.formBlessing.CHECK_BLESSING;
+                }
                 // this.formData.CASE_LOCATION_DATE = this._date.SetDateDefault(0);
                 this.isLoading = false;
 
@@ -424,14 +439,15 @@ export class IssueOnlineEventComponent implements OnInit {
             this.mainConponent.formDataAll.formEvent = {};
             const dataLocation = await this.ReplaceKeyLocation('CASE_LOCATION',this.formLocation);
             const dataLocationTranfer = await this.ReplaceKeyLocation('CASE_LOCATION_TRANSFER',this.formLocationTranfer);
-            const dataLocationBankVictim = await this.ReplaceKeyLocation('CASE_LOCATION_BANK_VICTIM',this.formLocationBankVictim);
-            const dataLocationBankVillain = await this.ReplaceKeyLocation('CASE_LOCATION_BANK_VILLAIN',this.formLocationBankVillain);
+            // const dataLocationBankVictim = await this.ReplaceKeyLocation('CASE_LOCATION_BANK_VICTIM',this.formLocationBankVictim);
+            // const dataLocationBankVillain = await this.ReplaceKeyLocation('CASE_LOCATION_BANK_VILLAIN',this.formLocationBankVillain);
             const setDataFormAll = Object.assign(
                 {},this.formData,dataLocation,dataLocationTranfer,
-                dataLocationBankVictim,dataLocationBankVillain
+                // dataLocationBankVictim,dataLocationBankVillain
             );
 
             this.mainConponent.formDataAll.formEvent = setDataFormAll;
+            localStorage.setItem("form-event",JSON.stringify(setDataFormAll));
 
         }
         if(e != 'tab'){

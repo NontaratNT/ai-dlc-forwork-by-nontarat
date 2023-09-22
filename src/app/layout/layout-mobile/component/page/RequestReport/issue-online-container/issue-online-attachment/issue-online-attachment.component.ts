@@ -38,7 +38,7 @@ export class IssueOnlineAttachmentComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        const userId = User.Current.PersonalId;
+        // const userId = User.Current.PersonalId;
         // this.servicePersonal
         //     .GetPersonalById(userId)
         //     .subscribe((_) => {

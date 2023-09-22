@@ -38,6 +38,7 @@ export class ViewAddressComponent implements OnInit, OnChanges {
 
     @Input() dataForm: any;
     @Input() type;
+    @Input() recovery = false;
     @Input() renderView = "view1";
     @Input() replaceKey = "";
     @Input() checkValidate = false;
@@ -101,19 +102,21 @@ export class ViewAddressComponent implements OnInit, OnChanges {
     }
     async SetDefault(dataFormAll: any = {}) {
         this.isLoading = true;
-        console.log(this.province);
         this.isLoadForm = false;
         this.presentAddress.disableDistrict = true;
         this.presentAddress.disableSubDistrict = true;
         this.presentAddress.disablepostcode = true;
         // this.province = await this.serviceProvince.GetProvince().toPromise();
         // this.bankInfoList = await this.servBankInfo.GetBankInfo().toPromise();
-        if (this.type === "add") {
+        if (this.type === "add" && !this.recovery) {
             this.formReadOnly = false;
             this.formValidate = false || this.renderView === "view1";
         } else if (this.type === "edit") {
         } else if (this.type === "view") {
-            this.formReadOnly = true;
+            this.formReadOnly = this.recovery ? false : true;
+            if(this.recovery){
+                this.formValidate = false || this.renderView === "view1";
+            }
             const reKey = this.replaceKey;
             const d = dataFormAll;
             const data = {
@@ -215,10 +218,14 @@ export class ViewAddressComponent implements OnInit, OnChanges {
         setTimeout(() => {
             if (e.value) {
                 this.checkboxaddresscard = false;
-                this._issueOnlineService.issueOnline$.subscribe(value => {
-                    // console.log("IssueOnlineView", value);
-                    this.issueOnline = value;
-                });
+                if(localStorage.getItem("form-informer")){
+                    this.issueOnline = JSON.parse(localStorage.getItem("form-informer"));
+                }else{
+                    this._issueOnlineService.issueOnline$.subscribe(value => {
+                        // console.log("IssueOnlineView", value);
+                        this.issueOnline = value;
+                    });
+                }
                 setTimeout(() => {
                     this.formData.PROVINCE_ID = this.issueOnline.INFORMER_PROVINCE;
                     this.formData.CASE_INFORMER_ADDRESS = this.issueOnline.CASE_INFORMER_ADDRESS_NO;
@@ -253,10 +260,14 @@ export class ViewAddressComponent implements OnInit, OnChanges {
         setTimeout(() => {
             if (e.value) {
                 this.checkboxaddressnow = false;
-                this._issueOnlineService.issueOnline$.subscribe(value => {
-                    // console.log("IssueOnlineView", value);
-                    this.issueOnline = value;
-                });
+                if(localStorage.getItem("form-informer")){
+                    this.issueOnline = JSON.parse(localStorage.getItem("form-informer"));
+                }else{
+                    this._issueOnlineService.issueOnline$.subscribe(value => {
+                        // console.log("IssueOnlineView", value);
+                        this.issueOnline = value;
+                    });
+                }
 
                 setTimeout(() => {
                     this.formData.PROVINCE_ID = this.issueOnline.INFORMER_CARD_PROVINCE;

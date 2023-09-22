@@ -223,6 +223,7 @@ export class IssueOnlineValidateComponent implements OnInit {
     ]
     formReadOnly = true;
     bankInfoList: any = [];
+    mergedFrom:any = {};
 
     constructor(
         private servicePersonal: PersonalService,
@@ -236,7 +237,7 @@ export class IssueOnlineValidateComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        const userId = User.Current.PersonalId;
+        // const userId = User.Current.PersonalId;
         // this.popupCaseChannel2 = true;
 
         setTimeout(async () => {
@@ -588,32 +589,42 @@ export class IssueOnlineValidateComponent implements OnInit {
         this.formLocationBankVillainLoad = true;
     }
     async ReloadData() {
+        localStorage.setItem("form-index","8");
         this.isLoading = true;
-        // this.listCaseChannel = await this.servBankInfo.GetCaseChannel().toPromise();
-        // this.province = await this.serviceProvince.GetProvince().toPromise();
-        // this.bankInfoList = await this.servBankInfo.GetBankInfo().toPromise();
-        // this.dsorgbyarialocation = await this._OrgService.getorgwalkin().toPromise();
-        // this.dswalkinstatuspolice = await this._OrgService.getorgwalkin().toPromise();
-        // this.dsorgarea = await this._OrgService.getorgariaall().toPromise();
+        this.province = this.mainConponent.province;
         this.loadDateBox = false;
         this.reload = false;
         this.formLocationLoad = false;
         this.formData = {};
         setTimeout(() => {
+            this.mergedFrom = Object.assign({},
+                JSON.parse(localStorage.getItem("form-config")),
+                JSON.parse(localStorage.getItem("form-blessing")),
+                JSON.parse(localStorage.getItem("form-informer")),
+                JSON.parse(localStorage.getItem("form-event")),
+                JSON.parse(localStorage.getItem("form-damage")),
+                JSON.parse(localStorage.getItem("form-villain")),
+                JSON.parse(localStorage.getItem("form-attachment")),
+                JSON.parse(localStorage.getItem("form-questionare")));
             this.userType = this.mainConponent.userType;
-            const d = this.mainConponent.formDataAll;
-            const formSubmit = Object.assign({},
-                d.formInformer, d.formEvent,
-                d.formDamage, d.formVaillain,
-                d.formAttachment, d.formConfigs,
-                d.formQuestionnare,d.formBlessing
-            );
-            this.formData = formSubmit;
+            // if(localStorage.getItem("form-index") == "8"){
+            this.formData = this.mergedFrom;
+            // }else{
+            //     const d = this.mainConponent.formDataAll;
+            //     const formSubmit = Object.assign({},
+            //         d.formInformer, d.formEvent,
+            //         d.formDamage, d.formVaillain,
+            //         d.formAttachment, d.formConfigs,
+            //         d.formQuestionnare,d.formBlessing
+            //     );
+            //     this.formData = formSubmit;
+            // }
+            // console.log(this.formData);
             if(this.formData.BANK_REF){
                 this.formData.WAY = this.formData.BANK_REF.length > 0 ? 1 :2;
             }
-            if(d.formVaillain.CASE_CRIMINAL_MEET){
-                this.listMeetCriminal = d.formVaillain.CASE_CRIMINAL_MEET[0] ?? [];
+            if(this.formData.CASE_CRIMINAL_MEET){
+                this.listMeetCriminal = this.formData.CASE_CRIMINAL_MEET[0] ?? [];
             }else{
                 this.listMeetCriminal = {
                     CASE_CRIMINAL_MEET_INPERSON:false,
@@ -625,8 +636,8 @@ export class IssueOnlineValidateComponent implements OnInit {
                     CASE_CRIMINAL_MEET_OTHER:false,
                 }
             }
-            if(d.formQuestionnare.CASE_QUESTIONARE){
-                this.formQuestionare = d.formQuestionnare.CASE_QUESTIONARE[0] ?? [];
+            if(this.formData.CASE_QUESTIONARE){
+                this.formQuestionare = this.formData.CASE_QUESTIONARE[0] ?? [];
             }else{
                 this.formQuestionare = {
                     QUESTIONARE_4_1:false,
@@ -936,6 +947,15 @@ export class IssueOnlineValidateComponent implements OnInit {
                                 icon: 'success',
                                 confirmButtonText: 'ตกลง'
                             }).then(() => {
+                                localStorage.removeItem("form-blessing");
+                                localStorage.removeItem("form-informer");
+                                localStorage.removeItem("form-event");
+                                localStorage.removeItem("form-damage");
+                                localStorage.removeItem("form-villain");
+                                localStorage.removeItem("form-attachment");
+                                localStorage.removeItem("form-questionare");
+                                localStorage.removeItem("form-index");
+                                localStorage.removeItem("form-config");
                                 this._router.navigate(['/mobile/track-status?openExternalBrowser=1']);
                             });
                         });
@@ -966,6 +986,15 @@ export class IssueOnlineValidateComponent implements OnInit {
                                 icon: 'success',
                                 confirmButtonText: 'ตกลง'
                             }).then(() => {
+                                localStorage.removeItem("form-blessing");
+                                localStorage.removeItem("form-informer");
+                                localStorage.removeItem("form-event");
+                                localStorage.removeItem("form-damage");
+                                localStorage.removeItem("form-villain");
+                                localStorage.removeItem("form-attachment");
+                                localStorage.removeItem("form-questionare");
+                                localStorage.removeItem("form-index");
+                                localStorage.removeItem("form-config");
                                 this._router.navigate(['/mobile/track-status?openExternalBrowser=1']);
                             });
                         });
