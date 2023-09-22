@@ -15,7 +15,7 @@ export class HomeNewComponent implements OnInit {
     _isLoading = false;
     deviceInfo = null;
     hasSession = false;
-    showpopupweb = false;
+    showpopupweb = true;
     popupVisible = false;
     constructor(
         private router: Router,
@@ -28,7 +28,7 @@ export class HomeNewComponent implements OnInit {
             this.hasSession = true;
         }
 
-        this.checkdatetimepopup();
+        // this.checkdatetimepopup();
     }
     OnIssueOnline() {
         // this.popupVisible = true;
@@ -38,9 +38,9 @@ export class HomeNewComponent implements OnInit {
         this.deviceInfo = this.deviceService.getDeviceInfo();
         const isMobile = this.deviceService.isMobile();
         if (isMobile) {
-            this.router.navigate(["/mobile/track-status?openExternalBrowser=1"]);
+            // this.router.navigate(["/mobile/track-status?openExternalBrowser=1"]);
         }else{
-            this.router.navigate(["/main/issue-online/1"]);
+            // this.router.navigate(["/main/issue-online/1"]);
         }
     }
     TelLink(href) {

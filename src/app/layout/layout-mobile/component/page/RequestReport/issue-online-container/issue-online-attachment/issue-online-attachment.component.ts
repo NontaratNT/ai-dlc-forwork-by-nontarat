@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import { IssueOnlineFileUploadService } from "src/app/services/issue-online-file-upload.service";
 import { BpmAttachmentService } from "src/app/services/bpm-attachment.service";
 import { UserSettingService } from "src/app/services/user-setting.service";
+import { FileService } from "src/app/services/file.service";
 
 @Component({
     selector: "app-issue-online-attachment",
@@ -34,10 +35,14 @@ export class IssueOnlineAttachmentComponent implements OnInit {
         private _issueFile: IssueOnlineFileUploadService,
         private serviceAttachment: BpmAttachmentService,
         private userSetting: UserSettingService,
-
+        private _fileService :FileService
     ) { }
 
     ngOnInit(): void {
+        this.isLoading = true;
+        setTimeout(async () => {
+            this.setDefaultData();
+        }, 100);
         // const userId = User.Current.PersonalId;
         // this.servicePersonal
         //     .GetPersonalById(userId)
@@ -45,6 +50,20 @@ export class IssueOnlineAttachmentComponent implements OnInit {
         //         this.personalInfo = _;
         //     });
 
+    }
+    async setDefaultData(){
+        // this.checkBlessing = this.mainConponent.formDataInsert.CHECK_BLESSING;
+        if (this.mainConponent.formType === 'add') {
+            this.formType = 'add';
+            localStorage.setItem("form-index","6");
+            if(localStorage.getItem("form-attachment")){
+                this.listAttachment = JSON.parse(localStorage.getItem("form-attachment")).CASE_ATTACHMENT ?? [];
+            }
+        }else{
+            this.formType = 'edit';
+            this.listAttachment = await this._fileService.getCaseMoneyFile(Number(this.mainConponent.InstId)).toPromise();
+        }
+        this.isLoading = false;
     }
     ShowInvalidDialog(){
         Swal.fire({
@@ -256,6 +275,7 @@ export class IssueOnlineAttachmentComponent implements OnInit {
         // console.log('formData->>>>',isData);
         this.mainConponent.formDataAll.formAttachment = {};
         this.mainConponent.formDataAll.formAttachment = setData;
+        localStorage.setItem("form-attachment",JSON.stringify(setData));
         this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
         this.mainConponent.numCount = this.mainConponent.indexTab + 1;
         document.body.scrollTop = document.documentElement.scrollTop = 0;

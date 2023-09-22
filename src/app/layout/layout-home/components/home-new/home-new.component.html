@@ -430,22 +430,24 @@
 
 
     <!-- POPUP -->
-    <dx-popup class="popup attactment" [width]="800" [height]="600" [showTitle]="false" title="แจ้งปรับปรุงระบบชั่วคราว"
+    <dx-popup class="popup attactment" [width]="1000" [height]="800" [showTitle]="false" title="แจ้งเตือนปรับปรุงระบบ"
         [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="showpopupweb" [showCloseButton]="false">
         <div *dxTemplate="let data of 'content'">
-            <dx-scroll-view #view_form_popup_attachment [showScrollbar]="'always'"
-                style="height: calc(100% - 45px);background-color: #2D437C;">
-                <div style="text-align: center;    margin: 20px;">
-                    <h3 style="color: #fff;">ระบบบริหารจัดการคดีอาชญากรรมทางเทคโนโลยี</h3>
-                    <h1 style="color: #fff;">ขอแจ้งปรับปรุงระบบชั่วคราว</h1>
+            <dx-scroll-view  [showScrollbar]="'always'" style="height: calc(100% - 45px);background-color: #2D437C;">
+                <div style=" display: flex;justify-content: center">
+                    <img src="assets/icon/warning-home.png" style="width:100px;height: 100px;" alt="warning-home" class="img-fluid">
                 </div>
-                <div style=" text-align: center; margin-top: 10%; background-color: #2D437C; padding: 2%;">
-                    <h1 style="color: #fff;">วันที่ 29-30 ตุลาคม 2565</h1>
-                    <h1 style="background-color: #fff;padding:2%;">เวลา 22.00 น.-06.00 น.</h1>
+                <div style="text-align: center;margin: 20px;">
+                    <h3 style="color: #fff;">ระบบบริหารจัดการคดีอาชญากรรมทางเทคโนโลยี</h3>
+                    <h1 style="color: #fff;">แจ้งเตือนปรับปรุงระบบ</h1>
+                </div>
+                <div style=" text-align: center; margin-top: 2%; background-color: #2D437C; padding: 2%;">
+                    <h4 style="color: #fff;">เนื่องจากในวันเสาร์ที่ 23 กันยายน 2566 <br>เวลา 00.00 - 23.59 น. <br>จะมีการย้ายที่ตั้งของศูนย์รับแจ้งความออนไลน์ <br>อาจทำให้ประชาชนไม่ได้รับความสะดวกในการติดต่อสอบถามผ่านสายด่วน 1441 ได้อย่างเต็มที่<br> จึงจำเป็นต้องปิดการให้บริการสายด่วน 1441 <br>รวมถึงระบบรับแจ้งความออนไลน์ (www.thaipoliceonline.com) <br>ตามช่วงเวลาดังกล่าว</h4>
+                    <h2 style="background-color: #fff;padding:2%;"><b>ประชาชนยังสามารถเข้าพบเจ้าหน้าที่เพื่อติดต่อแจ้งความ<br>ตามสถานีตำรวจที่ท่านสะดวกได้ตามปกติ</b></h2>
                 </div>
             </dx-scroll-view>
-            <div class="text-right btn-dx" style="display: none;">
+            <!-- <div class="text-right btn-dx" style="display: none;">
                 <button class="btn btn-cancle" (click)="closepopup()">ปิด</button>&nbsp;
-            </div>
+            </div> -->
         </div>
     </dx-popup>

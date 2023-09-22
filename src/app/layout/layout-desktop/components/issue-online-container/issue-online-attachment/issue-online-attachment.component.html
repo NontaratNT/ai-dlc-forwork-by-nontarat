@@ -2,7 +2,7 @@
     <div class="content-title">ไฟล์หลักฐานเพิ่มเติม (ถ้ามี)</div>
     <div class="content-form">
         <div class="add-data">
-            <dx-button class="btn btn-add-data" text="เพิ่มรายการ" (onClick)="PopupUploadAdd()"></dx-button>
+            <dx-button *ngIf="formType === 'add'" class="btn btn-add-data" text="เพิ่มรายการ" (onClick)="PopupUploadAdd()"></dx-button>
         </div>
         <!-- <div>limitAttachmentSize->{{limitAttachmentSize}}</div>
         <div>limitAttachmentSize->{{BytesToSize(limitAttachmentSize)}}</div> -->

@@ -391,7 +391,6 @@ export class IssueOnlineDamageComponent implements OnInit {
                                         }
                                     });
                                 }
-                                console.log(indexType1);
                                 indexType1++;
                             }
                             if (element.CASE_MONEY_CHANNEL_TYPE == "O") {
@@ -406,7 +405,6 @@ export class IssueOnlineDamageComponent implements OnInit {
                                         }
                                     });
                                 }
-                                console.log(indexType2);
                                 indexType2++;
                             }
 

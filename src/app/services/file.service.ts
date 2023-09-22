@@ -19,6 +19,10 @@ export class FileService {
         return this._req<any>(`BpmProcInstAttachment/getfile/moneydoc/${id}`)
             .disableCriticalDialogError().get();
     }
+    public getAttachFile(id: number): Observable<FileChannelBase64> {
+        return this._req<any>(`BpmProcInstAttachment/getfile/attachmentdoc/${id}`)
+            .disableCriticalDialogError().get();
+    }
 }
 
 export interface FileChannel {

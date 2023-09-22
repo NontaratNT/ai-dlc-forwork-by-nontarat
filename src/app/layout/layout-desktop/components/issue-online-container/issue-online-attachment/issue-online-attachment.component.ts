@@ -5,6 +5,7 @@ import { User } from "src/app/services/user";
 import { IssueOnlineContainerComponent } from "../issue-online-container.component";
 import Swal from "sweetalert2";
 import { IssueOnlineFileUploadService } from "src/app/services/issue-online-file-upload.service";
+import { FileService } from "src/app/services/file.service";
 
 @Component({
     selector: "app-issue-online-attachment",
@@ -25,13 +26,19 @@ export class IssueOnlineAttachmentComponent implements OnInit {
     popupViewFileData: any = {};
     limitAttachmentSize = 0;
     maxSizeBuffer = 0;
+    formType = 'add';
+    file:any;
     constructor(
         private servicePersonal: PersonalService,
         private _issueFile: IssueOnlineFileUploadService,
-
+        private _fileService :FileService
     ) {}
 
     ngOnInit(): void {
+        this.isLoading = true;
+        setTimeout(async () => {
+            this.setDefaultData();
+        }, 100);
         // if(this.mainConponent.formType === "add"){
         //     localStorage.setItem("form-index","6");
         //     if(localStorage.getItem("form-attachment")){
@@ -45,6 +52,19 @@ export class IssueOnlineAttachmentComponent implements OnInit {
         //         this.personalInfo = _;
         //     });
 
+    }
+    async setDefaultData(){
+        // this.checkBlessing = this.mainConponent.formDataInsert.CHECK_BLESSING;
+        if (this.mainConponent.formType === 'add') {
+            this.formType = 'add';
+            localStorage.setItem("form-index","6");
+            if(localStorage.getItem("form-attachment")){
+                this.listAttachment = JSON.parse(localStorage.getItem("form-attachment")).CASE_ATTACHMENT ?? [];
+            }
+        }else{
+            this.formType = 'edit';
+            this.listAttachment = await this._fileService.getCaseMoneyFile(Number(this.mainConponent.InstId)).toPromise();
+        }
     }
     ShowInvalidDialog(){
         Swal.fire({
