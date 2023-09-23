@@ -65,6 +65,7 @@ export class IssueOnlineAttachmentComponent implements OnInit {
             this.formType = 'edit';
             this.listAttachment = await this._fileService.getCaseMoneyFile(Number(this.mainConponent.InstId)).toPromise();
         }
+        this.isLoading = false;
     }
     ShowInvalidDialog(){
         Swal.fire({
