@@ -63,7 +63,7 @@
                             </dxi-item>
                             <div *dxTemplate="let data of 'tempstart'">
                                 <dx-select-box #selectBankInfoOriginlist [dataSource]="bankListstart"
-                                    valueExpr="BANK_ORIGIN_ACCOUNT" displayExpr="SHOW_NAME"
+                                    valueExpr="SHOW_NAME" displayExpr="SHOW_NAME"
                                     [(value)]="formmoney.BANK_ORIGIN_LIST_ID"
                                     (onValueChanged)="onbankoriginlistchange($event)" placeholder="บัญชีต้นทาง"
                                     searchExpr="SHOW_NAME" [searchEnabled]="true">

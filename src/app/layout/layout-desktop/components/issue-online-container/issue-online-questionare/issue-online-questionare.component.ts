@@ -154,6 +154,7 @@ export class IssueOnlineQuestionareComponent implements OnInit {
             }
             const formData = Object.assign({},this.formData);
             this.mainConponent.formDataAll.formQuestionnare = formData;
+            localStorage.setItem("form-questionare",JSON.stringify(formData));
             if(e != 'tab'){
                 this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
             }
