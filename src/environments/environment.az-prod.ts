@@ -1,12 +1,12 @@
 export const environment = {
     production: true,
-    baseUrl: 'https://calm-desert-0e0968700.3.azurestaticapps.net/',
+    baseUrl: 'https://thaipoliceonline.com/',
     config: {
         baseConfig: {
             apiUrl: "https://thaipoliceapimgmt.azure-api.net/ccibazure/api",
-            reportUrl: "http://192.168.10.70/web-report/",
+            reportUrl: "https://officer.thaipoliceonline.com/web-report/",
             resourceUrl: "https://thaipoliceapimgmt.azure-api.net/eformazure/api/resource/",
-            hubUrl: "http://192.168.10.73/hub"
+            hubUrl: "https://police-online-noti-azure.azurewebsites.net/hub"
         },
         eFormHost: "https://thaipoliceapimgmt.azure-api.net/eformazure/api",
         recaptcha: {
