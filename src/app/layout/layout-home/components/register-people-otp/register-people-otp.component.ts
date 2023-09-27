@@ -103,7 +103,7 @@ export class RegisterPeopleOtpComponent implements OnInit {
         this.recaptchaV3Service.execute('registerSubmit')
             .subscribe((token) => {
                 if (token) {
-                    this.ServiceRegister.postActiveMQ(this.mainForm.formRegister.REGISTER_USER_NAME, this.otpnumber)
+                    this.ServiceRegister.postActiveMQgdcc(this.mainForm.formRegister.REGISTER_USER_NAME, this.otpnumber)
                         .pipe(finalize(() => { this._isLoading = false; }))
                         .subscribe(_ => {
                             if (!_.IsSuccess) {
@@ -136,7 +136,7 @@ export class RegisterPeopleOtpComponent implements OnInit {
         }, 60000);
         this.config = { leftTime: this.timeData, formatDate: ({ date }) => `${date / 1000}`, demand: false };
         if (this.choiceSelect === 1) {
-            this.ServiceRegister.sendSMS(this.mainForm.formRegister.REGISTER_USER_NAME, this.mainForm.formRegister.PERSONAL_TEL_NO)
+            this.ServiceRegister.sendSMSgdcc(this.mainForm.formRegister.REGISTER_USER_NAME, this.mainForm.formRegister.PERSONAL_TEL_NO)
                 .pipe(finalize(() => this._isLoading = false))
                 .subscribe(_ => {
                     if (!_.IsSuccess) {
@@ -157,7 +157,7 @@ export class RegisterPeopleOtpComponent implements OnInit {
                     }
                 });
         } else if (this.choiceSelect === 2) {
-            this.ServiceRegister.postReSend(this.mainForm.formRegister.REGISTER_USER_NAME, this.mainForm.formRegister.PERSONAL_EMAIL)
+            this.ServiceRegister.postReSendgdcc(this.mainForm.formRegister.REGISTER_USER_NAME, this.mainForm.formRegister.PERSONAL_EMAIL)
                 .pipe(finalize(() => this._isLoading = false))
                 .subscribe(_ => {
                     if (!_.IsSuccess) {

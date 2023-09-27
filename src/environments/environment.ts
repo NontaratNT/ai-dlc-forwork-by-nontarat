@@ -25,7 +25,8 @@ export const environment = {
             apiUrl: "http://localhost:5244/api",
             reportUrl: "",
             resourceUrl: "http://www.online.ccib.go.th/resource/ccib/",
-            hubUrl: "http://localhost:5244/hub"
+            hubUrl: "http://localhost:5244/hub",
+            urlgdcc:"http://localhost:14121/api"
         },
         eFormHost: "http://localhost:5243/api",
         recaptcha: {

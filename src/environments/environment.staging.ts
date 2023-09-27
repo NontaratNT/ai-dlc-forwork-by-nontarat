@@ -41,12 +41,13 @@ export const environment = {
     production: false,
     config: {
         baseConfig: {
-            apiUrl: "http://192.168.10.71/ccib/api",
+            apiUrl: "https://thaipoliceapimgmt.azure-api.net/ccibazure/api",
             reportUrl: "http://192.168.10.71/web-report/",
             resourceUrl: "http://192.168.10.71/resource/ccib/",
-            hubUrl: "http://192.168.10.73/hub"
+            hubUrl: "http://192.168.10.73/hub",
+            urlgdcc:"http://localhost:14121/api"
         },
-        eFormHost: "http://192.168.10.71/e-form/api",
+        eFormHost: "https://thaipoliceapimgmt.azure-api.net/eformazure/api",
         recaptcha: {
             siteKey: "6LeV1vQcAAAAAAUKdpLxVXjB9OLYR7ddI3sDmP0P",
             secretKey: "6LeV1vQcAAAAAJzMmWwJqq76i_fQuflBIF5upGbB"

@@ -1,15 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpStatusResult, IPagingResult, HttpStatusResultValue } from 'share-ui';
 import { Observable } from 'rxjs';
 import { req } from 'share-ui';
 import { IUserRegisterInfo } from '../common/@type/register';
-
+import { EformRequestFactory, EFORM_REQUEST } from 'eform-share';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { UserService } from './user.service';
 @Injectable({
     providedIn: 'root'
 })
 export class RegisterService {
 
-    constructor() { }
+    constructor(private http: HttpClient,private userServ: UserService) { }
 
     public getById(registerId: number): Observable<IUserRegisterInfo> {
         return req<IUserRegisterInfo>(`CmsRegister/${registerId}`)
@@ -36,6 +39,13 @@ export class RegisterService {
             .disableCriticalDialogError().post();
     }
 
+    public registerBeforegdcc(param: FormData): Observable<any>{
+   
+
+        return  this.http.post<HttpStatusResult>(`${environment.config.baseConfig.urlgdcc}/user/register/before-otp`, param);
+
+    }
+
     public postRegisterMQ(param: FormData): Observable<HttpStatusResult> {
         return req<HttpStatusResult>('user/register/mq')
             .body(param)
@@ -50,11 +60,25 @@ export class RegisterService {
             .disableCriticalDialogError().post();
     }
 
+    public sendSMSgdcc(username: string, tel: string): Observable<any>{
+   
+
+        return  this.http.post<HttpStatusResult>(`${environment.config.baseConfig.urlgdcc}/user/register/send-sms`, {Username:username, Tel:tel});
+
+    }
+
     public postReSend(username: string,email: string): Observable<HttpStatusResult> {
         return req<HttpStatusResult>('user/register/send-activate')
             .body({Username:username, Email:email})
             .useSystemResult()
             .disableCriticalDialogError().post();
+    }
+    
+    public postReSendgdcc(username: string,email: string): Observable<any>{
+   
+
+        return  this.http.post<HttpStatusResult>(`${environment.config.baseConfig.urlgdcc}/user/register/send-activate`, {Username:username, Email:email});
+
     }
     public postActive(username: string,otp: string): Observable<HttpStatusResult> {
         return req<HttpStatusResult>('user/register/activate')
@@ -68,6 +92,13 @@ export class RegisterService {
             .body({Username:username,OTP:otp})
             .useSystemResult()
             .disableCriticalDialogError().post();
+    }
+
+    public postActiveMQgdcc(username: string,otp: string): Observable<any>{
+   
+
+        return  this.http.post<HttpStatusResult>(`${environment.config.baseConfig.urlgdcc}/user/register/activate/mq`, {Username:username,OTP:otp});
+
     }
 
     public forgetSMS(tel: string): Observable<HttpStatusResult> {

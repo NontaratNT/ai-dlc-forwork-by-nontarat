@@ -63,6 +63,11 @@ export class RegisterPeopleComponent implements OnInit {
     }
 
     ngOnInit(): void {
+       
+
+
+
+
         this.loadDateBox = false;
         this.formRegisterPeopleOtp.mainForm = this;
         this.serviceTitle.GetTitleInfomer().subscribe((_) => (this.title = _));
@@ -395,7 +400,7 @@ export class RegisterPeopleComponent implements OnInit {
         this._isLoading = false;
 
         // console.log('this.formRegister',this.formRegister);
-        this.ServiceRegister.registerBefore(this.FormatData())
+        this.ServiceRegister.registerBeforegdcc(this.FormatData())
             .pipe(finalize(() => { this._isLoading = false; }))
             .subscribe(_ => {
                 if (!_.IsSuccess) {
