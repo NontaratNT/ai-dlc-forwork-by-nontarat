@@ -263,57 +263,6 @@ export class IssueOnlineEditComponent implements OnInit {
                     if(this.bpmData.DATA_ID){
                         this.fileChannel = await this._fileService.getChannelFile(this.bpmData.DATA_ID).toPromise();
                     }
-                    if(res.CASE_CHANNEL){
-                        for(let i=0; i<res.CASE_CHANNEL.length;i++){
-                            res.CASE_CHANNEL[i].CHANNEL_EMAIL_DOC = [];
-                            res.CASE_CHANNEL[i].CHANNEL_FACEBOOK_DOC = [];
-                            res.CASE_CHANNEL[i].CHANNEL_INSTARGRAM_DOC = [];
-                            res.CASE_CHANNEL[i].CHANNEL_LINE_DOC = [];
-                            res.CASE_CHANNEL[i].CHANNEL_MESSENGER_DOC = [];
-                            res.CASE_CHANNEL[i].CHANNEL_OTHERS_DOC = [];
-                            res.CASE_CHANNEL[i].CHANNEL_PHONE_DOC = [];
-                            res.CASE_CHANNEL[i].CHANNEL_SMS_DOC = [];
-                            res.CASE_CHANNEL[i].CHANNEL_TELEGRAM_DOC = [];
-                            res.CASE_CHANNEL[i].CHANNEL_TWITTER_DOC = [];
-                            res.CASE_CHANNEL[i].CHANNEL_WEBSITE_DOC = [];
-                            res.CASE_CHANNEL[i].CHANNEL_WHATAPP_DOC = [];
-                            if(this.fileChannel){
-                                for(let j=0;j<this.fileChannel.length;j++){
-                                    for (let item of this.fileChannel[j]) {
-                                        if(item.noFile == i.toString()){
-                                            switch (item.typeChannel){
-                                                case "email" : res.CASE_CHANNEL[i].CHANNEL_EMAIL_DOC.push(item); break;
-                                                case "facebook" : res.CASE_CHANNEL[i].CHANNEL_FACEBOOK_DOC.push(item); break;
-                                                case "instargram" : res.CASE_CHANNEL[i].CHANNEL_INSTARGRAM_DOC.push(item); break;
-                                                case "line" : res.CASE_CHANNEL[i].CHANNEL_LINE_DOC.push(item); break;
-                                                case "messenger" : res.CASE_CHANNEL[i].CHANNEL_MESSENGER_DOC.push(item); break;
-                                                case "others" : res.CASE_CHANNEL[i].CHANNEL_OTHERS_DOC.push(item); break;
-                                                case "phone" : res.CASE_CHANNEL[i].CHANNEL_PHONE_DOC.push(item); break;
-                                                case "sms" : res.CASE_CHANNEL[i].CHANNEL_SMS_DOC.push(item); break;
-                                                case "telegram" : res.CASE_CHANNEL[i].CHANNEL_TELEGRAM_DOC.push(item); break;
-                                                case "twitter" : res.CASE_CHANNEL[i].CHANNEL_TWITTER_DOC.push(item); break;
-                                                case "website" : res.CASE_CHANNEL[i].CHANNEL_WEBSITE_DOC.push(item); break;
-                                                case "whatsapp" : res.CASE_CHANNEL[i].CHANNEL_WHATAPP_DOC.push(item); break;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if (this.CheckArray(res.CASE_MONEY)) {
-                        if(this.fileMoney){
-                            for(let i=0; i<res.CASE_MONEY.length ;i++){
-                                res.CASE_MONEY[i].MONNEY_DOC = [];
-                                this.fileMoney.forEach((item, index) => {
-                                    if(index==i){
-                                        res.CASE_MONEY[i].MONNEY_DOC.push(item);
-                                    }
-                                });
-
-                            }
-                        }
-                    }
                     this.dataForm = {
                         InstId:this._instId,
                         ProcessInstanceId:this._wfinsId,

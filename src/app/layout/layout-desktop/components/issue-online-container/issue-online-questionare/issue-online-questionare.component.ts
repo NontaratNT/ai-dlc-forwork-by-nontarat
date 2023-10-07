@@ -91,6 +91,8 @@ export class IssueOnlineQuestionareComponent implements OnInit {
     async setDefaultData(){
         // this.checkBlessing = this.mainConponent.formDataInsert.CHECK_BLESSING;
         if (this.mainConponent.formType === 'add') {
+            this.formData.CASE_QUESTIONARE = [];
+            localStorage.setItem("form-index","7");
             if(localStorage.getItem("form-blessing")){
                 this.checkBlessing = JSON.parse(localStorage.getItem("form-blessing"));
             }else{

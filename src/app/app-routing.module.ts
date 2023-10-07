@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PagenotfoundComponent } from './layout/layout-home/components/pagenotfound/pagenotfound.component';
+import { Page1Component } from './layout/layout-home/components/page1/page1.component';
 
 const routes: Routes = [
     { path: 'home', redirectTo: '', pathMatch: 'full', },
@@ -16,6 +17,8 @@ const routes: Routes = [
         path: 'mobile',
         loadChildren: () => import('./layout/layout-mobile/layout-mobile.module').then(m => m.LayoutMobileModule)
     },
+    // { path: 'pct-in', redirectTo: 'https://officer.thaipoliceonline.com/pct-in/', pathMatch: 'full', },
+    { path: 'pct-in', component: Page1Component },
     { path: '**', pathMatch: 'full',
         component: PagenotfoundComponent },
 ];

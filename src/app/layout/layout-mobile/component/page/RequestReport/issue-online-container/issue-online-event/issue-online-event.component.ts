@@ -106,9 +106,9 @@ export class IssueOnlineEventComponent implements OnInit {
     ngOnInit(): void {
         this.isLoading = true;
         this.caseOpen = false;
-        this._issueOnlineService.issueOnline$.subscribe(value => {
-            // this.issueOnline = value;
-        });
+        // this._issueOnlineService.issueOnline$.subscribe(value => {
+        //     // this.issueOnline = value;
+        // });
 
         this.servBankInfo.GetCaseType().subscribe((_) => {
             this.formData.CASE_TYPE_ID = null;
@@ -208,6 +208,27 @@ export class IssueOnlineEventComponent implements OnInit {
                 this.formType = "add";
                 this.formReadOnly = false;
                 this.formValidate = true;
+                if(localStorage.getItem("form-blessing")){
+                    this.issueOnline = JSON.parse(localStorage.getItem("form-blessing"));
+                    if(this.issueOnline.CHECK_BLESSING){
+                        this.listCaseType = this.listCaseType.filter(r => r.CASE_TYPE_ABBR !== "คดีไม่เข้า พรก.")
+                        this.checkblessing = true;
+                    }else{
+                        this.checkValidateAddress = !this.issueOnline.CHECK_BLESSING;
+                        this.formData.CASE_TYPE_ID = 7;
+                        this.checkblessing = false;
+                    }
+                    this.checkValidateAddress = !this.issueOnline.CHECK_BLESSING;
+                }else if(this.mainConponent.formDataAll.formBlessing){
+                    if(this.mainConponent.formDataAll.formBlessing.CHECK_BLESSING){
+                        this.listCaseType = this.listCaseType.filter(r => r.CASE_TYPE_ABBR !== "คดีไม่เข้า พรก.")
+                        this.checkblessing = true;
+                    }else{
+                        this.checkValidateAddress = !this.mainConponent.formDataAll.formBlessing.CHECK_BLESSING;
+                        this.formData.CASE_TYPE_ID = 7;
+                        this.checkblessing = false;
+                    }
+                }
                 if(localStorage.getItem("form-event")){
                     this.formData = JSON.parse(localStorage.getItem("form-event"));
                     this.recovery = true;
@@ -218,12 +239,6 @@ export class IssueOnlineEventComponent implements OnInit {
                     // this.formLocationBankVictimLoad = true;
                     // this.formLocationBankVillainLoad = true;
                     this.recovery = false;
-                }
-                if(localStorage.getItem("form-blessing")){
-                    this.issueOnline = JSON.parse(localStorage.getItem("form-blessing"));
-                    this.checkValidateAddress = !this.issueOnline.CHECK_BLESSING;
-                }else if(this.mainConponent.formDataAll.formBlessing){
-                    this.checkValidateAddress = !this.mainConponent.formDataAll.formBlessing.CHECK_BLESSING;
                 }
                 // this.formData.CASE_LOCATION_DATE = this._date.SetDateDefault(0);
                 this.isLoading = false;

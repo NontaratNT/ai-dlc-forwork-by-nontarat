@@ -16,6 +16,14 @@
     <!-- <div *ngIf="isDrawerOpen" class="menu-search">
         <dx-text-box placeholder="Search..."></dx-text-box>
     </div> -->
+    <div class="div-banner">
+        <div style="margin-top: 10px;">
+            <div class="text-center" style="color:#2E4765!important;display: block;">
+                <span style="font-weight: bold;
+                font-size: 14px;">เวอร์ชั่น {{versionControl}}</span>
+            </div>
+        </div>
+    </div>
     <div class="menu-content mt-4 not-copy" [ngClass]="SidebarSize()">
         <dx-tree-view [dataSource]="listMneu" dataStructure="plain" parentIdExpr="parentId" keyExpr="id" selectionMode="single" [focusStateEnabled]="false" expandEvent="click" (onItemClick)="SelectMenu($event)" itemTemplate="menuList" [expandAllEnabled]="true"
             id="gridHeight">

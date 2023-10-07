@@ -325,12 +325,19 @@ export class IssueOnlineBlessingComponent implements OnInit {
                 formblessingdata.BLESSINGNO2_3 = undefined;
             }
 
-            this._isShow3 = !(
-                formblessingdata.BLESSINGNO1 === "1.1" ||
-                formblessingdata.BLESSINGNO1 === "1.2" ||
-                formblessingdata.BLESSINGNO2 === "2.1" ||
-                formblessingdata.BLESSINGNO2_3 === "2.3.1" ||
-                formblessingdata.BLESSINGNO3 === "3.2");
+            setTimeout(()=>{
+                this._isShow3 = !(
+                    formblessingdata.BLESSINGNO1 === "1.1" ||
+                    formblessingdata.BLESSINGNO1 === "1.2" ||
+                    formblessingdata.BLESSINGNO2 === "2.1" ||
+                    formblessingdata.BLESSINGNO2_3 === "2.3.1" ||
+                    formblessingdata.BLESSINGNO3 === "3.2");
+                if(!this._isShow3){
+                    this.submission.ways = null;
+                    this._isShow = false;
+                    this._dataSourcebankref = [];
+                }
+            },100);
 
             // this._isShow3 = (formblessingdata.BLESSINGNO1 === "1.3" &&
             // (formblessingdata.BLESSINGNO2 === "2.2" || formblessingdata.BLESSINGNO2 === "2.3") &&
@@ -351,29 +358,32 @@ export class IssueOnlineBlessingComponent implements OnInit {
         if (!e.event || e.event.type === "change") {
             if(e.value){
                 if(e.value.length >= 15){
-                    var value = e.value;
-                    let nameBamk = ["BBL","KBNK","KTB","TTB","SCB","BAY","KKP","CIMBT","TISCO","UOBT","TCD","LHFG","ICBCT","SME","BAAC","EXIM","GSB","GHB","ISBT"];
-                    let numvalue = 0;
-                    for (var i = 0; i < nameBamk.length; i++) {
-                        var upperString = value.toUpperCase();
-                        const bankMatch = upperString.search(nameBamk[i]);
-                        if(bankMatch >= 0){
-                            await this._bankInfoService.GetBankInfoByName(nameBamk[i]).subscribe((_) =>{
-                                this.submission.FREEZE_ACT_BANK_NAME = _[0].BANK_NAME;
-                                this.blockSave=false;
-                            });
-                            numvalue+=1;
-                            break;
+                    const value = e.value;
+                    const bank_name = value.replace(/\d+/g, '');
+                    const upperString = bank_name.toUpperCase();
+                    // var haveBank = await this._bankInfoService.GetBankTrackNo(upperString).toPromise();
+                    // if(haveBank){
+                    //     Swal.fire({
+                    //         title: 'ผิดพลาด!',
+                    //         html: 'เลขอ้างอิงนี้มีการแจ้งแล้ว',
+                    //         icon: 'warning',
+                    //         confirmButtonText: 'Ok',
+                    //     }).then(() => {this.submission.FREEZE_ACT_BANK_NAME = "";this.blockSave=true;});
+                    //     return;
+                    // }
+                    await this._bankInfoService.GetBankInfoByName(upperString).subscribe((_) =>{
+                        if(_ != null){
+                            this.submission.FREEZE_ACT_BANK_NAME = _[0].BANK_NAME;
+                            this.blockSave=false;
+                        }else{
+                            Swal.fire({
+                                title: "ผิดพลาด!",
+                                text: "กรอกเลขอ้างอิงไม่ถูกต้อง",
+                                icon: "warning",
+                                confirmButtonText: "Ok",
+                            }).then(() => {this.submission.FREEZE_ACT_BANK_NAME = "";this.blockSave=true;});
                         }
-                    }
-                    if(numvalue == 0) {
-                        Swal.fire({
-                            title: "ผิดพลาด!",
-                            text: "กรอกเลขอ้างอิงไม่ถูกต้อง",
-                            icon: "warning",
-                            confirmButtonText: "Ok",
-                        }).then(() => {this.submission.FREEZE_ACT_BANK_NAME = "";this.blockSave=true;});
-                    }
+                    });
                 }else{
                     Swal.fire({
                         title: "ผิดพลาด!",

@@ -304,16 +304,12 @@ export class IssueOnlineInformerComponent implements OnInit {
         this.cardAddress.disablepostcode = true;
         const userId = User.Current.PersonalId;
         this.servicePersonal.GetPersonalById(userId).subscribe((_) => {
-            // this.personalInfo = _;
-            // this._issueOnlineService.issueOnline$.subscribe((value) => {
-            //     this.datacheck = value;
-            //     console.log("this.datacheck",this.datacheck);
-            //     this.setPersonalData();
-            // });
             this.personalInfo = _;
             this._issueOnlineService.issueOnline$.subscribe((value) => {
                 if(this.mainConponent.formType == "add"){
-                    if(this.mainConponent.formDataAll.formBlessing.CHECK_BLESSING){
+                    if(localStorage.getItem("form-blessing")){
+                        this.datacheck = JSON.parse(localStorage.getItem("form-blessing"));
+                    }else if(this.mainConponent.formDataAll.formBlessing){
                         this.datacheck = this.mainConponent.formDataAll.formBlessing;
                     }
                 }

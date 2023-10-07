@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { DxTreeViewComponent } from "devextreme-angular";
+import { environment } from "src/environments/environment";
 
 @Component({
     selector: "app-sidebar",
@@ -26,9 +27,12 @@ export class SidebarComponent implements OnInit,OnDestroy {
         // { id: 15, text: 'issue-online', icon: 'product',link:"/main/issue-online" },
     ];
     isDrawerOpenReload = true;
+    versionControl: string;
     constructor(
         private router: Router,
-    ) {}
+    ) {
+        this.versionControl = environment.config.versionControl;
+    }
 
     ngOnInit(): void {
         this.isDrawerOpenReload = this.isDrawerOpen;

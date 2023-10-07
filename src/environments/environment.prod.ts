@@ -45,7 +45,8 @@
 //         recaptcha: {
 //             siteKey: "6LeV1vQcAAAAAAUKdpLxVXjB9OLYR7ddI3sDmP0P",
 //             secretKey: "6LeV1vQcAAAAAJzMmWwJqq76i_fQuflBIF5upGbB"
-//         }
+//         },
+        // versionControl: "1.6609.29.1"
 //     }
 // }
 
@@ -64,6 +65,7 @@ export const environment = {
             recaptcha: {
                 siteKey: "6LeV1vQcAAAAAAUKdpLxVXjB9OLYR7ddI3sDmP0P",
                 secretKey: "6LeV1vQcAAAAAJzMmWwJqq76i_fQuflBIF5upGbB"
-            }
+            },
+            versionControl: "1.6609.29.1"
         }
     }

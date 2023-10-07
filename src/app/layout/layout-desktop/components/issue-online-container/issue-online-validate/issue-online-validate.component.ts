@@ -11,6 +11,7 @@ import { BankInfoService } from "src/app/services/bank-info.service";
 import { DxSelectBoxComponent } from "devextreme-angular";
 import { IOrganizeInfo, IOrgmaparea, OrgService } from "src/app/services/org.service";
 import { ProvinceService } from "src/app/services/province.service";
+import { environment } from "src/environments/environment";
 
 @Component({
     selector: "app-issue-online-validate",
@@ -594,6 +595,15 @@ export class IssueOnlineValidateComponent implements OnInit {
         this.formLocationLoad = false;
         this.formData = {};
         setTimeout(() => {
+            if(!localStorage.getItem("form-config")){
+                var formConfigs = {
+                    FORM_CODE: 'CCIB_NOTIFY_PEOPLE@0.1',
+                    env: environment.config.baseConfig,
+                    CASE_FLAG: 'O',
+                    CASE_SELF_TYPE: 'Y',
+                }
+                localStorage.setItem("form-config",JSON.stringify(formConfigs));
+            }
             this.mergedFrom = Object.assign({},
                 JSON.parse(localStorage.getItem("form-config")),
                 JSON.parse(localStorage.getItem("form-blessing")),

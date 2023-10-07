@@ -32,6 +32,7 @@ export const environment = {
         recaptcha: {
             siteKey: "6LfYkEkaAAAAAMGpXixKjWVrYpWDP8AeDMu_dijr",
             secretKey: "6LeV1vQcAAAAAJzMmWwJqq76i_fQuflBIF5upGbB"
-        }
+        },
+        versionControl: "1.6609.29.1"
     }
 };

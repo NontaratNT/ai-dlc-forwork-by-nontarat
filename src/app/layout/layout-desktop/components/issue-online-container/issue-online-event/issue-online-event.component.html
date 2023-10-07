@@ -2,7 +2,7 @@
     <!-- <div class="content-title">ข้อมูลผู้แจ้ง</div> -->
     <div class="content-form">
         <dx-form #formEvent1 [colCount]="3" labelLocation="top">
-            <dxi-item template="temp1" [colSpan]="2" [isRequired]="formValidate">
+            <dxi-item *ngIf="checkblessing" template="temp1" [colSpan]="2" [isRequired]="formValidate">
                 <dxo-label text="ประเภทของเรื่อง" [showColon]="false"></dxo-label>
                 <dxi-validation-rule type="required" message="กรุณาเลือกประเภทของเรื่อง">
                 </dxi-validation-rule>
@@ -15,7 +15,7 @@
                     <dx-text-box *ngIf="formReadOnly" [readOnly]="formReadOnly" [(value)]="formData.CASE_TYPE_NAME"></dx-text-box>
                 </div>
             </dxi-item>
-            <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
+            <dxi-item *ngIf="checkblessing" itemType="empty" [colSpan]="1"></dxi-item>
 
             <!-- <div *dxTemplate="let data of 'temp1'">
                 <div class="row">
@@ -46,7 +46,7 @@
             </div> -->
 
 
-            <dxi-item *ngIf="formType === 'add' && caseOpen" template="temp1des" [colSpan]="2">
+            <dxi-item *ngIf="formType === 'add' && caseOpen && checkblessing" template="temp1des" [colSpan]="2">
                 <dxo-label text="คำอธิบาย" [showColon]="false"></dxo-label>
                 <div *dxTemplate="let data of 'temp1des'">
                     <!-- <span style="font-weight: bold;">รายละเอียด</span> -->
@@ -61,7 +61,7 @@
                     </div>
                 </div>
             </dxi-item>
-            <dxi-item *ngIf="formType === 'add' && caseOpen" itemType="empty" [colSpan]="1"></dxi-item>
+            <dxi-item *ngIf="formType === 'add' && caseOpen && checkblessing" itemType="empty" [colSpan]="1"></dxi-item>
 
 
             <!-- <dxi-item itemType="empty"></dxi-item> -->
