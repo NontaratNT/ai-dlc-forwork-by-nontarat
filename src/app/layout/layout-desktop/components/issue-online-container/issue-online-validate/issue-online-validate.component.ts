@@ -595,6 +595,7 @@ export class IssueOnlineValidateComponent implements OnInit {
         this.formLocationLoad = false;
         this.formData = {};
         setTimeout(() => {
+            this.checkEmtrySession();
             if(!localStorage.getItem("form-config")){
                 var formConfigs = {
                     FORM_CODE: 'CCIB_NOTIFY_PEOPLE@0.1',
@@ -933,6 +934,28 @@ export class IssueOnlineValidateComponent implements OnInit {
         }
 
         if(this.formData.CHECK_BLESSING){
+            if(this.formData.ORG_LOCATION_ID == 0 ||this.formData.ORG_LOCATION_ID == 1){
+                Swal.fire({
+                    title: "ผิดพลาด!",
+                    html: "กรุณาเลือกสถานีที่คุณต้องการไปพบ",
+                    icon: "warning",
+                    confirmButtonText: "Ok",
+                }).then(() => {});
+                this.isLoading = false;
+                this.mainConponent.SelectTabIndex(2);
+                return;
+            }
+            if(this.formData.CASE_TYPE_ID === null || this.formData.CASE_TYPE_ID === 7 || this.formData.CASE_TYPE_ID === 0){
+                Swal.fire({
+                    title: "ผิดพลาด!",
+                    text: "กรุณาเลือกประเภทคดี",
+                    icon: "warning",
+                    confirmButtonText: "Ok",
+                }).then(() => {});
+                this.isLoading = false;
+                this.mainConponent.SelectTabIndex(3);
+                return;
+            }
             Swal.fire({
                 title: 'ยืนยันการแจ้งเรื่องเข้าสู่ระบบ!!',
                 text: "การแจ้งความออนไลน์เป็นการอำนวยความสะดวกแก่ท่านในการร้องทุกข์และแจ้งความประสงค์" +
@@ -972,6 +995,9 @@ export class IssueOnlineValidateComponent implements OnInit {
                 }
             });
         }else{
+            setData["ORG_LOCATION_ID"] = 1;
+            setData["CASE_TYPE_ID"] = 7;
+            setData["ORG_LOCATION_NAME"] = "สำนักงานตำรวจแห่งชาติ";
             Swal.fire({
                 title: 'ยืนยันการแจ้งเรื่องเข้าสู่ระบบ!!',
                 text: "การแจ้งความออนไลน์เป็นการอำนวยความสะดวกแก่ท่านในการร้องทุกข์และแจ้งความประสงค์" +
@@ -1022,4 +1048,29 @@ export class IssueOnlineValidateComponent implements OnInit {
     //             alert('success');
     //         });
     // }
+    checkEmtrySession(){
+        const requiredItems = [
+            "form-blessing",
+            "form-informer",
+            "form-event",
+            "form-damage",
+            "form-villain",
+            "form-attachment",
+            "form-questionare"
+        ];
+
+        for (let i = 0; i < requiredItems.length; i++) {
+            if (!localStorage.getItem(requiredItems[i])) {
+                Swal.fire({
+                    title: "ผิดพลาด!",
+                    html: "คุณกรอกข้อมูลไม่สมบูรณ์ ระบบจะพาคุณไปยังหน้าที่ยังกรอกไม่สมบูรณ์",
+                    icon: "warning",
+                    confirmButtonText: "Ok",
+                }).then(() => {});
+                this.isLoading = false;
+                this.mainConponent.SelectTabIndex(i + 2);
+                return;
+            }
+        }
+    }
 }

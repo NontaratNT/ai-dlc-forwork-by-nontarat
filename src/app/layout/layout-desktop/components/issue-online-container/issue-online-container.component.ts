@@ -302,6 +302,7 @@ export class IssueOnlineContainerComponent implements OnInit {
                     }
                     if(this.checkValidate == false){
                         this.indexTab = index;
+                        this.selectabReload(this.indexTab);
                     }else{
                         this.indexTab =  this.indexTab;
                     }
@@ -336,6 +337,19 @@ export class IssueOnlineContainerComponent implements OnInit {
             case 5 : this.vaillainConponent.ngOnInit(); break;
             case 6 : this.attachmentConponent.ngOnInit(); break;
             case 7 : this.questionareComponent.ngOnInit(); break;
+        }
+    }
+
+    public selectabReload(page){
+        // console.log("เรียกข้อมูลไม่สำเร็จกำลังเรียกข้อมูลใหม่ที่หน้า ",page);
+        switch(page){
+            case 1 : this.blessingComponent === undefined ? this.indexTab = 1 : this.blessingComponent.setDefaultData(); break;
+            case 2 : this.informerConponent === undefined ? this.indexTab = 2 : this.informerConponent.setPersonalData(); break;
+            case 3 : this.eventConponent === undefined ? this.indexTab = 3 : this.eventConponent.SetDefaultData(); break;
+            case 4 : this.damageConponent === undefined ? this.indexTab = 4 : this.damageConponent.SetDefaultData(); break;
+            case 5 : this.vaillainConponent === undefined ? this.indexTab = 5 : this.vaillainConponent.SetDefault(); break;
+            case 6 : this.attachmentConponent === undefined ? this.indexTab = 6 : this.attachmentConponent.setDefaultData(); break;
+            case 7 : this.questionareComponent === undefined ? this.indexTab = 7 : this.questionareComponent.setDefaultData(); break;
         }
     }
 }

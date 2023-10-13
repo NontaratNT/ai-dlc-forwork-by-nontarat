@@ -38,9 +38,9 @@ export class HomeNewComponent implements OnInit {
         this.deviceInfo = this.deviceService.getDeviceInfo();
         const isMobile = this.deviceService.isMobile();
         if (isMobile) {
-            // this.router.navigate(["/mobile/track-status?openExternalBrowser=1"]);
+            this.router.navigate(["/mobile/track-status?openExternalBrowser=1"]);
         }else{
-            // this.router.navigate(["/main/issue-online/1"]);
+            this.router.navigate(["/main/issue-online/1"]);
         }
     }
     TelLink(href) {

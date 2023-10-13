@@ -447,6 +447,18 @@ export class IssueOnlineEventComponent implements OnInit {
                 return;
             }
 
+            if(this.issueOnline.CHECK_BLESSING){
+                if(this.formData.CASE_TYPE_ID === null || this.formData.CASE_TYPE_ID === 7){
+                    Swal.fire({
+                        title: "ผิดพลาด!",
+                        text: "กรุณาเลือกประเภทคดี",
+                        icon: "warning",
+                        confirmButtonText: "Ok",
+                    }).then(() => { });
+                    return;
+                }
+            }
+
 
             // if(this.child){
             //     this.child.CheckRequired();

@@ -111,7 +111,9 @@ export class IssueOnlineBlessingComponent implements OnInit {
                 this.submission.ways = this.formData.WAY ?? '';
                 this._dataSourcebankref = this.formData.BANK_REF ?? [];
                 if(this._dataSourcebankref){
-                    this._isShow = true;
+                    if(this._dataSourcebankref.length > 0){
+                        this._isShow = true;
+                    }
                 }
             }else{
                 //เก็บค่าที่ส่งมาจากแจ้งเตือนใหม่ไว้ในนี้นะครับ

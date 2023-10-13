@@ -211,6 +211,7 @@ export class IssueOnlineEventComponent implements OnInit {
                     }else{
                         this.checkValidateAddress = !this.issueOnline.CHECK_BLESSING;
                         this.formData.CASE_TYPE_ID = 7;
+                        this.formData.CASE_TYPE_NAME = "คดีไม่เข้า พรก.";
                         this.checkblessing = false;
                     }
                     this.checkValidateAddress = !this.issueOnline.CHECK_BLESSING;
@@ -221,6 +222,7 @@ export class IssueOnlineEventComponent implements OnInit {
                     }else{
                         this.checkValidateAddress = !this.mainConponent.formDataAll.formBlessing.CHECK_BLESSING;
                         this.formData.CASE_TYPE_ID = 7;
+                        this.formData.CASE_TYPE_NAME = "คดีไม่เข้า พรก.";
                         this.checkblessing = false;
                     }
                 }
@@ -442,6 +444,19 @@ export class IssueOnlineEventComponent implements OnInit {
                 this._formValidate.ValidateForm(this.formEvent1.instance.validate().brokenRules);
                 this.mainConponent.checkValidate = true;
                 return;
+            }
+
+            if(this.issueOnline.CHECK_BLESSING){
+                if(this.formData.CASE_TYPE_ID === null || this.formData.CASE_TYPE_ID === 7){
+                    Swal.fire({
+                        title: "ผิดพลาด!",
+                        text: "กรุณาเลือกประเภทคดี",
+                        icon: "warning",
+                        confirmButtonText: "Ok",
+                    }).then(() => { });
+                    this.mainConponent.checkValidate = true;
+                    return;
+                }
             }
 
 
