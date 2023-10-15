@@ -527,7 +527,7 @@ export class IssueOnlineInformerComponent implements OnInit {
                 localStorage.setItem("form-index","2");
                 if(localStorage.getItem("form-informer")){
                     this.dataForms = JSON.parse(localStorage.getItem("form-informer"));
-                    this.formData = this.dataForms;
+                    // this.formData = this.dataForms;
                 }else{
                     this.dataForms = this.mainConponent.formDataAll.formInformer;
                 }
@@ -568,6 +568,7 @@ export class IssueOnlineInformerComponent implements OnInit {
 
                 this.checkedRadioGender = null;
                 if (this.userType === "mySelf") {
+
                     this.formData.CASE_INFORMER_FIRSTNAME = this.dataForms.CASE_INFORMER_FIRSTNAME ?? p.PERSONAL_FNAME_THA ?? null;
                     this.formData.CASE_INFORMER_LASTNAME =  this.dataForms.CASE_INFORMER_LASTNAME ?? p.PERSONAL_LNAME_THA ?? null;
                     this.formData.INFORMER_EMAIL =  this.dataForms.INFORMER_EMAIL ?? p.PERSONAL_EMAIL ?? null;

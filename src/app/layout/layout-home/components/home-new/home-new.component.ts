@@ -15,7 +15,7 @@ export class HomeNewComponent implements OnInit {
     _isLoading = false;
     deviceInfo = null;
     hasSession = false;
-    showpopupweb = true;
+    showpopupweb = false;
     popupVisible = false;
     constructor(
         private router: Router,

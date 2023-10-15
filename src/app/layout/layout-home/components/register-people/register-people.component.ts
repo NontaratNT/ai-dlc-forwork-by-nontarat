@@ -63,7 +63,7 @@ export class RegisterPeopleComponent implements OnInit {
     }
 
     ngOnInit(): void {
-       
+
 
 
 
@@ -397,7 +397,6 @@ export class RegisterPeopleComponent implements OnInit {
             this._isLoading = false;
             return;
         }
-        this._isLoading = false;
 
         // console.log('this.formRegister',this.formRegister);
         this.ServiceRegister.registerBeforegdcc(this.FormatData())
@@ -411,14 +410,28 @@ export class RegisterPeopleComponent implements OnInit {
                         icon: 'warning',
                         confirmButtonText: 'ตกลง'
                     }).then(() => { });
+                    this._isLoading = false;
                     return;
                 } else {
+                    this._isLoading = false;
                     this.formRegisterPeopleOtp.LoadDataMainConponent();
                     this.indexTab = 'page2';
                     this.indexViewTab = 1;
                     document.body.scrollTop = document.documentElement.scrollTop = 0;
                 }
+            }, error => {
+                if (error.status !== 500 || error.status === 524 || error.status === 524) {
+                    Swal.fire({
+                        title: 'ผิดพลาด!',
+                        html: "ไม่สามารถลงทะเบียนได้"+"<br>"+"เนื่องจากระบบของกรมการปกครองขัดข้อง"+"<br>"+"หากท่านสะดวกสามารถติดต่อแจ้งความ"+"<br>"+"ได้ที่สถานีตำรวจที่ท่านสะดวก",
+                        icon: 'warning',
+                        confirmButtonText: 'ตกลง'
+                    }).then(() => { });
+                    this._isLoading = false;
+                    return;
+                }
             });
+        this._isLoading = false;
     }
     // signInWithGoogle() {
     //     this.type_register = "GM";
