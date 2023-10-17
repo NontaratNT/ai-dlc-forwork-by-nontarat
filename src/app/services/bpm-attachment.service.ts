@@ -2,13 +2,16 @@ import { EFORM_REQUEST, EformRequestFactory } from 'eform-share';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { req } from 'share-ui';
+import { CookieStorage } from '../common/cookie';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class BpmAttachmentService {
 
-    constructor(@Inject(EFORM_REQUEST) private _req: EformRequestFactory) { }
+    constructor(@Inject(EFORM_REQUEST) private _req: EformRequestFactory,private http: HttpClient) { }
 
     public get(id: number): Observable<IBPMAttachment[]> {
         return this._req<IBPMAttachment[]>().api('BpmProcInstAttachment')
@@ -20,6 +23,12 @@ export class BpmAttachmentService {
         return this._req<IBPMAttachment>().api('BpmProcInstAttachment')
             .body(param)
             .disableCriticalDialogError().post();
+    }
+
+    public creategdcc(param: FormData): Observable<IBPMAttachment> {
+        const newHeader = new HttpHeaders({Authorization: "Bearer " + CookieStorage.accessToken});
+        return  this.http.post<IBPMAttachment>(`${environment.config.baseConfig.urlgdcceform}/BpmProcInstAttachment`, param);
+
     }
     public update(param: FormData , id: number): Observable<IBPMAttachment> {
         return this._req<IBPMAttachment>().api(`BpmProcInstAttachment/${id}`)

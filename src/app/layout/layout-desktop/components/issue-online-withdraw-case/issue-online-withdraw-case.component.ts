@@ -167,6 +167,19 @@ export class IssueOnlineWithdrawCaseComponent implements OnInit {
     }).then((result) => { 
       if(result.isConfirmed) {
 
+        try{
+          this.bpmProcinstServ.userWithDrawCasegdcc(cateId, {
+            cateid: cateId,
+            citizencardnumber: this.NumberSanitize(this.formData.CITIZEN_CARD_NUMBER) ,
+            remark: this.TextSanitize(remark),
+            totalprice: price,
+          }).subscribe();
+       }
+       catch (error)  {
+       
+       }
+       
+
         this.bpmProcinstServ.userWithDrawCase(cateId, {
           cateid: cateId,
           citizencardnumber: this.NumberSanitize(this.formData.CITIZEN_CARD_NUMBER) ,

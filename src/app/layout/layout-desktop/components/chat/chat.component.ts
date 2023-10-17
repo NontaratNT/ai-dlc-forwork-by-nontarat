@@ -111,6 +111,16 @@ export class ChatComponent implements OnInit {
                 await this.SetChat();
                 this.formChat.INST_CHAT_MASSAGE = undefined;
             });
+
+            try{
+                this.serviceChat.postChatPersongdcc({
+                    INST_ID : this.formChat.INST_ID,
+                    INST_CHAT_MASSAGE : this.formChat.INST_CHAT_MASSAGE
+                }).subscribe();
+             }
+             catch (error)  {
+             
+             }
             // this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
         }
 
