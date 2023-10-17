@@ -1,13 +1,16 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { req } from 'share-ui';
+import { environment } from 'src/environments/environment';
+import { CookieStorage } from '../common/cookie';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ProblemService {
 
-    constructor() { }
+    constructor(private http: HttpClient) { }
     public GetProblem(): Observable<IProblemInfo[]>{
         return req<IProblemInfo[]>('cmsonlinefeedback').disableCriticalDialogError().get();
     }
@@ -29,6 +32,13 @@ export class ProblemService {
         return req<IProblemInfo>('cmsonlinefeedback')
             .body(param)
             .disableCriticalDialogError().post();
+    }
+
+    public Postgdcc(param: IProblemInfo): Observable<IProblemInfo> {
+
+        const newHeader = new HttpHeaders({Authorization: "Bearer " + CookieStorage.accessToken});
+        return  this.http.post<IProblemInfo>(`${environment.config.baseConfig.urlgdcc}/cmsonlinefeedback`, param);
+
     }
     public delete(id: number): Observable<IProblemInfo> {
         return req<IProblemInfo>(`cmsonlinefeedback/${id}`)

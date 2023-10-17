@@ -38,16 +38,19 @@ import { Config } from 'share-ui';
 // };
 
 export const environment = {
-    production: false,
+    production: true,
+    baseUrl: 'https://ashy-sky-0b532af00.3.azurestaticapps.net/',
     config: {
         baseConfig: {
-            apiUrl: "https://thaipoliceapimgmt.azure-api.net/ccibazure/api",
-            reportUrl: "http://192.168.10.71/web-report/",
-            resourceUrl: "http://192.168.10.71/resource/ccib/",
-            hubUrl: "http://192.168.10.73/hub",
-            urlgdcc:"http://localhost:14121/api"
+            apiUrl: "https://api.thaipoliceonline.com/ccibazure/api",
+            reportUrl: "https://officer.thaipoliceonline.com/web-report/",
+            resourceUrl: "https://api.thaipoliceonline.com/eformazure/api/resource/",
+            hubUrl: "https://police-online-noti-azure.azurewebsites.net/hub",
+            // urlgdcc:"https://citizenuat.thaipoliceonline.com/api/ccib/v1.0"
+            urlgdcc:"https://officer.thaipoliceonline.com/api/ccib/v1.0",
+            urlgdcceform:"https://officer.thaipoliceonline.com/api/e-form/v1.0"
         },
-        eFormHost: "https://thaipoliceapimgmt.azure-api.net/eformazure/api",
+        eFormHost: "https://api.thaipoliceonline.com/eformazure/api",
         recaptcha: {
             siteKey: "6LeV1vQcAAAAAAUKdpLxVXjB9OLYR7ddI3sDmP0P",
             secretKey: "6LeV1vQcAAAAAJzMmWwJqq76i_fQuflBIF5upGbB"
