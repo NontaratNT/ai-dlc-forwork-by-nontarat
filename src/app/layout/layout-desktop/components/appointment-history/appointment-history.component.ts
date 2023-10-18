@@ -106,7 +106,7 @@ export class AppointmentHistoryComponent implements OnInit {
       const datahash = 'Pw!@'+data.DATA_ID.toString();
       const hash = MD5(datahash).toString(enc.Hex);
 
-        window.open("https://www.thaipoliceonline.com/web-report/report?ReportName=report_print_inform_report&caseId=" + hash, "_blank");
+        window.open("https://officer.thaipoliceonline.com/web-report/report?ReportName=report_print_inform_report&caseId=" + hash, "_blank");
     }
 }
 displayFormatDateTime(date) {

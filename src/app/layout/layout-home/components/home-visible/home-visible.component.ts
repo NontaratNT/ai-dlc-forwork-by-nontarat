@@ -58,7 +58,7 @@ export class HomeVisibleComponent implements OnInit {
       this.router.navigate([url]);
   }
   OpenManual(){
-      window.open("https://www.thaipoliceonline.com/resource/manual.pdf");
+      window.open("https://officer.thaipoliceonline.com/resource/manual.pdf");
   }
   RedirectExternal(href) {
       window.location.href = href;

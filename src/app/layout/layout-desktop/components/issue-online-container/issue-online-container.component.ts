@@ -177,7 +177,20 @@ export class IssueOnlineContainerComponent implements OnInit {
 
     }
     async getProvince(){
-        this.province = await this.serviceProvince.GetProvince().toPromise();
+        let maxRetries = 2;
+        for (let retry = 0; retry < maxRetries; retry++) {
+            try {
+                this.province = await this.serviceProvince.GetProvince().toPromise();
+                break;
+            } catch (error) {
+                console.error("Error occurred:", error);
+            }
+        }
+        if(!this.province){
+            setTimeout(() => {
+                location.reload();
+              }, 5000);
+        }
         this.isLoading = false;
     }
     GetzIndexTab(index: number = 0){

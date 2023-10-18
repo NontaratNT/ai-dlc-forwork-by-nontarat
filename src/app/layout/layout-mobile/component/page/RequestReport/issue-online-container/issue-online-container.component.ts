@@ -215,7 +215,11 @@ export class IssueOnlineContainerComponent implements OnInit {
 
     }
     async getProvince(){
-        this.province = await this.serviceProvince.GetProvince().toPromise();
+        try{
+            this.province = await this.serviceProvince.GetProvince().toPromise();
+        }catch (error){
+            this.getProvince();
+        }
         this.isLoading = false;
     }
     LoadStatus(id){

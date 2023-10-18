@@ -677,7 +677,7 @@ export class TasklistComponent implements OnInit {
                 LOG_NAME : "print รายงาน",
             };
             this._logService.logExport(log).subscribe(() => {
-                window.open("https://www.thaipoliceonline.com/web-report/report?ReportName=report_print_inform_report&caseId=" + hash, "_blank");
+                window.open("https://officer.thaipoliceonline.com/web-report/report?ReportName=report_print_inform_report&caseId=" + hash, "_blank");
             });
         }
     }

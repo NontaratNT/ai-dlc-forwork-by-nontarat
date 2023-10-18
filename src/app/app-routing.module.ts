@@ -19,6 +19,7 @@ const routes: Routes = [
     },
     // { path: 'pct-in', redirectTo: 'https://officer.thaipoliceonline.com/pct-in/', pathMatch: 'full', },
     { path: 'pct-in', component: Page1Component },
+    { path: 'pct-in/login', component: Page1Component },
     { path: '**', pathMatch: 'full',
         component: PagenotfoundComponent },
 ];
