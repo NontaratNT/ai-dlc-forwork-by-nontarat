@@ -4,12 +4,15 @@ import { Observable } from 'rxjs';
 import { req } from 'share-ui';
 import { User } from './user';
 import { AnyRecord } from 'dns';
+import { environment } from 'src/environments/environment';
+import { CookieStorage } from '../common/cookie';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root'
 })
 export class BpmProcinstService {
-    constructor(@Inject(EFORM_REQUEST) private _req: EformRequestFactory) { }
+    constructor(@Inject(EFORM_REQUEST) private _req: EformRequestFactory,private http: HttpClient) { }
 
     public getByPersonalId(groupStatusCode: string): Observable<any> {
         return this._req<any>().api('BpmProcInst')
@@ -55,6 +58,16 @@ export class BpmProcinstService {
         return this._req<IWithdrawCase>().api(`BpmProcInst/revoke/${id}`)
             .body(param)
             .disableCriticalDialogError().put();
+    }
+
+    // ถอนแจ้งความที่ gdcc
+    public userWithDrawCasegdcc(id: number, param: IWithdrawCase): Observable<any> {
+        // return this._req<IWithdrawCase>().api(`BpmProcInst/revoke/${id}`)
+        //     .body(param)
+        //     .disableCriticalDialogError().put();
+        const newHeader = new HttpHeaders({Authorization: "Bearer " + CookieStorage.accessToken});
+        return  this.http.put<IWithdrawCase>(`${environment.config.baseConfig.urlgdcceform}/BpmProcInst/revoke/${id}`, param);
+
     }
 
 }

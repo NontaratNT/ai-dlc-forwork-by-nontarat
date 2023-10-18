@@ -26,7 +26,8 @@ export const environment = {
             reportUrl: "",
             resourceUrl: "http://www.online.ccib.go.th/resource/ccib/",
             hubUrl: "http://localhost:5244/hub",
-            urlgdcc:"http://localhost:14121/api"
+            urlgdcc:"http://localhost:14121/api",
+            urlgdcceform:"https://officer.thaipoliceonline.com/api/e-form/v1.0"
         },
         eFormHost: "http://localhost:5243/api",
         recaptcha: {

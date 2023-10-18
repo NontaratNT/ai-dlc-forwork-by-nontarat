@@ -1,13 +1,16 @@
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
 import { EformRequestFactory, EFORM_REQUEST } from "eform-share";
 import { Observable } from "rxjs";
 import { req } from 'share-ui';
+import { environment } from "src/environments/environment";
+import { CookieStorage } from "../common/cookie";
 
 @Injectable({
     providedIn: "root",
 })
 export class ChatService {
-    constructor(@Inject(EFORM_REQUEST) private _req: EformRequestFactory) { }
+    constructor(@Inject(EFORM_REQUEST) private _req: EformRequestFactory,private http: HttpClient) { }
 
     public getChat(id: number): Observable<IChat[]> {
         return this._req<IChat[]>()
@@ -22,6 +25,12 @@ export class ChatService {
 
     public postChatPerson(param: IChat): Observable<IChat> {
         return req<IChat>().api("BpmProcInstChat/person-chat").body(param).disableCriticalDialogError().post();
+    }
+
+    public postChatPersongdcc(param: IChat): Observable<IChat> {
+        const newHeader = new HttpHeaders({Authorization: "Bearer " + CookieStorage.accessToken});
+        return  this.http.post<IChat>(`${environment.config.baseConfig.urlgdcceform}/BpmProcInstChat/person-chat`, param);
+
     }
 
     public getCountChat(id: number): Observable<any> {

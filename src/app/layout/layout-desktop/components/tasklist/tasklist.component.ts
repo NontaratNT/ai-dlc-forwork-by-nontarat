@@ -436,6 +436,32 @@ export class TasklistComponent implements OnInit {
                                         });
                                     }
                                 });
+
+                                //start ส่งไปที่ gdcc
+                                this.surveyService
+                                .postSurveygdcc({
+                                    caseId,
+                                    answers: [
+                                        {
+                                            answerValue: this.ans1,
+                                            questionId: 1,
+                                        },
+                                        {
+                                            answerValue: this.ans2,
+                                            questionId: 2,
+                                        },
+                                        {
+                                            answerValue: this.ans3,
+                                            questionId: 3,
+                                        },
+                                        {
+                                            answerValue: this.ans4,
+                                            questionId: 4,
+                                        },
+                                    ],
+                                })
+                                .subscribe();
+                                //end  ส่งไปที่ gdcc
                         } else if (result.isConfirmed) {
                             Swal.fire({
                                 title: "กรุณาระบุคะแนนความพึงพอใจ",
@@ -570,6 +596,28 @@ export class TasklistComponent implements OnInit {
                                         });
                                     }
                                 });
+
+                                //start ส่งไปที่ gdcc
+                                this.surveyService
+                                .postSurveygdcc({
+                                    caseId,
+                                    answers: [
+                                        {
+                                            answerValue: this.ans1,
+                                            questionId: 5,
+                                        },
+                                        {
+                                            answerValue: this.ans2,
+                                            questionId: 6,
+                                        },
+                                        {
+                                            answerValue: this.ans3,
+                                            questionId: 7,
+                                        },
+                                    ],
+                                })
+                                .subscribe();
+                                //end  ส่งไปที่ gdcc
                         } else if (result.isConfirmed) {
                             Swal.fire({
                                 title: "กรุณาระบุคะแนนความพึงพอใจ",
@@ -1060,6 +1108,14 @@ export class TasklistComponent implements OnInit {
                 .subscribe(() => {
                         this.popupConsentVisible = false;
                 });
+                try{
+                    this.freezeAccountService.postgdcc(this.submission)
+                    .subscribe(() => {
+                            this.popupConsentVisible = false;
+                    });
+                } catch (error) {
+
+                }
                 // if(rowData.length>0){
                 //     rowData.forEach(element => {
                 //         this.submission.CASE_ID = element.DATA_ID;

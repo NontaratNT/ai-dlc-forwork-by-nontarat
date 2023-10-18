@@ -93,6 +93,22 @@ export class ProblemOnlineAddComponent implements OnInit {
                 });
         } else {
             // e.startWait();
+
+
+            //insert gdcc
+            this.problemService.Postgdcc({
+                FEEDBACK_TYPE_CODE: this.formProblem.FEEDBACK_TYPE_CODE,
+                FEEDBACK_NAME: this.formProblem.FEEDBACK_NAME,
+                FEEDBACK_REMARK: this.formProblem.FEEDBACK_REMARK,
+                PERSONAL_FULL_NAME: this.formProblem.PERSONAL_FULL_NAME,
+                CASE_ID: this.formProblem.CASE_ID,
+                DEL_FLAG: this.formProblem.DEL_FLAG,
+                RECORD_STATUS: this.formProblem.RECORD_STATUS,
+                CREATE_USER_ID: this.formProblem.CREATE_USER_ID,
+            }).subscribe();
+
+            //end insert gdcc
+           
             this.problemService.Post({
                 FEEDBACK_TYPE_CODE: this.formProblem.FEEDBACK_TYPE_CODE,
                 FEEDBACK_NAME: this.formProblem.FEEDBACK_NAME,
