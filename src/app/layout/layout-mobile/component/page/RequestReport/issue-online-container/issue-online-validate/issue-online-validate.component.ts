@@ -936,7 +936,7 @@ export class IssueOnlineValidateComponent implements OnInit {
             }
         }
 
-        if(this.formData.CHECK_BLESSING){
+        if(this.formData.CHECK_BLESSING || this.formData.BLESSING_STATUS === "Y"){
             if(this.formData.ORG_LOCATION_ID == 0 ||this.formData.ORG_LOCATION_ID == 1){
                 Swal.fire({
                     title: "ผิดพลาด!",
@@ -945,7 +945,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                     confirmButtonText: "Ok",
                 }).then(() => {});
                 this.isLoading = false;
-                this.mainConponent.SelectTabIndex(2);
+                this.mainConponent.NextIndex(2);
                 return;
             }
             if(this.formData.CASE_TYPE_ID === null || this.formData.CASE_TYPE_ID === 7 || this.formData.CASE_TYPE_ID === 0){
@@ -956,7 +956,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                     confirmButtonText: "Ok",
                 }).then(() => {});
                 this.isLoading = false;
-                this.mainConponent.SelectTabIndex(3);
+                this.mainConponent.NextIndex(3);
                 return;
             }
             Swal.fire({
@@ -997,7 +997,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                     console.log();
                 }
             });
-        }else{
+        }else if(this.formData.CHECK_BLESSING === false || this.formData.CHECK_BLESSING === "N"){
             setData["ORG_LOCATION_ID"] = 1;
             setData["CASE_TYPE_ID"] = 7;
             setData["ORG_LOCATION_NAME"] = "สำนักงานตำรวจแห่งชาติ";
@@ -1039,6 +1039,16 @@ export class IssueOnlineValidateComponent implements OnInit {
                     console.log();
                 }
             });
+        }else{
+            Swal.fire({
+                title: "ผิดพลาด!",
+                html: "คุณกรอกข้อมูลไม่สมบูรณ์ กรุณาตรวจสอบข้อมูล",
+                icon: "warning",
+                confirmButtonText: "Ok",
+            }).then(() => {});
+            this.isLoading = false;
+            this.mainConponent.NextIndex(1);
+            return;
         }
 
 
@@ -1071,7 +1081,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                     confirmButtonText: "Ok",
                 }).then(() => {});
                 this.isLoading = false;
-                this.mainConponent.SelectTabIndex(i + 2);
+                this.mainConponent.NextIndex(i + 2);
                 return;
             }
         }

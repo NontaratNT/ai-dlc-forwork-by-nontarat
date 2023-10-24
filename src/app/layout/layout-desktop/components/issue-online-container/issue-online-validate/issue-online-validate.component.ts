@@ -933,7 +933,7 @@ export class IssueOnlineValidateComponent implements OnInit {
             }
         }
 
-        if(this.formData.CHECK_BLESSING){
+        if(this.formData.CHECK_BLESSING || this.formData.BLESSING_STATUS === "Y"){
             if(this.formData.ORG_LOCATION_ID == 0 ||this.formData.ORG_LOCATION_ID == 1){
                 Swal.fire({
                     title: "ผิดพลาด!",
