@@ -935,7 +935,28 @@ export class IssueOnlineValidateComponent implements OnInit {
                 setData[key] = data[key];
             }
         }
-
+        if(this.formData.CHECK_BLESSING === null || this.formData.CHECK_BLESSING === undefined || this.formData.BLESSING_STATUS === undefined){
+            Swal.fire({
+                title: "ผิดพลาด!",
+                html: "คุณกรอกข้อมูลไม่สมบูรณ์ ระบบจะพาคุณไปยังหน้าที่ยังกรอกไม่สมบูรณ์",
+                icon: "warning",
+                confirmButtonText: "Ok",
+            }).then(() => {});
+            this.isLoading = false;
+            this.mainConponent.NextIndex(1);
+            return;
+        }
+        if(this.formData.CASE_INFORMER_FIRSTNAME === undefined || this.formData.CASE_INFORMER_LASTNAME === undefined){
+            Swal.fire({
+                title: "ผิดพลาด!",
+                html: "คุณกรอกข้อมูลไม่สมบูรณ์ ระบบจะพาคุณไปยังหน้าที่ยังกรอกไม่สมบูรณ์",
+                icon: "warning",
+                confirmButtonText: "Ok",
+            }).then(() => {});
+            this.isLoading = false;
+            this.mainConponent.NextIndex(2);
+            return;
+        }
         if(this.formData.CHECK_BLESSING || this.formData.BLESSING_STATUS === "Y"){
             if(this.formData.ORG_LOCATION_ID == 0 ||this.formData.ORG_LOCATION_ID == 1){
                 Swal.fire({
@@ -948,7 +969,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                 this.mainConponent.NextIndex(2);
                 return;
             }
-            if(this.formData.CASE_TYPE_ID === null || this.formData.CASE_TYPE_ID === 7 || this.formData.CASE_TYPE_ID === 0){
+            if(this.formData.CASE_TYPE_ID === undefined || this.formData.CASE_TYPE_ID === 7 || this.formData.CASE_TYPE_ID === 0){
                 Swal.fire({
                     title: "ผิดพลาด!",
                     text: "กรุณาเลือกประเภทคดี",
@@ -1042,7 +1063,7 @@ export class IssueOnlineValidateComponent implements OnInit {
         }else{
             Swal.fire({
                 title: "ผิดพลาด!",
-                html: "คุณกรอกข้อมูลไม่สมบูรณ์ กรุณาตรวจสอบข้อมูล",
+                html: "คุณกรอกข้อมูลไม่สมบูรณ์ กรุณาตรวจสอบข้อมูลอีกครั้ง",
                 icon: "warning",
                 confirmButtonText: "Ok",
             }).then(() => {});

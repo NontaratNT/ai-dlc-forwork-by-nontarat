@@ -932,7 +932,28 @@ export class IssueOnlineValidateComponent implements OnInit {
                 setData[key] = data[key];
             }
         }
-
+        if(this.formData.CHECK_BLESSING === undefined || this.formData.BLESSING_STATUS === undefined){
+            Swal.fire({
+                title: "ผิดพลาด!",
+                html: "คุณกรอกข้อมูลไม่สมบูรณ์ ระบบจะพาคุณไปยังหน้าที่ยังกรอกไม่สมบูรณ์",
+                icon: "warning",
+                confirmButtonText: "Ok",
+            }).then(() => {});
+            this.isLoading = false;
+            this.mainConponent.SelectTabIndex(1);
+            return;
+        }
+        if(this.formData.CASE_INFORMER_FIRSTNAME === undefined && this.formData.CASE_INFORMER_LASTNAME === undefined){
+            Swal.fire({
+                title: "ผิดพลาด!",
+                html: "คุณกรอกข้อมูลไม่สมบูรณ์ ระบบจะพาคุณไปยังหน้าที่ยังกรอกไม่สมบูรณ์",
+                icon: "warning",
+                confirmButtonText: "Ok",
+            }).then(() => {});
+            this.isLoading = false;
+            this.mainConponent.SelectTabIndex(2);
+            return;
+        }
         if(this.formData.CHECK_BLESSING || this.formData.BLESSING_STATUS === "Y"){
             if(this.formData.ORG_LOCATION_ID == 0 ||this.formData.ORG_LOCATION_ID == 1){
                 Swal.fire({
@@ -945,7 +966,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                 this.mainConponent.SelectTabIndex(2);
                 return;
             }
-            if(this.formData.CASE_TYPE_ID === null || this.formData.CASE_TYPE_ID === 7 || this.formData.CASE_TYPE_ID === 0){
+            if(this.formData.CASE_TYPE_ID === undefined || this.formData.CASE_TYPE_ID === 7 || this.formData.CASE_TYPE_ID === 0){
                 Swal.fire({
                     title: "ผิดพลาด!",
                     text: "กรุณาเลือกประเภทคดี",
@@ -994,7 +1015,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                     console.log();
                 }
             });
-        }else{
+        }else if(this.formData.CHECK_BLESSING == false || this.formData.BLESSING_STATUS === "N"){
             setData["ORG_LOCATION_ID"] = 1;
             setData["CASE_TYPE_ID"] = 7;
             setData["ORG_LOCATION_NAME"] = "สำนักงานตำรวจแห่งชาติ";
@@ -1036,6 +1057,16 @@ export class IssueOnlineValidateComponent implements OnInit {
                     console.log();
                 }
             });
+        }else{
+            Swal.fire({
+                title: "ผิดพลาด!",
+                html: "คุณกรอกข้อมูลไม่สมบูรณ์ กรุณาตรวจสอบข้อมูลที่ท่านกรอกอีกครั้ง",
+                icon: "warning",
+                confirmButtonText: "Ok",
+            }).then(() => {});
+            this.isLoading = false;
+            this.mainConponent.SelectTabIndex(1);
+            return;
         }
 
 
