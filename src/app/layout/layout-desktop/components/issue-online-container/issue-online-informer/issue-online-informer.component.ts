@@ -577,6 +577,7 @@ export class IssueOnlineInformerComponent implements OnInit {
                     this.formData.OCCUPATIONS_NAME = this.dataForms.OCCUPATIONS_NAME ?? null;
                     this.checkedRadioGender = this.dataForms.INFORMER_GENDER ?? p.PERSONAL_GENDER === 1 ? "M" : "F" ?? null;
                     this.formData.INFORMER_GENDER_DETAIL = this.dataForms.INFORMER_GENDER_DETAIL ?? null;
+                    this.formData.CASE_INFORMER_CITIZEN_NUMBER = this.dataForms.CASE_INFORMER_CITIZEN_NUMBER ?? p.PERSONAL_CITIZEN_NUMBER ?? null;
 
                     if(this.dataForms.TITLE_ID){
                         this.formData.TITLE_ID = this.dataForms.TITLE_ID;
@@ -1755,4 +1756,11 @@ export class IssueOnlineInformerComponent implements OnInit {
     }
 
     onWaysValueChanged(e) { }
+
+    citizenPattern(params) {
+        const makeScope = new RegExp(
+            '^[0-9]{1}[0-9]{4}[0-9]{5}[0-9]{2}[0-9]{1}$'
+        );
+        return makeScope.test(params.value);
+    }
 }

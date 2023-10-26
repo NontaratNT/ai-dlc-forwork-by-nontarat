@@ -26,7 +26,7 @@
 </div>
 
 <div class="conten-block">
-    <div class="content-title">ท่านเคยไปพบพนักงานสอบสวนในคดีนี้มาแล้วหรือไม่  เลือกหน่วยงาน</div>
+    <div class="content-title">ท่านเคยไปพบพนักงานสอบสวนในคดีนี้มาแล้วหรือไม่ เลือกหน่วยงาน</div>
     <div class="content-form">
         <dx-form #formInformer3 [colCount]="3" labelLocation="top">
             <dxi-item template="temp1" [colSpan]="3">
@@ -62,59 +62,58 @@
                     </dx-select-box>
 
             </div> -->
-            <dxi-item *ngIf="formData.IS_WALKIN" template="temp22"  [colSpan]="2" [isRequired]="formValidate">
+            <dxi-item *ngIf="formData.IS_WALKIN" template="temp22" [colSpan]="2" [isRequired]="formValidate">
                 <div *dxTemplate="let data of 'temp22'" style="margin-left:5% ;">
-                    <dxi-item [colSpan]="2"  style="margin-top:10px;">
+                    <dxi-item [colSpan]="2" style="margin-top:10px;">
                         <!-- <dx-check-box [readOnly]="checkboxlocationreadonly.readonly_type1"   text="สถานีตำรวจ" [(value)]="checkboxLocation.location_type1" (onValueChanged)="onvaluecheckboxlocationchange($event,1)"
                     ></dx-check-box> -->
-                    <dx-radio-group [readOnly]="formReadOnly" [items]="radiocheckorganize1" valueExpr="id" displayExpr="text"  layout="horizontal"  [(value)]="checkboxLocationwalkin.location_type1" (onValueChanged)="onvaluecheckboxlocationchangewalkin($event,1)"
-                    ></dx-radio-group>
-                    <br *ngIf="checkboxLocationwalkin.location_type1  === 1">
-                    <dx-form #formInformertype1 [colCount]="3" labelLocation="top" *ngIf="checkboxLocationwalkin.location_type1  === 1">
-                        <dxi-item [colSpan]="3">
-                            <p style="color:red;">หากทราบชื่อสถานีตำรวจสามารถพิมพ์ชื่อค้นหาได้ ถ้าไม่ทราบให้เลือก จังหวัด อำเภอ เพื่อกรองหน่วยงาน</p>
-                        </dxi-item>
-                        <dxi-item template="temp2" [colSpan]="2" [isRequired]="checkboxLocationwalkin.location_type1">
-                            <dxo-label text="จังหวัด" [showColon]="false">
-                            </dxo-label>
-                            <dxi-validation-rule type="required" message="กรุณาเลือกจังหวัด">
-                            </dxi-validation-rule>
-                        </dxi-item>
-                        <div *dxTemplate="let data of 'temp2'">
-                            <dx-select-box #selectPresentProvicelocationwalkin [dataSource]="province" displayExpr="PROVINCE_NAME_THA" valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true" placeholder="จังหวัด" [showClearButton]="true" (onValueChanged)="OnSelectProvicePresentlocationWalkin($event)"
-                                [readOnly]="formReadOnly" [(value)]="formData.ORG_PROVINCE_OFFICER_ID">
-                            </dx-select-box>
-                        </div>
-                        <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
+                        <dx-radio-group [readOnly]="formReadOnly" [items]="radiocheckorganize1" valueExpr="id" displayExpr="text" layout="horizontal" [(value)]="checkboxLocationwalkin.location_type1" (onValueChanged)="onvaluecheckboxlocationchangewalkin($event,1)"></dx-radio-group>
+                        <br *ngIf="checkboxLocationwalkin.location_type1  === 1">
+                        <dx-form #formInformertype1 [colCount]="3" labelLocation="top" *ngIf="checkboxLocationwalkin.location_type1  === 1">
+                            <dxi-item [colSpan]="3">
+                                <p style="color:red;">หากทราบชื่อสถานีตำรวจสามารถพิมพ์ชื่อค้นหาได้ ถ้าไม่ทราบให้เลือก จังหวัด อำเภอ เพื่อกรองหน่วยงาน</p>
+                            </dxi-item>
+                            <dxi-item template="temp2" [colSpan]="2" [isRequired]="checkboxLocationwalkin.location_type1">
+                                <dxo-label text="จังหวัด" [showColon]="false">
+                                </dxo-label>
+                                <dxi-validation-rule type="required" message="กรุณาเลือกจังหวัด">
+                                </dxi-validation-rule>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'temp2'">
+                                <dx-select-box #selectPresentProvicelocationwalkin [dataSource]="province" displayExpr="PROVINCE_NAME_THA" valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true" placeholder="จังหวัด" [showClearButton]="true" (onValueChanged)="OnSelectProvicePresentlocationWalkin($event)"
+                                    [readOnly]="formReadOnly" [(value)]="formData.ORG_PROVINCE_OFFICER_ID">
+                                </dx-select-box>
+                            </div>
+                            <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
 
-                        <dxi-item template="inviteOrg" [colSpan]="2" [isRequired]="checkboxLocationwalkin.location_type1">
-                            <dxo-label text="ชื่อสถานี" [showColon]="false">
-                            </dxo-label>
-                            <dxi-validation-rule type="required" message="กรุณาระบุชื่อสถานี">
-                            </dxi-validation-rule>
-                        </dxi-item>
-                        <div *dxTemplate="let data of 'inviteOrg'">
-                            <dx-select-box #selectorgwalkin [readOnly]="formReadOnly"  [dataSource]="dswalkinstatuspolice" displayExpr="ORGANIZE_NAME_THA" valueExpr="ORGANIZE_NAME_THA" searchExpr="ORGANIZE_NAME_THA" placeholder="ชื่อสถานี" [searchEnabled]="true"  [showClearButton]="true" (onValueChanged)="Onorglocationwalkin($event)"
-                                        [(value)]="formData.WALKIN_POLICE_STATION">
-                            </dx-select-box>
-                        </div>
+                            <dxi-item template="inviteOrg" [colSpan]="2" [isRequired]="checkboxLocationwalkin.location_type1">
+                                <dxo-label text="ชื่อสถานี" [showColon]="false">
+                                </dxo-label>
+                                <dxi-validation-rule type="required" message="กรุณาระบุชื่อสถานี">
+                                </dxi-validation-rule>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'inviteOrg'">
+                                <dx-select-box #selectorgwalkin [readOnly]="formReadOnly" [dataSource]="dswalkinstatuspolice" displayExpr="ORGANIZE_NAME_THA" valueExpr="ORGANIZE_NAME_THA" searchExpr="ORGANIZE_NAME_THA" placeholder="ชื่อสถานี" [searchEnabled]="true" [showClearButton]="true"
+                                    (onValueChanged)="Onorglocationwalkin($event)" [(value)]="formData.WALKIN_POLICE_STATION">
+                                </dx-select-box>
+                            </div>
 
-                        <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
+                            <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
 
-                    </dx-form>
+                        </dx-form>
 
                     </dxi-item>
                     <dxi-item [colSpan]="2" style="margin-top:10px;">
                         <!-- <dx-check-box  [readOnly]="checkboxlocationreadonly.readonly_type2"  text="กองบัญชาการตำรวจสืบสวนสอบสวนอาชญากรรมทางเทคโนโลยี" [(value)]="checkboxLocationwalkin.location_type2" (onValueChanged)="onvaluecheckboxlocationchangewalkin($event,2)"
                         ></dx-check-box> -->
-                        <dx-radio-group [readOnly]="formReadOnly" [items]="radiocheckorganize2" valueExpr="id" displayExpr="text"  layout="horizontal"  [(value)]="checkboxLocationwalkin.location_type1" (onValueChanged)="onvaluecheckboxlocationchangewalkin($event,2)"
-                        ></dx-radio-group>
+                        <dx-radio-group [readOnly]="formReadOnly" [items]="radiocheckorganize2" valueExpr="id" displayExpr="text" layout="horizontal" [(value)]="checkboxLocationwalkin.location_type1" (onValueChanged)="onvaluecheckboxlocationchangewalkin($event,2)"></dx-radio-group>
                         <br *ngIf="checkboxLocationwalkin.location_type1  === 2">
                         <dx-form #formInformertype2 [colCount]="3" labelLocation="top" *ngIf="checkboxLocationwalkin.location_type1 === 2">
-                            <dxi-item template="selectorgmain" [colSpan]="2"  ></dxi-item>
+                            <dxi-item template="selectorgmain" [colSpan]="2"></dxi-item>
                             <div *dxTemplate="let data of 'selectorgmain'" style="margin-left:10%;" class="custom-ratio">
 
-                                <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_1" layout="horizontal" valueExpr="org_id" displayExpr="org_name"  [value]="formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID1" (onValueChanged)="onvaluechangeorgmainwalkin($event,1)" itemTemplate="radio">
+                                <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_1" layout="horizontal" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID1" (onValueChanged)="onvaluechangeorgmainwalkin($event,1)"
+                                    itemTemplate="radio">
                                     <div class="radio" *dxTemplate="let data of 'radio'">
                                         <div class="row main-content">
                                             <div class="col-md-4">{{data.org_name}}</div>
@@ -133,7 +132,8 @@
                                     [readOnly]="formReadOnly" [(value)]="formData.ORG_PROVINCE_MAP_AREA_ID">
                                 </dx-select-box>
                                 </div> -->
-                                <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_2" layout="horizontal" valueExpr="org_id" displayExpr="org_name"  [value]="formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID2" (onValueChanged)="onvaluechangeorgmainwalkin($event,2)" itemTemplate="radio">
+                                <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_2" layout="horizontal" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID2" (onValueChanged)="onvaluechangeorgmainwalkin($event,2)"
+                                    itemTemplate="radio">
                                     <div class="radio" *dxTemplate="let data of 'radio'">
                                         <div class="row" main-content>
                                             <div class="col-md-4">{{data.org_name}}</div>
@@ -150,7 +150,8 @@
                                         <li *ngFor="let item of aria1and2">{{item}}</li>
                                     </ul>
                                 </div> -->
-                                <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_3" layout="horizontal" valueExpr="org_id" displayExpr="org_name"  [value]="formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID3" (onValueChanged)="onvaluechangeorgmainwalkin($event,3)" itemTemplate="radio">
+                                <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_3" layout="horizontal" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID3" (onValueChanged)="onvaluechangeorgmainwalkin($event,3)"
+                                    itemTemplate="radio">
                                     <div class="radio" *dxTemplate="let data of 'radio'">
                                         <div class="row main-content">
                                             <div class="col-md-4">{{data.org_name}}</div>
@@ -171,7 +172,8 @@
                                         <li *ngFor="let item of aria3and4">{{item}}</li>
                                     </ul>
                                 </div> -->
-                                <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_4" layout="horizontal" valueExpr="org_id" displayExpr="org_name"  [value]="formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID4" (onValueChanged)="onvaluechangeorgmainwalkin($event,4)" itemTemplate="radio">
+                                <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_4" layout="horizontal" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID4" (onValueChanged)="onvaluechangeorgmainwalkin($event,4)"
+                                    itemTemplate="radio">
                                     <div class="radio" *dxTemplate="let data of 'radio'">
                                         <div class="row main-content">
                                             <div class="col-md-4">{{data.org_name}}</div>
@@ -192,7 +194,8 @@
                                         <li *ngFor="let item of aria5and6">{{item}}</li>
                                     </ul>
                                 </div> -->
-                                <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_5" layout="horizontal" valueExpr="org_id" displayExpr="org_name"  [value]="formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID5" (onValueChanged)="onvaluechangeorgmainwalkin($event,5)" itemTemplate="radio">
+                                <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_5" layout="horizontal" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID5" (onValueChanged)="onvaluechangeorgmainwalkin($event,5)"
+                                    itemTemplate="radio">
                                     <div class="radio" *dxTemplate="let data of 'radio'">
                                         <div class="row main-content">
                                             <div class="col-md-4">{{data.org_name}}</div>
@@ -222,13 +225,12 @@
                     <dxi-item [colSpan]="2" style="margin-top:10px;">
                         <!-- <dx-check-box  [readOnly]="checkboxlocationreadonly.readonly_type3"  text="กองบัญชาการตำรวจสอบสวนกลาง" [(value)]="checkboxLocationwalkin.location_type3" (onValueChanged)="onvaluecheckboxlocationchangewalkin($event,3)"
                         ></dx-check-box> -->
-                        <dx-radio-group [readOnly]="formReadOnly" [items]="radiocheckorganize3" valueExpr="id" displayExpr="text"  layout="horizontal"  [(value)]="checkboxLocationwalkin.location_type1" (onValueChanged)="onvaluecheckboxlocationchangewalkin($event,3)"
-                        ></dx-radio-group>
+                        <dx-radio-group [readOnly]="formReadOnly" [items]="radiocheckorganize3" valueExpr="id" displayExpr="text" layout="horizontal" [(value)]="checkboxLocationwalkin.location_type1" (onValueChanged)="onvaluecheckboxlocationchangewalkin($event,3)"></dx-radio-group>
                         <br *ngIf="checkboxLocationwalkin.location_type1 === 3">
                         <dx-form #formInformertype3 [colCount]="3" labelLocation="top" *ngIf="checkboxLocationwalkin.location_type1 === 3">
-                            <dxi-item template="selectorgcenter" [colSpan]="2"  [isRequired]="checkboxLocationwalkin.location_type3"></dxi-item>
+                            <dxi-item template="selectorgcenter" [colSpan]="2" [isRequired]="checkboxLocationwalkin.location_type3"></dxi-item>
                             <div *dxTemplate="let data of 'selectorgcenter'" style="margin-left:10%;">
-                                <dx-radio-group #selectorgcenter [readOnly]="formReadOnly" [dataSource]="orgtype3" layout="vertical" valueExpr="org_id" displayExpr="org_name"  [value]="formdataOrgsendcasewalkin.ORG_LOCATION_CENTER_ID" (onValueChanged)="onvaluechangeorgcenterwalkin($event)"></dx-radio-group>
+                                <dx-radio-group #selectorgcenter [readOnly]="formReadOnly" [dataSource]="orgtype3" layout="vertical" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcasewalkin.ORG_LOCATION_CENTER_ID" (onValueChanged)="onvaluechangeorgcenterwalkin($event)"></dx-radio-group>
                             </div>
                         </dx-form>
                     </dxi-item>
@@ -244,62 +246,60 @@
         <!-- <dx-radio-group [items]="ways" valueExpr="id" displayExpr="text" [(value)]="formData.EVER_MET_STATUS"
         layout="horizontal" >
     </dx-radio-group> -->
-        <dx-form   [colCount]="2" labelLocation="top">
+        <dx-form [colCount]="2" labelLocation="top">
             <dxi-item [colSpan]="2" style="margin-top:15px;">
                 <div class="content-title">กรุณาระบุหน่วยงานตำรวจที่ท่านสะดวกไปพบ
                 </div>
             </dxi-item>
-            <dxi-item  [colSpan]="2"  style="margin-top:10px;">
+            <dxi-item [colSpan]="2" style="margin-top:10px;">
                 <!-- <dx-check-box [readOnly]="checkboxlocationreadonly.readonly_type1"   text="สถานีตำรวจ" [(value)]="checkboxLocation.location_type1" (onValueChanged)="onvaluecheckboxlocationchange($event,1)"
             ></dx-check-box> -->
-            <dx-radio-group [items]="radiocheckorganize1" [readOnly]="formReadOnly" valueExpr="id" displayExpr="text"  layout="horizontal"  [(value)]="checkboxLocation.location_type1" (onValueChanged)="onvaluecheckboxlocationchange($event,1)"
-            ></dx-radio-group>
-            <br *ngIf="checkboxLocation.location_type1  === 1">
-            <dx-form #formInformertype1 [colCount]="3" labelLocation="top" *ngIf="checkboxLocation.location_type1  === 1">
-                <dxi-item [colSpan]="3">
-                    <p style="color:red;">หากทราบชื่อสถานีตำรวจสามารถพิมพ์ชื่อค้นหาได้ ถ้าไม่ทราบให้เลือก จังหวัด อำเภอ เพื่อกรองหน่วยงาน</p>
-                </dxi-item>
-                <dxi-item template="temp2" [colSpan]="2" [isRequired]="checkboxLocation.location_type1">
-                    <dxo-label text="จังหวัด" [showColon]="false">
-                    </dxo-label>
-                    <dxi-validation-rule type="required" message="กรุณาเลือกจังหวัด">
-                    </dxi-validation-rule>
-                </dxi-item>
-                <div *dxTemplate="let data of 'temp2'">
-                    <dx-select-box #selectPresentProvicelocation [dataSource]="province" displayExpr="PROVINCE_NAME_THA" valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true" placeholder="จังหวัด" [showClearButton]="true" (onValueChanged)="OnSelectProvicePresentlocation($event)"
-                        [readOnly]="formReadOnly" [(value)]="formData.ORG_PROVINCE_ID">
-                    </dx-select-box>
-                </div>
-                <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
+                <dx-radio-group [items]="radiocheckorganize1" [readOnly]="formReadOnly" valueExpr="id" displayExpr="text" layout="horizontal" [(value)]="checkboxLocation.location_type1" (onValueChanged)="onvaluecheckboxlocationchange($event,1)"></dx-radio-group>
+                <br *ngIf="checkboxLocation.location_type1  === 1">
+                <dx-form #formInformertype1 [colCount]="3" labelLocation="top" *ngIf="checkboxLocation.location_type1  === 1">
+                    <dxi-item [colSpan]="3">
+                        <p style="color:red;">หากทราบชื่อสถานีตำรวจสามารถพิมพ์ชื่อค้นหาได้ ถ้าไม่ทราบให้เลือก จังหวัด อำเภอ เพื่อกรองหน่วยงาน</p>
+                    </dxi-item>
+                    <dxi-item template="temp2" [colSpan]="2" [isRequired]="checkboxLocation.location_type1">
+                        <dxo-label text="จังหวัด" [showColon]="false">
+                        </dxo-label>
+                        <dxi-validation-rule type="required" message="กรุณาเลือกจังหวัด">
+                        </dxi-validation-rule>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'temp2'">
+                        <dx-select-box #selectPresentProvicelocation [dataSource]="province" displayExpr="PROVINCE_NAME_THA" valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true" placeholder="จังหวัด" [showClearButton]="true" (onValueChanged)="OnSelectProvicePresentlocation($event)"
+                            [readOnly]="formReadOnly" [(value)]="formData.ORG_PROVINCE_ID">
+                        </dx-select-box>
+                    </div>
+                    <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
 
-                <dxi-item template="inviteOrg" [colSpan]="2" [isRequired]="checkboxLocation.location_type1">
-                    <dxo-label text="ชื่อสถานี" [showColon]="false">
-                    </dxo-label>
-                    <dxi-validation-rule type="required" message="กรุณาระบุชื่อสถานี">
-                    </dxi-validation-rule>
-                </dxi-item>
-                <div *dxTemplate="let data of 'inviteOrg'">
-                    <dx-select-box #selectorg [readOnly]="formReadOnly"  [dataSource]="dsorgbyarialocation" displayExpr="ORGANIZE_NAME_THA" valueExpr="ORGANIZE_ID" searchExpr="ORGANIZE_NAME_THA" placeholder="ชื่อสถานี" [searchEnabled]="true"  [showClearButton]="true" (onValueChanged)="Onorglocation($event)"
-                                   [(value)]="formData.ORG_PROVINCE_LOCATION_ID">
-                    </dx-select-box>
-                </div>
+                    <dxi-item template="inviteOrg" [colSpan]="2" [isRequired]="checkboxLocation.location_type1">
+                        <dxo-label text="ชื่อสถานี" [showColon]="false">
+                        </dxo-label>
+                        <dxi-validation-rule type="required" message="กรุณาระบุชื่อสถานี">
+                        </dxi-validation-rule>
+                    </dxi-item>
+                    <div *dxTemplate="let data of 'inviteOrg'">
+                        <dx-select-box #selectorg [readOnly]="formReadOnly" [dataSource]="dsorgbyarialocation" displayExpr="ORGANIZE_NAME_THA" valueExpr="ORGANIZE_ID" searchExpr="ORGANIZE_NAME_THA" placeholder="ชื่อสถานี" [searchEnabled]="true" [showClearButton]="true" (onValueChanged)="Onorglocation($event)"
+                            [(value)]="formData.ORG_PROVINCE_LOCATION_ID">
+                        </dx-select-box>
+                    </div>
 
-                <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
+                    <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
 
-            </dx-form>
+                </dx-form>
 
             </dxi-item>
             <dxi-item [colSpan]="2" style="margin-top:10px;">
                 <!-- <dx-check-box  [readOnly]="checkboxlocationreadonly.readonly_type2"  text="กองบัญชาการตำรวจสืบสวนสอบสวนอาชญากรรมทางเทคโนโลยี" [(value)]="checkboxLocation.location_type2" (onValueChanged)="onvaluecheckboxlocationchange($event,2)"
                 ></dx-check-box> -->
-                <dx-radio-group  [items]="radiocheckorganize2" valueExpr="id" displayExpr="text"  layout="horizontal"  [(value)]="checkboxLocation.location_type1" (onValueChanged)="onvaluecheckboxlocationchange($event,2)"
-                ></dx-radio-group>
+                <dx-radio-group [items]="radiocheckorganize2" valueExpr="id" displayExpr="text" layout="horizontal" [(value)]="checkboxLocation.location_type1" (onValueChanged)="onvaluecheckboxlocationchange($event,2)"></dx-radio-group>
                 <br *ngIf="checkboxLocation.location_type1  === 2">
                 <dx-form #formInformertype2 [colCount]="3" labelLocation="top" *ngIf="checkboxLocation.location_type1 === 2">
-                    <dxi-item template="selectorgmain" [colSpan]="2"  ></dxi-item>
+                    <dxi-item template="selectorgmain" [colSpan]="2"></dxi-item>
                     <div *dxTemplate="let data of 'selectorgmain'" style="margin-left:10%;" class="custom-ratio">
 
-                        <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_1" layout="horizontal" valueExpr="org_id" displayExpr="org_name"  [value]="formdataOrgsendcase.ORG_LOCATION_MAIN_ID1" (onValueChanged)="onvaluechangeorgmain($event,1)" itemTemplate="radio">
+                        <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_1" layout="horizontal" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcase.ORG_LOCATION_MAIN_ID1" (onValueChanged)="onvaluechangeorgmain($event,1)" itemTemplate="radio">
                             <div class="radio" *dxTemplate="let data of 'radio'">
                                 <div class="row main-content">
                                     <div class="col-md-4">{{data.org_name}}</div>
@@ -319,7 +319,7 @@
                             [readOnly]="formReadOnly" [(value)]="formData.ORG_PROVINCE_MAP_AREA_ID">
                         </dx-select-box>
                         </div> -->
-                        <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_2" layout="horizontal" valueExpr="org_id" displayExpr="org_name"  [value]="formdataOrgsendcase.ORG_LOCATION_MAIN_ID2" (onValueChanged)="onvaluechangeorgmain($event,2)" itemTemplate="radio">
+                        <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_2" layout="horizontal" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcase.ORG_LOCATION_MAIN_ID2" (onValueChanged)="onvaluechangeorgmain($event,2)" itemTemplate="radio">
                             <div class="radio" *dxTemplate="let data of 'radio'">
                                 <div class="row" main-content>
                                     <div class="col-md-4">{{data.org_name}}</div>
@@ -336,7 +336,7 @@
                                 <li *ngFor="let item of aria1and2">{{item}}</li>
                               </ul>
                         </div> -->
-                        <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_3" layout="horizontal" valueExpr="org_id" displayExpr="org_name"  [value]="formdataOrgsendcase.ORG_LOCATION_MAIN_ID3" (onValueChanged)="onvaluechangeorgmain($event,3)" itemTemplate="radio">
+                        <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_3" layout="horizontal" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcase.ORG_LOCATION_MAIN_ID3" (onValueChanged)="onvaluechangeorgmain($event,3)" itemTemplate="radio">
                             <div class="radio" *dxTemplate="let data of 'radio'">
                                 <div class="row main-content">
                                     <div class="col-md-4">{{data.org_name}}</div>
@@ -357,7 +357,7 @@
                                 <li *ngFor="let item of aria3and4">{{item}}</li>
                               </ul>
                         </div> -->
-                        <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_4" layout="horizontal" valueExpr="org_id" displayExpr="org_name"  [value]="formdataOrgsendcase.ORG_LOCATION_MAIN_ID4" (onValueChanged)="onvaluechangeorgmain($event,4)" itemTemplate="radio">
+                        <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_4" layout="horizontal" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcase.ORG_LOCATION_MAIN_ID4" (onValueChanged)="onvaluechangeorgmain($event,4)" itemTemplate="radio">
                             <div class="radio" *dxTemplate="let data of 'radio'">
                                 <div class="row main-content">
                                     <div class="col-md-4">{{data.org_name}}</div>
@@ -378,7 +378,7 @@
                                 <li *ngFor="let item of aria5and6">{{item}}</li>
                               </ul>
                         </div> -->
-                        <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_5" layout="horizontal" valueExpr="org_id" displayExpr="org_name"  [value]="formdataOrgsendcase.ORG_LOCATION_MAIN_ID5" (onValueChanged)="onvaluechangeorgmain($event,5)" itemTemplate="radio">
+                        <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_5" layout="horizontal" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcase.ORG_LOCATION_MAIN_ID5" (onValueChanged)="onvaluechangeorgmain($event,5)" itemTemplate="radio">
                             <div class="radio" *dxTemplate="let data of 'radio'">
                                 <div class="row main-content">
                                     <div class="col-md-4">{{data.org_name}}</div>
@@ -408,21 +408,20 @@
             <dxi-item [colSpan]="2" style="margin-top:10px;">
                 <!-- <dx-check-box  [readOnly]="checkboxlocationreadonly.readonly_type3"  text="กองบัญชาการตำรวจสอบสวนกลาง" [(value)]="checkboxLocation.location_type3" (onValueChanged)="onvaluecheckboxlocationchange($event,3)"
                 ></dx-check-box> -->
-                <dx-radio-group  [items]="radiocheckorganize3" valueExpr="id" displayExpr="text"  layout="horizontal"  [(value)]="checkboxLocation.location_type1" (onValueChanged)="onvaluecheckboxlocationchange($event,3)"
-                ></dx-radio-group>
+                <dx-radio-group [items]="radiocheckorganize3" valueExpr="id" displayExpr="text" layout="horizontal" [(value)]="checkboxLocation.location_type1" (onValueChanged)="onvaluecheckboxlocationchange($event,3)"></dx-radio-group>
                 <br *ngIf="checkboxLocation.location_type1 === 3">
                 <dx-form #formInformertype3 [colCount]="3" labelLocation="top" *ngIf="checkboxLocation.location_type1 === 3">
-                    <dxi-item template="selectorgcenter" [colSpan]="2"  [isRequired]="checkboxLocation.location_type3"></dxi-item>
+                    <dxi-item template="selectorgcenter" [colSpan]="2" [isRequired]="checkboxLocation.location_type3"></dxi-item>
                     <div *dxTemplate="let data of 'selectorgcenter'" style="margin-left:10%;">
-                        <dx-radio-group #selectorgcenter [readOnly]="formReadOnly" [dataSource]="orgtype3" layout="vertical" valueExpr="org_id" displayExpr="org_name"  [value]="formdataOrgsendcase.ORG_LOCATION_CENTER_ID" (onValueChanged)="onvaluechangeorgcenter($event)"></dx-radio-group>
+                        <dx-radio-group #selectorgcenter [readOnly]="formReadOnly" [dataSource]="orgtype3" layout="vertical" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcase.ORG_LOCATION_CENTER_ID" (onValueChanged)="onvaluechangeorgcenter($event)"></dx-radio-group>
                     </div>
                 </dx-form>
             </dxi-item>
         </dx-form>
         <br><br>
-            <div style="color:red;">
-                <h2>เรื่องที่ท่านแจ้งจะถูกส่งไปยังหน่วยงานที่เลือกโดยอัตโนมัติ</h2>
-            </div>
+        <div style="color:red;">
+            <h2>เรื่องที่ท่านแจ้งจะถูกส่งไปยังหน่วยงานที่เลือกโดยอัตโนมัติ</h2>
+        </div>
 
     </div>
 </div>
@@ -443,30 +442,21 @@
 
             </dxi-item>
             <div *dxTemplate="let data of 'tempothertitle'">
-                <dx-text-box  [readOnly]="formReadOnly" [(value)]="formData.TITLE_NAME"></dx-text-box>
+                <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.TITLE_NAME"></dx-text-box>
             </div>
             <dxi-item [colSpan]="1" itemType="empty" *ngIf="!checkothertitle"></dxi-item>
             <dxi-item template="temp1" [colSpan]="1" [isRequired]="formValidate">
                 <dxo-label text="ชื่อ" [showColon]="false"></dxo-label>
-                <dxi-validation-rule type="required"  message="กรุณากรอกข้อมูลชื่อ">
+                <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลชื่อ">
                 </dxi-validation-rule>
-                <dxi-validation-rule type="custom"
-                    [validationCallback]="NamePattern"
-                    message="ไม่ต้องระบุคำนำหน้านาม" >
+                <dxi-validation-rule type="custom" [validationCallback]="NamePattern" message="ไม่ต้องระบุคำนำหน้านาม">
                 </dxi-validation-rule>
 
             </dxi-item>
             <div *dxTemplate="let data of 'temp1'">
-                <dx-text-box id="ctlfname"
-                    (keypress)="NameValidator($event)"
-                    [readOnly]="formReadOnly" [(value)]="formData.CASE_INFORMER_FIRSTNAME"></dx-text-box>
+                <dx-text-box id="ctlfname" (keypress)="NameValidator($event)" [readOnly]="formReadOnly" [(value)]="formData.CASE_INFORMER_FIRSTNAME"></dx-text-box>
 
-                <dx-tooltip
-                    target="#ctlfname"
-                    showEvent="dxhoverstart"
-                    hideEvent="dxhoverend"
-                    position="top"
-                    [hideOnOutsideClick]="false">
+                <dx-tooltip target="#ctlfname" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                     <div *dxTemplate="let data of 'content'">
                         <p>หมายเหตุ: ไม่ต้องระบุคำนำหน้า ตัวเลข ช่องว่างหรืออักษรพิเศษ</p>
                     </div>
@@ -478,17 +468,27 @@
                 </dxi-validation-rule>
             </dxi-item>
             <div *dxTemplate="let data of 'temp2'">
-                <dx-text-box id="ctllname"
-                    (keypress)="NameValidator($event)"
-                     [readOnly]="formReadOnly" [(value)]="formData.CASE_INFORMER_LASTNAME"></dx-text-box>
-                <dx-tooltip
-                    target="#ctllname"
-                    showEvent="dxhoverstart"
-                    hideEvent="dxhoverend"
-                    position="top"
-                    [hideOnOutsideClick]="false">
+                <dx-text-box id="ctllname" (keypress)="NameValidator($event)" [readOnly]="formReadOnly" [(value)]="formData.CASE_INFORMER_LASTNAME"></dx-text-box>
+                <dx-tooltip target="#ctllname" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                     <div *dxTemplate="let data of 'content'">
                         <p>หมายเหตุ: ไม่ต้องระบุ ตัวเลข หรืออักษรพิเศษ</p>
+                    </div>
+                </dx-tooltip>
+            </div>
+            <dxi-item template="tempcitizen" [colSpan]="1" [isRequired]="formValidate">
+                <dxo-label text="เลขบัตรประจำตัวประชาชน" [showColon]="false"></dxo-label>
+                <dxi-validation-rule type="required" message="กรุณากรอกเลขบัตรประจำตัวประชาชน">
+                </dxi-validation-rule>
+                <dxi-validation-rule type="stringLength" [min]="13" message="กรุณากรอกครบ 13 หลัก">
+                </dxi-validation-rule>
+                <dxi-validation-rule type="custom" message="เลขบัตรประจำตัวประชาชนไม่ถูกต้อง" [validationCallback]="citizenPattern">
+                </dxi-validation-rule>
+            </dxi-item>
+            <div *dxTemplate="let data of 'tempcitizen'">
+                <dx-text-box id="ctllcitizen" [readOnly]="formReadOnly" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)" [maxLength]="13" [(value)]="formData.CASE_INFORMER_CITIZEN_NUMBER"></dx-text-box>
+                <dx-tooltip target="#ctllcitizen" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
+                    <div *dxTemplate="let data of 'content'">
+                        <p>หมายเหตุ: ระบุเลขบัตรประชาชน 13 หลัก</p>
                     </div>
                 </dx-tooltip>
             </div>
@@ -512,8 +512,8 @@
             </div>
             <dxi-item template="temp5" [isRequired]="formValidate" [colSpan]="1">
                 <dxo-label text="อาชีพ" [showColon]="false"></dxo-label>
-               <dxi-validation-rule type="required" message="กรุณาเลือกอาชีพ">
-               </dxi-validation-rule>
+                <dxi-validation-rule type="required" message="กรุณาเลือกอาชีพ">
+                </dxi-validation-rule>
             </dxi-item>
             <div *dxTemplate="let data of 'temp5'">
                 <dx-select-box #selectOccupation [dataSource]="occupationList" displayExpr="OCCUPATIONS_NAME" valueExpr="OCCUPATIONS_ID" searchExpr="OCCUPATIONS_NAME" [searchEnabled]="true" placeholder="อาชีพ" [readOnly]="formReadOnly" [(value)]="formData.OCCUPATION_ID"
@@ -526,27 +526,18 @@
                 </dxi-validation-rule>
             </dxi-item>
             <div *dxTemplate="let data of 'tempworkother'">
-                <dx-text-box id="ctllname"
-                     [readOnly]="formReadOnly" [(value)]="formData.OCCUPATIONS_OTHER_NAME"></dx-text-box>
+                <dx-text-box id="ctllname" [readOnly]="formReadOnly" [(value)]="formData.OCCUPATIONS_OTHER_NAME"></dx-text-box>
             </div>
             <dxi-item template="temp7" [colSpan]="1" [isRequired]="formValidate">
                 <dxo-label text="เบอร์โทรศัพท์มือถือ" [showColon]="false"></dxo-label>
                 <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลเบอร์โทรศัพท์มือถือ">
                 </dxi-validation-rule>
-                <dxi-validation-rule
-                    type="custom"
-                    message="หมายเลขโทรศัพท์ 10 หลัก"
-                    [validationCallback]="PhoneNumberPattern">
+                <dxi-validation-rule type="custom" message="หมายเลขโทรศัพท์ 10 หลัก" [validationCallback]="PhoneNumberPattern">
                 </dxi-validation-rule>
             </dxi-item>
             <div *dxTemplate="let data of 'temp7'">
                 <dx-text-box id="ctfPhone" [readOnly]="formReadOnly" [(value)]="formData.INFORMER_TEL" [maxLength]="10" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)"></dx-text-box>
-                <dx-tooltip
-                    target="#ctfPhone"
-                    showEvent="dxhoverstart"
-                    hideEvent="dxhoverend"
-                    position="top"
-                    [hideOnOutsideClick]="false">
+                <dx-tooltip target="#ctfPhone" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                     <div *dxTemplate="let data of 'content'">
                         <p>ระบุหมายเลขโทรศัพท์จำนวน 10 หลักติดกันโดยไม่ต้องมีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 0819999999</p>
                     </div>
@@ -560,12 +551,7 @@
             </dxi-item>
             <div *dxTemplate="let data of 'temp8'">
                 <dx-text-box id="ctfHomePhone" [readOnly]="formReadOnly" [(value)]="formData.INFORMER_HOME_TEL" [maxLength]="10" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)"></dx-text-box>
-                <dx-tooltip
-                    target="#ctfHomePhone"
-                    showEvent="dxhoverstart"
-                    hideEvent="dxhoverend"
-                    position="top"
-                    [hideOnOutsideClick]="false">
+                <dx-tooltip target="#ctfHomePhone" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                     <div *dxTemplate="let data of 'content'">
                         <p>ระบุหมายเลขโทรศัพท์จำนวน 10 หลักติดกันโดยไม่ต้องมีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 0819999999</p>
                     </div>
@@ -574,23 +560,19 @@
             <dxi-item template="temp9" [colSpan]="1">
                 <dxo-label text="Email" [showColon]="false"></dxo-label>
                 <ng-container *ngIf="formData.INFORMER_EMAIL">
-                    <dxi-validation-rule type="custom" [validationCallback]="EmailPatternCharacters" message="Email จะต้องไม่มีเครื่องหมาย &, =, ', +, (,), <, >, * ฯลฯ" ></dxi-validation-rule>
-                    <dxi-validation-rule type="custom" [validationCallback]="EmailPatternDot" message="Email มีจุด (.) ติดกันมากกว่า 1 จุด" ></dxi-validation-rule>
-                    <dxi-validation-rule type="custom" [validationCallback]="EmailPatternNameLength" message="กรุณาตรวจสอบชื่อผู้ใช้งาน" ></dxi-validation-rule>
-                    <dxi-validation-rule type="custom" [validationCallback]="EmailPatternAtSign" message="กรุณาใส่เครื่องหมาย @" ></dxi-validation-rule>
-                    <dxi-validation-rule type="email" message="กรุณาตรวจสอบชื่อ domain" ></dxi-validation-rule>
+                    <dxi-validation-rule type="custom" [validationCallback]="EmailPatternCharacters" message="Email จะต้องไม่มีเครื่องหมาย &, =, ', +, (,), <, >, * ฯลฯ"></dxi-validation-rule>
+                    <dxi-validation-rule type="custom" [validationCallback]="EmailPatternDot" message="Email มีจุด (.) ติดกันมากกว่า 1 จุด"></dxi-validation-rule>
+                    <dxi-validation-rule type="custom" [validationCallback]="EmailPatternNameLength" message="กรุณาตรวจสอบชื่อผู้ใช้งาน"></dxi-validation-rule>
+                    <dxi-validation-rule type="custom" [validationCallback]="EmailPatternAtSign" message="กรุณาใส่เครื่องหมาย @"></dxi-validation-rule>
+                    <dxi-validation-rule type="email" message="กรุณาตรวจสอบชื่อ domain"></dxi-validation-rule>
                 </ng-container>
             </dxi-item>
             <div *dxTemplate="let data of 'temp9'">
                 <dx-text-box id="ctrlEmail" [readOnly]="formReadOnly" [(value)]="formData.INFORMER_EMAIL"></dx-text-box>
-                <dx-tooltip
-                    target="#ctrlEmail"
-                    showEvent="dxhoverstart"
-                    hideEvent="dxhoverend"
-                    position="top"
-                    [hideOnOutsideClick]="false">
+                <dx-tooltip target="#ctrlEmail" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                     <div *dxTemplate="let data of 'content'">
-                        <p>อีเมลสามารถมีตัวอักษร (a-z), ตัวเลข (0-9) และจุด (.) ได้ แต่ต้องไม่มีเครื่องหมาย &, =, ', +, (,), <, >, * ฯลฯ</p>
+                        <p>อีเมลสามารถมีตัวอักษร (a-z), ตัวเลข (0-9) และจุด (.) ได้ แต่ต้องไม่มีเครื่องหมาย &, =, ', +, (,),
+                            <,>, * ฯลฯ</p>
                     </div>
                 </dx-tooltip>
 
@@ -599,7 +581,7 @@
                 <dxo-label text="LINE ID" [showColon]="false"></dxo-label>
             </dxi-item>
             <div *dxTemplate="let data of 'temp10'">
-                <dx-text-box  [readOnly]="formReadOnly"  [(value)]="formData.INFORMER_LINE_ID"></dx-text-box>
+                <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.INFORMER_LINE_ID"></dx-text-box>
 
             </div>
 
@@ -612,12 +594,7 @@
             </dxi-item>
             <div *dxTemplate="let data of 'temp11'">
                 <dx-text-box id="ctrlFacebook" [readOnly]="formReadOnly" [(value)]="formData.INFORMER_FACEBOOK_URL"></dx-text-box>
-                <dx-tooltip
-                    target="#ctrlFacebook"
-                    showEvent="dxhoverstart"
-                    hideEvent="dxhoverend"
-                    position="top"
-                    [hideOnOutsideClick]="false">
+                <dx-tooltip target="#ctrlFacebook" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                     <div *dxTemplate="let data of 'content'">
                         <p>URL สามารถมีตัวอักษร (a-z), ตัวเลข (0-9) และจุด (.) ได้ ตัวอย่าง https://www.facebook.com/Example หรือ https://www.facebook.com/profile.php?id=100000000000001 </p>
                     </div>
@@ -661,13 +638,8 @@
                 </dxi-validation-rule>
             </dxi-item>
             <div *dxTemplate="let data of 'temp1'">
-                <dx-text-box id="ctrlCardAddress" [readOnly]="formReadOnly" [(value)]="formData.CASE_INFORMER_CARD_ADDRESS_NO" ></dx-text-box>
-                <dx-tooltip
-                    target="#ctrlCardAddress"
-                    showEvent="dxhoverstart"
-                    hideEvent="dxhoverend"
-                    position="top"
-                    [hideOnOutsideClick]="false">
+                <dx-text-box id="ctrlCardAddress" [readOnly]="formReadOnly" [(value)]="formData.CASE_INFORMER_CARD_ADDRESS_NO"></dx-text-box>
+                <dx-tooltip target="#ctrlCardAddress" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                     <div *dxTemplate="let data of 'content'">
                         <p>ตัวอย่าง 84/4</p>
                     </div>
@@ -690,8 +662,8 @@
                 </dxi-validation-rule>
             </dxi-item>
             <div *dxTemplate="let data of 'temp3'">
-                <dx-select-box #selectCardDistrict [dataSource]="cardAddress.district" displayExpr="DISTRICT_NAME_THA" valueExpr="DISTRICT_ID" searchExpr="DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="อำเภอ/เขต" [disabled]="cardAddress.disableDistrict"
-                    (onValueChanged)="OnSelectDistrictCard($event)" [readOnly]="formReadOnly" [(value)]="formData.INFORMER_CARD_DISTRICT_ID" [showClearButton]="true">
+                <dx-select-box #selectCardDistrict [dataSource]="cardAddress.district" displayExpr="DISTRICT_NAME_THA" valueExpr="DISTRICT_ID" searchExpr="DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="อำเภอ/เขต" [disabled]="cardAddress.disableDistrict" (onValueChanged)="OnSelectDistrictCard($event)"
+                    [readOnly]="formReadOnly" [(value)]="formData.INFORMER_CARD_DISTRICT_ID" [showClearButton]="true">
                 </dx-select-box>
             </div>
             <dxi-item template="temp4" [isRequired]="formValidate">
@@ -709,8 +681,7 @@
     </div>
 </div>
 <div class="conten-block">
-    <dx-check-box *ngIf="!formReadOnly"  text="ใช้ข้อมูลที่อยู่ตามบัตรประจำตัวประชาชน" [(value)]="checkboxaddresscard" (onValueChanged)="onvaluecheckaddresscard($event)"
-    ></dx-check-box>
+    <dx-check-box *ngIf="!formReadOnly" text="ใช้ข้อมูลที่อยู่ตามบัตรประจำตัวประชาชน" [(value)]="checkboxaddresscard" (onValueChanged)="onvaluecheckaddresscard($event)"></dx-check-box>
     <div class="content-title">ที่อยู่ปัจจุบันผู้เสียหาย</div>
     <div class="content-form">
         <dx-form #formInformer2address [colCount]="3" labelLocation="top">
@@ -720,17 +691,12 @@
                 </dxi-validation-rule>
             </dxi-item>
             <div *dxTemplate="let data of 'temp1'">
-                <dx-text-box id="ctrlAddress" [readOnly]="formReadOnly" [(value)]="formData.CASE_INFORMER_ADDRESS_NO" ></dx-text-box>
-                    <dx-tooltip
-                        target="#ctrlAddress"
-                        showEvent="dxhoverstart"
-                        hideEvent="dxhoverend"
-                        position="top"
-                        [hideOnOutsideClick]="false">
-                        <div *dxTemplate="let data of 'content'">
-                            <p>ตัวอย่าง 84/4</p>
-                        </div>
-                    </dx-tooltip>
+                <dx-text-box id="ctrlAddress" [readOnly]="formReadOnly" [(value)]="formData.CASE_INFORMER_ADDRESS_NO"></dx-text-box>
+                <dx-tooltip target="#ctrlAddress" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
+                    <div *dxTemplate="let data of 'content'">
+                        <p>ตัวอย่าง 84/4</p>
+                    </div>
+                </dx-tooltip>
             </div>
             <dxi-item template="temp2" [isRequired]="formValidate">
                 <dxo-label text="จังหวัด" [showColon]="false">
@@ -915,45 +881,39 @@
 <dx-popup [width]="500" [height]="400" [showTitle]="true" [title]="" [dragEnabled]="false" [closeOnOutsideClick]="false" [showCloseButton]="false" [(visible)]="popup">
     <div *dxTemplate="let data of 'content'">
         <dx-scroll-view #view_form [showScrollbar]="'always'" style="height: calc(100% - 45px);">
-                    <dx-form #form1 [colCount]="2" labelLocation="top">
+            <dx-form #form1 [colCount]="2" labelLocation="top">
 
-                        <dxi-item  template="temp2" [colSpan]="1" [isRequired]="true">
-                            <dxo-label text="ธนาคาร" [showColon]="false"></dxo-label>
-                            <dxi-validation-rule type="required" message="กรุณาเลือกธนาคาร">
-                            </dxi-validation-rule>
-                        </dxi-item>
-                        <div *dxTemplate="let data of 'temp2'">
-                                <dx-select-box #selectBankInfo [dataSource]="bankInfoList" [searchEnabled]="true" valueExpr="BANK_ID" displayExpr="BANK_NAME" placeholder="ธนาคาร" (onValueChanged)="OnSelectBankAccount($event)" [(value)]="formbanklistarray.PERSONAL_BANK_ID">
-                                </dx-select-box>
+                <dxi-item template="temp2" [colSpan]="1" [isRequired]="true">
+                    <dxo-label text="ธนาคาร" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกธนาคาร">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp2'">
+                    <dx-select-box #selectBankInfo [dataSource]="bankInfoList" [searchEnabled]="true" valueExpr="BANK_ID" displayExpr="BANK_NAME" placeholder="ธนาคาร" (onValueChanged)="OnSelectBankAccount($event)" [(value)]="formbanklistarray.PERSONAL_BANK_ID">
+                    </dx-select-box>
+                </div>
+
+                <dxi-item template="temp44" [colSpan]="1" [isRequired]="true">
+                    <dxo-label text="เลขบัญชีธนาคาร" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกเลขบัญชีธนาคาร">
+                    </dxi-validation-rule>
+                    <dxi-validation-rule type="custom" message="ระบุเลขบัญชีธนาคารเป็นตัวเลข 10-15 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ" [validationCallback]="BankNumberPattern">
+                    </dxi-validation-rule>
+                    <dxi-validation-rule type="numeric" [message]="'รูปแบบ เลขบัญชี ไม่ถูกต้อง'">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp44'">
+                    <dx-text-box id="ctrlBankACC" [(value)]="formbanklistarray.PERSONAL_ACCOUNT_ID" [maxLength]="15" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)"></dx-text-box>
+
+                    <dx-tooltip target="#ctrlBankACC" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
+                        <div *dxTemplate="let data of 'content'">
+                            <p>ระบุเลขบัญชีธนาคารเป็นตัวเลข 10-15 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 4586412369
+                            </p>
                         </div>
+                    </dx-tooltip>
+                </div>
 
-                        <dxi-item  template="temp44" [colSpan]="1" [isRequired]="true">
-                            <dxo-label text="เลขบัญชีธนาคาร" [showColon]="false"></dxo-label>
-                            <dxi-validation-rule type="required" message="กรุณากรอกเลขบัญชีธนาคาร">
-                            </dxi-validation-rule>
-                            <dxi-validation-rule  type="custom"
-                                message="ระบุเลขบัญชีธนาคารเป็นตัวเลข 10-15 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ"
-                                [validationCallback]="BankNumberPattern">
-                            </dxi-validation-rule>
-                            <dxi-validation-rule type="numeric"
-                                [message]="'รูปแบบ เลขบัญชี ไม่ถูกต้อง'">
-                            </dxi-validation-rule>
-                        </dxi-item>
-                        <div *dxTemplate="let data of 'temp44'">
-                            <dx-text-box id="ctrlBankACC"  [(value)]="formbanklistarray.PERSONAL_ACCOUNT_ID"   [maxLength]="15"
-                            (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)"></dx-text-box>
-
-                        <dx-tooltip target="#ctrlBankACC"
-                            showEvent="dxhoverstart" hideEvent="dxhoverend" position="top"
-                            [hideOnOutsideClick]="false">
-                            <div *dxTemplate="let data of 'content'">
-                                <p>ระบุเลขบัญชีธนาคารเป็นตัวเลข 10-15 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 4586412369
-                                </p>
-                            </div>
-                        </dx-tooltip>
-                        </div>
-
-                    </dx-form>
+            </dx-form>
 
         </dx-scroll-view>
         <div class="text-right btn-dx">

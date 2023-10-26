@@ -68,15 +68,21 @@
                                                                     <dxi-validation-rule type="required" message="กรุณากรอกนามสกุล">
                                                                     </dxi-validation-rule>
                                                                 </dxi-item>
-                                                                <dxi-item *ngIf="occupationOther" itemType="empty" [colSpan]="1"></dxi-item>
+                                                                <dxi-item dataField="PERSONAL_CITIZEN_NUMBER" [isRequired]="true" editorType="dxTextBox" [editorOptions]="{ placeholder: 'เลขบัตรประชาชน' , showClearButton:true , disabled:true}">
+                                                                    <dxo-label alignment="left" text="เลขบัตรประชาชน">
+                                                                    </dxo-label>
+                                                                    <dxi-validation-rule type="required" message="กรุณากรอกเลขบัตรประชาชน">
+                                                                    </dxi-validation-rule>
+                                                                </dxi-item>
                                                                 <dxi-item dataField="" template="occupations" [isRequired]="true">
                                                                     <dxo-label text="อาชีพ" [showColon]="false">
                                                                     </dxo-label>
                                                                 </dxi-item>
                                                                 <div *dxTemplate="let data of 'occupations'">
-                                                                    <dx-select-box #selectOccupation (onValueChanged)="OnSelectOccupation($event)" [dataSource]="occupations" [showClearButton]="true" displayExpr="OCCUPATIONS_NAME" valueExpr="OCCUPATIONS_ID" searchExpr="OCCUPATIONS_NAME" [searchEnabled]="true" [(value)]="formData.OCCUPATION_ID" placeholder="อาชีพ">
+                                                                    <dx-select-box #selectOccupation (onValueChanged)="OnSelectOccupation($event)" [dataSource]="occupations" [showClearButton]="true" displayExpr="OCCUPATIONS_NAME" valueExpr="OCCUPATIONS_ID" searchExpr="OCCUPATIONS_NAME" [searchEnabled]="true" [(value)]="formData.OCCUPATION_ID"
+                                                                        placeholder="อาชีพ">
                                                                     </dx-select-box>
-                                                                </div>ช
+                                                                </div>
                                                                 <dxi-item *ngIf="occupationOther" template="tempworkother" [colSpan]="1" [isRequired]="true">
                                                                     <dxo-label text="ระบุอาชีพเพิ่มเติม" [showColon]="false"></dxo-label>
                                                                     <dxi-validation-rule type="required" message="กรุณาระบุอาชีพเพิ่มเติม">
@@ -447,7 +453,7 @@
                                                                     <dxi-validation-rule type="required" message="กรุณากรอก username">
                                                                     </dxi-validation-rule>
                                                                 </dxi-item>
-                                                                <dxi-item [colSpan]="1" itemType="empty" > </dxi-item>
+                                                                <dxi-item [colSpan]="1" itemType="empty"> </dxi-item>
                                                                 <!-- OLD_PASSWORD-->
                                                                 <dxi-item *ngIf="_checkEdit" [colSpan]="1" dataField="OLD_PASSWORD" editorType="dxTextBox" [editorOptions]="{
                                                                                                                                     placeholder: 'Old Password',
@@ -458,7 +464,7 @@
                                                                     <dxi-validation-rule type="required" message="กรุณากรอก Old Password">
                                                                     </dxi-validation-rule>
                                                                 </dxi-item>
-                                                                <dxi-item [colSpan]="1" itemType="empty" > </dxi-item>
+                                                                <dxi-item [colSpan]="1" itemType="empty"> </dxi-item>
                                                                 <!-- NEW_PASSWORD-->
                                                                 <dxi-item *ngIf="_checkEdit" [colSpan]="1" dataField="NEW_PASSWORD" editorType="dxTextBox" [editorOptions]="{
                                                                     placeholder: 'New Password',

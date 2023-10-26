@@ -54,7 +54,12 @@
                                                             <dxi-validation-rule type="required" message="กรุณากรอกนามสกุล">
                                                             </dxi-validation-rule>
                                                         </dxi-item>
-
+                                                        <dxi-item dataField="PERSONAL_CITIZEN_NUMBER" [isRequired]="true" editorType="dxTextBox" [editorOptions]="{ placeholder: 'เลขบัตรประชาชน' , showClearButton:true , disabled:true}">
+                                                            <dxo-label alignment="left" text="เลขบัตรประชาชน">
+                                                            </dxo-label>
+                                                            <dxi-validation-rule type="required" message="กรุณากรอกเลขบัตรประชาชน">
+                                                            </dxi-validation-rule>
+                                                        </dxi-item>
                                                         <dxi-item dataField="" template="occupations" [isRequired]="true">
                                                             <dxo-label text="อาชีพ" [showColon]="false">
                                                             </dxo-label>
