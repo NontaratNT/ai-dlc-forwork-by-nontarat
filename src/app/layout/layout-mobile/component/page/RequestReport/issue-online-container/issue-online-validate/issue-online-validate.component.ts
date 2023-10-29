@@ -238,28 +238,11 @@ export class IssueOnlineValidateComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        // const userId = User.Current.PersonalId;
-        // this.popupCaseChannel2 = true;
-
         setTimeout(async () => {
             this.minBirthDate = this._date.SetDateDefault(80, true, true, true);
             this.maxBirthDate = this._date.SetDateDefault(0);
-            this.DefaultCheckbox();
             this.ReloadData();
         }, 1000);
-        // this.servicePersonal
-        //     .GetPersonalById(userId)
-        //     .subscribe((_) => {
-
-        //         this.minBirthDate = this._date.SetDateDefault(80, true, true, true);
-        //         this.maxBirthDate = this._date.SetDateDefault(0);
-        //         this.personalInfo = _;
-        //         this.DefaultCheckbox();
-        //         this.ReloadData();
-
-        //     });
-
-
     }
     PromoteChange(e) {
         if (e.value) {
@@ -288,309 +271,9 @@ export class IssueOnlineValidateComponent implements OnInit {
 
         }
     }
-    OnSelectProvicePresentlocation(e) {
 
-        if (e.value) {
-            const data = this.selectPresentProvicelocation.instance.option("selectedItem");
-            //     if (data) {
-            //         this.formdataOrgsendcase.ORG_PROVINCE_ID = data.PROVINCE_ID;
-            //         this.formdataOrgsendcase.ORG_PROVINCE_NAME = data.PROVINCE_NAME_THA;
-            //     }else{
-            //         this.formData.ORG_PROVINCE_ID = e.value;
-            //     }
-            // this._OrgService.getorgProvince(e.value).subscribe((_)=>{
-            //         this.dsorgbyarialocation = _;
-            // });
-            if (data) {
-                this.formData.ORG_PROVINCE_ID = data.PROVINCE_ID;
-                this.formData.ORG_PROVINCE_NAME = data.PROVINCE_NAME_THA;
-
-            } else {
-                this.formData.ORG_PROVINCE_ID = e.value;
-            }
-            this._OrgService.getorgProvince(e.value).subscribe((_) => {
-                this.dsorgbyarialocation = _;
-            });
-
-        }
-    }
-
-    Onorglocationwalkin(e) {
-        if (e.value) {
-            const data = this.selectorgwalkin.instance.option("selectedItem");
-
-            // if (data) {
-            //     this.formdataOrgsendcase.ORG_LOCATION_TYPE = 1;
-            //     this.formdataOrgsendcase.ORG_LOCATION_ID = data.ORGANIZE_ID;
-            //     this.formdataOrgsendcase.ORG_LOCATION_NAME = data.ORGANIZE_NAME_THA;
-            //     this.formdataOrgsendcase.ORG_PROVINCE_ID = Number(data.ORGANIZE_ARIA_CODE);
-
-            // }else{
-            //     this.formdataOrgsendcase.ORG_LOCATION_ID = e.value;
-            // }
-            // console.log('selectorgwalkin',data)
-            if (data) {
-                this.formData.ORG_LOCATION_TYPE = 1;
-                this.formData.ORG_LOCATION_ID = data.ORGANIZE_ID;
-                this.formData.ORG_LOCATION_NAME = data.ORGANIZE_NAME_THA;
-                this.formData.ORG_PROVINCE_LOCATION_ID = data.ORGANIZE_ID;
-                this.formData.ORG_PROVINCE_ID = Number(data.ORGANIZE_ARIA_CODE);
-
-            } else {
-                this.formData.ORG_LOCATION_ID = e.value;
-            }
-
-        }
-
-
-    }
-    onvaluechangeorgmain(e, type) {
-        // const data = this.selectorgmain.instance.option("selectedItem");
-        this.formData.ORG_PROVINCE_MAP_AREA_ID = null;
-        this.formData.ORG_PROVINCE_MAP_AREA_NAME = null;
-
-        if (e.value) {
-
-            if (type == 1) {
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = null;
-                const data: any = this.orgtype2_1.filter(r => r.org_id === e.value);
-                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = data[0].org_id;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME1 = data[0].org_name;
-
-                //parame insert
-                this.formData.ORG_LOCATION_TYPE = 2;
-                this.formData.ORG_LOCATION_ID = data[0].org_id;
-                this.formData.ORG_LOCATION_NAME = data[0].org_name;
-            }
-            if (type == 2) {
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = null;
-                const data: any = this.orgtype2_2.filter(r => r.org_id === e.value);
-                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = data[0].org_id;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME2 = data[0].org_name;
-
-                //parame insert
-                this.formData.ORG_LOCATION_TYPE = 2;
-                this.formData.ORG_LOCATION_ID = data[0].org_id;
-                this.formData.ORG_LOCATION_NAME = data[0].org_name;
-            } else if (type == 3) {
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = null;
-                const data: any = this.orgtype2_3.filter(r => r.org_id === e.value);
-                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = data[0].org_id;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME3 = data[0].org_name;
-
-                //parame insert
-                this.formData.ORG_LOCATION_TYPE = 2;
-                this.formData.ORG_LOCATION_ID = data[0].org_id;
-                this.formData.ORG_LOCATION_NAME = data[0].org_name;
-            } else if (type == 4) {
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = null;
-                const data: any = this.orgtype2_4.filter(r => r.org_id === e.value);
-                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = data[0].org_id;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME4 = data[0].org_name;
-
-                //parame insert
-                this.formData.ORG_LOCATION_TYPE = 2;
-                this.formData.ORG_LOCATION_ID = data[0].org_id;
-                this.formData.ORG_LOCATION_NAME = data[0].org_name;
-            } else if (type == 5) {
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = null;
-                const data: any = this.orgtype2_5.filter(r => r.org_id === e.value);
-                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = data[0].org_id;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME5 = data[0].org_name;
-
-                //parame insert
-                this.formData.ORG_LOCATION_TYPE = 2;
-                this.formData.ORG_LOCATION_ID = data[0].org_id;
-                this.formData.ORG_LOCATION_NAME = data[0].org_name;
-            }
-
-        }
-        // else{
-        //     this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID = e.value;
-        // }
-
-        console.log(this.formData.ORG_LOCATION_ID, this.formData.ORG_LOCATION_NAME);
-        // alert(this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID);
-    }
-
-
-    onvaluechangeorgcenter(e) {
-
-        if (e.value) {
-            const data: any = this.orgtype3.filter(r => r.org_id === e.value);
-            // console.log(data[0].org_id , data[0].org_name);
-            this.formdataOrgsendcase.ORG_LOCATION_TYPE = 3;
-            this.formdataOrgsendcase.ORG_LOCATION_CENTER_ID = data[0].org_id;
-            this.formdataOrgsendcase.ORG_LOCATION_CENTER_NAME = data[0].org_name;
-
-            //parame insert
-            this.formData.ORG_LOCATION_TYPE = 3;
-            this.formData.ORG_LOCATION_ID = data[0].org_id;
-            this.formData.ORG_LOCATION_NAME = data[0].org_name;
-
-
-
-        } else {
-            this.formdataOrgsendcase.ORG_LOCATION_CENTER_ID = e.value;
-        }
-        // alert(this.formdataOrgsendcase.ORG_LOCATION_CENTER_ID);
-    }
-
-    onvaluecheckboxlocationchange(e, type_location) {
-
-
-        this.formdataOrgsendcase = {
-
-            ORG_LOCATION_TYPE: null,
-            ORG_LOCATION_ID: null,
-            ORG_LOCATION_NAME: "",
-            ORG_PROVINCE_ID: null,
-            ORG_PROVICE_NAME: "",
-            ORG_LOCATION_MAIN_ID: null,
-            ORG_LOCATION_MAIN_NAME: "",
-            ORG_LOCATION_CENTER_ID: null,
-            ORG_LOCATION_CENTER_NAME: ""
-
-
-        };
-        if (type_location == 1) {
-
-            this.checkboxLocation.location_type1 = e.value;
-            this.checkboxLocation.location_type2 = false;
-            this.checkboxLocation.location_type3 = false;
-            if (e.value == true) {
-                this.checkboxlocationreadonly.readonly_type2 = true;
-                this.checkboxlocationreadonly.readonly_type3 = true;
-                this.formData.location_type1 = 1;
-                this.formData.ORG_LOCATION_TYPE = 1;
-            } else {
-                // this.checkboxlocationreadonly.readonly_type2 = false;
-                // this.checkboxlocationreadonly.readonly_type3 = false;
-                if (this.formData.CASE_ORG_TYPE_ID == 1) {
-                    this.checkboxLocation.location_type1 = true;
-                    this.checkboxlocationreadonly.readonly_type1 = false;
-                    this.checkboxlocationreadonly.readonly_type2 = true;
-                    this.checkboxlocationreadonly.readonly_type3 = true;
-                } else if (this.formData.CASE_ORG_TYPE_ID == 2) {
-                    this.checkboxlocationreadonly.readonly_type1 = false;
-                    this.checkboxlocationreadonly.readonly_type2 = false;
-                    this.checkboxlocationreadonly.readonly_type3 = true;
-                } else if (this.formData.CASE_ORG_TYPE_ID == 3) {
-                    this.checkboxlocationreadonly.readonly_type1 = true;
-                    this.checkboxlocationreadonly.readonly_type2 = true;
-                    this.checkboxlocationreadonly.readonly_type3 = false;
-                }
-            }
-
-        } else if (type_location == 2) {
-
-
-            this.checkboxLocation.location_type2 = e.value;
-            this.checkboxLocation.location_type1 = false;
-            this.checkboxLocation.location_type3 = false;
-            if (e.value == true) {
-                this.checkboxlocationreadonly.readonly_type1 = true;
-                this.checkboxlocationreadonly.readonly_type3 = true;
-                this.formData.location_type1 = 2;
-                this.formData.ORG_LOCATION_TYPE = 2;
-            } else {
-                // this.checkboxlocationreadonly.readonly_type1 = false;
-                // this.checkboxlocationreadonly.readonly_type3 = false;
-                if (this.formData.CASE_ORG_TYPE_ID == 1) {
-                    this.checkboxLocation.location_type1 = true;
-                    this.checkboxlocationreadonly.readonly_type1 = false;
-                    this.checkboxlocationreadonly.readonly_type2 = true;
-                    this.checkboxlocationreadonly.readonly_type3 = true;
-                } else if (this.formData.CASE_ORG_TYPE_ID == 2) {
-                    this.checkboxlocationreadonly.readonly_type1 = false;
-                    this.checkboxlocationreadonly.readonly_type2 = false;
-                    this.checkboxlocationreadonly.readonly_type3 = true;
-                } else if (this.formData.CASE_ORG_TYPE_ID == 3) {
-                    this.checkboxlocationreadonly.readonly_type1 = true;
-                    this.checkboxlocationreadonly.readonly_type2 = true;
-                    this.checkboxlocationreadonly.readonly_type3 = false;
-                }
-            }
-        } else if (type_location == 3) {
-            this.checkboxLocation.location_type2 = false;
-            this.checkboxLocation.location_type1 = false;
-            this.checkboxLocation.location_type3 = e.value;
-            if (e.value == true) {
-                this.checkboxlocationreadonly.readonly_type2 = true;
-                this.checkboxlocationreadonly.readonly_type1 = true;
-                this.checkboxLocation.location_type3 = true;
-                this.formData.location_type1 = 3;
-
-                this.formData.ORG_LOCATION_TYPE = 3;
-            } else {
-                // this.checkboxlocationreadonly.readonly_type2 = false;
-                // this.checkboxlocationreadonly.readonly_type1 = false;
-                if (this.formData.CASE_ORG_TYPE_ID == 1) {
-                    this.checkboxLocation.location_type1 = true;
-                    this.checkboxlocationreadonly.readonly_type1 = false;
-                    this.checkboxlocationreadonly.readonly_type2 = true;
-                    this.checkboxlocationreadonly.readonly_type3 = true;
-                } else if (this.formData.CASE_ORG_TYPE_ID == 2) {
-                    this.checkboxlocationreadonly.readonly_type1 = false;
-                    this.checkboxlocationreadonly.readonly_type2 = false;
-                    this.checkboxlocationreadonly.readonly_type3 = true;
-                } else if (this.formData.CASE_ORG_TYPE_ID == 3) {
-                    this.checkboxlocationreadonly.readonly_type1 = true;
-                    this.checkboxlocationreadonly.readonly_type2 = true;
-                    this.checkboxlocationreadonly.readonly_type3 = false;
-                }
-            }
-        }
-    }
-    DefaultCheckbox() {
-
-        this.checkboxLocation = {
-            location_type1: false,
-            location_type2: false,
-            location_type3: false
-        };
-
-        this.checkboxlocationreadonly = {
-            readonly_type1: false,
-            readonly_type2: false,
-            readonly_type3: false
-        }
-
-    }
-    setDataLocation() {
-        const d = this.mainConponent.formDataAll.formEvent;
-        this.formLocation = d;
-        this.formLocationTranfer = d;
-        this.formLocationBankVictim = d;
-        this.formLocationBankVillain = d;
-
-        this.formLocationLoad = true;
-        this.formLocationTranferLoad = true;
-        this.formLocationBankVictimLoad = true;
-        this.formLocationBankVillainLoad = true;
-    }
     async ReloadData() {
-        localStorage.setItem("form-index","8");
+        localStorage.setItem("form-index","5");
         this.isLoading = true;
         this.province = this.mainConponent.province;
         this.loadDateBox = false;
@@ -613,68 +296,18 @@ export class IssueOnlineValidateComponent implements OnInit {
                 JSON.parse(localStorage.getItem("form-blessing")),
                 JSON.parse(localStorage.getItem("form-informer")),
                 JSON.parse(localStorage.getItem("form-event")),
-                JSON.parse(localStorage.getItem("form-damage")),
-                JSON.parse(localStorage.getItem("form-villain")),
-                JSON.parse(localStorage.getItem("form-attachment")),
-                JSON.parse(localStorage.getItem("form-questionare")));
+                JSON.parse(localStorage.getItem("form-damage")));
             this.userType = this.mainConponent.userType;
-            // if(localStorage.getItem("form-index") == "8"){
             this.formData = this.mergedFrom;
-            // }else{
-            //     const d = this.mainConponent.formDataAll;
-            //     const formSubmit = Object.assign({},
-            //         d.formInformer, d.formEvent,
-            //         d.formDamage, d.formVaillain,
-            //         d.formAttachment, d.formConfigs,
-            //         d.formQuestionnare,d.formBlessing
-            //     );
-            //     this.formData = formSubmit;
-            // }
-            // console.log(this.formData);
+            console.log( this.formData);
             if(this.formData.BANK_REF){
                 this.formData.WAY = this.formData.BANK_REF.length > 0 ? 1 :2;
-            }
-            if(this.formData.CASE_CRIMINAL_MEET){
-                this.listMeetCriminal = this.formData.CASE_CRIMINAL_MEET[0] ?? [];
-            }else{
-                this.listMeetCriminal = {
-                    CASE_CRIMINAL_MEET_INPERSON:false,
-                    CASE_CRIMINAL_MEET_VDOCALL:false,
-                    CASE_CRIMINAL_MEET_WITHNESSEDPERSON:false,
-                    CASE_CRIMINAL_MEET_WITHNESSEDVDOCALL:false,
-                    CASE_CRIMINAL_MEET_SOCAIL:false,
-                    CASE_CRIMINAL_NOT_MEET:false,
-                    CASE_CRIMINAL_MEET_OTHER:false,
-                }
-            }
-            if(this.formData.CASE_QUESTIONARE){
-                this.formQuestionare = this.formData.CASE_QUESTIONARE[0] ?? [];
-            }else{
-                this.formQuestionare = {
-                    QUESTIONARE_4_1:false,
-                    QUESTIONARE_4_2:false,
-                    QUESTIONARE_4_3:false,
-                    QUESTIONARE_6_1:false,
-                    QUESTIONARE_6_2:false,
-                    QUESTIONARE_6_3:false,
-                    QUESTIONARE_7_1:false,
-                    QUESTIONARE_7_2:false,
-                    QUESTIONARE_7_3:false,
-                    QUESTIONARE_7_4:false,
-                    QUESTIONARE_8_1:false,
-                    QUESTIONARE_8_2:false,
-                    QUESTIONARE_8_3:false,
-                    QUESTIONARE_9_1:false,
-                    QUESTIONARE_9_2:false,
-                    QUESTIONARE_9_3:false,
-                }
             }
             this.checkBlessing = this.mainConponent.formDataInsert.CHECK_BLESSING;
             this.reload = true;
             this.loadDateBox = true;
             this.isLoading = false;
             this.popupFormData = this.formData.Bank_personal_list;
-            this.setDataLocation();
 
             if (this.mainConponent.formType === "add") {
 
@@ -707,9 +340,6 @@ export class IssueOnlineValidateComponent implements OnInit {
 
 
             }
-
-
-
         }, 500);
 
 
@@ -742,7 +372,7 @@ export class IssueOnlineValidateComponent implements OnInit {
         } else if (this.formData.CASE_MONEY_TYPE3 === 'Y') {
             return "โอนเงินผ่านธนาคาร";
         } else if (this.formData.CASE_MONEY_TYPE4 === 'Y') {
-            return "โอนเงินด้วยวิธีอื่น";
+            return "โอนเงินด้วยเงินดิจิทัล";
         }
         return "";
     }
@@ -877,36 +507,8 @@ export class IssueOnlineValidateComponent implements OnInit {
         }
         this.popupCaseChannel2 = false;
         if (this.mainConponent.formType === 'add') {
-            // if(this.formData.ORG_LOCATION_TYPE == 1 ){
-            //     if (!this.formData.ORG_LOCATION_ID){
-            //         this.alertmessagecustom('กรุณาเลือกสถานี');
-            //         return;
-            //     }
-            // }else if(this.formData.ORG_LOCATION_TYPE == 2){
-            //     if (!this.formData.ORG_LOCATION_ID){
-            //         this.alertmessagecustom('กรุณาเลือกสถานี');
-            //         return;
-            //     }
-            // }else if(this.formData.ORG_LOCATION_TYPE == 3){
-            //     if (!this.formData.ORG_LOCATION_ID){
-            //         this.alertmessagecustom('กรุณาเลือกสถานี');
-            //         return;
-            //     }
-            // }else{
-            //     if (!this.formData.ORG_LOCATION_ID){
-            //         this.alertmessagecustom('กรุณาเลือกสถานี');
-            //         return;
-            //     }
-            // }
             this.InsertForm(e, this.formData);
         } else {
-            // delete formdataAll._id;
-            // delete formdataAll.backendId;
-            // this.UpdateForm({
-            //     InstId:this.mainConponent.InstId,
-            //     ProcessInstanceId:this.mainConponent.ProcessInstanceId,
-            //     Submission:formdataAll,
-            // });
         }
 
 
@@ -935,18 +537,9 @@ export class IssueOnlineValidateComponent implements OnInit {
                 setData[key] = data[key];
             }
         }
-        if(this.formData.CHECK_BLESSING === null || this.formData.CHECK_BLESSING === undefined || this.formData.BLESSING_STATUS === undefined){
-            Swal.fire({
-                title: "ผิดพลาด!",
-                html: "คุณกรอกข้อมูลไม่สมบูรณ์ ระบบจะพาคุณไปยังหน้าที่ยังกรอกไม่สมบูรณ์",
-                icon: "warning",
-                confirmButtonText: "Ok",
-            }).then(() => {});
-            this.isLoading = false;
-            this.mainConponent.NextIndex(1);
-            return;
+        if(this.formData.CHECK_BLESSING === undefined || this.formData.BLESSING_STATUS === undefined){
         }
-        if(this.formData.CASE_INFORMER_FIRSTNAME === undefined || this.formData.CASE_INFORMER_LASTNAME === undefined){
+        if(this.formData.CASE_INFORMER_FIRSTNAME === undefined && this.formData.CASE_INFORMER_LASTNAME === undefined){
             Swal.fire({
                 title: "ผิดพลาด!",
                 html: "คุณกรอกข้อมูลไม่สมบูรณ์ ระบบจะพาคุณไปยังหน้าที่ยังกรอกไม่สมบูรณ์",
@@ -1005,12 +598,9 @@ export class IssueOnlineValidateComponent implements OnInit {
                                 localStorage.removeItem("form-informer");
                                 localStorage.removeItem("form-event");
                                 localStorage.removeItem("form-damage");
-                                localStorage.removeItem("form-villain");
-                                localStorage.removeItem("form-attachment");
-                                localStorage.removeItem("form-questionare");
                                 localStorage.removeItem("form-index");
                                 localStorage.removeItem("form-config");
-                                this._router.navigate(['/mobile/track-status?openExternalBrowser=1']);
+                                this._router.navigate(['/main/task-list']);
                             });
                         });
                 } else {
@@ -1018,7 +608,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                     console.log();
                 }
             });
-        }else if(this.formData.CHECK_BLESSING === false || this.formData.CHECK_BLESSING === "N"){
+        }else if(this.formData.CHECK_BLESSING == false || this.formData.BLESSING_STATUS === "N"){
             setData["ORG_LOCATION_ID"] = 1;
             setData["CASE_TYPE_ID"] = 7;
             setData["ORG_LOCATION_NAME"] = "สำนักงานตำรวจแห่งชาติ";
@@ -1047,12 +637,9 @@ export class IssueOnlineValidateComponent implements OnInit {
                                 localStorage.removeItem("form-informer");
                                 localStorage.removeItem("form-event");
                                 localStorage.removeItem("form-damage");
-                                localStorage.removeItem("form-villain");
-                                localStorage.removeItem("form-attachment");
-                                localStorage.removeItem("form-questionare");
                                 localStorage.removeItem("form-index");
                                 localStorage.removeItem("form-config");
-                                this._router.navigate(['/mobile/track-status?openExternalBrowser=1']);
+                                this._router.navigate(['/main/task-list']);
                             });
                         });
                 } else {
@@ -1063,7 +650,7 @@ export class IssueOnlineValidateComponent implements OnInit {
         }else{
             Swal.fire({
                 title: "ผิดพลาด!",
-                html: "คุณกรอกข้อมูลไม่สมบูรณ์ กรุณาตรวจสอบข้อมูลอีกครั้ง",
+                html: "คุณกรอกข้อมูลไม่สมบูรณ์ กรุณาตรวจสอบข้อมูลที่ท่านกรอกอีกครั้ง",
                 icon: "warning",
                 confirmButtonText: "Ok",
             }).then(() => {});
@@ -1087,10 +674,7 @@ export class IssueOnlineValidateComponent implements OnInit {
             "form-blessing",
             "form-informer",
             "form-event",
-            "form-damage",
-            "form-villain",
-            "form-attachment",
-            "form-questionare"
+            "form-damage"
         ];
 
         for (let i = 0; i < requiredItems.length; i++) {
@@ -1102,7 +686,11 @@ export class IssueOnlineValidateComponent implements OnInit {
                     confirmButtonText: "Ok",
                 }).then(() => {});
                 this.isLoading = false;
-                this.mainConponent.NextIndex(i + 2);
+                if(requiredItems[i]=="form-blessing"){
+                    this.mainConponent.NextIndex(0);
+                }else{
+                    this.mainConponent.NextIndex(i + 2);
+                }
                 return;
             }
         }

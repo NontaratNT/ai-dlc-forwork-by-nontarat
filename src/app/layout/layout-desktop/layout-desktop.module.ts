@@ -74,6 +74,7 @@ import { IssueOnlineDamageSubComponent } from './components/issue-online-contain
 import { IssueOnlineBlessingComponent } from './components/issue-online-container/issue-online-blessing/issue-online-blessing.component';
 import { IssueOnlineQuestionareComponent } from './components/issue-online-container/issue-online-questionare/issue-online-questionare.component';
 import { DateTimeInputComponent } from "src/app/components/controls/date-time-input/date-time-input.component";
+import { IssueOnlineCheckComponent } from './components/issue-online-container/issue-online-check/issue-online-check.component';
 
 
 const customNotifierOptions: NotifierOptions = {
@@ -157,7 +158,8 @@ const customNotifierOptions: NotifierOptions = {
         IssueOnlineDamageSubComponent,
         IssueOnlineBlessingComponent,
         IssueOnlineQuestionareComponent,
-        DateTimeInputComponent
+        DateTimeInputComponent,
+        IssueOnlineCheckComponent
     ],
     exports: [DateComboPickerComponent, DateComboRegisterComponent],
     imports: [

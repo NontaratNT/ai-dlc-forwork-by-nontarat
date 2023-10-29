@@ -86,6 +86,7 @@ import { FormsModule } from "@angular/forms";
 import { IssueOnlineDamageSubComponent } from './component/page/RequestReport/issue-online-container/issue-online-damage-sub/issue-online-damage-sub.component';
 import { IssueOnlineBlessingComponent } from './component/page/RequestReport/issue-online-container/issue-online-blessing/issue-online-blessing.component';
 import { IssueOnlineQuestionareComponent } from "./component/page/RequestReport/issue-online-container/issue-online-questionare/issue-online-questionare.component";
+import { IssueOnlineCheckComponent } from "./component/page/RequestReport/issue-online-container/issue-online-check/issue-online-check.component";
 
 @NgModule({
     declarations: [
@@ -118,7 +119,8 @@ import { IssueOnlineQuestionareComponent } from "./component/page/RequestReport/
         TrackAppointmentComponent,
         IssueOnlineDamageSubComponent,
         IssueOnlineBlessingComponent,
-        IssueOnlineQuestionareComponent
+        IssueOnlineQuestionareComponent,
+        IssueOnlineCheckComponent
     ],
     imports: [
         CommonModule,

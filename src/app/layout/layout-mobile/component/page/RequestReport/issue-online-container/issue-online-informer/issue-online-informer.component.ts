@@ -305,17 +305,9 @@ export class IssueOnlineInformerComponent implements OnInit {
         this.cardAddress.disablepostcode = true;
         const userId = User.Current.PersonalId;
         this.isLoading = true;
-        this.servicePersonal.GetPersonalById(userId).pipe(
-            switchMap(personalInfo => {
-              this.personalInfo = personalInfo;
-              return this.servOccupations.getOccupations();
-            }),
-            switchMap(occupationList => {
-              this.occupationList = occupationList;
-              return this._OrgService.getorgwalkinall();
-            })
-          ).subscribe(dsorgbyarialocation => {
-            this.dsorgbyarialocation = dsorgbyarialocation;
+        this.servicePersonal.GetPersonalById(userId)
+            .subscribe(personalInfo => {
+            this.personalInfo = personalInfo;
             this.setPersonalData();
           }, error => {
             if (error.status === 500 || error.status === 524) {
@@ -498,25 +490,7 @@ export class IssueOnlineInformerComponent implements OnInit {
         try{
             this.isLoading = true;
             this.userType = this.mainConponent.userType;
-            this.occupationList = await this.servOccupations
-                .getOccupations()
-                .toPromise();
-            this.province = this.mainConponent.province;
-            // this.bankInfoList = await this.servBankInfo.GetBankInfo().toPromise();
-            this.dsorgbyarialocation = await this._OrgService
-                .getorgwalkinall()
-                .toPromise();
-            this.dswalkinstatuspolice = this.dsorgbyarialocation
-            // this.dsorgarea = await this._OrgService.getorgariaall().toPromise();
-
-            // this.servOccupations.getOccupations().subscribe((resOcc) => {
-            //     this.occupationList = resOcc;
-            // });
             this.formData = {};
-
-            // this.personalRelantion = await this.serePersonalRelation
-            //     .GetRelation()
-            //     .toPromise();
             if (this.mainConponent.formType === "add") {
                 if(localStorage.getItem("form-blessing")){
                     this.datacheck = JSON.parse(localStorage.getItem("form-blessing"));
@@ -537,42 +511,13 @@ export class IssueOnlineInformerComponent implements OnInit {
                 this.formData.location_type1 = true; // set checkbox ให้เลือกสถานีที่จะไป
                 // this.checkboxLocation.location_type1 = true;
                 const p = this.personalInfo;
-                // this.formData =  await {...dataforms,...this.personalInfo};
-                // this.formData = {
-                //     CASE_INFORMER_FIRSTNAME: p.PERSONAL_FNAME_THA,
-                //     CASE_INFORMER_LASTNAME: p.PERSONAL_LNAME_THA,
-                //     OCCUPATIONS_ID: null,
-                //     INFORMER_EMAIL: p.PERSONAL_EMAIL,
-                //     INFORMER_TEL: p.PERSONAL_TEL_NO,
-                //     INFORMER_LINE_ID: p.LINE_ID ?? "",
-                //     INFORMER_FACEBOOK_URL: p.FACEBOOK_URL ?? "",
-                //     INFORMER_WORK_POSITION: "",
-                //     INFORMER_WORK_COMPANYNAME: "",
-                //     BANK_REF: dataforms.BANK_REF,
-                //     CHECK_BLESSING: dataforms.CHECK_BLESSING,
-                //     // FORMQUESTIONARE: dataforms.FORMQUESTIONARE,
-                //     BLESSING_STATUS: dataforms.BLESSING_STATUS,
-                //     BLESSINGNO1: dataforms.BLESSINGNO1,
-                //     BLESSINGNO2: dataforms.BLESSINGNO2,
-                //     BLESSINGNO2_3: dataforms.BLESSINGNO2_3,
-                //     BLESSINGNO3: dataforms.BLESSINGNO3,
-                //     BLESSINGTXT1: dataforms.BLESSINGTXT1,
-                //     BLESSINGTXT2: dataforms.BLESSINGTXT2,
-                //     BLESSINGTXT2_3: dataforms.BLESSINGTXT2_3,
-                //     BLESSINGTXT3: dataforms.BLESSINGTXT3,
-                // };
-                // if (p.OCCUPATION_ID) {
-                //     this.formData.OCCUPATIONS_ID = p.OCCUPATION_ID;
-                // }
 
                 this.checkedRadioGender = null;
                 if (this.userType === "mySelf") {
                     this.formData.CASE_INFORMER_FIRSTNAME = this.dataForms.CASE_INFORMER_FIRSTNAME ?? p.PERSONAL_FNAME_THA ?? null;
                     this.formData.CASE_INFORMER_LASTNAME =  this.dataForms.CASE_INFORMER_LASTNAME ?? p.PERSONAL_LNAME_THA ?? null;
                     this.formData.INFORMER_EMAIL =  this.dataForms.INFORMER_EMAIL ?? p.PERSONAL_EMAIL ?? null;
-                    this.formData.INFORMER_TEL =  this.dataForms.INFORMER_TEL ?? p.PERSONAL_TEL_NO ?? null;
-                    this.formData.OCCUPATION_ID =  this.dataForms.OCCUPATION_ID ?? p.OCCUPATION_ID ?? null;
-                    this.formData.OCCUPATIONS_NAME = this.dataForms.OCCUPATIONS_NAME ?? null;
+                    this.formData.INFORMER_TEL = this.dataForms.INFORMER_TEL ?? p.PERSONAL_TEL_NO ?? null;
                     this.checkedRadioGender = this.dataForms.INFORMER_GENDER ?? p.PERSONAL_GENDER === 1 ? "M" : "F" ?? null;
                     this.formData.INFORMER_GENDER_DETAIL = this.dataForms.INFORMER_GENDER_DETAIL ?? null;
                     this.formData.CASE_INFORMER_CITIZEN_NUMBER = this.dataForms.CASE_INFORMER_CITIZEN_NUMBER ?? p.PERSONAL_CITIZEN_NUMBER ?? null;
@@ -592,114 +537,7 @@ export class IssueOnlineInformerComponent implements OnInit {
                             this.formData.TITLE_NAME = this.personalInfo.TITLE_NAME;
                         }
                     }
-                    if(this.checkblessings){
-                        this.formData.ORG_LOCATION_ID = this.dataForms.ORG_LOCATION_ID ?? null;
-                        this.formData.ORG_LOCATION_NAME = this.dataForms.ORG_LOCATION_NAME ?? null;
-                    }
 
-                    if(this.dataForms.CASE_INFORMER_DATE){
-                        this.formData.CASE_INFORMER_DATE = this._date.ConvertToDate(this.dataForms.CASE_INFORMER_DATE);
-                    }else{
-                        this.formData.CASE_INFORMER_DATE = this._date.ConvertToDate(p.PERSONAL_BIRTH_DATE ) ?? null;
-                    }
-                    if(this.dataForms.OCCUPATIONS_OTHER_NAME){
-                        this.formData.OCCUPATIONS_OTHER_NAME = this.formData.OCCUPATION_ID == 10 ? this.dataForms.OCCUPATIONS_OTHER_NAME : null;
-                    }else{
-                        this.formData.OCCUPATIONS_OTHER_NAME = this.formData.OCCUPATION_ID == 10 ? p.OCCUPATIONS_OTHER_NAME : null;
-                    }
-
-                    this.formData.INFORMER_TEL = this.dataForms.INFORMER_TEL ?? p.PERSONAL_TEL_NO ?? null;
-                    this.formData.INFORMER_HOME_TEL = this.dataForms.INFORMER_HOME_TEL ?? null;
-                    this.formData.INFORMER_LINE_ID = this.dataForms.INFORMER_LINE_ID ?? p.LINE_ID ?? null;
-                    this.formData.INFORMER_FACEBOOK_URL = this.dataForms.INFORMER_FACEBOOK_URL ?? p.FACEBOOK_URL ?? null;
-                    this.formData.INFORMER_WORK_POSITION = this.dataForms.INFORMER_WORK_POSITION ?? null;
-                    this.formData.INFORMER_WORK_COMPANYNAME = this.dataForms.INFORMER_WORK_COMPANYNAME ?? null;
-                    this.formData.INFORMER_FATHER_FULLNAME = this.dataForms.INFORMER_FATHER_FULLNAME ?? null;
-                    this.formData.INFORMER_MOTHER_FULLNAME = this.dataForms.INFORMER_MOTHER_FULLNAME ?? null;
-
-                    this.formData.CASE_INFORMER_CARD_ADDRESS_NO = this.dataForms.CASE_INFORMER_CARD_ADDRESS_NO ? this.dataForms.CASE_INFORMER_CARD_ADDRESS_NO : p.HOME_REGISTER_ADDRESS;
-                    if(this.dataForms.INFORMER_CARD_PROVINCE){
-                        this.formData.INFORMER_CARD_PROVINCE = this.dataForms.INFORMER_CARD_PROVINCE;
-                        this.formData.INFORMER_CARD_PROVINCE_NAME_THA = this.dataForms.INFORMER_CARD_PROVINCE_NAME_THA;
-                        this.cardAddress.district = await this.serviceProvince
-                            .GetDistrictofProvince(this.formData.INFORMER_CARD_PROVINCE)
-                            .toPromise();
-                        this.cardAddress.disableDistrict = false;
-                    }else if (p.HOME_REGISTER_PROVINCE_ID) {
-                        this.formData.INFORMER_CARD_PROVINCE = p.HOME_REGISTER_PROVINCE_ID;
-                        this.cardAddress.district = await this.serviceProvince
-                            .GetDistrictofProvince(p.HOME_REGISTER_PROVINCE_ID)
-                            .toPromise();
-                        this.cardAddress.disableDistrict = false;
-                    }
-                    if(this.dataForms.INFORMER_CARD_DISTRICT_ID){
-                        this.formData.INFORMER_CARD_DISTRICT_ID = this.dataForms.INFORMER_CARD_DISTRICT_ID;
-                        this.formData.INFORMER_CARD_DISTRICT_NAME_THA = this.dataForms.INFORMER_CARD_DISTRICT_NAME_THA;
-                        this.cardAddress.subDistrict = await this.serviceDistrict
-                            .GetSubDistrictOfDistrict(this.formData.INFORMER_CARD_DISTRICT_ID)
-                            .toPromise();
-                        this.cardAddress.disableSubDistrict = false;
-                    }else if (p.HOME_REGISTER_DISTICT_ID) {
-                        this.formData.INFORMER_CARD_DISTRICT_ID = p.HOME_REGISTER_DISTICT_ID;
-                        this.cardAddress.subDistrict = await this.serviceDistrict
-                            .GetSubDistrictOfDistrict(p.HOME_REGISTER_DISTICT_ID)
-                            .toPromise();
-                        this.cardAddress.disableSubDistrict = false;
-                    }
-                    if(this.dataForms.INFORMER_CARD_SUB_DISTRICT_ID){
-                        this.formData.INFORMER_CARD_SUB_DISTRICT_ID = this.dataForms.INFORMER_CARD_SUB_DISTRICT_ID;
-                        this.formData.INFORMER_CARD_SUB_DISTRICT_NAME_THA = this.dataForms.INFORMER_CARD_SUB_DISTRICT_NAME_THA;
-                        this.cardAddress.disablepostcode = false;
-                    }else if (p.HOME_REGISTER_SUB_DISTICT_ID) {
-                        this.formData.INFORMER_CARD_SUB_DISTRICT_ID = p.HOME_REGISTER_SUB_DISTICT_ID;
-                        this.formData.INFORMER_CARD_POSTCODE_ID = p.HOME_REGISTER_POST_CODE;
-                        // this.cardAddress.postcode = await this.serviceSubDistrict
-                        //     .GetPostCode(p.HOME_REGISTER_SUB_DISTICT_ID)
-                        //     .toPromise();
-                        // this.cardAddress.disablepostcode = false;
-                    }
-                    this.formData.CASE_INFORMER_ADDRESS_NO = this.dataForms.CASE_INFORMER_ADDRESS_NO ? this.dataForms.CASE_INFORMER_ADDRESS_NO : p.PERSONAL_ADDRESS;
-
-                    if(this.dataForms.INFORMER_PROVINCE){
-                        this.formData.INFORMER_PROVINCE = this.dataForms.INFORMER_PROVINCE;
-                        this.formData.INFORMER_PROVINCE_NAME_THA = this.dataForms.INFORMER_PROVINCE_NAME_THA;
-                        this.presentAddress.district = await this.serviceProvince
-                            .GetDistrictofProvince(this.formData.INFORMER_PROVINCE)
-                            .toPromise();
-                        this.presentAddress.disableDistrict = false;
-                    }else if (p.PROVINCE_ID) {
-                        this.formData.INFORMER_PROVINCE = p.PROVINCE_ID;
-                        this.presentAddress.district = await this.serviceProvince
-                            .GetDistrictofProvince(p.PROVINCE_ID)
-                            .toPromise();
-                        this.presentAddress.disableDistrict = false;
-                    }
-                    if(this.dataForms.INFORMER_DISTRICT_ID){
-                        this.formData.INFORMER_DISTRICT_ID = this.dataForms.INFORMER_DISTRICT_ID;
-                        this.formData.INFORMER_DISTRICT_NAME_THA = this.dataForms.INFORMER_DISTRICT_NAME_THA;
-                        this.presentAddress.subDistrict = await this.serviceDistrict
-                            .GetSubDistrictOfDistrict(this.formData.INFORMER_DISTRICT_ID)
-                            .toPromise();
-                        this.presentAddress.disableSubDistrict = false;
-                    }else if (p.DISTICT_ID) {
-                        this.formData.INFORMER_DISTRICT_ID = p.DISTICT_ID;
-                        this.presentAddress.subDistrict = await this.serviceDistrict
-                            .GetSubDistrictOfDistrict(p.DISTICT_ID)
-                            .toPromise();
-                        this.presentAddress.disableSubDistrict = false;
-                    }
-                    if(this.dataForms.INFORMER_SUB_DISTRICT_ID){
-                        this.formData.INFORMER_SUB_DISTRICT_ID = this.dataForms.INFORMER_SUB_DISTRICT_ID;
-                        this.formData.INFORMER_SUB_DISTRICT_NAME_THA = this.dataForms.INFORMER_SUB_DISTRICT_NAME_THA;
-                        this.presentAddress.disablepostcode = false;
-                    }else if (p.SUB_DISTICT_ID) {
-                        this.formData.INFORMER_SUB_DISTRICT_ID = p.SUB_DISTICT_ID;
-                        this.formData.INFORMER_POSTCODE_ID = p.POST_CODE;
-                        // this.presentAddress.postcode = await this.serviceSubDistrict
-                        //     .GetPostCode(p.SUB_DISTICT_ID)
-                        //     .toPromise();
-                        this.presentAddress.disablepostcode = false;
-                    }
                 } else {
                     this.formData.CASE_INFORMER_FIRSTNAME = null;
                     this.formData.CASE_INFORMER_LASTNAME = null;

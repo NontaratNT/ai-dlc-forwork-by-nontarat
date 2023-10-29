@@ -1,0 +1,135 @@
+<div class="conten-block">
+    <div class="row">
+        <div style="display:inline-block;margin: 5%;">
+            <div class="text-center" style="font-size: 30px;"><b>กรุณาเลือกประเภทความเสียหายที่เกิดขึ้น</b></div>
+            <dx-radio-group [items]="waysMoney" valueExpr="id" displayExpr="text" [value]="submission.moneyWay" layout="horizontal" (onValueChanged)="onWaysValueChangedMoney($event)">
+            </dx-radio-group>
+        </div>
+    </div>
+    <div class="row" *ngIf="showBank">
+        <div style="display:inline-block;;margin-bottom: 5%;">
+            <div class="text-center" style="font-size: 30px;"><b>ท่านได้ติดต่อธนาคาร (เจ้าของบัญชีผู้เสียหาย) แล้วหรือไม่</b></div>
+            <dx-radio-group [items]="ways" valueExpr="id" displayExpr="text" [(value)]="submission.ways" layout="horizontal" (onValueChanged)="onWaysValueChanged($event)">
+            </dx-radio-group>
+            <div *ngIf="_isShow" class="text-center">
+                <div class="block-add-btn d-flex justify-content-end mb-3">
+                    <button class="btn-add btn d-flex align-items-center justify-content-center" (click)="Addbankref()">
+                        <span class="px-3 ">รหัสอ้างอิงธนาคาร</span>
+                    </button>
+                </div>
+                <dx-data-grid #grid [dataSource]="_dataSourcebankref" [showColumnLines]="false" [wordWrapEnabled]="true" [showRowLines]="true" [columnAutoWidth]="true" [columnHidingEnabled]="true" [showBorders]="false" [rowAlternationEnabled]="true" [showColumnLines]="true"
+                    [hoverStateEnabled]="true" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล" [remoteOperations]="false">
+                    <dxo-paging [pageSize]="10"></dxo-paging>
+                    <dxo-load-panel text="กำลังโหลดข้อมูล..."></dxo-load-panel>
+                    <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                    </dxo-editing>
+                    <dxo-selection mode="single"></dxo-selection>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true">
+                    </dxo-pager>
+                    <dxi-column dataField="" caption="จัดการ" [width]="100" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommand"></dxi-column>
+                    <div *dxTemplate="let cellValue of 'cellTemplateCommand'">
+                        <img class="text-download" src="assets/icon/edit2.png" alt="icon" (click)="onEdit('edit',cellValue.data,cellValue.component.pageIndex() * cellValue.component.pageSize() + cellValue.rowIndex)">&nbsp;
+                        <img class="text-download" src="assets/icon/trash.png" alt="icon" (click)="onDelete(cellValue.component.pageIndex() * cellValue.component.pageSize() + cellValue.rowIndex)">
+                    </div>
+                    <dxi-column dataField="" caption="ลำดับที่" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+
+                    <dxi-column dataField="FREEZE_ACT_BANK_TRACK_NO" caption="รหัสอ้างอิงธนาคาร" alignment="center">
+                    </dxi-column>
+                    <dxi-column dataField="FREEZE_ACT_BANK_NAME" caption="ธนาคาร" alignment="center">
+                    </dxi-column>
+                    <dxi-column dataField="FREEZE_ACT_DATE" caption="วันที่" alignment="center">
+                    </dxi-column>
+                    <dxi-column dataField="FREEZE_ACT_TIME" caption="เวลา" alignment="center">
+                    </dxi-column>
+                    <div *dxTemplate="let cell of 'cellTemplate'">
+                        {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                    </div>
+
+                </dx-data-grid>
+            </div>
+        </div>
+    </div>
+    <div class="text-right btn-footer">
+        <dx-button *ngIf="checkcase" class="btn btn-submit" text="ถัดไป" (onClick)="SubmitForm($event)"></dx-button>
+    </div>
+</div>
+
+
+<dx-popup [width]="1300" [height]="600" [showTitle]="true" title="แจ้งเตือนจากระบบ" [closeOnOutsideClick]="false" [showCloseButton]="false" [visible]="true" [(visible)]="popupConsentVisible">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+            <div class="row">
+                <div class="col-sm-12 ml-5">
+                    <div class="title-popup"><b>ผู้เสียหายดำเนินการแจ้งธนาคารเพื่ออายัดบัญชีคนร้ายเรียบร้อยแล้วหรือไม่</b></div>
+                    <div class="sub-title-popup" style="font-size: 20px;"><b>คำแนะนำ</b><br> กรุณาเตรียมข้อมูลเลขอ้างอิง รายละเอียดการแจ้งจากธนาคาร<br> สามารถสอบถาม-แจ้งเหตุกับธนาคารเจ้าของบัญชีทันที ตลอด 24 ชั่วโมง</div>
+                </div>
+                <div class="col-sm-12 text-left my-5" style="margin-bottom:1rem;">
+                    <div class="container">
+                        <dx-form #formAgreeBank id="form" [formData]="submission" labelLocation="top" [colCount]="2">
+                            <dxi-item itemType="group">
+                                <div class="dx-field">
+                                    <div class="dx-field-label">ได้รับเลขอ้างอิงจากธนาคารแล้ว : </div>
+                                    <div class="dx-field-value">
+                                        <dx-text-box [(value)]="submission.FREEZE_ACT_BANK_TRACK_NO" (keypress)="CheckBankID($event)" (paste)="PasteCheckBankID($event)" [showClearButton]="true" placeholder="กรุณาระบุ" (onValueChanged)="checkBank($event)"></dx-text-box>
+                                    </div>
+                                </div>
+                            </dxi-item>
+                            <dxi-item itemType="group">
+                                <div class="dx-field">
+                                    <div class="dx-field-label">ติดต่อธนาคาร : </div>
+                                    <div class="dx-field-value">
+                                        <dx-text-box [(value)]="submission.FREEZE_ACT_BANK_NAME" [readOnly]="true" [showClearButton]="true" [maxLength]="200"></dx-text-box>
+                                    </div>
+                                </div>
+                            </dxi-item>
+                            <dxi-item template="datetime">
+                                <dxo-label text="" [showColon]="false"></dxo-label>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'datetime'">
+                                <div class="dx-field">
+                                    <div class="dx-field-label">วันและเวลาที่ได้รับเลขอ้างอิงจากธนาคาร :</div>
+                                    <div class="dx-field-value">
+                                        <dx-date-box id="default" (onValueChanged)="OnSelectDate($event)" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" type="datetime" [max]="maxDateValue" [(value)]="now" displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false"
+                                            [useMaskBehavior]="true">
+                                        </dx-date-box>
+                                    </div>
+                                </div>
+                            </div>
+                        </dx-form>
+                    </div>
+                </div>
+                <br>
+                <div class="col-sm-12 customtext text-center" style="margin-bottom:1rem;">
+                    <dxi-item itemType="group" [colSpan]="3">
+                        <dx-button stylingMode="contained" text="บันทึก" [disabled]="blockSave" type="default" [width]="120" (onClick)="onsave($event)">
+                        </dx-button>
+                        &nbsp;&nbsp;
+                        <dx-button stylingMode="contained" text="ยกเลิก" type="default" [width]="120" (onClick)="onSkip($event)">
+                        </dx-button>
+                    </dxi-item>
+                </div>
+            </div>
+        </dx-scroll-view>
+    </div>
+</dx-popup>
+
+<dx-popup [width]="900" [height]="300" [showTitle]="false" title="แจ้งเตือนจากระบบ" [closeOnOutsideClick]="false" [showCloseButton]="false" [visible]="true" [(visible)]="_isShow2">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view width="100%" height="100%">
+            <div class="row">
+                <div class="col-sm-12 text-center" style="margin-top:90px;margin-bottom: 20px;">
+                    <div class="sub-title-popup" style="font-size: 40px;color: red;">
+                        กรุณาโทร 1441 เพื่อติดต่อขอเลขอ้างอิงธนาคาร
+                    </div>
+                </div>
+                <div class="col-sm-12 text-center" style="position: fixed;bottom: 0;margin-bottom: 20px;">
+                    <dxi-item itemType="group" [colSpan]="3">
+                        <dx-button stylingMode="contained" text="ตกลง" type="default" [width]="120" style="box-shadow:2px 2px 6px 0px #00000045" (onClick)="onclosepopundepending($event)">
+                        </dx-button>
+                    </dxi-item>
+                </div>
+            </div>
+
+        </dx-scroll-view>
+    </div>
+</dx-popup>

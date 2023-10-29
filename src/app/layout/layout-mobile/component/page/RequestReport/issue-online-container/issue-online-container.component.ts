@@ -22,6 +22,7 @@ import { IssueOnlineBlessingComponent } from "./issue-online-blessing/issue-onli
 import { IssueOnlineQuestionareComponent } from "./issue-online-questionare/issue-online-questionare.component";
 import { ProvinceService } from "src/app/services/province.service";
 import Swal from "sweetalert2";
+import { IssueOnlineCheckComponent } from "./issue-online-check/issue-online-check.component";
 @Component({
     selector: "app-issue-online-container",
     templateUrl: "./issue-online-container.component.html",
@@ -119,13 +120,14 @@ export class IssueOnlineContainerComponent implements OnInit {
 
         }
     }
-    // @ViewChild(ChatComponent) set content10(content10: ChatComponent) {
-    //     if (content10) {
-    //         this.chatConponent = content10;
-    //         this.chatConponent.mainConponent = this;
+    @ViewChild(IssueOnlineCheckComponent) set content0(content0: IssueOnlineCheckComponent) {
+        if(content0) {
+            this.pagefirstConponent = content0;
+            this.pagefirstConponent.mainConponent = this;
+            this.indexLocker.pagefirstConponent = true;
 
-    //     }
-    // }
+        }
+    }
     @Input() dataForm: any;
     @Input() public edit;
     @Input() public userType = "mySelf";
@@ -149,6 +151,7 @@ export class IssueOnlineContainerComponent implements OnInit {
     public questionareComponent: IssueOnlineQuestionareComponent;
     public chatConponent: ChatComponent;
     public trackAppointmentConponent: TrackAppointmentComponent;
+    public pagefirstConponent: IssueOnlineCheckComponent;
     public caseId: number;
     public InstId: string;
     public ProcessInstanceId: string;
@@ -161,13 +164,9 @@ export class IssueOnlineContainerComponent implements OnInit {
     bpmData = [];
     stepNavigation = [
         {text:"ข้อความยินยอม",textClass:"arrow-div arrow-first"},
-        {text:"คำถามแยกพรก.",textClass:"arrow-div arrow-center"},
         {text:"ข้อมูลผู้เสียหาย",textClass:"arrow-div arrow-center"},
         {text:"เรื่องที่เกิดขึ้น",textClass:"arrow-div arrow-center"},
         {text:"ความเสียหาย",textClass:"arrow-div arrow-center"},
-        {text:"ข้อมูลคนร้าย",textClass:"arrow-div arrow-center"},
-        {text:"แนบไฟล์เพิ่มเติม",textClass:"arrow-div arrow-center"},
-        {text:"การกระทำความผิด",textClass:"arrow-div arrow-center"},
         {text:"ยืนยันความถูกต้อง",textClass:"arrow-div arrow-end"}
     ];
     stepNavigationZindex = 100;
@@ -253,9 +252,6 @@ export class IssueOnlineContainerComponent implements OnInit {
                     localStorage.removeItem("form-informer");
                     localStorage.removeItem("form-event");
                     localStorage.removeItem("form-damage");
-                    localStorage.removeItem("form-villain");
-                    localStorage.removeItem("form-attachment");
-                    localStorage.removeItem("form-questionare");
                     localStorage.removeItem("form-index");
                 }
             });
@@ -265,13 +261,6 @@ export class IssueOnlineContainerComponent implements OnInit {
         this.formDataInsert.CASE_TYPE_ID = 1;
         this.formDataInsert.CASE_FLAG = "O";
         this.formDataInsert.CASE_SELF_TYPE = (this.userType === "mySelf")?"Y":"N";
-        // public agreeComponent: IssueOnlineAgreeComponent;
-        // public informerConponent: IssueOnlineInformerComponent;
-        // public eventConponent: IssueOnlineEventComponent;
-        // public damageConponent: IssueOnlineDamageComponent;
-        // public vaillainConponent: IssueOnlineVillainComponent;
-        // public attachmentConponent: IssueOnlineAttachmentComponent;
-        // public validateConponent: IssueOnlineValidateComponent;
         this.formDataAll = {
             DataDamageShow:{},
             formInformer:{},
@@ -351,13 +340,10 @@ export class IssueOnlineContainerComponent implements OnInit {
     public checkReload(page){
         // console.log("เรียกข้อมูลไม่สำเร็จกำลังเรียกข้อมูลใหม่ที่หน้า ",page);
         switch(page){
-            case 1 : this.blessingComponent.ngOnInit(); break;
+            case 0 : this.pagefirstConponent.ngOnInit(); break;
             case 2 : this.informerConponent.ngOnInit(); break;
             case 3 : this.eventConponent.ngOnInit(); break;
             case 4 : this.damageConponent.ngOnInit(); break;
-            case 5 : this.vaillainConponent.ngOnInit(); break;
-            case 6 : this.attachmentConponent.ngOnInit(); break;
-            case 7 : this.questionareComponent.ngOnInit(); break;
         }
     }
 }

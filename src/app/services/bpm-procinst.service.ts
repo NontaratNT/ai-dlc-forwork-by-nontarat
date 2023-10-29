@@ -70,6 +70,27 @@ export class BpmProcinstService {
 
     }
 
+    // ถอนแจ้งความที่ gdcc
+    public userSelectOrgGdcc( param: ISelectOrg): Observable<any> {
+        const newHeader = new HttpHeaders({Authorization: "Bearer " + CookieStorage.accessToken});
+        return  this.http.put<ISelectOrg>(`${environment.config.baseConfig.urlgdcceform}/BpmProcInst/Updateorgpersonal`, {
+            headers: newHeader,
+            params: param
+          });
+    }
+
+    public userSelectOrg( param: ISelectOrg): Observable<any> {
+        return this._req<IWithdrawCase>().api(`BpmProcInst/Updateorgpersonal`)
+            .body(param)
+            .disableCriticalDialogError().put();
+    }
+
+}
+
+export interface ISelectOrg{
+    organize_id?: number;
+    inst_id?: number;
+    personal_id?: number;
 }
 
 export interface IWithdrawCase{

@@ -5,14 +5,13 @@
             <div [ngStyle]="{'width.px': stepNavigationWidth}">
                 <div class="block-arrow">
                     <div *ngFor="let item of stepNavigation; index as i;" class="arrow-div">
-                        <div class="{{item.textClass}}" [ngClass]="SelectorTab(i)" [style.z-index]="GetzIndexTab(i)"
-                            (click)="SelectTabIndex(i)">
+                        <div class="{{item.textClass}}" [ngClass]="SelectorTab(i)" [style.z-index]="GetzIndexTab(i)" (click)="SelectTabIndex(i)">
                             <div [ngClass]="formType === 'add' ? 'circle':'circle-edit' ">
                                 <span>{{i+1}}</span>
                             </div>
                             <div [ngClass]="formType === 'add' ? 'text':'text-edit'">
-                                <!-- <div class="title">{{ formType === 'add' ? 'ขั้นตอนที่ ' + (i+1) : '------' }}</div> -->
-                                <div class="title" *ngIf="formType === 'add'">{{'ขั้นตอนที่ ' + (i+1)}}</div>
+                                <div class="title" *ngIf="formType === 'add'">{{'ขั้นตอนที่ ' + (i+1)}}
+                                </div>
                                 <div>{{item.text}}</div>
                             </div>
                         </div>
@@ -20,17 +19,15 @@
                 </div>
             </div>
         </dx-scroll-view>
-        <dx-multi-view [focusStateEnabled]="false" [animationEnabled]="false" [swipeEnabled]="false"
-            [selectedIndex]="indexTab">
-
+        <dx-multi-view [focusStateEnabled]="false" [animationEnabled]="false" [swipeEnabled]="false" [selectedIndex]="indexTab">
+            <dxi-item *ngIf="this.formType === 'add'">
+                <ng-container>
+                    <app-issue-online-check></app-issue-online-check>
+                </ng-container>
+            </dxi-item>
             <dxi-item *ngIf="this.formType === 'add'">
                 <ng-container>
                     <app-issue-online-agree></app-issue-online-agree>
-                </ng-container> 
-            </dxi-item>
-            <dxi-item>
-                <ng-container *dxTemplate>
-                    <app-issue-online-blessing></app-issue-online-blessing>
                 </ng-container>
             </dxi-item>
             <dxi-item>
@@ -48,21 +45,6 @@
                     <app-issue-online-damage></app-issue-online-damage>
                 </ng-container>
             </dxi-item>
-            <dxi-item>
-                <ng-container *dxTemplate>
-                    <app-issue-online-villain></app-issue-online-villain>
-                </ng-container>
-            </dxi-item>
-            <dxi-item *ngIf="this.formType === 'add'">
-                <ng-container *dxTemplate>
-                    <app-issue-online-attachment></app-issue-online-attachment>
-                </ng-container>
-            </dxi-item>
-            <dxi-item>
-                <ng-container *dxTemplate>
-                    <app-issue-online-questionare></app-issue-online-questionare>
-                </ng-container>
-            </dxi-item>
             <dxi-item *ngIf="this.formType === 'add'">
                 <ng-container *dxTemplate>
                     <app-issue-online-validate></app-issue-online-validate>
@@ -72,8 +54,5 @@
         <!-- <button (click)="CheckDataForm()">CheckDataForm()</button> -->
     </div>
 </div>
-<!-- <app-view-address [(dataForm)]="dataTest" [renderView]="'view2'"></app-view-address> -->
-<!-- <app-view-address [(dataForm)]="dataTest" [renderView]="'view3'"></app-view-address> -->
-<!-- <button (click)="tetData()">tetData</button> -->
 <dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
 </dx-load-panel>
