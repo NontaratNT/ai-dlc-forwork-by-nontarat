@@ -25,11 +25,14 @@ import * as moment from "moment";
 import { SurveyService } from "../../../../services/survey.service";
 import { FreezeAccountService } from 'src/app/services/bpm-freeze-account.service';
 import { IssueOnlineService } from "src/app/services/issue-online.service";
-import { DxDataGridComponent } from "devextreme-angular";
+import { DxDataGridComponent, DxSelectBoxComponent } from "devextreme-angular";
 import { BankInfoService } from "src/app/services/bank-info.service";
 import { DatePipe } from '@angular/common';
 import { enc, MD5 } from 'crypto-js';
 import { LogExportService } from "src/app/services/log-export.service";
+import { IOrganizeInfo } from "share-ui/lib/models/organize-info.service";
+import { ProvinceService } from "src/app/services/province.service";
+import { OrgService } from "src/app/services/org.service";
 // import { IssueOnlineService } from "src/app/services/issue-online.service";
 
 
@@ -46,6 +49,8 @@ export class TasklistComponent implements OnInit {
     // ];
 
     @ViewChild('gridlist', { static: false }) gridlist: DxDataGridComponent;
+    @ViewChild("selectPresentProvicelocationwalkin", { static: false }) selectPresentProvicelocationWalkin: DxSelectBoxComponent;
+    @ViewChild("selectorgwalkin", { static: false })  selectorgwalkin: DxSelectBoxComponent;
 
     monthShortTh = [
         "ม.ค.",
@@ -106,6 +111,7 @@ export class TasklistComponent implements OnInit {
     now: Date;
     maxDateValue:Date = new Date();
     blockSave = true;
+    orgShow =false;
 
     popupConsentVisible: boolean = false;
     submission = {} as any;
@@ -113,6 +119,12 @@ export class TasklistComponent implements OnInit {
     _isShow2: boolean = false;
     ways = [{ id: 1, text: 'ดำเนินการแล้ว' }, { id: 2, text: 'ยังไม่ได้ดำเนินการ' }];
     selectcaseID: any;
+
+    dswalkinstatuspolice: IOrganizeInfo[];
+    province = [];
+    formData: any = {};
+
+
     constructor(
         private router: Router,
         private servicePersonal: PersonalService,
@@ -127,7 +139,9 @@ export class TasklistComponent implements OnInit {
         private _issueOnlineService: IssueOnlineService,
         private _bankInfoService: BankInfoService,
         private datePipe: DatePipe,
-        private _logService : LogExportService
+        private _logService : LogExportService,
+        private serviceProvince: ProvinceService,
+        private _OrgService: OrgService,
 
     ) {
         this._searchParam = {} as any;
@@ -1272,6 +1286,99 @@ export class TasklistComponent implements OnInit {
 
     displayFormatDateTime(date) {
         return formatDate(new Date(date), 'dateShortTimeThai');
+    }
+
+    async addorg(cellValue){
+        this.province = await this.serviceProvince.GetProvince().toPromise();
+        const data = cellValue.data;
+        this.formData.INST_ID = data.INST_ID;
+        if(data){
+            this.orgShow = true;
+        }
+    }
+
+    onClose(){
+        this.formData.ORG_PROVINCE_OFFICER_ID = undefined;
+        this.formData.ORGANIZE_ID = undefined;
+        this.orgShow = false;
+    }
+
+    check1440(data) {
+        return true;
+        // if (data) {
+        //     if (data.TRACKING_CODE.includes("T")) {
+        //         if (data.ORG_ID === undefined || data.ORG_ID === null) {
+        //             return true;
+        //         } else if (data.ORG_ID === 1) {
+        //             return true;
+        //         }
+        //     }
+        // }
+        // return false;
+    }
+
+    OnSelectProvicePresentlocationWalkin(e){
+        if (e.value) {
+            const data =
+                this.selectPresentProvicelocationWalkin.instance.option(
+                    "selectedItem"
+                );
+            if (data) {
+                this.formData.ORG_PROVINCE_OFFICER_ID = data.PROVINCE_ID;
+                this.formData.ORG_PROVINCE_OFFICER_NAME = data.PROVINCE_NAME_THA;
+            } else {
+                this.formData.ORG_PROVINCE_OFFICER_ID = e.value;
+            }
+            this._OrgService.getorgProvince(e.value).subscribe((_) => {
+                this.dswalkinstatuspolice = _;
+            });
+        }
+    }
+
+    Onorglocationwalkin(e){
+        const data = this.selectorgwalkin.instance.option("selectedItem");
+        if (data) {
+            this.formData.ORGANIZE_ID =  data.ORGANIZE_ID;
+            this.formData.ORGANIZE_NAME = data.ORGANIZE_NAME_THA;
+            this.formData.ORG_PROVINCE_OFFICER_ID = Number(data.ORGANIZE_ARIA_CODE);
+        } else {
+            this.formData.ORGANIZE_ID = e.value;
+        }
+    }
+
+    onSave(e){
+        if(!this.formData.ORGANIZE_ID){
+            Swal.fire({
+                title: 'ผิดพลาด!',
+                text: 'กรุณาเลือกสถานีที่ท่าจะไปพบ',
+                icon: 'warning',
+                confirmButtonText: 'Ok',
+            }).then(() => {
+            });
+            return;
+        }
+        const setData = {
+            organize_id : Number(this.formData.ORGANIZE_ID),
+            inst_id : Number(this.formData.INST_ID),
+            personal_id : Number(User.Current.PersonalId)
+        }
+        this._isLoading = true;
+        this.bpmProcinstServ.userSelectOrgGdcc(setData)
+        .subscribe(() => {
+            this.bpmProcinstServ.userSelectOrg(setData)
+            .subscribe(() => {
+                Swal.fire({
+                    title: 'แจ้งเตือน!',
+                    text: 'เลือกหน่วยงานสำเร็จ!!!',
+                    icon: 'warning',
+                    confirmButtonText: 'ตกลง'
+                }).then(() => {
+                    this._isLoading = false;
+                    this.onClose();
+                    location.reload();
+                });
+            });
+        });
     }
 
 }

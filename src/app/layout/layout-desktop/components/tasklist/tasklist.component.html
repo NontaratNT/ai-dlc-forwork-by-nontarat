@@ -74,19 +74,16 @@
                                     </div>
                                 </div> -->
                                 <div *ngIf="showAppointmentList">
-                                    <div *ngFor="let item of listAppointment; index as i"
-                                        class="block-user-appointment">
+                                    <div *ngFor="let item of listAppointment; index as i" class="block-user-appointment">
                                         <div class="appointment-list" (click)="GotoUrlTaskList(item)">
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div class="row appointment-data">
                                                         <div class="col-6">
-                                                            <div class="color-head"
-                                                                [ngClass]="AppointmentColorClass(i)"> </div>
+                                                            <div class="color-head" [ngClass]="AppointmentColorClass(i)"> </div>
                                                             <div class="row">
                                                                 <div class="col-auto">
-                                                                    <div class="appointment-data-box1"
-                                                                        *ngIf="item.APPOINTMENT_DATE != '4000-01-01T00:00:00'">
+                                                                    <div class="appointment-data-box1" *ngIf="item.APPOINTMENT_DATE != '4000-01-01T00:00:00'">
                                                                         <div class="text-title">
                                                                             {{ConvertDateTitle(item.APPOINTMENT_DATE)}}
                                                                         </div>
@@ -94,8 +91,7 @@
                                                                             {{ConvertDateFullYear(item.APPOINTMENT_DATE)}}
                                                                         </div>
                                                                     </div>
-                                                                    <div class="appointment-data-box1"
-                                                                        *ngIf="item.APPOINTMENT_DATE == '4000-01-01T00:00:00'">
+                                                                    <div class="appointment-data-box1" *ngIf="item.APPOINTMENT_DATE == '4000-01-01T00:00:00'">
                                                                         <div class="text-title">ยังไม่ได้ลงวันที่นัดหมาย
                                                                         </div>
 
@@ -104,36 +100,26 @@
                                                                 <div class="col nopadding">
                                                                     <div class="appointment-data-box2">
                                                                         <div class="text-title track-code">
-                                                                            <span
-                                                                                class="marker">เลขรับแจ้งความออนไลน์</span>
+                                                                            <span class="marker">เลขรับแจ้งความออนไลน์</span>
                                                                             <span class="text-space-left">|</span>
-                                                                            <span
-                                                                                class="text-space-left">{{item.TRACKING_CODE}}</span>
+                                                                            <span class="text-space-left">{{item.TRACKING_CODE}}</span>
                                                                         </div>
                                                                         <div class="text-title category">
                                                                             {{item.CATEGORY_NAME}}</div>
-                                                                        <div class="text-subtitle"
-                                                                            *ngIf="item.APPOINTMENT_DATE != '4000-01-01T00:00:00'">
+                                                                        <div class="text-subtitle" *ngIf="item.APPOINTMENT_DATE != '4000-01-01T00:00:00'">
                                                                             <span class="marker">วันที่นัดหมาย</span>
-                                                                            <span
-                                                                                class="text-space-left">{{ConvertDateFullMonth(item.APPOINTMENT_DATE)}}</span>
+                                                                            <span class="text-space-left">{{ConvertDateFullMonth(item.APPOINTMENT_DATE)}}</span>
                                                                             <span class="text-space-left">|</span>
-                                                                            <span
-                                                                                class="text-space-left marker">เวลา</span>
-                                                                            <span
-                                                                                class="text-space-left">{{ConvertDateToMomentTime(item.APPOINTMENT_DATE)}}
+                                                                            <span class="text-space-left marker">เวลา</span>
+                                                                            <span class="text-space-left">{{ConvertDateToMomentTime(item.APPOINTMENT_DATE)}}
                                                                                 น.</span>
                                                                         </div>
-                                                                        <div class="text-subtitle"
-                                                                            *ngIf="item.APPOINTMENT_DATE == '4000-01-01T00:00:00'">
+                                                                        <div class="text-subtitle" *ngIf="item.APPOINTMENT_DATE == '4000-01-01T00:00:00'">
                                                                             <span class="marker">วันที่นัดหมาย</span>
-                                                                            <span
-                                                                                class="text-space-left">ยังไม่ได้ลงวันที่นัดหมาย</span>
+                                                                            <span class="text-space-left">ยังไม่ได้ลงวันที่นัดหมาย</span>
                                                                             <span class="text-space-left">|</span>
-                                                                            <span
-                                                                                class="text-space-left marker">เวลา</span>
-                                                                            <span
-                                                                                class="text-space-left">ยังไม่ได้ลงเวลานัดหมาย</span>
+                                                                            <span class="text-space-left marker">เวลา</span>
+                                                                            <span class="text-space-left">ยังไม่ได้ลงเวลานัดหมาย</span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -143,8 +129,7 @@
                                                             <div class="row">
                                                                 <div class="col-auto">
                                                                     <div class="appointment-data-box3">
-                                                                        <img src="assets/image/police/desktop/station.png"
-                                                                            alt="station">
+                                                                        <img src="assets/image/police/desktop/station.png" alt="station">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col nopadding">
@@ -152,18 +137,14 @@
                                                                         <div class="text-title">
                                                                             {{item.ORGANIZE_NAME_THA}}</div>
                                                                         <div class="text-subtitle">
-                                                                            <span
-                                                                                class="marker">{{item.APP_PERSONAL_FULLNAME}}</span>
-                                                                            <span
-                                                                                class="marker text-space-left">|</span>
+                                                                            <span class="marker">{{item.APP_PERSONAL_FULLNAME}}</span>
+                                                                            <span class="marker text-space-left">|</span>
                                                                             <span class="text-space-left">โทร
                                                                                 {{PhoneNumberFormat(item.APPOINTMENT_PERSONAL_TEL_NO)}}</span>
                                                                         </div>
                                                                         <div class="text-subtitle">
-                                                                            <span
-                                                                                class="marker">{{item.INVESTIGATE_OFFICER_NAME}}</span>
-                                                                            <span
-                                                                                class="marker text-space-left">|</span>
+                                                                            <span class="marker">{{item.INVESTIGATE_OFFICER_NAME}}</span>
+                                                                            <span class="marker text-space-left">|</span>
                                                                             <span class="text-space-left">โทร
                                                                                 {{PhoneNumberFormat(item.INVESTIGATE_OFFICER_PHONE)}}</span>
                                                                         </div>
@@ -224,9 +205,7 @@
                                                 <div class="stepwizard form-no" [ngStyle]="{'width.px': statusWidth}">
                                                     <div class="stepwizard-row setup-panel">
                                                         <div *ngFor="let item of data" class="stepwizard-step">
-                                                            <span style="cursor: pointer !important;position: relative;"
-                                                                class="text-hover {{item.GROUP_STATUS_CLASS_DETAIL}}"
-                                                                (click)="bindTaskList(item.GROUP_STATUS_CODE)">
+                                                            <span style="cursor: pointer !important;position: relative;" class="text-hover {{item.GROUP_STATUS_CLASS_DETAIL}}" (click)="bindTaskList(item.GROUP_STATUS_CODE)">
                                                                 <div class="alert-task-new"
                                                                     *ngIf="checkValue(item.GROUP_COUNT)">
                                                                     {{item.GROUP_COUNT}}</div>
@@ -249,68 +228,62 @@
                             </div>
                             <br>
                             <div id="tasklist-table" class="myContent">
-                                <div class="block-add-btn d-flex justify-content-end mb-3" >
+                                <div class="block-add-btn d-flex justify-content-end mb-3">
                                     <!-- <button  class="btn-add btn d-flex  align-items-center justify-content-center"
                                         (click)="Add()">
                                         <i class="fa fa-bullhorn " aria-hidden="true"></i>
                                         <span class="px-3 ">แจ้งเรื่องใหม่</span>
                                     </button> -->
                                 </div>
-                                <dx-data-grid #grid [dataSource]="_dataSource" [showColumnLines]="false" [rowAlternationEnabled]="true"
-                                    [wordWrapEnabled]="true" [showRowLines]="true" [columnAutoWidth]="true"
-                                    [columnHidingEnabled]="false" [showBorders]="false" [rowAlternationEnabled]="true"
-                                    [showColumnLines]="true" [hoverStateEnabled]="true" [selectedRowKeys]="[]"
-                                    noDataText="ไม่มีข้อมูล" [remoteOperations]="false">
+                                <dx-data-grid #grid [dataSource]="_dataSource" [showColumnLines]="false" [rowAlternationEnabled]="true" [wordWrapEnabled]="true" [showRowLines]="true" [columnAutoWidth]="true" [columnHidingEnabled]="false" [showBorders]="false" [rowAlternationEnabled]="true"
+                                    [showColumnLines]="true" [hoverStateEnabled]="true" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล" [remoteOperations]="false">
                                     <dxo-paging [pageSize]="10"></dxo-paging>
                                     <dxo-load-panel text="กำลังโหลดข้อมูล..."></dxo-load-panel>
-                                    <dxo-search-panel [visible]="true"placeholder="ค้นหา..."></dxo-search-panel>
-                                    <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false"
-                                        [allowAdding]="false">
+                                    <dxo-search-panel [visible]="true" placeholder="ค้นหา..."></dxo-search-panel>
+                                    <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
                                     </dxo-editing>
                                     <dxo-selection mode="single"></dxo-selection>
-                                    <dxo-pager [visible]="true" [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]"
-                                        [showInfo]="true">
+                                    <dxo-pager [visible]="true" [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true">
                                     </dxo-pager>
-                                    <dxi-column dataField="" caption="จัดการ" [width]="100" alignment="center"
-                                        [allowSorting]="false" cellTemplate="cellTemplateCommand"></dxi-column>
+                                    <dxi-column dataField="" caption="จัดการ" [width]="100" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommand"></dxi-column>
                                     <div *dxTemplate="let cellValue of 'cellTemplateCommand'">
                                         <div class="table-icon-edit" (click)="edit(cellValue)">
                                             <img src="assets/image/police/desktop/icon-view.png" alt="edit">
                                         </div>
                                     </div>
-                                    <dxi-column dataField="" caption="เพิ่มเลขอ้างอิงธนาคาร" [width]="100" alignment="center"
-                                    [allowSorting]="false" cellTemplate="cellTemplatebankcaseid"></dxi-column>
-                                <div *dxTemplate="let cellValue of 'cellTemplatebankcaseid'">
-                                    <div class="table-icon-edit" (click)="addbankcaseid(cellValue)">
-                                        <img src="assets/icon/edit2.png" alt="bankcaseid" width="25px" height="25px">
+                                    <dxi-column dataField="" caption="เพิ่มเลขอ้างอิงธนาคาร" [width]="100" alignment="center" [allowSorting]="false" cellTemplate="cellTemplatebankcaseid"></dxi-column>
+                                    <div *dxTemplate="let cellValue of 'cellTemplatebankcaseid'">
+                                        <div class="table-icon-edit" (click)="addbankcaseid(cellValue)">
+                                            <img src="assets/icon/edit2.png" alt="bankcaseid" width="25px" height="25px">
+                                        </div>
                                     </div>
-                                </div>
-                                    <dxi-column dataField="" caption="รายงาน" [width]="100" alignment="center"
-                                    [allowSorting]="false" cellTemplate="cellTemplateReport"></dxi-column>
-                                <div *dxTemplate="let cellValue of 'cellTemplateReport'">
-                                    <div class="table-icon-edit" (click)="report(cellValue)">
-                                        <img src="assets/icon/icon-report.png" alt="Report" width="25px" height="25px">
+                                    <dxi-column dataField="" caption="เลือกสถานีที่สะดวก" [width]="100" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateorg"></dxi-column>
+                                    <div *dxTemplate="let cellValue of 'cellTemplateorg'">
+                                        <div class="table-icon-edit" *ngIf="check1440(cellValue.data)" (click)="addorg(cellValue)">
+                                            <img src="assets/icon/edit2.png" alt="orgselect" width="25px" height="25px">
+                                        </div>
                                     </div>
-                                </div>
+                                    <dxi-column dataField="" caption="รายงาน" [width]="100" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateReport"></dxi-column>
+                                    <div *dxTemplate="let cellValue of 'cellTemplateReport'">
+                                        <div class="table-icon-edit" (click)="report(cellValue)">
+                                            <img src="assets/icon/icon-report.png" alt="Report" width="25px" height="25px">
+                                        </div>
+                                    </div>
 
-                                    <dxi-column dataField="TRACKING_CODE" [width]="200" caption="เลขรับแจ้งความออนไลน์"
-                                        alignment="center">
+                                    <dxi-column dataField="TRACKING_CODE" [width]="200" caption="เลขรับแจ้งความออนไลน์" alignment="center">
                                     </dxi-column>
                                     <!-- <dxi-column dataField="CATEGORY_NAME" caption="เรื่อง" alignment="center">
                                     </dxi-column> -->
-                                    <dxi-column dataField="OPTIONAL_DATA" caption="รายละเอียดของการเกิดเหตุโดยย่อ"
-                                        alignment="center" cellTemplate="cellTemplateDescription">
+                                    <dxi-column dataField="OPTIONAL_DATA" caption="รายละเอียดของการเกิดเหตุโดยย่อ" alignment="center" cellTemplate="cellTemplateDescription">
                                     </dxi-column>
                                     <div *dxTemplate="let cell of 'cellTemplateDescription'">
                                         <div class="text-break text-left">
                                             {{ cell.data.OPTIONAL_DATA_REPLACE }}
                                         </div>
                                     </div>
-                                    <dxi-column dataField="ORGANIZE_NAME_THA" caption="หน่วยงาน" alignment="center"
-                                        [width]="200">
+                                    <dxi-column dataField="ORGANIZE_NAME_THA" caption="หน่วยงาน" alignment="center" [width]="200">
                                     </dxi-column>
-                                    <dxi-column dataField="OFFICER_FULL_NAME" caption="พนักงานสืบสวน" alignment="center"
-                                        [width]="200">
+                                    <dxi-column dataField="OFFICER_FULL_NAME" caption="พนักงานสืบสวน" alignment="center" [width]="200">
                                     </dxi-column>
                                     <!-- <dxi-column dataField="PERSONAL_TEL_NO" caption="ช่องทางติดต่อ" alignment="center"
                                         [width]="200">
@@ -318,14 +291,12 @@
                                     <!-- <dxi-column dataField="CREATE_DATE_TEXT" caption="วันที่แจ้งเหตุ" alignment="center"
                                         [width]="150">
                                     </dxi-column> -->
-                                    <dxi-column [allowSearch]="false" dataField="CREATE_DATE_TEXT" caption="วันที่แจ้งเหตุ"
-                                    alignment="center" [width]="150" cellTemplate="displayFormatDate">
-                                </dxi-column>
-                                <div *dxTemplate="let celldata of 'displayFormatDate'">
-                                    {{displayFormatDateTime(celldata.data.CREATE_DATE_TEXT)}}
-                                </div>
-                                    <dxi-column dataField="GROUP_STATUS_NAME" caption="สถานะคดี" alignment="center"
-                                        [width]="150">
+                                    <dxi-column [allowSearch]="false" dataField="CREATE_DATE_TEXT" caption="วันที่แจ้งเหตุ" alignment="center" [width]="150" cellTemplate="displayFormatDate">
+                                    </dxi-column>
+                                    <div *dxTemplate="let celldata of 'displayFormatDate'">
+                                        {{displayFormatDateTime(celldata.data.CREATE_DATE_TEXT)}}
+                                    </div>
+                                    <dxi-column dataField="GROUP_STATUS_NAME" caption="สถานะคดี" alignment="center" [width]="150">
                                     </dxi-column>
                                     <!-- <div *dxTemplate="let cell of 'cellTemplateStatus'">
                                         <span class="click-tracking">{{calculateStatus(cell)}}</span>
@@ -348,9 +319,7 @@
 
 <!-- POPUP -->
 
-<dx-popup [width]="1300" [(height)]="popupHeight" [(visible)]="popupConsentVisible" [showTitle]="true" title="แจ้งเตือนจากระบบ" [closeOnOutsideClick]="false"
-    [showCloseButton]="true" [hideOnOutsideClick]="true" [showTitle]="false"
-    shadingColor="rgba(0, 0, 0, 0.7)">
+<dx-popup [width]="1300" [(height)]="popupHeight" [(visible)]="popupConsentVisible" [showTitle]="true" title="แจ้งเตือนจากระบบ" [closeOnOutsideClick]="false" [showCloseButton]="true" [hideOnOutsideClick]="true" [showTitle]="false" shadingColor="rgba(0, 0, 0, 0.7)">
     <div *dxTemplate="let data of 'content'">
         <dx-scroll-view width="100%" height="100%">
             <div class="row mt-4">
@@ -360,8 +329,7 @@
                 <div class="col-sm-9">
                     <!-- <div class="title-popup" style="font-size: 35px;">ท่านเคยแจ้งความออนไลน์ไว้แล้วหรือไม่</div>
                     <div class="sub-title-popup" style="font-size: 20px;">กรณีต้องการเพิ่มเติมข้อมูลเลขอ้างอิงธนาคารที่ Case ID เดิมของท่าน <br> คลิกที่ปุ่มเพิ่มข้อมูลที่ Case ID เดิม<br><br></div> -->
-                    <div class="title-popup" style="font-size: 35px;">ผู้เสียหายดำเนินการแจ้งธนาคาร (เจ้าของบัญชีผู้เสียหาย) <br>เพื่อระงับบัญชีชั่วคราว (ของคนร้าย) แล้ว<br>
-                        กรุณากรอกเลขอ้างอิงธนาคาร (Bank Case ID)</div>
+                    <div class="title-popup" style="font-size: 35px;">ผู้เสียหายดำเนินการแจ้งธนาคาร (เจ้าของบัญชีผู้เสียหาย) <br>เพื่อระงับบัญชีชั่วคราว (ของคนร้าย) แล้ว<br> กรุณากรอกเลขอ้างอิงธนาคาร (Bank Case ID)</div>
                 </div>
             </div>
             <div class="row mt-2">
@@ -398,25 +366,20 @@
                 <div class="col-sm-12 customtext text-left my-5" style="margin-bottom:1rem;">
                     <div class="container">
                         <div class="mb-1">
-                            <dx-form #formAgreeBank id="form" [formData]="submission" labelLocation="top" [colCount]="2"
-                            [(visible)]="_isShow">
+                            <dx-form #formAgreeBank id="form" [formData]="submission" labelLocation="top" [colCount]="2" [(visible)]="_isShow">
                                 <dxi-item itemType="group">
                                     <div class="dx-field" id="bankid-container">
                                         <div class="dx-field-label">ได้รับเลขอ้างอิงจากธนาคารแล้ว : </div>
                                         <div class="dx-field-value">
-                                            <dx-text-box [(value)]="submission.FREEZE_ACT_BANK_TRACK_NO" [maxLength]="20" (keypress)="CheckBankID($event)" (paste)="PasteCheckBankID($event)"
-                                                [showClearButton]="true" placeholder="กรุณาระบุ" (onValueChanged)="checkBank($event)"
-                                                ></dx-text-box>
+                                            <dx-text-box [(value)]="submission.FREEZE_ACT_BANK_TRACK_NO" [maxLength]="20" (keypress)="CheckBankID($event)" (paste)="PasteCheckBankID($event)" [showClearButton]="true" placeholder="กรุณาระบุ" (onValueChanged)="checkBank($event)"></dx-text-box>
                                         </div>
                                     </div>
                                 </dxi-item>
                                 <dxi-item itemType="group">
                                     <div class="dx-field" id="bankname-container">
-                                        <div class="dx-field-label" >ติดต่อธนาคาร : </div>
+                                        <div class="dx-field-label">ติดต่อธนาคาร : </div>
                                         <div class="dx-field-value">
-                                            <dx-text-box [(value)]="submission.FREEZE_ACT_BANK_NAME" [readOnly]="true"
-                                                [showClearButton]="true" [maxLength]="200"
-                                                ></dx-text-box>
+                                            <dx-text-box [(value)]="submission.FREEZE_ACT_BANK_NAME" [readOnly]="true" [showClearButton]="true" [maxLength]="200"></dx-text-box>
                                         </div>
                                     </div>
                                 </dxi-item>
@@ -427,8 +390,8 @@
                                     <div class="dx-field" id="bankdate-container">
                                         <div class="dx-field-label">วันและเวลาที่ได้รับเลขอ้างอิง<br>จากธนาคาร :</div>
                                         <div class="dx-field-value">
-                                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event)" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา"
-                                            type="datetime" [max]="maxDateValue" [(value)]="now"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
+                                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event)" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" type="datetime" [max]="maxDateValue" [(value)]="now" displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false"
+                                                [useMaskBehavior]="true">
                                             </dx-date-box>
                                         </div>
                                     </div>
@@ -484,7 +447,7 @@
                             <div class="section2 col-12 col-lg-12 col-xl-12 mt-md-5 mt-lg-0 pt-md-5 pt-lg-0">
                                 <div class="mt-5 mt-sm-0 px-2 py-2 mb-2  border border-dark rounded float-right" style=" background: #ffffffe8;">
                                     <div class="row">
-                                        <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2" >
+                                        <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2">
                                             <div class="row m-1 p-3 item-box-bank" (click)="TelLink('tel:0-2888-8888')">
                                                 <div class="col-4">
                                                     <img src="assets/icon/kbank.png" alt="kbank" class="img-fluid">
@@ -495,7 +458,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2" >
+                                        <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2">
                                             <div class="row m-1 p-3 item-box-bank" (click)="TelLink('tel:0-2111-1111')">
                                                 <div class="col-4">
                                                     <img src="assets/icon/ktb.png" alt="ktb" class="img-fluid">
@@ -518,7 +481,7 @@
                                             </div>
                                         </div>
                                         <div class="col-12 col-lg-6 col-xxl-4 box-bank mt-2">
-                                            <div class="row m-1 p-3 item-box-bank"  (click)="TelLink('tel:0-2645-5555')">
+                                            <div class="row m-1 p-3 item-box-bank" (click)="TelLink('tel:0-2645-5555')">
                                                 <div class="col-4">
                                                     <img src="assets/icon/bbl.png" alt="bbl" class="img-fluid">
                                                 </div>
@@ -747,12 +710,10 @@
                 </div>
                 <div class="col-sm-12 customtext text-center" style="margin-bottom:1rem;position: fixed;bottom: 0;margin-bottom: 30px;" *ngIf="_isShow || _isShow2">
                     <dxi-item itemType="group" [colSpan]="3">
-                        <dx-button stylingMode="contained" [disabled]="blockSave" text="บันทึก" type="default" [width]="120"
-                            (onClick)="onRegister($event)">
+                        <dx-button stylingMode="contained" [disabled]="blockSave" text="บันทึก" type="default" [width]="120" (onClick)="onRegister($event)">
                         </dx-button>
                         &nbsp;&nbsp;
-                        <dx-button stylingMode="contained" text="ยกเลิก" type="default" [width]="120"
-                            (onClick)="onSkip($event)">
+                        <dx-button stylingMode="contained" text="ยกเลิก" type="default" [width]="120" (onClick)="onSkip($event)">
                         </dx-button>
                     </dxi-item>
                 </div>
@@ -763,8 +724,7 @@
 
 
 
-<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="_isLoading" [showIndicator]="true" [showPane]="true"
-    [shading]="true" [closeOnOutsideClick]="false" message="กำลังโหลดข้อมูล..." shadingColor="rgba(0, 0, 0, 0.2)">
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="_isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กำลังโหลดข้อมูล..." shadingColor="rgba(0, 0, 0, 0.2)">
 </dx-load-panel>
 <template id="eval-template">
     <swal-title>
@@ -772,3 +732,54 @@
     </swal-title>
     <swal-html>Evaluation Template</swal-html>
 </template>
+
+
+<dx-popup [width]="1100" [height]="700" [showTitle]="true" title="ยืนยันการแจ้งเรื่องเข้าสู่ระบบ" [closeOnOutsideClick]="false" [showCloseButton]="false" [visible]="true" [(visible)]="orgShow">
+    <div class="row mt-4">
+        <div class="col-sm-4" style=" display: flex;justify-content: center">
+            <img src="assets/icon/warning-home.png" style="width:200px;height: 200px;" alt="warning-home" class="img-fluid">
+        </div>
+        <div class="col-sm-8" style="display: grid;align-content: center;">
+            <div class="title-popup" style="font-size: 31px;">กรุณาเลือกสถานีตำรวจที่ท่านสะดวกเข้าพบเจ้าหน้าที่</div>
+        </div>
+        <div class="col-12 mt-2" style="display: flex;justify-content: center;">
+            <dx-form #formInformertype1 [colCount]="3" labelLocation="top">
+                <dxi-item [colSpan]="3">
+                    <p style="color:red;">หากทราบชื่อสถานีตำรวจสามารถพิมพ์ชื่อค้นหาได้ ถ้าไม่ทราบให้เลือก จังหวัด อำเภอ เพื่อกรองหน่วยงาน</p>
+                </dxi-item>
+                <dxi-item template="temp2" [colSpan]="2" [isRequired]="true">
+                    <dxo-label text="จังหวัด" [showColon]="false">
+                    </dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกจังหวัด">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp2'">
+                    <dx-select-box #selectPresentProvicelocationwalkin [dataSource]="province" displayExpr="PROVINCE_NAME_THA" valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true" placeholder="จังหวัด" [showClearButton]="true" (onValueChanged)="OnSelectProvicePresentlocationWalkin($event)"
+                        [(value)]="formData.ORG_PROVINCE_OFFICER_ID">
+                    </dx-select-box>
+                </div>
+                <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
+                <dxi-item template="inviteOrg" [colSpan]="2" [isRequired]="true">
+                    <dxo-label text="ชื่อสถานี" [showColon]="false">
+                    </dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาระบุชื่อสถานี">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'inviteOrg'">
+                    <dx-select-box #selectorgwalkin [dataSource]="dswalkinstatuspolice" displayExpr="ORGANIZE_NAME_THA" valueExpr="ORGANIZE_NAME_THA" searchExpr="ORGANIZE_NAME_THA" placeholder="ชื่อสถานี" [searchEnabled]="true" [showClearButton]="true" (onValueChanged)="Onorglocationwalkin($event)"
+                        [(value)]="formData.ORGANIZE_ID">
+                    </dx-select-box>
+                </div>
+            </dx-form>
+        </div>
+        <div class="col-sm-12 text-center" style="margin-bottom:1rem;position: fixed;bottom: 0;margin-bottom: 30px;">
+            <dxi-item itemType="group" [colSpan]="3">
+                <dx-button stylingMode="contained" text="บันทึก" type="default" [width]="120" (onClick)="onSave($event)">
+                </dx-button>
+                &nbsp;&nbsp;
+                <dx-button stylingMode="contained" text="ยกเลิก" type="default" [width]="120" (onClick)="onClose()">
+                </dx-button>
+            </dxi-item>
+        </div>
+    </div>
+</dx-popup>

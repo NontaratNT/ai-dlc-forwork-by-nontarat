@@ -1,6 +1,9 @@
 :host {
-
-
+     ::ng-deep {
+        .dx-box-item {
+            flex: 12 0px !important;
+        }
+    }
     .text-break {
         white-space: normal;
     }
@@ -51,8 +54,7 @@
         margin-top: 10px;
         // left: 100px;
     }
-    .stepwizard-step button[disabled] {
-    }
+    .stepwizard-step button[disabled] {}
     .stepwizard .btn.disabled,
     .stepwizard .btn[disabled],
     .stepwizard fieldset[disabled] .btn {
@@ -251,7 +253,7 @@
     .btn-report-jurnal label {
         cursor: pointer;
     }
-    .dx-widget{
+    .dx-widget {
         font-size: 18px;
         @media only screen and(min-width: 2000px) {
             font-size: 24px;
@@ -442,7 +444,6 @@
     .table-icon-edit:hover {
         opacity: 0.75;
     }
-
     //  ::ng-deep .dx-toolbar {
     //     .dx-toolbar-before {
     //         position: absolute;
@@ -691,34 +692,34 @@
 }
 
 ::ng-deep .btn-block {
-    &-block1{
+    &-block1 {
         background-color: #C7252D;
         border: 1px solid #951218;
         border-radius: 5px;
         width: 400px;
         height: 50px;
-        &.dx-state-hover{
+        &.dx-state-hover {
             background-color: #970007;
         }
-        &.dx-state-focused{
+        &.dx-state-focused {
             background-color: #686868;
         }
     }
-    &-block2{
+    &-block2 {
         background-color: #06C755;
         border: 1px solid #079C44;
         border-radius: 5px;
         width: 400px;
         height: 50px;
-        &.dx-state-hover{
+        &.dx-state-hover {
             background-color: #006329;
         }
-        &.dx-state-focused{
+        &.dx-state-focused {
             background-color: #686868;
         }
     }
+}
 
-  }
 ::ng-deep .section2 {
     .block-title {
         padding: 30px 20px;
@@ -748,25 +749,29 @@
     }
 }
 
-#bankid-container > .dx-field-value {
-    ::ng-deep .dx-texteditor.dx-editor-outlined {
+#bankid-container>.dx-field-value {
+     ::ng-deep .dx-texteditor.dx-editor-outlined {
         border: 1px solid #808080;
     }
 }
-#bankname-container > .dx-field-label {
+
+#bankname-container>.dx-field-label {
     width: 25%;
 }
-#bankname-container > .dx-field-value {
+
+#bankname-container>.dx-field-value {
     width: 75%;
-    ::ng-deep .dx-texteditor.dx-editor-outlined{
+     ::ng-deep .dx-texteditor.dx-editor-outlined {
         border: 1px dashed #555 !important;
     }
 }
-#bankdate-container > .dx-field-label {
+
+#bankdate-container>.dx-field-label {
     padding: 0px 15px 9px 0;
 }
-#bankdate-container > .dx-field-value {
-    ::ng-deep .dx-texteditor.dx-editor-outlined {
+
+#bankdate-container>.dx-field-value {
+     ::ng-deep .dx-texteditor.dx-editor-outlined {
         border: 1px solid #808080;
     }
 }
