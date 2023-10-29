@@ -1015,89 +1015,12 @@ export class IssueOnlineInformerComponent implements OnInit {
     SubmitForm(e) {
         if (this.mainConponent.formType === "add") {
             this.formInformer1.instance.validate();
-            this.formInformer2.instance.validate();
-            // this.formInformer3.instance.validate();
-            // this.formInformer4.instance.validate();
-            this.formInformer2address.instance.validate();
-            // this.formInformertype1.instance.validate();
-            // this.formInformertype2.instance.validate();
-            // this.formInformertype3.instance.validate();
-            // this.formInformer5.instance.validate();
-
-
-            if (this.checkblessings) {
-                if (this.formData.ORG_LOCATION_TYPE == 1) {
-                    if (!this.formData.ORG_LOCATION_ID) {
-                        this.alertmessagecustom("กรุณาเลือกสถานี");
-                        return;
-                    }
-                } else if (this.formData.ORG_LOCATION_TYPE == 2) {
-                    if (!this.formData.ORG_LOCATION_ID) {
-                        this.alertmessagecustom("กรุณาเลือกสถานี");
-                        return;
-                    }
-                } else if (this.formData.ORG_LOCATION_TYPE == 3) {
-                    if (!this.formData.ORG_LOCATION_ID) {
-                        this.alertmessagecustom("กรุณาเลือกสถานี");
-                        return;
-                    }
-                } else if(!this.formData.ORG_LOCATION_TYPE){
-                    this.alertmessagecustom("กรุณาเลือกสถานี");
-                    return;
-                } else {
-                    if (!this.formData.ORG_LOCATION_ID) {
-                        this.alertmessagecustom("กรุณาเลือกสถานี");
-                        return;
-                    }
-                }
-            }else{
-                this.formData.ORG_LOCATION_ID = 1;
-                this.formData.ORG_LOCATION_NAME = 'สำนักงานตำรวจแห่งชาติ';
-            }
             if (!this.formInformer1.instance.validate().isValid) {
                 this._formValidate.ValidateForm(
                     this.formInformer1.instance.validate().brokenRules
                 );
                 return;
             }
-
-            if (!this.formInformer2.instance.validate().isValid) {
-                this._formValidate.ValidateForm(
-                    this.formInformer2.instance.validate().brokenRules
-                );
-                return;
-            }
-            if (!this.formInformer2address.instance.validate().isValid) {
-                this._formValidate.ValidateForm(
-                    this.formInformer2address.instance.validate().brokenRules
-                );
-                return;
-            }
-            // if (!this.formInformer3.instance.validate().isValid){
-            //     this._formValidate.ValidateForm(this.formInformer3.instance.validate().brokenRules);
-            //     return;
-            // }
-
-            // if (!this.formInformer4.instance.validate().isValid){
-            //     this._formValidate.ValidateForm(this.formInformer4.instance.validate().brokenRules);
-            //     return;
-            // }
-            // if (!this.formInformer5.instance.validate().isValid){
-            //     this._formValidate.ValidateForm(this.formInformer5.instance.validate().brokenRules);
-            //     return;
-            // }
-
-            // if(this.popupFormData.length != undefined){
-
-            // }else{
-            //     Swal.fire({
-            //         title: "ผิดพลาด!",
-            //         text: "กรุณากรอกข้อมูล บัญชีผู้เสียหาย",
-            //         icon: "warning",
-            //         confirmButtonText: "Ok",
-            //     }).then(() => {});
-            //     return;
-            // }
 
             this.formData.CASE_INFORMER_FIRSTNAME = this.NameSanitize(
                 this.formData.CASE_INFORMER_FIRSTNAME
@@ -1120,11 +1043,15 @@ export class IssueOnlineInformerComponent implements OnInit {
                 return
             }
             this.formData.NEXT = true;
-            this.mainConponent.formDataAll.formInformer = this.formData;
-            // this._issueOnlineService.issueOnline = this.formData;
-            localStorage.setItem("form-informer",JSON.stringify(this.formData));
+            const setData = {};
+            for (const key in this.formData) {
+                if (this.formData[key] !== null && this.formData[key] !== undefined) {
+                    setData[key] = this.formData[key];
+                }
+            }
+            this.mainConponent.formDataAll.formInformer = setData;
+            localStorage.setItem("form-informer",JSON.stringify(setData));
         }
-
         if(e != 'tab'){
             this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
         }

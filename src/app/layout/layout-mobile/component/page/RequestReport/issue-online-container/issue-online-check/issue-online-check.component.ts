@@ -48,7 +48,6 @@ export class IssueOnlineCheckComponent implements OnInit {
     }
 
     async setDefaultData() {
-        if (this.mainConponent.formType === "add") {
             localStorage.setItem("form-index","1");
             this.formData = {};
             if(localStorage.getItem("form-blessing")){
@@ -63,7 +62,6 @@ export class IssueOnlineCheckComponent implements OnInit {
                 }
             }else{
             }
-        }
     }
     onWaysValueChangedMoney(event: any) {
         console.log(this._dataSourcebankref);

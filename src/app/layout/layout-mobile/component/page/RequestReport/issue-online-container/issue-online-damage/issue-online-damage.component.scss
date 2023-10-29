@@ -18,7 +18,7 @@
             font-size: 18px;
             color: #2f2b66;
         }
-        ::ng-deep {
+         ::ng-deep {
             .dx-icon.fa.fa-plus {
                 color: #fff !important;
             }
@@ -26,29 +26,27 @@
                 margin-top: 5px;
                 .content-title {
                     text-align: left;
-                    padding: 0px 0 20px 0;
-                    // margin-bottom: -35px;
+                    padding: 20px 0 20px 0;
                     // font-size: 18px;
                     // color: #2f2b66;
                     // font-weight: bold;
                 }
-                // .content-end-line {
-                //     margin: auto;
-                //     width: 95%;
-                //     border-bottom: 1px solid #dddddd;
-                //     margin-top: 40px;
+                .content-end-line {
+                    margin: auto;
+                    width: 100%;
+                    border-bottom: 1px solid #dddddd;
+                    margin-top: 40px;
+                }
+                //  ::ng-deep .dx-button-mode-contained {
+                //     background-color: #fff;
+                //     border-color: #414141;
+                //     color: #020202;
                 // }
-                ::ng-deep .dx-button-mode-contained {
-                    background-color: #fff;
-                    border-color: #414141;
-                    color: #020202;
-                }
-
-                ::ng-deep .dx-button {
-                    border-radius: 3px;
-                    border-width: 2px;
-                    border-style: solid;
-                }
+                //  ::ng-deep .dx-button {
+                //     border-radius: 3px;
+                //     border-width: 2px;
+                //     border-style: solid;
+                // }
             }
         }
         .block-damage-type {
@@ -69,12 +67,10 @@
             }
             .left {
                 background: #eaf6ff;
-                margin: 10px;
             }
             .right {
                 background: #fff4db;
-                margin-bottom: 10px;
-                margin-top: 10px;
+                margin-left: 10px;
             }
         }
         .block-damage-type-title {
@@ -100,7 +96,7 @@
         }
         .block-detail-damage {
             margin: 15px 0 15px 0;
-            ::ng-deep {
+             ::ng-deep {
                 #table-block {
                     margin-top: 10px;
                     .item-add-data {
@@ -120,7 +116,7 @@
                         display: none;
                     }
                     .dx-datagrid-borders .dx-datagrid-rowsview,
-                    .dx-datagrid-headers + .dx-datagrid-rowsview {
+                    .dx-datagrid-headers+.dx-datagrid-rowsview {
                         border: unset;
                     }
                     .dx-datagrid-pager {
@@ -138,8 +134,7 @@
                         background-color: #f6f7f9;
                         color: #000000;
                         display: inline-block;
-                        min-height: 85px;
-                        width: 100%;
+                        height: 80px;
                         // border: 1px solid #c4c4c4;
                         .block {
                             display: inline-block;
@@ -171,7 +166,7 @@
                             .block-centent {
                                 margin: 0 0 0 75px;
                                 .text-title {
-                                    font-size: 15px;
+                                    font-size: 18px;
                                 }
                                 .text-detail-block {
                                     font-size: 16px;
@@ -192,14 +187,14 @@
                                 }
                             }
                             .block-icon-right-edit {
-                                // position: absolute;
+                                position: absolute;
                                 width: 36px;
                                 height: 36px;
                                 // border-radius: 36px;
                                 // background-color: #2f2b66;
                                 padding-top: 1px;
                                 text-align: center;
-                                right: 5px;
+                                right: 70px;
                                 // top: 0;
                                 margin: 0;
                                 top: 50%;
@@ -213,14 +208,14 @@
                                 }
                             }
                             .block-icon-right-del {
-                                // position: absolute;
+                                position: absolute;
                                 width: 36px;
                                 height: 36px;
                                 // border-radius: 36px;
                                 // background-color: #2f2b66;
                                 padding-top: 1px;
                                 text-align: center;
-                                right: 65px;
+                                right: 25px;
                                 // top: 0;
                                 margin: 0;
                                 top: 50%;
@@ -247,6 +242,9 @@
                                 top: 50%;
                                 -ms-transform: translateY(-50%);
                                 transform: translateY(-50%);
+                                &.btn-show {
+                                    display: none;
+                                }
                                 span {
                                     font-size: 26px;
                                     color: #ffffff;
@@ -259,19 +257,17 @@
                         .dx-datagrid .dx-datagrid-headers {
                             display: unset;
                         }
-                        .dx-datagrid .dx-row-alt > td,
-                        .dx-datagrid .dx-row-alt > tr > td {
+                        .dx-datagrid .dx-row-alt>td,
+                        .dx-datagrid .dx-row-alt>tr>td {
                             background-color: unset;
                         }
-                        .dx-datagrid-table
-                            .dx-data-row.dx-state-hover:not(.dx-selection):not(.dx-row-inserted):not(.dx-row-removed):not(.dx-edit-row):not(.dx-row-focused)
-                            > td:not(.dx-focused) {
+                        .dx-datagrid-table .dx-data-row.dx-state-hover:not(.dx-selection):not(.dx-row-inserted):not(.dx-row-removed):not(.dx-edit-row):not(.dx-row-focused)>td:not(.dx-focused) {
                             background-color: unset;
                         }
-                        .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused) > td,
-                        .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused) > tr > td,
-                        .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover > td,
-                        .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover > tr > td {
+                        .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused)>td,
+                        .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused)>tr>td,
+                        .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover>td,
+                        .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover>tr>td {
                             background-color: unset;
                         }
                         .dx-button {
@@ -281,8 +277,6 @@
                 }
                 .add-data {
                     text-align: right;
-                    margin-top: 20px;
-                    margin-bottom: -10px;
                     .btn-add-data {
                         width: 123px;
                         height: 44px;
@@ -300,13 +294,13 @@
             padding: 12px;
             height: 140px;
             border-radius: 8px;
-            background: linear-gradient(97.57deg, #ff4e4e 0%, #f3c830 100%);
+            background: linear-gradient(97.57deg, #FF4E4E 0%, #F3C830 100%);
         }
         .user-case-other-user {
             padding: 12px;
             height: 140px;
             border-radius: 8px;
-            background: linear-gradient(97.57deg, #509fde 0%, #708bed 100%);
+            background: linear-gradient(97.57deg, #509FDE 0%, #708BED 100%);
         }
         .user-case-block {
             margin-top: 20px;
@@ -337,8 +331,7 @@
         .user-case-block.right {
             padding-left: 15px;
         }
-        .user-case {
-        }
+        .user-case {}
         .padding-left-block {
             padding-left: 33px;
         }
@@ -385,33 +378,32 @@
     }
 }
 
-// ::ng-deep .dx-popup-wrapper   {
-//     .st-villain-bg {
-//         padding: 0 1rem ;
-//         background-color: #337ab785!important;
-//     }
-//     .st-villain-bg-first {
-//         padding: 1rem 1rem 0 ;
-//         background-color: #337ab785;
-//     }
-//     .st-villain-bg-last {
-//         padding: 0 1rem 1rem ;
-//         background-color: #337ab785;
-//     }
-
-//     .st-sufferer-bg{
-//         padding:  0 1rem;
-//         background-color: #f5626729;
-//     }
-//     .st-sufferer-bg-first {
-//         padding: 1rem 1rem 0 ;
-//         background-color: #f5626729;
-//     }
-//     .st-sufferer-bg-last {
-//         padding: 0 1rem 1rem ;
-//         background-color: #f5626729;
-//     }
-// }
+::ng-deep .dx-popup-wrapper {
+    .st-villain-bg {
+        padding: 0 1rem;
+        // background-color: #337ab785!important;
+    }
+    .st-villain-bg-first {
+        padding: 1rem 1rem 0;
+        // background-color: #337ab785;
+    }
+    .st-villain-bg-last {
+        padding: 0 1rem 1rem;
+        // background-color: #337ab785;
+    }
+    .st-sufferer-bg {
+        padding: 0 1rem;
+        // background-color: #f5626729;
+    }
+    .st-sufferer-bg-first {
+        padding: 1rem 1rem 0;
+        // background-color: #f5626729;
+    }
+    .st-sufferer-bg-last {
+        padding: 0 1rem 1rem;
+        // background-color: #f5626729;
+    }
+}
 
 #popup-add-damage {
     .text-break {
@@ -438,7 +430,7 @@
             height: 160px;
             background: #ffffff;
             // border: 2px dashed #DBDBDB;
-            border: 2px dashed #2f2b66;
+            border: 2px dashed #2F2B66;
             border-radius: 6px;
             text-align: center;
             padding-top: 55px;
@@ -455,7 +447,7 @@
     }
     .block-uploaded-file {
         .block-file {
-            border: 2px dashed #e4e4e4;
+            border: 2px dashed #E4E4E4;
             // border: 2px dashed #2F2B66;
             border-radius: 8px;
             .icon-file {
@@ -471,7 +463,7 @@
                 padding: 0 0 0 9px;
             }
         }
-        .block-file > .row {
+        .block-file>.row {
             margin: 6px;
         }
     }
@@ -486,17 +478,15 @@
         text-align: center;
     }
     .btn-upload {
-        background-color: #65a3e0 !important;
-        box-shadow: 0 14px 26px -12px rgb(206 206 206 / 42%), 0 4px 23px 0px rgb(0 0 0 / 12%),
-            0 8px 10px -5px rgb(218 218 218 / 20%) !important;
+        background-color: #65A3E0 !important;
+        box-shadow: 0 14px 26px -12px rgb(206 206 206 / 42%), 0 4px 23px 0px rgb(0 0 0 / 12%), 0 8px 10px -5px rgb(218 218 218 / 20%) !important;
     }
     .btn-upload:hover {
         opacity: 0.8;
-        background-color: #65a3e0 !important;
-        box-shadow: 0 14px 26px -12px rgb(206 206 206 / 42%), 0 4px 23px 0px rgb(0 0 0 / 12%),
-            0 8px 10px -5px rgb(218 218 218 / 20%) !important;
+        background-color: #65A3E0 !important;
+        box-shadow: 0 14px 26px -12px rgb(206 206 206 / 42%), 0 4px 23px 0px rgb(0 0 0 / 12%), 0 8px 10px -5px rgb(218 218 218 / 20%) !important;
     }
-    ::ng-deep {
+     ::ng-deep {
         .title-att-file {
             margin: 20px 0px 20px 0px;
             .dx-field-item-content-location-right {
@@ -518,11 +508,15 @@
         opacity: 0.8;
     }
     .table-doc {
+        // .remark-table-upload {
+        //     padding: 5px 0;
+        //     color: #ff0000;
+        // }
         margin-top: 30px;
         .table-add-item {
             margin: 20px 0 0 0;
             padding: 20px;
-            border: 2px dashed #dbdbdb;
+            border: 2px dashed #DBDBDB;
             border-radius: 8px;
             .btn-submit-item {
                 text-align: right;
@@ -550,143 +544,37 @@
     .add-data .btn-add-data:hover {
         opacity: 0.75;
     }
-    ::ng-deep {
+    img.add-data-table {
+        width: 22px;
+    }
+    .btn-add-attachment {
+        width: 95px;
+        height: 30px;
+        border-radius: 6px;
+        background: #F8AA3A;
+        color: #ffffff;
+    }
+     ::ng-deep {
+        .dx-datagrid-headers {
+            background-color: #2F2B66 !important;
+        }
+        .dx-row.dx-column-lines.dx-header-row>td {
+            vertical-align: middle !important;
+        }
+        .dx-row.dx-data-row>td {
+            vertical-align: middle !important;
+        }
         .dx-radiobutton .dx-item-content {
             font-size: 16px;
         }
     }
 }
 
-::ng-deep .damage .dx-datagrid-headers {
-    background-color: #fffffff7 !important;
-    border: unset !important;
-}
-.block-icon-right {
-    width: 30px;
-    height: 30px;
-    border-radius: 100%;
-    margin-right: 10px;
-    /* background-color: blue; */
-    color: #fff;
-    background: #334763;
-}
-::ng-deep .dx-popup-title.dx-toolbar {
-    padding: 6px 20px;
-    overflow: visible;
-    box-shadow: none;
-    border-start-start-radius: 10px;
-    border-start-end-radius: 10px;
-    // background: #2f2b66;
-    /* margin-top: 0px; */
-}
-::ng-deep .damage .dx-datagrid-headers {
-    background-color: #fffffff7 !important;
-    border: unset !important;
-}
-.status_damage {
-    margin-top: 120px;
-    background-color: #fffae9;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0px 5px 5px #aaaaaa8c;
-    margin-bottom: -80px;
-    margin-left: 10px;
-    margin-right: 10px;
-}
-::ng-deep .dx-datagrid-headers + .dx-datagrid-rowsview {
-    border-top: 1px solid #fff !important;
-}
-
-.bnt-botton {
-    margin-top: -40px;
-    justify-content: right;
-    margin-right: 10px;
-}
-::ng-deep .time-damage .dx-texteditor-buttons-container {
-    display: flex;
-    width: auto;
-    flex-grow: 0;
-    flex-basis: content;
-    // width: 0px;
-    // visibility: hidden;
-    align-items: center;
-}
-::ng-deep .time-damage .dx-datebox.dx-auto-width .dx-texteditor-input {
-    padding-right: 0px;
-}
-// ::ng-deep .damage1 .dx-layout-manager .dx-label-h-align .dx-field-item-label .dx-field-item-label-content {
-//     display: block;
-//     visibility: hidden;
-// }
-// .collapsible {
-//     background-color: #5586df;
-//     color: white;
-//     cursor: pointer;
-//     padding: 18px;
-//     width: 100%;
-//     border: none;
-//     text-align: left;
-//     outline: none;
-//     font-size: 15px;
-// }
-
-// .active,
-// .collapsible:hover {
-//     background-color: rgb(46, 95, 187);
-// }
-
-// .content {
-//     padding: 0 18px;
-//     display: none;
-//     overflow: hidden;
-//     background-color: #f1f1f1;
-// }
-// button.active:before {
-//     right: 0;
-//     position: fixed;
-//     margin-top: -5px;
-//     font-size: 20px;
-//     margin-right: 40px;
-//     background-color: #fff;
-//     color: #1c2f52;
-//     width: 25px;
-//     height: 25px;
-//     border-radius: 20px;
-//     text-align: center;
-//     content: "\f106";
-//     font-family: "FontAwesome";
-//     font-weight: bold;
-// }
-// button:before {
-//     right: 0;
-//     position: fixed;
-//     margin-top: -5px;
-//     font-size: 20px;
-//     margin-right: 40px;
-//     background-color: #fff;
-//     color: #1c2f52;
-//     width: 25px;
-//     height: 25px;
-//     border-radius: 20px;
-//     text-align: center;
-//     content: "\f107";
-//     font-family: "FontAwesome";
-//     font-weight: bold;
-// }
-::ng-deep .timeicon .dx-dropdowneditor-icon::before {
-    content: "\f017";
-    position: absolute;
-    display: block;
-    width: 18px;
-    top: 50%;
-    margin-top: -9px;
-    left: 50%;
-    margin-left: -9px;
-    font-family: "FontAwesome";
+::ng-deep .dx-toolbar-label .dx-toolbar-item-content>div {
+    font-size: 30px;
     font-weight: bold;
+    color: red;
 }
-
-
 
 // uploadfile custom
 .block-dropzone {
@@ -713,6 +601,7 @@
         }
     }
 }
+
 .block-uploaded-file {
     .block-file {
         border: 2px dashed #E4E4E4;

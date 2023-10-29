@@ -352,7 +352,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                         };
                     }
                     else if(formCheck.MoneyWAY == 3){
-                        this.type4 = true;
+                        this.type3 = true;
                         this.checkTypemoney = false;
                         this.checkTypemoney = false;
                         this.formData = {
@@ -374,7 +374,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                         };
                     }
                     else if(formCheck.MoneyWAY == 4){
-                        this.type3 = true;
+                        this.type4 = true;
                         this.checkTypemoney = false;
                         this.formData = {
                             CASE_MONEY_DAMAGE: "Y",
@@ -484,6 +484,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                     }
                 }, 1000);
             }
+            console.log(this.type1, this.type2, this.type3, this.type4);
 
             this.isLoading = false;
         } catch (error) {

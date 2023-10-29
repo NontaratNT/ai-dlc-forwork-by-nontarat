@@ -16,7 +16,7 @@
                         <dx-check-box [readOnly]="formReadOnly || type4" text="เงินดิจิทัล (Cryptocurrency)" [(value)]="checkboxDamage.case_type4" (onValueChanged)="ChangeMoneyType($event,'CASE_MONEY_TYPE4')"></dx-check-box>
                     </div>
                 </div>
-                <div class="conten-block" *ngIf="this.formData.CASE_MONEY_TYPE1 === 'Y' ">
+                <div class="conten-block" *ngIf="this.formData.CASE_MONEY_TYPE1 === 'Y'">
                     <div class="content-end-line"></div>
                     <div class="content-title">
                         <div class="row block-damage-type-title">
@@ -27,496 +27,494 @@
                     </div>
                     <div class="content-form">
 
-                        <div class="content-form">
-                            <dx-form *ngIf="!formReadOnly" #formbanknew [colCount]="3" labelLocation="top">
+                        <dx-form *ngIf="!formReadOnly" #formbanknew [colCount]="3" labelLocation="top">
 
-                                <dxi-item template="tempstart" [colSpan]="1" [isRequired]="true">
-                                    <dxo-label text="บัญชีต้นทาง" [showColon]="false"></dxo-label>
-                                    <dxi-validation-rule type="required" message="กรุณากรอกบัญชีต้นทาง"></dxi-validation-rule>
-                                </dxi-item>
-                                <div *dxTemplate="let data of 'tempstart'">
-                                    <dx-select-box #selectBankInfoOriginlist [dataSource]="bankListstart" valueExpr="SHOW_NAME" displayExpr="SHOW_NAME" [(value)]="formmoney.BANK_ORIGIN_LIST_ID" (onValueChanged)="onbankoriginlistchange($event)" placeholder="บัญชีต้นทาง" searchExpr="SHOW_NAME"
-                                        [searchEnabled]="true">
-                                        <dxi-button name="addbankstart" [options]="_buttonaddblank"></dxi-button>
-                                    </dx-select-box>
-                                </div>
-                                <dxi-item template="tempend" [colSpan]="1" [isRequired]="true">
-                                    <dxo-label text="บัญชีปลายทาง" [showColon]="false"></dxo-label>
-                                    <dxi-validation-rule type="required" message="กรุณากรอกบัญชีปลายทาง">
-                                    </dxi-validation-rule>
-                                </dxi-item>
-                                <div *dxTemplate="let data of 'tempend'">
-                                    <dx-select-box #selectBankInfolist [dataSource]="bankListend" valueExpr="SHOW_NAME" displayExpr="SHOW_NAME" [(value)]="formmoney.BANK_LIST_ID" (onValueChanged)="onbanklistchange($event)" placeholder="บัญชีปลายทาง" searchExpr="SHOW_NAME" [searchEnabled]="true">
-                                        <dxi-button name="addbankend" [options]="_buttonaddblankvillain"></dxi-button>
-                                    </dx-select-box>
-                                </div>
-                                <dxi-item template="datetime" [colSpan]="1" [isRequired]="true">
-                                    <dxo-label text="วันและเวลา" [showColon]="false"></dxo-label>
-                                    <dxi-validation-rule type="required" message="วันและเวลา">
-                                    </dxi-validation-rule>
-                                </dxi-item>
-                                <div *dxTemplate="let data of 'datetime'">
-                                    <dx-date-box id="default" (onValueChanged)="OnSelectDate($event)" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="วันและเวลา" type="datetime" [max]="maxDateValue" [value]="now" displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false"
-                                        [useMaskBehavior]="true">
-                                    </dx-date-box>
-                                </div>
-                                <dxi-item *ngIf="show_value" template="tempbankmoney" [colSpan]="1" [isRequired]="true">
-                                    <dxo-label text="จำนวน" [showColon]="false"></dxo-label>
-                                    <dxi-validation-rule type="required" message="กรุณากรอกมูลค่า"></dxi-validation-rule>
-                                    <div *dxTemplate="let data of 'tempbankmoney'">
-                                        <dx-number-box format="#,##0.##" [focusStateEnabled]="false" [(value)]="formmoney.BANK_DAMAGE_VALUE_BAHT"></dx-number-box>
-                                    </div>
-                                </dxi-item>
-                                <dxi-item template="tempbankmoneyunit" [colSpan]="1" [isRequired]="true">
-                                    <dxo-label text="หน่วย" [showColon]="false"></dxo-label>
-                                    <dxi-validation-rule type="required" message="กรุณากรอกหน่วย"></dxi-validation-rule>
-                                    <div *dxTemplate="let data of 'tempbankmoneyunit'">
-                                        <dx-text-box [(value)]="formmoney.BANK_DAMAGE_VALUE_UNIT"></dx-text-box>
-                                    </div>
-                                </dxi-item>
-                                <dxi-item template="tempbankmoneyvaluebaht" [colSpan]="1" [isRequired]="true">
-                                    <dxo-label text="มูลค่า(บาท)" [showColon]="false"></dxo-label>
-                                    <dxi-validation-rule type="required" message="กรุณากรอกมูลค่าบาท"></dxi-validation-rule>
-                                    <div *dxTemplate="let data of 'tempbankmoneyvaluebaht'">
-                                        <dx-number-box format="#,##0.##" [focusStateEnabled]="false" [(value)]="formmoney.BANK_DAMAGE_VALUE"></dx-number-box>
-                                    </div>
-                                </dxi-item>
-                                <dxi-item template="tempmoneydetail" [colSpan]="3" [isRequired]="false">
-                                    <dxo-label text="เหตุผล" [showColon]="false"></dxo-label>
-                                    <div *dxTemplate="let data of 'tempmoneydetail'">
-                                        <dx-text-area [(value)]="formmoney.BANK_REMARK"></dx-text-area>
-                                    </div>
-                                </dxi-item>
-                            </dx-form>
-                            <div *ngIf="!formReadOnly" class="remark-table-upload">* ขนาดไฟล์ทั้งหมดไม่เกิน 5MB</div>
-                            <div *ngIf="CheckArray(listUploadFileformmoney)" class="upload-file-table">
-                                <dx-data-grid #grid [dataSource]="listUploadFileformmoney" [showColumnLines]="false" [showRowLines]="true" [columnHidingEnabled]="true" [showBorders]="true" [wordWrapEnabled]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="false" [columnAutoWidth]="true"
-                                    [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล">
-                                    <dxo-paging [pageSize]="10"></dxo-paging>
-                                    <dxo-pager [visible]="true" [allowedPageSizes]="[10, 20, 50]" displayMode="full" [showPageSizeSelector]="true" [showInfo]="true" [showNavigationButtons]="true">
-                                    </dxo-pager>
-                                    <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
-                                    </dxo-editing>
-                                    <dxo-selection mode="single"></dxo-selection>
-                                    <dxi-column dataField="" caption="จัดการ" [width]="80" alignment="center" [allowEditing]="false" [cellTemplate]="'cellTemplateCommandOtherWay'"></dxi-column>
-
-                                    <div *dxTemplate="let d of 'cellTemplateCommandOtherWay'">
-                                        <img class="text-download" src="assets/icon/trash.png" alt="icon" (click)="ItemDamageformmoneyPopupDelete(d.component.pageIndex() * d.component.pageSize() + d.rowIndex)">
-                                    </div>
-                                    <dxi-column dataField="" caption="ลำดับ" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
-                                    <dxi-column dataField="" caption="วันที่แนบไฟล์" alignment="center" cellTemplate="cellTemplateDamage" [width]="180"></dxi-column>
-                                    <div *dxTemplate="let cell of 'cellTemplateDamage'">
-                                        <div class="text-break">{{ConvertDateFullMonth(cell.data.dateNow)}}</div>
-                                    </div>
-                                    <dxi-column dataField="" caption="แนบไฟล์" alignment="center" cellTemplate="cellTemplateAttachment"></dxi-column>
-                                    <div *dxTemplate="let cell of 'cellTemplateAttachment'">
-                                        <div class="text-break text-left">
-                                            <span class="text-download" (click)="PopupViewFile(cell.data)">{{cell.data.originalName}}</span>
-                                        </div>
-                                    </div>
-                                    <div *dxTemplate="let cell of 'cellTemplate'">
-                                        {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
-                                    </div>
-                                </dx-data-grid>
+                            <dxi-item template="tempstart" [colSpan]="1" [isRequired]="true">
+                                <dxo-label text="บัญชีต้นทาง" [showColon]="false"></dxo-label>
+                                <dxi-validation-rule type="required" message="กรุณากรอกบัญชีต้นทาง"></dxi-validation-rule>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'tempstart'">
+                                <dx-select-box #selectBankInfoOriginlist [dataSource]="bankListstart" valueExpr="SHOW_NAME" displayExpr="SHOW_NAME" [(value)]="formmoney.BANK_ORIGIN_LIST_ID" (onValueChanged)="onbankoriginlistchange($event)" placeholder="บัญชีต้นทาง" searchExpr="SHOW_NAME"
+                                    [searchEnabled]="true">
+                                    <dxi-button name="addbankstart" [options]="_buttonaddblank"></dxi-button>
+                                </dx-select-box>
                             </div>
-                            <div *ngIf="!formReadOnly" class="table-add-item">
-                                <div>
-                                    <div class="block-dropzone">
-                                        <div class="text-head">แนบไฟล์เอกสาร หรือไฟล์ภาพ</div>
-                                        <div class="dropzone" appDrag (files)="formmoneyFilesDropped($event)">
-                                            <span class="dropzone-text"><img
-                                                src="assets/image/police/desktop/icon-file.png">วางไฟล์ที่ต้องการนำเข้าที่นี่
-                                            หรือ <span class="text-link"
-                                                (click)="formmoneyOpenFileDialog(formmoneyuploadfile)">เลือกไฟล์</span><br>ไฟล์เอกสารไฟล์ภาพ นามสกุล .pdf, .jpg, .png
-                                            <input #formmoneyuploadfile type="file" [multiple]="false" accept="*" tabindex="-1" class="dx-fileuploader-input" (change)="formmoneyUploadFile(formmoneyuploadfile)"></span>
-                                        </div>
+                            <dxi-item template="tempend" [colSpan]="1" [isRequired]="true">
+                                <dxo-label text="บัญชีปลายทาง" [showColon]="false"></dxo-label>
+                                <dxi-validation-rule type="required" message="กรุณากรอกบัญชีปลายทาง">
+                                </dxi-validation-rule>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'tempend'">
+                                <dx-select-box #selectBankInfolist [dataSource]="bankListend" valueExpr="SHOW_NAME" displayExpr="SHOW_NAME" [(value)]="formmoney.BANK_LIST_ID" (onValueChanged)="onbanklistchange($event)" placeholder="บัญชีปลายทาง" searchExpr="SHOW_NAME" [searchEnabled]="true">
+                                    <dxi-button name="addbankend" [options]="_buttonaddblankvillain"></dxi-button>
+                                </dx-select-box>
+                            </div>
+                            <dxi-item template="datetime" [colSpan]="1" [isRequired]="true">
+                                <dxo-label text="วันและเวลา" [showColon]="false"></dxo-label>
+                                <dxi-validation-rule type="required" message="วันและเวลา">
+                                </dxi-validation-rule>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'datetime'">
+                                <dx-date-box id="default" (onValueChanged)="OnSelectDate($event)" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="วันและเวลา" type="datetime" [max]="maxDateValue" [value]="now" displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false"
+                                    [useMaskBehavior]="true">
+                                </dx-date-box>
+                            </div>
+                            <dxi-item *ngIf="show_value" template="tempbankmoney" [colSpan]="1" [isRequired]="true">
+                                <dxo-label text="จำนวน" [showColon]="false"></dxo-label>
+                                <dxi-validation-rule type="required" message="กรุณากรอกมูลค่า"></dxi-validation-rule>
+                                <div *dxTemplate="let data of 'tempbankmoney'">
+                                    <dx-number-box format="#,##0.##" [focusStateEnabled]="false" [(value)]="formmoney.BANK_DAMAGE_VALUE_BAHT"></dx-number-box>
+                                </div>
+                            </dxi-item>
+                            <dxi-item template="tempbankmoneyunit" [colSpan]="1" [isRequired]="true">
+                                <dxo-label text="หน่วย" [showColon]="false"></dxo-label>
+                                <dxi-validation-rule type="required" message="กรุณากรอกหน่วย"></dxi-validation-rule>
+                                <div *dxTemplate="let data of 'tempbankmoneyunit'">
+                                    <dx-text-box [(value)]="formmoney.BANK_DAMAGE_VALUE_UNIT"></dx-text-box>
+                                </div>
+                            </dxi-item>
+                            <dxi-item template="tempbankmoneyvaluebaht" [colSpan]="1" [isRequired]="true">
+                                <dxo-label text="มูลค่า(บาท)" [showColon]="false"></dxo-label>
+                                <dxi-validation-rule type="required" message="กรุณากรอกมูลค่าบาท"></dxi-validation-rule>
+                                <div *dxTemplate="let data of 'tempbankmoneyvaluebaht'">
+                                    <dx-number-box format="#,##0.##" [focusStateEnabled]="false" [(value)]="formmoney.BANK_DAMAGE_VALUE"></dx-number-box>
+                                </div>
+                            </dxi-item>
+                            <dxi-item template="tempmoneydetail" [colSpan]="3" [isRequired]="false">
+                                <dxo-label text="เหตุผล" [showColon]="false"></dxo-label>
+                                <div *dxTemplate="let data of 'tempmoneydetail'">
+                                    <dx-text-area [(value)]="formmoney.BANK_REMARK"></dx-text-area>
+                                </div>
+                            </dxi-item>
+                        </dx-form>
+                        <div *ngIf="!formReadOnly" class="remark-table-upload">* ขนาดไฟล์ทั้งหมดไม่เกิน 5MB</div>
+                        <div *ngIf="CheckArray(listUploadFileformmoney)" class="upload-file-table">
+                            <dx-data-grid #grid [dataSource]="listUploadFileformmoney" [showColumnLines]="false" [showRowLines]="true" [columnHidingEnabled]="true" [showBorders]="true" [wordWrapEnabled]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="false" [columnAutoWidth]="true"
+                                [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล">
+                                <dxo-paging [pageSize]="10"></dxo-paging>
+                                <dxo-pager [visible]="true" [allowedPageSizes]="[10, 20, 50]" displayMode="full" [showPageSizeSelector]="true" [showInfo]="true" [showNavigationButtons]="true">
+                                </dxo-pager>
+                                <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                                </dxo-editing>
+                                <dxo-selection mode="single"></dxo-selection>
+                                <dxi-column dataField="" caption="จัดการ" [width]="80" alignment="center" [allowEditing]="false" [cellTemplate]="'cellTemplateCommandOtherWay'"></dxi-column>
+
+                                <div *dxTemplate="let d of 'cellTemplateCommandOtherWay'">
+                                    <img class="text-download" src="assets/icon/trash.png" alt="icon" (click)="ItemDamageformmoneyPopupDelete(d.component.pageIndex() * d.component.pageSize() + d.rowIndex)">
+                                </div>
+                                <dxi-column dataField="" caption="ลำดับ" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+                                <dxi-column dataField="" caption="วันที่แนบไฟล์" alignment="center" cellTemplate="cellTemplateDamage" [width]="180"></dxi-column>
+                                <div *dxTemplate="let cell of 'cellTemplateDamage'">
+                                    <div class="text-break">{{ConvertDateFullMonth(cell.data.dateNow)}}</div>
+                                </div>
+                                <dxi-column dataField="" caption="แนบไฟล์" alignment="center" cellTemplate="cellTemplateAttachment"></dxi-column>
+                                <div *dxTemplate="let cell of 'cellTemplateAttachment'">
+                                    <div class="text-break text-left">
+                                        <span class="text-download" (click)="PopupViewFile(cell.data)">{{cell.data.originalName}}</span>
+                                    </div>
+                                </div>
+                                <div *dxTemplate="let cell of 'cellTemplate'">
+                                    {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                                </div>
+                            </dx-data-grid>
+                        </div>
+                        <div *ngIf="!formReadOnly" class="table-add-item">
+                            <div>
+                                <div class="block-dropzone">
+                                    <div class="text-head">แนบไฟล์เอกสาร หรือไฟล์ภาพ</div>
+                                    <div class="dropzone" appDrag (files)="formmoneyFilesDropped($event)">
+                                        <span class="dropzone-text"><img
+                                            src="assets/image/police/desktop/icon-file.png">วางไฟล์ที่ต้องการนำเข้าที่นี่
+                                        หรือ <span class="text-link"
+                                            (click)="formmoneyOpenFileDialog(formmoneyuploadfile)">เลือกไฟล์</span><br>ไฟล์เอกสารไฟล์ภาพ นามสกุล .pdf, .jpg, .png
+                                        <input #formmoneyuploadfile type="file" [multiple]="false" accept="*" tabindex="-1" class="dx-fileuploader-input" (change)="formmoneyUploadFile(formmoneyuploadfile)"></span>
                                     </div>
                                 </div>
                             </div>
-                            <div *ngIf="!formReadOnly" class="add-data" style="text-align:center;margin: 10px;">
-                                <button class="btn btn-cancle" (click)="onresetbanklist()">ยกเลิก</button>&nbsp;
-                                <button class="btn btn-info" (click)="onsavelistbanklist($event)" *ngIf="isAdding">เพิ่มข้อมูล</button>
-                                <button class="btn btn-success" (click)="onEditlistbanklist($event)" *ngIf="!isAdding">บันทึก</button>
-                            </div>
-                            <div class="block-table-item">
-                                <dx-data-grid #grid [dataSource]="listDamageBank" [showColumnLines]="true" [showRowLines]="true" [columnHidingEnabled]="true" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="false" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล">
-                                    <dxo-paging [pageSize]="5"></dxo-paging>
-                                    <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
-                                    </dxo-editing>
-                                    <dxo-selection mode="single"></dxo-selection>
-                                    <dxi-column *ngIf="formAddData" dataField="" caption="จัดการ" [width]="150" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommand"></dxi-column>
-                                    <div *dxTemplate="let d of 'cellTemplateCommand'">
-                                        <img class="text-download" src="assets/icon/edit2.png" alt="icon" (click)="OS_ItemDamageSubEdit(d.component.pageIndex() * d.component.pageSize() + d.rowIndex,d.data)">&nbsp;
-                                        <img class="text-download" src="assets/icon/trash.png" alt="icon" (click)="ItemDamageSubDelete(d.component.pageIndex() * d.component.pageSize() + d.rowIndex,d.component.pageIndex() * d.component.pageSize() + d.rowIndex,'T')">
-                                    </div>
-                                    <dxi-column dataField="" caption="ลำดับ" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
-                                    <dxi-column dataField="" caption="บัญชีต้นทาง" alignment="center" cellTemplate="cellTemplatestart"></dxi-column>
-                                    <div *dxTemplate="let cell of 'cellTemplatestart'">
-
-                                        <div class="text-break">
-                                            <!-- <span>{{cell.data.BANK_ORIGIN_NAME+':'+cell.data.BANK_ORIGIN_ACCOUNT+'('+cell.data.BANK_ORIGIN_ACCOUNT_NAME+')'}}</span> -->
-                                            <span>{{cell.data.SHOW_NAME}}</span>
-                                        </div>
-                                    </div>
-                                    <dxi-column dataField="" caption="บัญชีปลายทาง" alignment="center" cellTemplate="cellTemplateend"></dxi-column>
-                                    <div *dxTemplate="let cell of 'cellTemplateend'">
-                                        <div class="text-break">
-                                            <!-- <span>{{cell.data.BANK_NAME+':'+cell.data.BANK_ACCOUNT+'('+cell.data.BANK_ACCOUNT_NAME+')'}}</span> -->
-                                            <span>{{cell.data.SHOW_NAME_END}}</span>
-                                        </div>
-                                    </div>
-                                    <dxi-column dataField="BANK_TRANSFER_DATE" caption="วันเวลาที่โอน" alignment="center" [width]="220" cellTemplate="cellTemplateDate"></dxi-column>
-                                    <div *dxTemplate="let cell of 'cellTemplateDate'">
-                                        <div class="text-break">
-                                            <span>{{ConvertDateFullMonth(cell.data.BANK_TRANSFER_DATE)}}</span>
-                                            <span *ngIf="cell.data.BANK_TRANSFER_DATE"> {{cell.data.BANK_TRANSFER_TIME}} น.</span>
-                                        </div>
-                                    </div>
-
-                                    <!-- <dxi-column dataField="DIRECTION" caption="ทิศทางการโอนเงิน" alignment="center"
-                                cellTemplate="cellTemplateDirection"></dxi-column>
-                            <div *dxTemplate="let cell of 'cellTemplateDirection'">
-                                <div class="text-break" *ngIf="cell.data.DIRECTION == 2;else dsdirection">
-                                    <span>โอนเงิน</span>
+                        </div>
+                        <div *ngIf="!formReadOnly" class="add-data" style="text-align:center;margin: 10px;">
+                            <button class="btn btn-cancle" (click)="onresetbanklist()">ยกเลิก</button>&nbsp;
+                            <button class="btn btn-info" (click)="onsavelistbanklist($event)" *ngIf="isAdding">เพิ่มข้อมูล</button>
+                            <button class="btn btn-success" (click)="onEditlistbanklist($event)" *ngIf="!isAdding">บันทึก</button>
+                        </div>
+                        <div class="block-table-item">
+                            <dx-data-grid #grid [dataSource]="listDamageBank" [showColumnLines]="true" [showRowLines]="true" [columnHidingEnabled]="true" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="false" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล">
+                                <dxo-paging [pageSize]="5"></dxo-paging>
+                                <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                                </dxo-editing>
+                                <dxo-selection mode="single"></dxo-selection>
+                                <dxi-column *ngIf="formAddData" dataField="" caption="จัดการ" [width]="150" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommand"></dxi-column>
+                                <div *dxTemplate="let d of 'cellTemplateCommand'">
+                                    <img class="text-download" src="assets/icon/edit2.png" alt="icon" (click)="OS_ItemDamageSubEdit(d.component.pageIndex() * d.component.pageSize() + d.rowIndex,d.data)">&nbsp;
+                                    <img class="text-download" src="assets/icon/trash.png" alt="icon" (click)="ItemDamageSubDelete(d.component.pageIndex() * d.component.pageSize() + d.rowIndex,d.component.pageIndex() * d.component.pageSize() + d.rowIndex,'T')">
                                 </div>
-                                <ng-template #dsdirection>
-                                    <span>รับเงิน</span>
-                                </ng-template>
-                            </div> -->
+                                <dxi-column dataField="" caption="ลำดับ" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+                                <dxi-column dataField="" caption="บัญชีต้นทาง" alignment="center" cellTemplate="cellTemplatestart"></dxi-column>
+                                <div *dxTemplate="let cell of 'cellTemplatestart'">
 
-                                    <dxi-column dataField="BANK_DAMAGE_VALUE" caption="จำนวนเงิน" alignment="center" cellTemplate="cellTemplateDamage"></dxi-column>
-                                    <div *dxTemplate="let cell of 'cellTemplateDamage'">
-                                        <div class="text-break">
-                                            {{CheckSammaryValue(cell.data.BANK_DAMAGE_VALUE) | currency:'':''}}
-                                        </div>
+                                    <div class="text-break">
+                                        <!-- <span>{{cell.data.BANK_ORIGIN_NAME+':'+cell.data.BANK_ORIGIN_ACCOUNT+'('+cell.data.BANK_ORIGIN_ACCOUNT_NAME+')'}}</span> -->
+                                        <span>{{cell.data.SHOW_NAME}}</span>
                                     </div>
-                                    <dxi-column dataField="" caption="แนบไฟล์" alignment="center" cellTemplate="cellTemplateAttachment"></dxi-column>
-                                    <div *dxTemplate="let cell of 'cellTemplateAttachment'">
-                                        <div class="text-break text-left" *ngIf="cell.data.MONNEY_DOC[0]">
-                                            <span class="text-download" (click)="PopupViewFile(cell.data.MONNEY_DOC[0])">แสดงไฟล์</span>
-                                        </div>
+                                </div>
+                                <dxi-column dataField="" caption="บัญชีปลายทาง" alignment="center" cellTemplate="cellTemplateend"></dxi-column>
+                                <div *dxTemplate="let cell of 'cellTemplateend'">
+                                    <div class="text-break">
+                                        <!-- <span>{{cell.data.BANK_NAME+':'+cell.data.BANK_ACCOUNT+'('+cell.data.BANK_ACCOUNT_NAME+')'}}</span> -->
+                                        <span>{{cell.data.SHOW_NAME_END}}</span>
                                     </div>
-                                    <div *dxTemplate="let cell of 'cellTemplate'">
-                                        {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                                </div>
+                                <dxi-column dataField="BANK_TRANSFER_DATE" caption="วันเวลาที่โอน" alignment="center" [width]="220" cellTemplate="cellTemplateDate"></dxi-column>
+                                <div *dxTemplate="let cell of 'cellTemplateDate'">
+                                    <div class="text-break">
+                                        <span>{{ConvertDateFullMonth(cell.data.BANK_TRANSFER_DATE)}}</span>
+                                        <span *ngIf="cell.data.BANK_TRANSFER_DATE"> {{cell.data.BANK_TRANSFER_TIME}} น.</span>
                                     </div>
-                                </dx-data-grid>
+                                </div>
+
+                                <!-- <dxi-column dataField="DIRECTION" caption="ทิศทางการโอนเงิน" alignment="center"
+                            cellTemplate="cellTemplateDirection"></dxi-column>
+                        <div *dxTemplate="let cell of 'cellTemplateDirection'">
+                            <div class="text-break" *ngIf="cell.data.DIRECTION == 2;else dsdirection">
+                                <span>โอนเงิน</span>
+                            </div>
+                            <ng-template #dsdirection>
+                                <span>รับเงิน</span>
+                            </ng-template>
+                        </div> -->
+
+                                <dxi-column dataField="BANK_DAMAGE_VALUE" caption="จำนวนเงิน" alignment="center" cellTemplate="cellTemplateDamage"></dxi-column>
+                                <div *dxTemplate="let cell of 'cellTemplateDamage'">
+                                    <div class="text-break">
+                                        {{CheckSammaryValue(cell.data.BANK_DAMAGE_VALUE) | currency:'':''}}
+                                    </div>
+                                </div>
+                                <dxi-column dataField="" caption="แนบไฟล์" alignment="center" cellTemplate="cellTemplateAttachment"></dxi-column>
+                                <div *dxTemplate="let cell of 'cellTemplateAttachment'">
+                                    <div class="text-break text-left" *ngIf="cell.data.MONNEY_DOC[0]">
+                                        <span class="text-download" (click)="PopupViewFile(cell.data.MONNEY_DOC[0])">แสดงไฟล์</span>
+                                    </div>
+                                </div>
+                                <div *dxTemplate="let cell of 'cellTemplate'">
+                                    {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                                </div>
+                            </dx-data-grid>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="conten-block" *ngIf="this.formData.CASE_MONEY_TYPE4 === 'Y'">
+                    <div class="content-end-line"></div>
+                    <div class="content-title">
+                        <div class="row block-damage-type-title">
+                            <div class="col-12 block left">
+                                <div class="title">รายละเอียดความเสียหายเงินดิจิทัล (Cryptocurrency)</div>
                             </div>
                         </div>
                     </div>
+                    <div class="content-form">
 
-                    <div class="conten-block" *ngIf="this.formData.CASE_MONEY_TYPE4 === 'Y'">
-                        <div class="content-end-line"></div>
-                        <div class="content-title">
-                            <div class="row block-damage-type-title">
-                                <div class="col-12 block left">
-                                    <div class="title">รายละเอียดความเสียหายเงินดิจิทัล (Cryptocurrency)</div>
+                        <dx-form *ngIf="!formReadOnly" #formbanknewCrytro [colCount]="3" labelLocation="top">
+
+                            <dxi-item template="tempstart" [colSpan]="1" [isRequired]="true">
+                                <dxo-label text="บัญชีต้นทาง" [showColon]="false"></dxo-label>
+                                <dxi-validation-rule type="required" message="กรุณากรอกบัญชีต้นทาง"></dxi-validation-rule>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'tempstart'">
+                                <dx-select-box #selectBankInfoOriginlistCrypto [dataSource]="bankCrytroListstart" valueExpr="SHOW_NAME" displayExpr="SHOW_NAME" [(value)]="formmoney.BANK_ORIGIN_LIST_ID" (onValueChanged)="onbankoriginlistchange($event,'crypto')" placeholder="บัญชีต้นทาง"
+                                    searchExpr="SHOW_NAME" [searchEnabled]="true">
+                                    <dxi-button name="addbankstart" [options]="_buttonaddblankCrypto"></dxi-button>
+                                </dx-select-box>
+                            </div>
+                            <dxi-item template="tempend" [colSpan]="1" [isRequired]="true">
+                                <dxo-label text="บัญชีปลายทาง" [showColon]="false"></dxo-label>
+                                <dxi-validation-rule type="required" message="กรุณากรอกบัญชีปลายทาง">
+                                </dxi-validation-rule>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'tempend'">
+                                <dx-select-box #selectBankInfolistCrypto [dataSource]="bankListend" valueExpr="SHOW_NAME" displayExpr="SHOW_NAME" [(value)]="formmoney.BANK_LIST_ID" (onValueChanged)="onbanklistchange($event)" placeholder="บัญชีปลายทาง" searchExpr="SHOW_NAME" [searchEnabled]="true">
+                                    <dxi-button name="addbankend" [options]="_buttonaddblankvillainCrypto"></dxi-button>
+                                </dx-select-box>
+                            </div>
+                            <dxi-item template="datetime" [colSpan]="1" [isRequired]="true">
+                                <dxo-label text="วันและเวลา" [showColon]="false"></dxo-label>
+                                <dxi-validation-rule type="required" message="วันและเวลา">
+                                </dxi-validation-rule>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'datetime'">
+                                <dx-date-box id="default" (onValueChanged)="OnSelectDate($event)" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="วันและเวลา" type="datetime" [max]="maxDateValue" [value]="now" displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false"
+                                    [useMaskBehavior]="true">
+                                </dx-date-box>
+                            </div>
+                            <dxi-item template="tempbankmoney" [colSpan]="1" [isRequired]="true">
+                                <dxo-label text="จำนวน" [showColon]="false"></dxo-label>
+                                <dxi-validation-rule type="required" message="กรุณากรอกมูลค่า"></dxi-validation-rule>
+                                <div *dxTemplate="let data of 'tempbankmoney'">
+                                    <dx-number-box format="#,##0.##" [focusStateEnabled]="false" [(value)]="formmoney.BANK_DAMAGE_VALUE_BAHT"></dx-number-box>
+                                </div>
+                            </dxi-item>
+                            <dxi-item template="tempbankmoneyunit" [colSpan]="1" [isRequired]="true">
+                                <dxo-label text="หน่วย" [showColon]="false"></dxo-label>
+                                <dxi-validation-rule type="required" message="กรุณากรอกหน่วย"></dxi-validation-rule>
+                                <div *dxTemplate="let data of 'tempbankmoneyunit'">
+                                    <dx-text-box [(value)]="formmoney.BANK_DAMAGE_VALUE_UNIT"></dx-text-box>
+                                </div>
+                            </dxi-item>
+                            <dxi-item template="tempbankmoneyvaluebaht" [colSpan]="1" [isRequired]="true">
+                                <dxo-label text="มูลค่า(บาท)" [showColon]="false"></dxo-label>
+                                <dxi-validation-rule type="required" message="กรุณากรอกมูลค่าบาท"></dxi-validation-rule>
+                                <div *dxTemplate="let data of 'tempbankmoneyvaluebaht'">
+                                    <dx-number-box format="#,##0.##" [focusStateEnabled]="false" [(value)]="formmoney.BANK_DAMAGE_VALUE"></dx-number-box>
+                                </div>
+                            </dxi-item>
+                            <dxi-item template="tempmoneydetail" [colSpan]="3" [isRequired]="false">
+                                <dxo-label text="เหตุผล" [showColon]="false"></dxo-label>
+                                <div *dxTemplate="let data of 'tempmoneydetail'">
+                                    <dx-text-area [(value)]="formmoney.BANK_REMARK"></dx-text-area>
+                                </div>
+                            </dxi-item>
+
+
+                        </dx-form>
+                        <div *ngIf="!formReadOnly" class="remark-table-upload">* ขนาดไฟล์ทั้งหมดไม่เกิน 5MB</div>
+                        <div *ngIf="CheckArray(listUploadFileformCrypto)" class="upload-file-table">
+                            <dx-data-grid #grid [dataSource]="listUploadFileformCrypto" [showColumnLines]="false" [showRowLines]="true" [columnHidingEnabled]="false" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="false" [columnAutoWidth]="true" [selectedRowKeys]="[]"
+                                noDataText="ไม่มีข้อมูล">
+                                <dxo-paging [pageSize]="10"></dxo-paging>
+                                <dxo-pager [visible]="true" [allowedPageSizes]="[10, 20, 50]" displayMode="full" [showPageSizeSelector]="true" [showInfo]="true" [showNavigationButtons]="true">
+                                </dxo-pager>
+                                <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                                </dxo-editing>
+                                <dxo-selection mode="single"></dxo-selection>
+                                <dxi-column dataField="" caption="จัดการ" [width]="80" alignment="center" [allowEditing]="false" [cellTemplate]="'cellTemplateCommandOtherWay'"></dxi-column>
+
+                                <div *dxTemplate="let d of 'cellTemplateCommandOtherWay'">
+                                    <img class="text-download" src="assets/icon/trash.png" alt="icon" (click)="ItemDamageformmoneyPopupDelete(d.component.pageIndex() * d.component.pageSize() + d.rowIndex,'crytro')">
+                                </div>
+                                <dxi-column dataField="" caption="ลำดับ" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+                                <dxi-column dataField="" caption="วันที่แนบไฟล์" alignment="center" cellTemplate="cellTemplateDamage" [width]="180"></dxi-column>
+                                <div *dxTemplate="let cell of 'cellTemplateDamage'">
+                                    <div class="text-break">{{ConvertDateFullMonth(cell.data.dateNow)}}</div>
+                                </div>
+                                <dxi-column dataField="" caption="แนบไฟล์" alignment="center" cellTemplate="cellTemplateAttachment"></dxi-column>
+                                <div *dxTemplate="let cell of 'cellTemplateAttachment'">
+                                    <div class="text-break text-left">
+                                        <span class="text-download" (click)="PopupViewFile(cell.data)">{{cell.data.originalName}}</span>
+                                    </div>
+                                </div>
+                                <div *dxTemplate="let cell of 'cellTemplate'">
+                                    {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                                </div>
+                            </dx-data-grid>
+                        </div>
+                        <div *ngIf="!formReadOnly" class="table-add-item">
+                            <div>
+                                <div class="block-dropzone">
+                                    <div class="text-head">แนบไฟล์เอกสาร หรือไฟล์ภาพ</div>
+                                    <div class="dropzone" appDrag (files)="formmoneyFilesDropped($event)">
+                                        <span class="dropzone-text"><img
+                                            src="assets/image/police/desktop/icon-file.png">วางไฟล์ที่ต้องการนำเข้าที่นี่
+                                        หรือ <span class="text-link"
+                                            (click)="formmoneyOpenFileDialog(formmoneyuploadfile)">เลือกไฟล์</span><br>ไฟล์เอกสารไฟล์ภาพ นามสกุล .pdf, .jpg, .png
+                                        <input #formmoneyuploadfile type="file" [multiple]="false" accept="*" tabindex="-1" class="dx-fileuploader-input" (change)="formmoneyUploadFile(formmoneyuploadfile,'crytro')"></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="content-form">
-
-                            <dx-form *ngIf="!formReadOnly" #formbanknewCrytro [colCount]="3" labelLocation="top">
-
-                                <dxi-item template="tempstart" [colSpan]="1" [isRequired]="true">
-                                    <dxo-label text="บัญชีต้นทาง" [showColon]="false"></dxo-label>
-                                    <dxi-validation-rule type="required" message="กรุณากรอกบัญชีต้นทาง"></dxi-validation-rule>
-                                </dxi-item>
-                                <div *dxTemplate="let data of 'tempstart'">
-                                    <dx-select-box #selectBankInfoOriginlistCrypto [dataSource]="bankCrytroListstart" valueExpr="SHOW_NAME" displayExpr="SHOW_NAME" [(value)]="formmoney.BANK_ORIGIN_LIST_ID" (onValueChanged)="onbankoriginlistchange($event,'crypto')" placeholder="บัญชีต้นทาง"
-                                        searchExpr="SHOW_NAME" [searchEnabled]="true">
-                                        <dxi-button name="addbankstart" [options]="_buttonaddblankCrypto"></dxi-button>
-                                    </dx-select-box>
+                        <div *ngIf="!formReadOnly" class="add-data" style="text-align:center;margin: 10px;">
+                            <button class="btn btn-cancle" (click)="onresetbanklist()">ยกเลิก</button>&nbsp;
+                            <button class="btn btn-info" (click)="onsavelistbanklist($event,'crytro')" *ngIf="isAdding">เพิ่มข้อมูล</button>
+                            <button class="btn btn-success" (click)="onEditlistbanklist($event,'crytro')" *ngIf="!isAdding">บันทึก</button>
+                        </div>
+                        <div class="block-table-item">
+                            <dx-data-grid #grid [dataSource]="listDamageCrytro" [showColumnLines]="true" [showRowLines]="true" [columnHidingEnabled]="false" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="false" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล">
+                                <dxo-paging [pageSize]="5"></dxo-paging>
+                                <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                                </dxo-editing>
+                                <dxo-selection mode="single"></dxo-selection>
+                                <dxi-column *ngIf="formAddData" dataField="" caption="จัดการ" [width]="150" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommand"></dxi-column>
+                                <div *dxTemplate="let d of 'cellTemplateCommand'">
+                                    <img class="text-download" src="assets/icon/edit2.png" alt="icon" (click)="OS_ItemDamageSubEdit(d.component.pageIndex() * d.component.pageSize() + d.rowIndex,d.data)">&nbsp;
+                                    <img class="text-download" src="assets/icon/trash.png" alt="icon" (click)="ItemDamageSubDelete(d.component.pageIndex() * d.component.pageSize() + d.rowIndex,d.component.pageIndex() * d.component.pageSize() + d.rowIndex,'T','crytro')">
                                 </div>
-                                <dxi-item template="tempend" [colSpan]="1" [isRequired]="true">
-                                    <dxo-label text="บัญชีปลายทาง" [showColon]="false"></dxo-label>
-                                    <dxi-validation-rule type="required" message="กรุณากรอกบัญชีปลายทาง">
-                                    </dxi-validation-rule>
-                                </dxi-item>
-                                <div *dxTemplate="let data of 'tempend'">
-                                    <dx-select-box #selectBankInfolistCrypto [dataSource]="bankListend" valueExpr="SHOW_NAME" displayExpr="SHOW_NAME" [(value)]="formmoney.BANK_LIST_ID" (onValueChanged)="onbanklistchange($event)" placeholder="บัญชีปลายทาง" searchExpr="SHOW_NAME" [searchEnabled]="true">
-                                        <dxi-button name="addbankend" [options]="_buttonaddblankvillainCrypto"></dxi-button>
-                                    </dx-select-box>
-                                </div>
-                                <dxi-item template="datetime" [colSpan]="1" [isRequired]="true">
-                                    <dxo-label text="วันและเวลา" [showColon]="false"></dxo-label>
-                                    <dxi-validation-rule type="required" message="วันและเวลา">
-                                    </dxi-validation-rule>
-                                </dxi-item>
-                                <div *dxTemplate="let data of 'datetime'">
-                                    <dx-date-box id="default" (onValueChanged)="OnSelectDate($event)" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="วันและเวลา" type="datetime" [max]="maxDateValue" [value]="now" displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false"
-                                        [useMaskBehavior]="true">
-                                    </dx-date-box>
-                                </div>
-                                <dxi-item template="tempbankmoney" [colSpan]="1" [isRequired]="true">
-                                    <dxo-label text="จำนวน" [showColon]="false"></dxo-label>
-                                    <dxi-validation-rule type="required" message="กรุณากรอกมูลค่า"></dxi-validation-rule>
-                                    <div *dxTemplate="let data of 'tempbankmoney'">
-                                        <dx-number-box format="#,##0.##" [focusStateEnabled]="false" [(value)]="formmoney.BANK_DAMAGE_VALUE_BAHT"></dx-number-box>
-                                    </div>
-                                </dxi-item>
-                                <dxi-item template="tempbankmoneyunit" [colSpan]="1" [isRequired]="true">
-                                    <dxo-label text="หน่วย" [showColon]="false"></dxo-label>
-                                    <dxi-validation-rule type="required" message="กรุณากรอกหน่วย"></dxi-validation-rule>
-                                    <div *dxTemplate="let data of 'tempbankmoneyunit'">
-                                        <dx-text-box [(value)]="formmoney.BANK_DAMAGE_VALUE_UNIT"></dx-text-box>
-                                    </div>
-                                </dxi-item>
-                                <dxi-item template="tempbankmoneyvaluebaht" [colSpan]="1" [isRequired]="true">
-                                    <dxo-label text="มูลค่า(บาท)" [showColon]="false"></dxo-label>
-                                    <dxi-validation-rule type="required" message="กรุณากรอกมูลค่าบาท"></dxi-validation-rule>
-                                    <div *dxTemplate="let data of 'tempbankmoneyvaluebaht'">
-                                        <dx-number-box format="#,##0.##" [focusStateEnabled]="false" [(value)]="formmoney.BANK_DAMAGE_VALUE"></dx-number-box>
-                                    </div>
-                                </dxi-item>
-                                <dxi-item template="tempmoneydetail" [colSpan]="3" [isRequired]="false">
-                                    <dxo-label text="เหตุผล" [showColon]="false"></dxo-label>
-                                    <div *dxTemplate="let data of 'tempmoneydetail'">
-                                        <dx-text-area [(value)]="formmoney.BANK_REMARK"></dx-text-area>
-                                    </div>
-                                </dxi-item>
+                                <dxi-column dataField="" caption="ลำดับ" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+                                <dxi-column dataField="" caption="บัญชีต้นทาง" alignment="center" cellTemplate="cellTemplatestart"></dxi-column>
+                                <div *dxTemplate="let cell of 'cellTemplatestart'">
 
-
-                            </dx-form>
-                            <div *ngIf="!formReadOnly" class="remark-table-upload">* ขนาดไฟล์ทั้งหมดไม่เกิน 5MB</div>
-                            <div *ngIf="CheckArray(listUploadFileformCrypto)" class="upload-file-table">
-                                <dx-data-grid #grid [dataSource]="listUploadFileformCrypto" [showColumnLines]="false" [showRowLines]="true" [columnHidingEnabled]="false" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="false" [columnAutoWidth]="true" [selectedRowKeys]="[]"
-                                    noDataText="ไม่มีข้อมูล">
-                                    <dxo-paging [pageSize]="10"></dxo-paging>
-                                    <dxo-pager [visible]="true" [allowedPageSizes]="[10, 20, 50]" displayMode="full" [showPageSizeSelector]="true" [showInfo]="true" [showNavigationButtons]="true">
-                                    </dxo-pager>
-                                    <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
-                                    </dxo-editing>
-                                    <dxo-selection mode="single"></dxo-selection>
-                                    <dxi-column dataField="" caption="จัดการ" [width]="80" alignment="center" [allowEditing]="false" [cellTemplate]="'cellTemplateCommandOtherWay'"></dxi-column>
-
-                                    <div *dxTemplate="let d of 'cellTemplateCommandOtherWay'">
-                                        <img class="text-download" src="assets/icon/trash.png" alt="icon" (click)="ItemDamageformmoneyPopupDelete(d.component.pageIndex() * d.component.pageSize() + d.rowIndex,'crytro')">
-                                    </div>
-                                    <dxi-column dataField="" caption="ลำดับ" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
-                                    <dxi-column dataField="" caption="วันที่แนบไฟล์" alignment="center" cellTemplate="cellTemplateDamage" [width]="180"></dxi-column>
-                                    <div *dxTemplate="let cell of 'cellTemplateDamage'">
-                                        <div class="text-break">{{ConvertDateFullMonth(cell.data.dateNow)}}</div>
-                                    </div>
-                                    <dxi-column dataField="" caption="แนบไฟล์" alignment="center" cellTemplate="cellTemplateAttachment"></dxi-column>
-                                    <div *dxTemplate="let cell of 'cellTemplateAttachment'">
-                                        <div class="text-break text-left">
-                                            <span class="text-download" (click)="PopupViewFile(cell.data)">{{cell.data.originalName}}</span>
-                                        </div>
-                                    </div>
-                                    <div *dxTemplate="let cell of 'cellTemplate'">
-                                        {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
-                                    </div>
-                                </dx-data-grid>
-                            </div>
-                            <div *ngIf="!formReadOnly" class="table-add-item">
-                                <div>
-                                    <div class="block-dropzone">
-                                        <div class="text-head">แนบไฟล์เอกสาร หรือไฟล์ภาพ</div>
-                                        <div class="dropzone" appDrag (files)="formmoneyFilesDropped($event)">
-                                            <span class="dropzone-text"><img
-                                                src="assets/image/police/desktop/icon-file.png">วางไฟล์ที่ต้องการนำเข้าที่นี่
-                                            หรือ <span class="text-link"
-                                                (click)="formmoneyOpenFileDialog(formmoneyuploadfile)">เลือกไฟล์</span><br>ไฟล์เอกสารไฟล์ภาพ นามสกุล .pdf, .jpg, .png
-                                            <input #formmoneyuploadfile type="file" [multiple]="false" accept="*" tabindex="-1" class="dx-fileuploader-input" (change)="formmoneyUploadFile(formmoneyuploadfile,'crytro')"></span>
-                                        </div>
+                                    <div class="text-break">
+                                        <span>{{cell.data.SHOW_NAME}}</span>
                                     </div>
                                 </div>
-                            </div>
-                            <div *ngIf="!formReadOnly" class="add-data" style="text-align:center;margin: 10px;">
-                                <button class="btn btn-cancle" (click)="onresetbanklist()">ยกเลิก</button>&nbsp;
-                                <button class="btn btn-info" (click)="onsavelistbanklist($event,'crytro')" *ngIf="isAdding">เพิ่มข้อมูล</button>
-                                <button class="btn btn-success" (click)="onEditlistbanklist($event,'crytro')" *ngIf="!isAdding">บันทึก</button>
-                            </div>
-                            <div class="block-table-item">
-                                <dx-data-grid #grid [dataSource]="listDamageCrytro" [showColumnLines]="true" [showRowLines]="true" [columnHidingEnabled]="false" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="false" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล">
-                                    <dxo-paging [pageSize]="5"></dxo-paging>
-                                    <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
-                                    </dxo-editing>
-                                    <dxo-selection mode="single"></dxo-selection>
-                                    <dxi-column *ngIf="formAddData" dataField="" caption="จัดการ" [width]="150" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommand"></dxi-column>
-                                    <div *dxTemplate="let d of 'cellTemplateCommand'">
-                                        <img class="text-download" src="assets/icon/edit2.png" alt="icon" (click)="OS_ItemDamageSubEdit(d.component.pageIndex() * d.component.pageSize() + d.rowIndex,d.data)">&nbsp;
-                                        <img class="text-download" src="assets/icon/trash.png" alt="icon" (click)="ItemDamageSubDelete(d.component.pageIndex() * d.component.pageSize() + d.rowIndex,d.component.pageIndex() * d.component.pageSize() + d.rowIndex,'T','crytro')">
+                                <dxi-column dataField="" caption="บัญชีปลายทาง" alignment="center" cellTemplate="cellTemplateend"></dxi-column>
+                                <div *dxTemplate="let cell of 'cellTemplateend'">
+                                    <div class="text-break">
+                                        <span>{{cell.data.SHOW_NAME_END}}</span>
                                     </div>
-                                    <dxi-column dataField="" caption="ลำดับ" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
-                                    <dxi-column dataField="" caption="บัญชีต้นทาง" alignment="center" cellTemplate="cellTemplatestart"></dxi-column>
-                                    <div *dxTemplate="let cell of 'cellTemplatestart'">
+                                </div>
+                                <dxi-column dataField="BANK_TRANSFER_DATE" caption="วันเวลาที่โอน" alignment="center" [width]="220" cellTemplate="cellTemplateDate"></dxi-column>
+                                <div *dxTemplate="let cell of 'cellTemplateDate'">
+                                    <div class="text-break">
+                                        <span>{{ConvertDateFullMonth(cell.data.BANK_TRANSFER_DATE)}}</span>
+                                        <span *ngIf="cell.data.BANK_TRANSFER_DATE"> {{cell.data.BANK_TRANSFER_TIME}} น.</span>
+                                    </div>
+                                </div>
 
-                                        <div class="text-break">
-                                            <span>{{cell.data.SHOW_NAME}}</span>
-                                        </div>
+                                <dxi-column dataField="BANK_DAMAGE_VALUE" caption="จำนวนเงิน" alignment="center" cellTemplate="cellTemplateDamage"></dxi-column>
+                                <div *dxTemplate="let cell of 'cellTemplateDamage'">
+                                    <div class="text-break">
+                                        {{CheckSammaryValue(cell.data.BANK_DAMAGE_VALUE) | currency:'':''}}
                                     </div>
-                                    <dxi-column dataField="" caption="บัญชีปลายทาง" alignment="center" cellTemplate="cellTemplateend"></dxi-column>
-                                    <div *dxTemplate="let cell of 'cellTemplateend'">
-                                        <div class="text-break">
-                                            <span>{{cell.data.SHOW_NAME_END}}</span>
-                                        </div>
+                                </div>
+                                <dxi-column dataField="" caption="แนบไฟล์" alignment="center" cellTemplate="cellTemplateAttachment"></dxi-column>
+                                <div *dxTemplate="let cell of 'cellTemplateAttachment'">
+                                    <div class="text-break text-left" *ngIf="cell.data.MONNEY_DOC[0]">
+                                        <span class="text-download" (click)="PopupViewFile(cell.data.MONNEY_DOC[0])">แสดงไฟล์</span>
                                     </div>
-                                    <dxi-column dataField="BANK_TRANSFER_DATE" caption="วันเวลาที่โอน" alignment="center" [width]="220" cellTemplate="cellTemplateDate"></dxi-column>
-                                    <div *dxTemplate="let cell of 'cellTemplateDate'">
-                                        <div class="text-break">
-                                            <span>{{ConvertDateFullMonth(cell.data.BANK_TRANSFER_DATE)}}</span>
-                                            <span *ngIf="cell.data.BANK_TRANSFER_DATE"> {{cell.data.BANK_TRANSFER_TIME}} น.</span>
-                                        </div>
-                                    </div>
+                                </div>
+                                <div *dxTemplate="let cell of 'cellTemplate'">
+                                    {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                                </div>
+                            </dx-data-grid>
+                        </div>
+                    </div>
+                </div>
 
-                                    <dxi-column dataField="BANK_DAMAGE_VALUE" caption="จำนวนเงิน" alignment="center" cellTemplate="cellTemplateDamage"></dxi-column>
-                                    <div *dxTemplate="let cell of 'cellTemplateDamage'">
-                                        <div class="text-break">
-                                            {{CheckSammaryValue(cell.data.BANK_DAMAGE_VALUE) | currency:'':''}}
-                                        </div>
-                                    </div>
-                                    <dxi-column dataField="" caption="แนบไฟล์" alignment="center" cellTemplate="cellTemplateAttachment"></dxi-column>
-                                    <div *dxTemplate="let cell of 'cellTemplateAttachment'">
-                                        <div class="text-break text-left" *ngIf="cell.data.MONNEY_DOC[0]">
-                                            <span class="text-download" (click)="PopupViewFile(cell.data.MONNEY_DOC[0])">แสดงไฟล์</span>
-                                        </div>
-                                    </div>
-                                    <div *dxTemplate="let cell of 'cellTemplate'">
-                                        {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
-                                    </div>
-                                </dx-data-grid>
+                <div class="conten-block" *ngIf="this.formData.CASE_MONEY_TYPE2 === 'Y'">
+                    <div class="content-end-line"></div>
+                    <div class="content-title">
+                        <div class="row block-damage-type-title">
+                            <div class="col-12 block left">
+                                <div class="title">รายการทรัพย์สินที่เสียหาย</div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="conten-block" *ngIf="this.formData.CASE_MONEY_TYPE2 === 'Y'">
-                        <div class="content-end-line"></div>
-                        <div class="content-title">
-                            <div class="row block-damage-type-title">
-                                <div class="col-12 block left">
-                                    <div class="title">รายการทรัพย์สินที่เสียหาย</div>
-                                </div>
+                    <div class="content-form">
+                        <div class="block-detail-damage">
+                            <div *ngIf="formAddData" class="add-data">
+                                <dx-button class="btn btn-add-data" text="เพิ่มรายการ" (onClick)="ItemDamageAdd('O')"></dx-button>
                             </div>
-                        </div>
-                        <div class="content-form">
-                            <div class="block-detail-damage">
-                                <div *ngIf="formAddData" class="add-data">
-                                    <dx-button class="btn btn-add-data" text="เพิ่มรายการ" (onClick)="ItemDamageAdd('O')"></dx-button>
-                                </div>
-                                <dx-data-grid id="table-block" [dataSource]="listDamageOther" [showColumnLines]="false" [showRowLines]="false" [columnAutoWidth]="true" [columnHidingEnabled]="true" [showBorders]="false" [rowAlternationEnabled]="true" [hoverStateEnabled]="true" [selectedRowKeys]="[]"
-                                    noDataText="ไม่มีข้อมูล" rowTemplate="rowTemplate">
-                                    <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
-                                    </dxo-editing>
-                                    <dxo-paging [pageSize]="5"></dxo-paging>
-                                    <dxo-selection mode="single"></dxo-selection>
-                                    <dxi-column dataField="" caption="Detail" alignment="center" [allowSearch]="false" [allowEditing]="false"></dxi-column>
-                                    <ng-container *dxTemplate="let item of 'rowTemplate'">
-                                        <tr class="main-row">
-                                            <td>
-                                                <div class="card">
-                                                    <div class="card-header block-other">
-                                                        <div class="block block-center">
-                                                            <div class="block-number">
-                                                                <span>{{ item.component.pageIndex() *
-                                                                item.component.pageSize() + item.rowIndex + 1 }}</span>
-                                                            </div>
-                                                            <div class="block-centent">
-                                                                <div class="text-title">รายละเอียดทรัพย์สินที่เสียหาย</div>
-                                                                <div class="text-detail-block">
-                                                                    <div class="text text-left">
-                                                                        <div class="title text">ประเภททรัพย์สิน :</div>
-                                                                        <div *ngIf="item.data.CASE_MONEY_BANK_OTHER_CODE !=='999'" class="detail text">
-                                                                            {{item.data.CASE_MONEY_BANK_OTHER_NAME}}</div>
-                                                                        <div *ngIf="item.data.CASE_MONEY_BANK_OTHER_CODE ==='999'" class="detail text">
-                                                                            {{item.data.CASE_MONEY_BANK_OTHER_DETAIL}}</div>
-                                                                    </div>
-                                                                    <div class="text text-center">
-                                                                        <div class="title text">รายละเอียดทรัพย์สิน :</div>
-                                                                        <div class="detail text">
-                                                                            {{item.data.CASE_MONEY_BANK_OTHER_DETAIL_NAME}}
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="text text-center">
-                                                                        <div class="title text">มูลค่า :</div>
-                                                                        <div class="detail text">
-                                                                            {{CheckSammaryValue(item.data.BANK_DAMAGE_VALUE) | currency:'':''}}</div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="text-detail-block">
-                                                                    <div class="text text-left">
-                                                                        <div class="title text">วันที่มอบทรัพย์สินให้คนร้าย :
-                                                                        </div>
-                                                                        <div class="detail text">
-                                                                            {{ConvertDateFullMonth(item.data.BANK_TRANSFER_DATE)}}
-                                                                        </div>
-                                                                    </div>
-                                                                    <div *ngIf="item.data.BANK_TRANSFER_TIME" class="text text-center">
-                                                                        <div class="title text">เวลาที่มอบทรัพย์สินให้คนร้าย :
-                                                                        </div>
-                                                                        <div class="detail text">
-                                                                            {{item.data.BANK_TRANSFER_TIME}} น.</div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div *ngIf="formAddData" class="block-icon-right-edit">
-                                                                <img class="text-download" src="assets/icon/edit2.png" alt="icon" (click)="ItemDamageSubEdit(item.component.pageIndex() * item.component.pageSize() + item.rowIndex,item.data)">
-                                                            </div>
-                                                            <div *ngIf="formAddData" class="block-icon-right-del">
-                                                                <img class="text-download" src="assets/icon/trash.png" alt="icon" (click)="ItemDamageDelete(item.component.pageIndex() * item.component.pageSize() + item.rowIndex,'O')">
-                                                            </div>
-                                                            <!-- <div class="block-icon-right">
-                                                            <span><i class="fa fa-angle-down"></i></span>
-                                                        </div> -->
+                            <dx-data-grid id="table-block" [dataSource]="listDamageOther" [showColumnLines]="false" [showRowLines]="false" [columnAutoWidth]="true" [columnHidingEnabled]="true" [showBorders]="false" [rowAlternationEnabled]="true" [hoverStateEnabled]="true" [selectedRowKeys]="[]"
+                                noDataText="ไม่มีข้อมูล" rowTemplate="rowTemplate">
+                                <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                                </dxo-editing>
+                                <dxo-paging [pageSize]="5"></dxo-paging>
+                                <dxo-selection mode="single"></dxo-selection>
+                                <dxi-column dataField="" caption="Detail" alignment="center" [allowSearch]="false" [allowEditing]="false"></dxi-column>
+                                <ng-container *dxTemplate="let item of 'rowTemplate'">
+                                    <tr class="main-row">
+                                        <td>
+                                            <div class="card">
+                                                <div class="card-header block-other">
+                                                    <div class="block block-center">
+                                                        <div class="block-number">
+                                                            <span>{{ item.component.pageIndex() *
+                                                            item.component.pageSize() + item.rowIndex + 1 }}</span>
                                                         </div>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="block-table-item">
-                                                            <dx-data-grid #grid [dataSource]="item.data.BANK_OTHER_ATTACHMENT" [showColumnLines]="true" [showRowLines]="true" [columnHidingEnabled]="false" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="false" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล">
-                                                                <dxo-paging [pageSize]="5"></dxo-paging>
-                                                                <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
-                                                                </dxo-editing>
-                                                                <dxo-selection mode="single"></dxo-selection>
-                                                                <dxi-column *ngIf="formAddData" dataField="" caption="จัดการ" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplateCommand"></dxi-column>
-                                                                <div *dxTemplate="let d of 'cellTemplateCommand'">
-                                                                    <img class="text-download" src="assets/icon/trash.png" alt="icon" (click)="ItemDamageSubOtherDelete(item.component.pageIndex() * item.component.pageSize() + item.rowIndex,d.component.pageIndex() * d.component.pageSize() + d.rowIndex)">
+                                                        <div class="block-centent">
+                                                            <div class="text-title">รายละเอียดทรัพย์สินที่เสียหาย</div>
+                                                            <div class="text-detail-block">
+                                                                <div class="text text-left">
+                                                                    <div class="title text">ประเภททรัพย์สิน :</div>
+                                                                    <div *ngIf="item.data.CASE_MONEY_BANK_OTHER_CODE !=='999'" class="detail text">
+                                                                        {{item.data.CASE_MONEY_BANK_OTHER_NAME}}</div>
+                                                                    <div *ngIf="item.data.CASE_MONEY_BANK_OTHER_CODE ==='999'" class="detail text">
+                                                                        {{item.data.CASE_MONEY_BANK_OTHER_DETAIL}}</div>
                                                                 </div>
-                                                                <dxi-column dataField="" caption="ลำดับ" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
-                                                                <dxi-column dataField="" caption="วันที่แนบไฟล์" alignment="center" cellTemplate="cellTemplateDamage" [width]="150"></dxi-column>
-                                                                <div *dxTemplate="let cell of 'cellTemplateDamage'">
-                                                                    <div class="text-break">
-                                                                        {{ConvertDateFullMonth(cell.data.dateNow)}}</div>
-                                                                </div>
-                                                                <dxi-column dataField="" caption="แนบไฟล์" alignment="center" cellTemplate="cellTemplateAttachment"></dxi-column>
-                                                                <div *dxTemplate="let cell of 'cellTemplateAttachment'">
-                                                                    <div class="text-break text-left">
-                                                                        <span class="text-download" (click)="PopupViewFile(cell.data)">{{cell.data.originalName}}</span>
+                                                                <div class="text text-center">
+                                                                    <div class="title text">รายละเอียดทรัพย์สิน :</div>
+                                                                    <div class="detail text">
+                                                                        {{item.data.CASE_MONEY_BANK_OTHER_DETAIL_NAME}}
                                                                     </div>
                                                                 </div>
-                                                                <div *dxTemplate="let cell of 'cellTemplate'">
-                                                                    {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                                                                <div class="text text-center">
+                                                                    <div class="title text">มูลค่า :</div>
+                                                                    <div class="detail text">
+                                                                        {{CheckSammaryValue(item.data.BANK_DAMAGE_VALUE) | currency:'':''}}</div>
                                                                 </div>
-                                                            </dx-data-grid>
+                                                            </div>
+                                                            <div class="text-detail-block">
+                                                                <div class="text text-left">
+                                                                    <div class="title text">วันที่มอบทรัพย์สินให้คนร้าย :
+                                                                    </div>
+                                                                    <div class="detail text">
+                                                                        {{ConvertDateFullMonth(item.data.BANK_TRANSFER_DATE)}}
+                                                                    </div>
+                                                                </div>
+                                                                <div *ngIf="item.data.BANK_TRANSFER_TIME" class="text text-center">
+                                                                    <div class="title text">เวลาที่มอบทรัพย์สินให้คนร้าย :
+                                                                    </div>
+                                                                    <div class="detail text">
+                                                                        {{item.data.BANK_TRANSFER_TIME}} น.</div>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div class="list-samary-damage" *ngIf="CheckSammaryValue(item.data.BANK_DAMAGE_VALUE) > 0">
-                                                            <div class="samary-damage">รวมยอดความเสียหาย {{CheckSammaryValue(item.data.BANK_DAMAGE_VALUE) | currency:'':''}} บาท</div>
+                                                        <div *ngIf="formAddData" class="block-icon-right-edit">
+                                                            <img class="text-download" src="assets/icon/edit2.png" alt="icon" (click)="ItemDamageSubEdit(item.component.pageIndex() * item.component.pageSize() + item.rowIndex,item.data)">
                                                         </div>
+                                                        <div *ngIf="formAddData" class="block-icon-right-del">
+                                                            <img class="text-download" src="assets/icon/trash.png" alt="icon" (click)="ItemDamageDelete(item.component.pageIndex() * item.component.pageSize() + item.rowIndex,'O')">
+                                                        </div>
+                                                        <!-- <div class="block-icon-right">
+                                                        <span><i class="fa fa-angle-down"></i></span>
+                                                    </div> -->
                                                     </div>
                                                 </div>
-                                            </td>
-                                        </tr>
-                                    </ng-container>
-                                </dx-data-grid>
+                                                <div class="card-body">
+                                                    <div class="block-table-item">
+                                                        <dx-data-grid #grid [dataSource]="item.data.BANK_OTHER_ATTACHMENT" [showColumnLines]="true" [showRowLines]="true" [columnHidingEnabled]="false" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="false" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล">
+                                                            <dxo-paging [pageSize]="5"></dxo-paging>
+                                                            <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                                                            </dxo-editing>
+                                                            <dxo-selection mode="single"></dxo-selection>
+                                                            <dxi-column *ngIf="formAddData" dataField="" caption="จัดการ" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplateCommand"></dxi-column>
+                                                            <div *dxTemplate="let d of 'cellTemplateCommand'">
+                                                                <img class="text-download" src="assets/icon/trash.png" alt="icon" (click)="ItemDamageSubOtherDelete(item.component.pageIndex() * item.component.pageSize() + item.rowIndex,d.component.pageIndex() * d.component.pageSize() + d.rowIndex)">
+                                                            </div>
+                                                            <dxi-column dataField="" caption="ลำดับ" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+                                                            <dxi-column dataField="" caption="วันที่แนบไฟล์" alignment="center" cellTemplate="cellTemplateDamage" [width]="150"></dxi-column>
+                                                            <div *dxTemplate="let cell of 'cellTemplateDamage'">
+                                                                <div class="text-break">
+                                                                    {{ConvertDateFullMonth(cell.data.dateNow)}}</div>
+                                                            </div>
+                                                            <dxi-column dataField="" caption="แนบไฟล์" alignment="center" cellTemplate="cellTemplateAttachment"></dxi-column>
+                                                            <div *dxTemplate="let cell of 'cellTemplateAttachment'">
+                                                                <div class="text-break text-left">
+                                                                    <span class="text-download" (click)="PopupViewFile(cell.data)">{{cell.data.originalName}}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div *dxTemplate="let cell of 'cellTemplate'">
+                                                                {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                                                            </div>
+                                                        </dx-data-grid>
+                                                    </div>
+                                                    <div class="list-samary-damage" *ngIf="CheckSammaryValue(item.data.BANK_DAMAGE_VALUE) > 0">
+                                                        <div class="samary-damage">รวมยอดความเสียหาย {{CheckSammaryValue(item.data.BANK_DAMAGE_VALUE) | currency:'':''}} บาท</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </dx-data-grid>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="conten-block" *ngIf="this.formData.CASE_MONEY_TYPE5 === 'Y'">
+                    <div class="content-end-line"></div>
+                    <div class="content-title">
+                        <div class="row block-damage-type-title">
+                            <div class="col-12 block left">
+                                <div class="title">รายละเอียดชื่อเสียงที่เสียหาย</div>
                             </div>
                         </div>
                     </div>
+                    <div class="content-form">
+                        <div class="block-detail-damage">
+                            <dx-text-area [readOnly]="formReadOnly" [(value)]="formData.REPUTATION" [height]="90" maxLength="5000">
 
-                    <div class="conten-block" *ngIf="this.formData.CASE_MONEY_TYPE5 === 'Y'">
-                        <div class="content-end-line"></div>
-                        <div class="content-title">
-                            <div class="row block-damage-type-title">
-                                <div class="col-12 block left">
-                                    <div class="title">รายละเอียดชื่อเสียงที่เสียหาย</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="content-form">
-                            <div class="block-detail-damage">
-                                <dx-text-area [readOnly]="formReadOnly" [(value)]="formData.REPUTATION" [height]="90" maxLength="5000">
+                            </dx-text-area>
 
-                                </dx-text-area>
-
-                            </div>
                         </div>
                     </div>
                 </div>
