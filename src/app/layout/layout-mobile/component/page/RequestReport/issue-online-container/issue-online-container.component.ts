@@ -14,7 +14,7 @@ import { IssueOnlineVillainComponent } from "./issue-online-villain/issue-online
 import { IssueOnlineValidateComponent } from "./issue-online-validate/issue-online-validate.component";
 import { AttachFileComponent } from "../attach-file/attach-file.component";
 import { TrackAppointmentComponent } from "./track-appointment/track-appointment.component";
-import { DxMultiViewComponent } from "devextreme-angular";
+import { DxMultiViewComponent, DxSelectBoxComponent } from "devextreme-angular";
 import { ChatComponent } from "../chat/chat.component";
 import { ChatService } from "src/app/services/chat.service";
 import { UserSettingService } from "src/app/services/user-setting.service";
@@ -23,6 +23,9 @@ import { IssueOnlineQuestionareComponent } from "./issue-online-questionare/issu
 import { ProvinceService } from "src/app/services/province.service";
 import Swal from "sweetalert2";
 import { IssueOnlineCheckComponent } from "./issue-online-check/issue-online-check.component";
+import { IOrganizeInfo } from "share-ui/lib/models/organize-info.service";
+import { OrgService } from "src/app/services/org.service";
+import { User } from "src/app/services/user";
 @Component({
     selector: "app-issue-online-container",
     templateUrl: "./issue-online-container.component.html",
@@ -128,6 +131,9 @@ export class IssueOnlineContainerComponent implements OnInit {
 
         }
     }
+
+    @ViewChild("selectPresentProvicelocation", { static: false }) selectPresentProvicelocation: DxSelectBoxComponent;
+    @ViewChild("selectorg", { static: false })  selectorg: DxSelectBoxComponent;
     @Input() dataForm: any;
     @Input() public edit;
     @Input() public userType = "mySelf";
@@ -172,6 +178,11 @@ export class IssueOnlineContainerComponent implements OnInit {
     stepNavigationZindex = 100;
     public formDataAll: any = {};
     formDataBankref: any = {};
+
+    dsorgbyarialocation: IOrganizeInfo[];
+    formData: any = {};
+    orgShow =false;
+
     constructor(
         private _router: Router,
         private _flowServ: BpmMdmFlowService,
@@ -180,15 +191,17 @@ export class IssueOnlineContainerComponent implements OnInit {
         private _activeRoute: ActivatedRoute,
         private servChat: ChatService,
         private userSetting: UserSettingService,
-        private serviceProvince: ProvinceService
+        private serviceProvince: ProvinceService,
+        private _OrgService: OrgService,
     ) { }
 
     ngOnInit(): void {
+        console.log(this.dataForm);
+        console.log(this.edit);
         setTimeout(async () => {
             if (this.dataForm) {
                 this.userSetting.userSetting.iconVisible = false;
                 this.formType = 'edit';
-                this.isLoading = false;
                 const d = this.dataForm;
                 this.formDataInsert = d.Submission;
                 this.formDataInsert.Track_code = d.Track_code;
@@ -197,15 +210,10 @@ export class IssueOnlineContainerComponent implements OnInit {
                 this.ProcessInstanceId = d.ProcessInstanceId;
                 this.caseId = d.Submission.backendId;
                 this.LoadStatus(this.InstId);
-                this.stepNavigation = [
-                    {text:"คำถามแยกพรก.",textClass:"arrow-div arrow-center"},
-                    {text:"ข้อมูลผู้เสียหาย",textClass:"arrow-div arrow-center"},
-                    {text:"เรื่องที่เกิดขึ้น",textClass:"arrow-div arrow-center"},
-                    {text:"ความเสียหาย",textClass:"arrow-div arrow-center"},
-                    {text:"ข้อมูลคนร้าย",textClass:"arrow-div arrow-center"},
-                    {text:"การกระทำความผิด",textClass:"arrow-div arrow-center"}
-                ];
                 this.getProvince();
+                if(this.dataForm.ORG_ID === null || this.dataForm.ORG_ID === 0){
+                    this.indexTab = 4;
+                }
             } else {
                 this.SetFormInit();
                 this.getProvince();
@@ -345,5 +353,84 @@ export class IssueOnlineContainerComponent implements OnInit {
             case 3 : this.eventConponent.ngOnInit(); break;
             case 4 : this.damageConponent.ngOnInit(); break;
         }
+    }
+
+    async addorg(cellValue){
+        this.province = await this.serviceProvince.GetProvince().toPromise();
+        this.dsorgbyarialocation = await this._OrgService.getorgwalkinall().toPromise();
+        const data = cellValue.data;
+        this.formData.INST_ID = data.INST_ID;
+        if(data){
+            this.orgShow = true;
+        }
+    }
+
+    onClose(){
+        this.formData.ORG_PROVINCE_ID = undefined;
+        this.formData.ORG_PROVINCE_LOCATION_ID = undefined;
+        this._router.navigate([`/mobile/issue`]);
+    }
+
+    OnSelectProvicePresentlocation(e){
+        if (e.value) {
+            const data =
+                this.selectPresentProvicelocation.instance.option(
+                    "selectedItem"
+                );
+            if (data) {
+                this.formData.ORG_PROVINCE_OFFICER_ID = data.PROVINCE_ID;
+                this.formData.ORG_PROVINCE_OFFICER_NAME = data.PROVINCE_NAME_THA;
+            } else {
+                this.formData.ORG_PROVINCE_OFFICER_ID = e.value;
+            }
+            this._OrgService.getorgProvince(e.value).subscribe((_) => {
+                this.dsorgbyarialocation = _;
+            });
+        }
+    }
+
+    Onorglocation(e){
+        const data = this.selectorg.instance.option("selectedItem");
+        if (data) {
+            this.formData.ORGANIZE_ID =  data.ORGANIZE_ID;
+            this.formData.ORGANIZE_NAME = data.ORGANIZE_NAME_THA;
+            this.formData.ORG_PROVINCE_OFFICER_ID = Number(data.ORGANIZE_ARIA_CODE);
+        } else {
+            this.formData.ORGANIZE_ID = e.value;
+        }
+    }
+
+    onSave(e){
+        if(!this.formData.ORGANIZE_ID){
+            Swal.fire({
+                title: 'ผิดพลาด!',
+                text: 'กรุณาเลือกสถานีที่ท่าจะไปพบ',
+                icon: 'warning',
+                confirmButtonText: 'Ok',
+            }).then(() => {
+            });
+            return;
+        }
+        const setData = {
+            organize_id : Number(this.formData.ORGANIZE_ID),
+            inst_id : Number(this.formData.INST_ID),
+            personal_id : Number(User.Current.PersonalId)
+        }
+        this.isLoading = true;
+        this._bpmProcinstServ.userSelectOrgGdcc(setData)
+        .subscribe(() => {
+            this._bpmProcinstServ.userSelectOrg(setData)
+            .subscribe(() => {
+                Swal.fire({
+                    title: 'แจ้งเตือน!',
+                    text: 'เลือกหน่วยงานสำเร็จ!!!',
+                    icon: 'warning',
+                    confirmButtonText: 'ตกลง'
+                }).then(() => {
+                    this.isLoading = false;
+                    this.onClose();
+                });
+            });
+        });
     }
 }

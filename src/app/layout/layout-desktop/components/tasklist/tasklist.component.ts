@@ -49,8 +49,8 @@ export class TasklistComponent implements OnInit {
     // ];
 
     @ViewChild('gridlist', { static: false }) gridlist: DxDataGridComponent;
-    @ViewChild("selectPresentProvicelocationwalkin", { static: false }) selectPresentProvicelocationWalkin: DxSelectBoxComponent;
-    @ViewChild("selectorgwalkin", { static: false })  selectorgwalkin: DxSelectBoxComponent;
+    @ViewChild("selectPresentProvicelocation", { static: false }) selectPresentProvicelocation: DxSelectBoxComponent;
+    @ViewChild("selectorg", { static: false })  selectorg: DxSelectBoxComponent;
 
     monthShortTh = [
         "ม.ค.",
@@ -120,7 +120,7 @@ export class TasklistComponent implements OnInit {
     ways = [{ id: 1, text: 'ดำเนินการแล้ว' }, { id: 2, text: 'ยังไม่ได้ดำเนินการ' }];
     selectcaseID: any;
 
-    dswalkinstatuspolice: IOrganizeInfo[];
+    dsorgbyarialocation: IOrganizeInfo[];
     province = [];
     formData: any = {};
 
@@ -1290,7 +1290,7 @@ export class TasklistComponent implements OnInit {
 
     async addorg(cellValue){
         this.province = await this.serviceProvince.GetProvince().toPromise();
-        this.dswalkinstatuspolice = await this._OrgService.getorgwalkinall().toPromise();
+        this.dsorgbyarialocation = await this._OrgService.getorgwalkinall().toPromise();
         const data = cellValue.data;
         this.formData.INST_ID = data.INST_ID;
         if(data){
@@ -1317,10 +1317,10 @@ export class TasklistComponent implements OnInit {
         return false;
     }
 
-    OnSelectProvicePresentlocationWalkin(e){
+    OnSelectProvicePresentlocation(e){
         if (e.value) {
             const data =
-                this.selectPresentProvicelocationWalkin.instance.option(
+                this.selectPresentProvicelocation.instance.option(
                     "selectedItem"
                 );
             if (data) {
@@ -1330,13 +1330,13 @@ export class TasklistComponent implements OnInit {
                 this.formData.ORG_PROVINCE_OFFICER_ID = e.value;
             }
             this._OrgService.getorgProvince(e.value).subscribe((_) => {
-                this.dswalkinstatuspolice = _;
+                this.dsorgbyarialocation = _;
             });
         }
     }
 
-    Onorglocationwalkin(e){
-        const data = this.selectorgwalkin.instance.option("selectedItem");
+    Onorglocation(e){
+        const data = this.selectorg.instance.option("selectedItem");
         if (data) {
             this.formData.ORGANIZE_ID =  data.ORGANIZE_ID;
             this.formData.ORGANIZE_NAME = data.ORGANIZE_NAME_THA;

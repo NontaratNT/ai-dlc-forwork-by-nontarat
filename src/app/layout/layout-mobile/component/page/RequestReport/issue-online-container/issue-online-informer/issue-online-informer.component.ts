@@ -25,6 +25,7 @@ import { IOrganizeInfo, IOrgmaparea, OrgService } from "src/app/services/org.ser
 import { IssueOnlineService } from "src/app/services/issue-online.service";
 import { OnlineCaseService } from "src/app/services/online-case.service";
 import { switchMap } from "rxjs/operators";
+import { BpmProcinstService } from "src/app/services/bpm-procinst.service";
 
 @Component({
     selector: "app-issue-online-informer",
@@ -247,6 +248,7 @@ export class IssueOnlineInformerComponent implements OnInit {
     dsorgbyarialocation: IOrganizeInfo[];
     dswalkinstatuspolice: IOrganizeInfo[];
     dsorgarea: IOrgmaparea[];
+    checkerror = 0;
 
     checkname: any = /^[ก-๏\s]+$/;
 
@@ -287,7 +289,8 @@ export class IssueOnlineInformerComponent implements OnInit {
         private _formValidate: FormValidatorService,
         private _OrgService: OrgService,
         private _issueOnlineService: IssueOnlineService,
-        private _OnlineCaseService: OnlineCaseService
+        private _OnlineCaseService: OnlineCaseService,
+        private _BpmProcinstService: BpmProcinstService,
 
     ) {
         this.dsorgbyaria = {} as any;
@@ -553,89 +556,46 @@ export class IssueOnlineInformerComponent implements OnInit {
                     this.formData.CASE_INFORMER_DATE = this._date.SetDateDefault();
                 }
             } else {
-
+                if(!localStorage.getItem("case_id")){
+                    const _inst_id = Number(localStorage.getItem("inst_id"));
+                    const procinstdata = await this._BpmProcinstService.getByInstId(_inst_id).toPromise();
+                    sessionStorage.setItem("case_id",procinstdata.DATA_ID);
+                }
                 const _case_id = Number(sessionStorage.getItem("case_id"));
-                // const dataForm = this.mainConponent.formDataInsert;
                 const dataForm = await this._OnlineCaseService.getbycaseId(_case_id).toPromise();
 
                 this.checkblessings = this.datacheck.CHECK_BLESSING;
-                if (dataForm.INFORMER_PROVINCE) {
-                    this.presentAddress.district = await this.serviceProvince
-                        .GetDistrictofProvince(dataForm.INFORMER_PROVINCE)
-                        .toPromise();
-                    this.presentAddress.disableDistrict = false;
-                }
-                if (dataForm.INFORMER_DISTRICT_ID) {
-                    this.presentAddress.subDistrict = await this.serviceDistrict
-                        .GetSubDistrictOfDistrict(dataForm.INFORMER_DISTRICT_ID)
-                        .toPromise();
-                    this.presentAddress.disableSubDistrict = false;
-                }
-                if (dataForm.INFORMER_SUB_DISTRICT_ID) {
-                    this.presentAddress.postcode = await this.serviceSubDistrict
-                        .GetPostCode(dataForm.INFORMER_SUB_DISTRICT_ID)
-                        .toPromise();
-                    this.presentAddress.disablepostcode = false;
-                }
-                if (dataForm.INFORMER_CARD_PROVINCE) {
-                    this.cardAddress.district = await this.serviceProvince
-                        .GetDistrictofProvince(dataForm.INFORMER_CARD_PROVINCE)
-                        .toPromise();
-                    this.cardAddress.disableDistrict = false;
-                }
-                if (dataForm.INFORMER_CARD_DISTRICT_ID) {
-                    this.cardAddress.subDistrict = await this.serviceDistrict
-                        .GetSubDistrictOfDistrict(
-                            dataForm.INFORMER_CARD_DISTRICT_ID
-                        )
-                        .toPromise();
-                    this.cardAddress.disableSubDistrict = false;
-                }
-                if (dataForm.INFORMER_CARD_SUB_DISTRICT_ID) {
-                    this.cardAddress.postcode = await this.serviceSubDistrict
-                        .GetPostCode(dataForm.INFORMER_SUB_DISTRICT_ID)
-                        .toPromise();
-                    this.cardAddress.disablepostcode = false;
-                }
-                this._OrgService
-                    .getorgProvince(dataForm.INFORMER_PROVINCE)
-                    .subscribe((_) => {
-                        this.dsorgbyaria = _;
-                    });
-
 
                 this.formType = "edit";
                 this.formReadOnly = true;
                 this.formValidate = false;
                 this.formData = dataForm;
-                if(this.formData.OCCUPATIONS_NAME){
-                    this.occupationOther = this.formData.OCCUPATIONS_NAME == "อื่นๆ" ? true : false;
-                 }
-
 
                 this.userType =
                     this.formData.CASE_SELF_TYPE === "Y" ? "mySelf" : "other";
                 this.checkedRadioGender = null;
-                this.checkedRadioGender = dataForm.INFORMER_GENDER;
+                this.checkedRadioGender = dataForm.CASE_INFORMER_GENDER;
                 this.formData.CASE_INFORMER_DATE = this._date.ConvertToDate(
                     dataForm.CASE_INFORMER_DATE
                 );
-
-                // const dataFormbankreferent = this.mainConponent.formDataBankref;
-                // this.formData.BANK_REF = dataFormbankreferent;
             }
             // default วันเกิด Start
             this.minBirthDate = this._date.SetDateDefault(80, true, true, true);
             this.maxBirthDate = this._date.SetDateDefault(0);
             this.loadDateBox = true;
-            // default วันเกิด End
             this.isLoading = false;
-            // console.log('informer UserType',this.userType);
-
             console.log("formdata", this.formData);
-            // this.isLoading = false;
         }catch (error){
-            this.setPersonalData();
+            setTimeout(()=>{
+                this.checkerror = this.checkerror+1;
+                if(this.checkerror > 3){
+                    this.router.navigate([`/mobile/issue`]).then(() => {
+                        window.location.reload();
+                      });
+                }else{
+                    this.setPersonalData();
+                }
+            }, 2000);
         }
     }
     ChangeRadioGender(e) {
@@ -983,34 +943,6 @@ export class IssueOnlineInformerComponent implements OnInit {
     BackToList(e) {
         this.router.navigate(["/main/task-list"]);
     }
-    // SubmitForm(e) {
-    //     if (this.mainConponent.formType === 'add') {
-    //         if (!this.formInformer1.instance.validate().isValid){
-    //             if (this.CheckArray(this.formInformer1.instance.validate().brokenRules)) {
-    //                 this.ShowInvalidDialog(this.formInformer1.instance.validate().brokenRules[0].message);
-    //                 return;
-    //             }
-    //             this.ShowInvalidDialog();
-    //             return;
-
-    //         }
-    //         if (!this.formInformer2.instance.validate().isValid) {
-    //             this.ShowInvalidDialog();
-    //             return;
-    //         }
-
-    //         if (this.userType === 'other' && !this.formInformerOther.instance.validate().isValid){
-    //             this.ShowInvalidDialog();
-    //             return;
-    //         }
-
-    //         this.mainConponent.formDataAll.formInformer = {};
-    //         this.formData.CASE_INFORMER_DATE = this._date.ConvertToDateFormat(this.formData.CASE_INFORMER_DATE);
-    //         this.mainConponent.formDataAll.formInformer = this.formData;
-
-    //     }
-    //     this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
-    // }
 
     SubmitForm(e) {
         if (this.mainConponent.formType === "add") {

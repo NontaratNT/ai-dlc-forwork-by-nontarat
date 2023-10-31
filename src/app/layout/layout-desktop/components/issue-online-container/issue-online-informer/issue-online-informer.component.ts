@@ -26,6 +26,7 @@ import { IOrganizeInfo } from "share-ui/lib/models/organize-info.service";
 import { IssueOnlineService } from "src/app/services/issue-online.service";
 import { OnlineCaseService } from "src/app/services/online-case.service";
 import { switchMap } from "rxjs/operators";
+import { BpmProcinstService } from "src/app/services/bpm-procinst.service";
 
 @Component({
     selector: "app-issue-online-informer",
@@ -250,6 +251,7 @@ export class IssueOnlineInformerComponent implements OnInit {
     radiocheckorganize3 = [{ id: 3, text: "กองบัญชาการตำรวจสอบสวนกลาง (ลาดพร้าว)" }];
     checkblessings = false;
     dataForms: any = {};
+    checkerror = 0;
     constructor(
         private router: Router,
         private servicePersonal: PersonalService,
@@ -264,7 +266,8 @@ export class IssueOnlineInformerComponent implements OnInit {
         private _formValidate: FormValidatorService,
         private _OrgService: OrgService,
         private _issueOnlineService: IssueOnlineService,
-        private _OnlineCaseService: OnlineCaseService
+        private _OnlineCaseService: OnlineCaseService,
+        private _BpmProcinstService: BpmProcinstService,
 
     ) {
         this.dsorgbyaria = {} as any;
@@ -280,6 +283,7 @@ export class IssueOnlineInformerComponent implements OnInit {
         this.cardAddress.disableDistrict = true;
         this.cardAddress.disableSubDistrict = true;
         this.cardAddress.disablepostcode = true;
+        this.checkerror = 0;
         const userId = User.Current.PersonalId;
         this.isLoading = true;
         this.servicePersonal.GetPersonalById(userId)
@@ -316,125 +320,6 @@ export class IssueOnlineInformerComponent implements OnInit {
         };
     }
 
-    onvaluecheckaddresscard(e) {
-        if (e.value) {
-            this.formData.CASE_INFORMER_ADDRESS_NO =
-                this.formData.CASE_INFORMER_CARD_ADDRESS_NO;
-            this.formData.INFORMER_PROVINCE =
-                this.formData.INFORMER_CARD_PROVINCE;
-            this.serviceProvince
-                .GetDistrictofProvince(this.formData.INFORMER_CARD_PROVINCE)
-                .subscribe((_) => {
-                    this.presentAddress.district = _;
-                    this.presentAddress.disableDistrict = false;
-
-                    this.formData.INFORMER_DISTRICT_ID =
-                        this.formData.INFORMER_CARD_DISTRICT_ID;
-                });
-
-            setTimeout(() => {
-                this.serviceDistrict
-                    .GetSubDistrictOfDistrict(
-                        this.formData.INFORMER_CARD_DISTRICT_ID
-                    )
-                    .subscribe((_) => {
-                        this.presentAddress.subDistrict = _;
-                        this.presentAddress.disableSubDistrict = false;
-                        this.formData.INFORMER_SUB_DISTRICT_ID =
-                            this.formData.INFORMER_CARD_SUB_DISTRICT_ID;
-                    });
-            }, 500);
-        }
-    }
-    onvaluecheckboxlocationchangewalkin(e,type_location){
-        this.formdataOrgsendcasewalkin = {};
-        if (type_location === 1) {
-            this.checkboxLocationwalkin.location_type1 = e.value;
-            this.checkboxLocationwalkin.location_type2 = 0;
-            if (e.value === 1) {
-                this.formData.location_type1 = 1;
-                this.formData.ORG_LOCATION_WALKIN_TYPE = 1;
-            }
-        } else if (type_location === 2) {
-            this.checkboxLocationwalkin.location_type2 = e.value;
-            this.checkboxLocationwalkin.location_type1 = e.value;
-            this.formData.ORG_PROVINCE_OFFICER_ID = undefined;
-            this.formData.WALKIN_POLICE_STATION = undefined;
-            if (e.value === 2) {
-                this.formData.location_type1 = 2;
-                this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
-            }
-        } else if (type_location === 3) {
-            this.formData.ORG_PROVINCE_OFFICER_ID = undefined;
-            this.formData.WALKIN_POLICE_STATION = undefined;
-            this.checkboxLocationwalkin.location_type3 = e.value;
-            if (e.value === 3) {
-                this.formData.location_type1 = 3;
-                this.formData.ORG_LOCATION_WALKIN_TYPE = 3;
-            }
-        }
-    }
-
-    onvaluecheckboxlocationchange(e, type_location) {
-        this.formData.ORG_LOCATION_ID = null;
-        this.formdataOrgsendcase = {
-            ORG_LOCATION_TYPE: null,
-            ORG_LOCATION_ID: null,
-            ORG_LOCATION_NAME: "",
-            ORG_PROVINCE_ID: null,
-            ORG_PROVICE_NAME: "",
-            ORG_LOCATION_MAIN_ID: null,
-            ORG_LOCATION_MAIN_NAME: "",
-            ORG_LOCATION_CENTER_ID: null,
-            ORG_LOCATION_CENTER_NAME: "",
-        };
-        if (type_location == 1) {
-            this.checkboxLocation.location_type1 = e.value;
-            this.checkboxLocation.location_type2 = 0;
-            // this.checkboxLocation.location_type2 =false;
-            // this.checkboxLocation.location_type3 =false;
-            if (e.value == 1) {
-                // this.checkboxlocationreadonly.readonly_type2 = true;
-                // this.checkboxlocationreadonly.readonly_type3 = true;
-                this.formData.location_type1 = 1;
-                this.formData.ORG_LOCATION_TYPE = 1;
-            } else {
-                // this.checkboxlocationreadonly.readonly_type2 = false;
-                // this.checkboxlocationreadonly.readonly_type3 = false;
-            }
-        } else if (type_location == 2) {
-            this.checkboxLocation.location_type2 = e.value;
-            this.checkboxLocation.location_type1 = e.value;
-            this.formData.ORG_PROVINCE_ID = undefined;
-            this.formData.ORG_PROVINCE_LOCATION_ID = undefined;
-            // this.checkboxLocation.location_type1 =false;
-            // this.checkboxLocation.location_type3 =false;
-            if (e.value == 2) {
-                // this.checkboxlocationreadonly.readonly_type1 = true;
-                // this.checkboxlocationreadonly.readonly_type3 = true;
-                this.formData.location_type1 = 2;
-                this.formData.ORG_LOCATION_TYPE = 2;
-            } else {
-                // this.checkboxlocationreadonly.readonly_type1 = false;
-                // this.checkboxlocationreadonly.readonly_type3 = false;
-            }
-        } else if (type_location == 3) {
-            // this.checkboxLocation.location_type2 = false;
-            // this.checkboxLocation.location_type1 =false;
-            this.formData.ORG_PROVINCE_ID = undefined;
-            this.formData.ORG_PROVINCE_LOCATION_ID = undefined;
-            this.checkboxLocation.location_type3 = e.value;
-            if (e.value == 3) {
-                // this.checkboxlocationreadonly.readonly_type2 = true;
-                // this.checkboxlocationreadonly.readonly_type1 = true;
-                this.formData.location_type1 = 3;
-                this.formData.ORG_LOCATION_TYPE = 3;
-            } else {
-                // this.checkboxlocationreadonly.readonly_type2 = false;
-                // this.checkboxlocationreadonly.readonly_type1 = false;
-            }
-        }
-    }
     ShowInvalidDialog(isText = "กรุณากรอกข้อมูลให้ครบ") {
         Swal.fire({
             title: "ผิดพลาด!",
@@ -524,7 +409,11 @@ export class IssueOnlineInformerComponent implements OnInit {
                     this.formData.CASE_INFORMER_DATE = this._date.SetDateDefault();
                 }
             } else {
-
+                if(!localStorage.getItem("case_id")){
+                    const _inst_id = Number(localStorage.getItem("inst_id"));
+                    const procinstdata = await this._BpmProcinstService.getByInstId(_inst_id).toPromise();
+                    sessionStorage.setItem("case_id",procinstdata.DATA_ID);
+                }
                 const _case_id = Number(sessionStorage.getItem("case_id"));
                 const dataForm = await this._OnlineCaseService.getbycaseId(_case_id).toPromise();
 
@@ -548,7 +437,16 @@ export class IssueOnlineInformerComponent implements OnInit {
             this.loadDateBox = true;
             this.isLoading = false;
         }catch (error){
-            this.setPersonalData();
+            setTimeout(()=>{
+                this.checkerror = this.checkerror+1;
+                if(this.checkerror > 3){
+                    this.router.navigate([`/main/task-list`]).then(() => {
+                        window.location.reload();
+                      });
+                }else{
+                    this.setPersonalData();
+                }
+            }, 2000);
         }
     }
     ChangeRadioGender(e) {
@@ -617,240 +515,6 @@ export class IssueOnlineInformerComponent implements OnInit {
         }
     }
 
-    OnSelectProvicePresent(e) {
-        this.presentAddress.district = [];
-        this.presentAddress.subDistrict = [];
-        this.presentAddress.postcode = [];
-        this.presentAddress.disableDistrict = true;
-        this.presentAddress.disablepostcode = true;
-        this.presentAddress.disableSubDistrict = true;
-        this.formData.INFORMER_DISTRICT_ID = undefined;
-        this.formData.INFORMER_DISTRICT_NAME_THA = undefined;
-        if (e.value) {
-            const data =
-                this.selectPresentProvice.instance.option("selectedItem");
-            if (data) {
-                this.formData.INFORMER_PROVINCE = data.PROVINCE_ID;
-                this.formData.INFORMER_PROVINCE_NAME_THA =
-                    data.PROVINCE_NAME_THA;
-            } else {
-                this.formData.INFORMER_PROVINCE = e.value;
-            }
-
-            this.serviceProvince
-                .GetDistrictofProvince(e.value)
-                .subscribe((_) => {
-                    this.presentAddress.district = _;
-                    this.presentAddress.disableDistrict = false;
-                });
-
-            this._OrgService.getorgProvince(e.value).subscribe((_) => {
-                this.dsorgbyaria = _;
-            });
-            console.log("proviceorg", this.dsorgbyaria);
-        }
-    }
-
-    OnSelectcardProvicePresent(e) {
-        this.cardAddress.district = [];
-        this.cardAddress.subDistrict = [];
-        this.cardAddress.postcode = [];
-        this.cardAddress.disableDistrict = true;
-        this.cardAddress.disablepostcode = true;
-        this.cardAddress.disableSubDistrict = true;
-        this.formData.INFORMER_CARD_DISTRICT_ID = undefined;
-        this.formData.INFORMER_CARD_DISTRICT_NAME_THA = undefined;
-        if (e.value) {
-            const data = this.selectcardProvice.instance.option("selectedItem");
-            if (data) {
-                this.formData.INFORMER_CARD_PROVINCE = data.PROVINCE_ID;
-                this.formData.INFORMER_CARD_PROVINCE_NAME_THA =
-                    data.PROVINCE_NAME_THA;
-            } else {
-                this.formData.INFORMER_CARD_PROVINCE = e.value;
-            }
-
-            this.serviceProvince
-                .GetDistrictofProvince(e.value)
-                .subscribe((_) => {
-                    this.cardAddress.district = _;
-                    this.cardAddress.disableDistrict = false;
-                });
-        }
-    }
-    OnSelectProvicePresentlocationWalkin(e){
-        if (e.value) {
-            const data =
-                this.selectPresentProvicelocationWalkin.instance.option(
-                    "selectedItem"
-                );
-            if (data) {
-                this.formData.ORG_PROVINCE_OFFICER_ID = data.PROVINCE_ID;
-                this.formData.ORG_PROVINCE_OFFICER_NAME = data.PROVINCE_NAME_THA;
-            } else {
-                this.formData.ORG_PROVINCE_OFFICER_ID = e.value;
-            }
-            this._OrgService.getorgProvince(e.value).subscribe((_) => {
-                this.dswalkinstatuspolice = _;
-            });
-        }
-    }
-    OnSelectProvicePresentlocation(e) {
-        if (e.value) {
-            const data =
-                this.selectPresentProvicelocation.instance.option(
-                    "selectedItem"
-                );
-            //     if (data) {
-            //         this.formdataOrgsendcase.ORG_PROVINCE_ID = data.PROVINCE_ID;
-            //         this.formdataOrgsendcase.ORG_PROVINCE_NAME = data.PROVINCE_NAME_THA;
-            //     }else{
-            //         this.formData.ORG_PROVINCE_ID = e.value;
-            //     }
-            // this._OrgService.getorgProvince(e.value).subscribe((_)=>{
-            //         this.dsorgbyarialocation = _;
-            // });
-            if (data) {
-                this.formData.ORG_PROVINCE_ID = data.PROVINCE_ID;
-                this.formData.ORG_PROVINCE_NAME = data.PROVINCE_NAME_THA;
-            } else {
-                this.formData.ORG_PROVINCE_ID = e.value;
-            }
-            this._OrgService.getorgProvince(e.value).subscribe((_) => {
-                this.dsorgbyarialocation = _;
-            });
-        }
-    }
-
-    OnSelectProvicePresentlocationofficer(e) {
-        if (e.value) {
-            const data =
-                this.selectPresentProvicelocationofficer.instance.option(
-                    "selectedItem"
-                );
-
-            if (data) {
-                this.formData.ORG_PROVINCE_OFFICER_ID = data.PROVINCE_ID;
-                this.formData.ORG_PROVINCE_OFFICER_NAME =
-                    data.PROVINCE_NAME_THA;
-            } else {
-                this.formData.ORG_PROVINCE_OFFICER_ID = e.value;
-            }
-            this._OrgService.getorgProvince(e.value).subscribe((_) => {
-                this.dsorgbyarialocation = _;
-            });
-        }
-    }
-
-    OnSelectDistrictPresent(e) {
-        this.presentAddress.subDistrict = [];
-        this.presentAddress.postcode = [];
-        this.presentAddress.disableSubDistrict = true;
-        this.presentAddress.disablepostcode = true;
-        this.formData.INFORMER_SUB_DISTRICT_ID = undefined;
-        this.formData.INFORMER_SUB_DISTRICT_NAME_THA = undefined;
-        if (e.value) {
-            const data =
-                this.selectPresentDistrict.instance.option("selectedItem");
-            if (data) {
-                this.formData.INFORMER_DISTRICT_ID = data.DISTRICT_ID;
-                this.formData.INFORMER_DISTRICT_NAME_THA =
-                    data.DISTRICT_NAME_THA;
-            } else {
-                this.formData.INFORMER_DISTRICT_ID = e.value;
-            }
-
-            this.serviceDistrict
-                .GetSubDistrictOfDistrict(e.value)
-                .subscribe((_) => {
-                    this.presentAddress.subDistrict = _;
-                    this.presentAddress.disableSubDistrict = false;
-                });
-        }
-    }
-
-    OnSelectDistrictCard(e) {
-        this.cardAddress.subDistrict = [];
-        this.cardAddress.postcode = [];
-        this.cardAddress.disableSubDistrict = true;
-        this.cardAddress.disablepostcode = true;
-        this.formData.INFORMER_CARD_SUB_DISTRICT_ID = undefined;
-        this.formData.INFORMER_CARD_SUB_DISTRICT_NAME_THA = undefined;
-        if (e.value) {
-            const data =
-                this.selectCardDistrict.instance.option("selectedItem");
-            if (data) {
-                this.formData.INFORMER_CARD_DISTRICT_ID = data.DISTRICT_ID;
-                this.formData.INFORMER_CARD_DISTRICT_NAME_THA =
-                    data.DISTRICT_NAME_THA;
-            } else {
-                this.formData.INFORMER_CARD_DISTRICT_ID = e.value;
-            }
-
-            this.serviceDistrict
-                .GetSubDistrictOfDistrict(e.value)
-                .subscribe((_) => {
-                    this.cardAddress.subDistrict = _;
-                    this.cardAddress.disableSubDistrict = false;
-                });
-        }
-    }
-    OnSelectSubDistrictPresent(e) {
-        this.presentAddress.postcode = [];
-        this.presentAddress.disablepostcode = true;
-
-        if (e.value) {
-            const data =
-                this.selectPresentSubDistrict.instance.option("selectedItem");
-            if (data) {
-                this.formData.INFORMER_SUB_DISTRICT_ID = data.SUB_DISTRICT_ID;
-                this.formData.INFORMER_SUB_DISTRICT_NAME_THA =
-                    data.SUB_DISTRICT_NAME_THA;
-            } else {
-                this.formData.INFORMER_SUB_DISTRICT_ID = e.value;
-            }
-
-            this.serviceSubDistrict.GetPostCode(e.value).subscribe((_) => {
-                this.presentAddress.postcode = _;
-                this.presentAddress.disablepostcode = false;
-            });
-        }
-    }
-
-    OnSelectSubDistrictCard(e) {
-        this.cardAddress.postcode = [];
-        this.cardAddress.disablepostcode = true;
-
-        if (e.value) {
-            const data =
-                this.selectCardSubDistrict.instance.option("selectedItem");
-            if (data) {
-                this.formData.INFORMER_CARD_SUB_DISTRICT_ID =
-                    data.SUB_DISTRICT_ID;
-                this.formData.INFORMER_CARD_SUB_DISTRICT_NAME_THA =
-                    data.SUB_DISTRICT_NAME_THA;
-            } else {
-                this.formData.INFORMER_CARD_SUB_DISTRICT_ID = e.value;
-            }
-
-            this.serviceSubDistrict.GetPostCode(e.value).subscribe((_) => {
-                this.cardAddress.postcode = _;
-                this.cardAddress.disablepostcode = false;
-            });
-        }
-    }
-    OnSelectPostCodePresent(e) {
-        if (e.value) {
-            const data =
-                this.selectPresentPostcode.instance.option("selectedItem");
-            if (data) {
-                this.formData.INFORMER_POSTCODE_ID = data.POSTCODE_ID;
-                this.formData.INFORMER_POSTCODE_CODE = data.POSTCODE_CODE;
-            } else {
-                this.formData.INFORMER_POSTCODE_ID = e.value;
-            }
-        }
-    }
     CheckNumber(event) {
         // const seperator  = '^[ก-๏\\s]+$';
         const seperator = "^([0-9])";
@@ -1052,259 +716,6 @@ export class IssueOnlineInformerComponent implements OnInit {
                 this.formData.ORG_PROVINCE_ID = Number(data.ORGANIZE_ARIA_CODE);
             } else {
                 this.formData.ORG_LOCATION_ID = e.value;
-            }
-        }
-    }
-
-    onvaluechangeorgmainwalkin(e, type) {
-        this.formData.ORG_PROVINCE_MAP_AREA_ID = null;
-        this.formData.ORG_PROVINCE_MAP_AREA_NAME = null;
-
-        if (e.value) {
-            if (type === 1) {
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID2 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID3 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID4 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID5 = null;
-                const data: any = this.orgtype2_1.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID1 = data[0].org_id;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_NAME1 =
-                    data[0].org_name;
-
-                // * parame insert
-                this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formData.WALKIN_POLICE_STATION_ID = data[0].org_id;
-                this.formData.WALKIN_POLICE_STATION = data[0].org_name;
-            }
-            if (type === 2) {
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID1 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID3 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID4 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID5 = null;
-                const data: any = this.orgtype2_2.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID2 = data[0].org_id;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_NAME2 =
-                    data[0].org_name;
-
-                // * parame insert
-                this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formData.WALKIN_POLICE_STATION_ID = data[0].org_id;
-                this.formData.WALKIN_POLICE_STATION = data[0].org_name;
-            } else if (type === 3) {
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID1 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID2 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID4 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID5 = null;
-                const data: any = this.orgtype2_3.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID3 = data[0].org_id;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_NAME3 =
-                    data[0].org_name;
-
-                // * parame insert
-                this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formData.WALKIN_POLICE_STATION_ID = data[0].org_id;
-                this.formData.WALKIN_POLICE_STATION = data[0].org_name;
-            } else if (type === 4) {
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID1 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID2 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID3 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID5 = null;
-                const data: any = this.orgtype2_4.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID4 = data[0].org_id;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_NAME4 =
-                    data[0].org_name;
-
-                // * parame insert
-                this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formData.WALKIN_POLICE_STATION_ID = data[0].org_id;
-                this.formData.WALKIN_POLICE_STATION = data[0].org_name;
-            } else if (type === 5) {
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID1 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID2 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID3 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID4 = null;
-                const data: any = this.orgtype2_5.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID5 = data[0].org_id;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_NAME5 =
-                    data[0].org_name;
-
-                // * parame insert
-                this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formData.WALKIN_POLICE_STATION_ID = data[0].org_id;
-                this.formData.WALKIN_POLICE_STATION = data[0].org_name;
-            }
-        }
-    }
-
-    onvaluechangeorgmain(e, type) {
-        // const data = this.selectorgmain.instance.option("selectedItem");
-        this.formData.ORG_PROVINCE_MAP_AREA_ID = null;
-        this.formData.ORG_PROVINCE_MAP_AREA_NAME = null;
-
-        if (e.value) {
-            if (type == 1) {
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = null;
-                const data: any = this.orgtype2_1.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = data[0].org_id;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME1 =
-                    data[0].org_name;
-
-                //parame insert
-                this.formData.ORG_LOCATION_TYPE = 2;
-                this.formData.ORG_LOCATION_ID = data[0].org_id;
-                this.formData.ORG_LOCATION_NAME = data[0].org_name;
-            }
-            if (type == 2) {
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = null;
-                const data: any = this.orgtype2_2.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = data[0].org_id;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME2 =
-                    data[0].org_name;
-
-                //parame insert
-                this.formData.ORG_LOCATION_TYPE = 2;
-                this.formData.ORG_LOCATION_ID = data[0].org_id;
-                this.formData.ORG_LOCATION_NAME = data[0].org_name;
-            } else if (type == 3) {
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = null;
-                const data: any = this.orgtype2_3.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = data[0].org_id;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME3 =
-                    data[0].org_name;
-
-                //parame insert
-                this.formData.ORG_LOCATION_TYPE = 2;
-                this.formData.ORG_LOCATION_ID = data[0].org_id;
-                this.formData.ORG_LOCATION_NAME = data[0].org_name;
-            } else if (type == 4) {
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = null;
-                const data: any = this.orgtype2_4.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = data[0].org_id;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME4 =
-                    data[0].org_name;
-
-                //parame insert
-                this.formData.ORG_LOCATION_TYPE = 2;
-                this.formData.ORG_LOCATION_ID = data[0].org_id;
-                this.formData.ORG_LOCATION_NAME = data[0].org_name;
-            } else if (type == 5) {
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = null;
-                const data: any = this.orgtype2_5.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = data[0].org_id;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME5 =
-                    data[0].org_name;
-
-                //parame insert
-                this.formData.ORG_LOCATION_TYPE = 2;
-                this.formData.ORG_LOCATION_ID = data[0].org_id;
-                this.formData.ORG_LOCATION_NAME = data[0].org_name;
-            }
-        }
-        // else{
-        //     this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID = e.value;
-        // }
-
-        // console.log(
-        //     this.formData.ORG_LOCATION_ID,
-        //     this.formData.ORG_LOCATION_NAME
-        // );
-        // alert(this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID);
-    }
-
-    onvaluechangeorgcenterwalkin(e) {
-        if (e.value) {
-            const data: any = this.orgtype3.filter((r) => r.org_id === e.value);
-            // console.log(data[0].org_id, data[0].org_name);
-            // this.formdataOrgsendcase.ORG_LOCATION_TYPE = 3;
-            // this.formdataOrgsendcase.ORG_LOCATION_CENTER_ID = data[0].org_id;
-            this.formdataOrgsendcasewalkin.WALKIN_POLICE_STATION =
-                data[0].org_name;
-
-            //parame insert
-            this.formData.ORG_LOCATION_WALKIN_TYPE = 3;
-            this.formData.WALKIN_POLICE_STATION_ID = 2375;
-            this.formData.WALKIN_POLICE_STATION = "กองบัญชาการตำรวจสอบสวนกลาง";
-            // this.formData.WALKIN_POLICE_STATION_ID = data[0].org_id;
-            // this.formData.WALKIN_POLICE_STATION = data[0].org_name;
-        } else {
-            this.formdataOrgsendcasewalkin.ORG_LOCATION_CENTER_ID = e.value;
-        }
-        // alert(this.formdataOrgsendcase.ORG_LOCATION_CENTER_ID);
-    }
-
-    onvaluechangeorgcenter(e) {
-        if (e.value) {
-            const data: any = this.orgtype3.filter((r) => r.org_id === e.value);
-            // console.log(data[0].org_id, data[0].org_name);
-            this.formdataOrgsendcase.ORG_LOCATION_TYPE = 3;
-            this.formdataOrgsendcase.ORG_LOCATION_CENTER_ID = data[0].org_id;
-            this.formdataOrgsendcase.ORG_LOCATION_CENTER_NAME =
-                data[0].org_name;
-
-            //parame insert
-            this.formData.ORG_LOCATION_TYPE = 3;
-            this.formData.ORG_LOCATION_ID = 2375;
-            this.formData.ORG_LOCATION_NAME = "กองบัญชาการตำรวจสอบสวนกลาง";
-            // console.log(this.formData);
-        } else {
-            this.formdataOrgsendcase.ORG_LOCATION_CENTER_ID = e.value;
-        }
-        // alert(this.formdataOrgsendcase.ORG_LOCATION_CENTER_ID);
-    }
-
-    OnSelectBankAccount(e) {
-        if (e.value) {
-            const data = this.selectBankInfo.instance.option("selectedItem");
-            if (data) {
-                this.formbanklistarray.PERSONAL_BANK_ID = data.BANK_ID;
-                this.formbanklistarray.PERSONAL_BANK_NAME = data.BANK_NAME;
-            } else {
-                this.formbanklistarray.PERSONAL_BANK_ID = e.value;
             }
         }
     }

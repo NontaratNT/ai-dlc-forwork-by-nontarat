@@ -169,12 +169,12 @@ export class IssueOnlineContainerComponent implements OnInit {
             this.InstId = d.InstId;
             this.ProcessInstanceId = d.ProcessInstanceId;
             this.stepNavigation = [
-                {text:"คัดกรองความเสียหาย",textClass:"arrow-div arrow-first"},
+                {text:"เลขอ้างอิงธนาคาร",textClass:"arrow-div arrow-first"},
                 {text:"ข้อมูลผู้เสียหาย",textClass:"arrow-div arrow-center"},
                 {text:"เรื่องที่เกิดขึ้น",textClass:"arrow-div arrow-center"},
-                {text:"ความเสียหาย",textClass:"arrow-div arrow-center"}
+                {text:"ความเสียหาย",textClass:"arrow-div arrow-end"}
             ];
-            this.stepNavigationWidth = 1900;
+            this.stepNavigationWidth = 1250;
             this.getProvince();
         }else{
 

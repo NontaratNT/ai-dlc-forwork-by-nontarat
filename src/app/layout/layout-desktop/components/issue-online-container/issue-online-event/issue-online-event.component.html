@@ -1,4 +1,4 @@
-<div class="conten-block">
+<div class="conten-block" *ngIf="showSelectORG">
     <div class="content-title">ท่านเคยไปพบพนักงานสอบสวนในคดีนี้มาแล้วหรือไม่ เลือกหน่วยงาน</div>
     <div class="content-form">
         <dx-form #formInformer3 [colCount]="3" labelLocation="top">
@@ -46,8 +46,9 @@
             </dxi-item>
         </dx-form>
     </div>
+    <div class="content-end-line"></div>
 </div>
-<div class="conten-block">
+<div class="conten-block" *ngIf="showSelectORG">
     <dx-form *ngIf="!formData.IS_WALKIN" [colCount]="2" labelLocation="top">
         <dxi-item [colSpan]="2" style="margin-top:15px;">
             <div class="content-title">กรุณาระบุหน่วยงานตำรวจที่ท่านสะดวกไปพบ
@@ -90,9 +91,12 @@
     <div style="color:red;">
         <h2>เรื่องที่ท่านแจ้งจะถูกส่งไปยังหน่วยงานที่เลือกโดยอัตโนมัติ</h2>
     </div>
+    <div class="content-end-line"></div>
+</div>
+<div class="content-title" *ngIf="!showSelectORG">
+    <span style="font-weight: bold;"> หน่วยงานที่สะดวกไปพบเจ้าหน้าที่ : </span><span>{{formData.ORG_LOCATION_NAME}}</span>
 </div>
 <div class="conten-block">
-    <div class="content-end-line"></div>
     <div class="content-form">
         <dx-form #formEvent1 [colCount]="3" labelLocation="top">
             <dxi-item template="temp1" [colSpan]="2" [isRequired]="formValidate">

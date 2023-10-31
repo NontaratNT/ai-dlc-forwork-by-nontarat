@@ -111,6 +111,7 @@ export class IssueOnlineEventComponent implements OnInit {
         ORG_LOCATION_CENTER_ID: null,
         ORG_LOCATION_CENTER_NAME: "",
     };
+    showSelectORG = false;
 
     constructor(
         private servBankInfo: BankInfoService,
@@ -175,19 +176,19 @@ export class IssueOnlineEventComponent implements OnInit {
                 localStorage.setItem("form-index","3");
                 this.locationRender = 'add';
                 this.formType = "add";
+                this.showSelectORG = true;
                 this.formReadOnly = false;
                 this.formValidate = true;
                 if(localStorage.getItem("form-event")){
                     this.formData = JSON.parse(localStorage.getItem("form-event"));
                     this.recovery = true;
-                }else{
                 }
-                this.isLoading = false;
 
             }else{
                 const _case_id = Number(sessionStorage.getItem("case_id"));
                 const dataForm = await this._OnlineCaseService.getbycaseId(_case_id).toPromise();
                 var _gettype  =   this.listCaseType.find(x=>x.CASE_TYPE_ID == dataForm.CASE_TYPE_ID);
+                this.showSelectORG = false;
                 this.formType = "edit";
                 this.formReadOnly = true;
                 this.formValidate = false;
@@ -195,6 +196,7 @@ export class IssueOnlineEventComponent implements OnInit {
                 this.formData.CASE_TYPE_ID = dataForm.CASE_TYPE_ID;
                 this.formData.CASE_TYPE_NAME = _gettype.CASE_TYPE_NAME;
             }
+            this.isLoading = false;
         }catch (error){
             console.log(error);
             this.SetDefaultData();

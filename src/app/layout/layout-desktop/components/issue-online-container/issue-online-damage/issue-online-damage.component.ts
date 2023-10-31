@@ -451,9 +451,9 @@ export class IssueOnlineDamageComponent implements OnInit {
                 this.formReadOnly = true;
                 this.formAddData = false;
                 this.DefaultCheckbox();
-
                 const _case_id = Number(sessionStorage.getItem("case_id"))
                 const _CASE_MONEY = await this._OnlineCaseService.Getcasemoney(_case_id).toPromise();
+                this.checkTypemoney = true;
                 setTimeout(async () => {
                     if (this.CheckArray(_CASE_MONEY)) {
                         if(this.mainConponent.InstId){

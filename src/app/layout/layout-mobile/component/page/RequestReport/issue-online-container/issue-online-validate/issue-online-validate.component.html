@@ -79,7 +79,7 @@
                                 <dxo-label text="เพศ" [showColon]="false"></dxo-label>
                             </dxi-item>
                             <div *dxTemplate="let data of 'temp3'">
-                                {{formData.INFORMER_GENDER_DETAIL}}
+                                <dx-text-box [readOnly]="true" [value]="formData.INFORMER_GENDER_DETAIL"></dx-text-box>
                             </div>
                             <dxi-item template="temp4" [colSpan]="1">
                                 <dxo-label text="วัน/เดือน/ปี เกิดของผู้เสียหาย" [showColon]="false"></dxo-label>
@@ -355,7 +355,7 @@
         </div>
     </div>
     <div class="conten-block">
-        <div class="text-center" style="margin-top: 40px;">
+        <div class="text-center" style="margin-top: 100px;">
             <dx-button class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)">
             </dx-button>
             &nbsp;

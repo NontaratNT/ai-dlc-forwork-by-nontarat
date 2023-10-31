@@ -73,15 +73,6 @@ export class IssueOnlineEditComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        // this._instId = this.activeRoute.snapshot.params.instId;
-        // this.activeRoute.params.subscribe(params => {
-        //     // this._isLoading = true;
-        //     this._instId = params.instId;
-        //     this.loadTab = false;
-        //     this.caseReject = false;
-        //     this.loaddata(this._instId);
-        //     this.LoadStatus(this._instId);
-        // });
         setTimeout(()=>{
             this._instId = Number(localStorage.getItem('inst_id'));
             this.loadTab = false;
@@ -89,10 +80,6 @@ export class IssueOnlineEditComponent implements OnInit {
             this.loaddata(this._instId);
             this.LoadStatus(this._instId);
         }, 1000);
-        // setTimeout(() => {
-        //     // console.log('this.listMneu[0]',this.listMneu[0]);
-        //     // this.selectMenuList.instance.selectItem(this.listMneu[0].id);
-        // });
     }
     statusText(stauscode) {
         if (stauscode) {

@@ -44,7 +44,7 @@ export class IssueOnlineEditComponent implements OnInit {
     _formioId: string;
     _documentId: string;
     _wfinsId: string;
-    isLoading = true;
+    isLoading
     dataForm: any = {};
     loadTab = false;
     listGroupStatus: any = [];
@@ -84,31 +84,10 @@ export class IssueOnlineEditComponent implements OnInit {
 
     ngOnInit(): void {
         this.visible_chat = this.userSetting.userSetting.iconVisible;
-        // $("button").on("touchmove", function(evt) {
-        //     const touch = evt.originalEvent.touches[0];
-        //     const width = $(this).width() / 2;
-        //     const height = $(this).height() / 2;
-        //     const x = touch.clientX - width;
-        //     const y = touch.clientY - height;
-
-        //     $(this).css({
-        //         "-webkit-transform": "translate3d(" + x + "px," + y + "px,0)"
-        //     });
-        // });
-        // $(function() {
-        //     $("#addClass").on(function() {
-        //         $('#qnimate').addClass('popup-box-on');
-        //     });
-
-        //     $("#removeClass").click(function () {
-        //         $('#qnimate').removeClass('popup-box-on');
-        //     });
-        // })
         this._instId = this.activeRoute.snapshot.params.instId;
+        console.log(this._instId);
         this.loaddata(this._instId);
         this.LoadStatus(this._instId);
-
-
     }
     statusText(stauscode) {
         if (stauscode) {
@@ -133,18 +112,7 @@ export class IssueOnlineEditComponent implements OnInit {
             this.formOverview.TRACKING_CODE = res.TRACKING_CODE;
             // this.formOverview.CATEGORY_NAME = res.CATEGORY_NAME + " จาก " + res.PERSONAL_FULL_NAME;
             this.formOverview.STATUS_NAME = this.statusText(res.STATUS_NAME);
-            // this.formOverview.GROUP_STATUS_NAME = res.GROUP_STATUS_NAME;
-            // this.formOverview.CREATE_DATE = this.FormatDate(res.CREATE_DATE);
-            // this.formOverview.FLOW_SLA = res.FLOW_SLA;
-            // this.formOverview.FLOW_UNIT = res.FLOW_UNIT;
-            // this.formOverview.OFFICER_FULL_NAME = res.OFFICER_FULL_NAME;
-            // this.formOverview.PERSONAL_TEL_NO = res.PERSONAL_TEL_NO;
-            // if (res.UPDATE_DATE) {
-            //     this.formOverview.UPDATE_DATE = this.FormatDate(res.UPDATE_DATE);
-            // }
-            // else {
-            //     this.formOverview.UPDATE_DATE = this.FormatDate(res.CREATE_DATE);
-            // }
+            this.isLoading = false;
         });
     }
     predicateBy(prop) {
@@ -211,11 +179,18 @@ export class IssueOnlineEditComponent implements OnInit {
                 this._formioId = res.FORM_IO_ID;
                 this._documentId = res.DOCUMENT_ID;
                 this.bpmData = res;
-                this._formConfigService.get(res.FORM_IO_ID).subscribe((resdata) => {
-                    console.log(resdata);
-                    this._formDataConfig = resdata;
-                    this.loadSubmission();
-                });
+                this.dataForm = {
+                    InstId:this._instId,
+                    ProcessInstanceId:this._wfinsId,
+                    Submission:res,
+                };
+                this.loadTab = true;
+                console.log(this.dataForm);
+                // this._formConfigService.get(res.FORM_IO_ID).subscribe((resdata) => {
+                //     console.log(resdata);
+                //     this._formDataConfig = resdata;
+                //     this.loadSubmission();
+                // });
 
             });
         }

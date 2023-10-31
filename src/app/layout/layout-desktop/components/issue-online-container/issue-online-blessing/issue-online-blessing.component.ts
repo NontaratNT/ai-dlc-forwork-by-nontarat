@@ -88,12 +88,6 @@ export class IssueOnlineBlessingComponent implements OnInit {
     ) {}
     ngOnInit(): void {
         this.maxDateValue.setHours(this.maxDateValue.getHours() + 1);
-        // const userId = User.Current.PersonalId;
-        // this.servicePersonal
-        //     .GetPersonalById(userId)
-        //     .subscribe((_) => {
-        //         this.setDefaultData();
-        //     });
         setTimeout(async () => {
             this.setDefaultData();
         }, 1000);

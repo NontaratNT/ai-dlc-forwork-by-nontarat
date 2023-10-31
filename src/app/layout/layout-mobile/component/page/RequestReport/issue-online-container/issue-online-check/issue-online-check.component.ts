@@ -3,6 +3,8 @@ import { BankInfoService } from 'src/app/services/bank-info.service';
 import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
 import { IssueOnlineContainerComponent } from '../issue-online-container.component';
+import { BpmProcinstService } from 'src/app/services/bpm-procinst.service';
+import { OnlineCaseService } from 'src/app/services/online-case.service';
 
 @Component({
     selector: 'app-issue-online-check',
@@ -14,10 +16,12 @@ export class IssueOnlineCheckComponent implements OnInit {
     _isShow: boolean = false;
     _isShow2: boolean = false;
     showBank: boolean = false;
+    checknullBankref: boolean = false;
     blockSave = true;
     checkcase : boolean = false;
     popupConsentVisible: boolean = false;
     popupType = 'add';
+    formType = "add";
     popupIndex = 0;
     maxSizeBuffer = 0;
     limitCaseChanelSize = 0;
@@ -36,20 +40,28 @@ export class IssueOnlineCheckComponent implements OnInit {
         { id: 2, text: "ยังไม่ได้ติดต่อธนาคาร" },
         { id: 1, text: "ติดต่อธนาคาร และได้รับเลขอ้างอิง (Bank Case ID) แล้ว" },
     ];
+    showMoneyWay = false;
 
     constructor(
         private _bankInfoService: BankInfoService,
         private datePipe: DatePipe,
+        private _BpmProcinstService: BpmProcinstService,
+        private _OnlineCaseService: OnlineCaseService
         ) { }
 
     ngOnInit(): void {
         this.maxDateValue.setHours(this.maxDateValue.getHours() + 1);
-        this.setDefaultData();
+        setTimeout(()=>{
+            this.setDefaultData();
+        },200);
     }
 
     async setDefaultData() {
-            localStorage.setItem("form-index","1");
+        if (this.mainConponent.formType === "add") {
             this.formData = {};
+            this.formType = "add";
+            this.showMoneyWay = true;
+            this.checknullBankref = false;
             if(localStorage.getItem("form-blessing")){
                 this.formData = JSON.parse(localStorage.getItem("form-blessing"));
                 this.submission.ways = this.formData.WAY ?? '';
@@ -60,8 +72,29 @@ export class IssueOnlineCheckComponent implements OnInit {
                         this._isShow = true;
                     }
                 }
-            }else{
             }
+        }else{
+            const _inst_id = Number(localStorage.getItem("inst_id"));
+            const procinstdata = await this._BpmProcinstService.getByInstId(_inst_id).toPromise();
+            sessionStorage.setItem("case_id",procinstdata.DATA_ID);
+            const _case_id = Number(sessionStorage.getItem("case_id"));
+            this.formType = "edit";
+            const bankRef = await this._OnlineCaseService.getBankRef(_case_id).toPromise();
+            this.showMoneyWay = false;
+            this._dataSourcebankref = bankRef;
+            console.log(this._dataSourcebankref);
+            if(this._dataSourcebankref){
+                if(this._dataSourcebankref.length > 0){
+                    this.checknullBankref = false;
+                    this.showBank = true;
+                    this._isShow = true;
+                }else{
+                    this.checknullBankref = true;
+                }
+            }else{
+                this.checknullBankref = true;
+            }
+        }
     }
     onWaysValueChangedMoney(event: any) {
         console.log(this._dataSourcebankref);
@@ -198,6 +231,7 @@ export class IssueOnlineCheckComponent implements OnInit {
     onSkip(e) {
         this.submission = {};
         this.submission.ways = 1;
+        this.submission.moneyWay = 1;
         this.now = null;
         this.popupConsentVisible = false;
     }
@@ -235,22 +269,28 @@ export class IssueOnlineCheckComponent implements OnInit {
     }
 
     SubmitForm(e) {
-        if(this._dataSourcebankref.length <= 0 && this._isShow){
-            Swal.fire({
-                title: "ผิดพลาด!",
-                text: "กรุณาเพิ่มเลขอ้างอิงธนาคาร",
-                icon: "warning",
-                confirmButtonText: "Ok",
-            }).then(() => {});
-            return;
-        } else {
-            this.formData.MoneyWAY = this.submission.moneyWay;
-            this.formData.BLESSING_STATUS = "Y";
-            this.formData.CHECK_BLESSING = true;
-            this.formData.WAY = this.submission.ways;
-            this.formData.BANK_REF = this._dataSourcebankref;
-            console.log(this.formData);
-            localStorage.setItem("form-blessing",JSON.stringify(this.formData));
+        if(this.mainConponent.formType === "add"){
+            if(this._dataSourcebankref.length <= 0 && this._isShow){
+                Swal.fire({
+                    title: "ผิดพลาด!",
+                    text: "กรุณาเพิ่มเลขอ้างอิงธนาคาร",
+                    icon: "warning",
+                    confirmButtonText: "Ok",
+                }).then(() => {});
+                return;
+            } else {
+                this.formData.MoneyWAY = this.submission.moneyWay;
+                this.formData.BLESSING_STATUS = "Y";
+                this.formData.CHECK_BLESSING = true;
+                this.formData.WAY = this.submission.ways;
+                this.formData.BANK_REF = this._dataSourcebankref;
+                console.log(this.formData);
+                localStorage.setItem("form-blessing",JSON.stringify(this.formData));
+                if(e != 'tab'){
+                    this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
+                }
+            }
+        }else{
             if(e != 'tab'){
                 this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
             }

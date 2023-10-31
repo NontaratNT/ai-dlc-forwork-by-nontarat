@@ -754,8 +754,8 @@
                     </dxi-validation-rule>
                 </dxi-item>
                 <div *dxTemplate="let data of 'temp2'">
-                    <dx-select-box #selectPresentProvicelocationwalkin [dataSource]="province" displayExpr="PROVINCE_NAME_THA" valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true" placeholder="จังหวัด" [showClearButton]="true" (onValueChanged)="OnSelectProvicePresentlocationWalkin($event)"
-                        [(value)]="formData.ORG_PROVINCE_OFFICER_ID">
+                    <dx-select-box #selectPresentProvicelocation [dataSource]="province" displayExpr="PROVINCE_NAME_THA" valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true" placeholder="จังหวัด" [showClearButton]="true" (onValueChanged)="OnSelectProvicePresentlocation($event)"
+                        [(value)]="formData.ORG_PROVINCE_ID">
                     </dx-select-box>
                 </div>
                 <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
@@ -766,8 +766,8 @@
                     </dxi-validation-rule>
                 </dxi-item>
                 <div *dxTemplate="let data of 'inviteOrg'">
-                    <dx-select-box #selectorgwalkin [dataSource]="dswalkinstatuspolice" displayExpr="ORGANIZE_NAME_THA" valueExpr="ORGANIZE_NAME_THA" searchExpr="ORGANIZE_NAME_THA" placeholder="ชื่อสถานี" [searchEnabled]="true" [showClearButton]="true" (onValueChanged)="Onorglocationwalkin($event)"
-                        [(value)]="formData.ORGANIZE_ID">
+                    <dx-select-box #selectorg [dataSource]="dsorgbyarialocation" displayExpr="ORGANIZE_NAME_THA" valueExpr="ORGANIZE_NAME_THA" searchExpr="ORGANIZE_NAME_THA" placeholder="ชื่อสถานี" [searchEnabled]="true" [showClearButton]="true" (onValueChanged)="Onorglocation($event)"
+                        [(value)]="formData.ORG_PROVINCE_LOCATION_ID">
                     </dx-select-box>
                 </div>
             </dx-form>
