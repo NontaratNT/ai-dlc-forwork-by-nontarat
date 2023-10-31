@@ -46,7 +46,7 @@ export class IssueOnlineAgreeComponent implements OnInit {
     }
 
 
-    
+
 
     setDefaultData() {
 
@@ -75,6 +75,11 @@ export class IssueOnlineAgreeComponent implements OnInit {
         };
     }
     Back(e) {
+        localStorage.removeItem("form-blessing");
+        localStorage.removeItem("form-informer");
+        localStorage.removeItem("form-event");
+        localStorage.removeItem("form-damage");
+        localStorage.removeItem("form-index");
         this.router.navigate([`/mobile/issue`]);
         this.mainConponent.numCount = this.mainConponent.indexTab - 1;
         this.userSetting.userSetting.tabIndex = this.mainConponent.numCount;
@@ -105,13 +110,13 @@ export class IssueOnlineAgreeComponent implements OnInit {
             this.mainConponent.numCount = this.mainConponent.indexTab + 1;
             this.userSetting.userSetting.issue_status = true;
             this.userSetting.userSetting.tabIndex = this.mainConponent.numCount;
-           
+
         }
-      
+
     }
 
-    
-    
+
+
     onRegister(event: any) {
         console.clear();
         // console.log("User.Current.PersonalId",User.Current.PersonalId)
@@ -135,7 +140,7 @@ export class IssueOnlineAgreeComponent implements OnInit {
                 this.submission.PERSONAL_ID = User.Current.PersonalId;
 
                 this._issueOnlineService.issueOnline = this.submission;
-       
+
                     Swal.fire({
                         title: 'แจ้งเตือน!',
                         text: 'ดำเนินการบันทึกข้อมูลเรียบร้อย ระบบจะนำท่านไปสู่ขั้นตอนแจ้งเรื่องใหม่!!!',
@@ -155,7 +160,7 @@ export class IssueOnlineAgreeComponent implements OnInit {
         }
     }
 
-    
+
     Addbankref(){
         this.popupConsentVisible = true;
     }

@@ -1290,6 +1290,7 @@ export class TasklistComponent implements OnInit {
 
     async addorg(cellValue){
         this.province = await this.serviceProvince.GetProvince().toPromise();
+        this.dswalkinstatuspolice = await this._OrgService.getorgwalkinall().toPromise();
         const data = cellValue.data;
         this.formData.INST_ID = data.INST_ID;
         if(data){
@@ -1304,17 +1305,16 @@ export class TasklistComponent implements OnInit {
     }
 
     check1440(data) {
-        return true;
-        // if (data) {
-        //     if (data.TRACKING_CODE.includes("T")) {
-        //         if (data.ORG_ID === undefined || data.ORG_ID === null) {
-        //             return true;
-        //         } else if (data.ORG_ID === 1) {
-        //             return true;
-        //         }
-        //     }
-        // }
-        // return false;
+        if (data) {
+            if (data.TRACKING_CODE.includes("T")) {
+                if (data.ORG_ID === undefined || data.ORG_ID === null) {
+                    return true;
+                } else if (data.ORG_ID === 1) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     OnSelectProvicePresentlocationWalkin(e){

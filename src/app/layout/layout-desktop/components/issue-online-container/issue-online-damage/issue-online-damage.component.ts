@@ -368,7 +368,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                         };
                     }
                     else if(formCheck.MoneyWAY == 3){
-                        this.type4 = true;
+                        this.type3 = true;
                         this.checkTypemoney = false;
                         this.checkTypemoney = false;
                         this.formData = {
@@ -390,7 +390,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                         };
                     }
                     else if(formCheck.MoneyWAY == 4){
-                        this.type3 = true;
+                        this.type4 = true;
                         this.checkTypemoney = false;
                         this.formData = {
                             CASE_MONEY_DAMAGE: "Y",
@@ -2000,7 +2000,11 @@ export class IssueOnlineDamageComponent implements OnInit {
             value["SHOW_NAME"] = '(อื่นๆ ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + '(' + value.CASE_MONEY_BANK_OTHER_DETAIL + ')';
             value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
         }
-        this.bankListend.push(value);
+        if(value.TYPE_NAME === 'เงินดิจิทัล (Cryptocurrency)'){
+            this.bankCrytroListend.push(value);
+        }else{
+            this.bankListend.push(value);
+        }
         this.formmoney.BANK_LIST_ID = value["SHOW_NAME"];
 
     }

@@ -20,6 +20,7 @@ import { IssueOnlineService } from "src/app/services/issue-online.service";
 import { OnlineCaseService } from "src/app/services/online-case.service";
 import { IOrganizeInfo } from "share-ui/lib/models/organize-info.service";
 import { OrgService } from "src/app/services/org.service";
+import { switchMap } from "rxjs/operators";
 
 @Component({
     selector: "app-issue-online-event",
@@ -125,14 +126,21 @@ export class IssueOnlineEventComponent implements OnInit {
         this.isLoading = true;
         this.caseOpen = false;
 
-        this.servBankInfo.GetCaseType().subscribe((_) => {
-            this.formData.CASE_TYPE_ID = null;
-            this.listCaseType = _;
+        this.servBankInfo.GetCaseType().pipe(
+            switchMap(_ => {
+                this.formData.CASE_TYPE_ID = null;
+                this.listCaseType = _;
+                return this._OrgService.getorgwalkinall();
+            })
+          ).subscribe(dsorgbyarialocation => {
+            this.dsorgbyarialocation = dsorgbyarialocation;
+            this.dswalkinstatuspolice = dsorgbyarialocation;
             this.SetDefaultData();
-        },error => {
-            if(error.status == 500 || error.status == 524)
-                this.mainConponent.checkReload(3);
-        });
+          }, error => {
+            if (error.status === 500 || error.status === 524) {
+              this.mainConponent.checkReload(2);
+            }
+          });
         this.presentAddress.disableDistrict = true;
         this.presentAddress.disableSubDistrict = true;
         this.presentAddress.disablepostcode = true;
@@ -265,6 +273,22 @@ export class IssueOnlineEventComponent implements OnInit {
         if (e.value) {
             this.formData.IS_WALKIN_RADIO = e.value;
             this.formData.IS_WALKIN = e.value === 1 ? false : true;
+            if(this.formData.IS_WALKIN_RADIO === 2){
+                if(this.formData.ORG_LOCATION_ID){
+                    this.formData.ORG_LOCATION_TYPE = undefined;
+                    this.formData.ORG_LOCATION_ID = undefined;
+                    this.formData.ORG_LOCATION_NAME = undefined;
+                    this.formData.ORG_PROVINCE_LOCATION_ID = undefined;
+                    this.formData.ORG_PROVINCE_ID = undefined;
+                }
+            }
+            if(this.formData.IS_WALKIN_RADIO === 1){
+                if(this.formData.WALKIN_POLICE_STATION){
+                    this.formData.ORG_LOCATION_WALKIN_TYPE = undefined;
+                    this.formData.WALKIN_POLICE_STATION = undefined;
+                    this.formData.ORG_PROVINCE_OFFICER_ID = undefined;
+                }
+            }
         }
     }
 

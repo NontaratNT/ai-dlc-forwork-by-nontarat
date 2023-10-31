@@ -240,7 +240,7 @@
                                 </dxi-validation-rule>
                             </dxi-item>
                             <div *dxTemplate="let data of 'tempend'">
-                                <dx-select-box #selectBankInfolistCrypto [dataSource]="bankListend" valueExpr="SHOW_NAME" displayExpr="SHOW_NAME" [(value)]="formmoney.BANK_LIST_ID" (onValueChanged)="onbanklistchange($event)" placeholder="บัญชีปลายทาง" searchExpr="SHOW_NAME" [searchEnabled]="true">
+                                <dx-select-box #selectBankInfolistCrypto [dataSource]="bankCrytroListend" valueExpr="SHOW_NAME" displayExpr="SHOW_NAME" [(value)]="formmoney.BANK_LIST_ID" (onValueChanged)="onbanklistchange($event)" placeholder="บัญชีปลายทาง" searchExpr="SHOW_NAME" [searchEnabled]="true">
                                     <dxi-button name="addbankend" [options]="_buttonaddblankvillainCrypto"></dxi-button>
                                 </dx-select-box>
                             </div>

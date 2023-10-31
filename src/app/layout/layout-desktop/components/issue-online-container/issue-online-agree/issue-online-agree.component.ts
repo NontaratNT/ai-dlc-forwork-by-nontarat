@@ -43,11 +43,11 @@ export class IssueOnlineAgreeComponent implements OnInit {
 
         this.setDefaultData();
 
-     
 
 
 
-        
+
+
     }
     setDefaultData() {
         this.formData = {
@@ -67,6 +67,11 @@ export class IssueOnlineAgreeComponent implements OnInit {
         });
     }
     Back(e) {
+        localStorage.removeItem("form-blessing");
+        localStorage.removeItem("form-informer");
+        localStorage.removeItem("form-event");
+        localStorage.removeItem("form-damage");
+        localStorage.removeItem("form-index");
         this.router.navigate([`/main/task-list`]);
     }
     SubmitForm(e) {

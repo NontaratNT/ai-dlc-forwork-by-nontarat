@@ -69,6 +69,12 @@
                             <div *dxTemplate="let data of 'temp2'">
                                 <dx-text-box [readOnly]="true" [value]="formData.CASE_INFORMER_LASTNAME"></dx-text-box>
                             </div>
+                            <dxi-item template="tempcitizen" [colSpan]="1">
+                                <dxo-label text="เลขบัตรประชาชน" [showColon]="false"></dxo-label>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'tempcitizen'">
+                                <dx-text-box [readOnly]="true" [value]="formData.CASE_INFORMER_CITIZEN_NUMBER"></dx-text-box>
+                            </div>
                             <dxi-item template="temp3" [colSpan]="1">
                                 <dxo-label text="เพศ" [showColon]="false"></dxo-label>
                             </dxi-item>

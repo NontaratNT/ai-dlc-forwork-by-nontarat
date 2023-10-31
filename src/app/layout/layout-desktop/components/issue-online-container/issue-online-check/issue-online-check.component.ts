@@ -66,7 +66,6 @@ export class IssueOnlineCheckComponent implements OnInit {
         }
     }
     onWaysValueChangedMoney(event: any) {
-        console.log(this._dataSourcebankref);
         let val = event.value;
         this.submission.moneyWay = val;
         if(val){
@@ -78,6 +77,7 @@ export class IssueOnlineCheckComponent implements OnInit {
                         this.checkcase = false;
                     }
             }else{
+                this._isShow = false;
                 this.showBank = false;
                 this.checkcase = true;
             }
@@ -199,6 +199,7 @@ export class IssueOnlineCheckComponent implements OnInit {
 
     onSkip(e) {
         this.submission = {};
+        this.submission.moneyWay = 1;
         this.submission.ways = 1;
         this.now = null;
         this.popupConsentVisible = false;
