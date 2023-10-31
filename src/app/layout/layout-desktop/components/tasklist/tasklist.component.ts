@@ -1375,7 +1375,7 @@ export class TasklistComponent implements OnInit {
                 }).then(() => {
                     this._isLoading = false;
                     this.onClose();
-                    location.reload();
+                    this.loadDataAll();
                 });
             });
         });
