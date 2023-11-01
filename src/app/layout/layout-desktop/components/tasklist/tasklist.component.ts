@@ -1091,10 +1091,6 @@ export class TasklistComponent implements OnInit {
             }).then(() => {});
             return;
         }
-        // console.clear();
-        // console.log("User.Current.PersonalId",User.Current.PersonalId)
-        // console.log(event);
-        // console.log(this.submission);
         this._isLoading = true;
         if (this._isShow2) {
             Swal.fire({
@@ -1112,7 +1108,6 @@ export class TasklistComponent implements OnInit {
                 this.submission.CREATE_USER_ID = User.Current.PersonalId;
                 this.submission.PERSONAL_ID = User.Current.PersonalId;
 
-                // const rowData = this.gridlist.instance.getSelectedRowsData();
 
 
                 this.submission.CASE_ID = this.selectcaseID;
@@ -1130,25 +1125,14 @@ export class TasklistComponent implements OnInit {
                 } catch (error) {
 
                 }
-                // if(rowData.length>0){
-                //     rowData.forEach(element => {
-                //         this.submission.CASE_ID = element.DATA_ID;
-                //         this.freezeAccountService.post(this.submission)
-                //         .subscribe(() => {
-                //                 this.popupConsentVisible = false;
-                //         });
-                //     });
-                // }
-
-                // this._issueOnlineService.issueOnline = this.submission;
 
                     Swal.fire({
                         title: 'แจ้งเตือน!',
-                        text: 'ดำเนินการบันทึกข้อมูลเรียบร้อย ระบบจะนำท่านไปสู่ขั้นตอนแจ้งเรื่องใหม่!!!',
+                        text: 'ดำเนินการบันทึกข้อมูลเรียบร้อย!!!',
                         icon: 'success',
                         confirmButtonText: 'ตกลง'
                     }).then(() => {
-
+                        location.reload();
                         // this._isLoading = true;
                         // this.router.navigate(["/main/issue-online/1"]);
                     });
@@ -1209,16 +1193,6 @@ export class TasklistComponent implements OnInit {
                     const value = e.value;
                     const bank_name = value.replace(/\d+/g, '');
                     const upperString = bank_name.toUpperCase();
-                    // var haveBank = await this._bankInfoService.GetBankTrackNo(upperString).toPromise();
-                    // if(haveBank){
-                    //     Swal.fire({
-                    //         title: 'ผิดพลาด!',
-                    //         html: 'เลขอ้างอิงนี้มีการแจ้งแล้ว',
-                    //         icon: 'warning',
-                    //         confirmButtonText: 'Ok',
-                    //     }).then(() => {this.submission.FREEZE_ACT_BANK_NAME = "";this.blockSave=true;});
-                    //     return;
-                    // }
                     await this._bankInfoService.GetBankInfoByName(upperString).subscribe((_) =>{
                         if(_ != null){
                             this.submission.FREEZE_ACT_BANK_NAME = _[0].BANK_NAME;
@@ -1370,12 +1344,12 @@ export class TasklistComponent implements OnInit {
                 Swal.fire({
                     title: 'แจ้งเตือน!',
                     text: 'เลือกหน่วยงานสำเร็จ!!!',
-                    icon: 'warning',
+                    icon: 'success',
                     confirmButtonText: 'ตกลง'
                 }).then(() => {
                     this._isLoading = false;
                     this.onClose();
-                    this.loadDataAll();
+                    location.reload();
                 });
             });
         });

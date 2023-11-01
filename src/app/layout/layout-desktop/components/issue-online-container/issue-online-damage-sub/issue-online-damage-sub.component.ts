@@ -84,9 +84,11 @@ export class IssueOnlineDamageSubComponent implements OnInit {
         this.popupFormDatavillain.ways = 1;
         const bankData = await this.servBankInfo.GetBankInfo().toPromise();
         this.bankInfoListOrigin = bankData;
+        console.log(type);
         if(type == "crypto"){
             this.checktype = true;
             this.popupFormData.BANK_TYPE = 4;
+            this.popupFormDatavillain.type = "crypto";
         }else{
             this.checktype = false;
             this.bankdatatypeselect = this.popupbanklist ? this.bankdatatypeselect.filter(item => item.type_bank_id !== 4):this.bankdatatypeselect;

@@ -424,11 +424,12 @@ export class IssueOnlineContainerComponent implements OnInit {
                 Swal.fire({
                     title: 'แจ้งเตือน!',
                     text: 'เลือกหน่วยงานสำเร็จ!!!',
-                    icon: 'warning',
+                    icon: 'success',
                     confirmButtonText: 'ตกลง'
                 }).then(() => {
                     this.isLoading = false;
                     this.onClose();
+                    location.reload();
                 });
             });
         });

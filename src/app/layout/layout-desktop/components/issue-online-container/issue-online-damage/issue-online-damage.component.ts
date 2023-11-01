@@ -205,7 +205,7 @@ export class IssueOnlineDamageComponent implements OnInit {
         icon: "plus",
         type: "primary",
         disabled: false,
-        onClick: (e) => this.onaddbanklistvilain(e)
+        onClick: (e) => this.onaddbanklistvilain(e,"crypto")
     };
     bankListstart: any = [
         // {
@@ -453,8 +453,17 @@ export class IssueOnlineDamageComponent implements OnInit {
                 this.DefaultCheckbox();
                 const _case_id = Number(sessionStorage.getItem("case_id"))
                 const _CASE_MONEY = await this._OnlineCaseService.Getcasemoney(_case_id).toPromise();
+                var dataForm = await this._OnlineCaseService.getbycaseId(_case_id).toPromise();
                 this.checkTypemoney = true;
                 setTimeout(async () => {
+                    if(dataForm){
+                        if(dataForm.REPUTATION !== undefined && dataForm.REPUTATION !== null){
+                            this.formData.CASE_MONEY_TYPE5 = 'Y';
+                            this.checkboxDamage.case_type3 = true;
+                            this.formData.REPUTATION = dataForm.REPUTATION;
+                        }
+                        console.log(dataForm.REPUTATION);
+                    }
                     if (this.CheckArray(_CASE_MONEY)) {
                         if(this.mainConponent.InstId){
                             this.fileMoney = await this._fileService.getCaseMoneyFile(Number(this.mainConponent.InstId)).toPromise();
@@ -475,12 +484,10 @@ export class IssueOnlineDamageComponent implements OnInit {
                                 }
                             }
                             if (element.CASE_MONEY_CHANNEL_TYPE == "T") {
-                                element.MONNEY_DOC = [];
-                                element.index = indexType1;
-                                this.formData.CASE_MONEY_TYPE1 = 'Y';
-                                this.checkboxDamage.case_type1 = true;
-                                element.MONNEY_DOC.push(this.getFilesByIndex(this.fileType1, indexType1));
-                                indexType1++;
+                                    element.MONNEY_DOC = [];
+                                    element.index = indexType1;
+                                    element.MONNEY_DOC.push(this.getFilesByIndex(this.fileType1, indexType1));
+                                    indexType1++;
                             }
                             if (element.CASE_MONEY_CHANNEL_TYPE == "O") {
                                 element.BANK_OTHER_ATTACHMENT = [];
@@ -518,7 +525,16 @@ export class IssueOnlineDamageComponent implements OnInit {
     async SetDataToListBank(data) {
         for (const item of data) {
             if (item.CASE_MONEY_CHANNEL_TYPE === "T") {
-                this.listDamageBank.push(item);
+                if(item.BANK_MONEY_OTHER_NAME === "เงินดิจิทัล (Cryptocurrency)"){
+                    this.formData.CASE_MONEY_TYPE4 = "Y"
+                    this.checkboxDamage.case_type4 = true;
+                    this.listDamageCrytro.push(item);
+
+                }else{
+                    this.formData.CASE_MONEY_TYPE1 = "Y"
+                    this.checkboxDamage.case_type1 = true;
+                    this.listDamageBank.push(item);
+                }
             } else if (item.CASE_MONEY_CHANNEL_TYPE === "P") {
                 this.listDamageBankOther.push(item);
             } else if (item.CASE_MONEY_CHANNEL_TYPE === "O") {
@@ -1689,11 +1705,10 @@ export class IssueOnlineDamageComponent implements OnInit {
             this.mainConponent.formDataAll.formDamage = {};
             this.mainConponent.formDataAll.formDamage = this.formData;
             this.mainConponent.formDataAll.formDamage.CASE_MONEY = listMoney;
-            if (this.checkboxDamage.case_type1) {
-                this.mainConponent.formDataAll.formDamage.listDamageBank = [...this.listDamageCrytro, ...this.listDamageBank];
-            }
+            this.mainConponent.formDataAll.formDamage.listDamageBank =this.listDamageBank;
             this.mainConponent.formDataAll.formDamage.listDamageBankOther = this.listDamageBankOther;
             this.mainConponent.formDataAll.formDamage.listDamageOther = this.listDamageOther;
+            this.mainConponent.formDataAll.formDamage.listDamageCrytro = this.listDamageCrytro;
             localStorage.setItem("form-damage",JSON.stringify(this.formData));
             console.log(this.formData);
         }
@@ -2000,7 +2015,8 @@ export class IssueOnlineDamageComponent implements OnInit {
             value["SHOW_NAME"] = '(อื่นๆ ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + '(' + value.CASE_MONEY_BANK_OTHER_DETAIL + ')';
             value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
         }
-        if(value.TYPE_NAME === 'เงินดิจิทัล (Cryptocurrency)'){
+        console.log(value.type);
+        if(value.type === 'crypto'){
             this.bankCrytroListend.push(value);
         }else{
             this.bankListend.push(value);
@@ -2053,6 +2069,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                     this.formmoney.MONNEY_DOC.push(this.listUploadFileformCrypto[0]);
                 }
                 this.listDamageCrytro.push(this.formmoney);
+                console.log(this.formmoney);
                 const backupformmoney = this.formmoney;
                 this.formmoney = {};
 

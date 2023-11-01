@@ -162,7 +162,7 @@
                     </div>
                 </div>
                 <div *ngIf="formData['CASE_MONEY_DAMAGE'] === 'Y'" class="content-form">
-                    <div class="conten-block" *ngIf="this.formData.CASE_MONEY_TYPE1 === 'Y' || this.formData.CASE_MONEY_TYPE4 === 'Y'">
+                    <div class="conten-block" *ngIf="this.formData.CASE_MONEY_TYPE1 === 'Y'">
                         <div class="content-end-line"></div>
                         <div class="content-title-damage">
                             <div class="row block-damage-type-title">
@@ -174,6 +174,58 @@
                         <div class="content-form">
                             <div class="block-table-item" style="margin-top: .875rem;">
                                 <dx-data-grid #grid [dataSource]="listDamageBank" [showColumnLines]="true" [showRowLines]="true" [columnHidingEnabled]="true" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="false" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล">
+                                    <dxo-paging [pageSize]="5"></dxo-paging>
+                                    <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                                    </dxo-editing>
+                                    <dxo-selection mode="single"></dxo-selection>
+                                    <dxi-column dataField="" caption="ลำดับ" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+                                    <dxi-column dataField="" caption="ธนาคารต้นทาง" alignment="center" cellTemplate="cellTemplatestart"></dxi-column>
+                                    <div *dxTemplate="let cell of 'cellTemplatestart'">
+
+                                        <div class="text-break">
+                                            <span>{{cell.data.SHOW_NAME}}</span>
+                                        </div>
+                                    </div>
+                                    <dxi-column dataField="" caption="ธนาคารปลายทาง" alignment="center" cellTemplate="cellTemplateend"></dxi-column>
+                                    <div *dxTemplate="let cell of 'cellTemplateend'">
+                                        <div class="text-break">
+                                            <span>{{cell.data.SHOW_NAME_END}}</span>
+                                        </div>
+                                    </div>
+                                    <dxi-column dataField="BANK_TRANSFER_DATE" caption="วันเวลาที่โอน" alignment="center" [width]="220" cellTemplate="cellTemplateDate"></dxi-column>
+                                    <div *dxTemplate="let cell of 'cellTemplateDate'">
+                                        <div class="text-break">
+                                            <span>{{ConvertDateFullMonth(cell.data.BANK_TRANSFER_DATE)}}</span>
+                                            <span> {{cell.data.BANK_TRANSFER_TIME}} น.</span>
+                                        </div>
+                                    </div>
+                                    <dxi-column dataField="BANK_DAMAGE_VALUE" caption="จำนวนเงิน" alignment="center" cellTemplate="cellTemplateDamage"></dxi-column>
+                                    <div *dxTemplate="let cell of 'cellTemplateDamage'">
+                                        <div class="text-break">
+                                            {{CheckSammaryValue(cell.data.BANK_DAMAGE_VALUE) | currency:'':''}}
+                                        </div>
+                                    </div>
+
+                                    <div *dxTemplate="let cell of 'cellTemplate'">
+                                        {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                                    </div>
+                                </dx-data-grid>
+                            </div>
+                            <!-- END NEW CODE -->
+                        </div>
+                    </div>
+                    <div class="conten-block" *ngIf="this.formData.CASE_MONEY_TYPE4 === 'Y'">
+                        <div class="content-end-line"></div>
+                        <div class="content-title-damage">
+                            <div class="row block-damage-type-title">
+                                <div class="col-12 block left">
+                                    <div class="title" *ngIf="this.formData.CASE_MONEY_TYPE4 === 'Y'">การโอนเงินด้วยเงินดิจิทัล</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-form">
+                            <div class="block-table-item" style="margin-top: .875rem;">
+                                <dx-data-grid #grid [dataSource]="formData.listDamageCrytro" [showColumnLines]="true" [showRowLines]="true" [columnHidingEnabled]="false" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="false" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล">
                                     <dxo-paging [pageSize]="5"></dxo-paging>
                                     <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
                                     </dxo-editing>
