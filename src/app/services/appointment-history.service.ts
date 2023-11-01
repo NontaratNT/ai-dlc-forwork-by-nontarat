@@ -12,11 +12,11 @@ export class BpmAppointmentHistoryService {
     constructor(@Inject(EFORM_REQUEST) private _req: EformRequestFactory,private http: HttpClient) { }
 
 
-    public gets(filter: any): Observable<any[]> {
+    public gets(filter: any): Observable<any> {
 
         const newHeader = new HttpHeaders({Authorization: "Bearer " + CookieStorage.accessToken});
 
-        return this.http.get<any[]>(`${environment.config.baseConfig.urlgdcceform}/BpmProcInstAppointment/history`, {
+        return this.http.get<any>(`${environment.config.baseConfig.urlgdcceform}/BpmProcInstAppointment/history`, {
             headers: newHeader,
             params: filter
           });

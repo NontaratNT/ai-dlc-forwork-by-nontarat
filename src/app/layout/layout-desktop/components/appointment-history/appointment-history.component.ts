@@ -69,11 +69,7 @@ export class AppointmentHistoryComponent implements OnInit {
     };
 
     this._appointHistoryService.gets(filterAppointment).subscribe((listItem) => {
-      // if (listItem) {
-      //   this.countAppointmentHistoryList = listItem.length;
-      //   this.listAppointment = listItem;
-      // }
-      this._dataSource = listItem;
+      this._dataSource = listItem['Value'];
       this._isLoading = false;
     });
   }
