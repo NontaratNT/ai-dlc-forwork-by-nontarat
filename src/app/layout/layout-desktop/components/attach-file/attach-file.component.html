@@ -46,11 +46,11 @@
                         <img class="text-download" src="assets/icon/trash.png" alt="icon" (click)="delete(d)">&nbsp;&nbsp;
                     </div>
                     <div class="icon-inline">
-                        <img class="text-download" src="assets/image/police/desktop/icon-view.png" alt="icon" (click)="previewButtonClicked(d)">
+                        <img class="text-download" src="assets/image/police/desktop/icon-view.png" alt="icon" (click)="PopupViewFile(d.data)">
                     </div>
 
                 </div>
-                <dxi-column dataField="INST_ATTACHMENT_NAME" caption="ชื่อไฟล์เอกสาร" alignment="center">
+                <dxi-column dataField="originalName" caption="ชื่อไฟล์เอกสาร" alignment="center">
                 </dxi-column>
 
                 <!-- <dxi-column dataField="" caption="ประเภทไฟล์" alignment="center" cellTemplate="cellTemplateType">
@@ -73,7 +73,7 @@
                     <span>{{cellInfo.value }}</span>
                 </div> -->
 
-                <dxi-column dataField="INST_ATTACHMENT_DATE" [calculateDisplayValue]="formatDate" caption="วันที่นำเข้าเอกสาร" alignment="center" [width]="150">
+                <dxi-column dataField="DateNow" [calculateDisplayValue]="formatDate" caption="วันที่นำเข้าเอกสาร" alignment="center" [width]="150">
                 </dxi-column>
 
                 <div *dxTemplate="let cell of 'cellTemplate'">
@@ -86,3 +86,7 @@
 
 <dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="_isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
 </dx-load-panel>
+
+<ng-container *ngIf="popupViewFile">
+    <app-view-file-upload [fileData]="popupViewFileData" (popupChange)="ClosePopupViewFile($event)"></app-view-file-upload>
+</ng-container>

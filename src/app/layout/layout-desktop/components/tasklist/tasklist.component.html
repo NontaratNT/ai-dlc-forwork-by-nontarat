@@ -735,51 +735,151 @@
 
 
 <dx-popup [width]="1100" [height]="700" [showTitle]="true" title="ยืนยันการแจ้งเรื่องเข้าสู่ระบบ" [closeOnOutsideClick]="false" [showCloseButton]="false" [visible]="true" [(visible)]="orgShow">
-    <div class="row mt-4">
-        <div class="col-sm-4" style=" display: flex;justify-content: center">
-            <img src="assets/icon/warning-home.png" style="width:200px;height: 200px;" alt="warning-home" class="img-fluid">
-        </div>
-        <div class="col-sm-8" style="display: grid;align-content: center;">
-            <div class="title-popup" style="font-size: 31px;">กรุณาเลือกสถานีตำรวจที่ท่านสะดวกเข้าพบเจ้าหน้าที่</div>
-        </div>
-        <div class="col-12 mt-2" style="display: flex;justify-content: center;">
-            <dx-form #formInformertype1 [colCount]="3" labelLocation="top">
-                <dxi-item [colSpan]="3">
-                    <p style="color:red;">หากทราบชื่อสถานีตำรวจสามารถพิมพ์ชื่อค้นหาได้ ถ้าไม่ทราบให้เลือก จังหวัด อำเภอ เพื่อกรองหน่วยงาน</p>
+    <dx-scroll-view width="100%" height="100%">
+        <div class="row mt-4" style=" margin-bottom: 100px;">
+            <div class="col-sm-4" style=" display: flex;justify-content: center">
+                <img src="assets/icon/warning-home.png" style="width:200px;height: 200px;" alt="warning-home" class="img-fluid">
+            </div>
+            <div class="col-sm-8" style="display: grid;align-content: center;">
+                <div class="title-popup" style="font-size: 31px;">กรุณาเลือกสถานีตำรวจที่ท่านสะดวกเข้าพบเจ้าหน้าที่</div>
+            </div>
+            <div class="col-12 mt-2" style="display: flex;justify-content: center;">
+                <dx-form [colCount]="2" labelLocation="top">
+                    <dxi-item [colSpan]="2" style="margin-top:15px;">
+                        <div class="content-title">กรุณาระบุหน่วยงานตำรวจที่ท่านสะดวกไปพบ
+                        </div>
+                    </dxi-item>
+                    <dxi-item [colSpan]="2" style="margin-top:10px;">
+                        <dx-radio-group [items]="radiocheckorganize1" valueExpr="id" displayExpr="text" layout="horizontal" [(value)]="checkboxLocation.location_type1" (onValueChanged)="onvaluecheckboxlocationchange($event,1)"></dx-radio-group>
+                        <br *ngIf="checkboxLocation.location_type1  === 1">
+                        <dx-form #formInformertype1 [colCount]="3" labelLocation="top" *ngIf="checkboxLocation.location_type1  === 1">
+                            <dxi-item [colSpan]="3">
+                                <p style="color:red;">หากทราบชื่อสถานีตำรวจสามารถพิมพ์ชื่อค้นหาได้ ถ้าไม่ทราบให้เลือก จังหวัด อำเภอ เพื่อกรองหน่วยงาน</p>
+                            </dxi-item>
+                            <dxi-item template="temp2" [colSpan]="2" [isRequired]="checkboxLocation.location_type1">
+                                <dxo-label text="จังหวัด" [showColon]="false">
+                                </dxo-label>
+                                <dxi-validation-rule type="required" message="กรุณาเลือกจังหวัด">
+                                </dxi-validation-rule>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'temp2'">
+                                <dx-select-box #selectPresentProvicelocation [dataSource]="province" displayExpr="PROVINCE_NAME_THA" valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true" placeholder="จังหวัด" [showClearButton]="true" (onValueChanged)="OnSelectProvicePresentlocation($event)"
+                                    [(value)]="formData.ORG_PROVINCE_ID">
+                                </dx-select-box>
+                            </div>
+                            <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
+
+                            <dxi-item template="inviteOrg" [colSpan]="2" [isRequired]="checkboxLocation.location_type1">
+                                <dxo-label text="ชื่อสถานี" [showColon]="false">
+                                </dxo-label>
+                                <dxi-validation-rule type="required" message="กรุณาระบุชื่อสถานี">
+                                </dxi-validation-rule>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'inviteOrg'">
+                                <dx-select-box #selectorg [dataSource]="dsorgbyarialocation" displayExpr="ORGANIZE_NAME_THA" valueExpr="ORGANIZE_ID" searchExpr="ORGANIZE_NAME_THA" placeholder="ชื่อสถานี" [searchEnabled]="true" [showClearButton]="true" (onValueChanged)="Onorglocation($event)"
+                                    [(value)]="formData.ORG_PROVINCE_LOCATION_ID">
+                                </dx-select-box>
+                            </div>
+
+                            <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
+
+                        </dx-form>
+
+                    </dxi-item>
+                    <dxi-item [colSpan]="2" style="margin-top:10px;">
+                        <dx-radio-group [items]="radiocheckorganize2" valueExpr="id" displayExpr="text" layout="horizontal" [(value)]="checkboxLocation.location_type1" (onValueChanged)="onvaluecheckboxlocationchange($event,2)"></dx-radio-group>
+                        <br *ngIf="checkboxLocation.location_type1  === 2">
+                        <dx-form #formInformertype2 [colCount]="3" labelLocation="top" *ngIf="checkboxLocation.location_type1 === 2">
+                            <dxi-item template="selectorgmain" [colSpan]="2"></dxi-item>
+                            <div *dxTemplate="let data of 'selectorgmain'" style="margin-left:10%;" class="custom-ratio">
+
+                                <dx-radio-group #selectorgmain [dataSource]="orgtype2_1" layout="horizontal" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcase.ORG_LOCATION_MAIN_ID1" (onValueChanged)="onvaluechangeorgmain($event,1)" itemTemplate="radio">
+                                    <div class="radio" *dxTemplate="let data of 'radio'">
+                                        <div class="row main-content">
+                                            <div class="col-md-4">{{data.org_name}}</div>
+                                        </div>
+                                        <div class="row sub-content">
+                                            <div class="col-md-2 offset-md-1 location">ที่ตั้ง</div>
+                                            <div class="col-md-9">{{data.org_location1}}</div>
+                                        </div>
+                                    </div>
+                                </dx-radio-group>
+                                <dx-radio-group #selectorgmain [dataSource]="orgtype2_2" layout="horizontal" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcase.ORG_LOCATION_MAIN_ID2" (onValueChanged)="onvaluechangeorgmain($event,2)" itemTemplate="radio">
+                                    <div class="radio" *dxTemplate="let data of 'radio'">
+                                        <div class="row" main-content>
+                                            <div class="col-md-4">{{data.org_name}}</div>
+                                        </div>
+                                        <div class="row sub-content">
+                                            <div class="col-md-2 offset-md-1 location">ที่ตั้ง</div>
+                                            <div class="col-md-9">{{data.org_location1}}</div>
+                                        </div>
+                                    </div>
+                                </dx-radio-group>
+                                <dx-radio-group #selectorgmain [dataSource]="orgtype2_3" layout="horizontal" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcase.ORG_LOCATION_MAIN_ID3" (onValueChanged)="onvaluechangeorgmain($event,3)" itemTemplate="radio">
+                                    <div class="radio" *dxTemplate="let data of 'radio'">
+                                        <div class="row main-content">
+                                            <div class="col-md-4">{{data.org_name}}</div>
+                                        </div>
+                                        <div class="row  sub-content">
+                                            <div class="col-md-2 offset-md-1 location">ที่ตั้ง</div>
+                                            <div class="col-md-9">{{data.org_location1}}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-2 offset-md-1"></div>
+                                            <div class="col-md-9">{{data.org_location2}}</div>
+                                        </div>
+                                    </div>
+                                </dx-radio-group>
+                                <dx-radio-group #selectorgmain [dataSource]="orgtype2_4" layout="horizontal" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcase.ORG_LOCATION_MAIN_ID4" (onValueChanged)="onvaluechangeorgmain($event,4)" itemTemplate="radio">
+                                    <div class="radio" *dxTemplate="let data of 'radio'">
+                                        <div class="row main-content">
+                                            <div class="col-md-4">{{data.org_name}}</div>
+                                        </div>
+                                        <div class="row  sub-content">
+                                            <div class="col-md-2 offset-md-1 location">ที่ตั้ง</div>
+                                            <div class="col-md-9">{{data.org_location1}}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-2 offset-md-1"></div>
+                                            <div class="col-md-9">{{data.org_location2}}</div>
+                                        </div>
+                                    </div>
+                                </dx-radio-group>
+                                <dx-radio-group #selectorgmain [dataSource]="orgtype2_5" layout="horizontal" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcase.ORG_LOCATION_MAIN_ID5" (onValueChanged)="onvaluechangeorgmain($event,5)" itemTemplate="radio">
+                                    <div class="radio" *dxTemplate="let data of 'radio'">
+                                        <div class="row main-content">
+                                            <div class="col-md-4">{{data.org_name}}</div>
+                                        </div>
+                                        <div class="row sub-content">
+                                            <div class="col-md-2 offset-md-1 location">ที่ตั้ง</div>
+                                            <div class="col-md-9">{{data.org_location1}}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-2 offset-md-1"></div>
+                                            <div class="col-md-9">{{data.org_location2}}</div>
+                                        </div>
+                                    </div>
+                                </dx-radio-group>
+
+                                <dxi-validation-rule type="required" message="กรุณาเลือกข้อมูล หน่วยงานที่สะดวกไปพบเจ้าหน้าที่">
+                                </dxi-validation-rule>
+                            </div>
+                        </dx-form>
+                    </dxi-item>
+                    <dxi-item [colSpan]="2" style="margin-top:10px;">
+                        <dx-radio-group [items]="radiocheckorganize3" valueExpr="id" displayExpr="text" layout="horizontal" [(value)]="checkboxLocation.location_type1" (onValueChanged)="onvaluecheckboxlocationchange($event,3)"></dx-radio-group>
+                    </dxi-item>
+                </dx-form>
+            </div>
+            <div class="col-sm-12 text-center" style="margin-bottom:1rem;position: fixed;bottom: 0;margin-bottom: 30px;">
+                <dxi-item itemType="group" [colSpan]="3">
+                    <dx-button stylingMode="contained" text="บันทึก" type="default" [width]="120" (onClick)="onSave($event)">
+                    </dx-button>
+                    &nbsp;&nbsp;
+                    <dx-button stylingMode="contained" text="ยกเลิก" type="default" [width]="120" (onClick)="onClose()">
+                    </dx-button>
                 </dxi-item>
-                <dxi-item template="temp2" [colSpan]="2" [isRequired]="true">
-                    <dxo-label text="จังหวัด" [showColon]="false">
-                    </dxo-label>
-                    <dxi-validation-rule type="required" message="กรุณาเลือกจังหวัด">
-                    </dxi-validation-rule>
-                </dxi-item>
-                <div *dxTemplate="let data of 'temp2'">
-                    <dx-select-box #selectPresentProvicelocation [dataSource]="province" displayExpr="PROVINCE_NAME_THA" valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true" placeholder="จังหวัด" [showClearButton]="true" (onValueChanged)="OnSelectProvicePresentlocation($event)"
-                        [(value)]="formData.ORG_PROVINCE_ID">
-                    </dx-select-box>
-                </div>
-                <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
-                <dxi-item template="inviteOrg" [colSpan]="2" [isRequired]="true">
-                    <dxo-label text="ชื่อสถานี" [showColon]="false">
-                    </dxo-label>
-                    <dxi-validation-rule type="required" message="กรุณาระบุชื่อสถานี">
-                    </dxi-validation-rule>
-                </dxi-item>
-                <div *dxTemplate="let data of 'inviteOrg'">
-                    <dx-select-box #selectorg [dataSource]="dsorgbyarialocation" displayExpr="ORGANIZE_NAME_THA" valueExpr="ORGANIZE_NAME_THA" searchExpr="ORGANIZE_NAME_THA" placeholder="ชื่อสถานี" [searchEnabled]="true" [showClearButton]="true" (onValueChanged)="Onorglocation($event)"
-                        [(value)]="formData.ORG_PROVINCE_LOCATION_ID">
-                    </dx-select-box>
-                </div>
-            </dx-form>
+            </div>
         </div>
-        <div class="col-sm-12 text-center" style="margin-bottom:1rem;position: fixed;bottom: 0;margin-bottom: 30px;">
-            <dxi-item itemType="group" [colSpan]="3">
-                <dx-button stylingMode="contained" text="บันทึก" type="default" [width]="120" (onClick)="onSave($event)">
-                </dx-button>
-                &nbsp;&nbsp;
-                <dx-button stylingMode="contained" text="ยกเลิก" type="default" [width]="120" (onClick)="onClose()">
-                </dx-button>
-            </dxi-item>
-        </div>
-    </div>
+    </dx-scroll-view>
 </dx-popup>

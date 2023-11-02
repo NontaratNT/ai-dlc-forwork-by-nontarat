@@ -13,8 +13,8 @@ export class BpmAttachmentService {
 
     constructor(@Inject(EFORM_REQUEST) private _req: EformRequestFactory,private http: HttpClient) { }
 
-    public get(id: number): Observable<IBPMAttachment[]> {
-        return this._req<IBPMAttachment[]>().api('BpmProcInstAttachment')
+    public get(id: number): Observable<Filebase64[]> {
+        return this._req<Filebase64[]>().api('BpmProcInstAttachment/Attachment')
             .queryString({ BpmInstanceId: id })
             .disableCriticalDialogError().get();
     }
@@ -53,3 +53,15 @@ export interface IBPMAttachment {
     WF_INSTANCE_ID?: string;
     RECORD_STATUS?: string;
 }
+
+
+export interface Filebase64 {
+    DateNow?: string
+    name?: string
+    originalName?: string
+    Size?: number
+    SizeDetail?: string
+    Storage?: string
+    type?: string
+    url?: string
+  }

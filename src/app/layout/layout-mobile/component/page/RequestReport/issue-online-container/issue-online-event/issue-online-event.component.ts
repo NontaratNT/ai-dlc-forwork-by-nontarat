@@ -285,6 +285,7 @@ export class IssueOnlineEventComponent implements OnInit {
             this.checkboxLocationwalkin.location_type1 = e.value;
             this.checkboxLocationwalkin.location_type2 = 0;
             if (e.value === 1) {
+                this.formData.WALKIN_POLICE_STATION_ID = null;
                 this.formData.location_type1 = 1;
                 this.formData.ORG_LOCATION_WALKIN_TYPE = 1;
             }
@@ -294,6 +295,7 @@ export class IssueOnlineEventComponent implements OnInit {
             this.formData.ORG_PROVINCE_OFFICER_ID = undefined;
             this.formData.WALKIN_POLICE_STATION = undefined;
             if (e.value === 2) {
+                this.formData.WALKIN_POLICE_STATION_ID = null;
                 this.formData.location_type1 = 2;
                 this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
             }
@@ -304,6 +306,8 @@ export class IssueOnlineEventComponent implements OnInit {
             if (e.value === 3) {
                 this.formData.location_type1 = 3;
                 this.formData.ORG_LOCATION_WALKIN_TYPE = 3;
+                this.formData.WALKIN_POLICE_STATION_ID = 2375;
+                this.formData.WALKIN_POLICE_STATION = "กองบัญชาการตำรวจสอบสวนกลาง";
             }
         }
     }
@@ -446,7 +450,6 @@ export class IssueOnlineEventComponent implements OnInit {
     }
 
     onvaluecheckboxlocationchange(e, type_location) {
-        this.formData.ORG_LOCATION_ID = null;
         this.formdataOrgsendcase = {
             ORG_LOCATION_TYPE: null,
             ORG_LOCATION_ID: null,
@@ -462,28 +465,32 @@ export class IssueOnlineEventComponent implements OnInit {
             this.checkboxLocation.location_type1 = e.value;
             this.checkboxLocation.location_type2 = 0;
             if (e.value == 1) {
+                this.formData.ORG_LOCATION_ID = null;
                 this.formData.location_type1 = 1;
                 this.formData.ORG_LOCATION_TYPE = 1;
-            } else {
             }
         } else if (type_location == 2) {
+
             this.checkboxLocation.location_type2 = e.value;
             this.checkboxLocation.location_type1 = e.value;
             this.formData.ORG_PROVINCE_ID = undefined;
             this.formData.ORG_PROVINCE_LOCATION_ID = undefined;
+            this.formData.ORG_PROVINCE_NAME = undefined;
             if (e.value == 2) {
+                this.formData.ORG_LOCATION_ID = null;
                 this.formData.location_type1 = 2;
                 this.formData.ORG_LOCATION_TYPE = 2;
-            } else {
             }
         } else if (type_location == 3) {
             this.formData.ORG_PROVINCE_ID = undefined;
             this.formData.ORG_PROVINCE_LOCATION_ID = undefined;
+            this.formData.ORG_PROVINCE_NAME = undefined;
             this.checkboxLocation.location_type3 = e.value;
             if (e.value == 3) {
                 this.formData.location_type1 = 3;
                 this.formData.ORG_LOCATION_TYPE = 3;
-            } else {
+                this.formData.ORG_LOCATION_ID = 2375;
+                this.formData.ORG_LOCATION_NAME = "กองบัญชาการตำรวจสอบสวนกลาง";
             }
         }
     }

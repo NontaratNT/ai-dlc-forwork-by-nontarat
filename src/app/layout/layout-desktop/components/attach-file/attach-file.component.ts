@@ -9,7 +9,7 @@ import { finalize } from 'rxjs/operators';
 import DataSource from 'devextreme/data/data_source';
 import { environment } from 'src/environments/environment';
 import { formatDate } from 'devextreme/localization';
-import { BpmAttachmentService, IBPMAttachment } from 'src/app/services/bpm-attachment.service';
+import { BpmAttachmentService, Filebase64, IBPMAttachment } from 'src/app/services/bpm-attachment.service';
 import { BpmProcinstService } from 'src/app/services/bpm-procinst.service';
 import { BpmAttachmentTypeService } from 'src/app/services/bpm-attachment-type.service';
 import { IBPMAttachmentType } from 'src/app/common/@type/bpm-attachment';
@@ -28,7 +28,7 @@ export class AttachFileComponent implements OnInit {
     fileToUpload: File;
     fileData: FileList;
     // formAttach: DataSource;
-    formAttach: IBPMAttachment[];
+    formAttach: Filebase64[];
     formAttachData: IBPMAttachment;
     // taskInfo: TaskInfo;
     _isLoading = false;
@@ -39,6 +39,11 @@ export class AttachFileComponent implements OnInit {
     typeAttachment: IBPMAttachmentType[];
     bpmData: any = {};
     caseWorking = false;
+
+    popupViewFileData: any = {};
+    popupViewFile = false;
+
+
     constructor(private serviceAttachment: BpmAttachmentService,
                 private workflowServ: WorkflowService,
                 private router: Router,
@@ -125,7 +130,7 @@ export class AttachFileComponent implements OnInit {
             const check = await this._issueFile.CheckFileUploadAllowSize(this.fileToUpload);
             if (check.status){
                 await this.serviceAttachment.create(this.formatData()).toPromise();
-                
+
                 this.formAttach = await  this.serviceAttachment.get(this._instId).toPromise();
                 Swal.fire({
                     title: 'สำเร็จ!',
@@ -137,7 +142,7 @@ export class AttachFileComponent implements OnInit {
                     await this.serviceAttachment.creategdcc(this.formatData()).toPromise();
                  }
                  catch (error){
-                 
+
                  }
             }
 
@@ -209,6 +214,31 @@ export class AttachFileComponent implements OnInit {
 
     }
 
+    ClosePopupViewFile(e) {
+        this.popupViewFile = false;
+        this.popupViewFileData = {};
+    }
+
+    PopupViewFile(data) {
+        // if(data.Type.toString() == 'application/pdf'){
+        //     const linkSource = data.Url;
+        //     const downloadLink = document.createElement("a");
+        //     downloadLink.href = linkSource;
+        //     downloadLink.download = data.OriginalName;
+        //     downloadLink.click();
+        // }else{
+            this.popupViewFile = true;
+            const setData = {};
+            const d = data;
+            for (const key in d) {
+                if (d[key] !== null && d[key] !== undefined) {
+                    setData[key] = d[key];
+                }
+            }
+            this.popupViewFileData = setData;
+        // }
+    }
+
     OpenFileDialog(e, uploadTag) {
         if (!this.CheckLimitFile(this.formAttach ?? [])){
             this.ShowInvalidDialog('ไม่สามารถอัพโหลดเกิน 20 ไฟล์');
@@ -262,7 +292,7 @@ export class AttachFileComponent implements OnInit {
     }
 
     formatDate(e) {
-        return formatDate(new Date(e.CREATE_DATE), "dateShortTimeThai");
+        return formatDate(new Date(e.DateNow), "dateShortTimeThai");
     }
 
 }

@@ -244,6 +244,16 @@ export class IssueOnlineCheckComponent implements OnInit {
                     const value = e.value;
                     const bank_name = value.replace(/\d+/g, '');
                     const upperString = bank_name.toUpperCase();
+                    var haveBank = await this._bankInfoService.GetBankTrackNo(upperString).toPromise();
+                    if(haveBank){
+                        Swal.fire({
+                            title: 'ผิดพลาด!',
+                            html: 'เลขอ้างอิงนี้มีการแจ้งแล้ว</br>รบกวนตรวจสอบคดีที่เคยบันทึกมาแล้ว',
+                            icon: 'warning',
+                            confirmButtonText: 'Ok',
+                        }).then(() => {this.submission.FREEZE_ACT_BANK_NAME = "";this.blockSave=true;});
+                        return;
+                    }
                     await this._bankInfoService.GetBankInfoByName(upperString).subscribe((_) =>{
                         if(_ != null){
                             this.submission.FREEZE_ACT_BANK_NAME = _[0].BANK_NAME;

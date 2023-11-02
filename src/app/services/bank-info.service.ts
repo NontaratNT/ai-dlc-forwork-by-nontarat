@@ -69,6 +69,10 @@ export class BankInfoService {
         return req<any[]>(`CmsBankInfo/${Name}`)
             .disableCriticalDialogError().get();
     }
+    public GetBankTrackNo(no:string): Observable<any[]> {
+        return req<any[]>(`CmsBankInfo/bank-trackno/${no}`)
+            .disableCriticalDialogError().get();
+    }
 }
 
 export interface IBankBranch{
