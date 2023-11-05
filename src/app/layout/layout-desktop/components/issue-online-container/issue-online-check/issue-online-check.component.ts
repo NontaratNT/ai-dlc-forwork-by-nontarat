@@ -244,7 +244,7 @@ export class IssueOnlineCheckComponent implements OnInit {
                     const value = e.value;
                     const bank_name = value.replace(/\d+/g, '');
                     const upperString = bank_name.toUpperCase();
-                    var haveBank = await this._bankInfoService.GetBankTrackNo(upperString).toPromise();
+                    var haveBank = await this._bankInfoService.GetBankTrackNo(value.toUpperCase()).toPromise();
                     if(haveBank){
                         Swal.fire({
                             title: 'ผิดพลาด!',
