@@ -11,16 +11,13 @@
                             <dxo-label text="Case ID" [showColon]="false"></dxo-label>
                             <dxi-validation-rule type="required" message="กรุณาระบุเคสไอดี">
                             </dxi-validation-rule>
-                            <dxi-validation-rule type="numeric" message="เคสไอดีเลข [0-9] เท่านั้น"
-                                [validationCallback]="NumberValidator">
+                            <dxi-validation-rule type="numeric" message="เคสไอดีเลข [0-9] เท่านั้น" [validationCallback]="NumberValidator">
                             </dxi-validation-rule>
                         </dxi-item>
                         <div *dxTemplate="let data of 'temp1'">
-                            <dx-text-box id="ctrlCaseId" [readOnly]="formReadOnly" [disabled]="true" [value]="formData.CASE_ID"
-                                [maxLength]="10" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)">
+                            <dx-text-box id="ctrlCaseId" [readOnly]="formReadOnly" [disabled]="true" [value]="tracking_code" [maxLength]="10" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)">
                             </dx-text-box>
-                            <dx-tooltip target="#ctrlIdentification" showEvent="dxhoverstart" hideEvent="dxhoverend"
-                                position="top" [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctrlIdentification" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p style="text-align:start;">ระบุเคสไอดีเป็นตัวเลข [0-9]</p>
                                 </div>
@@ -30,19 +27,14 @@
                             <dxo-label text="เลขประจำตัวประชาชน" [showColon]="false"></dxo-label>
                             <dxi-validation-rule type="numeric" [message]="'รูปแบบบัตรประชาชนไม่ถูกต้อง'">
                             </dxi-validation-rule>
-                            <dxi-validation-rule type="custom" [validationCallback]="IdentificationPattern"
-                                message="กรุณาระบุเลขบัตรประชาชนให้ครบ 13 หลัก">
+                            <dxi-validation-rule type="custom" [validationCallback]="IdentificationPattern" message="กรุณาระบุเลขบัตรประชาชนให้ครบ 13 หลัก">
                             </dxi-validation-rule>
                             <div *dxTemplate="let data of 'temp2'">
-                                <dx-text-box id="ctrlIdentification" [readOnly]="formReadOnly" [maxLength]="13"
-                                    [(value)]="formData.CITIZEN_CARD_NUMBER" (keypress)="CheckNumber($event)"
-                                    (paste)="PasteCheckNumber($event)">
+                                <dx-text-box id="ctrlIdentification" [readOnly]="formReadOnly" [maxLength]="13" [(value)]="formData.CITIZEN_CARD_NUMBER" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)">
                                 </dx-text-box>
-                                <dx-tooltip target="#ctrlIdentification" showEvent="dxhoverstart" hideEvent="dxhoverend"
-                                    position="top" [hideOnOutsideClick]="false">
+                                <dx-tooltip target="#ctrlIdentification" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                     <div *dxTemplate="let data of 'content'">
-                                        <p style="text-align:start;">ระบุหมายเลข [0-9] จำนวน 13
-                                            หลักติดกันโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ</p>
+                                        <p style="text-align:start;">ระบุหมายเลข [0-9] จำนวน 13 หลักติดกันโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ</p>
                                     </div>
                                 </dx-tooltip>
                             </div>
@@ -52,31 +44,24 @@
                             <dxo-label text="เหตุผลที่ต้องการถอนแจ้งความคดี" [isRequired]="true" [showColon]="false">
                             </dxo-label>
                         </dxi-item>
-                        <dx-radio-group [(value)]="formData.WITHDRAW_CASE" (change)="RadioHandler($event)"
-                            [dataSource]="reasonWithdraw" itemTemplate="radio" [colSpan]="3"
-                            *dxTemplate="let data of 'temp3'">
+                        <dx-radio-group [(value)]="formData.WITHDRAW_CASE" (change)="RadioHandler($event)" [dataSource]="reasonWithdraw" itemTemplate="radio" [colSpan]="3" *dxTemplate="let data of 'temp3'">
                             <div class="radio-custom" *dxTemplate="let data of 'radio'">
                                 <div class="custom-radio-choice" [ngClass]="{'column': data.ID === 3}">
                                     <div class="text-title">{{data.TEXT}}</div>
                                     <ng-container *ngIf="data.ID === 1">
-                                        <dx-text-box id="ctrlMoney" [readOnly]="formReadOnly"
-                                            [(value)]="formData.TOTAL_PRICE" (keypress)="CheckNumber($event)"
-                                            (paste)="PasteCheckNumber($event)">
+                                        <dx-text-box id="ctrlMoney" [readOnly]="formReadOnly" [(value)]="formData.TOTAL_PRICE" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)">
                                         </dx-text-box>
                                         <span class="text-title">{{data.UNIT}}</span>
                                     </ng-container>
                                     <ng-container *ngIf="data.ID === 3">
-                                        <dx-text-area id="ctrlOtherCase" [readOnly]="formReadOnly" [height]="200"
-                                            [(value)]="formData.OTHER_CASE" (keypress)="TextValidator($event)"
-                                            (paste)="PasteCheckText($event)">
+                                        <dx-text-area id="ctrlOtherCase" [readOnly]="formReadOnly" [height]="200" [(value)]="formData.OTHER_CASE" (keypress)="TextValidator($event)" (paste)="PasteCheckText($event)">
                                         </dx-text-area>
                                     </ng-container>
                                 </div>
                             </div>
                         </dx-radio-group>
                         <dxi-item style="text-align: end;" [colSpan]="2">
-                            <dx-button [width]="150" class="btn-submit" type="success" icon="fa fa-save" text="บันทึก"
-                                (onClick)="submitWithdraw()">
+                            <dx-button [width]="150" class="btn-submit" type="success" icon="fa fa-save" text="บันทึก" (onClick)="submitWithdraw()">
                             </dx-button>
                         </dxi-item>
                     </dx-form>

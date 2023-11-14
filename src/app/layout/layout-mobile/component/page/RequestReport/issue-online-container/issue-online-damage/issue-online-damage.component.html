@@ -278,7 +278,7 @@
                         </dx-form>
                         <div *ngIf="!formReadOnly" class="remark-table-upload">* ขนาดไฟล์ทั้งหมดไม่เกิน 5MB</div>
                         <div *ngIf="CheckArray(listUploadFileformCrypto)" class="upload-file-table">
-                            <dx-data-grid #grid [dataSource]="listUploadFileformCrypto" [showColumnLines]="false" [showRowLines]="true" [columnHidingEnabled]="false" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="false" [columnAutoWidth]="true" [selectedRowKeys]="[]"
+                            <dx-data-grid #grid [dataSource]="listUploadFileformCrypto" [showColumnLines]="true" [showRowLines]="true" [columnHidingEnabled]="true" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="false" [columnAutoWidth]="true" [selectedRowKeys]="[]"
                                 noDataText="ไม่มีข้อมูล">
                                 <dxo-paging [pageSize]="10"></dxo-paging>
                                 <dxo-pager [visible]="true" [allowedPageSizes]="[10, 20, 50]" displayMode="full" [showPageSizeSelector]="true" [showInfo]="true" [showNavigationButtons]="true">

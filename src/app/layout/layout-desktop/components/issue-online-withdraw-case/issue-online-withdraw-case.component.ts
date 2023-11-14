@@ -15,7 +15,7 @@ import { BpmDataShareService } from "../issue-online-edit/bpm-data-share.service
 export class IssueOnlineWithdrawCaseComponent implements OnInit {
   @ViewChild('formWithdrawCase', { static: false }) formWithdrawCase: DxFormComponent;
 
-  
+
   formValidate = true;
   formReadOnly = false;
   reasonWithdraw = [
@@ -30,10 +30,11 @@ export class IssueOnlineWithdrawCaseComponent implements OnInit {
     WITHDRAW_CASE: this.reasonWithdraw[0],
     TOTAL_PRICE: 0,
     OTHER_REMARK_CASE: "",
-    REMARK: ""
+    REMARK: "",
   };
   bpmData: any = {};
   _instId: number;
+  tracking_code: string;
 
   constructor(
     private router: Router,
@@ -46,6 +47,8 @@ export class IssueOnlineWithdrawCaseComponent implements OnInit {
     this._isLoading = true;
     this.bpmData = this.shareBpmData.GetData();
     this.formData.CASE_ID = this.bpmData.INST_ID;
+    this.tracking_code = this.bpmData.TRACKING_CODE;
+    console.log(this.tracking_code);
     const userId = User.Current.PersonalId;
     this.servicePersonal
         .GetPersonalById(userId)
@@ -97,8 +100,8 @@ export class IssueOnlineWithdrawCaseComponent implements OnInit {
     }
   }
 
-  
-  TextValidator(event) { 
+
+  TextValidator(event) {
     const makeScope = new RegExp('^[A-Za-zก-๙0-9 ]', 'g');
     const result = makeScope.test(event.key);
     return result
@@ -164,7 +167,7 @@ export class IssueOnlineWithdrawCaseComponent implements OnInit {
       cancelButtonText:'ยกเลิก',
       showConfirmButton: true,
       showCancelButton: true,
-    }).then((result) => { 
+    }).then((result) => {
       if(result.isConfirmed) {
 
         try{
@@ -176,9 +179,9 @@ export class IssueOnlineWithdrawCaseComponent implements OnInit {
           }).subscribe();
        }
        catch (error)  {
-       
+
        }
-       
+
 
         this.bpmProcinstServ.userWithDrawCase(cateId, {
           cateid: cateId,
