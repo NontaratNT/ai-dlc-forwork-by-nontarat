@@ -119,7 +119,7 @@ export class ChatComponent implements OnInit {
                 }).subscribe();
              }
              catch (error)  {
-             
+
              }
             // this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
         }
@@ -128,7 +128,7 @@ export class ChatComponent implements OnInit {
 
     image(image: string) {
         if(image) {
-            return  environment.config.baseConfig.resourceUrl.replace("/ccib", "/bpm") + image;
+            return  environment.config.baseConfig.resourceUrlAzure + "/bpm/" + image;
         } else {
             return "assets/icon/user.png";
         }

@@ -77,7 +77,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
                 // this.LoadNotify();
                 const userInfo = await this.servicePersonal.GetPersonalById(User.Current.PersonalId).toPromise();
                 this.userData = User.Current.FullNameTH;
-                this.userImagePath = environment.config.baseConfig.resourceUrl.replace("/ccib", "/bpm") +
+                this.userImagePath = environment.config.baseConfig.resourceUrlAzure + "/bpm/" +
                 userInfo.USER_PICTURE + "?" + Date.now().toString();
 
                 //ปิด แจ้งเตือนไว้ก่อน ถ้าเปิด เลือกที่ comment ทั้งหมดแล้วเปิด

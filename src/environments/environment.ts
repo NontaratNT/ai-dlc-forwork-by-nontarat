@@ -25,6 +25,7 @@ export const environment = {
             apiUrl: "http://localhost:5244/api",
             reportUrl: "",
             resourceUrl: "http://www.online.ccib.go.th/resource/ccib/",
+            resourceUrlAzure: "https://api.thaipoliceonline.com/eformazure/api/resource/download?filePath=",
             hubUrl: "http://localhost:5244/hub",
             urlgdcc:"http://localhost:14121/api",
             urlgdcceform:"https://officer.thaipoliceonline.com/api/e-form/v1.0"
@@ -34,6 +35,6 @@ export const environment = {
             siteKey: "6LfYkEkaAAAAAMGpXixKjWVrYpWDP8AeDMu_dijr",
             secretKey: "6LeV1vQcAAAAAJzMmWwJqq76i_fQuflBIF5upGbB"
         },
-        versionControl: "1.6609.29.1"
+        versionControl: "1.6611.21.1"
     }
 };
