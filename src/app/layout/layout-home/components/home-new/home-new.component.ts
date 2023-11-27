@@ -17,6 +17,11 @@ export class HomeNewComponent implements OnInit {
     hasSession = false;
     showpopupweb = false;
     popupVisible = false;
+    popupStart = true;
+
+    isfullScreen : any
+    width : any
+
     constructor(
         private router: Router,
         private _loginServ: LoginService,
@@ -29,6 +34,19 @@ export class HomeNewComponent implements OnInit {
         }
 
         // this.checkdatetimepopup();
+
+        this.width = window.innerWidth;
+        if(this.width < 1100){
+            this.isfullScreen = true;
+        }
+        (window as any).addEventListener('resize', () => {
+            this.width = window.innerWidth;
+            if(this.width < 1100){
+                this.isfullScreen = true;
+            }else{
+                this.isfullScreen = false;
+            }
+        });
     }
     OnIssueOnline() {
         // this.popupVisible = true;
