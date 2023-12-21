@@ -350,6 +350,7 @@ export class IssueOnlineInformerComponent implements OnInit {
         try{
             this.isLoading = true;
             this.userType = this.mainConponent.userType;
+            this.province = this.mainConponent.province;
             this.formData = {};
             if (this.mainConponent.formType === "add") {
                 if(localStorage.getItem("form-blessing")){
@@ -401,6 +402,89 @@ export class IssueOnlineInformerComponent implements OnInit {
                     }else{
                         this.formData.CASE_INFORMER_DATE = this._date.ConvertToDate(p.PERSONAL_BIRTH_DATE ) ?? null;
                     }
+                    this.formData.CASE_INFORMER_CARD_ADDRESS_NO = this.dataForms.CASE_INFORMER_CARD_ADDRESS_NO ? this.dataForms.CASE_INFORMER_CARD_ADDRESS_NO : p.HOME_REGISTER_ADDRESS;
+                    if(this.dataForms.INFORMER_CARD_PROVINCE){
+                        this.formData.INFORMER_CARD_PROVINCE = this.dataForms.INFORMER_CARD_PROVINCE;
+                        this.formData.INFORMER_CARD_PROVINCE_NAME_THA = this.dataForms.INFORMER_CARD_PROVINCE_NAME_THA;
+                        this.cardAddress.district = await this.serviceProvince
+                            .GetDistrictofProvince(this.formData.INFORMER_CARD_PROVINCE)
+                            .toPromise();
+                        this.cardAddress.disableDistrict = false;
+                    }else if (p.HOME_REGISTER_PROVINCE_ID) {
+                        this.formData.INFORMER_CARD_PROVINCE = p.HOME_REGISTER_PROVINCE_ID;
+                        this.cardAddress.district = await this.serviceProvince
+                            .GetDistrictofProvince(p.HOME_REGISTER_PROVINCE_ID)
+                            .toPromise();
+                        this.cardAddress.disableDistrict = false;
+                    }
+                    if(this.dataForms.INFORMER_CARD_DISTRICT_ID){
+                        this.formData.INFORMER_CARD_DISTRICT_ID = this.dataForms.INFORMER_CARD_DISTRICT_ID;
+                        this.formData.INFORMER_CARD_DISTRICT_NAME_THA = this.dataForms.INFORMER_CARD_DISTRICT_NAME_THA;
+                        this.cardAddress.subDistrict = await this.serviceDistrict
+                            .GetSubDistrictOfDistrict(this.formData.INFORMER_CARD_DISTRICT_ID)
+                            .toPromise();
+                        this.cardAddress.disableSubDistrict = false;
+                    }else if (p.HOME_REGISTER_DISTICT_ID) {
+                        this.formData.INFORMER_CARD_DISTRICT_ID = p.HOME_REGISTER_DISTICT_ID;
+                        this.cardAddress.subDistrict = await this.serviceDistrict
+                            .GetSubDistrictOfDistrict(p.HOME_REGISTER_DISTICT_ID)
+                            .toPromise();
+                        this.cardAddress.disableSubDistrict = false;
+                    }
+                    if(this.dataForms.INFORMER_CARD_SUB_DISTRICT_ID){
+                        this.formData.INFORMER_CARD_SUB_DISTRICT_ID = this.dataForms.INFORMER_CARD_SUB_DISTRICT_ID;
+                        this.formData.INFORMER_CARD_SUB_DISTRICT_NAME_THA = this.dataForms.INFORMER_CARD_SUB_DISTRICT_NAME_THA;
+                        this.cardAddress.disablepostcode = false;
+                    }else if (p.HOME_REGISTER_SUB_DISTICT_ID) {
+                        this.formData.INFORMER_CARD_SUB_DISTRICT_ID = p.HOME_REGISTER_SUB_DISTICT_ID;
+                        this.formData.INFORMER_CARD_POSTCODE_ID = p.HOME_REGISTER_POST_CODE;
+                        // this.cardAddress.postcode = await this.serviceSubDistrict
+                        //     .GetPostCode(p.HOME_REGISTER_SUB_DISTICT_ID)
+                        //     .toPromise();
+                        // this.cardAddress.disablepostcode = false;
+                    }
+                    this.formData.CASE_INFORMER_ADDRESS_NO = this.dataForms.CASE_INFORMER_ADDRESS_NO ? this.dataForms.CASE_INFORMER_ADDRESS_NO : p.PERSONAL_ADDRESS;
+
+                    if(this.dataForms.INFORMER_PROVINCE){
+                        this.formData.INFORMER_PROVINCE = this.dataForms.INFORMER_PROVINCE;
+                        this.formData.INFORMER_PROVINCE_NAME_THA = this.dataForms.INFORMER_PROVINCE_NAME_THA;
+                        this.presentAddress.district = await this.serviceProvince
+                            .GetDistrictofProvince(this.formData.INFORMER_PROVINCE)
+                            .toPromise();
+                        this.presentAddress.disableDistrict = false;
+                    }else if (p.PROVINCE_ID) {
+                        this.formData.INFORMER_PROVINCE = p.PROVINCE_ID;
+                        this.presentAddress.district = await this.serviceProvince
+                            .GetDistrictofProvince(p.PROVINCE_ID)
+                            .toPromise();
+                        this.presentAddress.disableDistrict = false;
+                    }
+                    if(this.dataForms.INFORMER_DISTRICT_ID){
+                        this.formData.INFORMER_DISTRICT_ID = this.dataForms.INFORMER_DISTRICT_ID;
+                        this.formData.INFORMER_DISTRICT_NAME_THA = this.dataForms.INFORMER_DISTRICT_NAME_THA;
+                        this.presentAddress.subDistrict = await this.serviceDistrict
+                            .GetSubDistrictOfDistrict(this.formData.INFORMER_DISTRICT_ID)
+                            .toPromise();
+                        this.presentAddress.disableSubDistrict = false;
+                    }else if (p.DISTICT_ID) {
+                        this.formData.INFORMER_DISTRICT_ID = p.DISTICT_ID;
+                        this.presentAddress.subDistrict = await this.serviceDistrict
+                            .GetSubDistrictOfDistrict(p.DISTICT_ID)
+                            .toPromise();
+                        this.presentAddress.disableSubDistrict = false;
+                    }
+                    if(this.dataForms.INFORMER_SUB_DISTRICT_ID){
+                        this.formData.INFORMER_SUB_DISTRICT_ID = this.dataForms.INFORMER_SUB_DISTRICT_ID;
+                        this.formData.INFORMER_SUB_DISTRICT_NAME_THA = this.dataForms.INFORMER_SUB_DISTRICT_NAME_THA;
+                        this.presentAddress.disablepostcode = false;
+                    }else if (p.SUB_DISTICT_ID) {
+                        this.formData.INFORMER_SUB_DISTRICT_ID = p.SUB_DISTICT_ID;
+                        this.formData.INFORMER_POSTCODE_ID = p.POST_CODE;
+                        // this.presentAddress.postcode = await this.serviceSubDistrict
+                        //     .GetPostCode(p.SUB_DISTICT_ID)
+                        //     .toPromise();
+                        this.presentAddress.disablepostcode = false;
+                    }
                 } else {
                     this.formData.CASE_INFORMER_FIRSTNAME = null;
                     this.formData.CASE_INFORMER_LASTNAME = null;
@@ -431,6 +515,49 @@ export class IssueOnlineInformerComponent implements OnInit {
                 this.formData.CASE_INFORMER_DATE = this._date.ConvertToDate(
                     dataForm.CASE_INFORMER_DATE
                 );
+                if (dataForm.INFORMER_PROVINCE) {
+                    this.presentAddress.district = await this.serviceProvince
+                        .GetDistrictofProvince(dataForm.INFORMER_PROVINCE)
+                        .toPromise();
+                    this.presentAddress.disableDistrict = false;
+                }
+                if (dataForm.INFORMER_DISTRICT_ID) {
+                    this.presentAddress.subDistrict = await this.serviceDistrict
+                        .GetSubDistrictOfDistrict(dataForm.INFORMER_DISTRICT_ID)
+                        .toPromise();
+                    this.presentAddress.disableSubDistrict = false;
+                }
+                if (dataForm.INFORMER_SUB_DISTRICT_ID) {
+                    this.presentAddress.postcode = await this.serviceSubDistrict
+                        .GetPostCode(dataForm.INFORMER_SUB_DISTRICT_ID)
+                        .toPromise();
+                    this.presentAddress.disablepostcode = false;
+                }
+                if (dataForm.INFORMER_CARD_PROVINCE) {
+                    this.cardAddress.district = await this.serviceProvince
+                        .GetDistrictofProvince(dataForm.INFORMER_CARD_PROVINCE)
+                        .toPromise();
+                    this.cardAddress.disableDistrict = false;
+                }
+                if (dataForm.INFORMER_CARD_DISTRICT_ID) {
+                    this.cardAddress.subDistrict = await this.serviceDistrict
+                        .GetSubDistrictOfDistrict(
+                            dataForm.INFORMER_CARD_DISTRICT_ID
+                        )
+                        .toPromise();
+                    this.cardAddress.disableSubDistrict = false;
+                }
+                if (dataForm.INFORMER_CARD_SUB_DISTRICT_ID) {
+                    this.cardAddress.postcode = await this.serviceSubDistrict
+                        .GetPostCode(dataForm.INFORMER_SUB_DISTRICT_ID)
+                        .toPromise();
+                    this.cardAddress.disablepostcode = false;
+                }
+                this._OrgService
+                    .getorgProvince(dataForm.INFORMER_PROVINCE)
+                    .subscribe((_) => {
+                        this.dsorgbyaria = _;
+                    });
             }
             this.minBirthDate = this._date.SetDateDefault(80, true, true, true);
             this.maxBirthDate = this._date.SetDateDefault(0);
@@ -558,6 +685,20 @@ export class IssueOnlineInformerComponent implements OnInit {
             if (!this.formInformer1.instance.validate().isValid) {
                 this._formValidate.ValidateForm(
                     this.formInformer1.instance.validate().brokenRules
+                );
+                this.mainConponent.checkValidate = true;
+                return;
+            }
+            if (!this.formInformer2.instance.validate().isValid) {
+                this._formValidate.ValidateForm(
+                    this.formInformer2.instance.validate().brokenRules
+                );
+                this.mainConponent.checkValidate = true;
+                return;
+            }
+            if (!this.formInformer2address.instance.validate().isValid) {
+                this._formValidate.ValidateForm(
+                    this.formInformer2address.instance.validate().brokenRules
                 );
                 this.mainConponent.checkValidate = true;
                 return;
@@ -796,5 +937,271 @@ export class IssueOnlineInformerComponent implements OnInit {
             '^[0-9]{1}[0-9]{4}[0-9]{5}[0-9]{2}[0-9]{1}$'
         );
         return makeScope.test(params.value);
+    }
+
+    OnSelectProvicePresent(e) {
+        this.presentAddress.district = [];
+        this.presentAddress.subDistrict = [];
+        this.presentAddress.postcode = [];
+        this.presentAddress.disableDistrict = true;
+        this.presentAddress.disablepostcode = true;
+        this.presentAddress.disableSubDistrict = true;
+        this.formData.INFORMER_DISTRICT_ID = undefined;
+        this.formData.INFORMER_DISTRICT_NAME_THA = undefined;
+        if (e.value) {
+            const data =
+                this.selectPresentProvice.instance.option("selectedItem");
+            if (data) {
+                this.formData.INFORMER_PROVINCE = data.PROVINCE_ID;
+                this.formData.INFORMER_PROVINCE_NAME_THA =
+                    data.PROVINCE_NAME_THA;
+            } else {
+                this.formData.INFORMER_PROVINCE = e.value;
+            }
+
+            this.serviceProvince
+                .GetDistrictofProvince(e.value)
+                .subscribe((_) => {
+                    this.presentAddress.district = _;
+                    this.presentAddress.disableDistrict = false;
+                });
+
+            this._OrgService.getorgProvince(e.value).subscribe((_) => {
+                this.dsorgbyaria = _;
+            });
+            console.log("proviceorg", this.dsorgbyaria);
+        }
+    }
+
+    OnSelectcardProvicePresent(e) {
+        this.cardAddress.district = [];
+        this.cardAddress.subDistrict = [];
+        this.cardAddress.postcode = [];
+        this.cardAddress.disableDistrict = true;
+        this.cardAddress.disablepostcode = true;
+        this.cardAddress.disableSubDistrict = true;
+        this.formData.INFORMER_CARD_DISTRICT_ID = undefined;
+        this.formData.INFORMER_CARD_DISTRICT_NAME_THA = undefined;
+        if (e.value) {
+            const data = this.selectcardProvice.instance.option("selectedItem");
+            if (data) {
+                this.formData.INFORMER_CARD_PROVINCE = data.PROVINCE_ID;
+                this.formData.INFORMER_CARD_PROVINCE_NAME_THA =
+                    data.PROVINCE_NAME_THA;
+            } else {
+                this.formData.INFORMER_CARD_PROVINCE = e.value;
+            }
+
+            this.serviceProvince
+                .GetDistrictofProvince(e.value)
+                .subscribe((_) => {
+                    this.cardAddress.district = _;
+                    this.cardAddress.disableDistrict = false;
+                });
+        }
+    }
+    OnSelectProvicePresentlocationWalkin(e){
+        if (e.value) {
+            const data =
+                this.selectPresentProvicelocationWalkin.instance.option(
+                    "selectedItem"
+                );
+            if (data) {
+                this.formData.ORG_PROVINCE_OFFICER_ID = data.PROVINCE_ID;
+                this.formData.ORG_PROVINCE_OFFICER_NAME = data.PROVINCE_NAME_THA;
+            } else {
+                this.formData.ORG_PROVINCE_OFFICER_ID = e.value;
+            }
+            this._OrgService.getorgProvince(e.value).subscribe((_) => {
+                this.dswalkinstatuspolice = _;
+            });
+        }
+    }
+    OnSelectProvicePresentlocation(e) {
+        if (e.value) {
+            const data =
+                this.selectPresentProvicelocation.instance.option(
+                    "selectedItem"
+                );
+            //     if (data) {
+            //         this.formdataOrgsendcase.ORG_PROVINCE_ID = data.PROVINCE_ID;
+            //         this.formdataOrgsendcase.ORG_PROVINCE_NAME = data.PROVINCE_NAME_THA;
+            //     }else{
+            //         this.formData.ORG_PROVINCE_ID = e.value;
+            //     }
+            // this._OrgService.getorgProvince(e.value).subscribe((_)=>{
+            //         this.dsorgbyarialocation = _;
+            // });
+            if (data) {
+                this.formData.ORG_PROVINCE_ID = data.PROVINCE_ID;
+                this.formData.ORG_PROVINCE_NAME = data.PROVINCE_NAME_THA;
+            } else {
+                this.formData.ORG_PROVINCE_ID = e.value;
+            }
+            this._OrgService.getorgProvince(e.value).subscribe((_) => {
+                this.dsorgbyarialocation = _;
+            });
+        }
+    }
+
+    OnSelectProvicePresentlocationofficer(e) {
+        if (e.value) {
+            const data =
+                this.selectPresentProvicelocationofficer.instance.option(
+                    "selectedItem"
+                );
+
+            if (data) {
+                this.formData.ORG_PROVINCE_OFFICER_ID = data.PROVINCE_ID;
+                this.formData.ORG_PROVINCE_OFFICER_NAME =
+                    data.PROVINCE_NAME_THA;
+            } else {
+                this.formData.ORG_PROVINCE_OFFICER_ID = e.value;
+            }
+            this._OrgService.getorgProvince(e.value).subscribe((_) => {
+                this.dsorgbyarialocation = _;
+            });
+        }
+    }
+
+    OnSelectDistrictPresent(e) {
+        this.presentAddress.subDistrict = [];
+        this.presentAddress.postcode = [];
+        this.presentAddress.disableSubDistrict = true;
+        this.presentAddress.disablepostcode = true;
+        this.formData.INFORMER_SUB_DISTRICT_ID = undefined;
+        this.formData.INFORMER_SUB_DISTRICT_NAME_THA = undefined;
+        if (e.value) {
+            const data =
+                this.selectPresentDistrict.instance.option("selectedItem");
+            if (data) {
+                this.formData.INFORMER_DISTRICT_ID = data.DISTRICT_ID;
+                this.formData.INFORMER_DISTRICT_NAME_THA =
+                    data.DISTRICT_NAME_THA;
+            } else {
+                this.formData.INFORMER_DISTRICT_ID = e.value;
+            }
+
+            this.serviceDistrict
+                .GetSubDistrictOfDistrict(e.value)
+                .subscribe((_) => {
+                    this.presentAddress.subDistrict = _;
+                    this.presentAddress.disableSubDistrict = false;
+                });
+        }
+    }
+
+    OnSelectDistrictCard(e) {
+        this.cardAddress.subDistrict = [];
+        this.cardAddress.postcode = [];
+        this.cardAddress.disableSubDistrict = true;
+        this.cardAddress.disablepostcode = true;
+        this.formData.INFORMER_CARD_SUB_DISTRICT_ID = undefined;
+        this.formData.INFORMER_CARD_SUB_DISTRICT_NAME_THA = undefined;
+        if (e.value) {
+            const data =
+                this.selectCardDistrict.instance.option("selectedItem");
+            if (data) {
+                this.formData.INFORMER_CARD_DISTRICT_ID = data.DISTRICT_ID;
+                this.formData.INFORMER_CARD_DISTRICT_NAME_THA =
+                    data.DISTRICT_NAME_THA;
+            } else {
+                this.formData.INFORMER_CARD_DISTRICT_ID = e.value;
+            }
+
+            this.serviceDistrict
+                .GetSubDistrictOfDistrict(e.value)
+                .subscribe((_) => {
+                    this.cardAddress.subDistrict = _;
+                    this.cardAddress.disableSubDistrict = false;
+                });
+        }
+    }
+    OnSelectSubDistrictPresent(e) {
+        this.presentAddress.postcode = [];
+        this.presentAddress.disablepostcode = true;
+
+        if (e.value) {
+            const data =
+                this.selectPresentSubDistrict.instance.option("selectedItem");
+            if (data) {
+                this.formData.INFORMER_SUB_DISTRICT_ID = data.SUB_DISTRICT_ID;
+                this.formData.INFORMER_SUB_DISTRICT_NAME_THA =
+                    data.SUB_DISTRICT_NAME_THA;
+            } else {
+                this.formData.INFORMER_SUB_DISTRICT_ID = e.value;
+            }
+
+            this.serviceSubDistrict.GetPostCode(e.value).subscribe((_) => {
+                this.presentAddress.postcode = _;
+                this.presentAddress.disablepostcode = false;
+            });
+        }
+    }
+
+    OnSelectSubDistrictCard(e) {
+        this.cardAddress.postcode = [];
+        this.cardAddress.disablepostcode = true;
+
+        if (e.value) {
+            const data =
+                this.selectCardSubDistrict.instance.option("selectedItem");
+            if (data) {
+                this.formData.INFORMER_CARD_SUB_DISTRICT_ID =
+                    data.SUB_DISTRICT_ID;
+                this.formData.INFORMER_CARD_SUB_DISTRICT_NAME_THA =
+                    data.SUB_DISTRICT_NAME_THA;
+            } else {
+                this.formData.INFORMER_CARD_SUB_DISTRICT_ID = e.value;
+            }
+
+            this.serviceSubDistrict.GetPostCode(e.value).subscribe((_) => {
+                this.cardAddress.postcode = _;
+                this.cardAddress.disablepostcode = false;
+            });
+        }
+    }
+    OnSelectPostCodePresent(e) {
+        if (e.value) {
+            const data =
+                this.selectPresentPostcode.instance.option("selectedItem");
+            if (data) {
+                this.formData.INFORMER_POSTCODE_ID = data.POSTCODE_ID;
+                this.formData.INFORMER_POSTCODE_CODE = data.POSTCODE_CODE;
+            } else {
+                this.formData.INFORMER_POSTCODE_ID = e.value;
+            }
+        }
+    }
+
+    onvaluecheckaddresscard(e) {
+        if (e.value) {
+            this.formData.CASE_INFORMER_ADDRESS_NO =
+                this.formData.CASE_INFORMER_CARD_ADDRESS_NO;
+            this.formData.INFORMER_PROVINCE =
+                this.formData.INFORMER_CARD_PROVINCE;
+            this.serviceProvince
+                .GetDistrictofProvince(this.formData.INFORMER_CARD_PROVINCE)
+                .subscribe((_) => {
+                    this.presentAddress.district = _;
+                    this.presentAddress.disableDistrict = false;
+
+                    this.formData.INFORMER_DISTRICT_ID =
+                        this.formData.INFORMER_CARD_DISTRICT_ID;
+                });
+
+            setTimeout(() => {
+                this.serviceDistrict
+                    .GetSubDistrictOfDistrict(
+                        this.formData.INFORMER_CARD_DISTRICT_ID
+                    )
+                    .subscribe((_) => {
+                        this.presentAddress.subDistrict = _;
+                        this.presentAddress.disableSubDistrict = false;
+                        this.formData.INFORMER_SUB_DISTRICT_ID =
+                            this.formData.INFORMER_CARD_SUB_DISTRICT_ID;
+                    });
+            }, 500);
+        }
     }
 }

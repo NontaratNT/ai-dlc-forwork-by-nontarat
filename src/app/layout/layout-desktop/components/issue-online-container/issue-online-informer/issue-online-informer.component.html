@@ -116,6 +116,121 @@
             </div>
         </dx-form>
     </div>
+    <div class="conten-block">
+        <div class="content-title">ที่อยู่ตามบัตรประจำตัวประชาชน</div>
+        <div class="content-form">
+            <dx-form #formInformer2 [colCount]="3" labelLocation="top">
+                <dxi-item template="temp1" [colSpan]="1" [isRequired]="formValidate">
+                    <dxo-label text="บ้านเลขที่/ ซอย/ หมู่ที่/ ถนน" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกบ้านเลขที่/ ซอย/ หมู่ที่/ ถนน">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp1'">
+                    <dx-text-box id="ctrlCardAddress" [readOnly]="formReadOnly" [(value)]="formData.CASE_INFORMER_CARD_ADDRESS_NO"></dx-text-box>
+                    <dx-tooltip target="#ctrlCardAddress" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
+                        <div *dxTemplate="let data of 'content'">
+                            <p>ตัวอย่าง 84/4</p>
+                        </div>
+                    </dx-tooltip>
+                </div>
+                <dxi-item template="temp2" [isRequired]="formValidate">
+                    <dxo-label text="จังหวัด" [showColon]="false">
+                    </dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกจังหวัด">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp2'">
+                    <dx-select-box #selectcardProvice [dataSource]="province" displayExpr="PROVINCE_NAME_THA" valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true" placeholder="จังหวัด" [showClearButton]="true" (onValueChanged)="OnSelectcardProvicePresent($event)"
+                        [readOnly]="formReadOnly" [(value)]="formData.INFORMER_CARD_PROVINCE">
+                    </dx-select-box>
+                </div>
+                <dxi-item template="temp3" [isRequired]="formValidate">
+                    <dxo-label text="อำเภอ/เขต" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกอำเภอ/เขต">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp3'">
+                    <dx-select-box #selectCardDistrict [dataSource]="cardAddress.district" displayExpr="DISTRICT_NAME_THA" valueExpr="DISTRICT_ID" searchExpr="DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="อำเภอ/เขต" [disabled]="cardAddress.disableDistrict" (onValueChanged)="OnSelectDistrictCard($event)"
+                        [readOnly]="formReadOnly" [(value)]="formData.INFORMER_CARD_DISTRICT_ID" [showClearButton]="true">
+                    </dx-select-box>
+                </div>
+                <dxi-item template="temp4" [isRequired]="formValidate">
+                    <dxo-label text="ตำบล/แขวง" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกตำบล/แขวง">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp4'">
+                    <dx-select-box #selectCardSubDistrict [dataSource]="cardAddress.subDistrict" displayExpr="SUB_DISTRICT_NAME_THA" valueExpr="SUB_DISTRICT_ID" searchExpr="SUB_DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="ตำบล" [disabled]="cardAddress.disableSubDistrict"
+                        (onValueChanged)="OnSelectSubDistrictCard($event)" [readOnly]="formReadOnly" [(value)]="formData.INFORMER_CARD_SUB_DISTRICT_ID" [showClearButton]="true">
+                    </dx-select-box>
+                </div>
+
+            </dx-form>
+        </div>
+    </div>
+    <div class="conten-block">
+        <dx-check-box *ngIf="!formReadOnly" text="ใช้ข้อมูลที่อยู่ตามบัตรประจำตัวประชาชน" [(value)]="checkboxaddresscard" (onValueChanged)="onvaluecheckaddresscard($event)"></dx-check-box>
+        <div class="content-title">ที่อยู่ปัจจุบันผู้เสียหาย</div>
+        <div class="content-form">
+            <dx-form #formInformer2address [colCount]="3" labelLocation="top">
+                <dxi-item template="temp1" [colSpan]="1" [isRequired]="formValidate">
+                    <dxo-label text="บ้านเลขที่/ ซอย/ หมู่ที่/ ถนน" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกบ้านเลขที่/ ซอย/ หมู่ที่/ ถนน">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp1'">
+                    <dx-text-box id="ctrlAddress" [readOnly]="formReadOnly" [(value)]="formData.CASE_INFORMER_ADDRESS_NO"></dx-text-box>
+                    <dx-tooltip target="#ctrlAddress" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
+                        <div *dxTemplate="let data of 'content'">
+                            <p>ตัวอย่าง 84/4</p>
+                        </div>
+                    </dx-tooltip>
+                </div>
+                <dxi-item template="temp2" [isRequired]="formValidate">
+                    <dxo-label text="จังหวัด" [showColon]="false">
+                    </dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกจังหวัด">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp2'">
+                    <dx-select-box #selectPresentProvice [dataSource]="province" displayExpr="PROVINCE_NAME_THA" valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true" placeholder="จังหวัด" [showClearButton]="true" (onValueChanged)="OnSelectProvicePresent($event)"
+                        [readOnly]="formReadOnly" [(value)]="formData.INFORMER_PROVINCE">
+                    </dx-select-box>
+                </div>
+                <dxi-item template="temp3" [isRequired]="formValidate">
+                    <dxo-label text="อำเภอ/เขต" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกอำเภอ/เขต">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp3'">
+                    <dx-select-box #selectPresentDistrict [dataSource]="presentAddress.district" displayExpr="DISTRICT_NAME_THA" valueExpr="DISTRICT_ID" searchExpr="DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="อำเภอ/เขต" [disabled]="presentAddress.disableDistrict"
+                        (onValueChanged)="OnSelectDistrictPresent($event)" [readOnly]="formReadOnly" [(value)]="formData.INFORMER_DISTRICT_ID" [showClearButton]="true">
+                    </dx-select-box>
+                </div>
+                <dxi-item template="temp4" [isRequired]="formValidate">
+                    <dxo-label text="ตำบล/แขวง" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกตำบล/แขวง">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp4'">
+                    <dx-select-box #selectPresentSubDistrict [dataSource]="presentAddress.subDistrict" displayExpr="SUB_DISTRICT_NAME_THA" valueExpr="SUB_DISTRICT_ID" searchExpr="SUB_DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="ตำบล" [disabled]="presentAddress.disableSubDistrict"
+                        (onValueChanged)="OnSelectSubDistrictPresent($event)" [readOnly]="formReadOnly" [(value)]="formData.INFORMER_SUB_DISTRICT_ID" [showClearButton]="true">
+                    </dx-select-box>
+                </div>
+                <!--            <dxi-item template="temp5" [isRequired]="formValidate">-->
+                <!--                <dxo-label text="รหัสไปรษณีย์"></dxo-label>-->
+                <!--                <dxi-validation-rule type="required" message="กรุณาเลือก">-->
+                <!--                </dxi-validation-rule>-->
+                <!--            </dxi-item>-->
+                <!--            <div *dxTemplate="let data of 'temp5'">-->
+                <!--                <dx-select-box #selectPresentPostcode [dataSource]="presentAddress.postcode" valueExpr="POSTCODE_ID" [disabled]="presentAddress.disablepostcode" displayExpr="POSTCODE_CODE" placeholder="รหัสไปรษณีย์" searchExpr="POSTCODE_CODE" [searchEnabled]="true" (onValueChanged)="OnSelectPostCodePresent($event)"-->
+                <!--                    [showClearButton]="true" [readOnly]="formReadOnly" [(value)]="formData.INFORMER_POSTCODE_ID">-->
+                <!--                </dx-select-box>-->
+                <!--            </div>-->
+            </dx-form>
+        </div>
+        <!-- <div class="content-end-line"></div> -->
+    </div>
 </div>
 
 <div class="text-right btn-footer">

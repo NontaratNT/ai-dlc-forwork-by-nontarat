@@ -493,6 +493,7 @@ export class IssueOnlineInformerComponent implements OnInit {
         try{
             this.isLoading = true;
             this.userType = this.mainConponent.userType;
+            this.province = this.mainConponent.province;
             this.formData = {};
             if (this.mainConponent.formType === "add") {
                 if(localStorage.getItem("form-blessing")){
@@ -540,6 +541,89 @@ export class IssueOnlineInformerComponent implements OnInit {
                             this.formData.TITLE_NAME = this.personalInfo.TITLE_NAME;
                         }
                     }
+                    this.formData.CASE_INFORMER_CARD_ADDRESS_NO = this.dataForms.CASE_INFORMER_CARD_ADDRESS_NO ? this.dataForms.CASE_INFORMER_CARD_ADDRESS_NO : p.HOME_REGISTER_ADDRESS;
+                    if(this.dataForms.INFORMER_CARD_PROVINCE){
+                        this.formData.INFORMER_CARD_PROVINCE = this.dataForms.INFORMER_CARD_PROVINCE;
+                        this.formData.INFORMER_CARD_PROVINCE_NAME_THA = this.dataForms.INFORMER_CARD_PROVINCE_NAME_THA;
+                        this.cardAddress.district = await this.serviceProvince
+                            .GetDistrictofProvince(this.formData.INFORMER_CARD_PROVINCE)
+                            .toPromise();
+                        this.cardAddress.disableDistrict = false;
+                    }else if (p.HOME_REGISTER_PROVINCE_ID) {
+                        this.formData.INFORMER_CARD_PROVINCE = p.HOME_REGISTER_PROVINCE_ID;
+                        this.cardAddress.district = await this.serviceProvince
+                            .GetDistrictofProvince(p.HOME_REGISTER_PROVINCE_ID)
+                            .toPromise();
+                        this.cardAddress.disableDistrict = false;
+                    }
+                    if(this.dataForms.INFORMER_CARD_DISTRICT_ID){
+                        this.formData.INFORMER_CARD_DISTRICT_ID = this.dataForms.INFORMER_CARD_DISTRICT_ID;
+                        this.formData.INFORMER_CARD_DISTRICT_NAME_THA = this.dataForms.INFORMER_CARD_DISTRICT_NAME_THA;
+                        this.cardAddress.subDistrict = await this.serviceDistrict
+                            .GetSubDistrictOfDistrict(this.formData.INFORMER_CARD_DISTRICT_ID)
+                            .toPromise();
+                        this.cardAddress.disableSubDistrict = false;
+                    }else if (p.HOME_REGISTER_DISTICT_ID) {
+                        this.formData.INFORMER_CARD_DISTRICT_ID = p.HOME_REGISTER_DISTICT_ID;
+                        this.cardAddress.subDistrict = await this.serviceDistrict
+                            .GetSubDistrictOfDistrict(p.HOME_REGISTER_DISTICT_ID)
+                            .toPromise();
+                        this.cardAddress.disableSubDistrict = false;
+                    }
+                    if(this.dataForms.INFORMER_CARD_SUB_DISTRICT_ID){
+                        this.formData.INFORMER_CARD_SUB_DISTRICT_ID = this.dataForms.INFORMER_CARD_SUB_DISTRICT_ID;
+                        this.formData.INFORMER_CARD_SUB_DISTRICT_NAME_THA = this.dataForms.INFORMER_CARD_SUB_DISTRICT_NAME_THA;
+                        this.cardAddress.disablepostcode = false;
+                    }else if (p.HOME_REGISTER_SUB_DISTICT_ID) {
+                        this.formData.INFORMER_CARD_SUB_DISTRICT_ID = p.HOME_REGISTER_SUB_DISTICT_ID;
+                        this.formData.INFORMER_CARD_POSTCODE_ID = p.HOME_REGISTER_POST_CODE;
+                        // this.cardAddress.postcode = await this.serviceSubDistrict
+                        //     .GetPostCode(p.HOME_REGISTER_SUB_DISTICT_ID)
+                        //     .toPromise();
+                        // this.cardAddress.disablepostcode = false;
+                    }
+                    this.formData.CASE_INFORMER_ADDRESS_NO = this.dataForms.CASE_INFORMER_ADDRESS_NO ? this.dataForms.CASE_INFORMER_ADDRESS_NO : p.PERSONAL_ADDRESS;
+
+                    if(this.dataForms.INFORMER_PROVINCE){
+                        this.formData.INFORMER_PROVINCE = this.dataForms.INFORMER_PROVINCE;
+                        this.formData.INFORMER_PROVINCE_NAME_THA = this.dataForms.INFORMER_PROVINCE_NAME_THA;
+                        this.presentAddress.district = await this.serviceProvince
+                            .GetDistrictofProvince(this.formData.INFORMER_PROVINCE)
+                            .toPromise();
+                        this.presentAddress.disableDistrict = false;
+                    }else if (p.PROVINCE_ID) {
+                        this.formData.INFORMER_PROVINCE = p.PROVINCE_ID;
+                        this.presentAddress.district = await this.serviceProvince
+                            .GetDistrictofProvince(p.PROVINCE_ID)
+                            .toPromise();
+                        this.presentAddress.disableDistrict = false;
+                    }
+                    if(this.dataForms.INFORMER_DISTRICT_ID){
+                        this.formData.INFORMER_DISTRICT_ID = this.dataForms.INFORMER_DISTRICT_ID;
+                        this.formData.INFORMER_DISTRICT_NAME_THA = this.dataForms.INFORMER_DISTRICT_NAME_THA;
+                        this.presentAddress.subDistrict = await this.serviceDistrict
+                            .GetSubDistrictOfDistrict(this.formData.INFORMER_DISTRICT_ID)
+                            .toPromise();
+                        this.presentAddress.disableSubDistrict = false;
+                    }else if (p.DISTICT_ID) {
+                        this.formData.INFORMER_DISTRICT_ID = p.DISTICT_ID;
+                        this.presentAddress.subDistrict = await this.serviceDistrict
+                            .GetSubDistrictOfDistrict(p.DISTICT_ID)
+                            .toPromise();
+                        this.presentAddress.disableSubDistrict = false;
+                    }
+                    if(this.dataForms.INFORMER_SUB_DISTRICT_ID){
+                        this.formData.INFORMER_SUB_DISTRICT_ID = this.dataForms.INFORMER_SUB_DISTRICT_ID;
+                        this.formData.INFORMER_SUB_DISTRICT_NAME_THA = this.dataForms.INFORMER_SUB_DISTRICT_NAME_THA;
+                        this.presentAddress.disablepostcode = false;
+                    }else if (p.SUB_DISTICT_ID) {
+                        this.formData.INFORMER_SUB_DISTRICT_ID = p.SUB_DISTICT_ID;
+                        this.formData.INFORMER_POSTCODE_ID = p.POST_CODE;
+                        // this.presentAddress.postcode = await this.serviceSubDistrict
+                        //     .GetPostCode(p.SUB_DISTICT_ID)
+                        //     .toPromise();
+                        this.presentAddress.disablepostcode = false;
+                    }
 
                 } else {
                     this.formData.CASE_INFORMER_FIRSTNAME = null;
@@ -578,6 +662,49 @@ export class IssueOnlineInformerComponent implements OnInit {
                 this.formData.CASE_INFORMER_DATE = this._date.ConvertToDate(
                     dataForm.CASE_INFORMER_DATE
                 );
+                if (dataForm.INFORMER_PROVINCE) {
+                    this.presentAddress.district = await this.serviceProvince
+                        .GetDistrictofProvince(dataForm.INFORMER_PROVINCE)
+                        .toPromise();
+                    this.presentAddress.disableDistrict = false;
+                }
+                if (dataForm.INFORMER_DISTRICT_ID) {
+                    this.presentAddress.subDistrict = await this.serviceDistrict
+                        .GetSubDistrictOfDistrict(dataForm.INFORMER_DISTRICT_ID)
+                        .toPromise();
+                    this.presentAddress.disableSubDistrict = false;
+                }
+                if (dataForm.INFORMER_SUB_DISTRICT_ID) {
+                    this.presentAddress.postcode = await this.serviceSubDistrict
+                        .GetPostCode(dataForm.INFORMER_SUB_DISTRICT_ID)
+                        .toPromise();
+                    this.presentAddress.disablepostcode = false;
+                }
+                if (dataForm.INFORMER_CARD_PROVINCE) {
+                    this.cardAddress.district = await this.serviceProvince
+                        .GetDistrictofProvince(dataForm.INFORMER_CARD_PROVINCE)
+                        .toPromise();
+                    this.cardAddress.disableDistrict = false;
+                }
+                if (dataForm.INFORMER_CARD_DISTRICT_ID) {
+                    this.cardAddress.subDistrict = await this.serviceDistrict
+                        .GetSubDistrictOfDistrict(
+                            dataForm.INFORMER_CARD_DISTRICT_ID
+                        )
+                        .toPromise();
+                    this.cardAddress.disableSubDistrict = false;
+                }
+                if (dataForm.INFORMER_CARD_SUB_DISTRICT_ID) {
+                    this.cardAddress.postcode = await this.serviceSubDistrict
+                        .GetPostCode(dataForm.INFORMER_SUB_DISTRICT_ID)
+                        .toPromise();
+                    this.cardAddress.disablepostcode = false;
+                }
+                this._OrgService
+                    .getorgProvince(dataForm.INFORMER_PROVINCE)
+                    .subscribe((_) => {
+                        this.dsorgbyaria = _;
+                    });
             }
             // default วันเกิด Start
             this.minBirthDate = this._date.SetDateDefault(80, true, true, true);
@@ -953,6 +1080,18 @@ export class IssueOnlineInformerComponent implements OnInit {
                 );
                 return;
             }
+            if (!this.formInformer2.instance.validate().isValid) {
+                this._formValidate.ValidateForm(
+                    this.formInformer2.instance.validate().brokenRules
+                );
+                return;
+            }
+            if (!this.formInformer2address.instance.validate().isValid) {
+                this._formValidate.ValidateForm(
+                    this.formInformer2address.instance.validate().brokenRules
+                );
+                return;
+            }
 
             this.formData.CASE_INFORMER_FIRSTNAME = this.NameSanitize(
                 this.formData.CASE_INFORMER_FIRSTNAME
@@ -1066,315 +1205,6 @@ export class IssueOnlineInformerComponent implements OnInit {
         return _value.replace(/[^0-9]/g, "");
     }
 
-    OninviteofficerorgChange(e) {
-        if (e.value) {
-            this.formData.INVITE_OFFICER_ORG = e.value;
-
-            // console.log(this.formData.INVITE_OFFICER_ORG);
-        }
-    }
-    Onorglocationwalkin(e){
-        const data = this.selectorgwalkin.instance.option("selectedItem");
-        if (data) {
-            this.formData.ORG_LOCATION_WALKIN_TYPE = 1;
-            // this.formData.ORG_LOCATION_ID = data.ORGANIZE_ID;
-            // this.formData.ORG_LOCATION_NAME = data.ORGANIZE_NAME_THA;
-            // this.formData.ORG_PROVINCE_LOCATION_ID = data.ORGANIZE_ID;
-            this.formData.WALKIN_POLICE_STATION = data.ORGANIZE_NAME_THA;
-            this.formData.ORG_PROVINCE_OFFICER_ID = Number(data.ORGANIZE_ARIA_CODE);
-        } else {
-            this.formData.WALKIN_POLICE_STATION = e.value;
-        }
-    }
-    Onorglocation(e) {
-        if (e.value) {
-            const data = this.selectorg.instance.option("selectedItem");
-
-            // if (data) {
-            //     this.formdataOrgsendcase.ORG_LOCATION_TYPE = 1;
-            //     this.formdataOrgsendcase.ORG_LOCATION_ID = data.ORGANIZE_ID;
-            //     this.formdataOrgsendcase.ORG_LOCATION_NAME = data.ORGANIZE_NAME_THA;
-            //     this.formdataOrgsendcase.ORG_PROVINCE_ID = Number(data.ORGANIZE_ARIA_CODE);
-
-            // }else{
-            //     this.formdataOrgsendcase.ORG_LOCATION_ID = e.value;
-            // }
-            // console.log('selectorgwalkin',data)
-            if (data) {
-                this.formData.ORG_LOCATION_TYPE = 1;
-                this.formData.ORG_LOCATION_ID = data.ORGANIZE_ID;
-                this.formData.ORG_LOCATION_NAME = data.ORGANIZE_NAME_THA;
-                this.formData.ORG_PROVINCE_LOCATION_ID = data.ORGANIZE_ID;
-                this.formData.ORG_PROVINCE_ID = Number(data.ORGANIZE_ARIA_CODE);
-            } else {
-                this.formData.ORG_LOCATION_ID = e.value;
-            }
-        }
-    }
-
-    onvaluechangeorgmainwalkin(e, type) {
-        // const data = this.selectorgmain.instance.option("selectedItem");
-        this.formData.ORG_PROVINCE_MAP_AREA_ID = null;
-        this.formData.ORG_PROVINCE_MAP_AREA_NAME = null;
-
-        if (e.value) {
-            if (type === 1) {
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID2 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID3 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID4 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID5 = null;
-                const data: any = this.orgtype2_1.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID1 = data[0].org_id;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_NAME1 =
-                    data[0].org_name;
-
-                // * parame insert
-                this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formData.WALKIN_POLICE_STATION_ID = data[0].org_id;
-                this.formData.WALKIN_POLICE_STATION = data[0].org_name;
-            }
-            if (type === 2) {
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID1 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID3 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID4 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID5 = null;
-                const data: any = this.orgtype2_2.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID2 = data[0].org_id;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_NAME2 =
-                    data[0].org_name;
-
-                // * parame insert
-                this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formData.WALKIN_POLICE_STATION_ID = data[0].org_id;
-                this.formData.WALKIN_POLICE_STATION = data[0].org_name;
-            } else if (type === 3) {
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID1 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID2 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID4 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID5 = null;
-                const data: any = this.orgtype2_3.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID3 = data[0].org_id;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_NAME3 =
-                    data[0].org_name;
-
-                // * parame insert
-                this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formData.WALKIN_POLICE_STATION_ID = data[0].org_id;
-                this.formData.WALKIN_POLICE_STATION = data[0].org_name;
-            } else if (type === 4) {
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID1 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID2 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID3 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID5 = null;
-                const data: any = this.orgtype2_4.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID4 = data[0].org_id;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_NAME4 =
-                    data[0].org_name;
-
-                // * parame insert
-                this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formData.WALKIN_POLICE_STATION_ID = data[0].org_id;
-                this.formData.WALKIN_POLICE_STATION = data[0].org_name;
-            } else if (type === 5) {
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID1 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID2 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID3 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID4 = null;
-                const data: any = this.orgtype2_5.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID5 = data[0].org_id;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_NAME5 =
-                    data[0].org_name;
-
-                // * parame insert
-                this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formData.WALKIN_POLICE_STATION_ID = data[0].org_id;
-                this.formData.WALKIN_POLICE_STATION = data[0].org_name;
-            }
-        }
-        // else{
-        //     this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID = e.value;
-        // }
-
-        // console.log(
-        //     this.formData.WALKIN_POLICE_STATION_ID,
-        //     this.formData.WALKIN_POLICE_STATION
-        // );
-        // alert(this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID);
-    }
-
-    onvaluechangeorgmain(e, type) {
-        // const data = this.selectorgmain.instance.option("selectedItem");
-        this.formData.ORG_PROVINCE_MAP_AREA_ID = null;
-        this.formData.ORG_PROVINCE_MAP_AREA_NAME = null;
-
-        if (e.value) {
-            if (type == 1) {
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = null;
-                const data: any = this.orgtype2_1.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = data[0].org_id;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME1 =
-                    data[0].org_name;
-
-                //parame insert
-                this.formData.ORG_LOCATION_TYPE = 2;
-                this.formData.ORG_LOCATION_ID = data[0].org_id;
-                this.formData.ORG_LOCATION_NAME = data[0].org_name;
-            }
-            if (type == 2) {
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = null;
-                const data: any = this.orgtype2_2.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = data[0].org_id;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME2 =
-                    data[0].org_name;
-
-                //parame insert
-                this.formData.ORG_LOCATION_TYPE = 2;
-                this.formData.ORG_LOCATION_ID = data[0].org_id;
-                this.formData.ORG_LOCATION_NAME = data[0].org_name;
-            } else if (type == 3) {
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = null;
-                const data: any = this.orgtype2_3.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = data[0].org_id;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME3 =
-                    data[0].org_name;
-
-                //parame insert
-                this.formData.ORG_LOCATION_TYPE = 2;
-                this.formData.ORG_LOCATION_ID = data[0].org_id;
-                this.formData.ORG_LOCATION_NAME = data[0].org_name;
-            } else if (type == 4) {
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = null;
-                const data: any = this.orgtype2_4.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = data[0].org_id;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME4 =
-                    data[0].org_name;
-
-                //parame insert
-                this.formData.ORG_LOCATION_TYPE = 2;
-                this.formData.ORG_LOCATION_ID = data[0].org_id;
-                this.formData.ORG_LOCATION_NAME = data[0].org_name;
-            } else if (type == 5) {
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = null;
-                const data: any = this.orgtype2_5.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = data[0].org_id;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME5 =
-                    data[0].org_name;
-
-                //parame insert
-                this.formData.ORG_LOCATION_TYPE = 2;
-                this.formData.ORG_LOCATION_ID = data[0].org_id;
-                this.formData.ORG_LOCATION_NAME = data[0].org_name;
-            }
-        }
-        // else{
-        //     this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID = e.value;
-        // }
-
-        // console.log(
-        //     this.formData.ORG_LOCATION_ID,
-        //     this.formData.ORG_LOCATION_NAME
-        // );
-        // alert(this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID);
-    }
-
-    onvaluechangeorgcenterwalkin(e) {
-        if (e.value) {
-            const data: any = this.orgtype3.filter((r) => r.org_id === e.value);
-            // console.log(data[0].org_id, data[0].org_name);
-            // this.formdataOrgsendcase.ORG_LOCATION_TYPE = 3;
-            // this.formdataOrgsendcase.ORG_LOCATION_CENTER_ID = data[0].org_id;
-            this.formdataOrgsendcasewalkin.WALKIN_POLICE_STATION =
-                data[0].org_name;
-
-            //parame insert
-            this.formData.ORG_LOCATION_WALKIN_TYPE = 3;
-            this.formData.WALKIN_POLICE_STATION_ID = 2375;
-            this.formData.WALKIN_POLICE_STATION = "กองบัญชาการตำรวจสอบสวนกลาง";
-            // this.formData.WALKIN_POLICE_STATION_ID = data[0].org_id;
-            // this.formData.WALKIN_POLICE_STATION = data[0].org_name;
-        } else {
-            this.formdataOrgsendcasewalkin.ORG_LOCATION_CENTER_ID = e.value;
-        }
-        // alert(this.formdataOrgsendcase.ORG_LOCATION_CENTER_ID);
-    }
-
-    onvaluechangeorgcenter(e) {
-        if (e.value) {
-            const data: any = this.orgtype3.filter((r) => r.org_id === e.value);
-            // console.log(data[0].org_id, data[0].org_name);
-            this.formdataOrgsendcase.ORG_LOCATION_TYPE = 3;
-            this.formdataOrgsendcase.ORG_LOCATION_CENTER_ID = data[0].org_id;
-            this.formdataOrgsendcase.ORG_LOCATION_CENTER_NAME =
-                data[0].org_name;
-
-            //parame insert
-            this.formData.ORG_LOCATION_TYPE = 3;
-            this.formData.ORG_LOCATION_ID = 2375;
-            this.formData.ORG_LOCATION_NAME = "กองบัญชาการตำรวจสอบสวนกลาง";
-            // console.log(this.formData);
-        } else {
-            this.formdataOrgsendcase.ORG_LOCATION_CENTER_ID = e.value;
-        }
-        // alert(this.formdataOrgsendcase.ORG_LOCATION_CENTER_ID);
-    }
-
-    OnSelectBankAccount(e) {
-        if (e.value) {
-            const data = this.selectBankInfo.instance.option("selectedItem");
-            if (data) {
-                this.formbanklistarray.PERSONAL_BANK_ID = data.BANK_ID;
-                this.formbanklistarray.PERSONAL_BANK_NAME = data.BANK_NAME;
-            } else {
-                this.formbanklistarray.PERSONAL_BANK_ID = e.value;
-            }
-        }
-    }
-
     additemlistbank() {
         this.checktypeeditbanklist = "add";
 
@@ -1452,4 +1282,6 @@ export class IssueOnlineInformerComponent implements OnInit {
         );
         return makeScope.test(params.value);
     }
+
+
 }

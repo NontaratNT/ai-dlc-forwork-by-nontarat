@@ -95,6 +95,76 @@
                     </div>
                 </dx-form>
             </div>
+            <div class="conten-block">
+                <div class="content-title">ที่อยู่ตามบัตรประจำตัวประชาชน</div>
+                <div class="content-form">
+                    <dx-form [colCount]="3" labelLocation="top">
+                        <dxi-item template="temp1" [colSpan]="1">
+                            <dxo-label text="บ้านเลขที่/ ซอย/ หมู่ที่/ ถนน" [showColon]="false"></dxo-label>
+                        </dxi-item>
+                        <div *dxTemplate="let data of 'temp1'">
+                            <dx-text-box [readOnly]="true" [value]="formData.CASE_INFORMER_CARD_ADDRESS_NO"></dx-text-box>
+                        </div>
+                        <dxi-item template="temp2" [colSpan]="1">
+                            <dxo-label text="จังหวัด" [showColon]="false"></dxo-label>
+                        </dxi-item>
+                        <div *dxTemplate="let data of 'temp2'">
+                            <dx-text-box [readOnly]="true" [value]="formData.INFORMER_CARD_PROVINCE_NAME_THA"></dx-text-box>
+                        </div>
+                        <dxi-item template="temp3" [colSpan]="1">
+                            <dxo-label text="อำเภอ/เขต" [showColon]="false"></dxo-label>
+                        </dxi-item>
+                        <div *dxTemplate="let data of 'temp3'">
+                            <dx-text-box [readOnly]="true" [value]="formData.INFORMER_CARD_DISTRICT_NAME_THA"></dx-text-box>
+                        </div>
+                        <dxi-item template="temp4" [colSpan]="1">
+                            <dxo-label text="ตำบล/แขวง" [showColon]="false"></dxo-label>
+                        </dxi-item>
+                        <div *dxTemplate="let data of 'temp4'">
+                            <dx-text-box [readOnly]="true" [value]="formData.INFORMER_CARD_SUB_DISTRICT_NAME_THA"></dx-text-box>
+                        </div>
+
+                    </dx-form>
+                </div>
+                <div class="content-end-line"></div>
+            </div>
+            <div class="conten-block">
+                <div class="content-title">ที่อยู่ปัจจุบันผู้เสียหาย</div>
+                <div class="content-form">
+                    <dx-form [colCount]="3" labelLocation="top">
+                        <dxi-item template="temp1" [colSpan]="1">
+                            <dxo-label text="บ้านเลขที่/ ซอย/ หมู่ที่/ ถนน" [showColon]="false"></dxo-label>
+                        </dxi-item>
+                        <div *dxTemplate="let data of 'temp1'">
+                            <dx-text-box id="ctrlAddress" [value]="formData.CASE_INFORMER_ADDRESS_NO"></dx-text-box>
+                            <dx-tooltip target="#ctrlAddress" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
+                                <div *dxTemplate="let data of 'content'">
+                                    <p>ตัวอย่าง 84/4</p>
+                                </div>
+                            </dx-tooltip>
+                        </div>
+                        <dxi-item template="temp2" [colSpan]="1">
+                            <dxo-label text="จังหวัด" [showColon]="false"></dxo-label>
+                        </dxi-item>
+                        <div *dxTemplate="let data of 'temp2'">
+                            <dx-text-box [readOnly]="true" [value]="formData.INFORMER_PROVINCE_NAME_THA"></dx-text-box>
+                        </div>
+                        <dxi-item template="temp3" [colSpan]="1">
+                            <dxo-label text="อำเภอ/เขต" [showColon]="false"></dxo-label>
+                        </dxi-item>
+                        <div *dxTemplate="let data of 'temp3'">
+                            <dx-text-box [readOnly]="true" [value]="formData.INFORMER_DISTRICT_NAME_THA"></dx-text-box>
+                        </div>
+                        <dxi-item template="temp4" [colSpan]="1">
+                            <dxo-label text="ตำบล/แขวง" [showColon]="false"></dxo-label>
+                        </dxi-item>
+                        <div *dxTemplate="let data of 'temp4'">
+                            <dx-text-box [readOnly]="true" [value]="formData.INFORMER_SUB_DISTRICT_NAME_THA"></dx-text-box>
+                        </div>
+                    </dx-form>
+                </div>
+                <div class="content-end-line"></div>
+            </div>
             <div class="content-end-line"></div>
         </div>
         <div class="conten-block">
