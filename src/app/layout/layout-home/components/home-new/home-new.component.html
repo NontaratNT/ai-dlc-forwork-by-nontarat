@@ -38,7 +38,7 @@
                     <div class="title">บริการอื่นๆ</div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-3 col-md-6 mt-2 block-box-content-right box1 text-center">
+                    <div class="col-lg-4 col-md-6 mt-2 block-box-content-right box1 text-center">
                         <div class="block-box">
                             <div class="box-detail" (click)="TelLink('tel:1441')">
                                 <div class="box-item">
@@ -46,15 +46,14 @@
                                         <img src="assets/icon/TeI-icon.png" alt="icon">
                                     </div>
                                     <div class="item">
-                                        <div class="title">โทร <span
-                                                style="font-size: 25px; font-weight: bold">1441</span> บช.สอท.</div>
+                                        <div class="title">โทร <span style="font-size: 25px; font-weight: bold">1441</span> ศูนย์ AOC</div>
                                         <div class="text-detail">บริการ 24 ชั่วโมง</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 mt-2 block-box-content-right box2 text-center">
+                    <!-- <div class="col-lg-3 col-md-6 mt-2 block-box-content-right box2 text-center">
                         <div class="block-box">
                             <div class="box-detail" (click)="TelLink('tel:081-866-3000')">
                                 <div class="box-item">
@@ -69,8 +68,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 mt-2 block-box-content-right box3 text-center">
+                    </div> -->
+                    <div class="col-lg-4 col-md-6 mt-2 block-box-content-right box3 text-center">
                         <div class="block-box">
                             <div class="box-detail" (click)="TelLink('tel:081-866-3000')">
                                 <div class="box-item">
@@ -86,7 +85,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 mt-2 block-box-content-right box4 text-center">
+                    <div class="col-lg-4 col-md-6 mt-2 block-box-content-right box4 text-center">
                         <div class="block-box">
                             <div class="box-detail" (click)="RedirectExternal('https://m.me/mysisbot')">
                                 <div class="box-item">
@@ -101,7 +100,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 mt-2 block-box-content-right box5 text-center">
+                    <div class="col-lg-4 col-md-6 mt-2 block-box-content-right box5 text-center">
                         <div class="block-box">
                             <div class="box-detail" (click)="RedirectExternal('https://www.facebook.com/PCTPOLICE')">
                                 <div class="box-item">
@@ -117,10 +116,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 mt-2 block-box-content-right box6 text-center">
+                    <div class="col-lg-4 col-md-6 mt-2 block-box-content-right box6 text-center">
                         <div class="block-box">
-                            <div class="box-detail"
-                                (click)="RedirectExternal('https://24hicarecenter.com/cybervaccinated')">
+                            <div class="box-detail" (click)="RedirectExternal('https://24hicarecenter.com/cybervaccinated')">
                                 <div class="box-item">
                                     <div class="item col-12">
                                         <img src="assets/icon/completed-icon.png" alt="icon">
@@ -132,7 +130,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 mt-2 block-box-content-right box6 text-center">
+                    <div class="col-lg-4 col-md-6 mt-2 block-box-content-right box6 text-center">
                         <div class="block-box ext">
                             <div class="box-detail" (click)="RedirectExternal('https://www.chaladohn.com/')">
                                 <div class="box-item">
@@ -155,8 +153,7 @@
         <div class="row section2">
             <div class="block-title">
                 <div class="title"><b>ท่านสามารถแจ้งธนาคารเพื่ออายัดธุรกรรม</b></div>
-                <div class="sub-title">โดยธนาคารจะดำเนินการประสานธนาคารที่เกี่ยวข้องเพื่อติดตามทรัพย์สิน โดยธนาคารจะให้
-                    Bank Case ID ท่านสามารถนำมาแจ้งผ่านระบบ เพื่อดำเนินการต่อไป</div>
+                <div class="sub-title">โดยธนาคารจะดำเนินการประสานธนาคารที่เกี่ยวข้องเพื่อติดตามทรัพย์สิน โดยธนาคารจะให้ Bank Case ID ท่านสามารถนำมาแจ้งผ่านระบบ เพื่อดำเนินการต่อไป</div>
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-6 box-bank mt-2">
@@ -433,13 +430,11 @@
 
 
 <!-- POPUP -->
-<dx-popup class="popup attactment" [width]="1000" [height]="700" [showTitle]="false" title="แจ้งเตือนปรับปรุงระบบ"
-    [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="showpopupweb" [showCloseButton]="false">
+<dx-popup class="popup attactment" [width]="1000" [height]="700" [showTitle]="false" title="แจ้งเตือนปรับปรุงระบบ" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="showpopupweb" [showCloseButton]="false">
     <div *dxTemplate="let data of 'content'">
         <dx-scroll-view [showScrollbar]="'always'" style="height: calc(100% - 45px);background-color: #2D437C;">
             <div style=" display: flex;justify-content: center">
-                <img src="assets/icon/warning-home.png" style="width:100px;height: 100px;" alt="warning-home"
-                    class="img-fluid">
+                <img src="assets/icon/warning-home.png" style="width:100px;height: 100px;" alt="warning-home" class="img-fluid">
             </div>
             <div style="text-align: center;margin: 20px;">
                 <h3 style="color: #fff;">ระบบบริหารจัดการคดีอาชญากรรมทางเทคโนโลยี</h3>
@@ -449,8 +444,8 @@
 
             <div style=" text-align: center; margin-top: 2%; background-color: #2D437C; padding: 2%;">
                 <h4 style="color: #fff;">เนื่องจากในวันเสาร์ที่ 14 ตุลาคม 2566 <br>เวลา 00.00 - 08.00 น.
-                    <br>จะมีการปิดปรับปรุงระบบรับแจ้งความออนไลน์ (www.thaipoliceonline.com) <br>ตามช่วงเวลาดังกล่าว
-                    ขออภัยในความไม่สะดวก</h4>
+                    <br>จะมีการปิดปรับปรุงระบบรับแจ้งความออนไลน์ (www.thaipoliceonline.com) <br>ตามช่วงเวลาดังกล่าว ขออภัยในความไม่สะดวก
+                </h4>
                 <!-- <h2 style="background-color: #fff;padding:2%;"><b>ขณะนี้ท่านสามารถใช้งานระบบได้ตามปกติ</b></h2> -->
             </div>
         </dx-scroll-view>
@@ -460,10 +455,9 @@
     </div>
 </dx-popup>
 
-<dx-popup [fullScreen]="isfullScreen" class="popup " [width]="500" [height]="500" [showTitle]="false" [showCloseButton]="false"
-    [(visible)]="popupStart" [dragEnabled]="false" [closeOnOutsideClick]="false">
+<dx-popup [fullScreen]="isfullScreen" class="popup " [width]="500" [height]="500" [showTitle]="false" [showCloseButton]="false" [(visible)]="popupStart" [dragEnabled]="false" [closeOnOutsideClick]="false">
     <div class="d-flex flex-column justify-content-center align-items-center text-center h-100">
-        <img src="assets/icon/logo.png" alt="น้องตำรวจน้อย" [width]="200" >
+        <img src="assets/icon/logo.png" alt="น้องตำรวจน้อย" [width]="200">
         <div class="d-flex flex-column p-4">
             <h4 class="font-weight-bold">ผู้ใช้บริการสามารถเข้าถึงระบบแจ้งความออนไลน์คดีอาชญากรรมทางเทคโนโลยีได้ที่ <a href="https://thaipoliceonline.go.th" target="_blank">thaipoliceonline.go.th</a></h4>
             <p class="m-0"></p>
