@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     scopeWays2: boolean;
     _isShow: boolean = false;
     _isShow2: boolean = false;
+    isUrl: boolean = false;
     popupConsentVisible: boolean = false;
     constructor(
         private userServ: UserService,
@@ -53,6 +54,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.isUrl = window.location.href.includes(".com") ?  true: false;
+        if(this.isUrl){
+            window.location.href = "https://thaipoliceonline.go.th/login";
+        }
         // const nodesjs = new NodesJs({
         //     id: 'nodes',
         //     width: window.innerWidth,
