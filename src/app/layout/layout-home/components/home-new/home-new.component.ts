@@ -34,13 +34,9 @@ export class HomeNewComponent implements OnInit {
         if (user){
             this.hasSession = true;
         }
-        console.log(window.location.href);
         this.isUrl = window.location.href.includes(".com") ?  true: false;
-        console.log(this.isUrl);
         if(this.isUrl){
-            this.popupStart = true;
-        }else{
-            this.popupStart = false;
+            window.location.href = "https://thaipoliceonline.go.th/";
         }
         // this.checkdatetimepopup();
 
