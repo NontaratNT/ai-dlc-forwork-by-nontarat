@@ -33,9 +33,9 @@
                     </div>
                     <div class="content-form">
                         <p style="color:red;">กรณีมีการโอนเงินมากกว่า 1 ครั้ง ให้กรอกข้อมูลใหม่ และคลิกที่ปุ่ม <b>'เพิ่มข้อมูล'</b></p>
-                        <dx-form *ngIf="!formReadOnly" #formbanknew [colCount]="3" labelLocation="top">
+                        <dx-form *ngIf="!formReadOnly" #formbanknew [colCount]="2" labelLocation="top">
 
-                            <dxi-item template="tempstart" [colSpan]="1" [isRequired]="true">
+                            <!-- <dxi-item template="tempstart" [colSpan]="1" [isRequired]="true">
                                 <dxo-label text="บัญชีต้นทาง" [showColon]="false"></dxo-label>
                                 <dxi-validation-rule type="required" message="กรุณากรอกบัญชีต้นทาง"></dxi-validation-rule>
                             </dxi-item>
@@ -91,8 +91,14 @@
                                 <div *dxTemplate="let data of 'tempmoneydetail'">
                                     <dx-text-area [(value)]="formmoney.BANK_REMARK"></dx-text-area>
                                 </div>
-                            </dxi-item>
+                            </dxi-item> -->
 
+                            <!-- origin form -->
+                            <dxi-item itemType="group" caption="เส้นทางการโอนเงิน" [colSpan]="2">
+                                
+                            </dxi-item>
+                            <!-- Destiny form -->
+                            <dxi-item itemType="group" caption="เส้นทางการโอนเงิน" [colSpan]="2"></dxi-item>
 
                         </dx-form>
                         <div *ngIf="!formReadOnly" class="remark-table-upload">* ขนาดไฟล์ทั้งหมดไม่เกิน 5MB</div>
@@ -222,9 +228,9 @@
                     </div>
                     <div class="content-form">
                         <p style="color:red;">กรณีมีการโอนเงินมากกว่า 1 ครั้ง ให้กรอกข้อมูลใหม่ และคลิกที่ปุ่ม <b>'เพิ่มข้อมูล'</b></p>
-                        <dx-form *ngIf="!formReadOnly" #formbanknewCrytro [colCount]="3" labelLocation="top">
+                        <dx-form *ngIf="!formReadOnly" #formbanknewCrytro [colCount]="2" labelLocation="top">
 
-                            <dxi-item template="tempstart" [colSpan]="1" [isRequired]="true">
+                            <!-- <dxi-item template="tempstart" [colSpan]="1" [isRequired]="true">
                                 <dxo-label text="บัญชีต้นทาง" [showColon]="false"></dxo-label>
                                 <dxi-validation-rule type="required" message="กรุณากรอกบัญชีต้นทาง"></dxi-validation-rule>
                             </dxi-item>
@@ -281,8 +287,154 @@
                                 <div *dxTemplate="let data of 'tempmoneydetail'">
                                     <dx-text-area [(value)]="formmoney.BANK_REMARK"></dx-text-area>
                                 </div>
-                            </dxi-item>
+                            </dxi-item> -->
 
+                            <dxi-item [colSpan]="2" template="firstBankInfoTemp"></dxi-item>
+                            <div *dxTemplate="let data of 'firstBankInfoTemp'">
+                                <dx-form [colCount]="2" labelLocation="top">
+                                    <dxi-item [colSpan]="1">
+                                        <dxo-label text="เส้นทางการโอนเงินที่ 1"></dxo-label>
+                                        <dx-radio-group [dataSource]="ways" valueExpr="id" displayExpr="text" layout="horizontal" [(value)]="formCryptoFirst.WAY"></dx-radio-group>
+                                    </dxi-item>
+                                    <dxi-item [colSpan]="1">
+                                        <dxo-label text="ประเภท"></dxo-label>
+                                        <dx-select-box [dataSource]="bankdatatypeselect" [searchEnabled]="true" valueExpr="type_bank_id" displayExpr="type_name" placeholder="ประเภทบัญชี" [(value)]="formCryptoFirst.TYPE"></dx-select-box>
+                                    </dxi-item>
+                                </dx-form>
+                                <ng-container *ngIf="formCryptoFirst.TYPE == 1">
+                                    <dx-form [colCount]="2" labelLocation="top">
+                                        <dxi-item>
+                                            <dxo-label text="ธนาคาร"></dxo-label>
+                                            <dx-text-box></dx-text-box>
+                                        </dxi-item>
+                                        <dxi-item>
+                                            <dxo-label text="ชื่อบัญชี"></dxo-label>
+                                            <dx-text-box></dx-text-box>
+                                        </dxi-item>
+                                        <dxi-item>
+                                            <dxo-label text="เลขบัญชี"></dxo-label>
+                                            <dx-text-box></dx-text-box>
+                                        </dxi-item>
+                                    </dx-form>
+                                </ng-container>
+                                <ng-container *ngIf="formCryptoFirst.TYPE == 2">
+                                    <dx-form [colCount]="2" labelLocation="top">
+                                        <dxi-item>
+                                            <dxo-label text="ชื่อบัญชี"></dxo-label>
+                                            <dx-text-box></dx-text-box>
+                                        </dxi-item>
+                                        <dxi-item>
+                                            <dxo-label text="เลขพร้อมเพย์"></dxo-label>
+                                            <dx-text-box></dx-text-box>
+                                        </dxi-item>
+                                    </dx-form>
+                                </ng-container>
+                                <ng-container *ngIf="formCryptoFirst.TYPE == 3">
+                                    <dx-form [colCount]="2" labelLocation="top">
+                                        <dxi-item>
+                                            <dxo-label text="ประเภทการโอน"></dxo-label>
+                                            <dx-text-box></dx-text-box>
+                                        </dxi-item>
+                                        <dxi-item>
+                                            <dxo-label text="รหัสหรือเอกลักษณ์บัญชีปลายทาง"></dxo-label>
+                                            <dx-text-box></dx-text-box>
+                                        </dxi-item>
+                                    </dx-form>
+                                </ng-container>
+                                <ng-container *ngIf="formCryptoFirst.TYPE == 5">
+                                    <dx-form [colCount]="2" labelLocation="top">
+                                        <dxi-item>
+                                            <dxo-label text="รหัสหรือเอกลักษณ์บัญชีปลายทาง"></dxo-label>
+                                            <dx-text-box></dx-text-box>
+                                        </dxi-item>
+                                    </dx-form>
+                                </ng-container>
+                                <ng-container *ngIf="formCryptoFirst.TYPE == 6">
+                                    <dx-form [colCount]="2" labelLocation="top">
+                                        <dxi-item>
+                                            <dxo-label text="ระบุ (ในกรณีอื่นๆ)"></dxo-label>
+                                            <dx-text-box></dx-text-box>
+                                        </dxi-item>
+                                        <dxi-item>
+                                            <dxo-label text="รหัสหรือเอกลักษณ์บัญชีปลายทาง"></dxo-label>
+                                            <dx-text-box></dx-text-box>
+                                        </dxi-item>
+                                    </dx-form>
+                                </ng-container>
+                            </div>
+                            <dxi-item [colSpan]="2" template="secondBankInfoTemp"></dxi-item>
+                            <div *dxTemplate="let data of 'secondBankInfoTemp'">
+                                <dx-form [colCount]="2" labelLocation="top">
+                                    <dxi-item [colSpan]="1">
+                                        <dxo-label text="เส้นทางการโอนเงินที่ 2"></dxo-label>
+                                        <dx-radio-group [dataSource]="ways" valueExpr="id" displayExpr="text" layout="horizontal" [(value)]="formCryptoSeccond.WAY"></dx-radio-group>
+                                    </dxi-item>
+                                    <dxi-item [colSpan]="1">
+                                        <dxo-label text="ประเภท"></dxo-label>
+                                        <dx-select-box [dataSource]="bankdatatypeselect" [searchEnabled]="true" valueExpr="type_bank_id" displayExpr="type_name" placeholder="ประเภทบัญชี" [(value)]="formCryptoSeccond.TYPE"></dx-select-box>
+                                    </dxi-item>
+                                </dx-form>
+                                <ng-container *ngIf="formCryptoSeccond.TYPE == 1">
+                                    <dx-form [colCount]="2" labelLocation="top">
+                                        <dxi-item>
+                                            <dxo-label text="ธนาคาร"></dxo-label>
+                                            <dx-text-box></dx-text-box>
+                                        </dxi-item>
+                                        <dxi-item>
+                                            <dxo-label text="ชื่อบัญชี"></dxo-label>
+                                            <dx-text-box></dx-text-box>
+                                        </dxi-item>
+                                        <dxi-item>
+                                            <dxo-label text="เลขบัญชี"></dxo-label>
+                                            <dx-text-box></dx-text-box>
+                                        </dxi-item>
+                                    </dx-form>
+                                </ng-container>
+                                <ng-container *ngIf="formCryptoSeccond.TYPE == 2">
+                                    <dx-form [colCount]="2" labelLocation="top">
+                                        <dxi-item>
+                                            <dxo-label text="ชื่อบัญชี"></dxo-label>
+                                            <dx-text-box></dx-text-box>
+                                        </dxi-item>
+                                        <dxi-item>
+                                            <dxo-label text="เลขพร้อมเพย์"></dxo-label>
+                                            <dx-text-box></dx-text-box>
+                                        </dxi-item>
+                                    </dx-form>
+                                </ng-container>
+                                <ng-container *ngIf="formCryptoSeccond.TYPE == 3">
+                                    <dx-form [colCount]="2" labelLocation="top">
+                                        <dxi-item>
+                                            <dxo-label text="ประเภทการโอน"></dxo-label>
+                                            <dx-text-box></dx-text-box>
+                                        </dxi-item>
+                                        <dxi-item>
+                                            <dxo-label text="รหัสหรือเอกลักษณ์บัญชีปลายทาง"></dxo-label>
+                                            <dx-text-box></dx-text-box>
+                                        </dxi-item>
+                                    </dx-form>
+                                </ng-container>
+                                <ng-container *ngIf="formCryptoSeccond.TYPE == 5">
+                                    <dx-form [colCount]="2" labelLocation="top">
+                                        <dxi-item>
+                                            <dxo-label text="รหัสหรือเอกลักษณ์บัญชีปลายทาง"></dxo-label>
+                                            <dx-text-box></dx-text-box>
+                                        </dxi-item>
+                                    </dx-form>
+                                </ng-container>
+                                <ng-container *ngIf="formCryptoSeccond.TYPE == 6">
+                                    <dx-form [colCount]="2" labelLocation="top">
+                                        <dxi-item>
+                                            <dxo-label text="ระบุ (ในกรณีอื่นๆ)"></dxo-label>
+                                            <dx-text-box></dx-text-box>
+                                        </dxi-item>
+                                        <dxi-item>
+                                            <dxo-label text="รหัสหรือเอกลักษณ์บัญชีปลายทาง"></dxo-label>
+                                            <dx-text-box></dx-text-box>
+                                        </dxi-item>
+                                    </dx-form>
+                                </ng-container>
+                            </div>
 
                         </dx-form>
                         <div *ngIf="!formReadOnly" class="remark-table-upload">* ขนาดไฟล์ทั้งหมดไม่เกิน 5MB</div>

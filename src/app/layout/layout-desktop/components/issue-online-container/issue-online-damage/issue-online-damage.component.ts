@@ -251,6 +251,39 @@ export class IssueOnlineDamageComponent implements OnInit {
     sumvillan: any = 0.0;
     sumpersonal: any = 0.0;
     sumothermoney: any = 0.0;
+
+    // new version needed
+    ways = [
+        { id: 2, text: 'ผู้เสียหาย' },
+        { id: 1, text: 'ผู้ร้าย' },
+    ];
+    bankdatatypeselect: any = [
+        { type_bank_id: 1, type_main: 'T', type_id: 'T', type_name: 'ธนาคาร' },
+        {
+            type_bank_id: 2,
+            type_main: 'T',
+            type_id: 'P',
+            type_name: 'พร้อมเพย์',
+        },
+        {
+            type_bank_id: 3,
+            type_main: 'P',
+            type_id: 'P',
+            type_name: 'True Money',
+        },
+        { type_bank_id: 5, type_main: 'P', type_id: 'P', type_name: 'Paypal' },
+        { type_bank_id: 6, type_main: 'P', type_id: 'O', type_name: 'อื่นๆ' },
+    ];
+    formBankData : any[] = []
+    formCryptoFirst : any = {
+        WAY : undefined,
+        TYPE : undefined
+    }
+    formCryptoSeccond : any = {
+        WAY : undefined,
+        TYPE : undefined
+    }
+
     constructor(
         private router: Router,
         private servicePersonal: PersonalService,
@@ -270,7 +303,7 @@ export class IssueOnlineDamageComponent implements OnInit {
 
     ngOnInit(): void {
         this.maxDateValue.setHours(this.maxDateValue.getHours() + 1);
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(async () => {
             this.SetDefaultData();
         }, 1000);
@@ -323,8 +356,10 @@ export class IssueOnlineDamageComponent implements OnInit {
                 this.formType = "add";
                 this.formReadOnly = false;
                 this.formAddData = true;
-                if(localStorage.getItem("form-blessing")){
-                    let formCheck = JSON.parse(localStorage.getItem("form-blessing"));
+                // if(localStorage.getItem("form-blessing")){
+                    // let formCheck = JSON.parse(localStorage.getItem("form-blessing"));
+                    // let formCheck = JSON.parse(localStorage.getItem("form-blessing"));
+                    let formCheck : any = {MoneyWAY : 1};
                     if(formCheck.MoneyWAY == 1){
                         this.type1 = true;
                         this.checkTypemoney = true;
@@ -412,9 +447,9 @@ export class IssueOnlineDamageComponent implements OnInit {
                     }else{
                         this.mainConponent.NextIndex(this.mainConponent.indexTab = 0);
                     }
-                }else{
-                    this.mainConponent.NextIndex(this.mainConponent.indexTab = 0);
-                }
+                // }else{
+                //     this.mainConponent.NextIndex(this.mainConponent.indexTab = 0);
+                // }
                 if(localStorage.getItem("form-damage")){
                     this.formData = JSON.parse(localStorage.getItem("form-damage"));
                     console.log(this.formData);
