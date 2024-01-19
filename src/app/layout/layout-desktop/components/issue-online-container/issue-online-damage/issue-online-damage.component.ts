@@ -31,6 +31,7 @@ import { DatePipe } from '@angular/common';
 import { OnlineCaseService } from "src/app/services/online-case.service";
 import { FileService } from "src/app/services/file.service";
 import { IssueOnlineDamageSubComponent } from "../issue-online-damage-sub/issue-online-damage-sub.component";
+import { DxiItemComponent } from "devextreme-angular/ui/nested";
 
 @Component({
 
@@ -50,6 +51,14 @@ export class IssueOnlineDamageComponent implements OnInit {
     @ViewChild("formbanknew", { static: false }) formbanknew: DxFormComponent;
     @ViewChild("formbanknewCrytro", { static: false }) formbanknewCrytro: DxFormComponent;
     @ViewChild("formbanknewpopup", { static: false }) formbanknewpopup: DxFormComponent;
+
+    @ViewChild("formBankSelector", { static: false }) formBankSelector: DxFormComponent;
+    @ViewChild("formBankSelectorTwo", { static: false }) formBankSelectorTwo: DxFormComponent;
+    @ViewChild("formBankDetailValid", { static: false }) formBankDetailValid: DxFormComponent;
+    @ViewChild("cryptoSelectValidate", { static: false }) cryptoSelectValidate: DxFormComponent;
+    @ViewChild("cryptoFormTwo", { static: false }) cryptoFormTwo: DxFormComponent;
+    @ViewChild("cryptoValidate", { static: false }) cryptoValidate: DxFormComponent;
+
     @ViewChild("view_form", { static: false })
     scrollViewForm: DxScrollViewComponent;
     @ViewChild("selectWayOther", { static: false })
@@ -63,7 +72,7 @@ export class IssueOnlineDamageComponent implements OnInit {
     @ViewChild("selectBankInfolist", { static: false }) selectBankInfolist: DxSelectBoxComponent;
     @ViewChild("selectBankInfolistCrypto", { static: false }) selectBankInfolistCrypto: DxSelectBoxComponent;
     @ViewChild(IssueOnlineDamageSubComponent) set damagesub(damagesub: IssueOnlineDamageSubComponent) {
-        if(damagesub) {
+        if (damagesub) {
             this.damagesubConponent = damagesub;
             this.damagesubConponent.damagemain = this;
             this.indexLocker.damagesubConponent = true;
@@ -199,13 +208,13 @@ export class IssueOnlineDamageComponent implements OnInit {
         icon: "plus",
         type: "primary",
         disabled: false,
-        onClick: (e) => this.onaddbanklist(e,"crypto")
+        onClick: (e) => this.onaddbanklist(e, "crypto")
     };
     _buttonaddblankvillainCrypto = {
         icon: "plus",
         type: "primary",
         disabled: false,
-        onClick: (e) => this.onaddbanklistvilain(e,"crypto")
+        onClick: (e) => this.onaddbanklistvilain(e, "crypto")
     };
     bankListstart: any = [
         // {
@@ -231,16 +240,17 @@ export class IssueOnlineDamageComponent implements OnInit {
     wayStart: number;
     wayEnd: number;
     formmoney: any = {};
+    formCrypto: any = {}
     formmoneySub: any = {};
     listDamageBankmoey: any = [];
-    fileMoney : any;
-    fileType1 : any = [];
-    fileType2 : any = [];
+    fileMoney: any;
+    fileType1: any = [];
+    fileType2: any = [];
 
-    type1:boolean = false;
-    type2:boolean = false;
-    type3:boolean = false;
-    type4:boolean = false;
+    type1: boolean = false;
+    type2: boolean = false;
+    type3: boolean = false;
+    type4: boolean = false;
 
     isAdding = true;
     editTransferData: any = {};
@@ -271,18 +281,37 @@ export class IssueOnlineDamageComponent implements OnInit {
             type_id: 'P',
             type_name: 'True Money',
         },
+        { type_bank_id: 4, type_main: 'P', type_id: 'P', type_name: 'เงินดิจิทัล (Cryptocurrency)' },
         { type_bank_id: 5, type_main: 'P', type_id: 'P', type_name: 'Paypal' },
         { type_bank_id: 6, type_main: 'P', type_id: 'O', type_name: 'อื่นๆ' },
     ];
-    formBankData : any[] = []
-    formCryptoFirst : any = {
-        WAY : undefined,
-        TYPE : undefined
+
+    formBankData: any[] = []
+    formBankFirst: any = {
+        WAY: undefined,
+        TYPE: undefined,
     }
-    formCryptoSeccond : any = {
-        WAY : undefined,
-        TYPE : undefined
+    formBankSeccond: any = {
+        WAY: undefined,
+        TYPE: undefined,
     }
+    formBankDetail: any = {
+        TIME: undefined
+    }
+    formCryptoFirst: any = {
+        WAY: undefined,
+        TYPE: undefined,
+    }
+    formCryptoSeccond: any = {
+        WAY: undefined,
+        TYPE: undefined,
+    }
+    formCryptoDetail: any = {
+        TIME: undefined
+    }
+
+    firstLoadEditOrigin: boolean = false
+    firstLoadEditDestiny: boolean = false
 
     constructor(
         private router: Router,
@@ -297,7 +326,7 @@ export class IssueOnlineDamageComponent implements OnInit {
         private _issueFile: IssueOnlineFileUploadService,
         private datePipe: DatePipe,
         private _OnlineCaseService: OnlineCaseService,
-        private _fileService :FileService
+        private _fileService: FileService
 
     ) { }
 
@@ -309,14 +338,14 @@ export class IssueOnlineDamageComponent implements OnInit {
         }, 1000);
     }
     ConvertDateFullMonth(date) {
-        if(date){
+        if (date) {
             const d = new Date(date);
             const month = d.getMonth();
             const ddate = ` ${d.getDate()} `;
             const textMonthNow = ` ${this.monthFulltTh[month]}`;
             const year = d.getFullYear() + 543;
             return [ddate, " ", textMonthNow, " ", year].join("");
-        }else{
+        } else {
             return "ไม่ระบุ";
         }
     }
@@ -350,107 +379,106 @@ export class IssueOnlineDamageComponent implements OnInit {
             this.listDamageBank = [];
             this.listDamageBankOther = [];
             this.listDamageOther = [];
-
             if (this.mainConponent.formType === "add") {
-                localStorage.setItem("form-index","4");
+                localStorage.setItem("form-index", "4");
                 this.formType = "add";
                 this.formReadOnly = false;
                 this.formAddData = true;
                 // if(localStorage.getItem("form-blessing")){
-                    // let formCheck = JSON.parse(localStorage.getItem("form-blessing"));
-                    // let formCheck = JSON.parse(localStorage.getItem("form-blessing"));
-                    let formCheck : any = {MoneyWAY : 1};
-                    if(formCheck.MoneyWAY == 1){
-                        this.type1 = true;
-                        this.checkTypemoney = true;
-                        this.formData = {
-                            CASE_MONEY_DAMAGE: "Y",
-                            CASE_MONEY_TYPE1: "Y",
-                            CASE_MONEY_TYPE2: "N",
-                            CASE_MONEY_TYPE3: "N",
-                            CASE_MONEY_TYPE4: "N",
-                            CASE_MONEY_TYPE5: "N",
-                            CASE_MONEY_DAMAGE_VALUE: 0,
-                            CASE_MONEY: [],
-                        };
-                        this.checkboxDamage = {
-                            case_type1: true,
-                            case_type2: false,
-                            case_type3: false,
-                            case_type4: false,
-                            case_type5: false,
-                        };
-                    }
-                    else if(formCheck.MoneyWAY == 2){
-                        this.type2 = true;
-                        this.checkTypemoney = false;
-                        this.formData = {
-                            CASE_MONEY_DAMAGE: "Y",
-                            CASE_MONEY_TYPE1: "N",
-                            CASE_MONEY_TYPE2: "Y",
-                            CASE_MONEY_TYPE3: "N",
-                            CASE_MONEY_TYPE4: "N",
-                            CASE_MONEY_TYPE5: "N",
-                            CASE_MONEY_DAMAGE_VALUE: 0,
-                            CASE_MONEY: []
-                        };
-                        this.checkboxDamage = {
-                            case_type1: false,
-                            case_type2: true,
-                            case_type3: false,
-                            case_type4: false,
-                            case_type5: false,
-                        };
-                    }
-                    else if(formCheck.MoneyWAY == 3){
-                        this.type3 = true;
-                        this.checkTypemoney = false;
-                        this.checkTypemoney = false;
-                        this.formData = {
-                            CASE_MONEY_DAMAGE: "Y",
-                            CASE_MONEY_TYPE1: "N",
-                            CASE_MONEY_TYPE2: "N",
-                            CASE_MONEY_TYPE3: "N",
-                            CASE_MONEY_TYPE4: "N",
-                            CASE_MONEY_TYPE5: "Y",
-                            CASE_MONEY_DAMAGE_VALUE: 0,
-                            CASE_MONEY: []
-                        };
-                        this.checkboxDamage = {
-                            case_type1: false,
-                            case_type2: false,
-                            case_type3: false,
-                            case_type4: false,
-                            case_type5: true,
-                        };
-                    }
-                    else if(formCheck.MoneyWAY == 4){
-                        this.type4 = true;
-                        this.checkTypemoney = false;
-                        this.formData = {
-                            CASE_MONEY_DAMAGE: "Y",
-                            CASE_MONEY_TYPE1: "N",
-                            CASE_MONEY_TYPE2: "N",
-                            CASE_MONEY_TYPE3: "N",
-                            CASE_MONEY_TYPE4: "Y",
-                            CASE_MONEY_TYPE5: "N",
-                            CASE_MONEY_DAMAGE_VALUE: 0,
-                            CASE_MONEY: []
-                        };
-                        this.checkboxDamage = {
-                            case_type1: false,
-                            case_type2: false,
-                            case_type3: false,
-                            case_type4: true,
-                            case_type5: false,
-                        };
-                    }else{
-                        this.mainConponent.NextIndex(this.mainConponent.indexTab = 0);
-                    }
+                // let formCheck = JSON.parse(localStorage.getItem("form-blessing"));
+                // let formCheck = JSON.parse(localStorage.getItem("form-blessing"));
+                let formCheck: any = { MoneyWAY: 1 };
+                if (formCheck.MoneyWAY == 1) {
+                    this.type1 = true;
+                    this.checkTypemoney = true;
+                    this.formData = {
+                        CASE_MONEY_DAMAGE: "Y",
+                        CASE_MONEY_TYPE1: "Y",
+                        CASE_MONEY_TYPE2: "N",
+                        CASE_MONEY_TYPE3: "N",
+                        CASE_MONEY_TYPE4: "N",
+                        CASE_MONEY_TYPE5: "N",
+                        CASE_MONEY_DAMAGE_VALUE: 0,
+                        CASE_MONEY: [],
+                    };
+                    this.checkboxDamage = {
+                        case_type1: true,
+                        case_type2: false,
+                        case_type3: false,
+                        case_type4: false,
+                        case_type5: false,
+                    };
+                }
+                else if (formCheck.MoneyWAY == 2) {
+                    this.type2 = true;
+                    this.checkTypemoney = false;
+                    this.formData = {
+                        CASE_MONEY_DAMAGE: "Y",
+                        CASE_MONEY_TYPE1: "N",
+                        CASE_MONEY_TYPE2: "Y",
+                        CASE_MONEY_TYPE3: "N",
+                        CASE_MONEY_TYPE4: "N",
+                        CASE_MONEY_TYPE5: "N",
+                        CASE_MONEY_DAMAGE_VALUE: 0,
+                        CASE_MONEY: []
+                    };
+                    this.checkboxDamage = {
+                        case_type1: false,
+                        case_type2: true,
+                        case_type3: false,
+                        case_type4: false,
+                        case_type5: false,
+                    };
+                }
+                else if (formCheck.MoneyWAY == 3) {
+                    this.type3 = true;
+                    this.checkTypemoney = false;
+                    this.checkTypemoney = false;
+                    this.formData = {
+                        CASE_MONEY_DAMAGE: "Y",
+                        CASE_MONEY_TYPE1: "N",
+                        CASE_MONEY_TYPE2: "N",
+                        CASE_MONEY_TYPE3: "N",
+                        CASE_MONEY_TYPE4: "N",
+                        CASE_MONEY_TYPE5: "Y",
+                        CASE_MONEY_DAMAGE_VALUE: 0,
+                        CASE_MONEY: []
+                    };
+                    this.checkboxDamage = {
+                        case_type1: false,
+                        case_type2: false,
+                        case_type3: false,
+                        case_type4: false,
+                        case_type5: true,
+                    };
+                }
+                else if (formCheck.MoneyWAY == 4) {
+                    this.type4 = true;
+                    this.checkTypemoney = false;
+                    this.formData = {
+                        CASE_MONEY_DAMAGE: "Y",
+                        CASE_MONEY_TYPE1: "N",
+                        CASE_MONEY_TYPE2: "N",
+                        CASE_MONEY_TYPE3: "N",
+                        CASE_MONEY_TYPE4: "Y",
+                        CASE_MONEY_TYPE5: "N",
+                        CASE_MONEY_DAMAGE_VALUE: 0,
+                        CASE_MONEY: []
+                    };
+                    this.checkboxDamage = {
+                        case_type1: false,
+                        case_type2: false,
+                        case_type3: false,
+                        case_type4: true,
+                        case_type5: false,
+                    };
+                } else {
+                    this.mainConponent.NextIndex(this.mainConponent.indexTab = 0);
+                }
                 // }else{
                 //     this.mainConponent.NextIndex(this.mainConponent.indexTab = 0);
                 // }
-                if(localStorage.getItem("form-damage")){
+                if (localStorage.getItem("form-damage")) {
                     this.formData = JSON.parse(localStorage.getItem("form-damage"));
                     console.log(this.formData);
                     if (this.CheckArray(this.formData.CASE_MONEY)) {
@@ -491,8 +519,8 @@ export class IssueOnlineDamageComponent implements OnInit {
                 var dataForm = await this._OnlineCaseService.getbycaseId(_case_id).toPromise();
                 this.checkTypemoney = true;
                 setTimeout(async () => {
-                    if(dataForm){
-                        if(dataForm.REPUTATION !== undefined && dataForm.REPUTATION !== null){
+                    if (dataForm) {
+                        if (dataForm.REPUTATION !== undefined && dataForm.REPUTATION !== null) {
                             this.formData.CASE_MONEY_TYPE5 = 'Y';
                             this.checkboxDamage.case_type3 = true;
                             this.formData.REPUTATION = dataForm.REPUTATION;
@@ -500,9 +528,9 @@ export class IssueOnlineDamageComponent implements OnInit {
                         console.log(dataForm.REPUTATION);
                     }
                     if (this.CheckArray(_CASE_MONEY)) {
-                        if(this.mainConponent.InstId){
+                        if (this.mainConponent.InstId) {
                             this.fileMoney = await this._fileService.getCaseMoneyFile(Number(this.mainConponent.InstId)).toPromise();
-                            if(this.fileMoney){
+                            if (this.fileMoney) {
                                 this.fileType1 = this.filterFilesByType(4);
                                 this.fileType2 = this.filterFilesByType(21);
                             }
@@ -515,14 +543,14 @@ export class IssueOnlineDamageComponent implements OnInit {
                         this.formData.CASE_MONEY.forEach(element => {
                             for (const prop in element) {
                                 if (element[prop] === "0001-01-01T00:00:00") {
-                                   element[prop] = null;
+                                    element[prop] = null;
                                 }
                             }
                             if (element.CASE_MONEY_CHANNEL_TYPE == "T") {
-                                    element.MONNEY_DOC = [];
-                                    element.index = indexType1;
-                                    element.MONNEY_DOC.push(this.getFilesByIndex(this.fileType1, indexType1));
-                                    indexType1++;
+                                element.MONNEY_DOC = [];
+                                element.index = indexType1;
+                                element.MONNEY_DOC.push(this.getFilesByIndex(this.fileType1, indexType1));
+                                indexType1++;
                             }
                             if (element.CASE_MONEY_CHANNEL_TYPE == "O") {
                                 element.BANK_OTHER_ATTACHMENT = [];
@@ -537,12 +565,12 @@ export class IssueOnlineDamageComponent implements OnInit {
                         });
 
                         await this.SetDataToListBank(this.formData.CASE_MONEY);
-                    }else{
+                    } else {
                         this.formData.CASE_MONEY_DAMAGE = "N";
                     }
                 }, 1000);
             }
-
+            this.setCryptoFormDefualt()
             this.isLoading = false;
         } catch (error) {
             this.SetDefaultData();
@@ -560,12 +588,12 @@ export class IssueOnlineDamageComponent implements OnInit {
     async SetDataToListBank(data) {
         for (const item of data) {
             if (item.CASE_MONEY_CHANNEL_TYPE === "T") {
-                if(item.BANK_MONEY_OTHER_NAME === "เงินดิจิทัล (Cryptocurrency)"){
+                if (item.BANK_MONEY_OTHER_NAME === "เงินดิจิทัล (Cryptocurrency)") {
                     this.formData.CASE_MONEY_TYPE4 = "Y"
                     this.checkboxDamage.case_type4 = true;
                     this.listDamageCrytro.push(item);
 
-                }else{
+                } else {
                     this.formData.CASE_MONEY_TYPE1 = "Y"
                     this.checkboxDamage.case_type1 = true;
                     this.listDamageBank.push(item);
@@ -1029,82 +1057,140 @@ export class IssueOnlineDamageComponent implements OnInit {
 
     onresetbanklist() {
         this.isAdding = true;
-        this.editTransferData = {}
-        var backupformmoney = this.formmoney;
-        this.formmoney = {};
+        // this.editTransferData = {}
+        // var backupformmoney = this.formmoney;
+        // this.formmoney = {};
 
-        this.formmoney.BANK_LIST_ID = backupformmoney.BANK_LIST_ID
-        this.formmoney.BANK_ORIGIN_LIST_ID = backupformmoney.BANK_ORIGIN_LIST_ID
-        this.formmoney.BANK_TRANSFER_DATE = backupformmoney.BANK_TRANSFER_DATE
-        this.formmoney.BANK_DAMAGE_VALUE_UNIT = backupformmoney.BANK_DAMAGE_VALUE_UNIT
-        this.formmoney.TYPE_BANK_ID = backupformmoney.TYPE_BANK_ID
+        // this.formmoney.BANK_LIST_ID = backupformmoney.BANK_LIST_ID
+        // this.formmoney.BANK_ORIGIN_LIST_ID = backupformmoney.BANK_ORIGIN_LIST_ID
+        // this.formmoney.BANK_TRANSFER_DATE = backupformmoney.BANK_TRANSFER_DATE
+        // this.formmoney.BANK_DAMAGE_VALUE_UNIT = backupformmoney.BANK_DAMAGE_VALUE_UNIT
+        // this.formmoney.TYPE_BANK_ID = backupformmoney.TYPE_BANK_ID
 
-        if (this.formmoney.TYPE_BANK_ID == 1 || this.formmoney.TYPE_BANK_ID == 2) {
-            this.formmoney.BANK_DAMAGE_VALUE_UNIT = "บาท";
-        } else {
-            this.formmoney.BANK_DAMAGE_VALUE_UNIT = "";
-        }
-        this.now = null;
-        this.listUploadFileformmoney = [];
-        this.listUploadFileformCrypto = [];
+        // if (this.formmoney.TYPE_BANK_ID == 1 || this.formmoney.TYPE_BANK_ID == 2) {
+        //     this.formmoney.BANK_DAMAGE_VALUE_UNIT = "บาท";
+        // } else {
+        //     this.formmoney.BANK_DAMAGE_VALUE_UNIT = "";
+        // }
+        // this.now = null;
+        // this.listUploadFileformmoney = [];
+        // this.listUploadFileformCrypto = [];
+        this.setBankFormDefualt()
     }
 
-    async OS_ItemDamageSubEdit(index = null, data = {} as any) {
+    OS_ItemDamageSubEdit(index = null) {
+        // this.isAdding = false;
+
+        // this.formmoney.BANK_ORIGIN_LIST_ID = data.BANK_ORIGIN_LIST_ID;
+        // this.formmoney.BANK_LIST_ID = data.BANK_LIST_ID;
+        // this.formmoney.BANK_TRANSFER_DATE = data.BANK_TRANSFER_DATE;
+        // this.formmoney.BANK_TRANSFER_TIME = data.BANK_TRANSFER_TIME;
+        // this.formmoney.BANK_DAMAGE_VALUE = data.BANK_DAMAGE_VALUE;
+        // this.formmoney.DIRECTION = data.DIRECTION;
+        // this.formmoney.BANK_REMARK = data.BANK_REMARK;
+        // this.formmoney.BANK_DAMAGE_VALUE_UNIT = data.BANK_DAMAGE_VALUE_UNIT;
+        // this.formmoney.BANK_DAMAGE_VALUE_BAHT = data.BANK_DAMAGE_VALUE_BAHT;
+        // this.formmoney.CASE_MONEY_CHANNEL_TYPE = "T";
+        // this.formmoney.MONNEY_DOC = data.MONNEY_DOC;
+        // if (data.MONNEY_DOC.length > 0) {
+        //     this.listUploadFileformmoney.push(data.MONNEY_DOC[0]);
+        // }
+        // const date = this.convertDate(this.formmoney.BANK_TRANSFER_DATE, this.formmoney.BANK_TRANSFER_TIME);
+        // this.now = new Date(date[0], date[1], date[2], date[3], date[4], date[5]);
         this.isAdding = false;
+        const data = this.listDamageBank[index]
         this.editTransferData = { ...data, index }
+        this.formBankFirst.WAY = data.WAYS
+        this.formBankFirst.TYPE = data.TYPE_BANK_ID
+        this.formBankSeccond.WAY = data.WAYS_ORIGIN
+        this.formBankSeccond.TYPE = data.TYPE_DESTINATION_BANK_ID
+        setTimeout(() => {
+            this.formBankFirst.BANK_ID = data.BANK_ORIGIN_ID
+            this.formBankFirst.BANK_ACCOUNT_NAME = data.BANK_ORIGIN_ACCOUNT_NAME
+            this.formBankFirst.BANK_ACCOUNT_NUMBER = data.BANK_ORIGIN_ACCOUNT
+            this.formBankFirst.TRUE_WAY = data.TRUEMONEY_OG_TYPE
 
-        this.formmoney.BANK_ORIGIN_LIST_ID = data.BANK_ORIGIN_LIST_ID;
-        this.formmoney.BANK_LIST_ID = data.BANK_LIST_ID;
-        this.formmoney.BANK_TRANSFER_DATE = data.BANK_TRANSFER_DATE;
-        this.formmoney.BANK_TRANSFER_TIME = data.BANK_TRANSFER_TIME;
-        this.formmoney.BANK_DAMAGE_VALUE = data.BANK_DAMAGE_VALUE;
-        this.formmoney.DIRECTION = data.DIRECTION;
-        this.formmoney.BANK_REMARK = data.BANK_REMARK;
-        this.formmoney.BANK_DAMAGE_VALUE_UNIT = data.BANK_DAMAGE_VALUE_UNIT;
-        this.formmoney.BANK_DAMAGE_VALUE_BAHT = data.BANK_DAMAGE_VALUE_BAHT;
-        this.formmoney.CASE_MONEY_CHANNEL_TYPE = "T";
-        this.formmoney.MONNEY_DOC = data.MONNEY_DOC;
-        if (data.MONNEY_DOC.length > 0) {
-            this.listUploadFileformmoney.push(data.MONNEY_DOC[0]);
+            this.formBankSeccond.BANK_ID = data.BANK_ID
+            this.formBankSeccond.BANK_ACCOUNT_NAME = data.BANK_ACCOUNT_NAME
+            this.formBankSeccond.BANK_ACCOUNT_NUMBER = data.BANK_ACCOUNT
+            this.formBankSeccond.TRUE_WAY = data.TRUEMONEY_DES_TYPE
+        }, 500)
+        const date = this.convertDate(data.BANK_TRANSFER_DATE, data.BANK_TRANSFER_TIME)
+        this.formBankDetail = {
+            TIME: new Date(date[0], date[1], date[2], date[3], date[4], date[5]),
+            UNIT: data.BANK_DAMAGE_VALUE_UNIT,
+            VALUE_UNIT: data.BANK_DAMAGE_VALUE
         }
-        const date = this.convertDate(this.formmoney.BANK_TRANSFER_DATE, this.formmoney.BANK_TRANSFER_TIME);
-        this.now = new Date(date[0], date[1], date[2], date[3], date[4], date[5]);
+        if (data.MONNEY_DOC.length > 0) {
+            this.listUploadFileformmoney.push(data.MONNEY_DOC[0])
+        }
     }
 
-    async ItemDamageSubEdit(index = null, data = {} as any) {
-        this.popupType = "edit";
-        this.popupIndex = index;
-        this.popup = true;
-        this.reloadDataPopup = true;
-        this.popupFormData = {};
-        const setData = {};
-        const d = data;
-        for (const key in d) {
-            if (d[key] !== null && d[key] !== undefined) {
-                if (key === "BANK_DETAIL") {
-                    await this.SetDataSubFormList(d[key]);
-                } else if (key === "BANK_OTHER_ATTACHMENT") {
-                    await this.SetDataSubFormListOther(d[key]);
-                } else if (key === "BANK_DAMAGE_VALUE") {
-                    setData[key] = d[key] ?? 0;
+    async ItemDamageSubEdit(index = null) {
+        // this.popupType = "edit";
+        // this.popupIndex = index;
+        // this.popup = true;
+        // this.reloadDataPopup = true;
+        // this.popupFormData = {};
+        // const setData = {};
+        // const d = data;
+        // for (const key in d) {
+        //     if (d[key] !== null && d[key] !== undefined) {
+        //         if (key === "BANK_DETAIL") {
+        //             await this.SetDataSubFormList(d[key]);
+        //         } else if (key === "BANK_OTHER_ATTACHMENT") {
+        //             await this.SetDataSubFormListOther(d[key]);
+        //         } else if (key === "BANK_DAMAGE_VALUE") {
+        //             setData[key] = d[key] ?? 0;
 
-                    this.popupFormDataDamageBuffer = d[key] ?? 0;
-                } else {
-                    setData[key] = d[key];
-                }
-            }
+        //             this.popupFormDataDamageBuffer = d[key] ?? 0;
+        //         } else {
+        //             setData[key] = d[key];
+        //         }
+        //     }
+        // }
+        // this.popupFormData = setData;
+        // if (this.popupFormData.CASE_MONEY_CHANNEL_TYPE === "T") {
+        //     this.maxSizeBuffer = this.limitSizeBank;
+        // } else if (this.popupFormData.CASE_MONEY_CHANNEL_TYPE === "P") {
+        //     this.maxSizeBuffer = this.limitSizeBankOther;
+        // } else if (this.popupFormData.CASE_MONEY_CHANNEL_TYPE === "O") {
+        //     this.maxSizeBuffer = this.limitSizeOther;
+        // }
+        this.isAdding = false;
+        const data = this.listDamageCrytro[index]
+        this.editTransferData = { ...data, index }
+        this.formCryptoFirst = {
+            WAY: data.WAYS,
+            TYPE: data.TYPE_BANK_ID,
         }
-        this.popupFormData = setData;
-        if (this.popupFormData.CASE_MONEY_CHANNEL_TYPE === "T") {
-            this.maxSizeBuffer = this.limitSizeBank;
-        } else if (this.popupFormData.CASE_MONEY_CHANNEL_TYPE === "P") {
-            this.maxSizeBuffer = this.limitSizeBankOther;
-        } else if (this.popupFormData.CASE_MONEY_CHANNEL_TYPE === "O") {
-            this.maxSizeBuffer = this.limitSizeOther;
+        this.formCryptoSeccond = {
+            WAY: data.WAYS_ORIGIN,
+            TYPE: data.TYPE_DESTINATION_BANK_ID,
+        }
+        setTimeout(() => {
+            this.formCryptoFirst.BANK_ID = data.BANK_ORIGIN_ID
+            this.formCryptoFirst.BANK_ACCOUNT_NAME = data.BANK_ORIGIN_ACCOUNT_NAME
+            this.formCryptoFirst.BANK_ACCOUNT_NUMBER = data.BANK_ORIGIN_ACCOUNT
+            this.formCryptoFirst.TRUE_WAY = data.TRUEMONEY_OG_TYPE
+
+            this.formCryptoSeccond.BANK_ID = data.BANK_ID
+            this.formCryptoSeccond.BANK_ACCOUNT_NAME = data.BANK_ACCOUNT_NAME
+            this.formCryptoSeccond.BANK_ACCOUNT_NUMBER = data.BANK_ACCOUNT
+            this.formCryptoSeccond.TRUE_WAY = data.TRUEMONEY_DES_TYPE
+        }, 500)
+        const date = this.convertDate(data.BANK_TRANSFER_DATE, data.BANK_TRANSFER_TIME)
+        this.formCryptoDetail = {
+            TIME: new Date(date[0], date[1], date[2], date[3], date[4], date[5]),
+            UNIT: data.BANK_DAMAGE_VALUE_UNIT,
+            VALUE_UNIT: data.BANK_DAMAGE_VALUE
+        }
+        if (data.MONNEY_DOC.length > 0) {
+            this.listUploadFileformCrypto.push(data.MONNEY_DOC[0])
         }
     }
     CheckArray(data: any = []) {
-        if(data){
+        if (data) {
             const countArray = data.length ?? 0;
             if (countArray > 0) {
                 return true;
@@ -1345,7 +1431,7 @@ export class IssueOnlineDamageComponent implements OnInit {
         }
         return sumSize;
     }
-    ItemDamageSubDelete(index, subIndex, type ,typeSub="") {
+    ItemDamageSubDelete(index, subIndex, type, typeSub = "") {
         Swal.fire({
             title: "ยืนยันการลบไฟล์?",
             text: " ",
@@ -1358,7 +1444,7 @@ export class IssueOnlineDamageComponent implements OnInit {
         }).then((result) => {
             if (result.isConfirmed) {
                 if (type === "T") {
-                    if(typeSub === 'crytro'){
+                    if (typeSub === 'crytro') {
                         const dmValueItem = this.listDamageCrytro[index].BANK_DAMAGE_VALUE ?? 0;
                         const numfloat = parseFloat(dmValueItem);
                         if (dmValueItem > 0) {
@@ -1370,7 +1456,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                             this.limitSizeBank -= this.listDamageCrytro[index].BANK_DOC.size ?? 0;
                         }
                         this.listDamageCrytro.splice(index, 1);
-                    }else{
+                    } else {
                         const dmValueItem = this.listDamageBank[index].BANK_DAMAGE_VALUE ?? 0;
                         const numfloat = parseFloat(dmValueItem);
                         if (dmValueItem > 0) {
@@ -1740,11 +1826,11 @@ export class IssueOnlineDamageComponent implements OnInit {
             this.mainConponent.formDataAll.formDamage = {};
             this.mainConponent.formDataAll.formDamage = this.formData;
             this.mainConponent.formDataAll.formDamage.CASE_MONEY = listMoney;
-            this.mainConponent.formDataAll.formDamage.listDamageBank =this.listDamageBank;
+            this.mainConponent.formDataAll.formDamage.listDamageBank = this.listDamageBank;
             this.mainConponent.formDataAll.formDamage.listDamageBankOther = this.listDamageBankOther;
             this.mainConponent.formDataAll.formDamage.listDamageOther = this.listDamageOther;
             this.mainConponent.formDataAll.formDamage.listDamageCrytro = this.listDamageCrytro;
-            localStorage.setItem("form-damage",JSON.stringify(this.formData));
+            localStorage.setItem("form-damage", JSON.stringify(this.formData));
             console.log(this.formData);
         }
         if (e != 'tab') {
@@ -1927,12 +2013,12 @@ export class IssueOnlineDamageComponent implements OnInit {
         }
     }
 
-    onaddbanklist(e,type = "bank") {
+    onaddbanklist(e, type = "bank") {
         this.popupbanklist = e;
         this.damagesubConponent.SetDefaultData(type);
     }
 
-    onaddbanklistvilain(e,type = "bank") {
+    onaddbanklistvilain(e, type = "bank") {
         this.popupbanklistvillain = e;
         this.damagesubConponent.SetDefaultData(type);
     }
@@ -1991,9 +2077,9 @@ export class IssueOnlineDamageComponent implements OnInit {
         // }else if(value.ways === 2){
         //     value["SHOW_NAME"] += '(ผู้เสียหาย)';
         // }
-        if(value.TYPE_NAME === 'เงินดิจิทัล (Cryptocurrency)'){
+        if (value.TYPE_NAME === 'เงินดิจิทัล (Cryptocurrency)') {
             this.bankCrytroListstart.push(value);
-        }else{
+        } else {
             this.bankListstart.push(value);
         }
         // this.formmoney.BANK_ORIGIN_LIST_ID = value["BANK_ORIGIN_ID"]
@@ -2051,198 +2137,244 @@ export class IssueOnlineDamageComponent implements OnInit {
             value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
         }
         console.log(value.type);
-        if(value.type === 'crypto'){
+        if (value.type === 'crypto') {
             this.bankCrytroListend.push(value);
-        }else{
+        } else {
             this.bankListend.push(value);
         }
         this.formmoney.BANK_LIST_ID = value["SHOW_NAME"];
 
     }
-    onsavelistbanklist(e,type="") {
-        if (this.wayStart == this.wayEnd) {
-            Swal.fire({
-                title: "ผิดพลาด!",
-                html: "บัญชีต้นทางและปลายทางไม่ถูกต้อง" + '<br>' + "กรุณาตรวจสอบเส้นทางการทำธุรกรรมให้ถูกต้อง",
-                icon: "warning",
-                confirmButtonText: "Ok",
-            }).then(() => {
-                this.formmoney.BANK_LIST_ID = null;
-                this.formmoney.BANK_ORIGIN_LIST_ID = null;
-            });
-            return
+
+    covertShowName(data: any) {
+        if (data.TYPE == 1) {
+            const firstPart = `(${this.bankdatatypeselect.find((item: any) => item.type_bank_id == data.TYPE).type_name} ${this.ways.find((item => item.id == data.WAY)).text})`
+            const seccondPart = `${this.bankInfoListOrigin.find((item: any) => item.BANK_ID == data.BANK_ID).BANK_NAME} : ${data.BANK_ACCOUNT_NUMBER}(${data.BANK_ACCOUNT_NAME})`
+            return `${firstPart} ${seccondPart}`
+        } else if (data.TYPE == 2) {
+            const firstPart = `(${this.bankdatatypeselect.find((item: any) => item.type_bank_id == data.TYPE).type_name} ${this.ways.find((item => item.id == data.WAY)).text})`
+            const seccondPart = `${data.BANK_ACCOUNT_NUMBER}(${data.BANK_ACCOUNT_NAME})`
+            return `${firstPart} ${seccondPart}`
+        } else if (data.TYPE == 3) {
+            const firstPart = `(${this.bankdatatypeselect.find((item: any) => item.type_bank_id == data.TYPE).type_name} ${this.ways.find((item => item.id == data.WAY)).text})`
+            const seccondPart = `${data.BANK_ACCOUNT_NUMBER}(${this.selectNumberBankType.find((item) => item.ID == data.TRUE_WAY).TEXT})`
+            return `${firstPart} ${seccondPart}`
+        } else if (data.TYPE == 4) {
+            const firstPart = `(${this.bankdatatypeselect.find((item: any) => item.type_bank_id == data.TYPE).type_name} ${this.ways.find((item => item.id == data.WAY)).text})`
+            const seccondPart = `${data.BANK_ACCOUNT_NUMBER}`
+            return `${firstPart} ${seccondPart}`
+        } else if (data.TYPE == 5) {
+            const firstPart = `(${this.bankdatatypeselect.find((item: any) => item.type_bank_id == data.TYPE).type_name} ${this.ways.find((item => item.id == data.WAY)).text})`
+            const seccondPart = `${data.BANK_ACCOUNT_NUMBER}`
+            return `${firstPart} ${seccondPart}`
+        } else if (data.TYPE == 6) {
+            const firstPart = `(${this.bankdatatypeselect.find((item: any) => item.type_bank_id == data.TYPE).type_name} ${this.ways.find((item => item.id == data.WAY)).text})`
+            const seccondPart = `${data.BANK_ACCOUNT_NUMBER}(${data.BANK_ACCOUNT_NAME})`
+            return `${firstPart} ${seccondPart}`
         }
-        if(type === "crytro"){
-            if (this.formbanknewCrytro.instance.validate().isValid) {
-                this.formmoney.BANK_ORIGIN_ACCOUNT = this.formmoneySub.BANK_ORIGIN_ACCOUNT
-                this.formmoney.BANK_ORIGIN_ACCOUNT_NAME = this.formmoneySub.BANK_ORIGIN_ACCOUNT_NAME
-                this.formmoney.BANK_ORIGIN_ID = this.formmoneySub.BANK_ORIGIN_ID
-                this.formmoney.BANK_ORIGIN_NAME = this.formmoneySub.BANK_ORIGIN_NAME
-                this.formmoney.SHOW_NAME = this.formmoneySub.SHOW_NAME
-                this.formmoney.TYPE_BANK_ID = this.formmoneySub.TYPE_BANK_ID
-                this.formmoney.WAYS_ORIGIN = this.formmoneySub.WAYS_ORIGIN
-                this.formmoney.BANK_ORIGIN_MONEY_REMARK = this.formmoneySub.BANK_ORIGIN_MONEY_REMARK;
+        return null
+    }
 
-                this.formmoney.CASE_MONEY_CHANNEL_TYPE = this.formmoneySub.CASE_MONEY_CHANNEL_TYPE
-                this.formmoney.CASE_MONEY_BANK_TRANFER = this.formmoneySub.CASE_MONEY_BANK_TRANFER
-                this.formmoney.CASE_MONEY_BANK_TRANFER_NAME = this.formmoneySub.CASE_MONEY_BANK_TRANFER_NAME
+    onsavelistbanklist(e, type: string) {
+        
 
-                this.formmoney.BANK_MONEY_OTHER_ID = this.formmoneySub.BANK_MONEY_OTHER_ID
-                this.formmoney.BANK_MONEY_OTHER_NAME = this.formmoneySub.BANK_MONEY_OTHER_NAME
+        if (type === "crytro") {
+            const valitfirstform = this.cryptoSelectValidate.instance.validate()
+            const validseccondform = this.cryptoFormTwo.instance.validate()
+            const validateDetail = this.cryptoValidate.instance.validate()
 
-                this.formmoney.BANK_ACCOUNT = this.formmoneySub.BANK_ACCOUNT
-                this.formmoney.BANK_ACCOUNT_NAME = this.formmoneySub.BANK_ACCOUNT_NAME
-                this.formmoney.BANK_ID = this.formmoneySub.BANK_ID
-                this.formmoney.BANK_NAME = this.formmoneySub.BANK_NAME
-                this.formmoney.SHOW_NAME_END = this.formmoneySub.SHOW_NAME_END
-                this.formmoney.WAYS_DESTINATION = this.formmoneySub.WAYS_DESTINATION
-                this.formmoney.BANK_MONEY_REMARK = this.formmoneySub.BANK_MONEY_REMARK;
-
-                this.formmoney.CASE_MONEY_CHANNEL_TYPE = "T";
-                this.formmoney.MONNEY_DOC = [];
-                if (this.listUploadFileformCrypto.length > 0) {
-                    this.formmoney.MONNEY_DOC.push(this.listUploadFileformCrypto[0]);
-                }
-                this.listDamageCrytro.push(this.formmoney);
-                console.log(this.formmoney);
-                const backupformmoney = this.formmoney;
-                this.formmoney = {};
-
-                this.formmoney.BANK_LIST_ID = backupformmoney.BANK_LIST_ID;
-                this.formmoney.BANK_ORIGIN_LIST_ID = backupformmoney.BANK_ORIGIN_LIST_ID;
-                this.formmoney.BANK_TRANSFER_DATE = backupformmoney.BANK_TRANSFER_DATE;
-                this.formmoney.BANK_TRANSFER_TIME = backupformmoney.BANK_TRANSFER_TIME;
-                this.formmoney.BANK_DAMAGE_VALUE_UNIT = backupformmoney.BANK_DAMAGE_VALUE_UNIT;
-                this.formmoney.TYPE_BANK_ID = backupformmoney.TYPE_BANK_ID;
-                this.formmoney.WAYS_ORIGIN = backupformmoney.WAYS_ORIGIN;
-
-                this.formmoney.BANK_ORIGIN_ACCOUNT = backupformmoney.BANK_ORIGIN_ACCOUNT;
-                this.formmoney.BANK_ORIGIN_ACCOUNT_NAME = backupformmoney.BANK_ORIGIN_ACCOUNT_NAME;
-                this.formmoney.BANK_ORIGIN_ID = backupformmoney.BANK_ORIGIN_ID;
-                this.formmoney.BANK_ORIGIN_NAME = backupformmoney.BANK_ORIGIN_NAME;
-                this.formmoney.SHOW_NAME = backupformmoney.SHOW_NAME;
-                this.formmoney.BANK_ORIGIN_MONEY_REMARK = backupformmoney.BANK_ORIGIN_MONEY_REMARK;
-
-
-                this.formmoney.BANK_ACCOUNT = backupformmoney.BANK_ACCOUNT;
-                this.formmoney.BANK_ACCOUNT_NAME = backupformmoney.BANK_ACCOUNT_NAME;
-                this.formmoney.BANK_ID = backupformmoney.BANK_ID;
-                this.formmoney.BANK_NAME = backupformmoney.BANK_NAME;
-                this.formmoney.SHOW_NAME_END = backupformmoney.SHOW_NAME_END;
-                this.formmoney.WAYS_DESTINATION = backupformmoney.WAYS_DESTINATION;
-                this.formmoney.BANK_MONEY_REMARK = backupformmoney.BANK_MONEY_REMARK;
-                if (backupformmoney.TYPE_BANK_ID == 1) {
-                    this.formmoney.CASE_MONEY_CHANNEL_TYPE = backupformmoney.TYPE_MAIN;
-                    this.formmoney.CASE_MONEY_BANK_TRANFER = backupformmoney.TYPE_ID;
-                    this.formmoney.CASE_MONEY_BANK_TRANFER_NAME = backupformmoney.TYPE_NAME;
-                } else {
-                    this.formmoney.CASE_MONEY_CHANNEL_TYPE = backupformmoney.TYPE_MAIN;
-                    this.formmoney.BANK_MONEY_OTHER_ID = backupformmoney.TYPE_ID;
-                    this.formmoney.BANK_MONEY_OTHER_NAME = backupformmoney.TYPE_NAME;
-
-                }
-
-
-                if (this.formmoney.TYPE_BANK_ID == 1 || this.formmoney.TYPE_BANK_ID == 2) {
-                    this.formmoney.BANK_DAMAGE_VALUE_UNIT = "บาท";
-                } else {
-                    this.formmoney.BANK_DAMAGE_VALUE_UNIT = "";
-                }
-
-
-                this.listUploadFileformCrypto.splice(0, 1);
-                this.calulatemoney([...this.listDamageCrytro, ...this.listDamageBank]);
-                this.now = null;
+            if(valitfirstform.brokenRules.length > 1 || validseccondform.brokenRules.length > 1 || validateDetail.brokenRules.length > 1){
+                Swal.fire({
+                    title : 'ข้อมูลผิดพลาด',
+                    html : 'กรุณากรอกข้อมูลให้ครบ',
+                    icon : 'warning',
+                    confirmButtonText : 'ตกลง'
+                })
+                return
             }
-        }else{
-            if (this.formbanknew.instance.validate().isValid) {
-                this.formmoney.BANK_ORIGIN_ACCOUNT = this.formmoneySub.BANK_ORIGIN_ACCOUNT
-                this.formmoney.BANK_ORIGIN_ACCOUNT_NAME = this.formmoneySub.BANK_ORIGIN_ACCOUNT_NAME
-                this.formmoney.BANK_ORIGIN_ID = this.formmoneySub.BANK_ORIGIN_ID
-                this.formmoney.BANK_ORIGIN_NAME = this.formmoneySub.BANK_ORIGIN_NAME
-                this.formmoney.SHOW_NAME = this.formmoneySub.SHOW_NAME
-                this.formmoney.TYPE_BANK_ID = this.formmoneySub.TYPE_BANK_ID
-                this.formmoney.WAYS_ORIGIN = this.formmoneySub.WAYS_ORIGIN
-                this.formmoney.BANK_ORIGIN_MONEY_REMARK = this.formmoneySub.BANK_ORIGIN_MONEY_REMARK;
-
-                this.formmoney.CASE_MONEY_CHANNEL_TYPE = this.formmoneySub.CASE_MONEY_CHANNEL_TYPE
-                this.formmoney.CASE_MONEY_BANK_TRANFER = this.formmoneySub.CASE_MONEY_BANK_TRANFER
-                this.formmoney.CASE_MONEY_BANK_TRANFER_NAME = this.formmoneySub.CASE_MONEY_BANK_TRANFER_NAME
-
-                this.formmoney.BANK_MONEY_OTHER_ID = this.formmoneySub.BANK_MONEY_OTHER_ID
-                this.formmoney.BANK_MONEY_OTHER_NAME = this.formmoneySub.BANK_MONEY_OTHER_NAME
-
-                this.formmoney.BANK_ACCOUNT = this.formmoneySub.BANK_ACCOUNT
-                this.formmoney.BANK_ACCOUNT_NAME = this.formmoneySub.BANK_ACCOUNT_NAME
-                this.formmoney.BANK_ID = this.formmoneySub.BANK_ID
-                this.formmoney.BANK_NAME = this.formmoneySub.BANK_NAME
-                this.formmoney.SHOW_NAME_END = this.formmoneySub.SHOW_NAME_END
-                this.formmoney.WAYS_DESTINATION = this.formmoneySub.WAYS_DESTINATION
-                this.formmoney.BANK_MONEY_REMARK = this.formmoneySub.BANK_MONEY_REMARK;
-
-                this.formmoney.CASE_MONEY_CHANNEL_TYPE = "T";
-                this.formmoney.MONNEY_DOC = [];
-                if (this.listUploadFileformmoney.length > 0) {
-                    this.formmoney.MONNEY_DOC.push(this.listUploadFileformmoney[0]);
-                }
-                this.listDamageBank.push(this.formmoney);
-                const backupformmoney = this.formmoney;
-                this.formmoney = {};
-
-                this.formmoney.BANK_LIST_ID = backupformmoney.BANK_LIST_ID;
-                this.formmoney.BANK_ORIGIN_LIST_ID = backupformmoney.BANK_ORIGIN_LIST_ID;
-                this.formmoney.BANK_TRANSFER_DATE = backupformmoney.BANK_TRANSFER_DATE;
-                this.formmoney.BANK_TRANSFER_TIME = backupformmoney.BANK_TRANSFER_TIME;
-                this.formmoney.BANK_DAMAGE_VALUE_UNIT = backupformmoney.BANK_DAMAGE_VALUE_UNIT;
-                this.formmoney.TYPE_BANK_ID = backupformmoney.TYPE_BANK_ID;
-                this.formmoney.WAYS_ORIGIN = backupformmoney.WAYS_ORIGIN;
-
-                this.formmoney.BANK_ORIGIN_ACCOUNT = backupformmoney.BANK_ORIGIN_ACCOUNT;
-                this.formmoney.BANK_ORIGIN_ACCOUNT_NAME = backupformmoney.BANK_ORIGIN_ACCOUNT_NAME;
-                this.formmoney.BANK_ORIGIN_ID = backupformmoney.BANK_ORIGIN_ID;
-                this.formmoney.BANK_ORIGIN_NAME = backupformmoney.BANK_ORIGIN_NAME;
-                this.formmoney.SHOW_NAME = backupformmoney.SHOW_NAME;
-                this.formmoney.BANK_ORIGIN_MONEY_REMARK = backupformmoney.BANK_ORIGIN_MONEY_REMARK;
-
-
-                this.formmoney.BANK_ACCOUNT = backupformmoney.BANK_ACCOUNT;
-                this.formmoney.BANK_ACCOUNT_NAME = backupformmoney.BANK_ACCOUNT_NAME;
-                this.formmoney.BANK_ID = backupformmoney.BANK_ID;
-                this.formmoney.BANK_NAME = backupformmoney.BANK_NAME;
-                this.formmoney.SHOW_NAME_END = backupformmoney.SHOW_NAME_END;
-                this.formmoney.WAYS_DESTINATION = backupformmoney.WAYS_DESTINATION;
-                this.formmoney.BANK_MONEY_REMARK = backupformmoney.BANK_MONEY_REMARK;
-                if (backupformmoney.TYPE_BANK_ID == 1) {
-                    this.formmoney.CASE_MONEY_CHANNEL_TYPE = backupformmoney.TYPE_MAIN;
-                    this.formmoney.CASE_MONEY_BANK_TRANFER = backupformmoney.TYPE_ID;
-                    this.formmoney.CASE_MONEY_BANK_TRANFER_NAME = backupformmoney.TYPE_NAME;
-                } else {
-                    this.formmoney.CASE_MONEY_CHANNEL_TYPE = backupformmoney.TYPE_MAIN;
-                    this.formmoney.BANK_MONEY_OTHER_ID = backupformmoney.TYPE_ID;
-                    this.formmoney.BANK_MONEY_OTHER_NAME = backupformmoney.TYPE_NAME;
-
-                }
-
-
-                if (this.formmoney.TYPE_BANK_ID == 1 || this.formmoney.TYPE_BANK_ID == 2) {
-                    this.formmoney.BANK_DAMAGE_VALUE_UNIT = "บาท";
-                } else {
-                    this.formmoney.BANK_DAMAGE_VALUE_UNIT = "";
-                }
-
-
-                this.listUploadFileformmoney.splice(0, 1);
-                this.calulatemoney([...this.listDamageCrytro, ...this.listDamageBank]);
-                this.now = null;
+            if(valitfirstform.brokenRules.length == 1){
+                Swal.fire({
+                    title : 'ข้อมูลผิดพลาด',
+                    html : `${valitfirstform.brokenRules[0].message}`,
+                    icon : 'warning',
+                    confirmButtonText : 'ตกลง'
+                })
+                return
+            } else if (validseccondform.brokenRules.length == 1){
+                Swal.fire({
+                    title : 'ข้อมูลผิดพลาด',
+                    html : `${validseccondform.brokenRules[0].message}`,
+                    icon : 'warning',
+                    confirmButtonText : 'ตกลง'
+                })
+                return
+            } else if (validateDetail.brokenRules.length == 1){
+                Swal.fire({
+                    title : 'ข้อมูลผิดพลาด',
+                    html : `${validateDetail.brokenRules[0].message}`,
+                    icon : 'warning',
+                    confirmButtonText : 'ตกลง'
+                })
+                return
             }
+
+            const BANK_NAME = this.formCryptoSeccond.BANK_ID ? this.bankInfoListOrigin.find((item: any) => item.BANK_ID == this.formBankSeccond.BANK_ID).BANK_NAME : null
+            const BANK_ORIGIN_NAME = this.formCryptoFirst.BANK_ID ? this.bankInfoListOrigin.find((item: any) => item.BANK_ID == this.formBankFirst.BANK_ID).BANK_NAME : null
+            const builtTime = this.formCryptoDetail.TIME.toString().split(" ")
+            const MONEY_DOc = []
+            if (this.listUploadFileformCrypto.length > 0) {
+                MONEY_DOc.push(this.listUploadFileformCrypto[0])
+            }
+            
+            this.formCrypto = {
+                BANK_ACCOUNT: this.formCryptoSeccond.BANK_ACCOUNT_NUMBER,
+                BANK_ACCOUNT_NAME: this.formCryptoSeccond.BANK_ACCOUNT_NAME,
+                BANK_DAMAGE_VALUE: this.formCryptoDetail.VALUE_UNIT,
+                BANK_DAMAGE_VALUE_UNIT: this.formCryptoDetail.UNIT,
+                BANK_ID: this.formCryptoSeccond.BANK_ID,
+                BANK_MONEY_OTHER_ID: "",
+                BANK_MONEY_OTHER_NAME: "",
+                BANK_MONEY_REMARK: "",
+                BANK_NAME: BANK_NAME,
+                BANK_ORIGIN_ACCOUNT: this.formCryptoFirst.BANK_ACCOUNT_NUMBER,
+                BANK_ORIGIN_ACCOUNT_NAME: this.formCryptoFirst.BANK_ACCOUNT_NAME,
+                BANK_ORIGIN_ID: this.formCryptoFirst.BANK_ID,
+                BANK_ORIGIN_MONEY_REMARK: "",
+                BANK_ORIGIN_NAME: BANK_ORIGIN_NAME,
+                BANK_TRANSFER_DATE: builtTime[0],
+                BANK_TRANSFER_TIME: builtTime[1],
+                CASE_MONEY_BANK_TRANFER: "",
+                CASE_MONEY_BANK_TRANFER_NAME: "",
+                CASE_MONEY_CHANNEL_TYPE: "",
+                MONNEY_DOC: MONEY_DOc,
+                SHOW_NAME: this.covertShowName(this.formCryptoFirst),
+                SHOW_NAME_END: this.covertShowName(this.formCryptoSeccond),
+                TRUEMONEY_DES_TYPE: this.formCryptoSeccond.TRUE_WAY,
+                TRUEMONEY_OG_TYPE: this.formCryptoFirst.TRUE_WAY,
+                TYPE_BANK_ID: this.formCryptoFirst.TYPE,
+                TYPE_DESTINATION_BANK_ID: this.formCryptoSeccond.TYPE,
+                WAYS_DESTINATION: this.formCryptoSeccond.WAY,
+                WAYS: this.formCryptoFirst.WAY,
+            }
+            this.listDamageCrytro.push(this.formCrypto)
+            this.formCrypto = undefined
+            this.setCryptoFormDefualt()
+            this.calulatemoney([...this.listDamageCrytro, ...this.listDamageBank]);
+        } else {
+            
+            // this.formBankFirst = {
+            //     WAY: undefined,
+            //     TYPE: undefined,
+            //     BANK_ID: undefined,
+            //     BANK_ACCOUNT_NAME: undefined,
+            //     BANK_ACCOUNT_NUMBER: undefined,
+            //     TRUE_WAY: undefined
+            // }
+            // this.formBankSeccond = {
+            //     WAY: undefined,
+            //     TYPE: undefined,
+            //     BANK_ID: undefined,
+            //     BANK_ACCOUNT_NAME: undefined,
+            //     BANK_ACCOUNT_NUMBER: undefined,
+            //     TRUE_WAY: undefined
+            // }
+            // this.formBankDetail = {
+            //     TIME: undefined,
+            //     UNIT: undefined,
+            //     VALUE_UNIT: undefined
+            // }  
+
+            const validateForm_F = this.formBankSelector.instance.validate()
+            const validateForm_S = this.formBankSelectorTwo.instance.validate()
+            const validateForm_D = this.formBankDetailValid.instance.validate()
+
+            if(validateForm_F.brokenRules.length > 1 || validateForm_S.brokenRules.length > 1 || validateForm_D.brokenRules.length > 1){
+                Swal.fire({
+                    title : 'ข้อมูลผิดพลาด',
+                    html : 'กรุณากรอกข้อมูลให้ครบ',
+                    icon : 'warning',
+                    confirmButtonText : 'ตกลง'
+                })
+                return
+            }
+            if(validateForm_F.brokenRules.length == 1){
+                Swal.fire({
+                    title : 'ข้อมูลผิดพลาด',
+                    html : `${validateForm_F.brokenRules[0].message}`,
+                    icon : 'warning',
+                    confirmButtonText : 'ตกลง'
+                })
+                return
+            } else if (validateForm_S.brokenRules.length == 1){
+                Swal.fire({
+                    title : 'ข้อมูลผิดพลาด',
+                    html : `${validateForm_S.brokenRules[0].message}`,
+                    icon : 'warning',
+                    confirmButtonText : 'ตกลง'
+                })
+                return
+            } else if (validateForm_D.brokenRules.length == 1){
+                Swal.fire({
+                    title : 'ข้อมูลผิดพลาด',
+                    html : `${validateForm_D.brokenRules[0].message}`,
+                    icon : 'warning',
+                    confirmButtonText : 'ตกลง'
+                })
+                return
+            }
+
+            const BANK_NAME = this.formBankSeccond.BANK_ID ? this.bankInfoListOrigin.find((item: any) => item.BANK_ID == this.formBankSeccond.BANK_ID).BANK_NAME : null
+            const BANK_ORIGIN_NAME = this.formBankFirst.BANK_ID ? this.bankInfoListOrigin.find((item: any) => item.BANK_ID == this.formBankFirst.BANK_ID).BANK_NAME : null
+            const builtTime = this.formBankDetail.TIME.split(" ")
+            const MONEY_DOc = []
+            if (this.listUploadFileformmoney.length > 0) {
+                MONEY_DOc.push(this.listUploadFileformmoney[0])
+            }
+            this.formmoney = {
+                BANK_ACCOUNT: this.formBankSeccond.BANK_ACCOUNT_NUMBER ?? null,
+                BANK_ACCOUNT_NAME: this.formBankSeccond.BANK_ACCOUNT_NAME ?? null,
+                BANK_DAMAGE_VALUE: this.formBankDetail.VALUE_UNIT ?? null,
+                BANK_DAMAGE_VALUE_UNIT: this.formBankDetail.UNIT ?? null,
+                BANK_ID: this.formBankSeccond.BANK_ID ?? null,
+                BANK_MONEY_OTHER_ID: "",
+                BANK_MONEY_OTHER_NAME: "",
+                BANK_MONEY_REMARK: "",
+                BANK_NAME: BANK_NAME ?? null,
+                BANK_ORIGIN_ACCOUNT: this.formBankFirst.BANK_ACCOUNT_NUMBER ?? null,
+                BANK_ORIGIN_ACCOUNT_NAME: this.formBankFirst.BANK_ACCOUNT_NAME ?? null,
+                BANK_ORIGIN_ID: this.formBankFirst.BANK_ID ?? null,
+                BANK_ORIGIN_MONEY_REMARK: "",
+                BANK_ORIGIN_NAME: BANK_ORIGIN_NAME ?? null,
+                BANK_TRANSFER_DATE: builtTime[0] ?? null,
+                BANK_TRANSFER_TIME: builtTime[1] ?? null,
+                CASE_MONEY_BANK_TRANFER: "",
+                CASE_MONEY_BANK_TRANFER_NAME: "",
+                CASE_MONEY_CHANNEL_TYPE: "",
+                MONNEY_DOC: MONEY_DOc,
+                SHOW_NAME: this.covertShowName(this.formBankFirst),
+                SHOW_NAME_END: this.covertShowName(this.formBankSeccond),
+                TRUEMONEY_DES_TYPE: this.formBankSeccond.TRUE_WAY,
+                TRUEMONEY_OG_TYPE: this.formBankFirst.TRUE_WAY,
+                TYPE_BANK_ID: this.formBankFirst.TYPE ?? null,
+                TYPE_DESTINATION_BANK_ID: this.formBankSeccond.TYPE ?? null,
+                WAYS_DESTINATION: this.formBankSeccond.WAY ?? null,
+                WAYS_ORIGIN: this.formBankFirst.WAY ?? null,
+            }
+            this.listDamageBank.push(this.formmoney)
+            this.formmoney = undefined
+            this.setBankFormDefualt()
+            console.log(...this.listDamageCrytro, ...this.listDamageBank)
+            this.calulatemoney([...this.listDamageCrytro, ...this.listDamageBank]);
         }
     }
+
+
 
     calulatemoney(data) {
 
         const cehckorigin1 = data.filter(x => x.WAYS_ORIGIN == 1);
         const cehckorigin2 = data.filter(x => x.WAYS_ORIGIN == 2);
-
+        console.log(cehckorigin1, cehckorigin2)
         this.sumvillan = 0.0;
         this.sumpersonal = 0.0;
         if (cehckorigin1) {
@@ -2281,80 +2413,107 @@ export class IssueOnlineDamageComponent implements OnInit {
         if (this.formData.CASE_MONEY_DAMAGE_VALUE < 0) {
             this.formData.CASE_MONEY_DAMAGE_VALUE = 0;
         }
-
-
         // end calculate money
     }
-    onEditlistbanklist(e,type="") {
-        if(type === "crytro"){
-            if (this.formbanknewCrytro.instance.validate().isValid) {
-                this.formmoney.BANK_ORIGIN_ACCOUNT = this.formmoneySub.BANK_ORIGIN_ACCOUNT
-                this.formmoney.BANK_ORIGIN_ACCOUNT_NAME = this.formmoneySub.BANK_ORIGIN_ACCOUNT_NAME
-                this.formmoney.BANK_ORIGIN_ID = this.formmoneySub.BANK_ORIGIN_ID
-                this.formmoney.BANK_ORIGIN_NAME = this.formmoneySub.BANK_ORIGIN_NAME
-                this.formmoney.SHOW_NAME = this.formmoneySub.SHOW_NAME
-                this.formmoney.TYPE_BANK_ID = this.formmoneySub.TYPE_BANK_ID
-                this.formmoney.WAYS_ORIGIN = this.formmoneySub.WAYS_ORIGIN
-                this.formmoney.BANK_ORIGIN_MONEY_REMARK = this.formmoneySub.BANK_ORIGIN_MONEY_REMARK;
-
-                this.formmoney.CASE_MONEY_CHANNEL_TYPE = this.formmoneySub.CASE_MONEY_CHANNEL_TYPE
-                this.formmoney.CASE_MONEY_BANK_TRANFER = this.formmoneySub.CASE_MONEY_BANK_TRANFER
-                this.formmoney.CASE_MONEY_BANK_TRANFER_NAME = this.formmoneySub.CASE_MONEY_BANK_TRANFER_NAME
-
-                this.formmoney.BANK_MONEY_OTHER_ID = this.formmoneySub.BANK_MONEY_OTHER_ID
-                this.formmoney.BANK_MONEY_OTHER_NAME = this.formmoneySub.BANK_MONEY_OTHER_NAME
-
-                this.formmoney.BANK_ACCOUNT = this.formmoneySub.BANK_ACCOUNT
-                this.formmoney.BANK_ACCOUNT_NAME = this.formmoneySub.BANK_ACCOUNT_NAME
-                this.formmoney.BANK_ID = this.formmoneySub.BANK_ID
-                this.formmoney.BANK_NAME = this.formmoneySub.BANK_NAME
-                this.formmoney.SHOW_NAME_END = this.formmoneySub.SHOW_NAME_END
-                this.formmoney.WAYS_DESTINATION = this.formmoneySub.WAYS_DESTINATION
-                this.formmoney.BANK_MONEY_REMARK = this.formmoneySub.BANK_MONEY_REMARK;
-
-                this.formmoney.CASE_MONEY_CHANNEL_TYPE = "T";
-                this.listDamageCrytro[this.editTransferData.index] = this.formmoney;
-                this.calulatemoney([...this.listDamageCrytro, ...this.listDamageBank]);
-                this.onresetbanklist()
+    onEditlistbanklist(e, type = "") {
+        if (type === "crytro") {
+            const BANK_NAME = this.formCryptoSeccond.BANK_ID ? this.bankInfoListOrigin.find((item: any) => item.BANK_ID == this.formBankSeccond.BANK_ID).BANK_NAME : null
+            const BANK_ORIGIN_NAME = this.formCryptoFirst.BANK_ID ? this.bankInfoListOrigin.find((item: any) => item.BANK_ID == this.formBankFirst.BANK_ID).BANK_NAME : null
+            
+            const originalDate = new Date(this.formCryptoDetail.TIME);
+            const formattedDate = originalDate.toISOString().replace(/T/, ' ').replace(/\..+/, '');
+            const builtTime = formattedDate.split(" ")
+            const MONEY_DOc = []
+            if (this.listUploadFileformCrypto.length > 0) {
+                MONEY_DOc.push(this.listUploadFileformCrypto[0])
             }
-        }else{
-            if (this.formbanknew.instance.validate().isValid) {
-
-                this.formmoney.BANK_ORIGIN_ACCOUNT = this.formmoneySub.BANK_ORIGIN_ACCOUNT
-                this.formmoney.BANK_ORIGIN_ACCOUNT_NAME = this.formmoneySub.BANK_ORIGIN_ACCOUNT_NAME
-                this.formmoney.BANK_ORIGIN_ID = this.formmoneySub.BANK_ORIGIN_ID
-                this.formmoney.BANK_ORIGIN_NAME = this.formmoneySub.BANK_ORIGIN_NAME
-                this.formmoney.SHOW_NAME = this.formmoneySub.SHOW_NAME
-                this.formmoney.TYPE_BANK_ID = this.formmoneySub.TYPE_BANK_ID
-                this.formmoney.WAYS_ORIGIN = this.formmoneySub.WAYS_ORIGIN
-                this.formmoney.BANK_ORIGIN_MONEY_REMARK = this.formmoneySub.BANK_ORIGIN_MONEY_REMARK;
-
-                this.formmoney.CASE_MONEY_CHANNEL_TYPE = this.formmoneySub.CASE_MONEY_CHANNEL_TYPE
-                this.formmoney.CASE_MONEY_BANK_TRANFER = this.formmoneySub.CASE_MONEY_BANK_TRANFER
-                this.formmoney.CASE_MONEY_BANK_TRANFER_NAME = this.formmoneySub.CASE_MONEY_BANK_TRANFER_NAME
-
-                this.formmoney.BANK_MONEY_OTHER_ID = this.formmoneySub.BANK_MONEY_OTHER_ID
-                this.formmoney.BANK_MONEY_OTHER_NAME = this.formmoneySub.BANK_MONEY_OTHER_NAME
-
-                this.formmoney.BANK_ACCOUNT = this.formmoneySub.BANK_ACCOUNT
-                this.formmoney.BANK_ACCOUNT_NAME = this.formmoneySub.BANK_ACCOUNT_NAME
-                this.formmoney.BANK_ID = this.formmoneySub.BANK_ID
-                this.formmoney.BANK_NAME = this.formmoneySub.BANK_NAME
-                this.formmoney.SHOW_NAME_END = this.formmoneySub.SHOW_NAME_END
-                this.formmoney.WAYS_DESTINATION = this.formmoneySub.WAYS_DESTINATION
-                this.formmoney.BANK_MONEY_REMARK = this.formmoneySub.BANK_MONEY_REMARK;
-
-                this.formmoney.CASE_MONEY_CHANNEL_TYPE = "T";
-                this.listDamageBank[this.editTransferData.index] = this.formmoney;
-                this.calulatemoney([...this.listDamageCrytro, ...this.listDamageBank]);
-                this.onresetbanklist()
+            this.formCrypto = {
+                BANK_ACCOUNT: this.formCryptoSeccond.BANK_ACCOUNT_NUMBER,
+                BANK_ACCOUNT_NAME: this.formCryptoSeccond.BANK_ACCOUNT_NAME,
+                BANK_DAMAGE_VALUE: this.formCryptoDetail.VALUE_UNIT,
+                BANK_DAMAGE_VALUE_UNIT: this.formCryptoDetail.UNIT,
+                BANK_ID: this.formCryptoSeccond.BANK_ID,
+                BANK_MONEY_OTHER_ID: "",
+                BANK_MONEY_OTHER_NAME: "",
+                BANK_MONEY_REMARK: "",
+                BANK_NAME: BANK_NAME,
+                BANK_ORIGIN_ACCOUNT: this.formCryptoFirst.BANK_ACCOUNT_NUMBER,
+                BANK_ORIGIN_ACCOUNT_NAME: this.formCryptoFirst.BANK_ACCOUNT_NAME,
+                BANK_ORIGIN_ID: this.formCryptoFirst.BANK_ID,
+                BANK_ORIGIN_MONEY_REMARK: "",
+                BANK_ORIGIN_NAME: BANK_ORIGIN_NAME,
+                BANK_TRANSFER_DATE: builtTime[0],
+                BANK_TRANSFER_TIME: builtTime[1],
+                CASE_MONEY_BANK_TRANFER: "",
+                CASE_MONEY_BANK_TRANFER_NAME: "",
+                CASE_MONEY_CHANNEL_TYPE: "",
+                MONNEY_DOC: MONEY_DOc,
+                SHOW_NAME: this.covertShowName(this.formCryptoFirst),
+                SHOW_NAME_END: this.covertShowName(this.formCryptoSeccond),
+                TRUEMONEY_DES_TYPE: this.formCryptoSeccond.TRUE_WAY,
+                TRUEMONEY_OG_TYPE: this.formCryptoFirst.TRUE_WAY,
+                TYPE_BANK_ID: this.formCryptoFirst.TYPE,
+                TYPE_DESTINATION_BANK_ID: this.formCryptoSeccond.TYPE,
+                WAYS_DESTINATION: this.formCryptoSeccond.WAY,
+                WAYS_ORIGIN: this.formCryptoFirst.WAY,
             }
+            this.formCrypto.CASE_MONEY_CHANNEL_TYPE = "T";
+            this.listDamageCrytro[this.editTransferData.index] = this.formCrypto;
+            
+            this.setCryptoFormDefualt()
+            this.calulatemoney([...this.listDamageCrytro, ...this.listDamageBank]);
+        } else {
+            const BANK_NAME = this.formBankSeccond.BANK_ID ? this.bankInfoListOrigin.find((item: any) => item.BANK_ID == this.formBankSeccond.BANK_ID).BANK_NAME : null
+            const BANK_ORIGIN_NAME = this.formBankFirst.BANK_ID ? this.bankInfoListOrigin.find((item: any) => item.BANK_ID == this.formBankFirst.BANK_ID).BANK_NAME : null
+            const originalDate = new Date(this.formBankFirst.TIME);
+            const formattedDate = originalDate.toISOString().replace(/T/, ' ').replace(/\..+/, '');
+            const builtTime = formattedDate.split(" ")
+            const MONEY_DOc = []
+            if (this.listUploadFileformmoney.length > 0) {
+                MONEY_DOc.push(this.listUploadFileformmoney[0])
+            }
+            this.formmoney = {
+                BANK_ACCOUNT: this.formBankSeccond.BANK_ACCOUNT_NUMBER ?? null,
+                BANK_ACCOUNT_NAME: this.formBankSeccond.BANK_ACCOUNT_NAME ?? null,
+                BANK_DAMAGE_VALUE: this.formBankDetail.VALUE_UNIT ?? null,
+                BANK_DAMAGE_VALUE_UNIT: this.formBankDetail.UNIT ?? null,
+                BANK_ID: this.formBankSeccond.BANK_ID ?? null,
+                BANK_MONEY_OTHER_ID: "",
+                BANK_MONEY_OTHER_NAME: "",
+                BANK_MONEY_REMARK: "",
+                BANK_NAME: BANK_NAME ?? null,
+                BANK_ORIGIN_ACCOUNT: this.formBankFirst.BANK_ACCOUNT_NUMBER ?? null,
+                BANK_ORIGIN_ACCOUNT_NAME: this.formBankFirst.BANK_ACCOUNT_NAME ?? null,
+                BANK_ORIGIN_ID: this.formBankFirst.BANK_ID ?? null,
+                BANK_ORIGIN_MONEY_REMARK: "",
+                BANK_ORIGIN_NAME: BANK_ORIGIN_NAME ?? null,
+                BANK_TRANSFER_DATE: builtTime[0] ?? null,
+                BANK_TRANSFER_TIME: builtTime[1] ?? null,
+                CASE_MONEY_BANK_TRANFER: "",
+                CASE_MONEY_BANK_TRANFER_NAME: "",
+                CASE_MONEY_CHANNEL_TYPE: "",
+                MONNEY_DOC: MONEY_DOc,
+                SHOW_NAME: this.covertShowName(this.formBankFirst),
+                SHOW_NAME_END: this.covertShowName(this.formBankSeccond),
+                TRUEMONEY_DES_TYPE: this.formBankSeccond.TRUE_WAY,
+                TRUEMONEY_OG_TYPE: this.formBankFirst.TRUE_WAY,
+                TYPE_BANK_ID: this.formBankFirst.TYPE ?? null,
+                TYPE_DESTINATION_BANK_ID: this.formBankSeccond.TYPE ?? null,
+                WAYS_DESTINATION: this.formBankSeccond.WAY ?? null,
+                WAYS: this.formBankFirst.WAY ?? null,
+            }
+
+            this.formmoney.CASE_MONEY_CHANNEL_TYPE = "T";
+            this.listDamageBank[this.editTransferData.index] = this.formmoney;
+            
+            this.setBankFormDefualt()
+            this.calulatemoney([...this.listDamageCrytro, ...this.listDamageBank]);
         }
     }
-    onbankoriginlistchange(e,type="") {
+    onbankoriginlistchange(e, type = "") {
 
         if (e.value) {
-            if(type === "crypto"){
+            if (type === "crypto") {
                 const data = this.selectBankInfoOriginlistCrypto.instance.option("selectedItem");
                 // console.log("orginlist", data);
 
@@ -2407,7 +2566,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                 } else {
 
                 }
-            }else{
+            } else {
                 const data = this.selectBankInfoOriginlist.instance.option("selectedItem");
                 // console.log("orginlist", data);
 
@@ -2465,10 +2624,10 @@ export class IssueOnlineDamageComponent implements OnInit {
 
         }
     }
-    onbanklistchange(e,type="") {
+    onbanklistchange(e, type = "") {
 
         if (e.value) {
-            if(type === "crypto"){
+            if (type === "crypto") {
                 const data = this.selectBankInfolistCrypto.instance.option("selectedItem");
                 // console.log("defaullist", data);
                 if (data) {
@@ -2519,7 +2678,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                 } else {
 
                 }
-            }else{
+            } else {
                 const data = this.selectBankInfolist.instance.option("selectedItem");
                 // console.log("defaullist", data);
                 if (data) {
@@ -2599,7 +2758,7 @@ export class IssueOnlineDamageComponent implements OnInit {
         }
     }
 
-    async formmoneyUploadFile(uploadTag,type="") {
+    async formmoneyUploadFile(uploadTag, type = "") {
 
         this.listUploadFileformmoney = [];
         const files: any = uploadTag.files;
@@ -2616,9 +2775,9 @@ export class IssueOnlineDamageComponent implements OnInit {
                 if (fileCheck.status) {
                     this.maxSizeBuffer = fileCheck.uploadSizeAll ?? 0;
                     for (const item of fileCheck.filebase64Array) {
-                        if(type === 'crytro'){
+                        if (type === 'crytro') {
                             this.listUploadFileformCrypto.push(item);
-                        }else{
+                        } else {
                             this.listUploadFileformmoney.push(item);
                         }
 
@@ -2638,11 +2797,11 @@ export class IssueOnlineDamageComponent implements OnInit {
                 if (fileCheck.status) {
                     this.maxSizeBuffer = fileCheck.uploadSizeAll ?? 0;
                     for (const item of fileCheck.filebase64Array) {
-                        if(type === 'crytro'){
+                        if (type === 'crytro') {
                             this.listUploadFileformCrypto.push(item);
                             this.formmoney.MONNEY_DOC = [];
                             this.formmoney.MONNEY_DOC.push(this.listUploadFileformCrypto[0]);
-                        }else{
+                        } else {
                             this.listUploadFileformmoney.push(item);
                             this.formmoney.MONNEY_DOC = [];
                             this.formmoney.MONNEY_DOC.push(this.listUploadFileformmoney[0]);
@@ -2659,7 +2818,7 @@ export class IssueOnlineDamageComponent implements OnInit {
 
     }
 
-    ItemDamageformmoneyPopupDelete(index = null,type="") {
+    ItemDamageformmoneyPopupDelete(index = null, type = "") {
         Swal.fire({
             title: "ยืนยันการลบข้อมูล?",
             text: " ",
@@ -2671,11 +2830,11 @@ export class IssueOnlineDamageComponent implements OnInit {
             confirmButtonText: "ตกลง",
         }).then((result) => {
             if (result.isConfirmed) {
-                if(type === 'crytro'){
+                if (type === 'crytro') {
                     const file = this.listUploadFileformCrypto[index];
                     this.maxSizeBuffer -= file.size ?? 0;
                     this.listUploadFileformCrypto.splice(index, 1);
-                }else{
+                } else {
                     const file = this.listUploadFileformmoney[index];
                     this.maxSizeBuffer -= file.size ?? 0;
                     this.listUploadFileformmoney.splice(index, 1);
@@ -2705,5 +2864,87 @@ export class IssueOnlineDamageComponent implements OnInit {
         const dateWithTimeZone = new Date(time.getTime() + timeZoneOffsetMs);
         const formattedString = dateWithTimeZone.toISOString().replace("Z", `+${timeZoneOffset.toString().padStart(2, "0")}:00`);
         return formattedString;
+    }
+
+    onCheckBankForm(formNum: number) {
+        if (formNum == 1) {
+            this.formBankFirst.BANK_ID = ''
+            this.formBankFirst.BANK_ACCOUNT_NAME = ''
+            this.formBankFirst.BANK_ACCOUNT_NUMBER = ''
+            this.formBankFirst.TRUE_WAY = ''
+        } else {
+            this.formBankSeccond.BANK_ID = ''
+            this.formBankSeccond.BANK_ACCOUNT_NAME = ''
+            this.formBankSeccond.BANK_ACCOUNT_NUMBER = ''
+            this.formBankSeccond.TRUE_WAY = ''
+        }
+    }
+
+    onCheckWays(e: any, from: string) {
+        const getValue = e.value
+        const diffValue = this.ways.find((item) => item.id != getValue).id
+        if (from == 'Crypfirst') {
+            if (this.formCryptoFirst.WAY == getValue) {
+                this.formCryptoSeccond.WAY = diffValue
+            }
+        } else if ('Cryptseccond') {
+            if (this.formCryptoSeccond.WAY == getValue) {
+                this.formCryptoFirst.WAY = diffValue
+            }
+        }
+        if (from == 'Bankfirst') {
+            if (this.formBankFirst.WAY == getValue) {
+                this.formBankSeccond.WAY = diffValue
+            }
+        } else if ('Bankseccond') {
+            if (this.formBankSeccond.WAY == getValue) {
+                this.formBankFirst.WAY = diffValue
+            }
+        }
+    }
+
+    setCryptoFormDefualt() {
+        this.isAdding = true;
+        this.formCryptoFirst = {
+            WAY: 0,
+            TYPE: 4,
+            BANK_ACCOUNT_NUMBER: undefined
+        }
+        this.formCryptoSeccond = {
+            WAY: 0,
+            TYPE: 4,
+            BANK_ACCOUNT_NUMBER: undefined
+        }
+        this.formCryptoDetail = {
+            TIME: undefined,
+            UNIT: undefined,
+            VALUE_UNIT: undefined
+        }
+        this.listUploadFileformCrypto.splice(0, 1)
+    }
+
+    setBankFormDefualt() {
+        this.formBankFirst = {
+            WAY: undefined,
+            TYPE: undefined,
+            BANK_ID: undefined,
+            BANK_ACCOUNT_NAME: undefined,
+            BANK_ACCOUNT_NUMBER: undefined,
+            TRUE_WAY: undefined
+        }
+        this.formBankSeccond = {
+            WAY: undefined,
+            TYPE: undefined,
+            BANK_ID: undefined,
+            BANK_ACCOUNT_NAME: undefined,
+            BANK_ACCOUNT_NUMBER: undefined,
+            TRUE_WAY: undefined
+        }
+        this.formBankDetail = {
+            TIME: undefined,
+            UNIT: undefined,
+            VALUE_UNIT: undefined
+        }
+        this.listUploadFileformmoney.splice(0, 1)
     }
 }
