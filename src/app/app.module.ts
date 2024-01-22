@@ -15,7 +15,7 @@ import {
     DxMultiViewModule, DxNumberBoxModule, DxTextBoxModule, DxTreeViewModule, DxTreeListModule,
     DxPopupModule, DxTextAreaModule, DxTabPanelModule,DxSwitchModule, DxScrollViewModule, DxFileUploaderModule,
     DxTemplateModule,
-    DxToolbarModule
+    DxToolbarModule, DxValidatorModule
 } from "devextreme-angular";
 import { RouterModule } from '@angular/router';
 import { DxiItemModule } from 'devextreme-angular/ui/nested';
@@ -145,6 +145,7 @@ const customNotifierOptions: NotifierOptions = {
         LayoutDesktopModule,
         LayoutMobileModule,
         LayoutHomeModule,
+        DxValidatorModule
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: BetimesHttpInterceptor, multi: true, },
