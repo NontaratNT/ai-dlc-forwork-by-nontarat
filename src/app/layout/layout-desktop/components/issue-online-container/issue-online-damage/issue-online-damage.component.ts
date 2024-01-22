@@ -715,6 +715,11 @@ export class IssueOnlineDamageComponent implements OnInit {
                         denyButtonText: "ยกเลิก",
                     }).then((result) => {
                         if (result.isConfirmed) {
+                            if (this.listDamageOther.length > 0) {
+                                for (let i = 0; i < this.listDamageOther.length; i++) {
+                                    this.formData.CASE_MONEY_DAMAGE_VALUE -= this.listDamageOther[i].BANK_DAMAGE_VALUE;
+                                }
+                            }
                             this.limitSizeOther = 0;
                             this.listDamageOther = [];
                         } else {
@@ -738,9 +743,9 @@ export class IssueOnlineDamageComponent implements OnInit {
                     }).then((result) => {
                         if (result.isConfirmed) {
                             this.limitSizeOther = 0;
-                            this.listDamageOther = [];
+                            this.listUploadFileformCrypto = [];
                         } else {
-                            this.checkboxDamage.case_type2 = true;
+                            this.checkboxDamage.case_type4 = true;
                         }
                     });
                 }
