@@ -37,13 +37,12 @@
                     border-bottom: 1px solid #dddddd;
                     margin-top: 40px;
                 }
-                ::ng-deep .dx-button-mode-contained {
+                 ::ng-deep .dx-button-mode-contained {
                     background-color: #fff;
                     border-color: #414141;
                     color: #020202;
                 }
-
-                ::ng-deep .dx-button {
+                 ::ng-deep .dx-button {
                     border-radius: 3px;
                     border-width: 2px;
                     border-style: solid;
@@ -378,30 +377,30 @@
         margin-top: 110px !important;
     }
 }
-::ng-deep .dx-popup-wrapper   {
+
+::ng-deep .dx-popup-wrapper {
     .st-villain-bg {
-        padding: 0 1rem ;
+        padding: 0 1rem;
         // background-color: #337ab785!important;
     }
     .st-villain-bg-first {
-        padding: 1rem 1rem 0 ;
+        padding: 1rem 1rem 0;
         // background-color: #337ab785;
     }
     .st-villain-bg-last {
-        padding: 0 1rem 1rem ;
+        padding: 0 1rem 1rem;
         // background-color: #337ab785;
     }
-
-    .st-sufferer-bg{
-        padding:  0 1rem;
+    .st-sufferer-bg {
+        padding: 0 1rem;
         // background-color: #f5626729;
     }
     .st-sufferer-bg-first {
-        padding: 1rem 1rem 0 ;
+        padding: 1rem 1rem 0;
         // background-color: #f5626729;
     }
     .st-sufferer-bg-last {
-        padding: 0 1rem 1rem ;
+        padding: 0 1rem 1rem;
         // background-color: #f5626729;
     }
 }
@@ -571,13 +570,11 @@
     }
 }
 
-::ng-deep .dx-toolbar-label .dx-toolbar-item-content > div {
+::ng-deep .dx-toolbar-label .dx-toolbar-item-content>div {
     font-size: 30px;
     font-weight: bold;
     color: red;
 }
-
-
 
 // uploadfile custom
 .block-dropzone {
@@ -604,6 +601,7 @@
         }
     }
 }
+
 .block-uploaded-file {
     .block-file {
         border: 2px dashed #E4E4E4;
@@ -627,7 +625,46 @@
     }
 }
 
-
-::ng-deep .dx-field-item-label-text .dx-form-group-caption{
+::ng-deep .dx-field-item-label-text .dx-form-group-caption {
     font-weight: bold;
+}
+
+.bank-origin {
+    height: 100%;
+    background-color: #0071c1;
+    border-radius: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.bank-destination {
+    height: 100%;
+    background-color: #ed7d31;
+    border-radius: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+::ng-deep .bank-origin {
+    .dx-field-item-label-text {
+        color: rgb(255, 255, 255);
+    }
+    .dx-field-item-label.dx-field-item-label-location-left {
+        width: 180px;
+    }
+    .dx-field-item-label-content {
+        width: 300px;
+    }
+}
+
+::ng-deep .bank-destination {
+    // .dx-field-item-label-text {
+    //     color: rgb(255, 255, 255);
+    // }
+    .dx-field-item-label.dx-field-item-label-location-left {
+        width: 180px;
+    }
+    .dx-field-item-label-content {
+        width: 300px;
+    }
 }

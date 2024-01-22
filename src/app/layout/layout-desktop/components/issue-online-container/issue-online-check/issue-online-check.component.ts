@@ -59,6 +59,7 @@ export class IssueOnlineCheckComponent implements OnInit {
     async setDefaultData() {
         if (this.mainConponent.formType === "add") {
             this.formData = {};
+            this.submission = {};
             this.formType = "add";
             this.showMoneyWay = true;
             if(localStorage.getItem("form-blessing")){
@@ -70,6 +71,18 @@ export class IssueOnlineCheckComponent implements OnInit {
                     if(this._dataSourcebankref.length > 0){
                         this._isShow = true;
                     }
+                }
+                if(this.submission.moneyWay==1){
+                    this.showBank = true
+                        if(this.submission.ways == 1 && this._dataSourcebankref.lenght > 0){
+                            this.checkcase = true;
+                        }else{
+                            this.checkcase = false;
+                        }
+                }else{
+                    this._isShow = false;
+                    this.showBank = false;
+                    this.checkcase = true;
                 }
             }
         }else{
