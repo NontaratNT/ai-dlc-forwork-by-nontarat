@@ -11,6 +11,7 @@ import { ProblemOnlineComponent } from "./components/problem-online/problem-onli
 import { TaskAppointmentComponent } from "./components/task-appointment/task-appointment.component";
 import { TasklistComponent } from "./components/tasklist/tasklist.component";
 import { MainComponent } from "./layout/main/main.component";
+import { LoginThaiIDComponent } from "./components/login-thai-id/login-thai-id.component";
 
 
 const routes: Routes = [
@@ -57,6 +58,7 @@ const routes: Routes = [
                 path: 'problem-online',
                 component: ProblemOnlineComponent,
             },
+            
         ]
     },
 ];

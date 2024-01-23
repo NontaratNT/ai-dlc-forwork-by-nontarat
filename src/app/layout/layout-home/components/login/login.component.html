@@ -22,9 +22,23 @@
                         <div class="block-forget-password text-right">
                             <span class="text-link" (click)="SelectForget()">ลืมรหัสผ่าน?</span>
                         </div>
-                        <div class="block-login">
-                            <dx-button class="btns-login" icon="assets/image/police/desktop/logout.png" text="เข้าสู่ระบบ" (onClick)="Login(username.value,password.value)"></dx-button>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="block-login">
+                                    <dx-button class="btns-login" icon="assets/image/police/desktop/logout.png" text="เข้าสู่ระบบ" (onClick)="Login(username.value,password.value)"></dx-button>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="block-login">
+                                    <dx-button class="btns-login"   (onClick)="loginThaiID()" style="background-color: #030751;">เข้าสู่ระบบด้วย <img src="assets/icon/ThaID.png" style="width: 15%;" /></dx-button>
+                                </div>
+                            </div>
+                         
+
                         </div>
+                      
+                   
+
                         <div class="block-line">
                             <div class="draw-line">
                                 <span class="text-line">หรือ</span>
@@ -33,6 +47,7 @@
                         <div class="block-register">
                             <dx-button class="btns-register" text="คลิกเพื่อลงทะเบียน" (onClick)="SelectRegister()"></dx-button>
                         </div>
+                        
                     </form>
                 </div>
             </div>

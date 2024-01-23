@@ -44,6 +44,30 @@ export class UserService {
             );
     }
 
+    public authenticateThaiID(username: string, password: string, aal: number): Observable<IAccessToken> {
+        return this._req<IAccessToken>("LoginThaiID/auth/thaiid")
+            .body({ UserName: username, Password: password, RequireAal: aal })
+            .disableCriticalDialogError().post()
+            .pipe(
+                map(_ => {
+                    const userInfo = this.createProfile(_.Token);
+                    // if (userInfo.UserType !== 1) {
+                    //     // this._dialog.error("ผิดพลาด", "คุณไม่ได้รับอนุญาตให้ดำเนินการต่อได้");
+                    //     Swal.fire({
+                    //         title: 'ผิดพลาด!',
+                    //         text: 'คุณไม่ได้รับอนุญาตให้ดำเนินการต่อได้',
+                    //         icon: 'warning',
+                    //         confirmButtonText: 'ตกลง'
+                    //     }).then(() => { });
+                    //     return undefined;
+                    // }
+                    User.SetUser(userInfo);
+                    return _;
+                }),
+                catchError(() => of(undefined))
+            );
+    }
+
     public refreshToken(): Observable<IAccessToken> {
         return this._req<IAccessToken>("user/refresh")
             .disableDialogError()

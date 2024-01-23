@@ -75,6 +75,7 @@ import { IssueOnlineBlessingComponent } from './components/issue-online-containe
 import { IssueOnlineQuestionareComponent } from './components/issue-online-container/issue-online-questionare/issue-online-questionare.component';
 import { DateTimeInputComponent } from "src/app/components/controls/date-time-input/date-time-input.component";
 import { IssueOnlineCheckComponent } from './components/issue-online-container/issue-online-check/issue-online-check.component';
+import { LoginThaiIDComponent } from './components/login-thai-id/login-thai-id.component';
 
 
 const customNotifierOptions: NotifierOptions = {
@@ -159,7 +160,8 @@ const customNotifierOptions: NotifierOptions = {
         IssueOnlineBlessingComponent,
         IssueOnlineQuestionareComponent,
         DateTimeInputComponent,
-        IssueOnlineCheckComponent
+        IssueOnlineCheckComponent,
+        LoginThaiIDComponent
     ],
     exports: [DateComboPickerComponent, DateComboRegisterComponent],
     imports: [

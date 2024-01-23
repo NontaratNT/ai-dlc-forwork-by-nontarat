@@ -21,6 +21,7 @@ import { MainHomeComponent } from './layout/main-home/main-home.component';
 import { MainRegisterComponent } from './layout/main-register/main-register.component';
 // import { ServiceComponent } from './components/service/service.component';
 import { MainComponent } from './layout/main/main.component';
+import { LoginThaiIDComponent } from '../layout-desktop/components/login-thai-id/login-thai-id.component';
 
 const routes: Routes = [
     {
@@ -43,6 +44,11 @@ const routes: Routes = [
 
     }, { path: 'news', component: NewsComponent },
     { path: 'news/detail/:id', component: NewsDetailComponent },
+    {
+        //path login thai id
+        path: 'login/thaiD',
+        component: LoginThaiIDComponent,
+    },
     {
         path: '',
         component: MainComponent,

@@ -305,5 +305,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     }
 
+    loginThaiID(){
+        this.router.navigate(["login/thaiD"]);
+
+    }
 }
 
