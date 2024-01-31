@@ -71,7 +71,7 @@ export class RegisterPeopleComponent implements OnInit {
         this.loadDateBox = false;
         this.formRegisterPeopleOtp.mainForm = this;
         this.serviceTitle.GetTitleInfomer().subscribe((_) => (this.title = _));
-        this.minBirthDate = this._date.SetDateDefault(80, true, true, true);
+        this.minBirthDate = this._date.SetDateDefault(100, true, true, true);
         this.maxBirthDate = this._date.SetDateDefault(0);
         // this.formRegister.PERSONAL_BIRTH_DATE = this._date.SetDateDefault(0);
         this.loadDateBox = true;

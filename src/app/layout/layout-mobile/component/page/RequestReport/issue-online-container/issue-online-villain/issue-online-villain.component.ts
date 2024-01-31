@@ -234,7 +234,7 @@ export class IssueOnlineVillainComponent implements OnInit {
             this.uploadFileBufferStatus = false;
             this.province = this.mainConponent.province;
             // this.listCaseChannel  = await this.servBankInfo.GetCaseChannel().toPromise();
-            this.minBirthDate = this._date.SetDateDefault(80, true, true, true);
+            this.minBirthDate = this._date.SetDateDefault(100, true, true, true);
             this.maxBirthDate = this._date.SetDateDefault(0);
             // this.servBankInfo.GetCaseChannel().subscribe((_) => (this.listCaseChannel = _));
             if (this.mainConponent.formType === 'add') {

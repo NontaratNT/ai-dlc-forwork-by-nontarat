@@ -2019,10 +2019,10 @@ export class IssueOnlineDamageComponent implements OnInit {
             const data =
                 this.selectBankInfoOrigin.instance.option("selectedItem");
             if (data) {
-                this.popupFormData.BANK_ORIGIN_ID = data.BANK_ID;
-                this.popupFormData.BANK_ORIGIN_NAME = data.BANK_NAME;
+                this.FormDataOrigin.BANK_ORIGIN_ID = data.BANK_ID;
+                this.FormDataOrigin.BANK_ORIGIN_NAME = data.BANK_NAME;
             } else {
-                this.popupFormData.BANK_ORIGIN_ID = e.value;
+                this.FormDataOrigin.BANK_ORIGIN_ID = e.value;
             }
         }
     }

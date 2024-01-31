@@ -707,7 +707,7 @@ export class IssueOnlineInformerComponent implements OnInit {
                     });
             }
             // default วันเกิด Start
-            this.minBirthDate = this._date.SetDateDefault(80, true, true, true);
+            this.minBirthDate = this._date.SetDateDefault(100, true, true, true);
             this.maxBirthDate = this._date.SetDateDefault(0);
             this.loadDateBox = true;
             this.isLoading = false;

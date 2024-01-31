@@ -239,7 +239,7 @@ export class IssueOnlineValidateComponent implements OnInit {
 
     ngOnInit(): void {
         setTimeout(async () => {
-            this.minBirthDate = this._date.SetDateDefault(80, true, true, true);
+            this.minBirthDate = this._date.SetDateDefault(100, true, true, true);
             this.maxBirthDate = this._date.SetDateDefault(0);
             this.ReloadData();
         }, 1000);
