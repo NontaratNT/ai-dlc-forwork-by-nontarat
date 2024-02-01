@@ -18,7 +18,7 @@ export class RecaptchaService {
             .set(`response`, response);
         const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded','Access-Control-Allow-Origin': '*' });
 
-        return this.http.post(`https://www.google.com/recaptcha/api/siteverify`, body.toString(), { headers, observe: 'response' })
+        return this.http.post(`/`, body.toString(), { headers, observe: 'response' })
             .map((res: HttpResponse<IResponseCheck>) => res.ok)
             .catch((err: any) => Observable.of(false));
 

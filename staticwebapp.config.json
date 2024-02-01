@@ -9,6 +9,8 @@
       "Referrer-Policy":"no-referrer",
       "X-Content-Type-Options": "nosniff",
       "Strict-Transport-Security": "max-age=31536000",
-      "Expect-Ct": "max-age=0;"
+      "Expect-Ct": "max-age=0;",
+      "Content-Security-Policy": "default-src 'self'; style-src 'self' 'unsafe-inline' 'report-sample' ;script-src 'self' https://connect.facebook.net/en_US/sdk.js https://apis.google.com/js/platform.js https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.2.1.min.js;object-src 'none';connect-src 'self' https://api.thaipoliceonline.com https://officer.thaipoliceonline.com;img-src 'self' https://api.thaipoliceonline.com;",
+      "Permissions-Policy": "fullscreen=(self), geolocation=(self), microphone=(self)"
   }
 }
