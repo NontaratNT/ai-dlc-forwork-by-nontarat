@@ -1809,6 +1809,8 @@ export class IssueOnlineDamageComponent implements OnInit {
         return status;
     }
     SubmitForm(e) {
+        // console.log(this.mainConponent.formType);
+        // console.log(this.formData.CASE_MONEY_DAMAGE_VALUE);
         if (this.mainConponent.formType === "add") {
             const dmValue = this.formData.CASE_MONEY_DAMAGE_VALUE ?? 0;
             if (this.defaultDamageType === 1 && this.CheckInvalidListDamage()) {
@@ -2195,6 +2197,15 @@ export class IssueOnlineDamageComponent implements OnInit {
             }).then(() => { });
             return
         }
+        if(this.formmoney.BANK_DAMAGE_VALUE <= 0){
+            Swal.fire({
+                title: "ผิดพลาด!",
+                html: "กรุณากรอกความเสียหายให้ถูกต้อง",
+                icon: "warning",
+                confirmButtonText: "Ok",
+            }).then(() => { });
+            return
+        }
         this.outputdatabank(this.FormDataOrigin);
         this.outputdatabankvillain(this.FormDataDestination);
         // ผู้เสียหาย ต้นทาง
@@ -2247,10 +2258,8 @@ export class IssueOnlineDamageComponent implements OnInit {
 
 
     calulatemoney(data) {
-
         const cehckorigin1 = data.filter(x => x.WAYS_ORIGIN == 1);
         const cehckorigin2 = data.filter(x => x.WAYS_ORIGIN == 2);
-        console.log(cehckorigin1, cehckorigin2)
         this.sumvillan = 0.0;
         this.sumpersonal = 0.0;
         if (cehckorigin1) {
@@ -2336,6 +2345,15 @@ export class IssueOnlineDamageComponent implements OnInit {
             Swal.fire({
                 title: "ผิดพลาด!",
                 html: "กรุณากรอกเลือกวันที่เกิดความเสียหายให้ถูกต้อง",
+                icon: "warning",
+                confirmButtonText: "Ok",
+            }).then(() => { });
+            return
+        }
+        if(this.formmoney.BANK_DAMAGE_VALUE <= 0){
+            Swal.fire({
+                title: "ผิดพลาด!",
+                html: "กรุณากรอกความเสียหายให้ถูกต้อง",
                 icon: "warning",
                 confirmButtonText: "Ok",
             }).then(() => { });
@@ -2428,7 +2446,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                 }
                 this.formmoneySub = this.formmoney;
 
-                console.log('formmoney', this.formmoney);
+                // console.log('formmoney', this.formmoney);
 
             } else {
 
@@ -2564,11 +2582,11 @@ export class IssueOnlineDamageComponent implements OnInit {
                             this.formmoney.MONNEY_DOC.push(this.listUploadFileformmoney[0]);
                         }
 
-                        console.log(this.formmoney.MONNEY_DOC);
+                        // console.log(this.formmoney.MONNEY_DOC);
                     }
                 }
 
-                console.log('fileupload', this.listUploadFileformmoney);
+                // console.log('fileupload', this.listUploadFileformmoney);
                 this.isLoading = false;
             }
         }
@@ -2636,7 +2654,7 @@ export class IssueOnlineDamageComponent implements OnInit {
         if (e.value) {
             const data = this.selectBanktype.instance.option('selectedItem');
             if (data) {
-                console.log(data);
+                // console.log(data);
                 const way = this.FormDataOrigin.WAYS;
                 const type = this.FormDataOrigin.BANK_TYPE;
                 if(!this.firstLoadEditOrigin){
@@ -2963,8 +2981,8 @@ export class IssueOnlineDamageComponent implements OnInit {
             }).then(() => { });
             return
         }
-        console.log(this.formCryptoDeatail.instance.validate().isValid);
-        console.log(this.formCryptoDeatail);
+        // console.log(this.formCryptoDeatail.instance.validate().isValid);
+        // console.log(this.formCryptoDeatail);
         if (!this.formCryptoDeatail.instance.validate().isValid) {
             Swal.fire({
                 title: "ผิดพลาด!",

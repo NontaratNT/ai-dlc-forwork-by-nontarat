@@ -35,7 +35,7 @@
                         <!-- <p style="color:red;">กรณีมีการโอนเงินมากกว่า 1 ครั้ง ให้กรอกข้อมูลใหม่ และคลิกที่ปุ่ม
                             <b>'เพิ่มข้อมูล'</b>
                         </p> -->
-                        <dx-form *ngIf="!formReadOnly" #formbanknew [colCount]="2" labelLocation="left">
+                        <dx-form *ngIf="!formReadOnly" [colCount]="2" labelLocation="left">
                             <dxi-item [colSpan]="2" [isRequired]="true" template="firstBankInfoTemp"></dxi-item>
                             <div *dxTemplate="let data of 'firstBankInfoTemp'">
                                 <div class="row mb-2 justify-content-center">
@@ -307,6 +307,8 @@
                         <dx-form #formbanknew [colCount]="3" labelLocation="top">
                             <dxi-item template="datetime" [isRequired]="true">
                                 <dxo-label text="วันและเวลา" [showColon]="false"></dxo-label>
+                                <dxi-validation-rule type="required" message="กรุณากรอกเวลา">
+                                </dxi-validation-rule>
                             </dxi-item>
                             <div *dxTemplate="let data of 'datetime'">
                                 <dx-date-box id="default" (onValueChanged)="OnSelectDate($event, 'money')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" type="datetime" [max]="maxDateValue" [(value)]="now" displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false"
@@ -316,26 +318,26 @@
                             <dxi-item *ngIf="show_value" template="tempbankmoney" [colSpan]="1" [isRequired]="true">
                                 <dxo-label text="จำนวน" [showColon]="false"></dxo-label>
                                 <dxi-validation-rule type="required" message="กรุณากรอกมูลค่า"></dxi-validation-rule>
-                                <div *dxTemplate="let data of 'tempbankmoney'">
-                                    <dx-number-box format="#,##0.##" [focusStateEnabled]="false" [(value)]="formmoney.BANK_DAMAGE_VALUE_BAHT"></dx-number-box>
-                                </div>
                             </dxi-item>
+                            <div *dxTemplate="let data of 'tempbankmoney'">
+                                <dx-number-box format="#,##0.##" [focusStateEnabled]="false" [(value)]="formmoney.BANK_DAMAGE_VALUE_BAHT"></dx-number-box>
+                            </div>
                             <dxi-item template="tempbankmoneyunit" [colSpan]="1" [isRequired]="true">
                                 <dxo-label text="หน่วย" [showColon]="false"></dxo-label>
                                 <dxi-validation-rule type="required" message="กรุณากรอกหน่วย"></dxi-validation-rule>
-                                <div *dxTemplate="let data of 'tempbankmoneyunit'">
-                                    <!-- <dx-number-box format="#,##0.##"
-                                        [(value)]="formmoney.BANK_DAMAGE_VALUE"></dx-number-box> -->
-                                    <dx-text-box [(value)]="formmoney.BANK_DAMAGE_VALUE_UNIT"></dx-text-box>
-                                </div>
                             </dxi-item>
+                            <div *dxTemplate="let data of 'tempbankmoneyunit'">
+                                <!-- <dx-number-box format="#,##0.##"
+                                    [(value)]="formmoney.BANK_DAMAGE_VALUE"></dx-number-box> -->
+                                <dx-text-box [(value)]="formmoney.BANK_DAMAGE_VALUE_UNIT"></dx-text-box>
+                            </div>
                             <dxi-item template="tempbankmoneyvaluebaht" [colSpan]="1" [isRequired]="true">
                                 <dxo-label text="มูลค่า(บาท)" [showColon]="false"></dxo-label>
                                 <dxi-validation-rule type="required" message="กรุณากรอกมูลค่าบาท"></dxi-validation-rule>
-                                <div *dxTemplate="let data of 'tempbankmoneyvaluebaht'">
-                                    <dx-number-box format="#,##0.##" [step]="0" [focusStateEnabled]="false" [(value)]="formmoney.BANK_DAMAGE_VALUE"></dx-number-box>
-                                </div>
                             </dxi-item>
+                            <div *dxTemplate="let data of 'tempbankmoneyvaluebaht'">
+                                <dx-number-box format="#,##0.##" [step]="0" [focusStateEnabled]="false" [(value)]="formmoney.BANK_DAMAGE_VALUE"></dx-number-box>
+                            </div>
                         </dx-form>
 
                         <div *ngIf="!formReadOnly" class="remark-table-upload">* ขนาดไฟล์ทั้งหมดไม่เกิน 5MB</div>
