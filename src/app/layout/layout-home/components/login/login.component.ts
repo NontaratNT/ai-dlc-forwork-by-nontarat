@@ -16,6 +16,8 @@ import { AppComponent } from 'src/app/app.component';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { UserSettingService } from 'src/app/services/user-setting.service';
 import { FreezeAccountService } from 'src/app/services/bpm-freeze-account.service';
+
+declare var $:any;
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -58,6 +60,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         if(this.isUrl){
             window.location.href = "https://thaipoliceonline.go.th/login";
         }
+        this.getIPAddress();
         // const nodesjs = new NodesJs({
         //     id: 'nodes',
         //     width: window.innerWidth,
@@ -308,6 +311,16 @@ export class LoginComponent implements OnInit, OnDestroy {
             document.body.scrollTop = document.documentElement.scrollTop = 0;
         }, 2000);
 
+    }
+
+    getIPAddress(){
+        try{
+            $.getJSON('https://api.ipify.org?format=json', function(data){
+            sessionStorage.setItem('ip_address',data.ip);
+        });
+        }catch{
+
+        }
     }
 
 }
