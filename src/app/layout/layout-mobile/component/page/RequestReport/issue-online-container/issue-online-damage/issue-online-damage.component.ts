@@ -1584,6 +1584,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                 data[setKey] = this.listUploadFileWayOther;
             }
             this.listDamageOther[index] = data;
+            this.calulatemoney([...this.listDamageCrytro, ...this.listDamageBank]);
         }
     }
     ItemDamageClose() {
@@ -1890,25 +1891,25 @@ export class IssueOnlineDamageComponent implements OnInit {
     outputdatabank(value) {
         console.log('submit sufferer', value);
         if (value.TYPE_NAME === 'ธนาคาร' && value.ways === 1) {
-            value["SHOW_NAME"] = '(ธนาคาร ผู้ร้าย)' + value.BANK_ORIGIN_NAME + ': ' + value.BANK_ORIGIN_ACCOUNT + '(' + value.BANK_ORIGIN_ACCOUNT_NAME + ')';
+            value["SHOW_NAME"] = '(ธนาคาร ผู้ร้าย)' + value.BANK_ORIGIN_NAME + ': ' + value.BANK_ORIGIN_ACCOUNT + ' ' + value.BANK_ORIGIN_ACCOUNT_NAME;
         }
         else if (value.TYPE_NAME === 'ธนาคาร' && value.ways === 2) {
-            value["SHOW_NAME"] = '(ธนาคาร ผู้เสียหาย)' + value.BANK_ORIGIN_NAME + ': ' + value.BANK_ORIGIN_ACCOUNT + '(' + value.BANK_ORIGIN_ACCOUNT_NAME + ')';
+            value["SHOW_NAME"] = '(ธนาคาร ผู้เสียหาย)' + value.BANK_ORIGIN_NAME + ': ' + value.BANK_ORIGIN_ACCOUNT + ' ' + value.BANK_ORIGIN_ACCOUNT_NAME;
         }
         else if (value.TYPE_NAME === 'พร้อมเพย์' && value.ways === 1) {
-            value["SHOW_NAME"] = '(พร้อมเพย์ ผู้ร้าย)' + value.BANK_ORIGIN_ACCOUNT_PROMPAY + '(' + value.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY + ')';
+            value["SHOW_NAME"] = '(พร้อมเพย์ ผู้ร้าย)' + value.BANK_ORIGIN_ACCOUNT_PROMPAY + ' ' + value.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY;
             value['BANK_ORIGIN_ACCOUNT'] = value.BANK_ORIGIN_ACCOUNT_PROMPAY;
         }
         else if (value.TYPE_NAME === 'พร้อมเพย์' && value.ways === 2) {
-            value["SHOW_NAME"] = '(พร้อมเพย์ ผู้เสียหาย)' + value.BANK_ORIGIN_ACCOUNT_PROMPAY + '(' + value.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY + ')';
+            value["SHOW_NAME"] = '(พร้อมเพย์ ผู้เสียหาย)' + value.BANK_ORIGIN_ACCOUNT_PROMPAY + ' ' + value.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY;
             value['BANK_ORIGIN_ACCOUNT'] = value.BANK_ORIGIN_ACCOUNT_PROMPAY;
         }
         else if (value.TYPE_NAME === 'True Money' && value.ways === 1) {
-            value["SHOW_NAME"] = '(True Money ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT + '(' + value.TRUEMONEY_TYPE_NAME + ')';
+            value["SHOW_NAME"] = '(True Money ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT + ' ' + value.TRUEMONEY_TYPE_NAME;
             value['BANK_ORIGIN_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
         }
         else if (value.TYPE_NAME === 'True Money' && value.ways === 2) {
-            value["SHOW_NAME"] = '(True Money ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + '(' + value.TRUEMONEY_TYPE_NAME + ')';
+            value["SHOW_NAME"] = '(True Money ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + ' ' + value.TRUEMONEY_TYPE_NAME;
             value['BANK_ORIGIN_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
         }
         else if (value.TYPE_NAME === 'เงินดิจิทัล (Cryptocurrency)' && value.ways === 1) {
@@ -1928,11 +1929,11 @@ export class IssueOnlineDamageComponent implements OnInit {
             value['BANK_ORIGIN_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
         }
         else if (value.TYPE_NAME === 'อื่นๆ' && value.ways === 1) {
-            value["SHOW_NAME"] = '(อื่นๆ ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT + '(' + value.CASE_MONEY_BANK_OTHER_DETAIL + ')';
+            value["SHOW_NAME"] = '(อื่นๆ ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT + ' ' + value.CASE_MONEY_BANK_OTHER_DETAIL;
             value['BANK_ORIGIN_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
         }
         else if (value.TYPE_NAME === 'อื่นๆ' && value.ways === 2) {
-            value["SHOW_NAME"] = '(อื่นๆ ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + '(' + value.CASE_MONEY_BANK_OTHER_DETAIL + ')';
+            value["SHOW_NAME"] = '(อื่นๆ ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + ' ' + value.CASE_MONEY_BANK_OTHER_DETAIL;
             value['BANK_ORIGIN_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
         }
 
@@ -1955,25 +1956,25 @@ export class IssueOnlineDamageComponent implements OnInit {
     outputdatabankvillain(value) {
         console.log('submit origin', value);
         if (value.TYPE_NAME === 'ธนาคาร' && value.ways === 1) {
-            value["SHOW_NAME"] = '(ธนาคาร ผู้ร้าย)' + value.BANK_NAME + ': ' + value.BANK_ACCOUNT + '(' + value.BANK_ACCOUNT_NAME + ')';
+            value["SHOW_NAME"] = '(ธนาคาร ผู้ร้าย)' + value.BANK_NAME + ': ' + value.BANK_ACCOUNT + ' ' + value.BANK_ACCOUNT_NAME;
         }
         else if (value.TYPE_NAME === 'ธนาคาร' && value.ways === 2) {
-            value["SHOW_NAME"] = '(ธนาคาร ผู้เสียหาย)' + value.BANK_NAME + ': ' + value.BANK_ACCOUNT + '(' + value.BANK_ACCOUNT_NAME + ')';
+            value["SHOW_NAME"] = '(ธนาคาร ผู้เสียหาย)' + value.BANK_NAME + ': ' + value.BANK_ACCOUNT + ' ' + value.BANK_ACCOUNT_NAME;
         }
         else if (value.TYPE_NAME === 'พร้อมเพย์' && value.ways === 1) {
-            value["SHOW_NAME"] = '(พร้อมเพย์ ผู้ร้าย)' + value.BANK_ORIGIN_ACCOUNT_PROMPAY + '(' + value.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY + ')';
+            value["SHOW_NAME"] = '(พร้อมเพย์ ผู้ร้าย)' + value.BANK_ORIGIN_ACCOUNT_PROMPAY + ' ' + value.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY;
             value['BANK_ACCOUNT'] = value.BANK_ORIGIN_ACCOUNT_PROMPAY;
         }
         else if (value.TYPE_NAME === 'พร้อมเพย์' && value.ways === 2) {
-            value["SHOW_NAME"] = '(พร้อมเพย์ ผู้เสียหาย)' + value.BANK_ORIGIN_ACCOUNT_PROMPAY + '(' + value.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY + ')';
+            value["SHOW_NAME"] = '(พร้อมเพย์ ผู้เสียหาย)' + value.BANK_ORIGIN_ACCOUNT_PROMPAY + ' ' + value.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY;
             value['BANK_ACCOUNT'] = value.BANK_ORIGIN_ACCOUNT_PROMPAY;
         }
         else if (value.TYPE_NAME === 'True Money' && value.ways === 1) {
-            value["SHOW_NAME"] = '(True Money ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT + '(' + value.TRUEMONEY_TYPE_NAME + ')';
+            value["SHOW_NAME"] = '(True Money ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT + ' ' + value.TRUEMONEY_TYPE_NAME;
             value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
         }
         else if (value.TYPE_NAME === 'True Money' && value.ways === 2) {
-            value["SHOW_NAME"] = '(True Money ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + '(' + value.TRUEMONEY_TYPE_NAME + ')';
+            value["SHOW_NAME"] = '(True Money ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + ' ' + value.TRUEMONEY_TYPE_NAME;
             value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
         }
         else if (value.TYPE_NAME === 'เงินดิจิทัล (Cryptocurrency)' && value.ways === 1) {
@@ -1993,11 +1994,11 @@ export class IssueOnlineDamageComponent implements OnInit {
             value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
         }
         else if (value.TYPE_NAME === 'อื่นๆ' && value.ways === 1) {
-            value["SHOW_NAME"] = '(อื่นๆ ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT + '(' + value.CASE_MONEY_BANK_OTHER_DETAIL + ')';
+            value["SHOW_NAME"] = '(อื่นๆ ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT + ' ' + value.CASE_MONEY_BANK_OTHER_DETAIL;
             value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
         }
         else if (value.TYPE_NAME === 'อื่นๆ' && value.ways === 2) {
-            value["SHOW_NAME"] = '(อื่นๆ ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + '(' + value.CASE_MONEY_BANK_OTHER_DETAIL + ')';
+            value["SHOW_NAME"] = '(อื่นๆ ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + ' ' + value.CASE_MONEY_BANK_OTHER_DETAIL;
             value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
         }
         this.bankListend.push(value);

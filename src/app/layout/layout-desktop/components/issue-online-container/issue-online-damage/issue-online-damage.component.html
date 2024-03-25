@@ -540,7 +540,7 @@
                                 <dxi-validation-rule type="required" message="กรุณากรอกจำนวนเหรียญ"></dxi-validation-rule>
                             </dxi-item>
                             <div *dxTemplate="let data of 'tempcryptounit'">
-                                <dx-text-box [(value)]="formCrypto.BANK_DAMAGE_VALUE_BAHT"></dx-text-box>
+                                <dx-number-box format="#,##0.##" [focusStateEnabled]="false" [(value)]="formCrypto.BANK_DAMAGE_VALUE_BAHT"></dx-number-box>
                             </div>
 
                             <dxi-item template="tempcryptounittype" [colSpan]="1" [isRequired]="true">
