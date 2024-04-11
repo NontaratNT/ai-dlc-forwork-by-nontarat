@@ -200,6 +200,22 @@
                                     <dx-text-area [readOnly]="true" [height]="130" [value]="formData.CASE_BEHAVIOR"></dx-text-area>
                                 </div>
                                 <dxi-item itemType="empty"></dxi-item>
+                                <div class="container mb-3">
+                                    <dx-data-grid [dataSource]="channel_data" [showColumnLines]="true" [wordWrapEnabled]="true" [showRowLines]="true" [showRowLines]="true" [columnHidingEnabled]="false" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="false" [selectedRowKeys]="[]"
+                                        noDataText="ไม่มีข้อมูล">
+                                        <dxo-paging [pageSize]="10"></dxo-paging>
+                                        <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                                        </dxo-editing>
+                                        <dxo-selection mode="single"></dxo-selection>
+                                        <dxi-column dataField="CASE_CHANNEL_PHONE_DESTINATION" alignment="center" caption="เบอร์โทรศัพท์คนร้าย"></dxi-column>
+                                        <!-- <dxi-column dataField="DATE_PHONE" alignment="center" caption="วันที่ติดต่อคนร้าย" ></dxi-column> -->
+                                        <dxi-column [allowSearch]="false" dataField="DATE_PHONE" caption="วันที่ติดต่อคนร้าย" alignment="center" cellTemplate="displayFormatDate">
+                                        </dxi-column>
+                                        <div *dxTemplate="let celldata of 'displayFormatDate'">
+                                            {{displayFormatDateTime(celldata.data.DATE_PHONE)}}
+                                        </div>
+                                    </dx-data-grid>
+                                </div>
                             </dx-form>
                         </div>
                         <div class="content-end-line"></div>

@@ -12,6 +12,7 @@ import { DxSelectBoxComponent } from "devextreme-angular";
 import { IOrganizeInfo, IOrgmaparea, OrgService } from "src/app/services/org.service";
 import { ProvinceService } from "src/app/services/province.service";
 import { environment } from "src/environments/environment";
+import { formatDate } from "devextreme/localization";
 
 @Component({
     selector: "app-issue-online-validate",
@@ -224,6 +225,9 @@ export class IssueOnlineValidateComponent implements OnInit {
     bankInfoList: any = [];
     mergedFrom:any = {};
 
+    channel_tel = false;
+    channel_data : any = [];
+
     constructor(
         private servicePersonal: PersonalService,
         private _onlineCaseServ: OnlineCaseService,
@@ -309,12 +313,19 @@ export class IssueOnlineValidateComponent implements OnInit {
                 JSON.parse(localStorage.getItem("form-blessing")),
                 JSON.parse(localStorage.getItem("form-informer")),
                 JSON.parse(localStorage.getItem("form-event")),
+                JSON.parse(localStorage.getItem("form-villain")),
                 JSON.parse(localStorage.getItem("form-damage")));
             this.userType = this.mainConponent.userType;
             this.formData = this.mergedFrom;
             console.log( this.formData);
             if(this.formData.BANK_REF){
                 this.formData.WAY = this.formData.BANK_REF.length > 0 ? 1 :2;
+            }
+            this.channel_tel = this.formData.CASE_TYPE_ID == 66 || this.formData.CASE_TYPE_ID == 67 ? true : false;
+            if(this.channel_tel){
+                if(this.formData.CASE_CHANNEL){
+                    this.channel_data = this.formData.CASE_CHANNEL;
+                }
             }
             this.checkBlessing = this.mainConponent.formDataInsert.CHECK_BLESSING;
             this.reload = true;
@@ -546,6 +557,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                 && key !== 'listDamageBank'
                 && key !== 'listDamageBankOther'
                 && key !== 'listDamageOther'
+                && key !== 'listDamageCrypto'
             ) {
                 setData[key] = data[key];
             }
@@ -611,6 +623,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                                 localStorage.removeItem("form-informer");
                                 localStorage.removeItem("form-event");
                                 localStorage.removeItem("form-damage");
+                                localStorage.removeItem("form-villain");
                                 localStorage.removeItem("form-index");
                                 localStorage.removeItem("form-config");
                                 this._router.navigate(['/main/task-list']);
@@ -650,6 +663,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                                 localStorage.removeItem("form-informer");
                                 localStorage.removeItem("form-event");
                                 localStorage.removeItem("form-damage");
+                                localStorage.removeItem("form-villain");
                                 localStorage.removeItem("form-index");
                                 localStorage.removeItem("form-config");
                                 this._router.navigate(['/main/task-list']);
@@ -707,5 +721,9 @@ export class IssueOnlineValidateComponent implements OnInit {
                 return;
             }
         }
+    }
+
+    displayFormatDateTime(date) {
+        return formatDate(date, 'dateShortTimeThai');
     }
 }

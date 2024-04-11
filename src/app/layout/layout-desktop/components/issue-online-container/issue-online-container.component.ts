@@ -17,6 +17,9 @@ import { IssueOnlineQuestionareComponent } from "./issue-online-questionare/issu
 import { ProvinceService } from "src/app/services/province.service";
 import Swal from "sweetalert2";
 import { IssueOnlineCheckComponent } from "./issue-online-check/issue-online-check.component";
+import { Platform } from "@angular/cdk/platform";
+import { browser } from 'protractor';
+import { Observable } from "rxjs";
 @Component({
     selector: "app-issue-online-container",
     templateUrl: "./issue-online-container.component.html",
@@ -25,7 +28,7 @@ import { IssueOnlineCheckComponent } from "./issue-online-check/issue-online-che
 export class IssueOnlineContainerComponent implements OnInit {
     // @ViewChild(IssueOnlineAgreeComponent, { static: true }) agreeComponent: IssueOnlineAgreeComponent;
     @ViewChild(IssueOnlineAgreeComponent) set content(content1: IssueOnlineAgreeComponent) {
-        if(content1) {
+        if (content1) {
             this.agreeComponent = content1;
             this.agreeComponent.mainConponent = this;
             this.indexLocker.agreeComponent = true;
@@ -33,7 +36,7 @@ export class IssueOnlineContainerComponent implements OnInit {
         }
     }
     @ViewChild(IssueOnlineBlessingComponent) set content8(content8: IssueOnlineBlessingComponent) {
-        if(content8) {
+        if (content8) {
             this.blessingComponent = content8;
             this.blessingComponent.mainConponent = this;
             this.indexLocker.blessingComponent = true;
@@ -42,7 +45,7 @@ export class IssueOnlineContainerComponent implements OnInit {
     }
 
     @ViewChild(IssueOnlineQuestionareComponent) set content9(content9: IssueOnlineQuestionareComponent) {
-        if(content9) {
+        if (content9) {
             this.questionareComponent = content9;
             this.questionareComponent.mainConponent = this;
             this.indexLocker.questionareComponent = true;
@@ -50,7 +53,7 @@ export class IssueOnlineContainerComponent implements OnInit {
         }
     }
     @ViewChild(IssueOnlineInformerComponent) set content2(content2: IssueOnlineInformerComponent) {
-        if(content2) {
+        if (content2) {
             this.informerConponent = content2;
             this.informerConponent.mainConponent = this;
             this.indexLocker.informerConponent = true;
@@ -58,7 +61,7 @@ export class IssueOnlineContainerComponent implements OnInit {
         }
     }
     @ViewChild(IssueOnlineEventComponent) set content3(content3: IssueOnlineEventComponent) {
-        if(content3) {
+        if (content3) {
 
             this.eventConponent = content3;
             this.eventConponent.mainConponent = this;
@@ -67,7 +70,7 @@ export class IssueOnlineContainerComponent implements OnInit {
         }
     }
     @ViewChild(IssueOnlineDamageComponent) set content4(content4: IssueOnlineDamageComponent) {
-        if(content4) {
+        if (content4) {
             this.damageConponent = content4;
             this.damageConponent.mainConponent = this;
             this.indexLocker.damageConponent = true;
@@ -75,7 +78,7 @@ export class IssueOnlineContainerComponent implements OnInit {
         }
     }
     @ViewChild(IssueOnlineVillainComponent) set content5(content5: IssueOnlineVillainComponent) {
-        if(content5) {
+        if (content5) {
             this.vaillainConponent = content5;
             this.vaillainConponent.mainConponent = this;
             this.indexLocker.vaillainConponent = true;
@@ -83,7 +86,7 @@ export class IssueOnlineContainerComponent implements OnInit {
         }
     }
     @ViewChild(IssueOnlineAttachmentComponent) set content6(content6: IssueOnlineAttachmentComponent) {
-        if(content6) {
+        if (content6) {
             this.attachmentConponent = content6;
             this.attachmentConponent.mainConponent = this;
             this.indexLocker.attachmentConponent = true;
@@ -91,7 +94,7 @@ export class IssueOnlineContainerComponent implements OnInit {
         }
     }
     @ViewChild(IssueOnlineValidateComponent) set content7(content7: IssueOnlineValidateComponent) {
-        if(content7) {
+        if (content7) {
             this.validateConponent = content7;
             this.validateConponent.mainConponent = this;
             this.indexLocker.validateConponent = true;
@@ -99,7 +102,7 @@ export class IssueOnlineContainerComponent implements OnInit {
         }
     }
     @ViewChild(IssueOnlineCheckComponent) set content0(content0: IssueOnlineCheckComponent) {
-        if(content0) {
+        if (content0) {
             this.pagefirstConponent = content0;
             this.pagefirstConponent.mainConponent = this;
             this.indexLocker.pagefirstConponent = true;
@@ -130,20 +133,21 @@ export class IssueOnlineContainerComponent implements OnInit {
     public caseId: number;
     public InstId: string;
     public ProcessInstanceId: string;
-    public checkValidate : boolean;
+    public checkValidate: boolean;
     public province = [];
     loadPageSuccess = false;
     isLoading = true;
     countFlow = 0;
     indexLocker: any = {};
     dataTest: any = {};
+    _ip: any;
     stepNavigation = [
-        {text:"คัดกรองความเสียหาย",textClass:"arrow-div arrow-first"},
-        {text:"ข้อความยินยอม",textClass:"arrow-div arrow-center"},
-        {text:"ข้อมูลผู้เสียหาย",textClass:"arrow-div arrow-center"},
-        {text:"เรื่องที่เกิดขึ้น",textClass:"arrow-div arrow-center"},
-        {text:"ความเสียหาย",textClass:"arrow-div arrow-center"},
-        {text:"ยืนยันความถูกต้อง",textClass:"arrow-div arrow-end"}
+        { text: "คัดกรองความเสียหาย", textClass: "arrow-div arrow-first" },
+        { text: "ข้อความยินยอม", textClass: "arrow-div arrow-center" },
+        { text: "ข้อมูลผู้เสียหาย", textClass: "arrow-div arrow-center" },
+        { text: "เรื่องที่เกิดขึ้น", textClass: "arrow-div arrow-center" },
+        { text: "ความเสียหาย", textClass: "arrow-div arrow-center" },
+        { text: "ยืนยันความถูกต้อง", textClass: "arrow-div arrow-end" }
     ];
     stepNavigationZindex = 100;
     stepNavigationWidth = 1830;
@@ -156,9 +160,9 @@ export class IssueOnlineContainerComponent implements OnInit {
         private _groupStatusServ: GroupStatusService,
         private _bpmProcinstServ: BpmProcinstService,
         private _activeRoute: ActivatedRoute,
-        private serviceProvince: ProvinceService
-
-    ) {}
+        private serviceProvince: ProvinceService,
+        private platform: Platform
+    ) { }
 
     ngOnInit(): void {
         if (this.dataForm) {
@@ -169,21 +173,20 @@ export class IssueOnlineContainerComponent implements OnInit {
             this.InstId = d.InstId;
             this.ProcessInstanceId = d.ProcessInstanceId;
             this.stepNavigation = [
-                {text:"เลขอ้างอิงธนาคาร",textClass:"arrow-div arrow-first"},
-                {text:"ข้อมูลผู้เสียหาย",textClass:"arrow-div arrow-center"},
-                {text:"เรื่องที่เกิดขึ้น",textClass:"arrow-div arrow-center"},
-                {text:"ความเสียหาย",textClass:"arrow-div arrow-end"}
+                { text: "เลขอ้างอิงธนาคาร", textClass: "arrow-div arrow-first" },
+                { text: "ข้อมูลผู้เสียหาย", textClass: "arrow-div arrow-center" },
+                { text: "เรื่องที่เกิดขึ้น", textClass: "arrow-div arrow-center" },
+                { text: "ความเสียหาย", textClass: "arrow-div arrow-end" }
             ];
             this.stepNavigationWidth = 1250;
             this.getProvince();
-        }else{
-
+        } else {
             this.SetFormInit();
             this.getProvince();
         }
 
     }
-    async getProvince(){
+    async getProvince() {
         let maxRetries = 2;
         for (let retry = 0; retry < maxRetries; retry++) {
             try {
@@ -193,18 +196,18 @@ export class IssueOnlineContainerComponent implements OnInit {
                 console.error("Error occurred:", error);
             }
         }
-        if(!this.province){
+        if (!this.province) {
             setTimeout(() => {
                 location.reload();
-              }, 5000);
+            }, 5000);
         }
         this.isLoading = false;
     }
-    GetzIndexTab(index: number = 0){
-        return this.stepNavigationZindex-index;
+    GetzIndexTab(index: number = 0) {
+        return this.stepNavigationZindex - index;
     }
-    SetFormInit(){
-        if(localStorage.getItem("form-index")){
+    async SetFormInit() {
+        if (localStorage.getItem("form-index")) {
             Swal.fire({
                 title: 'แจ้งเตือน!!',
                 html: "คุณมีข้อมูลแจ้งความที่ยังกรอกไม่เสร็จ<br>ต้องการไปกรอกข้อมูลต่อหรือไม่",
@@ -227,34 +230,49 @@ export class IssueOnlineContainerComponent implements OnInit {
                 }
             });
         }
+        // try {
+        //     this._ip = await this.getIPAddress();
+        // } catch (error) {
+        // }
+
+        // this.getLocation().subscribe(
+        //     (position) => {
+        //         console.log(position);
+        //         console.log(position.coords);
+        //         console.log(position.coords.latitude);
+        //         console.log(position.coords.longitude);
+        //     },
+        //     (error) => {
+        //         console.log(error);
+        //     }
+        // );
         this.formDataInsert.FORM_CODE = "CCIB_NOTIFY_PEOPLE@0.1";
         this.formDataInsert.env = environment.config.baseConfig;
         this.formDataInsert.CASE_TYPE_ID = 1;
         this.formDataInsert.CASE_FLAG = "O";
-        this.formDataInsert.CASE_SELF_TYPE = (this.userType === "mySelf")?"Y":"N";
+        this.formDataInsert.CASE_SELF_TYPE = (this.userType === "mySelf") ? "Y" : "N";
+        // this.formDataInsert.env.browser = this.getBrowserInfo();
+        // this.formDataInsert.env.device = this.getDeviceInfo();
+        // this.formDataInsert.env.ip = this._ip;
+
         this.formDataAll = {
-            DataDamageShow:{},
-            formInformer:{},
-            formEvent:{},
-            formDamage:{},
-            formVaillain:{},
-            formAttachment:{},
-            formAgree:{},
-            formQuestionnare:{},
-            formBlessing:{},
-            formConfigs:{
-                FORM_CODE: "CCIB_NOTIFY_PEOPLE@0.1",
-                env: environment.config.baseConfig,
-                CASE_FLAG: "O",
-                CASE_SELF_TYPE: (this.userType === "mySelf")?"Y":"N",
-            },
+            DataDamageShow: {},
+            formInformer: {},
+            formEvent: {},
+            formDamage: {},
+            formVaillain: {},
+            formAttachment: {},
+            formAgree: {},
+            formQuestionnare: {},
+            formBlessing: {},
+            formConfigs: this.formDataInsert
         };
-        localStorage.setItem("form-config",JSON.stringify(this.formDataAll.formConfigs));
+        localStorage.setItem("form-config", JSON.stringify(this.formDataAll.formConfigs));
     }
-    goUrl(url = 'main/tasklist'){
+    goUrl(url = 'main/tasklist') {
         this._router.navigate([url]);
     }
-    SelectorTab(index){
+    SelectorTab(index) {
         // return this.indexTab >= index ? 'arrow-selected':'arrow-default';
         var numbers = []; // Array to store the generated numbers
         for (var i = index; i <= this.max; i++) {
@@ -269,17 +287,17 @@ export class IssueOnlineContainerComponent implements OnInit {
         }
 
     }
-    public NextIndex(index: number = 0){
+    public NextIndex(index: number = 0) {
         this.indexTab = index;
         const countItem = this.stepNavigation.length;
-        if (index === (countItem-1) && this.indexLocker.validateConponent) {
+        if (index === (countItem - 1) && this.indexLocker.validateConponent) {
             this.validateConponent.ReloadData();
         }
     }
-    testCheckNextIndex(index: number = 0){
+    testCheckNextIndex(index: number = 0) {
         this.indexTab = index;
     }
-    SelectTabIndex(index: number = 0){
+    SelectTabIndex(index: number = 0) {
         if (this.formType === 'edit') {
             this.indexTab = index;
         } else {
@@ -287,66 +305,66 @@ export class IssueOnlineContainerComponent implements OnInit {
             if (this.indexTab != 0 && this.indexTab != 1) {
                 if (this.max >= index) {
                     console.log(this.indexTab);
-                    switch(this.indexTab){
-                        case 2 : this.informerConponent.SubmitForm("tab"); break;
-                        case 3 : this.eventConponent.SubmitForm("tab"); break;
-                        case 4 : this.damageConponent.SubmitForm("tab"); break;
+                    switch (this.indexTab) {
+                        case 2: this.informerConponent.SubmitForm("tab"); break;
+                        case 3: this.eventConponent.SubmitForm("tab"); break;
+                        case 4: this.damageConponent.SubmitForm("tab"); break;
                     }
-                    if(this.checkValidate == false){
+                    if (this.checkValidate == false) {
                         this.indexTab = index;
                         this.selectabReload(this.indexTab);
-                    }else{
-                        this.indexTab =  this.indexTab;
+                    } else {
+                        this.indexTab = this.indexTab;
                     }
                 }
             }
         }
         const countItem = this.stepNavigation.length;
-        if (index === (countItem-1) && this.indexLocker.validateConponent) {
+        if (index === (countItem - 1) && this.indexLocker.validateConponent) {
             this.validateConponent.ReloadData();
         }
     }
-    public MergeObj(formData){
-        this.formDataInsert = Object.assign({},this.formDataInsert,formData);
+    public MergeObj(formData) {
+        this.formDataInsert = Object.assign({}, this.formDataInsert, formData);
         return this.formDataInsert;
     }
-    CheckDataForm(){
+    CheckDataForm() {
         // console.log('this.formDataInsert->>>>',this.formDataInsert);
         // console.log('this.formDataInsert->>>>', JSON.stringify(this.formDataInsert));
 
     }
-    tetData(){
+    tetData() {
         // console.log('this.dataTest',this.dataTest);
     }
 
-    public checkReload(page){
+    public checkReload(page) {
         // console.log("เรียกข้อมูลไม่สำเร็จกำลังเรียกข้อมูลใหม่ที่หน้า ",page);
-        switch(page){
-            case 1 : this.blessingComponent.ngOnInit(); break;
-            case 2 : this.informerConponent.ngOnInit(); break;
-            case 3 : this.eventConponent.ngOnInit(); break;
-            case 4 : this.damageConponent.ngOnInit(); break;
+        switch (page) {
+            case 1: this.blessingComponent.ngOnInit(); break;
+            case 2: this.informerConponent.ngOnInit(); break;
+            case 3: this.eventConponent.ngOnInit(); break;
+            case 4: this.damageConponent.ngOnInit(); break;
             // case 5 : this.vaillainConponent.ngOnInit(); break;
             // case 6 : this.attachmentConponent.ngOnInit(); break;
             // case 7 : this.questionareComponent.ngOnInit(); break;
         }
     }
 
-    public selectabReload(page){
+    public selectabReload(page) {
         // console.log("เรียกข้อมูลไม่สำเร็จกำลังเรียกข้อมูลใหม่ที่หน้า ",page);
-        switch(page){
-            case 0 : this.pagefirstConponent === undefined ? this.indexTab = 1 : this.pagefirstConponent.setDefaultData(); break;
+        switch (page) {
+            case 0: this.pagefirstConponent === undefined ? this.indexTab = 1 : this.pagefirstConponent.setDefaultData(); break;
             // case 1 : this.blessingComponent === undefined ? this.indexTab = 1 : this.blessingComponent.setDefaultData(); break;
-            case 2 : this.informerConponent === undefined ? this.indexTab = 2 : this.informerConponent.setPersonalData(); break;
-            case 3 : this.eventConponent === undefined ? this.indexTab = 3 : this.eventConponent.SetDefaultData(); break;
-            case 4 : this.damageConponent === undefined ? this.indexTab = 4 : this.damageConponent.SetDefaultData(); break;
+            case 2: this.informerConponent === undefined ? this.indexTab = 2 : this.informerConponent.setPersonalData(); break;
+            case 3: this.eventConponent === undefined ? this.indexTab = 3 : this.eventConponent.SetDefaultData(); break;
+            case 4: this.damageConponent === undefined ? this.indexTab = 4 : this.damageConponent.SetDefaultData(); break;
             // case 5 : this.vaillainConponent === undefined ? this.indexTab = 5 : this.vaillainConponent.SetDefault(); break;
             // case 6 : this.attachmentConponent === undefined ? this.indexTab = 6 : this.attachmentConponent.setDefaultData(); break;
             // case 7 : this.questionareComponent === undefined ? this.indexTab = 7 : this.questionareComponent.setDefaultData(); break;
         }
     }
 
-    public CheckNextIndex(index: number = 0){
+    public CheckNextIndex(index: number = 0) {
 
         // if (index === 1 && !this.indexLocker.informerConponent) {
         //     return;
@@ -359,8 +377,78 @@ export class IssueOnlineContainerComponent implements OnInit {
         // }
         this.indexTab = index;
         const countItem = this.stepNavigation.length;
-        if (index === (countItem-1) && this.indexLocker.validateConponent) {
+        if (index === (countItem - 1) && this.indexLocker.validateConponent) {
             this.validateConponent.ReloadData();
         }
+    }
+
+    getBrowserInfo(): string {
+        if (this.platform.isBrowser) {
+            const userAgent = window.navigator.userAgent;
+            const browsers = {
+                Chrome: /chrome/i,
+                Safari: /safari/i,
+                Firefox: /firefox/i,
+                Edge: /edge/i,
+                MicrosoftEdge: /Edg/i,
+                Opera: /opera/i,
+                IE: /internet explorer/i,
+            };
+
+            for (const key in browsers) {
+                if (browsers[key].test(userAgent)) {
+                    return key;
+                }
+            }
+            return 'Unknown Browser';
+        } else {
+            return 'Not in a browser environment';
+        }
+    }
+
+    getDeviceInfo(): string {
+        if (this.platform.isBrowser) {
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            const isTablet = /iPad/i.test(navigator.userAgent);
+
+            if (isMobile) {
+                return 'Mobile Device';
+            } else if (isTablet) {
+                return 'Tablet Device';
+            } else {
+                return 'Desktop Device';
+            }
+        } else {
+            return 'Not in a browser environment';
+        }
+    }
+
+    getIPAddress(): Promise<string> {
+        return new Promise((resolve, reject) => {
+            try {
+                $.getJSON('https://api.ipify.org?format=json', (data) => {
+                    const ipAddress = data.ip;
+                    resolve(ipAddress);
+                });
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    getLocation(): Observable<any> {
+        return new Observable((observer) => {
+            if ('geolocation' in navigator) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        observer.next(position);
+                        observer.complete();
+                    },
+                    (error) => observer.error(error)
+                );
+            } else {
+                observer.error('Geolocation is not supported by your browser.');
+            }
+        });
     }
 }
