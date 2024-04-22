@@ -1,0 +1,59 @@
+<div class="block-content">
+    <div class="title">
+        <div class="title-left"><b>แจ้งเบาะแส</b></div>
+        <div class="title-right">หน้าหลัก / แจ้งเบาะแส</div>
+    </div>
+    <div class="block-main">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="sub-block">
+                        <div id="issue-online-desktop">
+                            <div>
+                                <dx-scroll-view [height]="80" direction="horizontal">
+                                    <!-- <div style="width: 1330px;"  [ngStyle]="{'width.px': stepNavigationWidth}"> -->
+                                    <div [ngStyle]="{'width.px': stepNavigationWidth}">
+                                        <div class="block-arrow">
+                                            <div *ngFor="let item of stepNavigation; index as i;" class="arrow-div">
+                                                <div class="{{item.textClass}}" [ngClass]="SelectorTab(i)" [style.z-index]="GetzIndexTab(i)" (click)="SelectTabIndex(i)">
+                                                    <div [ngClass]="formType === 'add' ? 'circle':'circle-edit' ">
+                                                        <span>{{i+1}}</span>
+                                                    </div>
+                                                    <div [ngClass]="formType === 'add' ? 'text':'text-edit'">
+                                                        <div class="title" *ngIf="formType === 'add'">{{'ขั้นตอนที่ ' + (i+1)}}
+                                                        </div>
+                                                        <div>{{item.text}}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </dx-scroll-view>
+                                <dx-multi-view [focusStateEnabled]="false" [animationEnabled]="false" [swipeEnabled]="false" [selectedIndex]="indexTab">
+                                    <dxi-item>
+                                        <ng-container>
+                                            <app-issue-online-report-informer></app-issue-online-report-informer>
+                                        </ng-container>
+                                    </dxi-item>
+                                    <dxi-item>
+                                        <ng-container>
+                                            <app-issue-online-report-event></app-issue-online-report-event>
+                                        </ng-container>
+                                    </dxi-item>
+                                    <dxi-item>
+                                        <ng-container>
+                                            <app-issue-online-report-validate></app-issue-online-report-validate>
+                                        </ng-container>
+                                    </dxi-item>
+                                </dx-multi-view>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

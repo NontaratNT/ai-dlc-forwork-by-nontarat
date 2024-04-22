@@ -87,6 +87,10 @@ import { IssueOnlineDamageSubComponent } from './component/page/RequestReport/is
 import { IssueOnlineBlessingComponent } from './component/page/RequestReport/issue-online-container/issue-online-blessing/issue-online-blessing.component';
 import { IssueOnlineQuestionareComponent } from "./component/page/RequestReport/issue-online-container/issue-online-questionare/issue-online-questionare.component";
 import { IssueOnlineCheckComponent } from "./component/page/RequestReport/issue-online-container/issue-online-check/issue-online-check.component";
+import { IssueOnlineReportComponent } from "./component/page/issue-online-report/issue-online-report.component";
+import { IssueOnlineReportInformerComponent } from "./component/page/issue-online-report/issue-online-report-informer/issue-online-report-informer.component";
+import { IssueOnlineReportEventComponent } from "./component/page/issue-online-report/issue-online-report-event/issue-online-report-event.component";
+import { IssueOnlineReportValidateComponent } from "./component/page/issue-online-report/issue-online-report-validate/issue-online-report-validate.component";
 
 @NgModule({
     declarations: [
@@ -120,7 +124,11 @@ import { IssueOnlineCheckComponent } from "./component/page/RequestReport/issue-
         IssueOnlineDamageSubComponent,
         IssueOnlineBlessingComponent,
         IssueOnlineQuestionareComponent,
-        IssueOnlineCheckComponent
+        IssueOnlineCheckComponent,
+        IssueOnlineReportComponent,
+        IssueOnlineReportInformerComponent,
+        IssueOnlineReportEventComponent,
+        IssueOnlineReportValidateComponent
     ],
     imports: [
         CommonModule,

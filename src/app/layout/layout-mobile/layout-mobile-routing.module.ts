@@ -11,6 +11,7 @@ import { IssueOnlineEditComponent } from './component/page/RequestReport/issue-o
 import { TrackStatusComponent } from './component/page/track-status/track-status.component';
 import { Page2mComponent } from './component/page2m/page2m.component';
 import { MainComponent } from './layout/main/main.component';
+import { IssueOnlineReportComponent } from '../layout-desktop/components/issue-online-report/issue-online-report.component';
 
 const routes: Routes = [
     {
@@ -44,6 +45,10 @@ const routes: Routes = [
             }, {
                 path: 'personal',
                 component: ProfileComponent,
+            },
+            {
+                path: 'issue-online-report',
+                component: IssueOnlineReportComponent,
             }
         ]
     },

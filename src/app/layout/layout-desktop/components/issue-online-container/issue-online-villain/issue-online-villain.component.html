@@ -1,8 +1,8 @@
 <div class="conten-block">
     <div class="content-title">ท่านเคยพบเจอคนร้ายหรือไม่</div>
     <div class="content-form">
-        <dx-form labelLocation="top" >
-            <dxi-item template="temp1" >
+        <dx-form labelLocation="top">
+            <dxi-item template="temp1">
                 <dxo-label text="" [showColon]="false"></dxo-label>
             </dxi-item>
             <div *dxTemplate="let data of 'temp1'">
@@ -16,7 +16,7 @@
 <div class="conten-block" *ngIf="defaultCriminalType === 1">
     <div class="content-title">เคยพบเจอคนร้ายในลักษณะใด (เลือกได้หลายตัวเลือก)<span style="color: #c9302c;">*</span></div>
     <div class="content-form">
-        <dx-form #formMeetVillain [colCount]="1" labelLocation="top" >
+        <dx-form #formMeetVillain [colCount]="1" labelLocation="top">
             <dxi-item template="tempmeet1" [colSpan]="1" [isRequired]="formMeetVillainvalidate" (isRequiredChange)="SelectTypeMeet()">
                 <dxo-label text="" [showColon]="false"></dxo-label>
             </dxi-item>
@@ -29,8 +29,8 @@
                 <dx-check-box [readOnly]="formReadOnly" text="อื่นๆ (กรุณาระบุ)" [(value)]="formMeetCriminal.CASE_CRIMINAL_MEET_OTHER"></dx-check-box><br><br>
             </div>
         </dx-form>
-        <dx-form #formMeetVillain2 [colCount]="1" labelLocation="top" >
-            <dxi-item *ngIf="formMeetCriminal.CASE_CRIMINAL_MEET_OTHER" template="tempmeetdetail" [isRequired]="true" [colSpan]="1" >
+        <dx-form #formMeetVillain2 [colCount]="1" labelLocation="top">
+            <dxi-item *ngIf="formMeetCriminal.CASE_CRIMINAL_MEET_OTHER" template="tempmeetdetail" [isRequired]="true" [colSpan]="1">
                 <dxo-label text="" [showColon]="false"></dxo-label>
                 <dxi-validation-rule type="required" message="ระบุรายละเอียดอื่นๆ"></dxi-validation-rule>
             </dxi-item>
@@ -49,41 +49,39 @@
                 <dx-button class="btn btn-add-data" text="เพิ่มรายการ" (onClick)="CriminalAddData()"></dx-button>
             </div>
             <dx-data-grid #grid [dataSource]="formData.CASE_CRIMINAL" [showColumnLines]="true" [showRowLines]="true" [columnHidingEnabled]="true" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="false" [columnAutoWidth]="true" [selectedRowKeys]="[]"
-            noDataText="ไม่มีข้อมูล">
-            <dxo-paging [pageSize]="5"></dxo-paging>
-            <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
-            </dxo-editing>
-            <dxo-selection mode="single"></dxo-selection>
-            <dxi-column *ngIf="formAddData" dataField="" caption="จัดการ" [width]="100" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommandAdd"></dxi-column>
-            <div *dxTemplate="let d of 'cellTemplateCommandAdd'">
-                <img class="text-download" src="assets/icon/edit2.png" alt="icon" (click)="CriminalEditData('edit',d.data,d.component.pageIndex() * d.component.pageSize() + d.rowIndex)">&nbsp;
-                <img class="text-download" src="assets/icon/trash.png" alt="icon" (click)="CriminalDeleteData(d.component.pageIndex() * d.component.pageSize() + d.rowIndex)">
-            </div>
-            <dxi-column *ngIf="!formAddData" dataField="" caption="จัดการ" [width]="80" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommandEdit"></dxi-column>
-            <div *dxTemplate="let d of 'cellTemplateCommandEdit'">
-                <img class="text-download" src="assets/icon/icon-view.png" alt="icon" (click)="CriminalEditData('edit',d.data,d.component.pageIndex() * d.component.pageSize() + d.rowIndex)">&nbsp;
-            </div>
-            <dxi-column dataField="" caption="ลำดับ" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
-            <dxi-column dataField="" caption="ชื่อคนร้าย" alignment="left" cellTemplate="cellTemplateName" [width]="300"></dxi-column>
-            <div *dxTemplate="let cell of 'cellTemplateName'">
-                <div *ngIf="cell.data.CASE_CRIMINAL_FIRSTNAME && cell.data.CASE_CRIMINAL_LASTNAME">
-                    {{'ชื่อ :'+cell.data.CASE_CRIMINAL_FIRSTNAME+" "+cell.data.CASE_CRIMINAL_LASTNAME}}<br>
+                noDataText="ไม่มีข้อมูล">
+                <dxo-paging [pageSize]="5"></dxo-paging>
+                <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                </dxo-editing>
+                <dxo-selection mode="single"></dxo-selection>
+                <dxi-column *ngIf="formAddData" dataField="" caption="จัดการ" [width]="100" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommandAdd"></dxi-column>
+                <div *dxTemplate="let d of 'cellTemplateCommandAdd'">
+                    <img class="text-download" src="assets/icon/edit2.png" alt="icon" (click)="CriminalEditData('edit',d.data,d.component.pageIndex() * d.component.pageSize() + d.rowIndex)">&nbsp;
+                    <img class="text-download" src="assets/icon/trash.png" alt="icon" (click)="CriminalDeleteData(d.component.pageIndex() * d.component.pageSize() + d.rowIndex)">
                 </div>
-                {{'ชื่อแฝง :'+cell.data.CASE_CRIMINAL_ALIASNAME}}<br>
-            </div>
-            <dxi-column dataField="" caption="ที่อยู่" alignment="left" cellTemplate="cellTemplateDetail"></dxi-column>
-            <div *dxTemplate="let cell of 'cellTemplateDetail'">
-                <div *ngIf="cell.data.CASE_CRIMINAL_ADDRESS_NO && cell.data.CASE_CRIMINAL_PROVINCE_NAME_THA &&cell.data.CASE_CRIMINAL_DISTRICT_NAME_THA && cell.data.CASE_CRIMINAL_SUB_DISTRICT_NAME_THA">
-                    {{'บ้านเลขที่ :'+cell.data.CASE_CRIMINAL_ADDRESS_NO}}<br>
-                    {{'จังหวัด :'+cell.data.CASE_CRIMINAL_PROVINCE_NAME_THA}}<br>
-                    {{'อำเภอ/เขต:'+cell.data.CASE_CRIMINAL_DISTRICT_NAME_THA}}<br>
-                    {{'ตำบล/แขวง :'+cell.data.CASE_CRIMINAL_SUB_DISTRICT_NAME_THA}}<br>
+                <dxi-column *ngIf="!formAddData" dataField="" caption="จัดการ" [width]="80" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateCommandEdit"></dxi-column>
+                <div *dxTemplate="let d of 'cellTemplateCommandEdit'">
+                    <img class="text-download" src="assets/icon/icon-view.png" alt="icon" (click)="CriminalEditData('edit',d.data,d.component.pageIndex() * d.component.pageSize() + d.rowIndex)">&nbsp;
                 </div>
-            </div>
-            <div *dxTemplate="let cell of 'cellTemplate'">
-                {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
-            </div>
-        </dx-data-grid>
+                <dxi-column dataField="" caption="ลำดับ" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+                <dxi-column dataField="" caption="ชื่อคนร้าย" alignment="left" cellTemplate="cellTemplateName" [width]="300"></dxi-column>
+                <div *dxTemplate="let cell of 'cellTemplateName'">
+                    <div *ngIf="cell.data.CASE_CRIMINAL_FIRSTNAME && cell.data.CASE_CRIMINAL_LASTNAME">
+                        {{'ชื่อ :'+cell.data.CASE_CRIMINAL_FIRSTNAME+" "+cell.data.CASE_CRIMINAL_LASTNAME}}<br>
+                    </div>
+                    {{'ชื่อแฝง :'+cell.data.CASE_CRIMINAL_ALIASNAME}}<br>
+                </div>
+                <dxi-column dataField="" caption="ที่อยู่" alignment="left" cellTemplate="cellTemplateDetail"></dxi-column>
+                <div *dxTemplate="let cell of 'cellTemplateDetail'">
+                    <div *ngIf="cell.data.CASE_CRIMINAL_ADDRESS_NO && cell.data.CASE_CRIMINAL_PROVINCE_NAME_THA &&cell.data.CASE_CRIMINAL_DISTRICT_NAME_THA && cell.data.CASE_CRIMINAL_SUB_DISTRICT_NAME_THA">
+                        {{'บ้านเลขที่ :'+cell.data.CASE_CRIMINAL_ADDRESS_NO}}<br> {{'จังหวัด :'+cell.data.CASE_CRIMINAL_PROVINCE_NAME_THA}}<br> {{'อำเภอ/เขต:'+cell.data.CASE_CRIMINAL_DISTRICT_NAME_THA}}
+                        <br> {{'ตำบล/แขวง :'+cell.data.CASE_CRIMINAL_SUB_DISTRICT_NAME_THA}}<br>
+                    </div>
+                </div>
+                <div *dxTemplate="let cell of 'cellTemplate'">
+                    {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                </div>
+            </dx-data-grid>
         </div>
         <div class="content-end-line"></div>
     </div>
@@ -134,12 +132,12 @@
             </div>
             <dxi-column dataField="" caption="ID หรือ URL" alignment="left" cellTemplate="cellTemplateDetailss"></dxi-column>
             <div *dxTemplate="let cell of 'cellTemplateDetailss'">
-                <div class="text-break" [innerHTML]="cell.data.SHOW_TEXT" >
+                <div class="text-break" [innerHTML]="cell.data.SHOW_TEXT">
                 </div>
             </div>
             <dxi-column dataField="" caption="ภาษาที่ใช้ในการติดต่อ" alignment="center" cellTemplate="cellTemplateDetailLanguage"></dxi-column>
             <div *dxTemplate="let cell of 'cellTemplateDetailLanguage'">
-                <div class="text-break" [innerHTML]="cell.data.SHOW_LANGUAGE" >
+                <div class="text-break" [innerHTML]="cell.data.SHOW_LANGUAGE">
                 </div>
             </div>
             <dxi-column dataField="" caption="แนบไฟล์" alignment="center" cellTemplate="cellTemplateDetailFile"></dxi-column>
@@ -266,12 +264,7 @@
                             </dxi-item>
                             <div *dxTemplate="let data of 'temp4'">
                                 <dx-text-box id="ctrlCriminalAliasName" [readOnly]="formReadOnly" [(value)]="formCriminal.CASE_CRIMINAL_ALIASNAME"></dx-text-box>
-                                <dx-tooltip
-                                    target="#ctrlCriminalAliasName"
-                                    showEvent="dxhoverstart"
-                                    hideEvent="dxhoverend"
-                                    position="top"
-                                    [hideOnOutsideClick]="false">
+                                <dx-tooltip target="#ctrlCriminalAliasName" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                     <div *dxTemplate="let data of 'content'">
                                         <p>หมายเหตุ: ไม่ต้องระบุ ตัวเลข หรืออักษรพิเศษ</p>
                                     </div>
@@ -282,12 +275,7 @@
                             </dxi-item>
                             <div *dxTemplate="let data of 'temp1'">
                                 <dx-text-box id="ctrlCriminalName" (keypress)="CheckString($event)" [readOnly]="formReadOnly" [(value)]="formCriminal.CASE_CRIMINAL_FIRSTNAME"></dx-text-box>
-                                <dx-tooltip
-                                    target="#ctrlCriminalName"
-                                    showEvent="dxhoverstart"
-                                    hideEvent="dxhoverend"
-                                    position="top"
-                                    [hideOnOutsideClick]="false">
+                                <dx-tooltip target="#ctrlCriminalName" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                     <div *dxTemplate="let data of 'content'">
                                         <p>หมายเหตุ: ไม่ต้องระบุ ตัวเลข หรืออักษรพิเศษ</p>
                                     </div>
@@ -298,16 +286,8 @@
                                 <!-- <dxi-validation-rule type="required" message="กรุณากรอกข้อมูล"></dxi-validation-rule> -->
                             </dxi-item>
                             <div *dxTemplate="let data of 'temp2'">
-                                <dx-text-box id="ctrlCriminalLastName"
-                                    (keypress)="CheckString($event)"
-                                    [readOnly]="formReadOnly"
-                                    [(value)]="formCriminal.CASE_CRIMINAL_LASTNAME"></dx-text-box>
-                                <dx-tooltip
-                                    target="#ctrlCriminalLastName"
-                                    showEvent="dxhoverstart"
-                                    hideEvent="dxhoverend"
-                                    position="top"
-                                    [hideOnOutsideClick]="false">
+                                <dx-text-box id="ctrlCriminalLastName" (keypress)="CheckString($event)" [readOnly]="formReadOnly" [(value)]="formCriminal.CASE_CRIMINAL_LASTNAME"></dx-text-box>
+                                <dx-tooltip target="#ctrlCriminalLastName" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                     <div *dxTemplate="let data of 'content'">
                                         <p>หมายเหตุ: ไม่ต้องระบุ ตัวเลข หรืออักษรพิเศษ</p>
                                     </div>
@@ -317,21 +297,15 @@
                                 <dxo-label text="เลขบัตรประชาชน (กรุณาระบุเฉพาะตัวเลข)" [showColon]="false"></dxo-label>
                                 <dxi-validation-rule type="numeric" [message]="'รูปแบบบัตรประชาชนไม่ถูกต้อง'">
                                 </dxi-validation-rule>
-                                <dxi-validation-rule type="custom" [validationCallback]="IdentificationPattern"
-                                    message="กรุณาระบุเลขบัตรประชาชนให้ครบ 13 หลัก">
+                                <dxi-validation-rule type="custom" [validationCallback]="IdentificationPattern" message="กรุณาระบุเลขบัตรประชาชนให้ครบ 13 หลัก">
                                 </dxi-validation-rule>
                                 <div *dxTemplate="let data of 'tempidcard'">
                                     <dx-text-box id="ctrlCRIMINALID" [readOnly]="formReadOnly" [maxLength]="13" [(value)]="formCriminal.CASE_CRIMINAL_ID_CARD" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)"></dx-text-box>
-                                    <dx-tooltip
-                                    target="#ctrlCRIMINALID"
-                                    showEvent="dxhoverstart"
-                                    hideEvent="dxhoverend"
-                                    position="top"
-                                    [hideOnOutsideClick]="false">
-                                    <div *dxTemplate="let data of 'content'">
-                                        <p>ระบุหมายเลข [0-9] จำนวน 13 หลักติดกันโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 1456699999999</p>
-                                    </div>
-                                </dx-tooltip>
+                                    <dx-tooltip target="#ctrlCRIMINALID" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
+                                        <div *dxTemplate="let data of 'content'">
+                                            <p>ระบุหมายเลข [0-9] จำนวน 13 หลักติดกันโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 1456699999999</p>
+                                        </div>
+                                    </dx-tooltip>
                                 </div>
                             </dxi-item>
                         </dx-form>
@@ -349,17 +323,12 @@
                                 <!--                    </dxi-validation-rule>-->
                             </dxi-item>
                             <div *dxTemplate="let data of 'tempaddressno'">
-                                <dx-text-box  id="ctrlCRIMINALAddress" [readOnly]="formReadOnly" [(value)]="formCriminal.CASE_CRIMINAL_ADDRESS_NO" (keypress)="CheckNumberSlash($event)" (paste)="PasteCheckNumberSlash($event)"></dx-text-box>
-                                <dx-tooltip
-                                target="#ctrlCRIMINALAddress"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
-                                <div *dxTemplate="let data of 'content'">
-                                    <p>ตัวอย่าง 84/4</p>
-                                </div>
-                            </dx-tooltip>
+                                <dx-text-box id="ctrlCRIMINALAddress" [readOnly]="formReadOnly" [(value)]="formCriminal.CASE_CRIMINAL_ADDRESS_NO" (keypress)="CheckNumberSlash($event)" (paste)="PasteCheckNumberSlash($event)"></dx-text-box>
+                                <dx-tooltip target="#ctrlCRIMINALAddress" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
+                                    <div *dxTemplate="let data of 'content'">
+                                        <p>ตัวอย่าง 84/4</p>
+                                    </div>
+                                </dx-tooltip>
                             </div>
                             <dxi-item template="tempprovinceid" [isRequired]="false">
                                 <dxo-label text="จังหวัด" [showColon]="false">
@@ -425,7 +394,7 @@
                             <dxo-label text="ประเภทช่องทางการติดต่อ" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'temp1'">
-                            <dx-check-box [readOnly]="formReadOnly" id="chanel_check" text="เบอร์โทรศัพท​์" [(value)]="formPopupvillain.CHANEL_PHONE"></dx-check-box>
+                            <dx-check-box [readOnly]="formReadOnly" id="chanel_check" text="เบอร์โทรศัพท์" [(value)]="formPopupvillain.CHANEL_PHONE"></dx-check-box>
                             <dx-check-box [readOnly]="formReadOnly" id="chanel_check" text="SMS" [(value)]="formPopupvillain.CHANEL_SMS"></dx-check-box>
                             <dx-check-box [readOnly]="formReadOnly" id="chanel_check" text="LINE" [(value)]="formPopupvillain.CHANEL_LINE"></dx-check-box>
                             <dx-check-box [readOnly]="formReadOnly" id="chanel_check" text="FACEBOOK" [(value)]="formPopupvillain.CHANEL_FACEBOOK"></dx-check-box>
@@ -449,20 +418,12 @@
                             <dxo-label text="หมายเลขโทรศัพท์ผู้เสียหาย" [showColon]="false"></dxo-label>
                             <dxi-validation-rule type="required" message="กรุณากรอกหมายเลขโทรศัพท์ผู้เสียหาย">
                             </dxi-validation-rule>
-                            <dxi-validation-rule
-                                type="custom"
-                                message="หมายเลขโทรศัพท์ 10 หลัก"
-                                [validationCallback]="PhoneNumberPattern">
+                            <dxi-validation-rule type="custom" message="หมายเลขโทรศัพท์ 10 หลัก" [validationCallback]="PhoneNumberPattern">
                             </dxi-validation-rule>
                         </dxi-item>
                         <div *dxTemplate="let data of 'tempphoneoriginal'">
                             <dx-text-box id="ctfPhone_original" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_PHONE_ORIGINAL" [maxLength]="10" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctfPhone_original"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctfPhone_original" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>ระบุหมายเลขโทรศัพท์จำนวน 10 หลักติดกันโดยไม่ต้องมีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 0819999999</p>
                                 </div>
@@ -481,20 +442,12 @@
                             <dxo-label text="หมายเลขโทรศัพท์คนร้าย" [showColon]="false"></dxo-label>
                             <dxi-validation-rule type="required" message="กรุณากรอกหมายเลขโทรศัพท์คนร้าย">
                             </dxi-validation-rule>
-                            <dxi-validation-rule
-                                type="custom"
-                                message="หมายเลขโทรศัพท์ 10 หลัก"
-                                [validationCallback]="PhoneNumberPattern">
+                            <dxi-validation-rule type="custom" message="หมายเลขโทรศัพท์ 10 หลัก" [validationCallback]="PhoneNumberPattern">
                             </dxi-validation-rule>
                         </dxi-item>
                         <div *dxTemplate="let data of 'tempphonedestination'">
-                            <dx-text-box id="ctfPhone_destination"  [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_PHONE_DESTINATION" [maxLength]="10" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctfPhone_destination"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-text-box id="ctfPhone_destination" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_PHONE_DESTINATION" [maxLength]="10" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)"></dx-text-box>
+                            <dx-tooltip target="#ctfPhone_destination" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>ระบุหมายเลขโทรศัพท์จำนวน 10 หลักติดกันโดยไม่ต้องมีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 0819999999</p>
                                 </div>
@@ -504,8 +457,8 @@
                             <dxo-label text="วันเวลา" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'tempdatephone'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'phone')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
-                                    type="datetime" [max]="maxDateValue" [value]="datePhone"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'phone')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [max]="maxDateValue" [value]="datePhone" displayFormat="yyyy-MM-dd HH:mm:ss"
+                                [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
                         <!-- <dxi-item *ngIf="formPopupvillain.CHANEL_PHONE" itemType="empty" [colSpan]="1"></dxi-item>
@@ -590,7 +543,7 @@
                                 </div>
                             </div>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_PHONE" [colSpan]="2" template="selectLanguagephone" >
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_PHONE" [colSpan]="2" template="selectLanguagephone">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'selectLanguagephone'">
@@ -628,8 +581,8 @@
                                 </ng-container>
                             </div>
                         </div>
-                          <!-- เบอร์โทรศัพท End -->
-                          <!-- SMS start -->
+                        <!-- เบอร์โทรศัพท End -->
+                        <!-- SMS start -->
                         <dxi-item *ngIf="formPopupvillain.CHANEL_SMS" [colSpan]="2" style="margin-top:5px;">
                             <div class="content-title">SMS</div>
                         </dxi-item>
@@ -637,20 +590,12 @@
                             <dxo-label text="หมายเลขโทรศัพท์ผู้เสียหาย" [showColon]="false"></dxo-label>
                             <dxi-validation-rule type="required" message="กรุณากรอกหมายเลขโทรศัพท์ผู้เสียหาย">
                             </dxi-validation-rule>
-                            <dxi-validation-rule
-                                type="custom"
-                                message="หมายเลขโทรศัพท์ 10 หลัก"
-                                [validationCallback]="PhoneNumberPattern">
+                            <dxi-validation-rule type="custom" message="หมายเลขโทรศัพท์ 10 หลัก" [validationCallback]="PhoneNumberPattern">
                             </dxi-validation-rule>
                         </dxi-item>
                         <div *dxTemplate="let data of 'temp5'">
                             <dx-text-box id="ctfsms_original" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_SMS_ORIGINAL" [maxLength]="10" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctfsms_original"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctfsms_original" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>ระบุหมายเลขโทรศัพท์จำนวน 10 หลักติดกันโดยไม่ต้องมีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 0819999999</p>
                                 </div>
@@ -669,20 +614,12 @@
                             <dxo-label text="หมายเลขโทรศัพท์คนร้าย" [showColon]="false"></dxo-label>
                             <dxi-validation-rule type="required" message="กรุณากรอกหมายเลขโทรศัพท์คนร้าย">
                             </dxi-validation-rule>
-                            <dxi-validation-rule
-                                type="custom"
-                                message="หมายเลขโทรศัพท์ 10 หลัก"
-                                [validationCallback]="PhoneNumberPattern">
+                            <dxi-validation-rule type="custom" message="หมายเลขโทรศัพท์ 10 หลัก" [validationCallback]="PhoneNumberPattern">
                             </dxi-validation-rule>
                         </dxi-item>
                         <div *dxTemplate="let data of 'temp4'">
                             <dx-text-box id="ctfsms_destination" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_SMS_DESTINATION" [maxLength]="10" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctfsms_destination"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctfsms_destination" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>ระบุหมายเลขโทรศัพท์จำนวน 10 หลักติดกันโดยไม่ต้องมีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 0819999999</p>
                                 </div>
@@ -695,12 +632,7 @@
                         </dxi-item>
                         <div *dxTemplate="let data of 'temp4smsdetail'">
                             <dx-text-area id="ctfsms_detail" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_SMS_DETAIL"></dx-text-area>
-                            <dx-tooltip
-                                target="#ctfsms_detail"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctfsms_detail" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>ระบุข้อความที่ได้รับ ตัวอย่าง ยินดีด้วยคุณได้รับรางวัล!!</p>
                                 </div>
@@ -710,8 +642,8 @@
                             <dxo-label text="วันเวลา" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'tempdatesms'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'sms')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
-                                    type="datetime" [max]="maxDateValue" [value]="dateSMS"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'sms')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [max]="maxDateValue" [value]="dateSMS" displayFormat="yyyy-MM-dd HH:mm:ss"
+                                [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
                         <dxi-item *ngIf="formPopupvillain.CHANEL_SMS" itemType="empty" [colSpan]="1"></dxi-item>
@@ -796,7 +728,7 @@
                                 </div>
                             </div>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_SMS" [colSpan]="2" template="selectLanguagesms" >
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_SMS" [colSpan]="2" template="selectLanguagesms">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'selectLanguagesms'">
@@ -811,7 +743,7 @@
                                 </div>
                             </ng-container>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_SMS"  template="languagesms" [colSpan]="2" [isRequired]="validateLanguageSMS" (isRequiredChange)="SelectTypeLanguage()">
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_SMS" template="languagesms" [colSpan]="2" [isRequired]="validateLanguageSMS" (isRequiredChange)="SelectTypeLanguage()">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'languagesms'">
@@ -846,12 +778,7 @@
                         </dxi-item>
                         <div *dxTemplate="let data of 'templine_url'">
                             <dx-text-box id="ctfline_detail_url" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_LINE_DETAIL_URL"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctfline_detail_url"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctfline_detail_url" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>ระบุ LINE URL</p>
                                 </div>
@@ -864,12 +791,7 @@
                         </dxi-item>
                         <div *dxTemplate="let data of 'templine_id'">
                             <dx-text-box id="ctfline_detail_id" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_LINE_DETAIL_ID"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctfline_detail_id"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctfline_detail_id" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>ระบุ Line ID</p>
                                 </div>
@@ -882,12 +804,7 @@
                         </dxi-item>
                         <div *dxTemplate="let data of 'templine_name'">
                             <dx-text-box id="ctfline_detail_name" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_LINE_DETAIL_NAME"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctfline_detail_name"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctfline_detail_name" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>ระบุ ชื่อ Line คนร้าย</p>
                                 </div>
@@ -898,16 +815,16 @@
                             <dxo-label text="ตั้งแต่วันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimelineS'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'line','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
-                                    type="datetime" [max]="maxDateValue" [value]="dateLineStart"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'line','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [max]="maxDateValue" [value]="dateLineStart" displayFormat="yyyy-MM-dd HH:mm:ss"
+                                [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
                         <dxi-item template="datetimelineE" [isRequired]="false" *ngIf="formPopupvillain.CHANEL_LINE">
                             <dxo-label text="ถึงวันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimelineE'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'line','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
-                                    type="datetime" [max]="maxDateValue" [value]="dateLineEnd"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'line','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [max]="maxDateValue" [value]="dateLineEnd" displayFormat="yyyy-MM-dd HH:mm:ss"
+                                [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
                         <dxi-item *ngIf="formPopupvillain.CHANEL_LINE" template="tempfileline" [colSpan]="2">
@@ -972,7 +889,7 @@
                                 </div>
                             </div>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_LINE" [colSpan]="2" template="selectLanguageline" >
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_LINE" [colSpan]="2" template="selectLanguageline">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'selectLanguageline'">
@@ -987,7 +904,7 @@
                                 </div>
                             </ng-container>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_LINE"  template="languageline" [colSpan]="2" [isRequired]="validateLanguageLINE" (isRequiredChange)="SelectTypeLanguage()">
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_LINE" template="languageline" [colSpan]="2" [isRequired]="validateLanguageLINE" (isRequiredChange)="SelectTypeLanguage()">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'languageline'">
@@ -1024,12 +941,7 @@
                         </dxi-item>
                         <div *dxTemplate="let data of 'tempfacebook_url'">
                             <dx-text-box id="ctrFacebook_detail_url" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_URL"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctrFacebook_detail_url"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctrFacebook_detail_url" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>URL สามารถมีตัวอักษร (a-z), ตัวเลข (0-9) และจุด (.) ได้ ตัวอย่าง https://www.facebook.com/Example หรือ https://www.facebook.com/profile.php?id=100000000000001 </p>
                                 </div>
@@ -1042,12 +954,7 @@
                         </dxi-item>
                         <div *dxTemplate="let data of 'tempfacebook_id'">
                             <dx-text-box id="ctrFacebook_detail_id" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_ID"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctrFacebook_detail_id"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctrFacebook_detail_id" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>URL สามารถมีตัวอักษร (a-z), ตัวเลข (0-9) ได้ ตัวอย่าง 100000000000001 </p>
                                 </div>
@@ -1060,12 +967,7 @@
                         </dxi-item>
                         <div *dxTemplate="let data of 'tempfacebook_name'">
                             <dx-text-box id="ctrFacebook_detail_name" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_FACEBOOK_DETAIL_NAME"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctrFacebook_detail_name"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctrFacebook_detail_name" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>URL สามารถมีตัวอักษร (a-z), ตัวเลข (0-9) และจุด (.) ได้ ตัวอย่าง Mr Hello</p>
                                 </div>
@@ -1076,16 +978,16 @@
                             <dxo-label text="ตั้งแต่วันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimefacebookS'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'facebook','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
-                                    type="datetime" [max]="maxDateValue" [value]="dateFacebookStart"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'facebook','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [max]="maxDateValue" [value]="dateFacebookStart" displayFormat="yyyy-MM-dd HH:mm:ss"
+                                [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
                         <dxi-item template="datetimefacebookE" [isRequired]="false" *ngIf="formPopupvillain.CHANEL_FACEBOOK">
                             <dxo-label text="ถึงวันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimefacebookE'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'facebook','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
-                                    type="datetime" [max]="maxDateValue" [value]="dateFacebookEnd"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'facebook','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [max]="maxDateValue" [value]="dateFacebookEnd" displayFormat="yyyy-MM-dd HH:mm:ss"
+                                [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
                         <dxi-item *ngIf="formPopupvillain.CHANEL_FACEBOOK" template="tempfilefacebook" [colSpan]="2">
@@ -1150,7 +1052,7 @@
                                 </div>
                             </div>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_FACEBOOK" [colSpan]="2" template="selectLanguagefacebook" >
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_FACEBOOK" [colSpan]="2" template="selectLanguagefacebook">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'selectLanguagefacebook'">
@@ -1165,7 +1067,7 @@
                                 </div>
                             </ng-container>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_FACEBOOK"  template="languagefacebook" [colSpan]="2" [isRequired]="validateLanguageFACEBOOK" (isRequiredChange)="SelectTypeLanguage()">
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_FACEBOOK" template="languagefacebook" [colSpan]="2" [isRequired]="validateLanguageFACEBOOK" (isRequiredChange)="SelectTypeLanguage()">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'languagefacebook'">
@@ -1188,7 +1090,7 @@
                                 </ng-container>
                             </div>
                         </div>
-                           <!-- facebook End -->
+                        <!-- facebook End -->
                         <!-- messenger start -->
                         <dxi-item *ngIf="formPopupvillain.CHANEL_MESSENGER" [colSpan]="2" style="margin-top:5px;">
                             <div class="content-title">MESSENGER</div>
@@ -1200,12 +1102,7 @@
                         </dxi-item>
                         <div *dxTemplate="let data of 'tempMESSENGER_url'">
                             <dx-text-box id="ctfMESSENGER_detail_url" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_URL"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctfMESSENGER_detail_url"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctfMESSENGER_detail_url" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>ระบุ MESSENGER URL</p>
                                 </div>
@@ -1218,12 +1115,7 @@
                         </dxi-item>
                         <div *dxTemplate="let data of 'tempMESSENGER_id'">
                             <dx-text-box id="ctfMESSENGER_detail_id" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_ID"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctfMESSENGER_detail_id"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctfMESSENGER_detail_id" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>ระบุ MESSENGER ID</p>
                                 </div>
@@ -1236,12 +1128,7 @@
                         </dxi-item>
                         <div *dxTemplate="let data of 'tempMESSENGER_name'">
                             <dx-text-box id="ctfMESSENGER_detail_name" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_MESSENGER_DETAIL_NAME"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctfMESSENGER_detail_name"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctfMESSENGER_detail_name" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>ระบุชื่อ MESSENGER คนร้าย</p>
                                 </div>
@@ -1252,16 +1139,16 @@
                             <dxo-label text="ตั้งแต่วันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimemessengerS'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'messenger','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
-                                    type="datetime" [max]="maxDateValue" [value]="dateMessengerStart"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'messenger','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [max]="maxDateValue" [value]="dateMessengerStart"
+                                displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
                         <dxi-item template="datetimemessengerE" [isRequired]="false" *ngIf="formPopupvillain.CHANEL_MESSENGER">
                             <dxo-label text="ถึงวันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimemessengerE'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'messenger','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
-                                    type="datetime" [max]="maxDateValue" [value]="dateMessengerEnd"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'messenger','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [max]="maxDateValue" [value]="dateMessengerEnd" displayFormat="yyyy-MM-dd HH:mm:ss"
+                                [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
                         <dxi-item *ngIf="formPopupvillain.CHANEL_MESSENGER" template="tempfileteleMESSENGER" [colSpan]="2">
@@ -1326,7 +1213,7 @@
                                 </div>
                             </div>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_MESSENGER" [colSpan]="2" template="selectLanguagemessenger" >
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_MESSENGER" [colSpan]="2" template="selectLanguagemessenger">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'selectLanguagemessenger'">
@@ -1341,7 +1228,7 @@
                                 </div>
                             </ng-container>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_MESSENGER"  template="languagemessenger" [colSpan]="2" [isRequired]="validateLanguageMESSENGER" (isRequiredChange)="SelectTypeLanguage()">
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_MESSENGER" template="languagemessenger" [colSpan]="2" [isRequired]="validateLanguageMESSENGER" (isRequiredChange)="SelectTypeLanguage()">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'languagemessenger'">
@@ -1365,8 +1252,8 @@
                                 </ng-container>
                             </div>
                         </div>
-                           <!-- messenger End -->
-                            <!-- INSTARGRAM start -->
+                        <!-- messenger End -->
+                        <!-- INSTARGRAM start -->
                         <dxi-item *ngIf="formPopupvillain.CHANEL_INSTARGRAM" [colSpan]="2" style="margin-top:5px;">
                             <div class="content-title">INSTAGRAM</div>
                         </dxi-item>
@@ -1377,12 +1264,7 @@
                         </dxi-item>
                         <div *dxTemplate="let data of 'tempinstargram_url'">
                             <dx-text-box id="ctfinstargram_detail_url" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_INSTARGRAM_DETAIL_URL"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctfinstargram_detail_url"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctfinstargram_detail_url" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>ระบุ INSTAGRAM URL</p>
                                 </div>
@@ -1395,12 +1277,7 @@
                         </dxi-item>
                         <div *dxTemplate="let data of 'tempinstargram_id'">
                             <dx-text-box id="ctfinstargram_detail_id" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_INSTARGRAM_DETAIL_ID"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctfinstargram_detail_id"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctfinstargram_detail_id" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>ระบุ INSTAGRAM ID</p>
                                 </div>
@@ -1413,12 +1290,7 @@
                         </dxi-item>
                         <div *dxTemplate="let data of 'tempinstargram_name'">
                             <dx-text-box id="ctfinstargram_detail_name" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_INSTARGRAM_DETAIL_NAME"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctfinstargram_detail_name"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctfinstargram_detail_name" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>ระบุ ชื่อ INSTAGRAM คนร้าย</p>
                                 </div>
@@ -1429,16 +1301,16 @@
                             <dxo-label text="ตั้งแต่วันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimeinstargramS'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'instargram','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
-                                    type="datetime" [max]="maxDateValue" [value]="dateInstargramStart"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'instargram','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [max]="maxDateValue" [value]="dateInstargramStart"
+                                displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
                         <dxi-item template="datetimeinstargramE" [isRequired]="false" *ngIf="formPopupvillain.CHANEL_INSTARGRAM">
                             <dxo-label text="ถึงวันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimeinstargramE'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'instargram','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
-                                    type="datetime" [max]="maxDateValue" [value]="dateInstargramEnd"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'instargram','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [max]="maxDateValue" [value]="dateInstargramEnd" displayFormat="yyyy-MM-dd HH:mm:ss"
+                                [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
                         <dxi-item *ngIf="formPopupvillain.CHANEL_INSTARGRAM" template="tempfileteleinstagram" [colSpan]="2">
@@ -1503,7 +1375,7 @@
                                 </div>
                             </div>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_INSTARGRAM" [colSpan]="2" template="selectLanguageinstargram" >
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_INSTARGRAM" [colSpan]="2" template="selectLanguageinstargram">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'selectLanguageinstargram'">
@@ -1518,7 +1390,7 @@
                                 </div>
                             </ng-container>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_INSTARGRAM"  template="languageinstargram" [colSpan]="2" [isRequired]="validateLanguageINSTARGRAM" (isRequiredChange)="SelectTypeLanguage()">
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_INSTARGRAM" template="languageinstargram" [colSpan]="2" [isRequired]="validateLanguageINSTARGRAM" (isRequiredChange)="SelectTypeLanguage()">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'languageinstargram'">
@@ -1541,24 +1413,19 @@
                                 </ng-container>
                             </div>
                         </div>
-                           <!-- INSTARGRAM End -->
-                               <!-- website start -->
+                        <!-- INSTARGRAM End -->
+                        <!-- website start -->
                         <dxi-item *ngIf="formPopupvillain.CHANEL_WEBSITE" [colSpan]="2" style="margin-top:5px;">
                             <div class="content-title">WEBSITE</div>
                         </dxi-item>
-                          <dxi-item *ngIf="formPopupvillain.CHANEL_WEBSITE" template="tempweb" [colSpan]="1">
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_WEBSITE" template="tempweb" [colSpan]="1">
                             <dxo-label text="WEBSITE URL" [showColon]="false"></dxo-label>
                             <dxi-validation-rule type="required" message="กรุณากรอก WEBSITE URL">
                             </dxi-validation-rule>
                         </dxi-item>
                         <div *dxTemplate="let data of 'tempweb'">
                             <dx-text-box id="ctfwebsite_detail" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_WEBSITE_DETAIL"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctfwebsite_detail"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctfwebsite_detail" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>ระบุ WEBSITE URL ตัวอย่าง http://www.website.com</p>
                                 </div>
@@ -1568,8 +1435,8 @@
                             <dxo-label text="วันเวลา" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimewebsite'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'website')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
-                                    type="datetime" [max]="maxDateValue" [value]="dateWebsite"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'website')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [max]="maxDateValue" [value]="dateWebsite" displayFormat="yyyy-MM-dd HH:mm:ss"
+                                [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
                         <dxi-item *ngIf="formPopupvillain.CHANEL_WEBSITE" template="tempfiletelewebsite" [colSpan]="2">
@@ -1634,7 +1501,7 @@
                                 </div>
                             </div>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_WEBSITE" [colSpan]="2" template="selectLanguagewebsite" >
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_WEBSITE" [colSpan]="2" template="selectLanguagewebsite">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'selectLanguagewebsite'">
@@ -1649,7 +1516,7 @@
                                 </div>
                             </ng-container>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_WEBSITE"  template="languagewebsite" [colSpan]="2" [isRequired]="validateLanguageWEBSITE" (isRequiredChange)="SelectTypeLanguage()">
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_WEBSITE" template="languagewebsite" [colSpan]="2" [isRequired]="validateLanguageWEBSITE" (isRequiredChange)="SelectTypeLanguage()">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'languagewebsite'">
@@ -1678,24 +1545,19 @@
                         <dxi-item *ngIf="formPopupvillain.CHANEL_EMAIL" [colSpan]="2" style="margin-top:5px;">
                             <div class="content-title">EMAIL</div>
                         </dxi-item>
-                          <dxi-item *ngIf="formPopupvillain.CHANEL_EMAIL" template="tempEmail" [colSpan]="1">
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_EMAIL" template="tempEmail" [colSpan]="1">
                             <dxo-label text="ที่อยู่ Email" [showColon]="false"></dxo-label>
                             <ng-container *ngIf="formPopupvillain.CHANEL_EMAIL">
-                                <dxi-validation-rule type="custom" [validationCallback]="EmailPatternCharacters" message="Email จะต้องไม่มีเครื่องหมาย &, =, ', +, (,), <, >, * ฯลฯ" ></dxi-validation-rule>
-                                <dxi-validation-rule type="custom" [validationCallback]="EmailPatternDot" message="Email มีจุด (.) ติดกันมากกว่า 1 จุด" ></dxi-validation-rule>
-                                <dxi-validation-rule type="custom" [validationCallback]="EmailPatternNameLength" message="กรุณาตรวจสอบชื่อผู้ใช้งาน" ></dxi-validation-rule>
-                                <dxi-validation-rule type="custom" [validationCallback]="EmailPatternAtSign" message="กรุณาใส่เครื่องหมาย @" ></dxi-validation-rule>
-                                <dxi-validation-rule type="email" message="กรุณาตรวจสอบชื่อ domain" ></dxi-validation-rule>
+                                <dxi-validation-rule type="custom" [validationCallback]="EmailPatternCharacters" message="Email จะต้องไม่มีเครื่องหมาย &, =, ', +, (,), <, >, * ฯลฯ"></dxi-validation-rule>
+                                <dxi-validation-rule type="custom" [validationCallback]="EmailPatternDot" message="Email มีจุด (.) ติดกันมากกว่า 1 จุด"></dxi-validation-rule>
+                                <dxi-validation-rule type="custom" [validationCallback]="EmailPatternNameLength" message="กรุณาตรวจสอบชื่อผู้ใช้งาน"></dxi-validation-rule>
+                                <dxi-validation-rule type="custom" [validationCallback]="EmailPatternAtSign" message="กรุณาใส่เครื่องหมาย @"></dxi-validation-rule>
+                                <dxi-validation-rule type="email" message="กรุณาตรวจสอบชื่อ domain"></dxi-validation-rule>
                             </ng-container>
                         </dxi-item>
                         <div *dxTemplate="let data of 'tempEmail'">
                             <dx-text-box id="ctfemail" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_EMAIL_DETAIL"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctfemail"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctfemail" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>ตัวอย่าง email@email.com</p>
                                 </div>
@@ -1705,8 +1567,8 @@
                             <dxo-label text="วันเวลา" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimeemail'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'email')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
-                                    type="datetime" [max]="maxDateValue" [value]="dateEmail"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'email')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [max]="maxDateValue" [value]="dateEmail" displayFormat="yyyy-MM-dd HH:mm:ss"
+                                [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
                         <dxi-item *ngIf="formPopupvillain.CHANEL_EMAIL" template="tempfileteleemail" [colSpan]="2">
@@ -1771,7 +1633,7 @@
                                 </div>
                             </div>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_EMAIL" [colSpan]="2" template="selectLanguageemail" >
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_EMAIL" [colSpan]="2" template="selectLanguageemail">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'selectLanguageemail'">
@@ -1786,7 +1648,7 @@
                                 </div>
                             </ng-container>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_EMAIL"  template="languageemail" [colSpan]="2" [isRequired]="validateLanguageEMAIL" (isRequiredChange)="SelectTypeLanguage()">
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_EMAIL" template="languageemail" [colSpan]="2" [isRequired]="validateLanguageEMAIL" (isRequiredChange)="SelectTypeLanguage()">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'languageemail'">
@@ -1822,12 +1684,7 @@
                         </dxi-item>
                         <div *dxTemplate="let data of 'temptelegram_url'">
                             <dx-text-box id="ctftelegram_detail_url" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_URL"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctftelegram_detail_url"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctftelegram_detail_url" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>ระบุ TELEGRAM URL</p>
                                 </div>
@@ -1840,12 +1697,7 @@
                         </dxi-item>
                         <div *dxTemplate="let data of 'temptelegram_id'">
                             <dx-text-box id="ctftelegram_detail_id" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_ID"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctftelegram_detail_id"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctftelegram_detail_id" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>ระบุ TELEGRAM ID</p>
                                 </div>
@@ -1858,12 +1710,7 @@
                         </dxi-item>
                         <div *dxTemplate="let data of 'temptelegram_name'">
                             <dx-text-box id="ctftelegram_detail_name" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_TELEGRAM_DETAIL_NAME"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctftelegram_detail_name"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctftelegram_detail_name" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>ระบุ ชื่อ TELEGRAM คนร้าย</p>
                                 </div>
@@ -1874,16 +1721,16 @@
                             <dxo-label text="ตั้งแต่วันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimetelegramS'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'telegram','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
-                                    type="datetime" [max]="maxDateValue" [value]="dateTelegramStart"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'telegram','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [max]="maxDateValue" [value]="dateTelegramStart" displayFormat="yyyy-MM-dd HH:mm:ss"
+                                [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
                         <dxi-item template="datetimetelegramE" [isRequired]="false" *ngIf="formPopupvillain.CHANEL_TELEGRAM">
                             <dxo-label text="ถึงวันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimetelegramE'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'telegram','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
-                                    type="datetime" [max]="maxDateValue" [value]="dateTelegramEnd"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'telegram','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [max]="maxDateValue" [value]="dateTelegramEnd" displayFormat="yyyy-MM-dd HH:mm:ss"
+                                [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
                         <dxi-item *ngIf="formPopupvillain.CHANEL_TELEGRAM" template="tempfileteletelegram" [colSpan]="2">
@@ -1948,7 +1795,7 @@
                                 </div>
                             </div>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_TELEGRAM" [colSpan]="2" template="selectLanguagetelegram" >
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_TELEGRAM" [colSpan]="2" template="selectLanguagetelegram">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'selectLanguagetelegram'">
@@ -1963,7 +1810,7 @@
                                 </div>
                             </ng-container>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_TELEGRAM"  template="languagetelegram" [colSpan]="2" [isRequired]="validateLanguageTELEGRAM" (isRequiredChange)="SelectTypeLanguage()">
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_TELEGRAM" template="languagetelegram" [colSpan]="2" [isRequired]="validateLanguageTELEGRAM" (isRequiredChange)="SelectTypeLanguage()">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'languagetelegram'">
@@ -1998,12 +1845,7 @@
                         </dxi-item>
                         <div *dxTemplate="let data of 'tempWHATSAPP_url'">
                             <dx-text-box id="ctfwhatsapp_detail_url" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_URL"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctfwhatsapp_detail_url"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctfwhatsapp_detail_url" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>ระบุ WHATSAPP URL</p>
                                 </div>
@@ -2016,12 +1858,7 @@
                         </dxi-item>
                         <div *dxTemplate="let data of 'tempWHATSAPP_id'">
                             <dx-text-box id="ctfwhatsapp_detail_id" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_ID"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctfwhatsapp_detail_id"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctfwhatsapp_detail_id" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>ระบุ WHATSAPP ID</p>
                                 </div>
@@ -2034,12 +1871,7 @@
                         </dxi-item>
                         <div *dxTemplate="let data of 'tempWHATSAPP_name'">
                             <dx-text-box id="ctfwhatsapp_detail_name" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_WHATSAPP_DETAIL_NAME"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctfwhatsapp_detail_name"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctfwhatsapp_detail_name" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>ระบุ ชื่อ WHATSAPP คนร้าย</p>
                                 </div>
@@ -2050,16 +1882,16 @@
                             <dxo-label text="ตั้งแต่วันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimewhatsappS'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'whatsapp','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
-                                    type="datetime" [max]="maxDateValue" [value]="dateWhatappStart"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'whatsapp','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [max]="maxDateValue" [value]="dateWhatappStart" displayFormat="yyyy-MM-dd HH:mm:ss"
+                                [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
                         <dxi-item template="datetimewhatsappE" [isRequired]="false" *ngIf="formPopupvillain.CHANEL_WHATAPP">
                             <dxo-label text="ถึงวันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimewhatsappE'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'whatsapp','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
-                                    type="datetime" [max]="maxDateValue" [value]="dateWhatappEnd"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'whatsapp','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [max]="maxDateValue" [value]="dateWhatappEnd" displayFormat="yyyy-MM-dd HH:mm:ss"
+                                [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
                         <dxi-item *ngIf="formPopupvillain.CHANEL_WHATAPP" template="tempfiletelewhatapp" [colSpan]="2">
@@ -2124,7 +1956,7 @@
                                 </div>
                             </div>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_WHATAPP" [colSpan]="2" template="selectLanguagewhatapp" >
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_WHATAPP" [colSpan]="2" template="selectLanguagewhatapp">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'selectLanguagewhatapp'">
@@ -2139,7 +1971,7 @@
                                 </div>
                             </ng-container>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_WHATAPP"  template="languagewhatapp" [colSpan]="2" [isRequired]="validateLanguageWHATAPP" (isRequiredChange)="SelectTypeLanguage()">
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_WHATAPP" template="languagewhatapp" [colSpan]="2" [isRequired]="validateLanguageWHATAPP" (isRequiredChange)="SelectTypeLanguage()">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'languagewhatapp'">
@@ -2174,12 +2006,7 @@
                         </dxi-item>
                         <div *dxTemplate="let data of 'temptwiiter_url'">
                             <dx-text-box id="ctftwiiter_detail_url" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_URL"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctftwiiter_detail_url"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctftwiiter_detail_url" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>ระบุ TWITTER URL</p>
                                 </div>
@@ -2192,12 +2019,7 @@
                         </dxi-item>
                         <div *dxTemplate="let data of 'temptwiiter_id'">
                             <dx-text-box id="ctftwiiter_detail_id" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_ID"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctftwiiter_detail_id"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"id
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctftwiiter_detail_id" showEvent="dxhoverstart" hideEvent="dxhoverend" id position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>ระบุ TWITTER ID</p>
                                 </div>
@@ -2210,12 +2032,7 @@
                         </dxi-item>
                         <div *dxTemplate="let data of 'temptwiiter_name'">
                             <dx-text-box id="ctftwiiter_detail_name" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_TWITTER_DETAIL_NAME"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctftwiiter_detail_name"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctftwiiter_detail_name" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>ระบุ ชื่อ TWITTER คนร้าย</p>
                                 </div>
@@ -2226,16 +2043,16 @@
                             <dxo-label text="ตั้งแต่วันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimetwitterS'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'twitter','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
-                                    type="datetime" [max]="maxDateValue" [value]="dateTwitterStart"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'twitter','start')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [max]="maxDateValue" [value]="dateTwitterStart" displayFormat="yyyy-MM-dd HH:mm:ss"
+                                [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
                         <dxi-item template="datetimetwitterE" [isRequired]="false" *ngIf="formPopupvillain.CHANEL_TWITTER">
                             <dxo-label text="ถึงวันที่" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimetwitterE'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'twitter','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
-                                    type="datetime" [max]="maxDateValue" [value]="dateTwitterEnd"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'twitter','end')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [max]="maxDateValue" [value]="dateTwitterEnd" displayFormat="yyyy-MM-dd HH:mm:ss"
+                                [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
                         <dxi-item *ngIf="formPopupvillain.CHANEL_TWITTER" template="tempfileteleTWITTER" [colSpan]="2">
@@ -2300,7 +2117,7 @@
                                 </div>
                             </div>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_TWITTER" [colSpan]="2" template="selectLanguagetwitter" >
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_TWITTER" [colSpan]="2" template="selectLanguagetwitter">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'selectLanguagetwitter'">
@@ -2315,7 +2132,7 @@
                                 </div>
                             </ng-container>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_TWITTER"  template="languagetwitter" [colSpan]="2" [isRequired]="validateLanguageTWITTER" (isRequiredChange)="SelectTypeLanguage()">
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_TWITTER" template="languagetwitter" [colSpan]="2" [isRequired]="validateLanguageTWITTER" (isRequiredChange)="SelectTypeLanguage()">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'languagetwitter'">
@@ -2338,24 +2155,19 @@
                                 </ng-container>
                             </div>
                         </div>
-                           <!-- twitter End -->
-                            <!-- OTHERS start -->
+                        <!-- twitter End -->
+                        <!-- OTHERS start -->
                         <dxi-item *ngIf="formPopupvillain.CHANEL_OTHERS" [colSpan]="2" style="margin-top:5px;">
                             <div class="content-title">อื่นๆ</div>
                         </dxi-item>
-                          <dxi-item *ngIf="formPopupvillain.CHANEL_OTHERS" template="tempothertype" [colSpan]="2">
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_OTHERS" template="tempothertype" [colSpan]="2">
                             <dxo-label text="ประเภทช่องทางการติดต่อ" [showColon]="false"></dxo-label>
                             <dxi-validation-rule type="required" message="กรุณากรอกประเภทช่องทางการติดต่อ">
                             </dxi-validation-rule>
                         </dxi-item>
                         <div *dxTemplate="let data of 'tempothertype'">
                             <dx-text-box id="ctfother_type" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_OTHER_TYPE"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctfother_type"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctfother_type" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>กรุณากรอกประเภทช่องทางการติดต่อ</p>
                                 </div>
@@ -2368,12 +2180,7 @@
                         </dxi-item>
                         <div *dxTemplate="let data of 'tempother'">
                             <dx-text-box id="ctfother_detail" [readOnly]="formReadOnly" [(value)]="formPopupvillain.CASE_CHANNEL_OTHER_DETAIL"></dx-text-box>
-                            <dx-tooltip
-                                target="#ctfother_detail"
-                                showEvent="dxhoverstart"
-                                hideEvent="dxhoverend"
-                                position="top"
-                                [hideOnOutsideClick]="false">
+                            <dx-tooltip target="#ctfother_detail" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                                 <div *dxTemplate="let data of 'content'">
                                     <p>กรุณากรอกURL หรือ ID</p>
                                 </div>
@@ -2383,8 +2190,8 @@
                             <dxo-label text="วันเวลา" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'datetimeother'">
-                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'other')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss"  placeholder="เลือกวันเวลา" [readOnly]="formReadOnly"
-                                    type="datetime" [max]="maxDateValue" [value]="dateOther"  displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [useMaskBehavior]="true">
+                            <dx-date-box id="default" (onValueChanged)="OnSelectDate($event,'other')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [max]="maxDateValue" [value]="dateOther" displayFormat="yyyy-MM-dd HH:mm:ss"
+                                [openOnFieldClick]="false" [useMaskBehavior]="true">
                             </dx-date-box>
                         </div>
                         <dxi-item *ngIf="formPopupvillain.CHANEL_OTHERS" template="tempfileteleother" [colSpan]="2">
@@ -2449,7 +2256,7 @@
                                 </div>
                             </div>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_OTHERS" [colSpan]="2" template="selectLanguageother" >
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_OTHERS" [colSpan]="2" template="selectLanguageother">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'selectLanguageother'">
@@ -2464,7 +2271,7 @@
                                 </div>
                             </ng-container>
                         </div>
-                        <dxi-item *ngIf="formPopupvillain.CHANEL_OTHERS"  template="languageother" [colSpan]="2" [isRequired]="validateLanguageOTHERS" (isRequiredChange)="SelectTypeLanguage()">
+                        <dxi-item *ngIf="formPopupvillain.CHANEL_OTHERS" template="languageother" [colSpan]="2" [isRequired]="validateLanguageOTHERS" (isRequiredChange)="SelectTypeLanguage()">
                             <dxo-label text="" [showColon]="false"></dxo-label>
                         </dxi-item>
                         <div *dxTemplate="let data of 'languageother'">

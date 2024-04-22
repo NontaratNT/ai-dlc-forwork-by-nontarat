@@ -1,0 +1,68 @@
+<div class="conten-block">
+    <div class="content-title">ข้อมูลผู้เสียหาย</div>
+    <div class="content-form">
+        <dx-form #formInformer [colCount]="2" labelLocation="top">
+            <dxi-item template="temptitle" [colSpan]="1">
+                <dxo-label text="คำนำหน้า" [showColon]="false"></dxo-label>
+                <dxi-validation-rule type="required" message="กรุณากรอกคำนำหน้า">
+                </dxi-validation-rule>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temptitle'">
+                <dx-radio-group [readOnly]="formReadOnly" [dataSource]="cmstitle" layout="horizontal" valueExpr="TITLE_ID" displayExpr="TITLE_NAME" [(value)]="formData.TITLE_ID" (onValueChanged)="ChangeRadioTitle($event)"></dx-radio-group>
+            </div>
+            <dxi-item template="tempothertitle" [colSpan]="1" *ngIf="checkothertitle">
+                <dxo-label text="คำนำหน้าอื่นๆ" [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'tempothertitle'">
+                <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.TITLE_NAME"></dx-text-box>
+            </div>
+            <dxi-item template="temp7" [colSpan]="1" [isRequired]="true">
+                <dxo-label text="เบอร์โทรศัพท์มือถือ" [showColon]="false"></dxo-label>
+                <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลเบอร์โทรศัพท์มือถือ">
+                </dxi-validation-rule>
+                <dxi-validation-rule type="custom" message="หมายเลขโทรศัพท์ 10 หลัก" [validationCallback]="PhoneNumberPattern">
+                </dxi-validation-rule>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp7'">
+                <dx-text-box id="ctfPhone" [readOnly]="formReadOnly" [(value)]="formData.PERSONAL_TEL_NO" [maxLength]="10" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)"></dx-text-box>
+                <dx-tooltip target="#ctfPhone" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
+                    <div *dxTemplate="let data of 'content'">
+                        <p>ระบุหมายเลขโทรศัพท์จำนวน 10 หลักติดกันโดยไม่ต้องมีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 0819999999</p>
+                    </div>
+                </dx-tooltip>
+            </div>
+            <dxi-item template="temp1" [colSpan]="1" [isRequired]="true">
+                <dxo-label text="ชื่อ" [showColon]="false"></dxo-label>
+                <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลชื่อ">
+                </dxi-validation-rule>
+                <dxi-validation-rule type="custom" [validationCallback]="NamePattern" message="ไม่ต้องระบุคำนำหน้านาม">
+                </dxi-validation-rule>
+
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp1'">
+                <dx-text-box id="ctlfname" (keypress)="NameValidator($event)" [readOnly]="formReadOnly" [(value)]="formData.PERSONAL_FIRST_NAME"></dx-text-box>
+                <dx-tooltip target="#ctlfname" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
+                    <div *dxTemplate="let data of 'content'">
+                        <p>หมายเหตุ: ไม่ต้องระบุคำนำหน้า ตัวเลข ช่องว่างหรืออักษรพิเศษ</p>
+                    </div>
+                </dx-tooltip>
+            </div>
+            <dxi-item template="temp2" [colSpan]="1" [isRequired]="true">
+                <dxo-label text="นามสกุล" [showColon]="false"></dxo-label>
+                <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลนามสกุล">
+                </dxi-validation-rule>
+            </dxi-item>
+            <div *dxTemplate="let data of 'temp2'">
+                <dx-text-box id="ctllname" (keypress)="NameValidator($event)" [readOnly]="formReadOnly" [(value)]="formData.PERSONAL_LAST_NAME"></dx-text-box>
+                <dx-tooltip target="#ctllname" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
+                    <div *dxTemplate="let data of 'content'">
+                        <p>หมายเหตุ: ไม่ต้องระบุ ตัวเลข หรืออักษรพิเศษ</p>
+                    </div>
+                </dx-tooltip>
+            </div>
+        </dx-form>
+    </div>
+    <div class="text-right btn-footer">
+        <dx-button class="btn btn-submit" text="ถัดไป" (onClick)="SubmitForm($event)"></dx-button>
+    </div>
+</div>
