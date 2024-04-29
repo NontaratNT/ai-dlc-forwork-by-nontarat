@@ -340,7 +340,7 @@
                             </div>
                         </dx-form>
 
-                        <div *ngIf="!formReadOnly" class="remark-table-upload">* ขนาดไฟล์ทั้งหมดไม่เกิน 5MB</div>
+                        <div *ngIf="!formReadOnly" class="remark-table-upload">* ขนาดไฟล์ทั้งหมดไม่เกิน 10MB</div>
                         <div *ngIf="CheckArray(listUploadFileformmoney)" class="upload-file-table">
                             <dx-data-grid #grid [dataSource]="listUploadFileformmoney" [showColumnLines]="false" [showRowLines]="true" [columnHidingEnabled]="false" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="false" [columnAutoWidth]="true" [selectedRowKeys]="[]"
                                 noDataText="ไม่มีข้อมูล">

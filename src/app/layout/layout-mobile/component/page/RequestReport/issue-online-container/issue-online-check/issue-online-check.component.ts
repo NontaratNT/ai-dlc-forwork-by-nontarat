@@ -240,6 +240,40 @@ export class IssueOnlineCheckComponent implements OnInit {
         if (!e.event || e.event.type === "change") {
             if(e.value){
                 if(e.value.length >= 15){
+                    const pattern = /^\d{8}/g;
+                    const match = e.value.match(pattern);
+                    if (!match) {
+                        Swal.fire({
+                            title: 'ไม่ถูกต้อง',
+                            text: 'เลข BANK CASE ID ไม่ถูกต้อง',
+                            icon: 'error',
+                        });
+                        return;
+                    }
+                    const dateString: string = match[0].substring(0, 8);
+                    const year = Number(dateString.substring(0, 4));
+                    const month = Number(dateString.substring(4, 6));
+                    const day = Number(dateString.substring(6, 8));
+                    if (month <= 0 || month > 12 || day <= 0 || day > 31) {
+                        Swal.fire({
+                            title: 'ไม่ถูกต้อง',
+                            text: 'เลข BANK CASE ID ไม่ถูกต้อง',
+                            icon: 'error',
+                        });
+                        return;
+                    }
+                    const date: Date =
+                        year > 2500
+                            ? new Date(year - 543, month - 1, day)
+                            : new Date(year, month - 1, day);
+                    if (date > new Date()) {
+                        Swal.fire({
+                            title: 'ไม่ถูกต้อง',
+                            text: 'เลข BANK CASE ID ไม่ถูกต้อง เนื่องจากวันที่ใน BANK CASE ID เกินกว่าวันปัจจุบัน',
+                            icon: 'error',
+                        });
+                        return;
+                    }
                     const value = e.value;
                     const bank_name = value.replace(/\d+/g, '');
                     const upperString = bank_name.toUpperCase();
