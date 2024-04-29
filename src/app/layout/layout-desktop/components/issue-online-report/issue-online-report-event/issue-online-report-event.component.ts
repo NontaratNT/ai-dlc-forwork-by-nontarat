@@ -4,6 +4,7 @@ import { BankInfoService } from 'src/app/services/bank-info.service';
 import { DxFormComponent, DxSelectBoxComponent } from 'devextreme-angular';
 import Swal from 'sweetalert2';
 import { FormValidatorService } from 'src/app/services/form-validator.service';
+import { IssueOnlineFileUploadService } from 'src/app/services/issue-online-file-upload.service';
 
 @Component({
     selector: 'app-issue-online-report-event',
@@ -26,20 +27,27 @@ export class IssueOnlineReportEventComponent implements OnInit {
     caseOpen = false;
     isLoading = false;
     formChannelValidate = true;
+    dataAttachment : any = [];
     maxDateValue:Date = new Date();
+    maxSizeBuffer = 0;
+    _fileName: string;
+    popupFormUploaded = false;
+    _fileSize: number;
+    _fileForm: any = {};
+    popupAttachment = false;
 
     serviceLabelID = [
         {ID:1,TEXT:"AIS"},
         {ID:2,TEXT:"TRUE"},
         {ID:3,TEXT:"DTAC"},
         {ID:4,TEXT:"NT (CAT TOT)"},
-        {ID:5,TEXT:"อื่น ๆ"},
-        {ID:5,TEXT:"N/A"},
+        {ID:5,TEXT:"อื่น ๆ"}
     ];
 
     constructor(
         private servBankInfo: BankInfoService,
         private _formValidate: FormValidatorService,
+        private _issueFile: IssueOnlineFileUploadService,
     ) { }
 
     ngOnInit(): void {
@@ -79,7 +87,6 @@ export class IssueOnlineReportEventComponent implements OnInit {
     }
 
     SubmitForm(e){
-        console.log([this.formData.CRIMINAL_TEL,this.formData.CRIMINAL_SMS,this.formData.CRIMINAL_OTHER].some((value) => value === true));
         if(![this.formData.CRIMINAL_TEL,this.formData.CRIMINAL_SMS,this.formData.CRIMINAL_OTHER].some((value) => value === true)){
             Swal.fire({
                 title: "ผิดพลาด!",
@@ -132,6 +139,7 @@ export class IssueOnlineReportEventComponent implements OnInit {
             this.formData.CRIMINAL_TYPE_SOCIAL = null;
             this.formData.CRIMINAL_SOCIAL_DETAIL = null;
         }
+        this.formData.ATTACHMENT = this.dataAttachment ?? [];
         let setData = {};
         const d = this.formData;
         for (const key in d) {
@@ -140,6 +148,7 @@ export class IssueOnlineReportEventComponent implements OnInit {
             }
         }
         this.mainConponent.formInsert.formEvent = Object.assign({},setData);
+        console.log(this.mainConponent.formInsert.formEvent);
         this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
     }
 
@@ -154,6 +163,175 @@ export class IssueOnlineReportEventComponent implements OnInit {
         if(type == 'sms' && this.formData.CRIMINAL_SMS){
             this.formData.CRIMINAL_SMS_PROVIDER = 'N/A';
         }
+    }
+
+    OpenFileDialog() {
+        this.popupAttachment = true;
+        this.popupFormUploaded = false;
+    }
+
+    DeleteFileDocItemUpload(index = null){
+        Swal.fire({
+            title: 'ยืนยันการลบข้อมูล?',
+            text: " ",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#7d7d7d',
+            cancelButtonText: 'ยกเลิก',
+            confirmButtonText: 'ตกลง'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.maxSizeBuffer -=  this.dataAttachment[index].size ?? 0;
+                this.dataAttachment.splice(index, 1);
+            }
+        });
+    }
+
+    async openPdfInNewTabAdd(e): Promise<void> {
+        const something = e.Url.split(',')[1] || e.Url
+        const fileData = atob(something)
+        const blob = new Blob([new Uint8Array([...fileData].map(item => item.charCodeAt(0)))], { type: e.Type })
+        const fileUrl = URL.createObjectURL(blob)
+        window.open(fileUrl, '_blank')
+    }
+
+    async UploadFileAttachment(uploadTag) {
+        const files: any = uploadTag.files;
+        if (files.length > 0) {
+            const fileCheck = await this._issueFile.CheckFileUploadAllowListSizeDialog(this.maxSizeBuffer,files);
+            if (fileCheck.status){
+                let fileItem = {} as any;
+                this.maxSizeBuffer = fileCheck.uploadSizeAll ?? 0;
+                for (const item of fileCheck.filebase64Array) {
+                    this._fileName = item.originalName;
+                    const fileName = item.originalName;
+                    this._fileSize = item.sizeDetail;
+                    fileItem = {
+                        name: fileName,
+                        size:item.size,
+                        sizeDetail:this.BytesToSize(item.size),
+                        type: item.type,
+                        originalName: fileName,
+                        url: item.url,
+                    };
+                }
+                this._fileForm = fileItem;
+                this.popupFormUploaded = true;
+            }
+        }
+    }
+
+    OpenFileDialogAttachment(uploadTag) {
+        uploadTag.click();
+    }
+
+    async FilesDroppedAttachment(e) {
+        const files = e;
+        if (files.length > 0) {
+            const fileCheck = await this._issueFile.CheckFileUploadAllowListSizeDrop(this.maxSizeBuffer,files);
+            if (fileCheck.status){
+                let fileItem = {} as any;
+                this.maxSizeBuffer = fileCheck.uploadSizeAll ?? 0;
+                for (const item of fileCheck.filebase64Array) {
+                    console.log(item);
+                    const extention = this.textAfterLastDot(item.originalName);
+                    const fileName = this._fileName ? this._fileName + extention : item.originalName;
+                    this._fileSize = item.sizeDetail;
+                    fileItem = {
+                        name: fileName,
+                        size:item.size,
+                        sizeDetail:this.BytesToSize(item.size),
+                        type: item.type,
+                        originalName: fileName,
+                        url: item.url,
+                    };
+                }
+                this._fileForm = fileItem;
+                this.popupFormUploaded = true;
+            }
+        }
+    }
+
+    BytesToSize(bytes) {
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        if (bytes === 0) {
+            return '0 Byte';
+        }
+        const data: any = Math.floor(Math.log(bytes) / Math.log(1024));
+        const i = parseInt(data, 10);
+        return Math.round(bytes / Math.pow(1024, i)) + ' ' + sizes[i];
+    }
+
+    textAfterLastDot(name) {
+        const lastDotIndex = name.lastIndexOf('.');
+        return lastDotIndex !== -1 ? name.substring(lastDotIndex) : '';
+    }
+
+    ClearDocBufferAttachment() {
+        this.popupFormUploaded = false;
+    }
+
+    PopupUploadClose() {
+        this._fileForm = {};
+        this.popupFormUploaded = false;
+        this.popupAttachment = false;
+    }
+
+    PopupUploadSave() {
+        if (this.popupFormUploaded) {
+            this.dataAttachment.push({
+                OriginalName : this._fileForm.originalName,
+                Url : this._fileForm.url,
+                Type : this._fileForm.type,
+                Size : this._fileForm.size,
+                sizeDetail : this._fileForm.sizeDetail,
+            });
+            this.PopupUploadClose();
+        }else{
+            Swal.fire({
+                icon: 'warning',
+                title: 'แจ้งเตือน!',
+                text: "ท่านยังไม่ได้แนบไฟล์",
+                confirmButtonText: 'ตกลง'
+            }).then(() => {});
+        }
+    }
+
+    CheckNumberBandit(event) {
+        const seperator = '^([0-9+])+$';
+        const maskSeperator = new RegExp(seperator, 'g');
+        const result = maskSeperator.test(event.key);
+        return result;
+    }
+    PasteCheckNumberBandit(event) {
+        const clipboardData = event.clipboardData;
+        const pastedText = clipboardData.getData('text');
+        const seperator = '^([0-9+])+$';
+        const maskSeperator = new RegExp(seperator, 'g');
+        const result = maskSeperator.test(pastedText);
+        return result;
+    }
+    CheckNumber(event) {
+        // const seperator  = '^[ก-๏\\s]+$';
+        const seperator = '^([0-9])';
+        const maskSeperator = new RegExp(seperator, 'g');
+        const result = maskSeperator.test(event.key);
+        return result;
+    }
+    PasteCheckNumber(event) {
+        const clipboardData = event.clipboardData;
+        const pastedText = clipboardData.getData('text');
+        // const seperator  = '^[ก-๏\\s]+$';
+        const seperator = '^([0-9])';
+        const maskSeperator = new RegExp(seperator, 'g');
+        const result = maskSeperator.test(pastedText);
+        return result;
+    }
+
+    PhoneNumberPattern(params) {
+        const makeScope = new RegExp('^[0](?=[0-9]{9,9}$)', 'g');
+        return makeScope.test(params.value);
     }
 
 }

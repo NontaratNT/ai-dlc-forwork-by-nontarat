@@ -29,6 +29,11 @@
     }
 }
 
+.open-file-text {
+    cursor: pointer;
+    color: #333a71;
+}
+
 .custom-ratio {
      ::ng-deep .dx-widget.dx-collection>.dx-item.dx-radiobutton {
         width: 500px;

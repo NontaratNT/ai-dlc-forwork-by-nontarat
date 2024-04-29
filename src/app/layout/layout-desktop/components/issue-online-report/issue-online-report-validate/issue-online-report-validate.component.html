@@ -33,19 +33,19 @@
         <div class="conten-block">
             <div class="content-form">
                 <dx-form #formEvent1 [colCount]="3" labelLocation="top">
-                    <dxi-item itemType="group" caption="" [colSpan]="3" [colCount]="3">
+                    <!-- <dxi-item itemType="group" caption="" [colSpan]="3" [colCount]="3">
                         <dxi-item template="temp1" [colSpan]="2">
                             <dxo-label text="ประเภทของเรื่อง" [showColon]="false"></dxo-label>
                             <div *dxTemplate="let data of 'temp1'">
                                 <dx-text-box [readOnly]="formReadOnly" [value]="formData.CASE_TYPE_NAME"></dx-text-box>
                             </div>
                         </dxi-item>
-                    </dxi-item>
+                    </dxi-item> -->
                     <dxi-item template="temp2" [colSpan]="2">
                         <dxo-label text="รายละเอียดของการเกิดเหตุโดยย่อ" [showColon]="false"></dxo-label>
                     </dxi-item>
                     <div *dxTemplate="let data of 'temp2'">
-                        <dx-text-area [readOnly]="formReadOnly" [height]="130" [value]="formData.CASE_BEHAVIOR"></dx-text-area>
+                        <dx-text-area [readOnly]="formReadOnly" [height]="150" [value]="formData.BEHAVEOR"></dx-text-area>
                     </div>
                 </dx-form>
             </div>
@@ -65,8 +65,7 @@
                     <dxo-label text="ค่ายโทรศัพท์ผู้เสียหาย" [showColon]="true"></dxo-label>
                 </dxi-item>
                 <div *dxTemplate="let data of 'CRIMINAL_TEL_PROVIDER'">
-                    <dx-select-box [dataSource]="serviceLabelID" displayExpr="TEXT" valueExpr="TEXT" searchExpr="TEXT" [searchEnabled]="true" placeholder="ค่ายโทรศัพท์" [(value)]="formData.CRIMINAL_TEL_PROVIDER" [showClearButton]="true">
-                    </dx-select-box>
+                    <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_TEL_PROVIDER"></dx-text-box>
                 </div>
                 <dxi-item template="CRIMINAL_TEL_DESTINATION" [isRequired]="true" [colSpan]="1">
                     <dxo-label text="หมายเลขโทรศัพท์คนร้าย" [showColon]="true"></dxo-label>
@@ -75,10 +74,10 @@
                     <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_TEL_DESTINATION"></dx-text-box>
                 </div>
                 <dxi-item template="CIMINAL_TEL_DATE" [isRequired]="true">
-                    <dxo-label text="วันเวลา" [showColon]="false"></dxo-label>
+                    <dxo-label text="วันเวลาที่คนร้ายติดต่อเข้ามา" [showColon]="false"></dxo-label>
                 </dxi-item>
                 <div *dxTemplate="let data of 'CIMINAL_TEL_DATE'">
-                    <dx-date-box [readOnly]="formReadOnly" id="default" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [(value)]="formData.CIMINAL_TEL_DATE" displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false"
+                    <dx-date-box [readOnly]="formReadOnly" id="default" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [(value)]="formData.CRIMINAL_TEL_DATE" displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false"
                         [useMaskBehavior]="true">
                     </dx-date-box>
                 </div>
@@ -108,10 +107,10 @@
                     <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_SMS_DESTINATION"></dx-text-box>
                 </div>
                 <dxi-item template="CIMINAL_SMS_DATE" [isRequired]="true">
-                    <dxo-label text="วันเวลา" [showColon]="false"></dxo-label>
+                    <dxo-label text="วันเวลาที่คนร้ายติดต่อเข้ามา" [showColon]="false"></dxo-label>
                 </dxi-item>
                 <div *dxTemplate="let data of 'CIMINAL_SMS_DATE'">
-                    <dx-date-box [readOnly]="formReadOnly" id="default" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [(value)]="formData.CIMINAL_SMS_DATE" displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false"
+                    <dx-date-box [readOnly]="formReadOnly" id="default" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [(value)]="formData.CRIMINAL_SMS_DATE" displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false"
                         [useMaskBehavior]="true">
                     </dx-date-box>
                 </div>
@@ -128,12 +127,41 @@
                     <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_TYPE_SOCIAL"></dx-text-box>
                 </div>
                 <dxi-item template="CRIMINAL_SOCIAL_DETAIL" [isRequired]="true" [colSpan]="1">
-                    <dxo-label text="Link/URL ของ Social Media/Website" [showColon]="true"></dxo-label>
+                    <dxo-label text="Link/URL ของ Social Media/Website/Page" [showColon]="true"></dxo-label>
                 </dxi-item>
                 <div *dxTemplate="let data of 'CRIMINAL_SOCIAL_DETAIL'">
                     <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_SOCIAL_DETAIL"></dx-text-box>
                 </div>
             </dx-form>
+        </div>
+        <div class="content-form">
+            <div class="content-block">
+                <div class="content-title">ข้อมูลไฟล์แนบ</div>
+                <div class="remark-table-upload">* ขนาดไฟล์ทั้งหมดไม่เกิน 10MB</div>
+                <dx-data-grid [dataSource]="dataAttachment" [showColumnLines]="true" [wordWrapEnabled]="true" [showRowLines]="true" [allowColumnResizing]="false" [columnHidingEnabled]="false" [showBorders]="true" [rowAlternationEnabled]="true" noDataText="ไม่มีข้อมูล"
+                    [columnAutoWidth]="true" columnResizingMode="widget">
+                    <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                    </dxo-editing>
+                    <dxo-paging [pageSize]="10"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true">
+                    </dxo-pager>
+                    <dxo-selection mode="single"></dxo-selection>
+                    <dxi-column dataField="" caption="ลำดับ" [width]="80" alignment="center" [allowSearch]="false" [allowEditing]="false" cellTemplate="cellTemplate">
+                    </dxi-column>
+                    <div *dxTemplate="let celldata of 'cellTemplate'">
+                        {{ celldata.component.pageIndex() * celldata.component.pageSize() + celldata.rowIndex + 1 }}
+                    </div>
+                    <dxi-column dataField="OriginalName" caption="ชื่อไฟล์" alignment="center" cellTemplate="openFileTemp">
+                    </dxi-column>
+                    <div *dxTemplate="let data of 'openFileTemp'">
+                        <a *ngIf="data.data.OriginalName" (click)="openPdfInNewTabAdd(data.data)" class="open-file-text">{{data.data.OriginalName}}</a>
+                    </div>
+                    <dxi-column dataField="" caption="ขนาดไฟล์" alignment="center" [width]="150" cellTemplate="cellTemplateDetail"></dxi-column>
+                    <div *dxTemplate="let cell of 'cellTemplateDetail'">
+                        <div class="text-break">{{cell.data['sizeDetail']}}</div>
+                    </div>
+                </dx-data-grid>
+            </div>
         </div>
     </div>
     <div class="conten-block">
