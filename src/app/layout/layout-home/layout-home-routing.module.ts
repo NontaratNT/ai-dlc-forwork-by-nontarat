@@ -41,7 +41,8 @@ const routes: Routes = [
 
         ],
 
-    }, { path: 'news', component: NewsComponent },
+    },
+    // { path: 'news', component: NewsComponent },
     { path: 'news/detail/:id', component: NewsDetailComponent },
     {
         path: '',
