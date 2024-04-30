@@ -1,8 +1,9 @@
 <div class="block-content">
-    <div class="title">
+
+    <!-- <div class="title">
         <div class="title-left"><b>แจ้งเบาะแส</b></div>
         <div class="title-right">หน้าหลัก / แจ้งเบาะแส</div>
-    </div>
+    </div> -->
     <div class="block-main">
         <div class="container-fluid">
             <div class="row">
@@ -10,9 +11,9 @@
                     <div class="sub-block">
                         <div id="issue-online-desktop">
                             <div>
-                                <dx-scroll-view [height]="80" direction="horizontal">
+                                <!-- <dx-scroll-view [height]="80" direction="horizontal"> -->
                                     <!-- <div style="width: 1330px;"  [ngStyle]="{'width.px': stepNavigationWidth}"> -->
-                                    <div [ngStyle]="{'width.px': stepNavigationWidth}">
+                                    <!-- <div [ngStyle]="{'width.px': stepNavigationWidth}">
                                         <div class="block-arrow">
                                             <div *ngFor="let item of stepNavigation; index as i;" class="arrow-div">
                                                 <div class="{{item.textClass}}" [ngClass]="SelectorTab(i)" [style.z-index]="GetzIndexTab(i)" (click)="SelectTabIndex(i)">
@@ -28,25 +29,123 @@
                                             </div>
                                         </div>
                                     </div>
-                                </dx-scroll-view>
-                                <dx-multi-view [focusStateEnabled]="false" [animationEnabled]="false" [swipeEnabled]="false" [selectedIndex]="indexTab">
+                                </dx-scroll-view> -->
+
+                                <div class="issue-online-container" style="margin-top: 65px; ">
+                                    <div>
+                                        <div>
+                                <div class="d-flex"  style="padding-left: 10px; box-shadow: 0px 5px 5px #aaaaaa8c;
+                                border-bottom: 1px solid #ddd; padding-bottom: 10px;z-index: 999; position: fixed;background-color: #fff;
+                                width: 100%;
+                                height: 85px;">
+                                    <div class="progress yellow" *ngIf="indexTab+1 === 1">
+                                        <span class="progress-left">
+                                            <span class="progress-bar"></span>
+                                        </span>
+                                        <span class="progress-right4">
+                                            <span class="progress-bar"></span>
+                                        </span>
+                                        <div class="progress-value">
+                                            <h6 style="margin-top: 15px;">ขั้นตอนที่</h6>
+                                            <h6 style="margin-top: -12px; font-size: 25px;">{{indexTab+1}}/3</h6>
+                                        </div>
+                                    </div>
+
+                                    <div class="progress yellow" *ngIf="indexTab+1 === 2">
+                                        <span class="progress-left3">
+                                            <span class="progress-bar"></span>
+                                        </span>
+                                        <span class="progress-right5">
+                                            <span class="progress-bar"></span>
+                                        </span>
+                                        <div class="progress-value">
+                                            <h6 style="margin-top: 15px;">ขั้นตอนที่</h6>
+                                            <h6 style="margin-top: -12px;
+                        font-size: 25px;">{{indexTab+1}}/3</h6>
+                                        </div>
+                                    </div>
+                                    <div class="progress yellow" *ngIf="indexTab+1 === 3">
+                                        <span class="progress-left4">
+                                            <span class="progress-bar"></span>
+                                        </span>
+                                        <span class="progress-right5">
+                                            <span class="progress-bar"></span>
+                                        </span>
+                                        <div class="progress-value">
+                                            <h6 style="margin-top: 15px;">ขั้นตอนที่</h6>
+                                            <h6 style="margin-top: -12px;
+                        font-size: 25px;">{{indexTab+1}}/3</h6>
+                                        </div>
+                                    </div>
+
+                                    <div style="right: 0;  margin-right: 20px; position: fixed;">
+                                        <div style="text-align: right; font-weight: bold; margin-top: 12px; font-size: 20px;"
+                                            *ngIf="indexTab+1 === 1">ข้อมูลผู้เสียหาย
+                                        </div>
+                                        <h6 class="ssda" *ngIf="indexTab+1 === 1">ขั้นตอนต่อไป : เรื่องที่เกิดขึ้น</h6>
+                                        <div style="text-align: right; font-weight: bold; margin-top: 12px; font-size: 20px;"
+                                            *ngIf="indexTab+1 === 2">เรื่องที่เกิดขึ้น
+                                        </div>
+                                        <h6 class="ssda" *ngIf="indexTab+1 === 2">ขั้นตอนต่อไป : ยืนยันความถูกต้อง
+                                        </h6>
+                                        <div style="text-align: right; font-weight: bold; margin-top: 12px; font-size: 20px;"
+                                            *ngIf="indexTab+1 === 3">ยืนยันความถูกต้อง
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <dx-multi-view [focusStateEnabled]="false" [animationEnabled]="false"
+                                    [swipeEnabled]="false" [selectedIndex]="indexTab">
                                     <dxi-item>
                                         <ng-container>
-                                            <app-issue-online-report-informer></app-issue-online-report-informer>
+                                            <div class="container px-2">
+                                                <div class="w-100">
+                                                    <div class="col-12 p-1" style="padding-bottom: 20px !important;">
+                                                        <div class=" w-100 card-block-content p-2 d-flex flex-row align-items-center cursor-pointer" style="padding: 15px; border: 1.6px solid #e2e2e2e0; box-shadow: 0px 5px 5px #aaaaaa8c; border-radius: 20px;">
+                                                            <div style="padding-bottom: 20px;padding-top: 20px; width: 100%;">
+                                                                <app-issue-online-report-informer></app-issue-online-report-informer>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </dxi-item>
+
+                                    <dxi-item>
+                                        <ng-container>
+                                            <div class="container px-2">
+                                                <div class="w-100">
+                                                    <div class="col-12 p-1" style="padding-bottom: 20px !important;">
+                                                        <div class=" w-100 card-block-content p-2 d-flex flex-row align-items-center cursor-pointer" style="padding: 15px; border: 1.6px solid #e2e2e2e0; box-shadow: 0px 5px 5px #aaaaaa8c; border-radius: 20px;">
+                                                            <div style="padding-bottom: 20px;padding-top: 20px; width: 100%;">
+                                                                <app-issue-online-report-event></app-issue-online-report-event>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </ng-container>
                                     </dxi-item>
                                     <dxi-item>
                                         <ng-container>
-                                            <app-issue-online-report-event></app-issue-online-report-event>
-                                        </ng-container>
-                                    </dxi-item>
-                                    <dxi-item>
-                                        <ng-container>
-                                            <app-issue-online-report-validate></app-issue-online-report-validate>
+                                            <div class="container px-2">
+                                                <div class="w-100">
+                                                    <div class="col-12 p-1" style="padding-bottom: 20px !important;">
+                                                        <div class=" w-100 card-block-content p-2 d-flex flex-row align-items-center cursor-pointer" style="padding: 15px; border: 1.6px solid #e2e2e2e0; box-shadow: 0px 5px 5px #aaaaaa8c; border-radius: 20px;">
+                                                            <div style="padding-bottom: 20px;padding-top: 20px; width: 100%;">
+                                                                <app-issue-online-report-validate></app-issue-online-report-validate>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </ng-container>
                                     </dxi-item>
                                 </dx-multi-view>
                             </div>
+                            </div></div></div>
                         </div>
                     </div>
                 </div>
@@ -55,5 +154,6 @@
     </div>
 </div>
 
-<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true"
+    [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
 </dx-load-panel>
