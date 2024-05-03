@@ -45,37 +45,21 @@ import { DetailAppoveComponent } from "./component/page/RequestReport/detail-app
 import { RequestOneComponent } from "./component/page/RequestReport/request-one/request-one.component";
 import { DragDirective } from "./component/page/RequestReport/issue-online-container/dragDrop.directive";
 import { AngularResizedEventModule } from "angular-resize-event";
-import {
-    IssueOnlineAgreeComponent
-} from "./component/page/RequestReport/issue-online-container/issue-online-agree/issue-online-agree.component";
-import {
-    IssueOnlineAttachmentComponent
-} from "./component/page/RequestReport/issue-online-container/issue-online-attachment/issue-online-attachment.component";
-import {
-    IssueOnlineContainerComponent
-} from "./component/page/RequestReport/issue-online-container/issue-online-container.component";
-import {
-    IssueOnlineEventComponent
-} from "./component/page/RequestReport/issue-online-container/issue-online-event/issue-online-event.component";
-import {
-    IssueOnlineDamageComponent
-} from "./component/page/RequestReport/issue-online-container/issue-online-damage/issue-online-damage.component";
-import {
-    IssueOnlineInformerComponent
-} from "./component/page/RequestReport/issue-online-container/issue-online-informer/issue-online-informer.component";
-import {
-    IssueOnlineVillainComponent
-} from "./component/page/RequestReport/issue-online-container/issue-online-villain/issue-online-villain.component";
-import {
-    IssueOnlineValidateComponent
-} from "./component/page/RequestReport/issue-online-container/issue-online-validate/issue-online-validate.component";
-import { CreateReportComponent } from './component/page/RequestReport/create-report/create-report.component';
+import { IssueOnlineAgreeComponent } from "./component/page/RequestReport/issue-online-container/issue-online-agree/issue-online-agree.component";
+import { IssueOnlineAttachmentComponent } from "./component/page/RequestReport/issue-online-container/issue-online-attachment/issue-online-attachment.component";
+import { IssueOnlineContainerComponent } from "./component/page/RequestReport/issue-online-container/issue-online-container.component";
+import { IssueOnlineEventComponent } from "./component/page/RequestReport/issue-online-container/issue-online-event/issue-online-event.component";
+import { IssueOnlineDamageComponent } from "./component/page/RequestReport/issue-online-container/issue-online-damage/issue-online-damage.component";
+import { IssueOnlineInformerComponent } from "./component/page/RequestReport/issue-online-container/issue-online-informer/issue-online-informer.component";
+import { IssueOnlineVillainComponent } from "./component/page/RequestReport/issue-online-container/issue-online-villain/issue-online-villain.component";
+import { IssueOnlineValidateComponent } from "./component/page/RequestReport/issue-online-container/issue-online-validate/issue-online-validate.component";
+import { CreateReportComponent } from "./component/page/RequestReport/create-report/create-report.component";
 import { IssueOnlineEditComponent } from "./component/page/RequestReport/issue-online-edit/issue-online-edit.component";
 import { ChatComponent } from "./component/page/RequestReport/chat/chat.component";
 import { AttachFileComponent } from "./component/page/RequestReport/attach-file/attach-file.component";
 import { DxiItemModule } from "devextreme-angular/ui/nested";
 import { LayoutDesktopRoutingModule } from "../layout-desktop/layout-desktop-routing.module";
-import { ProfileComponent } from './component/page/profile/profile.component';
+import { ProfileComponent } from "./component/page/profile/profile.component";
 // eslint-disable-next-line max-len
 import { TrackAppointmentComponent } from "./component/page/RequestReport/issue-online-container/track-appointment/track-appointment.component";
 import { LayoutDesktopModule } from "../layout-desktop/layout-desktop.module";
@@ -83,14 +67,15 @@ import { ViewAddressComponent } from "./component/page/RequestReport/view-addres
 import { ViewFileUploadComponent } from "./component/page/RequestReport/view-file-upload/view-file-upload.component";
 import { NgxExtendedPdfViewerModule } from "ngx-extended-pdf-viewer";
 import { FormsModule } from "@angular/forms";
-import { IssueOnlineDamageSubComponent } from './component/page/RequestReport/issue-online-container/issue-online-damage-sub/issue-online-damage-sub.component';
-import { IssueOnlineBlessingComponent } from './component/page/RequestReport/issue-online-container/issue-online-blessing/issue-online-blessing.component';
+import { IssueOnlineDamageSubComponent } from "./component/page/RequestReport/issue-online-container/issue-online-damage-sub/issue-online-damage-sub.component";
+import { IssueOnlineBlessingComponent } from "./component/page/RequestReport/issue-online-container/issue-online-blessing/issue-online-blessing.component";
 import { IssueOnlineQuestionareComponent } from "./component/page/RequestReport/issue-online-container/issue-online-questionare/issue-online-questionare.component";
 import { IssueOnlineCheckComponent } from "./component/page/RequestReport/issue-online-container/issue-online-check/issue-online-check.component";
 import { IssueOnlineReportComponent } from "./component/page/issue-online-report/issue-online-report.component";
 import { IssueOnlineReportInformerComponent } from "./component/page/issue-online-report/issue-online-report-informer/issue-online-report-informer.component";
 import { IssueOnlineReportEventComponent } from "./component/page/issue-online-report/issue-online-report-event/issue-online-report-event.component";
 import { IssueOnlineReportValidateComponent } from "./component/page/issue-online-report/issue-online-report-validate/issue-online-report-validate.component";
+import { SelectIssueComponent } from "./component/page/select-issue/select-issue.component";
 
 @NgModule({
     declarations: [
@@ -128,7 +113,8 @@ import { IssueOnlineReportValidateComponent } from "./component/page/issue-onlin
         IssueOnlineReportComponent,
         IssueOnlineReportInformerComponent,
         IssueOnlineReportEventComponent,
-        IssueOnlineReportValidateComponent
+        IssueOnlineReportValidateComponent,
+        SelectIssueComponent,
     ],
     imports: [
         CommonModule,
@@ -162,9 +148,8 @@ import { IssueOnlineReportValidateComponent } from "./component/page/issue-onlin
         DxButtonGroupModule,
         LayoutDesktopModule,
         NgxExtendedPdfViewerModule,
-        FormsModule
+        FormsModule,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
-export class LayoutMobileModule { }
-
+export class LayoutMobileModule {}

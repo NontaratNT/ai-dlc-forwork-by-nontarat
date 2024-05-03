@@ -41,6 +41,7 @@ export class IssueOnlineReportComponent implements OnInit {
     public validateComponent: IssueOnlineReportValidateComponent;
     public formInsert: any = {};
     indexLocker: any = {};
+    // edit = false;
 
     stepNavigationWidth = 1830;
     public indexTab = 0;
