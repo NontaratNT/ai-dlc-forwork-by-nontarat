@@ -80,6 +80,7 @@ export class IssueOnlineReportValidateComponent implements OnInit {
             cancelButtonText: 'กลับไปแก้ไข'
         }).then((result) => {
             if (result.isConfirmed) {
+                this.isLoading = true;
                 this._serviceCase.InsertData(setData)
                     .pipe(finalize(() => this.isLoading = false))
                     .subscribe(() => {

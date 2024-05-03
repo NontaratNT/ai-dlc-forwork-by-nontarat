@@ -51,20 +51,20 @@ export class IssueOnlineReportEventComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.isLoading = true;
+        // this.isLoading = true;
         this.maxDateValue.setHours(this.maxDateValue.getHours() + 1);
-        this.servBankInfo.GetCaseType().subscribe((_) => {
-            this.formData.CASE_TYPE_ID = null;
-            this.listCaseType = _;
-            this.formData.CRIMINAL_TEL = true;
-            this.formData.CRIMINAL_SMS = false;
-            this.formData.CRIMINAL_OTHER = false;
-            this.isLoading = false;
-          }, error => {
-            if (error.status === 500 || error.status === 524) {
-              this.mainConponent.checkReload(2);
-            }
-          });
+        this.formData.CRIMINAL_TEL = true;
+        this.formData.CRIMINAL_SMS = false;
+        this.formData.CRIMINAL_OTHER = false;
+        this.formData.CASE_TYPE_ID = null;
+        // this.servBankInfo.GetCaseType().subscribe((_) => {
+            // this.listCaseType = _;
+            // this.isLoading = false;
+        //   }, error => {
+        //     if (error.status === 500 || error.status === 524) {
+        //       this.mainConponent.checkReload(2);
+        //     }
+        //   });
     }
 
     async OnSelectCaseType(e) {

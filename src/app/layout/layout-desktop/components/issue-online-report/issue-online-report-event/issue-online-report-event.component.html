@@ -68,7 +68,7 @@
                     <dx-select-box [dataSource]="serviceLabelID" displayExpr="TEXT" valueExpr="TEXT" searchExpr="TEXT" [searchEnabled]="true" placeholder="ค่ายโทรศัพท์" [(value)]="formData.CRIMINAL_TEL_PROVIDER" [showClearButton]="true">
                     </dx-select-box>
                 </div>
-                <dxi-item *ngIf="formData.CRIMINAL_TEL_PROVIDER == 'อื่นๆ'" template="CRIMINAL_TEL_PROVIDER_DETAIL" [isRequired]="true" [colSpan]="1">
+                <dxi-item *ngIf="formData.CRIMINAL_TEL_PROVIDER == 'อื่น ๆ'" template="CRIMINAL_TEL_PROVIDER_DETAIL" [isRequired]="true" [colSpan]="1">
                     <dxo-label text="ชื่อค่ายโทรศัพท์ผู้เสียหายอื่นๆ" [showColon]="true"></dxo-label>
                     <dxi-validation-rule type="required" message="กรุณากรอกชื่อค่ายโทรศัพท์ผู้เสียหายอื่นๆ">
                     </dxi-validation-rule>
@@ -120,7 +120,7 @@
                     <dx-select-box [dataSource]="serviceLabelID" displayExpr="TEXT" valueExpr="TEXT" searchExpr="TEXT" [searchEnabled]="true" placeholder="ค่ายโทรศัพท์" [(value)]="formData.CRIMINAL_SMS_PROVIDER" [showClearButton]="true">
                     </dx-select-box>
                 </div>
-                <dxi-item *ngIf="formData.CRIMINAL_SMS_PROVIDER == 'อื่นๆ'" template="CRIMINAL_SMS_PROVIDER_DETAIL" [isRequired]="true" [colSpan]="1">
+                <dxi-item *ngIf="formData.CRIMINAL_SMS_PROVIDER == 'อื่น ๆ'" template="CRIMINAL_SMS_PROVIDER_DETAIL" [isRequired]="true" [colSpan]="1">
                     <dxo-label text="ชื่อค่ายโทรศัพท์ผู้เสียหายอื่นๆ" [showColon]="true"></dxo-label>
                     <dxi-validation-rule type="required" message="กรุณากรอกชื่อค่ายโทรศัพท์ผู้เสียหายอื่นๆ">
                     </dxi-validation-rule>
