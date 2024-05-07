@@ -27,6 +27,7 @@
                         <dxo-label text="รายละเอียดที่ต้องการแจ้งเบาะแส" [showColon]="false"></dxo-label>
                         <dxi-validation-rule type="required" message="กรุณากรอกรายละเอียดที่ต้องการแจ้งเบาะแส"></dxi-validation-rule>
                         <div *dxTemplate="let data of 'temp2'">
+                            <p style="color: red;">* ตัวอย่าง เช่น "วันที่: 1 มกราคม 2567 ผมนายผู้เสียหาย ต้องการแจ้งเบาะแสเกี่ยวกับ คอลเซนเตอร์หลอกลวงผมได้พบปัญหาดังกล่าวเมื่อ 1 มกราคม 2567 เวลา 16:10 ณ บ้าน สิ่งที่เกิดขึ้นนั้น ....... มีความผิดปกติและมีผลกระทบต่อ ...... ข้าพเจ้าขอให้ท่านดำเนินการตรวจสอบและแก้ไขปัญหาดังกล่าวโดยเร็วที่สุด และหากมีข้อสงสัยหรือข้อมูลเพิ่มเติมต้องการรับรอง กรุณาติดต่อข้าพเจ้าทาง 09xxxxxxxxx ของข้าพเจ้าได้ตลอดเวลา ขอบคุณครับ"</p>
                             <dx-text-area [readOnly]="formReadOnly" [height]="150" [(value)]="formData.BEHAVEOR" [maxLength]="5000"></dx-text-area>
                         </div>
                     </dxi-item>
@@ -178,6 +179,7 @@
                     flow-root;padding-right: 15px;">
                     <dx-button class="float-right" [width]="170" icon="fas fa-file" type="success" text="อัปโหลดเอกสาร" (onClick)="OpenFileDialog()"></dx-button>
                 </div>
+                <div style="display: flex; justify-content: end; color: red;">* กรุณาอัปโหลดไฟล์</div>
                 <div class="remark-table-upload">* ขนาดไฟล์ทั้งหมดไม่เกิน 10MB</div>
                 <dx-data-grid [dataSource]="dataAttachment" [showColumnLines]="true" [wordWrapEnabled]="true" [showRowLines]="true" [allowColumnResizing]="false" [columnHidingEnabled]="false" [showBorders]="true" [rowAlternationEnabled]="true" noDataText="ไม่มีข้อมูล"
                     [columnAutoWidth]="true" columnResizingMode="widget">
