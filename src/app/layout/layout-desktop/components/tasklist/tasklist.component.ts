@@ -305,7 +305,7 @@ export class TasklistComponent implements OnInit {
                     item.GROUP_STATUS_CODE !== "C02"
                 ) {
                     this.caseId = item.DATA_ID;
-                    this.onDoSurvey1(item.DATA_ID);
+                    // this.onDoSurvey1(item.DATA_ID);
                     // return;
                 }
                 if (
@@ -314,7 +314,7 @@ export class TasklistComponent implements OnInit {
                         item.GROUP_STATUS_CODE === "C06")
                 ) {
                     this.caseId = item.DATA_ID;
-                    this.onDoSurvey2(item.DATA_ID);
+                    // this.onDoSurvey2(item.DATA_ID);
                     // return;
                 }
             }
