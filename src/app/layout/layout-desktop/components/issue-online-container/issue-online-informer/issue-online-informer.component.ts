@@ -969,7 +969,7 @@ export class IssueOnlineInformerComponent implements OnInit {
             this._OrgService.getorgProvince(e.value).subscribe((_) => {
                 this.dsorgbyaria = _;
             });
-            console.log("proviceorg", this.dsorgbyaria);
+            // console.log("proviceorg", this.dsorgbyaria);
         }
     }
 

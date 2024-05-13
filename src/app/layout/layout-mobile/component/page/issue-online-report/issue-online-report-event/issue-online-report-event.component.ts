@@ -156,4 +156,41 @@ export class IssueOnlineReportEventComponent implements OnInit {
         }
     }
 
+    CheckNumber(event) {
+        // const seperator  = '^[ก-๏\\s]+$';
+        const seperator = '^([0-9])';
+        const maskSeperator = new RegExp(seperator, 'g');
+        const result = maskSeperator.test(event.key);
+        return result;
+    }
+    PasteCheckNumber(event) {
+        const clipboardData = event.clipboardData;
+        const pastedText = clipboardData.getData('text');
+        // const seperator  = '^[ก-๏\\s]+$';
+        const seperator = '^([0-9])';
+        const maskSeperator = new RegExp(seperator, 'g');
+        const result = maskSeperator.test(pastedText);
+        return result;
+    }
+
+    PhoneNumberPattern(params) {
+        const makeScope = new RegExp('^[0](?=[0-9]{9,9}$)', 'g');
+        return makeScope.test(params.value);
+    }
+
+    CheckNumberBandit(event) {
+        const seperator = '^([0-9+])+$';
+        const maskSeperator = new RegExp(seperator, 'g');
+        const result = maskSeperator.test(event.key);
+        return result;
+    }
+    PasteCheckNumberBandit(event) {
+        const clipboardData = event.clipboardData;
+        const pastedText = clipboardData.getData('text');
+        const seperator = '^([0-9+])+$';
+        const maskSeperator = new RegExp(seperator, 'g');
+        const result = maskSeperator.test(pastedText);
+        return result;
+    }
+
 }

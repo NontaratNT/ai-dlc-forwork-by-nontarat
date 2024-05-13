@@ -401,7 +401,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                 }
                 if(localStorage.getItem("form-damage")){
                     this.formData = JSON.parse(localStorage.getItem("form-damage"));
-                    console.log(this.formData);
+                    // console.log(this.formData);
                     if (this.CheckArray(this.formData.CASE_MONEY)) {
                         await this.SetDataToListBank(this.formData.CASE_MONEY);
                     }
@@ -1183,7 +1183,7 @@ export class IssueOnlineDamageComponent implements OnInit {
     PopupViewFile(data) {
 
         if (data) {
-            console.log("datafile", data);
+            // console.log("datafile", data);
             // console.log('data.url',data.url);
             // const splitStr = data.url.split('base64,');
             // splitStr[0] = splitStr[0] + "base64,";
@@ -1696,7 +1696,7 @@ export class IssueOnlineDamageComponent implements OnInit {
             this.mainConponent.formDataAll.formDamage.listDamageOther = this.listDamageOther;
             this.mainConponent.formDataAll.formDamage.listDamageCrytro = this.listDamageCrytro;
             localStorage.setItem("form-damage",JSON.stringify(this.formData));
-            console.log(this.formData);
+            // console.log(this.formData);
         }
         if (e != 'tab') {
             this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
@@ -1889,7 +1889,7 @@ export class IssueOnlineDamageComponent implements OnInit {
     }
 
     outputdatabank(value) {
-        console.log('submit sufferer', value);
+        // console.log('submit sufferer', value);
         if (value.TYPE_NAME === 'ธนาคาร' && value.ways === 1) {
             value["SHOW_NAME"] = '(ธนาคาร ผู้ร้าย)' + value.BANK_ORIGIN_NAME + ': ' + value.BANK_ORIGIN_ACCOUNT + ' ' + value.BANK_ORIGIN_ACCOUNT_NAME;
         }
@@ -1954,7 +1954,7 @@ export class IssueOnlineDamageComponent implements OnInit {
         // console.log("bankliststart",this.bankListstart);
     }
     outputdatabankvillain(value) {
-        console.log('submit origin', value);
+        // console.log('submit origin', value);
         if (value.TYPE_NAME === 'ธนาคาร' && value.ways === 1) {
             value["SHOW_NAME"] = '(ธนาคาร ผู้ร้าย)' + value.BANK_NAME + ': ' + value.BANK_ACCOUNT + ' ' + value.BANK_ACCOUNT_NAME;
         }
@@ -2430,7 +2430,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                     const dataorigin = this.selectBankInfoOriginlistCrypto.instance.option("selectedItem");
 
                     if (data) {
-                        console.log(data);
+                        // console.log(data);
 
                         this.formmoney.BANK_ORIGIN_ACCOUNT = dataorigin.BANK_ORIGIN_ACCOUNT;
                         this.formmoney.BANK_ORIGIN_ACCOUNT_NAME = dataorigin.BANK_ORIGIN_ACCOUNT_NAME;
@@ -2460,7 +2460,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                     }
                     this.formmoneySub = this.formmoney;
 
-                    console.log('formmoney', this.formmoney);
+                    // console.log('formmoney', this.formmoney);
                 } else {
 
                 }
@@ -2481,7 +2481,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                     const dataorigin = this.selectBankInfoOriginlist.instance.option("selectedItem");
 
                     if (data) {
-                        console.log(data);
+                        // console.log(data);
 
                         this.formmoney.BANK_ORIGIN_ACCOUNT = dataorigin.BANK_ORIGIN_ACCOUNT;
                         this.formmoney.BANK_ORIGIN_ACCOUNT_NAME = dataorigin.BANK_ORIGIN_ACCOUNT_NAME;
@@ -2511,7 +2511,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                     }
                     this.formmoneySub = this.formmoney;
 
-                    console.log('formmoney', this.formmoney);
+                    // console.log('formmoney', this.formmoney);
                 } else {
 
                 }
@@ -2593,11 +2593,11 @@ export class IssueOnlineDamageComponent implements OnInit {
                             this.formmoney.MONNEY_DOC.push(this.listUploadFileformmoney[0]);
                         }
 
-                        console.log(this.formmoney.MONNEY_DOC);
+                        // console.log(this.formmoney.MONNEY_DOC);
                     }
                 }
 
-                console.log('fileupload', this.listUploadFileformmoney);
+                // console.log('fileupload', this.listUploadFileformmoney);
                 this.isLoading = false;
             }
         }

@@ -711,7 +711,7 @@ export class IssueOnlineInformerComponent implements OnInit {
             this.maxBirthDate = this._date.SetDateDefault(0);
             this.loadDateBox = true;
             this.isLoading = false;
-            console.log("formdata", this.formData);
+            // console.log("formdata", this.formData);
         }catch (error){
             setTimeout(()=>{
                 this.checkerror = this.checkerror+1;
@@ -821,7 +821,7 @@ export class IssueOnlineInformerComponent implements OnInit {
             this._OrgService.getorgProvince(e.value).subscribe((_) => {
                 this.dsorgbyaria = _;
             });
-            console.log("proviceorg", this.dsorgbyaria);
+            // console.log("proviceorg", this.dsorgbyaria);
         }
     }
 

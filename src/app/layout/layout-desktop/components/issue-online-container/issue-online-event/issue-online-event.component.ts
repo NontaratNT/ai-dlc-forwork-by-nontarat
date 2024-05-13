@@ -219,7 +219,7 @@ export class IssueOnlineEventComponent implements OnInit {
             }
             this.isLoading = false;
         }catch (error){
-            console.log(error);
+            // console.log(error);
             this.SetDefaultData();
         }
 
@@ -238,7 +238,7 @@ export class IssueOnlineEventComponent implements OnInit {
                 this.mainConponent.checkValidate = true;
                 return;
             }
-            console.log(this.formData.ORG_LOCATION_TYPE , " ", this.formData.ORG_LOCATION_ID);
+            // console.log(this.formData.ORG_LOCATION_TYPE , " ", this.formData.ORG_LOCATION_ID);
             if (this.formData.ORG_LOCATION_TYPE == 1) {
                 if (!this.formData.ORG_LOCATION_ID) {
                     this.alertmessagecustom("กรุณาเลือกสถานี");
@@ -263,7 +263,7 @@ export class IssueOnlineEventComponent implements OnInit {
                     return;
                 }
             }
-            console.log(this.formData);
+            // console.log(this.formData);
             if(this.formData.CASE_TYPE_ID === null || this.formData.CASE_TYPE_ID === 7){
                 Swal.fire({
                     title: "ผิดพลาด!",
@@ -288,7 +288,7 @@ export class IssueOnlineEventComponent implements OnInit {
 
             const setDataFormAll = Object.assign({},setData);
             this.mainConponent.formDataAll.formEvent = setDataFormAll;
-            console.log(setDataFormAll);
+            // console.log(setDataFormAll);
             localStorage.setItem("form-event",JSON.stringify(setDataFormAll));
 
         }
@@ -751,8 +751,8 @@ export class IssueOnlineEventComponent implements OnInit {
             this.formDataChannel = {};
             this.datePhone = null;
             this.edit = false;
-            console.log(this.channel_data);
-            console.log(this.channel_data[0].DATE_PHONE);
+            // console.log(this.channel_data);
+            // console.log(this.channel_data[0].DATE_PHONE);
         }
 
     }

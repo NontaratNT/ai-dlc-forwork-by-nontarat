@@ -304,7 +304,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                 JSON.parse(localStorage.getItem("form-damage")));
             this.userType = this.mainConponent.userType;
             this.formData = this.mergedFrom;
-            console.log( this.formData);
+            // console.log( this.formData);
             if(this.formData.BANK_REF){
                 this.formData.WAY = this.formData.BANK_REF.length > 0 ? 1 :2;
             }
@@ -618,7 +618,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                         });
                 } else {
                     this.isLoading = false;
-                    console.log();
+                    // console.log();
                 }
             });
         }else if(this.formData.CHECK_BLESSING == false || this.formData.BLESSING_STATUS === "N"){
@@ -659,7 +659,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                         });
                 } else {
                     this.isLoading = false;
-                    console.log();
+                    // console.log();
                 }
             });
         }else{
