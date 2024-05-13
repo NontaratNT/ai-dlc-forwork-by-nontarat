@@ -97,7 +97,9 @@ export class PersonalComponent implements OnInit {
             }
             this.minBirthDate = this._date.SetDateDefault(80,true,true,true);
             this.maxBirthDate = this._date.SetDateDefault(0);
-            this.formData.PERSONAL_BIRTH_DATE = this._date.ConvertToDateFormat(this.formData.PERSONAL_BIRTH_DATE);
+            if(this.formData.PERSONAL_BIRTH_DATE){
+                this.formData.PERSONAL_BIRTH_DATE = this._date.ConvertToDateFormat(this.formData.PERSONAL_BIRTH_DATE);
+            }
             this.loadDateBox = true;
         });
         this.servOccupations.getOccupations().subscribe(_ => {
@@ -112,6 +114,7 @@ export class PersonalComponent implements OnInit {
         } else {
             this.formData.PERSONAL_STATUS = 'I';
         }
+        console.log(this.formData.PERSONAL_BIRTH_DATE);
         this.formData.PERSONAL_BIRTH_DATE = this._date.ConvertToDateFormat(this.formData.PERSONAL_BIRTH_DATE);
 
         this.formData.UPDATE_DATE = null;
@@ -142,6 +145,16 @@ export class PersonalComponent implements OnInit {
             Swal.fire({
                 title: 'ผิดพลาด!',
                 text: "รหัสผ่านไม่ตรงกัน",
+                icon: 'warning',
+                confirmButtonText: 'ตกลง'
+            }).then(() => {
+                this._isLoading = false;
+            });
+            return;
+        } else if(this.formData.PERSONAL_BIRTH_DATE == null || this.formData.PERSONAL_BIRTH_DATE == undefined) {
+            Swal.fire({
+                title: 'ผิดพลาด!',
+                text: "กรุณาเลือกวันเกิดของท่าน",
                 icon: 'warning',
                 confirmButtonText: 'ตกลง'
             }).then(() => {
