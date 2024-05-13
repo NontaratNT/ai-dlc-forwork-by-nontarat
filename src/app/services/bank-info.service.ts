@@ -1,14 +1,16 @@
+import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { EformRequestFactory, EFORM_REQUEST } from 'eform-share';
 import { Observable } from 'rxjs';
 import { IPagingResult, req } from 'share-ui';
+import { environment } from 'src/environments/environment.az-prod';
 
 @Injectable({
     providedIn: 'root'
 })
 export class BankInfoService {
 
-    constructor(@Inject(EFORM_REQUEST) private _req: EformRequestFactory) { }
+    constructor(@Inject(EFORM_REQUEST) private _req: EformRequestFactory,private http: HttpClient) { }
 
     public GetBankInfo(): Observable<any[]> {
         return req<any[]>('CmsBankInfo')
@@ -69,9 +71,10 @@ export class BankInfoService {
         return req<any[]>(`CmsBankInfo/${Name}`)
             .disableCriticalDialogError().get();
     }
-    public GetBankTrackNo(no:string): Observable<any[]> {
-        return req<any[]>(`CmsBankInfo/bank-trackno/${no}`)
-            .disableCriticalDialogError().get();
+    public GetBankTrackNo(no:string): Observable<any> {
+        // return req<any[]>(`CmsBankInfo/bank-trackno/${no}`)
+        //     .disableCriticalDialogError().get();
+        return this.http.get<any>(`${environment.config.baseConfig.urlgdcc}/CmsBankInfo/bank-trackno/${no}`);
     }
 }
 

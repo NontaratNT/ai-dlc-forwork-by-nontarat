@@ -251,6 +251,7 @@ export class IssueOnlineCheckComponent implements OnInit {
     }
 
     async checkBank(e){
+        // console.log(e);
         if (!e.event || e.event.type === "change") {
             if(e.value){
                 if(e.value.length >= 15){
@@ -292,7 +293,7 @@ export class IssueOnlineCheckComponent implements OnInit {
                     const bank_name = value.replace(/\d+/g, '');
                     const upperString = bank_name.toUpperCase();
                     var haveBank = await this._bankInfoService.GetBankTrackNo(value.toUpperCase()).toPromise();
-                    if(haveBank){
+                    if(haveBank.Value){
                         Swal.fire({
                             title: 'ผิดพลาด!',
                             html: 'เลขอ้างอิงนี้มีการแจ้งแล้ว</br>รบกวนตรวจสอบคดีที่เคยบันทึกมาแล้ว',
@@ -342,7 +343,7 @@ export class IssueOnlineCheckComponent implements OnInit {
                 this.formData.CHECK_BLESSING = true;
                 this.formData.WAY = this.submission.ways;
                 this.formData.BANK_REF = this._dataSourcebankref;
-                console.log(this.formData);
+                // console.log(this.formData);
                 localStorage.setItem("form-blessing",JSON.stringify(this.formData));
                 if(e != 'tab'){
                     this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);

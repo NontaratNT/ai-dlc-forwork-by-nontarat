@@ -1222,7 +1222,7 @@ export class TasklistComponent implements OnInit {
                     const bank_name = value.replace(/\d+/g, '');
                     const upperString = bank_name.toUpperCase();
                     var haveBank = await this._bankInfoService.GetBankTrackNo(value.toUpperCase()).toPromise();
-                    if(haveBank){
+                    if(haveBank.Value){
                         Swal.fire({
                             title: 'ผิดพลาด!',
                             html: 'เลขอ้างอิงนี้มีการแจ้งแล้ว</br>รบกวนตรวจสอบคดีที่เคยบันทึกมาแล้ว',
