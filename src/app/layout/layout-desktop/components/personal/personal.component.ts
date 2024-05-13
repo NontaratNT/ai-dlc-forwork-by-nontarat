@@ -162,7 +162,7 @@ export class PersonalComponent implements OnInit {
             });
             return;
         } else {
-            this.servicePersonal.PutPersonal(this.id, this.FormatData())
+            this.servicePersonal.PutPersonalGDCC(this.id, this.FormatData())
                 .pipe(finalize(() => this._isLoading = false))
                 .subscribe(_ => {
                     Swal.fire({

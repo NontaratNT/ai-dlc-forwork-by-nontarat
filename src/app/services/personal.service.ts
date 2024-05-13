@@ -1,16 +1,18 @@
 import { Inject, Injectable } from '@angular/core';
-import { IPagingResult } from 'share-ui';
+import { HttpStatusResult, IPagingResult } from 'share-ui';
 import { Observable } from 'rxjs';
 import { req } from 'share-ui';
 import { IOrganizeInfo } from './org.service';
 import { EformRequestFactory, EFORM_REQUEST } from 'eform-share';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class PersonalService {
 
-    constructor(@Inject(EFORM_REQUEST) private _req: EformRequestFactory) { }
+    constructor(@Inject(EFORM_REQUEST) private _req: EformRequestFactory, private http: HttpClient) { }
 
     public Search(searchObj: any, offset: number, length: number): Observable<IPagingResult<IPersonal>> {
         return this._req<IPagingResult<IPersonal>>("CmsPersonal/search")
@@ -71,6 +73,11 @@ export class PersonalService {
         return req<any>('user/verify/persolnalimage')
             .body(param)
             .disableCriticalDialogError().post();
+    }
+
+    public PutPersonalGDCC(id: number, param: FormData): Observable<any>{
+        return this.http.put<HttpStatusResult>(`${environment.config.baseConfig.urlgdcceform}/CmsPersonal/${id}`, param);
+        // return  this.http.post<HttpStatusResult>(`http://localhost:14121/api/CmsOnlineCaseReportClue`, param);
     }
 
 }
