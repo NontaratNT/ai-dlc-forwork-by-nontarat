@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, DoCheck, OnInit, ViewChild } from '@angular/core';
 import { IssueOnlineReportComponent } from '../issue-online-report.component';
 import { BankInfoService } from 'src/app/services/bank-info.service';
 import { DxFormComponent, DxSelectBoxComponent } from 'devextreme-angular';
@@ -11,7 +11,7 @@ import { IssueOnlineFileUploadService } from 'src/app/services/issue-online-file
     templateUrl: './issue-online-report-event.component.html',
     styleUrls: ['./issue-online-report-event.component.scss']
 })
-export class IssueOnlineReportEventComponent implements OnInit {
+export class IssueOnlineReportEventComponent implements OnInit, DoCheck {
 
     public mainConponent: IssueOnlineReportComponent;
     @ViewChild("selectCaseType", { static: false }) selectCaseType: DxSelectBoxComponent;
@@ -44,12 +44,31 @@ export class IssueOnlineReportEventComponent implements OnInit {
         {ID:5,TEXT:"อื่น ๆ"}
     ];
 
+    socialType = [
+        'LINE',
+        'FACEBOOK',
+        'MESSENGER',
+        'INSTAGRAM',
+        'WEBSITE',
+        'EMAIL',
+        'TELEGRAM',
+        'WHATSAPP',
+        'TWITTER',
+        'อื่นๆ',
+    ];
+
+    fileType = ['pdf', 'jpg', 'png'];
+    fileTypeSelectedValue = '';
+    fileTypeSelected = false;
+
     appState: {
         checkOtherTel: boolean;
         checkOtherSms: boolean;
+        checkOtherSocial: boolean;
     } = {
-        checkOtherTel : false,
-        checkOtherSms : false
+        checkOtherTel: false,
+        checkOtherSms: false,
+        checkOtherSocial: false
     };
 
     constructor(
@@ -66,13 +85,26 @@ export class IssueOnlineReportEventComponent implements OnInit {
         this.formData.CRIMINAL_OTHER = false;
         this.formData.CASE_TYPE_ID = null;
         // this.servBankInfo.GetCaseType().subscribe((_) => {
-            // this.listCaseType = _;
-            // this.isLoading = false;
+        // this.listCaseType = _;
+        // this.isLoading = false;
         //   }, error => {
         //     if (error.status === 500 || error.status === 524) {
         //       this.mainConponent.checkReload(2);
         //     }
         //   });
+    }
+
+    ngDoCheck(): void {
+        this.appState.checkOtherTel = this.formData.CRIMINAL_TEL_PROVIDER === 'อื่น ๆ' ?? false;
+        if(!this.appState.checkOtherTel){
+            this.formData.CRIMINAL_TEL_PROVIDER_DETAIL = '';
+        }
+        this.appState.checkOtherSms = this.formData.CRIMINAL_SMS_PROVIDER === 'อื่น ๆ' ?? false;
+        if(!this.appState.checkOtherSms){
+            this.formData.CRIMINAL_SMS_PROVIDER_DETAIL = '';
+        }
+        this.appState.checkOtherSocial = this.formData.CRIMINAL_TYPE_SOCIAL === 'อื่นๆ' ?? false;
+        this.fileTypeSelected = this.fileTypeSelectedValue !== '' ?? false;
     }
 
     async OnSelectCaseType(e) {
@@ -175,10 +207,11 @@ export class IssueOnlineReportEventComponent implements OnInit {
             }
         }else{
             this.formData.CRIMINAL_TYPE_SOCIAL = null;
+            this.formData.CRIMINAL_SOCIA_TYPE_DETAIL = null;
             this.formData.CRIMINAL_SOCIAL_DETAIL = null;
         }
         this.formData.ATTACHMENT = this.dataAttachment ?? [];
-        let setData = {};
+        const setData = {};
         const d = this.formData;
         for (const key in d) {
             if (d[key] !== null && d[key] !== undefined) {
@@ -195,10 +228,10 @@ export class IssueOnlineReportEventComponent implements OnInit {
     }
 
     selectChannel(type){
-        if(type == 'phone' && this.formData.CRIMINAL_TEL){
+        if(type === 'phone' && this.formData.CRIMINAL_TEL){
             this.formData.CRIMINAL_TEL_PROVIDER = 'N/A';
         }
-        if(type == 'sms' && this.formData.CRIMINAL_SMS){
+        if(type === 'sms' && this.formData.CRIMINAL_SMS){
             this.formData.CRIMINAL_SMS_PROVIDER = 'N/A';
         }
     }
@@ -237,8 +270,16 @@ export class IssueOnlineReportEventComponent implements OnInit {
     async UploadFileAttachment(uploadTag) {
         const files: any = uploadTag.files;
         if (files.length > 0) {
-            const fileCheck = await this._issueFile.CheckFileUploadAllowListSizeDialog(this.maxSizeBuffer,files);
-            if (fileCheck.status){
+            if (!files[0].type.includes(this.fileTypeSelectedValue)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'เกิดข้อมูลพลาด!',
+                    html: `กรุณาอัปโหลดไฟล์ประเถท ${this.fileTypeSelectedValue}`
+                });
+                return;
+            }
+            const fileCheck = await this._issueFile.CheckFileUploadAllowListSizeDialog(this.maxSizeBuffer, files);
+            if (fileCheck.status) {
                 let fileItem = {} as any;
                 this.maxSizeBuffer = fileCheck.uploadSizeAll ?? 0;
                 for (const item of fileCheck.filebase64Array) {
@@ -247,8 +288,8 @@ export class IssueOnlineReportEventComponent implements OnInit {
                     this._fileSize = item.sizeDetail;
                     fileItem = {
                         name: fileName,
-                        size:item.size,
-                        sizeDetail:this.BytesToSize(item.size),
+                        size: item.size,
+                        sizeDetail: this.BytesToSize(item.size),
                         type: item.type,
                         originalName: fileName,
                         url: item.url,
@@ -267,19 +308,27 @@ export class IssueOnlineReportEventComponent implements OnInit {
     async FilesDroppedAttachment(e) {
         const files = e;
         if (files.length > 0) {
-            const fileCheck = await this._issueFile.CheckFileUploadAllowListSizeDrop(this.maxSizeBuffer,files);
-            if (fileCheck.status){
+            if (!files[0].file.type.includes(this.fileTypeSelectedValue)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'เกิดข้อมูลพลาด!',
+                    html: `กรุณาอัปโหลดไฟล์ประเถท ${this.fileTypeSelectedValue}`
+                });
+                return;
+            }
+            const fileCheck = await this._issueFile.CheckFileUploadAllowListSizeDrop(this.maxSizeBuffer, files);
+            console.log(fileCheck);
+            if (fileCheck.status) {
                 let fileItem = {} as any;
                 this.maxSizeBuffer = fileCheck.uploadSizeAll ?? 0;
                 for (const item of fileCheck.filebase64Array) {
-                    console.log(item);
                     const extention = this.textAfterLastDot(item.originalName);
                     const fileName = this._fileName ? this._fileName + extention : item.originalName;
                     this._fileSize = item.sizeDetail;
                     fileItem = {
                         name: fileName,
-                        size:item.size,
-                        sizeDetail:this.BytesToSize(item.size),
+                        size: item.size,
+                        sizeDetail: this.BytesToSize(item.size),
                         type: item.type,
                         originalName: fileName,
                         url: item.url,
@@ -312,6 +361,8 @@ export class IssueOnlineReportEventComponent implements OnInit {
 
     PopupUploadClose() {
         this._fileForm = {};
+        this.fileTypeSelected = false;
+        this.fileTypeSelectedValue = '';
         this.popupFormUploaded = false;
         this.popupAttachment = false;
     }
@@ -319,20 +370,21 @@ export class IssueOnlineReportEventComponent implements OnInit {
     PopupUploadSave() {
         if (this.popupFormUploaded) {
             this.dataAttachment.push({
-                OriginalName : this._fileForm.originalName,
-                Url : this._fileForm.url,
-                Type : this._fileForm.type,
-                Size : this._fileForm.size,
-                sizeDetail : this._fileForm.sizeDetail,
+                OriginalName: this._fileForm.originalName,
+                Url: this._fileForm.url,
+                Type: this._fileForm.type,
+                Size: this._fileForm.size,
+                sizeDetail: this._fileForm.sizeDetail,
             });
             this.PopupUploadClose();
-        }else{
+        } else {
             Swal.fire({
                 icon: 'warning',
                 title: 'แจ้งเตือน!',
                 text: "ท่านยังไม่ได้แนบไฟล์",
                 confirmButtonText: 'ตกลง'
-            }).then(() => {});
+            }).then(() => {
+            });
         }
     }
 
@@ -370,20 +422,6 @@ export class IssueOnlineReportEventComponent implements OnInit {
     PhoneNumberPattern(params) {
         const makeScope = new RegExp('^[0](?=[0-9]{9,9}$)', 'g');
         return makeScope.test(params.value);
-    }
-
-    setAppState(type: any, data: any){
-        if(type === 'tel'){
-            this.appState.checkOtherTel = data === 'อื่น ๆ' ?? false;
-            if(!this.appState.checkOtherTel){
-                this.formData.CRIMINAL_TEL_PROVIDER_DETAIL = '';
-            }
-        }else if(type === 'sms'){
-            this.appState.checkOtherSms = data === 'อื่น ๆ' ?? false;
-            if(!this.appState.checkOtherSms){
-                this.formData.CRIMINAL_SMS_PROVIDER_DETAIL = '';
-            }
-        }
     }
 
 }

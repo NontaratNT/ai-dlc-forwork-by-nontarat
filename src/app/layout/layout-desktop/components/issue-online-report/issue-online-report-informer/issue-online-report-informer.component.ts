@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { IssueOnlineReportComponent } from '../issue-online-report.component';
 import { PersonalService } from 'src/app/services/personal.service';
 import { User } from 'src/app/services/user';
+import { DxFormComponent } from 'devextreme-angular';
+import { FormValidatorService } from 'src/app/services/form-validator.service';
 
 @Component({
     selector: 'app-issue-online-report-informer',
@@ -11,8 +13,9 @@ import { User } from 'src/app/services/user';
 export class IssueOnlineReportInformerComponent implements OnInit {
 
     public mainConponent: IssueOnlineReportComponent;
+    @ViewChild("formInformer", { static: false }) formInformer: DxFormComponent;
 
-    formReadOnly : false;
+    formReadOnly: false;
     checkothertitle = false;
     formData: any = {};
     personalInfo: any = {};
@@ -24,7 +27,7 @@ export class IssueOnlineReportInformerComponent implements OnInit {
         { TITLE_ID: "อื่นๆ", TITLE_NAME: "อื่นๆ" },
     ];
 
-    constructor(private servicePersonal: PersonalService,) { }
+    constructor(private servicePersonal: PersonalService,private _formValidate: FormValidatorService) { }
 
     ngOnInit(): void {
         setTimeout(() => {
@@ -32,18 +35,18 @@ export class IssueOnlineReportInformerComponent implements OnInit {
             this.isLoading = true;
             this.servicePersonal.GetPersonalById(userId)
                 .subscribe(personalInfo => {
-                this.personalInfo = personalInfo;
-                this.setPersonalData();
-            }, error => {
-                if (error.status === 500 || error.status === 524) {
-                  this.mainConponent.checkReload(1);
-                }
-            });
-        },200)
+                    this.personalInfo = personalInfo;
+                    this.setPersonalData();
+                }, error => {
+                    if (error.status === 500 || error.status === 524) {
+                        this.mainConponent.checkReload(1);
+                    }
+                });
+        }, 200);
 
     }
 
-    setPersonalData(){
+    setPersonalData() {
         console.log(this.personalInfo);
         this.formData = {
             TITLE_NAME: this.personalInfo.TITLE_NAME,
@@ -68,10 +71,10 @@ export class IssueOnlineReportInformerComponent implements OnInit {
 
     ChangeRadioTitle(e) {
         if (e.value) {
-            setTimeout(()=>{
-                if (e.value == "อื่นๆ") {
+            setTimeout(() => {
+                if (e.value === "อื่นๆ") {
                     this.checkothertitle = true;
-                    if(!this.formData.TITLE_NAME){
+                    if (!this.formData.TITLE_NAME) {
                         this.formData.TITLE_NAME = "";
                     }
                 } else {
@@ -103,8 +106,14 @@ export class IssueOnlineReportInformerComponent implements OnInit {
         return result;
     }
 
-    SubmitForm(e){
-        this.mainConponent.formInsert.formInformer = Object.assign({},this.formData);
+    SubmitForm(e) {
+        if (!this.formInformer.instance.validate().isValid) {
+            this._formValidate.ValidateForm(
+                this.formInformer.instance.validate().brokenRules
+            );
+            return;
+        }
+        this.mainConponent.formInsert.formInformer = Object.assign({}, this.formData);
         console.log(this.mainConponent.formInsert);
         this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
     }
