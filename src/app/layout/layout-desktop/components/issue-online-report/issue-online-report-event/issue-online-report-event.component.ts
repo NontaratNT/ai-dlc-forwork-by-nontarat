@@ -44,6 +44,14 @@ export class IssueOnlineReportEventComponent implements OnInit {
         {ID:5,TEXT:"อื่น ๆ"}
     ];
 
+    appState: {
+        checkOtherTel: boolean;
+        checkOtherSms: boolean;
+    } = {
+        checkOtherTel : false,
+        checkOtherSms : false
+    };
+
     constructor(
         private servBankInfo: BankInfoService,
         private _formValidate: FormValidatorService,
@@ -109,6 +117,21 @@ export class IssueOnlineReportEventComponent implements OnInit {
                 );
                 return;
             }
+            if(this.formData.CRIMINAL_TEL_PROVIDER === 'อื่น ๆ'){
+                if(this.formData.CRIMINAL_TEL_PROVIDER_DETAIL !== null &&
+                    this.formData.CRIMINAL_TEL_PROVIDER_DETAIL !== undefined &&
+                    this.formData.CRIMINAL_TEL_PROVIDER_DETAIL !== ""){
+                    this.formData.CRIMINAL_TEL_PROVIDER = this.formData.CRIMINAL_TEL_PROVIDER_DETAIL;
+                }else{
+                    Swal.fire({
+                        title: "ผิดพลาด!",
+                        text: "กรุณาระบุค่ายโทรศัพท์",
+                        icon: "warning",
+                        confirmButtonText: "Ok",
+                    }).then(() => { });
+                    return;
+                }
+            }
         }else{
             this.formData.CRIMINAL_TEL_ORIGIN = null;
             this.formData.CRIMINAL_TEL_PROVIDER = null;
@@ -121,6 +144,21 @@ export class IssueOnlineReportEventComponent implements OnInit {
                     this.formSms.instance.validate().brokenRules
                 );
                 return;
+            }
+            if(this.formData.CRIMINAL_SMS_PROVIDER === 'อื่น ๆ'){
+                if(this.formData.CRIMINAL_SMS_PROVIDER_DETAILL !== null &&
+                    this.formData.CRIMINAL_SMS_PROVIDER_DETAILL !== undefined &&
+                    this.formData.CRIMINAL_SMS_PROVIDER_DETAILL !== ""){
+                    this.formData.CRIMINAL_SMS_PROVIDER = this.formData.CRIMINAL_SMS_PROVIDER_DETAIL;
+                }else{
+                    Swal.fire({
+                        title: "ผิดพลาด!",
+                        text: "กรุณาระบุค่ายโทรศัพท์",
+                        icon: "warning",
+                        confirmButtonText: "Ok",
+                    }).then(() => { });
+                    return;
+                }
             }
         }else{
             this.formData.CRIMINAL_SMS_ORIGIN = null;
@@ -332,6 +370,20 @@ export class IssueOnlineReportEventComponent implements OnInit {
     PhoneNumberPattern(params) {
         const makeScope = new RegExp('^[0](?=[0-9]{9,9}$)', 'g');
         return makeScope.test(params.value);
+    }
+
+    setAppState(type: any, data: any){
+        if(type === 'tel'){
+            this.appState.checkOtherTel = data === 'อื่น ๆ' ?? false;
+            if(!this.appState.checkOtherTel){
+                this.formData.CRIMINAL_TEL_PROVIDER_DETAIL = '';
+            }
+        }else if(type === 'sms'){
+            this.appState.checkOtherSms = data === 'อื่น ๆ' ?? false;
+            if(!this.appState.checkOtherSms){
+                this.formData.CRIMINAL_SMS_PROVIDER_DETAIL = '';
+            }
+        }
     }
 
 }

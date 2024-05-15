@@ -61,12 +61,19 @@
                 <div *dxTemplate="let data of 'CRIMINAL_TEL_ORIGIN'">
                     <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_TEL_ORIGIN"></dx-text-box>
                 </div>
-                <dxi-item template="CRIMINAL_TEL_PROVIDER" [isRequired]="true" [colSpan]="1">
+                <dxi-item *ngIf="formData.CRIMINAL_TEL_PROVIDER !== 'อื่น ๆ'" template="CRIMINAL_TEL_PROVIDER" [isRequired]="true" [colSpan]="1">
                     <dxo-label text="ค่ายโทรศัพท์ผู้เสียหาย" [showColon]="true"></dxo-label>
                 </dxi-item>
                 <div *dxTemplate="let data of 'CRIMINAL_TEL_PROVIDER'">
                     <dx-select-box [dataSource]="serviceLabelID" displayExpr="TEXT" valueExpr="TEXT" searchExpr="TEXT" [searchEnabled]="true" placeholder="ค่ายโทรศัพท์" [(value)]="formData.CRIMINAL_TEL_PROVIDER" [showClearButton]="true">
                     </dx-select-box>
+                </div>
+                <dxi-item *ngIf="formData.CRIMINAL_TEL_PROVIDER === 'อื่น ๆ'" template="CRIMINAL_TEL_PROVIDER_DETAIL" [isRequired]="true" [colSpan]="1">
+                    <dxo-label text="ค่ายโทรศัพท์ผู้เสียหาย" [showColon]="true"></dxo-label>
+                </dxi-item>
+                <div *dxTemplate="let data of 'CRIMINAL_TEL_PROVIDER_DETAIL'">
+                    <dx-text-box placeholder="ค่ายโทรศัพท์" [(value)]="formData.CRIMINAL_TEL_PROVIDER_DETAIL">
+                    </dx-text-box>
                 </div>
                 <dxi-item template="CRIMINAL_TEL_DESTINATION" [isRequired]="true" [colSpan]="1">
                     <dxo-label text="หมายเลขโทรศัพท์คนร้าย" [showColon]="true"></dxo-label>
@@ -94,12 +101,19 @@
                 <div *dxTemplate="let data of 'CRIMINAL_SMS_ORIGIN'">
                     <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_SMS_ORIGIN"></dx-text-box>
                 </div>
-                <dxi-item template="CRIMINAL_SMS_PROVIDER" [isRequired]="true" [colSpan]="1">
+                <dxi-item *ngIf="formData.CRIMINAL_SMS_PROVIDER !== 'อื่น ๆ'" template="CRIMINAL_SMS_PROVIDER" [isRequired]="true" [colSpan]="1">
                     <dxo-label text="ค่ายโทรศัพท์ผู้เสียหาย" [showColon]="true"></dxo-label>
                 </dxi-item>
                 <div *dxTemplate="let data of 'CRIMINAL_SMS_PROVIDER'">
                     <dx-select-box [readOnly]="formReadOnly" [dataSource]="serviceLabelID" displayExpr="TEXT" valueExpr="TEXT" searchExpr="TEXT" [searchEnabled]="true" placeholder="ค่ายโทรศัพท์" [(value)]="formData.CRIMINAL_SMS_PROVIDER" [showClearButton]="true">
                     </dx-select-box>
+                </div>
+                <dxi-item *ngIf="formData.CRIMINAL_SMS_PROVIDER === 'อื่น ๆ'" template="CRIMINAL_SMS_PROVIDER_DETAIL" [isRequired]="true" [colSpan]="1">
+                    <dxo-label text="ค่ายโทรศัพท์ผู้เสียหาย" [showColon]="true"></dxo-label>
+                </dxi-item>
+                <div *dxTemplate="let data of 'CRIMINAL_SMS_PROVIDER_DETAIL'">
+                    <dx-text-box [readOnly]="formReadOnly" placeholder="ค่ายโทรศัพท์" [(value)]="formData.CRIMINAL_SMS_PROVIDER_DETAIL" >
+                    </dx-text-box>
                 </div>
                 <dxi-item template="CRIMINAL_SMS_DESTINATION" [isRequired]="true" [colSpan]="1">
                     <dxo-label text="หมายเลขโทรศัพท์คนร้าย" [showColon]="true"></dxo-label>
