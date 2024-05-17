@@ -76,6 +76,7 @@ import { IssueOnlineReportInformerComponent } from "./component/page/issue-onlin
 import { IssueOnlineReportEventComponent } from "./component/page/issue-online-report/issue-online-report-event/issue-online-report-event.component";
 import { IssueOnlineReportValidateComponent } from "./component/page/issue-online-report/issue-online-report-validate/issue-online-report-validate.component";
 import { SelectIssueComponent } from "./component/page/select-issue/select-issue.component";
+import { IssueOnlineCriminalContatInfoComponent } from "./component/page/RequestReport/issue-online-container/issue-online-criminal-contact-info/issue-online-criminal-contact-info.component";
 
 @NgModule({
     declarations: [
@@ -115,6 +116,7 @@ import { SelectIssueComponent } from "./component/page/select-issue/select-issue
         IssueOnlineReportEventComponent,
         IssueOnlineReportValidateComponent,
         SelectIssueComponent,
+        IssueOnlineCriminalContatInfoComponent
     ],
     imports: [
         CommonModule,

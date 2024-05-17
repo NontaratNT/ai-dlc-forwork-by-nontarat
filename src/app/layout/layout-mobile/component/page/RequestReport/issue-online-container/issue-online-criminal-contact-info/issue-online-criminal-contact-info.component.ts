@@ -1,5 +1,5 @@
+import { IssueOnlineContainerComponent } from './../issue-online-container.component';
 import { Component, DoCheck, OnInit, ViewChild } from '@angular/core';
-import { IssueOnlineReportComponent } from '../issue-online-report.component';
 import { BankInfoService } from 'src/app/services/bank-info.service';
 import { DxFormComponent, DxSelectBoxComponent } from 'devextreme-angular';
 import Swal from 'sweetalert2';
@@ -8,13 +8,13 @@ import { DatePipe } from '@angular/common';
 import { IssueOnlineService } from 'src/app/services/issue-online.service';
 
 @Component({
-    selector: 'app-issue-online-report-event',
-    templateUrl: './issue-online-report-event.component.html',
-    styleUrls: ['./issue-online-report-event.component.scss']
+    selector: 'app-issue-online-criminal-contact-info-event',
+    templateUrl: './issue-online-criminal-contact-info.component.html',
+    styleUrls: ['./issue-online-criminal-contact-info.component.scss']
 })
-export class IssueOnlineReportEventComponent implements OnInit, DoCheck {
+export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
 
-    public mainConponent: IssueOnlineReportComponent;
+    public mainConponent: IssueOnlineContainerComponent;
     @ViewChild("selectCaseType", { static: false }) selectCaseType: DxSelectBoxComponent;
     @ViewChild("formEvent1", { static: false }) formEvent1: DxFormComponent;
     @ViewChild("formPhone", { static: false }) formPhone: DxFormComponent;
@@ -57,10 +57,10 @@ export class IssueOnlineReportEventComponent implements OnInit, DoCheck {
         checkOtherSms: boolean;
         checkOtherSocial: boolean;
     } = {
-            checkOtherTel: false,
-            checkOtherSms: false,
-            checkOtherSocial: false
-        };
+        checkOtherTel: false,
+        checkOtherSms: false,
+        checkOtherSocial: false
+    };
 
     constructor(
         private servBankInfo: BankInfoService,
@@ -86,20 +86,6 @@ export class IssueOnlineReportEventComponent implements OnInit, DoCheck {
         });
     }
 
-    async OnSelectCaseType(e) {
-        if (e.value) {
-            const data = this.selectCaseType.instance.option("selectedItem");
-            if (data) {
-                this.formData.CASE_TYPE_ID = data.CASE_TYPE_ID;
-                this.formData.CASE_TYPE_NAME = data.CASE_TYPE_NAME;
-                this.caseType = data.CASE_TYPE_DESC;
-                this.caseOpen = true;
-            } else {
-                this.formData.CASE_TYPE_ID = e.value;
-            }
-        }
-    }
-
     ngDoCheck(): void {
         this.appState.checkOtherTel = this.formData.CRIMINAL_TEL_PROVIDER === 'อื่น ๆ' ?? false;
         if (!this.appState.checkOtherTel) {
@@ -122,9 +108,23 @@ export class IssueOnlineReportEventComponent implements OnInit, DoCheck {
         }
     }
 
+    async OnSelectCaseType(e) {
+        if (e.value) {
+            const data = this.selectCaseType.instance.option("selectedItem");
+            if (data) {
+                this.formData.CASE_TYPE_ID = data.CASE_TYPE_ID;
+                this.formData.CASE_TYPE_NAME = data.CASE_TYPE_NAME;
+                this.caseType = data.CASE_TYPE_DESC;
+                this.caseOpen = true;
+            } else {
+                this.formData.CASE_TYPE_ID = e.value;
+            }
+        }
+    }
+
     SelectTypeChanel() {
         this.formChannelValidate = [this.formData.CHANEL_PHONE, this.formData.CHANEL_SMS,
-        this.formData.CHANEL_LINE,].some((value) => value === true) ? false : true;
+            this.formData.CHANEL_LINE,].some((value) => value === true) ? false : true;
     }
 
     SubmitForm(e) {
@@ -155,7 +155,9 @@ export class IssueOnlineReportEventComponent implements OnInit, DoCheck {
             this.formData.CRIMINAL_TEL_ORIGIN = null;
             this.formData.CRIMINAL_TEL_PROVIDER = null;
             this.formData.CRIMINAL_TEL_DESTINATION = null;
-            this.formData.CIMINAL_TEL_DATE = null;
+            this.formData.CRIMINAL_TEL_DATE_FULL = null;
+            this.formData.CRIMINAL_TEL_DATE = null;
+            this.formData.CRIMINAL_TEL_TIME = null;
         }
         if (this.formData.CRIMINAL_SMS) {
             if (!this.formSms.instance.validate().isValid) {
@@ -168,7 +170,9 @@ export class IssueOnlineReportEventComponent implements OnInit, DoCheck {
             this.formData.CRIMINAL_SMS_ORIGIN = null;
             this.formData.CRIMINAL_SMS_PROVIDER = null;
             this.formData.CRIMINAL_SMS_DESTINATION = null;
-            this.formData.CIMINAL_SMS_DATE = null;
+            this.formData.CRIMINAL_SMS_DATE_FULL = null;
+            this.formData.CRIMINAL_SMS_DATE = null;
+            this.formData.CRIMINAL_SMS_TIME = null;
         }
         if (this.formData.CRIMINAL_OTHER) {
             if (!this.formOther.instance.validate().isValid) {
@@ -179,6 +183,7 @@ export class IssueOnlineReportEventComponent implements OnInit, DoCheck {
             }
         } else {
             this.formData.CRIMINAL_TYPE_SOCIAL = null;
+            this.formData.CRIMINAL_SOCIAL_TYPE_DETAIL = null;
             this.formData.CRIMINAL_SOCIAL_DETAIL = null;
         }
         const setData = {};
@@ -189,8 +194,12 @@ export class IssueOnlineReportEventComponent implements OnInit, DoCheck {
             }
         }
         const formCaseChannel = this.issueOnlineService.craeteCaseChanel(setData);
-        this.mainConponent.formInsert.formEvent = Object.assign({}, setData);
-        this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
+        this.mainConponent.formDataAll.formCriminalContact = {};
+        this.mainConponent.formDataAll.formCaseChannelCriminalContact = {};
+        this.mainConponent.formDataAll.formCriminalContact = setData;
+        this.mainConponent.formDataAll.formCaseChannelCriminalContact = formCaseChannel;
+        console.log(this.formData, formCaseChannel);
+        // this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
     }
 
     Back(e) {
@@ -198,10 +207,10 @@ export class IssueOnlineReportEventComponent implements OnInit, DoCheck {
     }
 
     selectChannel(type) {
-        if (type == 'phone' && this.formData.CRIMINAL_TEL) {
+        if (type === 'phone' && this.formData.CRIMINAL_TEL) {
             this.formData.CRIMINAL_TEL_PROVIDER = 'N/A';
         }
-        if (type == 'sms' && this.formData.CRIMINAL_SMS) {
+        if (type === 'sms' && this.formData.CRIMINAL_SMS) {
             this.formData.CRIMINAL_SMS_PROVIDER = 'N/A';
         }
     }

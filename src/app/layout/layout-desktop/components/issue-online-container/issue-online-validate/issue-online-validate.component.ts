@@ -223,10 +223,32 @@ export class IssueOnlineValidateComponent implements OnInit {
     ]
     formReadOnly = true;
     bankInfoList: any = [];
-    mergedFrom:any = {};
+    mergedFrom: any = {};
 
     channel_tel = false;
-    channel_data : any = [];
+    channel_data: any = [];
+
+    serviceLabelID = [
+        { ID: 1, TEXT: "AIS" },
+        { ID: 2, TEXT: "TRUE" },
+        { ID: 3, TEXT: "DTAC" },
+        { ID: 4, TEXT: "NT (CAT TOT)" },
+        { ID: 5, TEXT: "อื่น ๆ" }
+    ];
+
+    socialType = [
+        'LINE',
+        'FACEBOOK',
+        'MESSENGER',
+        'INSTAGRAM',
+        'WEBSITE',
+        'EMAIL',
+        'TELEGRAM',
+        'WHATSAPP',
+        'TWITTER',
+        'อื่นๆ',
+    ];
+
 
     constructor(
         private servicePersonal: PersonalService,
@@ -290,7 +312,7 @@ export class IssueOnlineValidateComponent implements OnInit {
     }
 
     async ReloadData() {
-        localStorage.setItem("form-index","5");
+        localStorage.setItem("form-index", "6");
         this.isLoading = true;
         this.province = this.mainConponent.province;
         this.loadDateBox = false;
@@ -299,14 +321,14 @@ export class IssueOnlineValidateComponent implements OnInit {
         this.formData = {};
         setTimeout(() => {
             this.checkEmtrySession();
-            if(!localStorage.getItem("form-config")){
+            if (!localStorage.getItem("form-config")) {
                 var formConfigs = {
                     FORM_CODE: 'CCIB_NOTIFY_PEOPLE@0.1',
                     env: environment.config.baseConfig,
                     CASE_FLAG: 'O',
                     CASE_SELF_TYPE: 'Y',
                 }
-                localStorage.setItem("form-config",JSON.stringify(formConfigs));
+                localStorage.setItem("form-config", JSON.stringify(formConfigs));
             }
             this.mergedFrom = Object.assign({},
                 JSON.parse(localStorage.getItem("form-config")),
@@ -314,16 +336,19 @@ export class IssueOnlineValidateComponent implements OnInit {
                 JSON.parse(localStorage.getItem("form-informer")),
                 JSON.parse(localStorage.getItem("form-event")),
                 JSON.parse(localStorage.getItem("form-villain")),
-                JSON.parse(localStorage.getItem("form-damage")));
+                JSON.parse(localStorage.getItem("form-damage")),
+                JSON.parse(localStorage.getItem("form-criminal-contact"))
+            );
             this.userType = this.mainConponent.userType;
             this.formData = this.mergedFrom;
+            console.log(this.formData);
             // console.log( this.formData);
-            if(this.formData.BANK_REF){
-                this.formData.WAY = this.formData.BANK_REF.length > 0 ? 1 :2;
+            if (this.formData.BANK_REF) {
+                this.formData.WAY = this.formData.BANK_REF.length > 0 ? 1 : 2;
             }
             this.channel_tel = this.formData.CASE_TYPE_ID == 66 || this.formData.CASE_TYPE_ID == 67 ? true : false;
-            if(this.channel_tel){
-                if(this.formData.CASE_CHANNEL){
+            if (this.channel_tel) {
+                if (this.formData.CASE_CHANNEL) {
                     this.channel_data = this.formData.CASE_CHANNEL;
                 }
             }
@@ -361,14 +386,9 @@ export class IssueOnlineValidateComponent implements OnInit {
                     this.checkboxlocationreadonly.readonly_type2 = true;
                     this.checkboxlocationreadonly.readonly_type3 = false;
                 }
-
-
             }
         }, 500);
-
-
         // this.formData.CASE_INFORMER_DATE = this._date.ConvertToDateFormat(this.formData.CASE_INFORMER_DATE);
-
     }
     CheckStatusDamage() {
         if (this.formData.CASE_MONEY_TYPE1 === 'Y'
@@ -526,7 +546,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                 html: "กรุณากรอกช่องทางใด",
                 icon: "warning",
                 confirmButtonText: "Ok",
-            }).then(() => {});
+            }).then(() => { });
             return;
         }
         this.popupCaseChannel2 = false;
@@ -562,38 +582,38 @@ export class IssueOnlineValidateComponent implements OnInit {
                 setData[key] = data[key];
             }
         }
-        if(this.formData.CHECK_BLESSING === undefined || this.formData.BLESSING_STATUS === undefined){
+        if (this.formData.CHECK_BLESSING === undefined || this.formData.BLESSING_STATUS === undefined) {
         }
-        if(this.formData.CASE_INFORMER_FIRSTNAME === undefined && this.formData.CASE_INFORMER_LASTNAME === undefined){
+        if (this.formData.CASE_INFORMER_FIRSTNAME === undefined && this.formData.CASE_INFORMER_LASTNAME === undefined) {
             Swal.fire({
                 title: "ผิดพลาด!",
                 html: "คุณกรอกข้อมูลไม่สมบูรณ์ ระบบจะพาคุณไปยังหน้าที่ยังกรอกไม่สมบูรณ์",
                 icon: "warning",
                 confirmButtonText: "Ok",
-            }).then(() => {});
+            }).then(() => { });
             this.isLoading = false;
             this.mainConponent.SelectTabIndex(2);
             return;
         }
-        if(this.formData.CHECK_BLESSING || this.formData.BLESSING_STATUS === "Y"){
-            if(this.formData.ORG_LOCATION_ID == 0 ||this.formData.ORG_LOCATION_ID == 1){
+        if (this.formData.CHECK_BLESSING || this.formData.BLESSING_STATUS === "Y") {
+            if (this.formData.ORG_LOCATION_ID == 0 || this.formData.ORG_LOCATION_ID == 1) {
                 Swal.fire({
                     title: "ผิดพลาด!",
                     html: "กรุณาเลือกสถานีที่คุณต้องการไปพบ",
                     icon: "warning",
                     confirmButtonText: "Ok",
-                }).then(() => {});
+                }).then(() => { });
                 this.isLoading = false;
                 this.mainConponent.SelectTabIndex(2);
                 return;
             }
-            if(this.formData.CASE_TYPE_ID === undefined || this.formData.CASE_TYPE_ID === 7 || this.formData.CASE_TYPE_ID === 0){
+            if (this.formData.CASE_TYPE_ID === undefined || this.formData.CASE_TYPE_ID === 7 || this.formData.CASE_TYPE_ID === 0) {
                 Swal.fire({
                     title: "ผิดพลาด!",
                     text: "กรุณาเลือกประเภทคดี",
                     icon: "warning",
                     confirmButtonText: "Ok",
-                }).then(() => {});
+                }).then(() => { });
                 this.isLoading = false;
                 this.mainConponent.SelectTabIndex(3);
                 return;
@@ -634,7 +654,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                     // console.log();
                 }
             });
-        }else if(this.formData.CHECK_BLESSING == false || this.formData.BLESSING_STATUS === "N"){
+        } else if (this.formData.CHECK_BLESSING == false || this.formData.BLESSING_STATUS === "N") {
             setData["ORG_LOCATION_ID"] = 1;
             setData["CASE_TYPE_ID"] = 7;
             setData["ORG_LOCATION_NAME"] = "สำนักงานตำรวจแห่งชาติ";
@@ -674,13 +694,13 @@ export class IssueOnlineValidateComponent implements OnInit {
                     // console.log();
                 }
             });
-        }else{
+        } else {
             Swal.fire({
                 title: "ผิดพลาด!",
                 html: "คุณกรอกข้อมูลไม่สมบูรณ์ กรุณาตรวจสอบข้อมูลที่ท่านกรอกอีกครั้ง",
                 icon: "warning",
                 confirmButtonText: "Ok",
-            }).then(() => {});
+            }).then(() => { });
             this.isLoading = false;
             this.mainConponent.SelectTabIndex(1);
             return;
@@ -696,7 +716,7 @@ export class IssueOnlineValidateComponent implements OnInit {
     //             alert('success');
     //         });
     // }
-    checkEmtrySession(){
+    checkEmtrySession() {
         const requiredItems = [
             "form-blessing",
             "form-informer",
@@ -711,11 +731,11 @@ export class IssueOnlineValidateComponent implements OnInit {
                     html: "คุณกรอกข้อมูลไม่สมบูรณ์ ระบบจะพาคุณไปยังหน้าที่ยังกรอกไม่สมบูรณ์",
                     icon: "warning",
                     confirmButtonText: "Ok",
-                }).then(() => {});
+                }).then(() => { });
                 this.isLoading = false;
-                if(requiredItems[i]=="form-blessing"){
+                if (requiredItems[i] == "form-blessing") {
                     this.mainConponent.SelectTabIndex(0);
-                }else{
+                } else {
                     this.mainConponent.SelectTabIndex(i + 2);
                 }
                 return;
@@ -725,5 +745,13 @@ export class IssueOnlineValidateComponent implements OnInit {
 
     displayFormatDateTime(date) {
         return formatDate(date, 'dateShortTimeThai');
+    }
+
+    async openPdfInNewTabAdd(e): Promise<void> {
+        const something = e.Url.split(',')[1] || e.Url;
+        const fileData = atob(something);
+        const blob = new Blob([new Uint8Array([...fileData].map(item => item.charCodeAt(0)))], { type: e.Type });
+        const fileUrl = URL.createObjectURL(blob);
+        window.open(fileUrl, '_blank');
     }
 }

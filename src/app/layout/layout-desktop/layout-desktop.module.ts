@@ -79,6 +79,7 @@ import { IssueOnlineReportComponent } from './components/issue-online-report/iss
 import { IssueOnlineReportInformerComponent } from './components/issue-online-report/issue-online-report-informer/issue-online-report-informer.component';
 import { IssueOnlineReportEventComponent } from './components/issue-online-report/issue-online-report-event/issue-online-report-event.component';
 import { IssueOnlineReportValidateComponent } from './components/issue-online-report/issue-online-report-validate/issue-online-report-validate.component';
+import { IssueOnlineCriminalContatInfoComponent } from "./components/issue-online-container/issue-online-criminal-contact-info/issue-online-criminal-contact-info.component";
 
 
 const customNotifierOptions: NotifierOptions = {
@@ -167,7 +168,8 @@ const customNotifierOptions: NotifierOptions = {
         IssueOnlineReportComponent,
         IssueOnlineReportInformerComponent,
         IssueOnlineReportEventComponent,
-        IssueOnlineReportValidateComponent
+        IssueOnlineReportValidateComponent,
+        IssueOnlineCriminalContatInfoComponent
     ],
     exports: [DateComboPickerComponent, DateComboRegisterComponent],
     imports: [

@@ -20,6 +20,7 @@ import { IssueOnlineCheckComponent } from "./issue-online-check/issue-online-che
 import { Platform } from "@angular/cdk/platform";
 import { browser } from 'protractor';
 import { Observable } from "rxjs";
+import { IssueOnlineCriminalContatInfoComponent } from "./issue-online-criminal-contact-info/issue-online-criminal-contact-info.component";
 @Component({
     selector: "app-issue-online-container",
     templateUrl: "./issue-online-container.component.html",
@@ -101,6 +102,14 @@ export class IssueOnlineContainerComponent implements OnInit {
 
         }
     }
+    @ViewChild(IssueOnlineCriminalContatInfoComponent) set content10(content10: IssueOnlineCriminalContatInfoComponent){
+        if (content10) {
+            this.criminalContactInfo = content10;
+            this.criminalContactInfo.mainConponent = this;
+            this.indexLocker.criminalContactInfo = true;
+
+        }
+    }
     @ViewChild(IssueOnlineCheckComponent) set content0(content0: IssueOnlineCheckComponent) {
         if (content0) {
             this.pagefirstConponent = content0;
@@ -113,7 +122,7 @@ export class IssueOnlineContainerComponent implements OnInit {
     @Input() public userType = "mySelf";
 
     public max = Number.MIN_VALUE;
-    public indexTab = 0;
+    public indexTab = 5;
     public indexTabMain = 0;
     public formDataInsert: any = {};
     public formDataBankref: any = {};
@@ -129,6 +138,7 @@ export class IssueOnlineContainerComponent implements OnInit {
     public vaillainConponent: IssueOnlineVillainComponent;
     public attachmentConponent: IssueOnlineAttachmentComponent;
     public validateConponent: IssueOnlineValidateComponent;
+    public criminalContactInfo: IssueOnlineCriminalContatInfoComponent;
     public pagefirstConponent: IssueOnlineCheckComponent;
     public caseId: number;
     public InstId: string;
@@ -147,10 +157,11 @@ export class IssueOnlineContainerComponent implements OnInit {
         { text: "ข้อมูลผู้เสียหาย", textClass: "arrow-div arrow-center" },
         { text: "เรื่องที่เกิดขึ้น", textClass: "arrow-div arrow-center" },
         { text: "ความเสียหาย", textClass: "arrow-div arrow-center" },
+        { text: "ช่องทางติดต่อคนร้าย", textClass: "arrow-div arrow-center"},
         { text: "ยืนยันความถูกต้อง", textClass: "arrow-div arrow-end" }
     ];
     stepNavigationZindex = 100;
-    stepNavigationWidth = 1830;
+    stepNavigationWidth = 2230;
     public formDataAll: any = {};
     public nextPage = false;
 
@@ -178,9 +189,10 @@ export class IssueOnlineContainerComponent implements OnInit {
                 { text: "เรื่องที่เกิดขึ้น", textClass: "arrow-div arrow-center" },
                 { text: "ความเสียหาย", textClass: "arrow-div arrow-end" }
             ];
-            this.stepNavigationWidth = 1250;
+            this.stepNavigationWidth = 305 * this.stepNavigation.length;
             this.getProvince();
         } else {
+            this.stepNavigationWidth = 305 * this.stepNavigation.length;
             this.SetFormInit();
             this.getProvince();
         }

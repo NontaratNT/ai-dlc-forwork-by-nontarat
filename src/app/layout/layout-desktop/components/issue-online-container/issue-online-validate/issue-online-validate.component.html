@@ -486,6 +486,236 @@
         <div class="content-end-line"></div>
     </div>
     <div class="conten-block">
+        <div class="content-title">ช่องทางการติดต่อคนร้าย</div>
+    <div class="content-form">
+        <div class="conten-block">
+            <div class="content-form">
+                <dx-form #formEvent1 [colCount]="3" labelLocation="top">
+                    <!-- <dxi-item template="temp1" [colSpan]="2" [isRequired]="true">
+                        <dxo-label text="ประเภทของเรื่อง" [showColon]="false"></dxo-label>
+                        <dxi-validation-rule type="required" message="กรุณาเลือกประเภทของเรื่อง">
+                        </dxi-validation-rule>
+                        <div *dxTemplate="let data of 'temp1'">
+                            <dx-select-box *ngIf="!formReadOnly" #selectCaseType [dataSource]="listCaseType" displayExpr="CASE_TYPE_NAME" valueExpr="CASE_TYPE_ID" placeholder="ประเภทของเรื่อง" (onValueChanged)="OnSelectCaseType($event)" [(value)]="formData.CASE_TYPE_ID" [readOnly]="formReadOnly">
+                            </dx-select-box>
+                            <dx-text-box *ngIf="formReadOnly" [readOnly]="formReadOnly" [(value)]="formData.CASE_TYPE_NAME"></dx-text-box>
+                        </div>
+                    </dxi-item> -->
+                    <!-- <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
+                    <dxi-item *ngIf="formData.CASE_TYPE_ID" template="temp1des" [colSpan]="3">
+                        <dxo-label text="คำอธิบาย" [showColon]="false"></dxo-label>
+                        <div *dxTemplate="let data of 'temp1des'">
+                            <div class="text-area-description">
+                                <dx-text-area [readOnly]="true" [minHeight]="80" [autoResizeEnabled]="true" [value]="caseType"></dx-text-area>
+                            </div>
+                        </div>
+                    </dxi-item> -->
+                    <dxi-item template="temp2" [colSpan]="3" [isRequired]="true">
+                        <dxo-label text="รายละเอียดที่ต้องการแจ้งเบาะแส" [showColon]="false"></dxo-label>
+                        <dxi-validation-rule type="required" message="กรุณากรอกรายละเอียดที่ต้องการแจ้งเบาะแส"></dxi-validation-rule>
+                        <div *dxTemplate="let data of 'temp2'">
+                            <!-- <p style="color: red;">* แจ้งเบาะแสเกี่ยวกับ แก๊งคอลเซนเตอร์ เว็บไซต์การพนันออนไลน์,แอบอ้างเป็นเจ้าหน้าที่รัฐ,เว็บไซต์เงินกู้ผิดกฎหมาย"</p> -->
+                            <dx-text-area [readOnly]="formReadOnly" [height]="150" [(value)]="formData.BEHAVEOR" [maxLength]="5000"></dx-text-area>
+                        </div>
+                    </dxi-item>
+                    <dxi-item itemType="empty"></dxi-item>
+                </dx-form>
+            </div>
+        </div>
+        <div class="content-form">
+            <dx-form [colCount]="2" labelLocation="top">
+                <dxi-item template="temp1" [colSpan]="2">
+                    <dxo-label text="ประเภทช่องทางการติดต่อ" [showColon]="false"></dxo-label>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp1'">
+                    <dx-check-box [readOnly]="formReadOnly" id="chanel_check" text="เบอร์โทรศัพท์" [(value)]="formData.CRIMINAL_TEL"></dx-check-box>
+                    <dx-check-box [readOnly]="formReadOnly" id="chanel_check" text="SMS" [(value)]="formData.CRIMINAL_SMS"></dx-check-box>
+                    <dx-check-box [readOnly]="formReadOnly" id="chanel_check" text="Social Media/Website" [(value)]="formData.CRIMINAL_OTHER"></dx-check-box>
+                </div>
+            </dx-form>
+            <dx-form #formPhone *ngIf="formData.CRIMINAL_TEL" [colCount]="4" labelLocation="top">
+                <dxi-item [colSpan]="2" style="margin-top:20px;">
+                    <div class="content-title">โทรศัพท์</div>
+                </dxi-item>
+                <dxi-item itemType="empty" [colSpan]="2"></dxi-item>
+                <dxi-item template="CRIMINAL_TEL_ORIGIN" [isRequired]="true" [colSpan]="2">
+                    <dxo-label text="หมายเลขโทรศัพท์ผู้เสียหาย" [showColon]="true"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกหมายเลขโทรศัพท์ผู้เสียหาย">
+                    </dxi-validation-rule>
+                    <!-- <dxi-validation-rule type="custom" message="หมายเลขโทรศัพท์ 10 หลัก" [validationCallback]="PhoneNumberPattern">
+                    </dxi-validation-rule> -->
+                </dxi-item>
+                <div *dxTemplate="let data of 'CRIMINAL_TEL_ORIGIN'">
+                    <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_TEL_ORIGIN" [maxLength]="10"></dx-text-box>
+                </div>
+                <dxi-item template="CRIMINAL_TEL_PROVIDER" [isRequired]="true" [colSpan]="1">
+                    <dxo-label text="ค่ายโทรศัพท์ผู้เสียหาย" [showColon]="true"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกค่ายโทรศัพท์ผู้เสียหาย">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'CRIMINAL_TEL_PROVIDER'">
+                    <dx-select-box [readOnly]="formReadOnly" [dataSource]="serviceLabelID" displayExpr="TEXT" valueExpr="TEXT" searchExpr="TEXT" placeholder="ค่ายโทรศัพท์" [(value)]="formData.CRIMINAL_TEL_PROVIDER" [showClearButton]="true">
+                    </dx-select-box>
+                </div>
+                <dxi-item *ngIf="!formData.CRIMINAL_TEL_PROVIDER_DETAIL" itemType="empty" [colSpan]="1"></dxi-item>
+                <dxi-item *ngIf="formData.CRIMINAL_TEL_PROVIDER_DETAIL" template="CRIMINAL_TEL_PROVIDER_DETAIL" [isRequired]="true" [colSpan]="1">
+                    <dxo-label text="ชื่อค่ายโทรศัพท์ผู้เสียหายอื่นๆ" [showColon]="true"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกชื่อค่ายโทรศัพท์ผู้เสียหายอื่นๆ">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'CRIMINAL_TEL_PROVIDER_DETAIL'">
+                    <dx-text-box [readOnly]="formReadOnly" placeholder="ชื่อค่ายโทรศัพท์ผู้เสียหายอื่นๆ" [(value)]="formData.CRIMINAL_TEL_PROVIDER_DETAIL" [showClearButton]="true">
+                    </dx-text-box>
+                </div>
+                <dxi-item template="CRIMINAL_TEL_DESTINATION" [isRequired]="true" [colSpan]="2">
+                    <dxo-label text="หมายเลขโทรศัพท์คนร้าย" [showColon]="true"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกหมายเลขโทรศัพท์คนร้าย">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'CRIMINAL_TEL_DESTINATION'">
+                    <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_TEL_DESTINATION" [maxLength]="250"></dx-text-box>
+                </div>
+                <dxi-item template="CRIMINAL_TEL_DATE_FULL" [isRequired]="true" [colSpan]="2">
+                    <dxo-label text="วันเวลาที่คนร้ายติดต่อเข้ามา" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกวันเวลาที่คนร้ายติดต่อเข้ามา">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'CRIMINAL_TEL_DATE_FULL'">
+                    <dx-date-box id="default" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [(value)]="formData.CRIMINAL_SMS_DATE_FULL" displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false"
+                        [useMaskBehavior]="true">
+                    </dx-date-box>
+                </div>
+            </dx-form>
+            <div *ngIf="formData.CRIMINAL_TEL" class="content-end-line"></div>
+            <dx-form #formSms *ngIf="formData.CRIMINAL_SMS" [colCount]="4" labelLocation="top">
+                <dxi-item [colSpan]="2" style="margin-top:20px;">
+                    <div class="content-title">SMS</div>
+                </dxi-item>
+                <dxi-item itemType="empty" [colSpan]="2"></dxi-item>
+                <dxi-item template="CRIMINAL_SMS_ORIGIN" [isRequired]="true" [colSpan]="2">
+                    <dxo-label text="หมายเลขโทรศัพท์ผู้เสียหาย" [showColon]="true"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกหมายเลขโทรศัพท์ผู้เสียหาย">
+                    </dxi-validation-rule>
+                    <!-- <dxi-validation-rule type="custom" message="หมายเลขโทรศัพท์ 10 หลัก" [validationCallback]="PhoneNumberPattern">
+                    </dxi-validation-rule> -->
+                </dxi-item>
+                <div *dxTemplate="let data of 'CRIMINAL_SMS_ORIGIN'">
+                    <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_SMS_ORIGIN" [maxLength]="10" ></dx-text-box>
+                </div>
+                <dxi-item template="CRIMINAL_SMS_PROVIDER" [isRequired]="true" [colSpan]="1">
+                    <dxo-label text="ค่ายโทรศัพท์ผู้เสียหาย" [showColon]="true"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกค่ายโทรศัพท์ผู้เสียหาย">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'CRIMINAL_SMS_PROVIDER'">
+                    <dx-select-box [readOnly]="formReadOnly" [dataSource]="serviceLabelID" displayExpr="TEXT" valueExpr="TEXT" searchExpr="TEXT" [searchEnabled]="true" placeholder="ค่ายโทรศัพท์" [(value)]="formData.CRIMINAL_SMS_PROVIDER" [showClearButton]="true">
+                    </dx-select-box>
+                </div>
+                <dxi-item *ngIf="!formData.CRIMINAL_SMS_PROVIDER_DETAIL" itemType="empty" [colSpan]="1"></dxi-item>
+                <dxi-item *ngIf="formData.CRIMINAL_SMS_PROVIDER_DETAIL" template="CRIMINAL_SMS_PROVIDER_DETAIL" [isRequired]="true" [colSpan]="1">
+                    <dxo-label text="ชื่อค่ายโทรศัพท์ผู้เสียหายอื่นๆ" [showColon]="true"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกชื่อค่ายโทรศัพท์ผู้เสียหายอื่นๆ">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'CRIMINAL_SMS_PROVIDER_DETAIL'">
+                    <dx-text-box [readOnly]="formReadOnly" placeholder="ชื่อค่ายโทรศัพท์ผู้เสียหายอื่นๆ" [(value)]="formData.CRIMINAL_SMS_PROVIDER_DETAIL" [showClearButton]="true" >
+                    </dx-text-box>
+                </div>
+                <dxi-item template="CRIMINAL_SMS_DESTINATION" [isRequired]="true" [colSpan]="2">
+                    <dxo-label text="หมายเลขโทรศัพท์คนร้าย" [showColon]="true"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกหมายเลขโทรศัพท์คนร้าย">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'CRIMINAL_SMS_DESTINATION'">
+                    <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_SMS_DESTINATION" [maxLength]="250"></dx-text-box>
+                </div>
+                <dxi-item template="CRIMINAL_SMS_DATE_FULL" [isRequired]="true" [colSpan]="2">
+                    <dxo-label text="วันเวลาที่คนร้ายติดต่อเข้ามา" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกวันเวลาที่คนร้ายติดต่อเข้ามา">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'CRIMINAL_SMS_DATE_FULL'">
+                    <dx-date-box id="default" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [(value)]="formData.CRIMINAL_SMS_DATE_FULL" displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false"
+                        [useMaskBehavior]="true">
+                    </dx-date-box>
+                </div>
+            </dx-form>
+            <div *ngIf="formData.CRIMINAL_SMS" class="content-end-line"></div>
+            <dx-form #formOther *ngIf="formData.CRIMINAL_OTHER" [colCount]="2" labelLocation="top">
+                <dxi-item [colSpan]="2" style="margin-top:20px;">
+                    <div class="content-title">Social Media/Website</div>
+                </dxi-item>
+                <dxi-item template="CRIMINAL_TYPE_SOCIAL" [isRequired]="true" [colSpan]="1">
+                    <dxo-label text="ประเภทของ Social Media/Website ที่ติดต่อ" [showColon]="true"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกประเภทของ Social Media ที่ติดต่อ">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'CRIMINAL_TYPE_SOCIAL'">
+                    <!-- <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_TYPE_SOCIAL"></dx-text-box> -->
+                    <dx-select-box [dataSource]="socialType" [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_TYPE_SOCIAL"></dx-select-box>
+                </div>
+                <!-- <dxi-item *ngIf="!appState.checkOtherSocial" itemType="empty" [colSpan]="1"></dxi-item> -->
+                <dxi-item *ngIf="formData.CRIMINAL_SOCIA_TYPE_DETAIL" template="CRIMINAL_SOCIA_TYPE_DETAIL" [isRequired]="true" [colSpan]="1">
+                    <dxo-label text="Social Media/Website ที่ติดต่อ" [showColon]="true"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอก Social Media ที่ติดต่อ">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'CRIMINAL_SOCIA_TYPE_DETAIL'">
+                    <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_SOCIA_TYPE_DETAIL"></dx-text-box>
+                </div>
+                <dxi-item template="CRIMINAL_SOCIAL_DETAIL" [isRequired]="true" [colSpan]="1">
+                    <dxo-label text="Link/URL ของ Social Media/Website/Page" [showColon]="true"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกLink/URL ของ Social Media/Website/Page">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'CRIMINAL_SOCIAL_DETAIL'">
+                    <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_SOCIAL_DETAIL"></dx-text-box>
+                    <span><p style="color: red;">* ตัวอย่าง : www.google.com</p></span>
+                </div>
+            </dx-form>
+        </div>
+        <div class="content-form">
+            <div class="content-block">
+                <div class="content-title">ข้อมูลไฟล์แนบ</div>
+                <!-- <div class="row" style="margin-bottom:10px;display:
+                    flow-root;padding-right: 15px;">
+                    <dx-button class="float-right" [width]="170" icon="fas fa-file" type="success" text="อัปโหลดเอกสาร" (onClick)="OpenFileDialog()"></dx-button>
+                </div> -->
+                <!-- <div style="display: flex; justify-content: end; color: red;">* แนบไฟล์ประกอบ</div> -->
+                <!-- <div class="remark-table-upload">* ขนาดไฟล์ทั้งหมดไม่เกิน 10MB * แนบไฟล์ประกอบ</div> -->
+                <dx-data-grid [dataSource]="formData.ATTACHMENT" [showColumnLines]="true" [wordWrapEnabled]="true" [showRowLines]="true" [allowColumnResizing]="false" [columnHidingEnabled]="false" [showBorders]="true" [rowAlternationEnabled]="true" noDataText="ไม่มีข้อมูล"
+                    [columnAutoWidth]="true" columnResizingMode="widget">
+                    <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                    </dxo-editing>
+                    <dxo-paging [pageSize]="10"></dxo-paging>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true">
+                    </dxo-pager>
+                    <dxo-selection mode="single"></dxo-selection>
+                    <dxi-column dataField="" caption="ลำดับ" [width]="80" alignment="center" [allowSearch]="false" [allowEditing]="false" cellTemplate="cellTemplate">
+                    </dxi-column>
+                    <div *dxTemplate="let celldata of 'cellTemplate'">
+                        {{ celldata.component.pageIndex() * celldata.component.pageSize() + celldata.rowIndex + 1 }}
+                    </div>
+                    <dxi-column dataField="" caption="ลบ" [width]="50" alignment="center" [allowSorting]="false" cellTemplate="cellTemplateDelete"></dxi-column>
+                    <div *dxTemplate="let d of 'cellTemplateDelete'">
+                        <!-- <img class="text-download" src="assets/icon/trash.png" alt="icon" (click)="DeleteFileDocItemUpload(d.component.pageIndex() * d.component.pageSize() + d.rowIndex)"> -->
+                    </div>
+                    <dxi-column dataField="fileName" caption="ชื่อไฟล์" alignment="center" cellTemplate="openFileTemp">
+                    </dxi-column>
+                    <div *dxTemplate="let data of 'openFileTemp'">
+                        <a *ngIf="data.data.OriginalName" (click)="openPdfInNewTabAdd(data.data)" class="open-file-text">{{data.data.OriginalName}}</a>
+                    </div>
+                    <dxi-column dataField="formType" caption="ประเภทของไฟล์" alignment="center" [width]="150"></dxi-column>
+                    <dxi-column dataField="" caption="ขนาดไฟล์" alignment="center" [width]="150" cellTemplate="cellTemplateDetail"></dxi-column>
+                    <div *dxTemplate="let cell of 'cellTemplateDetail'">
+                        <div class="text-break">{{cell.data['sizeDetail']}}</div>
+                    </div>
+                </dx-data-grid>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="conten-block">
         <div class="text-right" style="margin-top: 100px;">
             <dx-button class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)">
             </dx-button>
@@ -514,7 +744,7 @@
                             <div *dxTemplate="let data of 'temp001'" style="display: flex;">
                                 <dx-radio-group [readOnly]="false" [dataSource]="promote" layout="horizontal" valueExpr="ID" displayExpr="TEXT" (onValueChanged)="PromoteChange($event)" [(value)]="formData.IS_PROMOTE_RADIO" style="margin-right: 20px;">
                                 </dx-radio-group>
-                                <ng-container *ngIf="formData.IS_PROMOTE_RADIO == 'ได้รับ'">
+                                <ng-container *ngIf="formData.IS_PROMOTE_RADIO === 'ได้รับ'">
                                     <!-- <dx-select-box [width]="150" [dataSource]="[]" displayExpr="" valueExpr="" searchExpr="" [searchEnabled]="true" placeholder="เลือกช่องทาง" [showClearButton]="true" [(value)]="formData.PROMOTE_CHANEL" [readOnly]="false">
                                     </dx-select-box> -->
                                     <dx-text-box [width]="300" placeholder="ทางช่องทางใด" [readOnly]="false" [(value)]="formData.PROMOTE_CHANEL">
