@@ -195,7 +195,7 @@
                     <dx-button class="float-right" [width]="170" icon="fas fa-file" type="success" text="อัปโหลดเอกสาร" (onClick)="OpenFileDialog()"></dx-button>
                 </div>
                 <!-- <div style="display: flex; justify-content: end; color: red;">* แนบไฟล์ประกอบ</div> -->
-                <div class="remark-table-upload">* ขนาดไฟล์ทั้งหมดไม่เกิน 10MB * แนบไฟล์ประกอบ</div>
+                <div class="remark-table-upload">*แนบไฟล์ประกอบ ขนาดไฟล์ทั้งหมดไม่เกิน 10MB (ไม่บังคับ)</div>
                 <dx-data-grid [dataSource]="dataAttachment" [showColumnLines]="true" [wordWrapEnabled]="true" [showRowLines]="true" [allowColumnResizing]="false" [columnHidingEnabled]="false" [showBorders]="true" [rowAlternationEnabled]="true" noDataText="ไม่มีข้อมูล"
                     [columnAutoWidth]="true" columnResizingMode="widget">
                     <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
