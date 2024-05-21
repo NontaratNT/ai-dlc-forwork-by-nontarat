@@ -651,6 +651,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                                 localStorage.removeItem("form-villain");
                                 localStorage.removeItem("form-index");
                                 localStorage.removeItem("form-config");
+                                localStorage.removeItem("form-criminal-contact");
                                 this._router.navigate(['/main/task-list']);
                             });
                         });
@@ -691,6 +692,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                                 localStorage.removeItem("form-villain");
                                 localStorage.removeItem("form-index");
                                 localStorage.removeItem("form-config");
+                                localStorage.removeItem("form-criminal-contact");
                                 this._router.navigate(['/main/task-list']);
                             });
                         });

@@ -239,6 +239,7 @@ export class IssueOnlineContainerComponent implements OnInit {
                     localStorage.removeItem("form-attachment");
                     localStorage.removeItem("form-questionare");
                     localStorage.removeItem("form-index");
+                    localStorage.removeItem("form-criminal-contact");
                 }
             });
         }
