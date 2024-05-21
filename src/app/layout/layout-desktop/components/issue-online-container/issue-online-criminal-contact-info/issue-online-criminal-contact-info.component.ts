@@ -59,7 +59,20 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         'อื่นๆ',
     ];
 
-    fileType = ['เบอร์โทรศัพท์', 'SMS', 'Social Media/Website'];
+    fileType = [
+        'เบอร์โทรศัพท์',
+        'SMS',
+        'LINE',
+        'FACEBOOK',
+        'MESSENGER',
+        'INSTAGRAM',
+        'WEBSITE',
+        'EMAIL',
+        'TELEGRAM',
+        'WHATSAPP',
+        'TWITTER',
+        'อื่นๆ'
+    ];
     fileTypeSelectedValue = '';
     fileTypeSelected = false;
 
@@ -68,10 +81,10 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         checkOtherSms: boolean;
         checkOtherSocial: boolean;
     } = {
-            checkOtherTel: false,
-            checkOtherSms: false,
-            checkOtherSocial: false
-        };
+        checkOtherTel: false,
+        checkOtherSms: false,
+        checkOtherSocial: false
+    };
 
     constructor(
         private servBankInfo: BankInfoService,
@@ -110,12 +123,12 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         this.appState.checkOtherSocial = this.formData.CRIMINAL_TYPE_SOCIAL === 'อื่นๆ' ?? false;
         this.fileTypeSelected = this.fileTypeSelectedValue !== '' ?? false;
 
-        if(this.formData.CRIMINAL_SMS_DATE_FULL){
+        if (this.formData.CRIMINAL_SMS_DATE_FULL) {
             this.formData.CRIMINAL_SMS_DATE = this.datePipe.transform(this.formData.CRIMINAL_SMS_DATE_FULL, 'yyyy-MM-dd');
             this.formData.CRIMINAL_SMS_TIME = this.datePipe.transform(this.formData.CRIMINAL_SMS_DATE_FULL, 'HH:mm:ss');
         }
 
-        if(this.formData.CRIMINAL_TEL_DATE_FULL){
+        if (this.formData.CRIMINAL_TEL_DATE_FULL) {
             this.formData.CRIMINAL_TEL_DATE = this.datePipe.transform(this.formData.CRIMINAL_TEL_DATE_FULL, 'yyyy-MM-dd');
             this.formData.CRIMINAL_TEL_TIME = this.datePipe.transform(this.formData.CRIMINAL_TEL_DATE_FULL, 'HH:mm:ss');
         }
@@ -237,18 +250,21 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
             }
         }
         let formCaseChannel = this.issueOnlineService.craeteCaseChanel(this.formData);
+        // pack file's form
+        formCaseChannel = this.formatFormSubmitFile(formCaseChannel);
         this.mainConponent.formDataAll.formCriminalContact = {};
         this.mainConponent.formDataAll.formCaseChannelCriminalContact = {};
         this.mainConponent.formDataAll.formCriminalContact = this.formData;
         this.mainConponent.formDataAll.formCaseChannelCriminalContact = formCaseChannel;
-        if(localStorage.getItem("form-villain")){
-            const villain = JSON.parse(localStorage.getItem("form-villain"));
-            localStorage.setItem("form-villain",JSON.stringify(Object.assign(villain,{CASE_CHANNEL:[...formCaseChannel]})));
-        }else{
-            localStorage.setItem("form-villain",JSON.stringify(Object.assign({},{CASE_CHANNEL:[...formCaseChannel]})));
-        }
-        localStorage.setItem("form-criminal-contact",JSON.stringify(Object.assign({CASE_REPORT:[...this.formData]})));
-        this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
+        console.log(this.formData, formCaseChannel);
+        // if(localStorage.getItem("form-villain")){
+        //     const villain = JSON.parse(localStorage.getItem("form-villain"));
+        //     localStorage.setItem("form-villain",JSON.stringify(Object.assign(villain,{CASE_CHANNEL:[...formCaseChannel]})));
+        // }else{
+        //     localStorage.setItem("form-villain",JSON.stringify(Object.assign({},{CASE_CHANNEL:[...formCaseChannel]})));
+        // }
+        // localStorage.setItem("form-criminal-contact",JSON.stringify(Object.assign({CASE_REPORT:[...this.formData]})));
+        // this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
     }
 
     Back(e) {
@@ -438,4 +454,61 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         return makeScope.test(params.value);
     }
 
+    formatFormSubmitFile(formCaseChannel: any): any {
+        if (this.formData.ATTACHMENT.length !== 0) {
+            this.formData.ATTACHMENT.forEach(element => {
+                switch (element.formType) {
+                case "EMAIL":
+                    formCaseChannel.CHANNEL_EMAIL_DOC = [];
+                    formCaseChannel.CHANNEL_EMAIL_DOC.push(element);
+                    break;
+                case "FACEBOOK":
+                    formCaseChannel.CHANNEL_FACEBOOK_DOC = [];
+                    formCaseChannel.CHANNEL_FACEBOOK_DOC.push(element);
+                    break;
+                case "INSTAGRAM":
+                    formCaseChannel.CHANNEL_INSTARGRAM_DOC = [];
+                    formCaseChannel.CHANNEL_INSTARGRAM_DOC.push(element);
+                    break;
+                case "LINE":
+                    formCaseChannel.CHANNEL_LINE_DOC = [];
+                    formCaseChannel.CHANNEL_LINE_DOC.push(element);
+                    break;
+                case "MESSENGER":
+                    formCaseChannel.CHANNEL_MESSENGER_DOC = [];
+                    formCaseChannel.CHANNEL_MESSENGER_DOC.push(element);
+                    break;
+                case "อื่นๆ":
+                    formCaseChannel.CHANNEL_OTHERS_DOC = [];
+                    formCaseChannel.CHANNEL_OTHERS_DOC.push(element);
+                    break;
+                case "เบอร์โทรศัพท์":
+                    formCaseChannel.CHANNEL_PHONE_DOC = [];
+                    formCaseChannel.CHANNEL_PHONE_DOC.push(element);
+                    break;
+                case "SMS":
+                    formCaseChannel.CHANNEL_SMS_DOC = [];
+                    formCaseChannel.CHANNEL_SMS_DOC.push(element);
+                    break;
+                case "TELEGRAM":
+                    formCaseChannel.CHANNEL_TELEGRAM_DOC = [];
+                    formCaseChannel.CHANNEL_TELEGRAM_DOC.push(element);
+                    break;
+                case "TWITTER":
+                    formCaseChannel.CHANNEL_TWITTER_DOC = [];
+                    formCaseChannel.CHANNEL_TWITTER_DOC.push(element);
+                    break;
+                case "WEBSITE":
+                    formCaseChannel.CHANNEL_WEBSITE_DOC = [];
+                    formCaseChannel.CHANNEL_WEBSITE_DOC.push(element);
+                    break;
+                case "WHATSAPP":
+                    formCaseChannel.CHANNEL_WHATAPP_DOC = [];
+                    formCaseChannel.CHANNEL_WHATAPP_DOC.push(element);
+                    break;
+                }
+            });
+        }
+        return formCaseChannel;
+    }
 }
