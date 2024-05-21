@@ -207,7 +207,7 @@ export class IssueOnlineReportEventComponent implements OnInit, DoCheck {
             }
         }else{
             this.formData.CRIMINAL_TYPE_SOCIAL = null;
-            this.formData.CRIMINAL_SOCIA_TYPE_DETAIL = null;
+            this.formData.CRIMINAL_SOCIAL_TYPE_DETAIL = null;
             this.formData.CRIMINAL_SOCIAL_DETAIL = null;
         }
         this.formData.ATTACHMENT = this.dataAttachment ?? [];

@@ -96,6 +96,7 @@ export class IssueOnlineValidateComponent implements OnInit {
 
     //เพิ่ม หน่วยงานให้เลือก
     checkboxLocation: any = {};
+    formReport: any;
     checkboxaddresscard = false;
     checkboxlocationreadonly: any = {};
     formdataOrgsendcase: any = {
@@ -342,7 +343,11 @@ export class IssueOnlineValidateComponent implements OnInit {
             this.userType = this.mainConponent.userType;
             this.formData = this.mergedFrom;
             console.log(this.formData);
-            // console.log( this.formData);
+            if(this.formData.CASE_REPORT){
+                if(this.formData.CASE_REPORT.length > 0){
+                    this.formReport = this.formData.CASE_REPORT[0];
+                }
+            }
             if (this.formData.BANK_REF) {
                 this.formData.WAY = this.formData.BANK_REF.length > 0 ? 1 : 2;
             }
@@ -721,7 +726,8 @@ export class IssueOnlineValidateComponent implements OnInit {
             "form-blessing",
             "form-informer",
             "form-event",
-            "form-damage"
+            "form-damage",
+            "form-criminal-contact",
         ];
 
         for (let i = 0; i < requiredItems.length; i++) {

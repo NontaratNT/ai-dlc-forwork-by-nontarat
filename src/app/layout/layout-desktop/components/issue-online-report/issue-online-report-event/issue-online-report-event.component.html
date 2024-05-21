@@ -27,7 +27,7 @@
                         <dxo-label text="รายละเอียดที่ต้องการแจ้งเบาะแส" [showColon]="false"></dxo-label>
                         <dxi-validation-rule type="required" message="กรุณากรอกรายละเอียดที่ต้องการแจ้งเบาะแส"></dxi-validation-rule>
                         <div *dxTemplate="let data of 'temp2'">
-                            <p style="color: red;">* แจ้งเบาะแสเกี่ยวกับ แก๊งคอลเซนเตอร์ เว็บไซต์การพนันออนไลน์,แอบอ้างเป็นเจ้าหน้าที่รัฐ,เว็บไซต์เงินกู้ผิดกฎหมาย"</p>
+                            <p style="color: red;">* แจ้งเบาะแสเกี่ยวกับ แก๊งคอลเซนเตอร์ เว็บไซต์การพนันออนไลน์,แอบอ้างเป็นเจ้าหน้าที่รัฐ,เว็บไซต์เงินกู้ผิดกฎหมาย</p>
                             <dx-text-area [readOnly]="formReadOnly" [height]="150" [(value)]="formData.BEHAVEOR" [maxLength]="5000"></dx-text-area>
                         </div>
                     </dxi-item>
@@ -168,13 +168,13 @@
                     <dx-select-box [dataSource]="socialType" [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_TYPE_SOCIAL"></dx-select-box>
                 </div>
                 <!-- <dxi-item *ngIf="!appState.checkOtherSocial" itemType="empty" [colSpan]="1"></dxi-item> -->
-                <dxi-item *ngIf="appState.checkOtherSocial" template="CRIMINAL_SOCIA_TYPE_DETAIL" [isRequired]="true" [colSpan]="1">
+                <dxi-item *ngIf="appState.checkOtherSocial" template="CRIMINAL_SOCIAL_TYPE_DETAIL" [isRequired]="true" [colSpan]="1">
                     <dxo-label text="Social Media/Website ที่ติดต่อ" [showColon]="true"></dxo-label>
                     <dxi-validation-rule type="required" message="กรุณากรอก Social Media ที่ติดต่อ">
                     </dxi-validation-rule>
                 </dxi-item>
-                <div *dxTemplate="let data of 'CRIMINAL_SOCIA_TYPE_DETAIL'">
-                    <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_SOCIA_TYPE_DETAIL"></dx-text-box>
+                <div *dxTemplate="let data of 'CRIMINAL_SOCIAL_TYPE_DETAIL'">
+                    <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_SOCIAL_TYPE_DETAIL"></dx-text-box>
                 </div>
                 <dxi-item template="CRIMINAL_SOCIAL_DETAIL" [isRequired]="true" [colSpan]="1">
                     <dxo-label text="Link/URL ของ Social Media/Website/Page" [showColon]="true"></dxo-label>
