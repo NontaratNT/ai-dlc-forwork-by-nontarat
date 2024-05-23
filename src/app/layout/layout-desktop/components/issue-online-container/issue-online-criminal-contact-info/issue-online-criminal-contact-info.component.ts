@@ -258,11 +258,11 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         this.mainConponent.formDataAll.formCaseChannelCriminalContact = formCaseChannel;
         if(localStorage.getItem("form-villain")){
             const villain = JSON.parse(localStorage.getItem("form-villain"));
-            localStorage.setItem("form-villain",JSON.stringify(Object.assign(villain,{CASE_CHANNEL:[...formCaseChannel]})));
+            localStorage.setItem("form-villain",JSON.stringify(Object.assign(villain,{CASE_CHANNEL:[formCaseChannel]})));
         }else{
-            localStorage.setItem("form-villain",JSON.stringify(Object.assign({},{CASE_CHANNEL:[...formCaseChannel]})));
+            localStorage.setItem("form-villain",JSON.stringify(Object.assign({},{CASE_CHANNEL:[formCaseChannel]})));
         }
-        localStorage.setItem("form-criminal-contact",JSON.stringify(Object.assign({CASE_REPORT:[...this.formData]})));
+        localStorage.setItem("form-criminal-contact",JSON.stringify(Object.assign({CASE_REPORT:[this.formData]})));
         this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
     }
 

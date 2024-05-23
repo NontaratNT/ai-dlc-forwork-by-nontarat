@@ -733,6 +733,9 @@ export class IssueOnlineInformerComponent implements OnInit {
                 this.alertmessagecustom('กรุณาเลือกวันเดือนปีเกิด');
                 return
             }
+            if(this.formData.INFORMER_TEL_PROVIDER === 'อื่น ๆ'){
+                this.formData.INFORMER_TEL_PROVIDER = this.formData.INFORMER_TEL_PROVIDER_DETAIL;
+            }
             this.formData.NEXT = true;
             const setData = {};
             for (const key in this.formData) {

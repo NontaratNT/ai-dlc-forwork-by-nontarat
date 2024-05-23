@@ -346,6 +346,7 @@ export class IssueOnlineValidateComponent implements OnInit {
             if(this.formData.CASE_REPORT){
                 if(this.formData.CASE_REPORT.length > 0){
                     this.formReport = this.formData.CASE_REPORT[0];
+                    this.formData.REPORT_CLUE_DETAIL = this.formReport.BEHAVEOR;
                 }
             }
             if (this.formData.BANK_REF) {
@@ -574,7 +575,7 @@ export class IssueOnlineValidateComponent implements OnInit {
     }
 
     InsertForm(e, data) {
-        this.isLoading = true;
+        // this.isLoading = true;
         const setData = {};
         for (const key in data) {
             if (data[key] !== null

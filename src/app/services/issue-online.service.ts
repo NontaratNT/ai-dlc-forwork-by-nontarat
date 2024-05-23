@@ -36,26 +36,26 @@ export class IssueOnlineService {
             CASE_CHANNEL_SMS_DATE: data.CRIMINAL_SMS_DATE,
             CASE_CHANNEL_SMS_TIME: data.CRIMINAL_SMS_TIME,
             CHANEL_LINE : data.CRIMINAL_TYPE_SOCIAL === 'LINE' ? true : false,
-            CASE_CHANNEL_LINE_DETAIL_NAME : data.CRIMINAL_TYPE_SOCIAL === 'LINE' ? `${data.CRIMINAL_TYPE_SOCIAL} ${data.CRIMINAL_SOCIAL_DETAIL}` : '',
+            CASE_CHANNEL_LINE_DETAIL_NAME : data.CRIMINAL_TYPE_SOCIAL === 'LINE' ? `${data.CRIMINAL_SOCIAL_DETAIL}` : '',
             CHANEL_FACEBOOK: data.CRIMINAL_TYPE_SOCIAL === 'FACEBOOK' ? true : false,
-            CASE_CHANNEL_FACEBOOK_DETAIL_NAME: data.CRIMINAL_TYPE_SOCIAL === 'FACEBOOK' ? `${data.CRIMINAL_TYPE_SOCIAL} ${data.CRIMINAL_SOCIAL_DETAIL}` : '',
+            CASE_CHANNEL_FACEBOOK_DETAIL_NAME: data.CRIMINAL_TYPE_SOCIAL === 'FACEBOOK' ? `${data.CRIMINAL_SOCIAL_DETAIL}` : '',
             CHANEL_MESSENGER: data.CRIMINAL_TYPE_SOCIAL === 'MESSENGER' ? true : false,
-            CASE_CHANNEL_MESSENGER_DETAIL_NAME: data.CRIMINAL_TYPE_SOCIAL === 'MESSENGER' ? `${data.CRIMINAL_TYPE_SOCIAL} ${data.CRIMINAL_SOCIAL_DETAIL}` : '',
+            CASE_CHANNEL_MESSENGER_DETAIL_NAME: data.CRIMINAL_TYPE_SOCIAL === 'MESSENGER' ? `${data.CRIMINAL_SOCIAL_DETAIL}` : '',
             CHANEL_INSTARGRAM: data.CRIMINAL_TYPE_SOCIAL === 'INSTAGRAM' ? true : false,
-            CASE_CHANNEL_INSTARGRAM_DETAIL_NAME: data.CRIMINAL_TYPE_SOCIAL === 'INSTAGRAM' ? `${data.CRIMINAL_TYPE_SOCIAL} ${data.CRIMINAL_SOCIAL_DETAIL}` : '',
+            CASE_CHANNEL_INSTARGRAM_DETAIL_NAME: data.CRIMINAL_TYPE_SOCIAL === 'INSTAGRAM' ? `${data.CRIMINAL_SOCIAL_DETAIL}` : '',
             CHANEL_WEBSITE: data.CRIMINAL_TYPE_SOCIAL === 'WEBSITE' ? true : false,
-            CASE_CHANNEL_WEBSITE_DETAIL: data.CRIMINAL_TYPE_SOCIAL === 'WEBSITE' ? `${data.CRIMINAL_TYPE_SOCIAL} ${data.CRIMINAL_SOCIAL_DETAIL}` : '',
+            CASE_CHANNEL_WEBSITE_DETAIL: data.CRIMINAL_TYPE_SOCIAL === 'WEBSITE' ? `${data.CRIMINAL_SOCIAL_DETAIL}` : '',
             CHANEL_EMAIL: data.CRIMINAL_TYPE_SOCIAL === 'EMAIL' ? true : false,
-            CASE_CHANNEL_EMAIL_DETAIL: data.CRIMINAL_TYPE_SOCIAL === 'EMAIL' ? `${data.CRIMINAL_TYPE_SOCIAL} ${data.CRIMINAL_SOCIAL_DETAIL}` : '',
+            CASE_CHANNEL_EMAIL_DETAIL: data.CRIMINAL_TYPE_SOCIAL === 'EMAIL' ? `${data.CRIMINAL_SOCIAL_DETAIL}` : '',
             CHANEL_TELEGRAM: data.CRIMINAL_TYPE_SOCIAL === 'TELEGRAM' ? true : false,
-            CASE_CHANNEL_TELEGRAM_DETAIL_NAME: data.CRIMINAL_TYPE_SOCIAL === 'TELEGRAM' ? `${data.CRIMINAL_TYPE_SOCIAL} ${data.CRIMINAL_SOCIAL_DETAIL}` : '',
-            CHANEL_WHATSAPP: data.CRIMINAL_TYPE_SOCIAL === 'WHATSAPP' ? true : false,
-            CASE_CHANNEL_WHATSAPP_DETAIL_NAME: data.CRIMINAL_TYPE_SOCIAL === 'WHATSAPP' ? `${data.CRIMINAL_TYPE_SOCIAL} ${data.CRIMINAL_SOCIAL_DETAIL}` : '',
+            CASE_CHANNEL_TELEGRAM_DETAIL_NAME: data.CRIMINAL_TYPE_SOCIAL === 'TELEGRAM' ? `${data.CRIMINAL_SOCIAL_DETAIL}` : '',
+            CHANEL_WHATAPP: data.CRIMINAL_TYPE_SOCIAL === 'WHATSAPP' ? true : false,
+            CASE_CHANNEL_WHATSAPP_DETAIL_NAME: data.CRIMINAL_TYPE_SOCIAL === 'WHATSAPP' ? `${data.CRIMINAL_SOCIAL_DETAIL}` : '',
             CHANEL_TWITTER: data.CRIMINAL_TYPE_SOCIAL === 'TWITTER' ? true : false,
-            CASE_CHANNEL_TWITTER_DETAIL_NAME: data.CRIMINAL_TYPE_SOCIAL === 'TWITTER' ? `${data.CRIMINAL_TYPE_SOCIAL} ${data.CRIMINAL_SOCIAL_DETAIL}` : '',
+            CASE_CHANNEL_TWITTER_DETAIL_NAME: data.CRIMINAL_TYPE_SOCIAL === 'TWITTER' ? `${data.CRIMINAL_SOCIAL_DETAIL}` : '',
             CHANEL_OTHER: data.CRIMINAL_TYPE_SOCIAL === 'อื่นๆ' ? true : false,
             CASE_CHANNEL_OTHER_TYPE: data.CRIMINAL_TYPE_SOCIAL === 'อื่นๆ' ? `${data.CRIMINAL_SOCIAL_TYPE_DETAIL}` : '',
-            CASE_CHANNEL_OTHER_DETAIL: data.CRIMINAL_TYPE_SOCIAL === 'อื่นๆ' ? `${data.CRIMINAL_TYPE_SOCIAL} ${data.CRIMINAL_SOCIAL_TYPE_DETAIL} ${data.CRIMINAL_SOCIAL_DETAIL}` : ''
+            CASE_CHANNEL_OTHER_DETAIL: data.CRIMINAL_TYPE_SOCIAL === 'อื่นๆ' ? `${data.CRIMINAL_SOCIAL_DETAIL}` : ''
         };
         // checking form data
         if (formCaseChannel.CASE_CHANNEL_PHONE_SERVICE === "อื่น ๆ") {
@@ -67,7 +67,7 @@ export class IssueOnlineService {
         // clear form data
         const setData = {};
         for (const key in formCaseChannel) {
-            if (formCaseChannel[key] !== null && formCaseChannel[key] !== undefined) {
+            if (formCaseChannel[key] !== null && formCaseChannel[key] !== undefined && formCaseChannel[key] !== "") {
                 setData[key] = formCaseChannel[key];
             }
         }
