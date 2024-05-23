@@ -498,8 +498,8 @@
             <div class="content-form">
                 <dx-form #formEvent1 [colCount]="3" labelLocation="top">
                     <dxi-item template="temp2" [colSpan]="3" [isRequired]="true">
-                        <dxo-label text="รายละเอียดที่ต้องการแจ้งเบาะแส" [showColon]="false"></dxo-label>
-                        <dxi-validation-rule type="required" message="กรุณากรอกรายละเอียดที่ต้องการแจ้งเบาะแส"></dxi-validation-rule>
+                        <dxo-label text="รายละเอียดเกี่ยวกับคนร้าย" [showColon]="false"></dxo-label>
+                        <dxi-validation-rule type="required" message="กรุณากรอกรายละเอียดเกี่ยวกับคนร้าย"></dxi-validation-rule>
                         <div *dxTemplate="let data of 'temp2'">
                             <dx-text-area [readOnly]="formReadOnly" [height]="150" [(value)]="formReport.BEHAVEOR" [maxLength]="5000"></dx-text-area>
                         </div>
@@ -525,8 +525,8 @@
                 </dxi-item>
                 <dxi-item itemType="empty" [colSpan]="2"></dxi-item>
                 <dxi-item template="CRIMINAL_TEL_ORIGIN" [isRequired]="true" [colSpan]="2">
-                    <dxo-label text="หมายเลขโทรศัพท์ผู้เสียหาย" [showColon]="true"></dxo-label>
-                    <dxi-validation-rule type="required" message="กรุณากรอกหมายเลขโทรศัพท์ผู้เสียหาย">
+                    <dxo-label text="หมายเลขโทรศัพท์ที่รับสาย" [showColon]="true"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกหมายเลขโทรศัพท์ที่รับสาย">
                     </dxi-validation-rule>
                     <!-- <dxi-validation-rule type="custom" message="หมายเลขโทรศัพท์ 10 หลัก" [validationCallback]="PhoneNumberPattern">
                     </dxi-validation-rule> -->
@@ -554,8 +554,8 @@
                     </dx-text-box>
                 </div>
                 <dxi-item template="CRIMINAL_TEL_DESTINATION" [isRequired]="true" [colSpan]="2">
-                    <dxo-label text="หมายเลขโทรศัพท์คนร้าย" [showColon]="true"></dxo-label>
-                    <dxi-validation-rule type="required" message="กรุณากรอกหมายเลขโทรศัพท์คนร้าย">
+                    <dxo-label text="หมายเลขโทรศัพท์คนร้ายที่โทรเข้า" [showColon]="true"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกหมายเลขโทรศัพท์คนร้ายที่โทรเข้า">
                     </dxi-validation-rule>
                 </dxi-item>
                 <div *dxTemplate="let data of 'CRIMINAL_TEL_DESTINATION'">
@@ -578,8 +578,8 @@
                 </dxi-item>
                 <dxi-item itemType="empty" [colSpan]="2"></dxi-item>
                 <dxi-item template="CRIMINAL_SMS_ORIGIN" [isRequired]="true" [colSpan]="2">
-                    <dxo-label text="หมายเลขโทรศัพท์ผู้เสียหาย" [showColon]="true"></dxo-label>
-                    <dxi-validation-rule type="required" message="กรุณากรอกหมายเลขโทรศัพท์ผู้เสียหาย">
+                    <dxo-label text="หมายเลขโทรศัพท์ที่รับข้อความ" [showColon]="true"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกหมายเลขโทรศัพท์ที่รับข้อความ">
                     </dxi-validation-rule>
                     <!-- <dxi-validation-rule type="custom" message="หมายเลขโทรศัพท์ 10 หลัก" [validationCallback]="PhoneNumberPattern">
                     </dxi-validation-rule> -->
@@ -588,8 +588,8 @@
                     <dx-text-box [readOnly]="formReadOnly" [(value)]="formReport.CRIMINAL_SMS_ORIGIN" [maxLength]="10" ></dx-text-box>
                 </div>
                 <dxi-item template="CRIMINAL_SMS_PROVIDER" [isRequired]="true" [colSpan]="1">
-                    <dxo-label text="ค่ายโทรศัพท์ผู้เสียหาย" [showColon]="true"></dxo-label>
-                    <dxi-validation-rule type="required" message="กรุณาเลือกค่ายโทรศัพท์ผู้เสียหาย">
+                    <dxo-label text="ค่ายโทรศัพท์ที่รับข้อความ" [showColon]="true"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกค่ายโทรศัพท์ที่รับข้อความ">
                     </dxi-validation-rule>
                 </dxi-item>
                 <div *dxTemplate="let data of 'CRIMINAL_SMS_PROVIDER'">
@@ -607,16 +607,16 @@
                     </dx-text-box>
                 </div>
                 <dxi-item template="CRIMINAL_SMS_DESTINATION" [isRequired]="true" [colSpan]="2">
-                    <dxo-label text="หมายเลขโทรศัพท์คนร้าย" [showColon]="true"></dxo-label>
-                    <dxi-validation-rule type="required" message="กรุณากรอกหมายเลขโทรศัพท์คนร้าย">
+                    <dxo-label text="เบอร์โทรคนร้าย/ชื่อผู้ส่งข้อความ" [showColon]="true"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกเบอร์โทรคนร้าย/ชื่อผู้ส่งข้อความ">
                     </dxi-validation-rule>
                 </dxi-item>
                 <div *dxTemplate="let data of 'CRIMINAL_SMS_DESTINATION'">
                     <dx-text-box [readOnly]="formReadOnly" [(value)]="formReport.CRIMINAL_SMS_DESTINATION" [maxLength]="250"></dx-text-box>
                 </div>
                 <dxi-item template="CRIMINAL_SMS_DATE_FULL" [isRequired]="true" [colSpan]="2">
-                    <dxo-label text="วันเวลาที่คนร้ายติดต่อเข้ามา" [showColon]="false"></dxo-label>
-                    <dxi-validation-rule type="required" message="กรุณาเลือกวันเวลาที่คนร้ายติดต่อเข้ามา">
+                    <dxo-label text="วันเวลาที่รับข้อความ" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกวันเวลาที่รับข้อความ">
                     </dxi-validation-rule>
                 </dxi-item>
                 <div *dxTemplate="let data of 'CRIMINAL_SMS_DATE_FULL'">

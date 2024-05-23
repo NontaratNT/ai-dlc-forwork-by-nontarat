@@ -49,12 +49,12 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     socialType = [
         'LINE',
         'FACEBOOK',
-        'MESSENGER',
+        // 'MESSENGER',
         'INSTAGRAM',
         'WEBSITE',
-        'EMAIL',
-        'TELEGRAM',
-        'WHATSAPP',
+        // 'EMAIL',
+        // 'TELEGRAM',
+        // 'WHATSAPP',
         'TWITTER',
         'อื่นๆ',
     ];
@@ -64,12 +64,12 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         'SMS',
         'LINE',
         'FACEBOOK',
-        'MESSENGER',
+        // 'MESSENGER',
         'INSTAGRAM',
         'WEBSITE',
-        'EMAIL',
-        'TELEGRAM',
-        'WHATSAPP',
+        // 'EMAIL',
+        // 'TELEGRAM',
+        // 'WHATSAPP',
         'TWITTER',
         'อื่นๆ'
     ];
