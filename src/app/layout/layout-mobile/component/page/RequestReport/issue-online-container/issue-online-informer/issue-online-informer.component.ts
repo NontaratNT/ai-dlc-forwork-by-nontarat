@@ -275,6 +275,14 @@ export class IssueOnlineInformerComponent implements OnInit {
     radiocheckorganize3 = [{ id: 3, text: "กองบัญชาการตำรวจสอบสวนกลาง (ลาดพร้าว)" }];
     checkblessings = false;
     dataForms: any = {};
+    serviceLabelID = [
+        { ID: 1, TEXT: "AIS" },
+        { ID: 2, TEXT: "TRUE" },
+        { ID: 3, TEXT: "DTAC" },
+        { ID: 4, TEXT: "NT (CAT TOT)" },
+        { ID: 5, TEXT: "อื่น ๆ" }
+    ];
+
     constructor(
         private router: Router,
         private servicePersonal: PersonalService,

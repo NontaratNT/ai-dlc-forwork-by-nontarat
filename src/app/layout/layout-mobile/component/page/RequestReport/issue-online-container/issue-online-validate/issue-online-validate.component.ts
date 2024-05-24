@@ -230,6 +230,28 @@ export class IssueOnlineValidateComponent implements OnInit {
     channel_tel = false;
     channel_data : any = [];
 
+    serviceLabelID = [
+        { ID: 1, TEXT: "AIS" },
+        { ID: 2, TEXT: "TRUE" },
+        { ID: 3, TEXT: "DTAC" },
+        { ID: 4, TEXT: "NT (CAT TOT)" },
+        { ID: 5, TEXT: "อื่น ๆ" },
+        { ID: 5, TEXT: "N/A" },
+    ];
+
+    socialType = [
+        'LINE',
+        'FACEBOOK',
+        // 'MESSENGER',
+        'INSTAGRAM',
+        'WEBSITE',
+        // 'EMAIL',
+        // 'TELEGRAM',
+        // 'WHATSAPP',
+        'TWITTER',
+        'อื่นๆ',
+    ];
+
     constructor(
         private servicePersonal: PersonalService,
         private _onlineCaseServ: OnlineCaseService,
@@ -277,7 +299,7 @@ export class IssueOnlineValidateComponent implements OnInit {
     }
 
     async ReloadData() {
-        localStorage.setItem("form-index","5");
+        localStorage.setItem("form-index","6");
         this.isLoading = true;
         this.province = this.mainConponent.province;
         this.loadDateBox = false;
@@ -301,7 +323,10 @@ export class IssueOnlineValidateComponent implements OnInit {
                 JSON.parse(localStorage.getItem("form-informer")),
                 JSON.parse(localStorage.getItem("form-event")),
                 JSON.parse(localStorage.getItem("form-villain")),
-                JSON.parse(localStorage.getItem("form-damage")));
+                JSON.parse(localStorage.getItem("form-damage")),
+                JSON.parse(localStorage.getItem("form-criminal-contact")),
+                JSON.parse(localStorage.getItem("form-criminal-contact-channel"))
+            );
             this.userType = this.mainConponent.userType;
             this.formData = this.mergedFrom;
             // console.log( this.formData);
@@ -348,9 +373,8 @@ export class IssueOnlineValidateComponent implements OnInit {
                     this.checkboxlocationreadonly.readonly_type2 = true;
                     this.checkboxlocationreadonly.readonly_type3 = false;
                 }
-
-
             }
+            console.log(this.mergedFrom);
         }, 500);
 
 

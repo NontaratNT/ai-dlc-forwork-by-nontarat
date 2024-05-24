@@ -42,12 +42,12 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     socialType = [
         'LINE',
         'FACEBOOK',
-        'MESSENGER',
+        // 'MESSENGER',
         'INSTAGRAM',
         'WEBSITE',
-        'EMAIL',
-        'TELEGRAM',
-        'WHATSAPP',
+        // 'EMAIL',
+        // 'TELEGRAM',
+        // 'WHATSAPP',
         'TWITTER',
         'อื่นๆ',
     ];
@@ -128,7 +128,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     }
 
     SubmitForm(e) {
-        console.log([this.formData.CRIMINAL_TEL, this.formData.CRIMINAL_SMS, this.formData.CRIMINAL_OTHER].some((value) => value === true));
+        // console.log([this.formData.CRIMINAL_TEL, this.formData.CRIMINAL_SMS, this.formData.CRIMINAL_OTHER].some((value) => value === true));
         if (![this.formData.CRIMINAL_TEL, this.formData.CRIMINAL_SMS, this.formData.CRIMINAL_OTHER].some((value) => value === true)) {
             Swal.fire({
                 title: "ผิดพลาด!",
@@ -198,8 +198,10 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         this.mainConponent.formDataAll.formCaseChannelCriminalContact = {};
         this.mainConponent.formDataAll.formCriminalContact = setData;
         this.mainConponent.formDataAll.formCaseChannelCriminalContact = formCaseChannel;
-        console.log(this.formData, formCaseChannel);
-        // this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
+        localStorage.setItem("form-criminal-contact", JSON.stringify(setData));
+        localStorage.setItem("form-criminal-contact-channel", JSON.stringify(formCaseChannel));
+        // console.log(this.formData, formCaseChannel);
+        this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
     }
 
     Back(e) {

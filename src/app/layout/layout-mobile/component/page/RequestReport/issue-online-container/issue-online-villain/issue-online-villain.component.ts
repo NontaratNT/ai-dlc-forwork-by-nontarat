@@ -238,7 +238,7 @@ export class IssueOnlineVillainComponent implements OnInit {
             this.maxBirthDate = this._date.SetDateDefault(0);
             // this.servBankInfo.GetCaseChannel().subscribe((_) => (this.listCaseChannel = _));
             if (this.mainConponent.formType === 'add') {
-                localStorage.setItem("form-index","5");
+                localStorage.setItem("form-index","6");
                 if(localStorage.getItem("form-villain")){
                     this.formData = JSON.parse(localStorage.getItem("form-villain"));
                     this.formMeetCriminal = this.formData.CASE_CRIMINAL_MEET[0] ?? [];
