@@ -15,12 +15,14 @@
                                     <div [ngStyle]="{'width.px': stepNavigationWidth}">
                                         <div class="block-arrow">
                                             <div *ngFor="let item of stepNavigation; index as i;" class="arrow-div">
-                                                <div class="{{item.textClass}}" [ngClass]="SelectorTab(i)" [style.z-index]="GetzIndexTab(i)" (click)="SelectTabIndex(i)">
+                                                <div class="{{item.textClass}}" [ngClass]="SelectorTab(i)"
+                                                    [style.z-index]="GetzIndexTab(i)" (click)="SelectTabIndex(i)">
                                                     <div [ngClass]="formType === 'add' ? 'circle':'circle-edit' ">
                                                         <span>{{i+1}}</span>
                                                     </div>
                                                     <div [ngClass]="formType === 'add' ? 'text':'text-edit'">
-                                                        <div class="title" *ngIf="formType === 'add'">{{'ขั้นตอนที่ ' + (i+1)}}
+                                                        <div class="title" *ngIf="formType === 'add'">{{'ขั้นตอนที่ ' +
+                                                            (i+1)}}
                                                         </div>
                                                         <div>{{item.text}}</div>
                                                     </div>
@@ -29,7 +31,8 @@
                                         </div>
                                     </div>
                                 </dx-scroll-view>
-                                <dx-multi-view [focusStateEnabled]="false" [animationEnabled]="false" [swipeEnabled]="false" [selectedIndex]="indexTab">
+                                <dx-multi-view [focusStateEnabled]="false" [animationEnabled]="false"
+                                    [swipeEnabled]="false" [selectedIndex]="indexTab">
                                     <dxi-item>
                                         <ng-container>
                                             <app-issue-online-report-informer></app-issue-online-report-informer>
@@ -55,5 +58,6 @@
     </div>
 </div>
 
-<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true"
+    [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
 </dx-load-panel>

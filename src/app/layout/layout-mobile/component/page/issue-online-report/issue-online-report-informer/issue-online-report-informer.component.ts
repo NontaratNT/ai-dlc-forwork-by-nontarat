@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { IssueOnlineReportComponent } from '../issue-online-report.component';
-import { PersonalService } from 'src/app/services/personal.service';
-import { User } from 'src/app/services/user';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { IssueOnlineReportComponent } from "../issue-online-report.component";
+import { PersonalService } from "src/app/services/personal.service";
+import { User } from "src/app/services/user";
+import { DxFormComponent } from "devextreme-angular";
+import Swal from "sweetalert2";
 
 @Component({
-    selector: 'app-issue-online-report-informer',
-    templateUrl: './issue-online-report-informer.component.html',
-    styleUrls: ['./issue-online-report-informer.component.scss']
+    selector: "app-issue-online-report-informer",
+    templateUrl: "./issue-online-report-informer.component.html",
+    styleUrls: ["./issue-online-report-informer.component.scss"],
 })
 export class IssueOnlineReportInformerComponent implements OnInit {
-
+    @ViewChild("formInformer") formInformer: DxFormComponent;
     public mainConponent: IssueOnlineReportComponent;
 
-    formReadOnly : false;
+    formReadOnly: false;
     checkothertitle = false;
     formData: any = {};
     personalInfo: any = {};
@@ -24,33 +26,33 @@ export class IssueOnlineReportInformerComponent implements OnInit {
         { TITLE_ID: "อื่นๆ", TITLE_NAME: "อื่นๆ" },
     ];
 
-    constructor(private servicePersonal: PersonalService,) { }
+    constructor(private servicePersonal: PersonalService) {}
 
     ngOnInit(): void {
         setTimeout(() => {
             const userId = User.Current.PersonalId;
             this.isLoading = true;
-            this.servicePersonal.GetPersonalById(userId)
-                .subscribe(personalInfo => {
-                this.personalInfo = personalInfo;
-                this.setPersonalData();
-            }, error => {
-                if (error.status === 500 || error.status === 524) {
-                  this.mainConponent.checkReload(1);
+            this.servicePersonal.GetPersonalById(userId).subscribe(
+                (personalInfo) => {
+                    this.personalInfo = personalInfo;
+                    this.setPersonalData();
+                },
+                (error) => {
+                    if (error.status === 500 || error.status === 524) {
+                        this.mainConponent.checkReload(1);
+                    }
                 }
-            });
-        },200)
-
+            );
+        }, 200);
     }
 
-    setPersonalData(){
-        console.log(this.personalInfo);
+    setPersonalData() {
         this.formData = {
             TITLE_NAME: this.personalInfo.TITLE_NAME,
             TITLE_ID: this.personalInfo.TITLE_NAME,
             PERSONAL_FIRST_NAME: this.personalInfo.PERSONAL_FNAME_THA,
             PERSONAL_LAST_NAME: this.personalInfo.PERSONAL_LNAME_THA,
-            PERSONAL_TEL_NO: this.personalInfo.PERSONAL_TEL_NO
+            PERSONAL_TEL_NO: this.personalInfo.PERSONAL_TEL_NO,
         };
     }
 
@@ -68,10 +70,10 @@ export class IssueOnlineReportInformerComponent implements OnInit {
 
     ChangeRadioTitle(e) {
         if (e.value) {
-            setTimeout(()=>{
+            setTimeout(() => {
                 if (e.value == "อื่นๆ") {
                     this.checkothertitle = true;
-                    if(!this.formData.TITLE_NAME){
+                    if (!this.formData.TITLE_NAME) {
                         this.formData.TITLE_NAME = "";
                     }
                 } else {
@@ -103,9 +105,25 @@ export class IssueOnlineReportInformerComponent implements OnInit {
         return result;
     }
 
-    SubmitForm(e){
-        this.mainConponent.formInsert.formInformer = Object.assign({},this.formData);
-        console.log(this.mainConponent.formInsert);
+    SubmitForm(e) {
+        if (!this.formInformer.instance.validate().isValid) {
+            const errorMessage =
+                this.formInformer.instance.validate().brokenRules[0];
+            Swal.fire({
+                icon: "warning",
+                title: "กรอกข้อมูลไม่ครบ",
+                html: `${errorMessage.message}`,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    return;
+                }
+            });
+            return;
+        }
+        this.mainConponent.formInsert.formInformer = Object.assign(
+            {},
+            this.formData
+        );
         this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
     }
 }
