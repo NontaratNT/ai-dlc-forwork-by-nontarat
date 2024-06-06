@@ -134,13 +134,23 @@
                     <dx-text-box [readOnly]="formReadOnly" placeholder="ชื่อค่ายโทรศัพท์ผู้เสียหายอื่นๆ" [(value)]="formData.CRIMINAL_SMS_PROVIDER_DETAIL" [showClearButton]="true" >
                     </dx-text-box>
                 </div>
-                <dxi-item template="CRIMINAL_SMS_DESTINATION" [isRequired]="true" [colSpan]="2">
+                <dxi-item template="CRIMINAL_SMS_DESTINATION_TYPE" [isRequired]="true" [colSpan]="1">
+                    <dxo-label text="ค่ายโทรศัพท์ผู้เสียหาย" [showColon]="true"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกประเภทผู้ส่งข้อความ">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'CRIMINAL_SMS_DESTINATION_TYPE'">
+                    <dx-select-box [dataSource]="destinationType" displayExpr="TEXT" valueExpr="TEXT" searchExpr="TEXT" [searchEnabled]="true" placeholder="ค่ายโทรศัพท์" [(value)]="formData.CRIMINAL_SMS_DESTINATION_TYPE" [showClearButton]="true"  (onValueChanged)="selectTypeSender()">
+                    </dx-select-box>
+                </div>
+                <dxi-item template="CRIMINAL_SMS_DESTINATION" [isRequired]="true" [colSpan]="1">
                     <dxo-label text="เบอร์โทรคนร้าย/ชื่อผู้ส่งข้อความ" [showColon]="true"></dxo-label>
                     <dxi-validation-rule type="required" message="กรุณากรอกเบอร์โทรคนร้าย/ชื่อผู้ส่งข้อความ">
                     </dxi-validation-rule>
                 </dxi-item>
                 <div *dxTemplate="let data of 'CRIMINAL_SMS_DESTINATION'">
-                    <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_SMS_DESTINATION" [maxLength]="250" (keypress)="CheckNumberBandit($event)" (paste)="PasteCheckNumberBandit($event)"></dx-text-box>
+                    <dx-text-box *ngIf="formData.CRIMINAL_SMS_DESTINATION_TYPE == 'หมายเลขโทรศัพท์'" [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_SMS_DESTINATION" [maxLength]="250" (keypress)="CheckNumberBandit($event)" (paste)="PasteCheckNumberBandit($event)"></dx-text-box>
+                    <dx-text-box *ngIf="formData.CRIMINAL_SMS_DESTINATION_TYPE == 'ชื่อผู้ส่ง'" [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_SMS_DESTINATION" [maxLength]="250"></dx-text-box>
                 </div>
                 <dxi-item template="CRIMINAL_SMS_DATE_FULL" [isRequired]="true" [colSpan]="2">
                     <dxo-label text="วันเวลาที่รับข้อความ" [showColon]="false"></dxo-label>

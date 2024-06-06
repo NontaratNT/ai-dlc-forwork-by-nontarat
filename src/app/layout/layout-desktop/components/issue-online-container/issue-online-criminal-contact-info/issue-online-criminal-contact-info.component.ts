@@ -46,6 +46,11 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         { ID: 5, TEXT: "อื่น ๆ" }
     ];
 
+    destinationType = [
+        {ID: 1, TEXT: "หมายเลขโทรศัพท์"},
+        {ID: 2, TEXT: "ชื่อผู้ส่ง"}
+    ]
+
     socialType = [
         'LINE',
         'FACEBOOK',
@@ -101,6 +106,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         this.formData.CRIMINAL_SMS = false;
         this.formData.CRIMINAL_OTHER = false;
         this.formData.CASE_TYPE_ID = null;
+        this.formData.CRIMINAL_SMS_DESTINATION_TYPE = "หมายเลขโทรศัพท์";
         // this.servBankInfo.GetCaseType().subscribe((_) => {
         // this.listCaseType = _;
         // this.isLoading = false;
@@ -132,6 +138,8 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
             this.formData.CRIMINAL_TEL_DATE = this.datePipe.transform(this.formData.CRIMINAL_TEL_DATE_FULL, 'yyyy-MM-dd');
             this.formData.CRIMINAL_TEL_TIME = this.datePipe.transform(this.formData.CRIMINAL_TEL_DATE_FULL, 'HH:mm:ss');
         }
+
+
     }
 
     async OnSelectCaseType(e) {
@@ -509,5 +517,11 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
             });
         }
         return formCaseChannel;
+    }
+
+    selectTypeSender(){
+        if(this.formData.CRIMINAL_SMS_DESTINATION_TYPE){
+            this.formData.CRIMINAL_SMS_DESTINATION = null;
+        }
     }
 }

@@ -184,7 +184,6 @@ export class IssueOnlineContainerComponent implements OnInit {
         { text: "เรื่องที่เกิดขึ้น", textClass: "arrow-div arrow-center" },
         { text: "ความเสียหาย", textClass: "arrow-div arrow-center" },
         { text: "ช่องทางติดต่อคนร้าย", textClass: "arrow-div arrow-center"},
-        { text: "ช่องทางติดต่อคนร้าย", textClass: "arrow-div arrow-center"},
         { text: "ยืนยันความถูกต้อง", textClass: "arrow-div arrow-end" }
     ];
     stepNavigationZindex = 100;
