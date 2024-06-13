@@ -34,7 +34,12 @@ export class IssueOnlineReportValidateComponent implements OnInit {
         {ID:3,TEXT:"DTAC"},
         {ID:4,TEXT:"NT (CAT TOT)"},
         {ID:5,TEXT:"อื่น ๆ"},
-        {ID:5,TEXT:"N/A"},
+    ];
+
+    monthFulltTh = [
+        'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน',
+        'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม',
+        'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
     ];
     dataAttachment = [];
 
@@ -109,6 +114,15 @@ export class IssueOnlineReportValidateComponent implements OnInit {
         const blob = new Blob([new Uint8Array([...fileData].map(item => item.charCodeAt(0)))], { type: e.Type })
         const fileUrl = URL.createObjectURL(blob)
         window.open(fileUrl, '_blank')
+    }
+
+    ConvertDateFullMonth(date) {
+        const d = new Date(date);
+        const month = d.getMonth();
+        const ddate = ` ${d.getDate()} `;
+        const textMonthNow = ` ${this.monthFulltTh[month]}`;
+        const year = (d.getFullYear() + 543);
+        return [ddate, ' ', textMonthNow, ' ', year].join("");
     }
 
 }

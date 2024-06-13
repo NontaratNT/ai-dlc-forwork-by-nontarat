@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { FormValidatorService } from 'src/app/services/form-validator.service';
 import { DatePipe } from '@angular/common';
 import { IssueOnlineService } from 'src/app/services/issue-online.service';
+import { IssueOnlineFileUploadService } from 'src/app/services/issue-online-file-upload.service';
 
 @Component({
     selector: 'app-issue-online-report-event',
@@ -29,6 +30,13 @@ export class IssueOnlineReportEventComponent implements OnInit, DoCheck {
     isLoading = false;
     formChannelValidate = true;
     maxDateValue: Date = new Date();
+    maxSizeBuffer = 0;
+    _fileName: string;
+    popupFormUploaded = false;
+    _fileSize: number;
+    _fileForm: any = {};
+    popupAttachment = false;
+    dataAttachment : any = [];
 
     serviceLabelID = [
         { ID: 1, TEXT: "AIS" },
@@ -36,7 +44,7 @@ export class IssueOnlineReportEventComponent implements OnInit, DoCheck {
         { ID: 3, TEXT: "DTAC" },
         { ID: 4, TEXT: "NT (CAT TOT)" },
         { ID: 5, TEXT: "อื่น ๆ" },
-        { ID: 5, TEXT: "N/A" },
+        // { ID: 5, TEXT: "N/A" },
     ];
 
     socialType = [
@@ -52,6 +60,11 @@ export class IssueOnlineReportEventComponent implements OnInit, DoCheck {
         'อื่นๆ',
     ];
 
+    destinationType = [
+        {ID: 1, TEXT: "หมายเลขโทรศัพท์"},
+        {ID: 2, TEXT: "ชื่อผู้ส่ง"}
+    ]
+
     appState: {
         checkOtherTel: boolean;
         checkOtherSms: boolean;
@@ -66,24 +79,25 @@ export class IssueOnlineReportEventComponent implements OnInit, DoCheck {
         private servBankInfo: BankInfoService,
         private _formValidate: FormValidatorService,
         private datePipe: DatePipe,
-        private issueOnlineService: IssueOnlineService
+        private issueOnlineService: IssueOnlineService,
+        private _issueFile: IssueOnlineFileUploadService
     ) { }
 
     ngOnInit(): void {
         this.isLoading = true;
         this.maxDateValue.setHours(this.maxDateValue.getHours() + 1);
-        this.servBankInfo.GetCaseType().subscribe((_) => {
-            this.formData.CASE_TYPE_ID = null;
-            this.listCaseType = _;
-            this.formData.CRIMINAL_TEL = true;
-            this.formData.CRIMINAL_SMS = false;
-            this.formData.CRIMINAL_OTHER = false;
-            this.isLoading = false;
-        }, error => {
-            if (error.status === 500 || error.status === 524) {
-                this.mainConponent.checkReload(2);
-            }
-        });
+        // this.servBankInfo.GetCaseType().subscribe((_) => {
+        //     this.formData.CASE_TYPE_ID = null;
+        //     this.listCaseType = _;
+        this.formData.CRIMINAL_TEL = true;
+        this.formData.CRIMINAL_SMS = false;
+        this.formData.CRIMINAL_OTHER = false;
+        this.isLoading = false;
+        // }, error => {
+        //     if (error.status === 500 || error.status === 524) {
+        //         this.mainConponent.checkReload(2);
+        //     }
+        // });
     }
 
     async OnSelectCaseType(e) {
@@ -241,6 +255,146 @@ export class IssueOnlineReportEventComponent implements OnInit, DoCheck {
         const maskSeperator = new RegExp(seperator, 'g');
         const result = maskSeperator.test(pastedText);
         return result;
+    }
+
+    async FilesDroppedAttachment(e) {
+        const files = e;
+        if (files.length > 0) {
+            const fileCheck = await this._issueFile.CheckFileUploadAllowListSizeDrop(this.maxSizeBuffer, files);
+            console.log(fileCheck);
+            if (fileCheck.status) {
+                let fileItem = {} as any;
+                this.maxSizeBuffer = fileCheck.uploadSizeAll ?? 0;
+                for (const item of fileCheck.filebase64Array) {
+                    const extention = this.textAfterLastDot(item.originalName);
+                    const fileName = this._fileName ? this._fileName + extention : item.originalName;
+                    this._fileSize = item.sizeDetail;
+                    fileItem = {
+                        name: fileName,
+                        size: item.size,
+                        sizeDetail: this.BytesToSize(item.size),
+                        type: item.type,
+                        originalName: fileName,
+                        url: item.url,
+                    };
+                }
+                this._fileForm = fileItem;
+                this.popupFormUploaded = true;
+            }
+        }
+    }
+
+    textAfterLastDot(name) {
+        const lastDotIndex = name.lastIndexOf('.');
+        return lastDotIndex !== -1 ? name.substring(lastDotIndex) : '';
+    }
+
+    OpenFileDialogAttachment(uploadTag) {
+        uploadTag.click();
+    }
+
+    OpenFileDialog() {
+        this.popupAttachment = true;
+        this.popupFormUploaded = false;
+    }
+
+    async UploadFileAttachment(uploadTag) {
+        const files: any = uploadTag.files;
+        if (files.length > 0) {
+            const fileCheck = await this._issueFile.CheckFileUploadAllowListSizeDialog(this.maxSizeBuffer, files);
+            if (fileCheck.status) {
+                let fileItem = {} as any;
+                this.maxSizeBuffer = fileCheck.uploadSizeAll ?? 0;
+                for (const item of fileCheck.filebase64Array) {
+                    this._fileName = item.originalName;
+                    const fileName = item.originalName;
+                    this._fileSize = item.sizeDetail;
+                    fileItem = {
+                        name: fileName,
+                        size: item.size,
+                        sizeDetail: this.BytesToSize(item.size),
+                        type: item.type,
+                        originalName: fileName,
+                        url: item.url,
+                    };
+                }
+                this._fileForm = fileItem;
+                this.popupFormUploaded = true;
+            }
+        }
+    }
+
+    BytesToSize(bytes) {
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        if (bytes === 0) {
+            return '0 Byte';
+        }
+        const data: any = Math.floor(Math.log(bytes) / Math.log(1024));
+        const i = parseInt(data, 10);
+        return Math.round(bytes / Math.pow(1024, i)) + ' ' + sizes[i];
+    }
+
+    ClearDocBufferAttachment() {
+        this.popupFormUploaded = false;
+    }
+
+    PopupUploadClose() {
+        this._fileForm = {};
+        this.popupFormUploaded = false;
+        this.popupAttachment = false;
+    }
+
+    PopupUploadSave() {
+        if (this.popupFormUploaded) {
+            this.dataAttachment.push({
+                OriginalName: this._fileForm.originalName,
+                Url: this._fileForm.url,
+                Type: this._fileForm.type,
+                Size: this._fileForm.size,
+                sizeDetail: this._fileForm.sizeDetail,
+            });
+            this.PopupUploadClose();
+        } else {
+            Swal.fire({
+                icon: 'warning',
+                title: 'แจ้งเตือน!',
+                text: "ท่านยังไม่ได้แนบไฟล์",
+                confirmButtonText: 'ตกลง'
+            }).then(() => {
+            });
+        }
+    }
+
+    selectTypeSender(){
+        if(this.formData.CRIMINAL_SMS_DESTINATION_TYPE){
+            this.formData.CRIMINAL_SMS_DESTINATION = null;
+        }
+    }
+
+    DeleteFileDocItemUpload(index = null){
+        Swal.fire({
+            title: 'ยืนยันการลบข้อมูล?',
+            text: " ",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#7d7d7d',
+            cancelButtonText: 'ยกเลิก',
+            confirmButtonText: 'ตกลง'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.maxSizeBuffer -=  this.dataAttachment[index].size ?? 0;
+                this.dataAttachment.splice(index, 1);
+            }
+        });
+    }
+
+    async openPdfInNewTabAdd(e): Promise<void> {
+        const something = e.Url.split(',')[1] || e.Url
+        const fileData = atob(something)
+        const blob = new Blob([new Uint8Array([...fileData].map(item => item.charCodeAt(0)))], { type: e.Type })
+        const fileUrl = URL.createObjectURL(blob)
+        window.open(fileUrl, '_blank')
     }
 
 }

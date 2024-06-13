@@ -342,7 +342,7 @@ export class IssueOnlineValidateComponent implements OnInit {
             );
             this.userType = this.mainConponent.userType;
             this.formData = this.mergedFrom;
-            console.log(this.formData);
+            // console.log(this.formData);
             if(this.formData.CASE_REPORT){
                 if(this.formData.CASE_REPORT.length > 0){
                     this.formReport = this.formData.CASE_REPORT[0];

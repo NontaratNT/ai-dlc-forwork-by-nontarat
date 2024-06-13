@@ -47,7 +47,7 @@ export class IssueOnlineReportInformerComponent implements OnInit {
     }
 
     setPersonalData() {
-        console.log(this.personalInfo);
+        // console.log(this.personalInfo);
         this.formData = {
             TITLE_NAME: this.personalInfo.TITLE_NAME,
             TITLE_ID: this.personalInfo.TITLE_NAME,

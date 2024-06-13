@@ -252,6 +252,8 @@ export class IssueOnlineValidateComponent implements OnInit {
         'อื่นๆ',
     ];
 
+    formReport: any;
+
     constructor(
         private servicePersonal: PersonalService,
         private _onlineCaseServ: OnlineCaseService,
@@ -324,11 +326,17 @@ export class IssueOnlineValidateComponent implements OnInit {
                 JSON.parse(localStorage.getItem("form-event")),
                 JSON.parse(localStorage.getItem("form-villain")),
                 JSON.parse(localStorage.getItem("form-damage")),
-                JSON.parse(localStorage.getItem("form-criminal-contact")),
-                JSON.parse(localStorage.getItem("form-criminal-contact-channel"))
+                JSON.parse(localStorage.getItem("form-criminal-contact"))
             );
             this.userType = this.mainConponent.userType;
             this.formData = this.mergedFrom;
+            console.log(this.formData);
+            if(this.formData.CASE_REPORT){
+                if(this.formData.CASE_REPORT.length > 0){
+                    this.formReport = this.formData.CASE_REPORT[0];
+                    this.formData.REPORT_CLUE_DETAIL = this.formReport.BEHAVEOR;
+                }
+            }
             // console.log( this.formData);
             if(this.formData.BANK_REF){
                 this.formData.WAY = this.formData.BANK_REF.length > 0 ? 1 :2;
@@ -342,7 +350,6 @@ export class IssueOnlineValidateComponent implements OnInit {
             this.checkBlessing = this.mainConponent.formDataInsert.CHECK_BLESSING;
             this.reload = true;
             this.loadDateBox = true;
-            this.isLoading = false;
             this.popupFormData = this.formData.Bank_personal_list;
 
             if (this.mainConponent.formType === "add") {
@@ -375,6 +382,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                 }
             }
             console.log(this.mergedFrom);
+            this.isLoading = false;
         }, 500);
 
 
@@ -737,5 +745,13 @@ export class IssueOnlineValidateComponent implements OnInit {
 
     displayFormatDateTime(date) {
         return formatDate(date, 'dateShortTimeThai');
+    }
+
+    async openPdfInNewTabAdd(e): Promise<void> {
+        const something = e.Url.split(',')[1] || e.Url;
+        const fileData = atob(something);
+        const blob = new Blob([new Uint8Array([...fileData].map(item => item.charCodeAt(0)))], { type: e.Type });
+        const fileUrl = URL.createObjectURL(blob);
+        window.open(fileUrl, '_blank');
     }
 }

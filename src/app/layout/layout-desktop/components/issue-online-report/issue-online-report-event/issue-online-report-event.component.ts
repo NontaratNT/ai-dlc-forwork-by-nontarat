@@ -44,6 +44,11 @@ export class IssueOnlineReportEventComponent implements OnInit, DoCheck {
         {ID:5,TEXT:"อื่น ๆ"}
     ];
 
+    destinationType = [
+        {ID: 1, TEXT: "หมายเลขโทรศัพท์"},
+        {ID: 2, TEXT: "ชื่อผู้ส่ง"}
+    ]
+
     socialType = [
         'LINE',
         'FACEBOOK',
@@ -308,16 +313,7 @@ export class IssueOnlineReportEventComponent implements OnInit, DoCheck {
     async FilesDroppedAttachment(e) {
         const files = e;
         if (files.length > 0) {
-            if (!files[0].file.type.includes(this.fileTypeSelectedValue)) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'เกิดข้อมูลพลาด!',
-                    html: `กรุณาอัปโหลดไฟล์ประเถท ${this.fileTypeSelectedValue}`
-                });
-                return;
-            }
             const fileCheck = await this._issueFile.CheckFileUploadAllowListSizeDrop(this.maxSizeBuffer, files);
-            console.log(fileCheck);
             if (fileCheck.status) {
                 let fileItem = {} as any;
                 this.maxSizeBuffer = fileCheck.uploadSizeAll ?? 0;
@@ -422,6 +418,12 @@ export class IssueOnlineReportEventComponent implements OnInit, DoCheck {
     PhoneNumberPattern(params) {
         const makeScope = new RegExp('^[0](?=[0-9]{9,9}$)', 'g');
         return makeScope.test(params.value);
+    }
+
+    selectTypeSender(){
+        if(this.formData.CRIMINAL_SMS_DESTINATION_TYPE){
+            this.formData.CRIMINAL_SMS_DESTINATION = null;
+        }
     }
 
 }

@@ -236,8 +236,8 @@ export class IssueOnlineContainerComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        console.log(this.dataForm);
-        console.log(this.edit);
+        // console.log(this.dataForm);
+        // console.log(this.edit);
         setTimeout(async () => {
             if (this.dataForm) {
                 this.userSetting.userSetting.iconVisible = false;
@@ -300,7 +300,11 @@ export class IssueOnlineContainerComponent implements OnInit {
                     localStorage.removeItem("form-informer");
                     localStorage.removeItem("form-event");
                     localStorage.removeItem("form-damage");
+                    localStorage.removeItem("form-villain");
+                    localStorage.removeItem("form-attachment");
+                    localStorage.removeItem("form-questionare");
                     localStorage.removeItem("form-index");
+                    localStorage.removeItem("form-criminal-contact");
                 }
             });
         }

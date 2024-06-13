@@ -4,30 +4,11 @@
         <div class="conten-block">
             <div class="content-form">
                 <dx-form #formEvent1 [colCount]="3" labelLocation="top">
-                    <!-- <dxi-item template="temp1" [colSpan]="2" [isRequired]="true">
-                        <dxo-label text="ประเภทของเรื่อง" [showColon]="false"></dxo-label>
-                        <dxi-validation-rule type="required" message="กรุณาเลือกประเภทของเรื่อง">
-                        </dxi-validation-rule>
-                        <div *dxTemplate="let data of 'temp1'">
-                            <dx-select-box *ngIf="!formReadOnly" #selectCaseType [dataSource]="listCaseType" displayExpr="CASE_TYPE_NAME" valueExpr="CASE_TYPE_ID" placeholder="ประเภทของเรื่อง" (onValueChanged)="OnSelectCaseType($event)" [(value)]="formData.CASE_TYPE_ID" [readOnly]="formReadOnly">
-                            </dx-select-box>
-                            <dx-text-box *ngIf="formReadOnly" [readOnly]="formReadOnly" [(value)]="formData.CASE_TYPE_NAME"></dx-text-box>
-                        </div>
-                    </dxi-item> -->
-                    <!-- <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
-                    <dxi-item *ngIf="formData.CASE_TYPE_ID" template="temp1des" [colSpan]="3">
-                        <dxo-label text="คำอธิบาย" [showColon]="false"></dxo-label>
-                        <div *dxTemplate="let data of 'temp1des'">
-                            <div class="text-area-description">
-                                <dx-text-area [readOnly]="true" [minHeight]="80" [autoResizeEnabled]="true" [value]="caseType"></dx-text-area>
-                            </div>
-                        </div>
-                    </dxi-item> -->
                     <dxi-item template="temp2" [colSpan]="3" [isRequired]="true">
                         <dxo-label text="รายละเอียดเกี่ยวกับคนร้าย" [showColon]="false"></dxo-label>
                         <dxi-validation-rule type="required" message="กรุณากรอกรายละเอียดเกี่ยวกับคนร้าย"></dxi-validation-rule>
                         <div *dxTemplate="let data of 'temp2'">
-                            <!-- <p style="color: red;">* แจ้งเบาะแสเกี่ยวกับ แก๊งคอลเซนเตอร์ เว็บไซต์การพนันออนไลน์,แอบอ้างเป็นเจ้าหน้าที่รัฐ,เว็บไซต์เงินกู้ผิดกฎหมาย</p> -->
+                            <p style="color: red;">* แจ้งเบาะแสเกี่ยวกับ แก๊งคอลเซนเตอร์ เว็บไซต์การพนันออนไลน์,แอบอ้างเป็นเจ้าหน้าที่รัฐ,เว็บไซต์เงินกู้ผิดกฎหมาย</p>
                             <dx-text-area [readOnly]="formReadOnly" [height]="150" [(value)]="formData.BEHAVEOR" [maxLength]="5000"></dx-text-area>
                         </div>
                     </dxi-item>
@@ -174,10 +155,8 @@
                     </dxi-validation-rule>
                 </dxi-item>
                 <div *dxTemplate="let data of 'CRIMINAL_TYPE_SOCIAL'">
-                    <!-- <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_TYPE_SOCIAL"></dx-text-box> -->
                     <dx-select-box [dataSource]="socialType" [readOnly]="formReadOnly" placeholder="เลือกประเภท" [(value)]="formData.CRIMINAL_TYPE_SOCIAL"></dx-select-box>
                 </div>
-                <!-- <dxi-item *ngIf="!appState.checkOtherSocial" itemType="empty" [colSpan]="1"></dxi-item> -->
                 <dxi-item *ngIf="appState.checkOtherSocial" template="CRIMINAL_SOCIAL_TYPE_DETAIL" [isRequired]="true" [colSpan]="1">
                     <dxo-label text="Social Media/Website ที่ติดต่อ" [showColon]="true"></dxo-label>
                     <dxi-validation-rule type="required" message="กรุณากรอก Social Media ที่ติดต่อ">
@@ -204,7 +183,6 @@
                     flow-root;padding-right: 15px;">
                     <dx-button class="float-right" [width]="170" icon="fas fa-file" type="success" text="อัปโหลดเอกสาร" (onClick)="OpenFileDialog()"></dx-button>
                 </div>
-                <!-- <div style="display: flex; justify-content: end; color: red;">* แนบไฟล์ประกอบ</div> -->
                 <div class="remark-table-upload">*แนบไฟล์ประกอบ ขนาดไฟล์ทั้งหมดไม่เกิน 10MB (ไม่บังคับ)</div>
                 <dx-data-grid [dataSource]="dataAttachment" [showColumnLines]="true" [wordWrapEnabled]="true" [showRowLines]="true" [allowColumnResizing]="false" [columnHidingEnabled]="false" [showBorders]="true" [rowAlternationEnabled]="true" noDataText="ไม่มีข้อมูล"
                     [columnAutoWidth]="true" columnResizingMode="widget">

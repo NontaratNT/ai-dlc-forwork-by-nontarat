@@ -34,7 +34,13 @@ export class IssueOnlineReportValidateComponent implements OnInit {
         {ID:3,TEXT:"DTAC"},
         {ID:4,TEXT:"NT (CAT TOT)"},
         {ID:5,TEXT:"อื่น ๆ"},
-        {ID:5,TEXT:"N/A"},
+    ];
+    dataAttachment = [];
+
+    monthFulltTh = [
+        'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน',
+        'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม',
+        'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
     ];
 
     constructor(private _router: Router,private _serviceCase:OnlineIssueReportService) { }
@@ -51,7 +57,7 @@ export class IssueOnlineReportValidateComponent implements OnInit {
                 this.mainConponent.formInsert.formInformer,
                 this.mainConponent.formInsert.formEvent);
             this.formData = mergedFrom;
-            console.log(this.formData);
+            this.dataAttachment = mergedFrom.ATTACHMENT ?? [];
         }, 200);
     }
 
@@ -98,6 +104,23 @@ export class IssueOnlineReportValidateComponent implements OnInit {
 
     Back(e){
         this.mainConponent.NextIndex(this.mainConponent.indexTab - 1);
+    }
+
+    async openPdfInNewTabAdd(e): Promise<void> {
+        const something = e.Url.split(',')[1] || e.Url
+        const fileData = atob(something)
+        const blob = new Blob([new Uint8Array([...fileData].map(item => item.charCodeAt(0)))], { type: e.Type })
+        const fileUrl = URL.createObjectURL(blob)
+        window.open(fileUrl, '_blank')
+    }
+
+    ConvertDateFullMonth(date) {
+        const d = new Date(date);
+        const month = d.getMonth();
+        const ddate = ` ${d.getDate()} `;
+        const textMonthNow = ` ${this.monthFulltTh[month]}`;
+        const year = (d.getFullYear() + 543);
+        return [ddate, ' ', textMonthNow, ' ', year].join("");
     }
 
 }

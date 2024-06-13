@@ -33,16 +33,8 @@
         <div class="conten-block">
             <div class="content-form">
                 <dx-form #formEvent1 [colCount]="3" labelLocation="top">
-                    <!-- <dxi-item itemType="group" caption="" [colSpan]="3" [colCount]="3">
-                        <dxi-item template="temp1" [colSpan]="2">
-                            <dxo-label text="ประเภทของเรื่อง" [showColon]="false"></dxo-label>
-                            <div *dxTemplate="let data of 'temp1'">
-                                <dx-text-box [readOnly]="formReadOnly" [value]="formData.CASE_TYPE_NAME"></dx-text-box>
-                            </div>
-                        </dxi-item>
-                    </dxi-item> -->
                     <dxi-item template="temp2" [colSpan]="2">
-                        <dxo-label text="รายละเอียดของการเกิดเหตุโดยย่อ" [showColon]="false"></dxo-label>
+                        <dxo-label text="รายละเอียดที่ต้องการแจ้งเบาะแส" [showColon]="false"></dxo-label>
                     </dxi-item>
                     <div *dxTemplate="let data of 'temp2'">
                         <dx-text-area [readOnly]="formReadOnly" [height]="150" [value]="formData.BEHAVEOR"></dx-text-area>
@@ -73,13 +65,14 @@
                 <div *dxTemplate="let data of 'CRIMINAL_TEL_DESTINATION'">
                     <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_TEL_DESTINATION"></dx-text-box>
                 </div>
-                <dxi-item template="CIMINAL_TEL_DATE" [isRequired]="true">
+                <dxi-item template="CRIMINAL_TEL_DATE_FULL" [isRequired]="true" [colSpan]="2">
                     <dxo-label text="วันเวลาที่คนร้ายติดต่อเข้ามา" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกวันเวลาที่คนร้ายติดต่อเข้ามา">
+                    </dxi-validation-rule>
                 </dxi-item>
-                <div *dxTemplate="let data of 'CIMINAL_TEL_DATE'">
-                    <dx-date-box [readOnly]="formReadOnly" id="default" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [(value)]="formData.CRIMINAL_TEL_DATE" displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false"
-                        [useMaskBehavior]="true">
-                    </dx-date-box>
+                <div *dxTemplate="let data of 'CRIMINAL_TEL_DATE_FULL'">
+                    <dx-text-box [readOnly]="true" [value]="ConvertDateFullMonth(formData.CRIMINAL_TEL_DATE_FULL)">
+                    </dx-text-box>
                 </div>
             </dx-form>
             <div *ngIf="formData.CRIMINAL_TEL" class="content-end-line"></div>
@@ -106,13 +99,14 @@
                 <div *dxTemplate="let data of 'CRIMINAL_SMS_DESTINATION'">
                     <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_SMS_DESTINATION"></dx-text-box>
                 </div>
-                <dxi-item template="CIMINAL_SMS_DATE" [isRequired]="true">
-                    <dxo-label text="วันเวลาที่คนร้ายติดต่อเข้ามา" [showColon]="false"></dxo-label>
+                <dxi-item template="CRIMINAL_SMS_DATE_FULL" [isRequired]="true" [colSpan]="2">
+                    <dxo-label text="วันเวลาที่รับข้อความ" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกวันเวลาที่รับข้อความ">
+                    </dxi-validation-rule>
                 </dxi-item>
-                <div *dxTemplate="let data of 'CIMINAL_SMS_DATE'">
-                    <dx-date-box [readOnly]="formReadOnly" id="default" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [(value)]="formData.CRIMINAL_SMS_DATE" displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false"
-                        [useMaskBehavior]="true">
-                    </dx-date-box>
+                <div *dxTemplate="let data of 'CRIMINAL_SMS_DATE_FULL'">
+                    <dx-text-box [readOnly]="true" [value]="ConvertDateFullMonth(formData.CRIMINAL_SMS_DATE_FULL)">
+                    </dx-text-box>
                 </div>
             </dx-form>
             <div *ngIf="formData.CRIMINAL_SMS" class="content-end-line"></div>

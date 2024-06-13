@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { FormValidatorService } from 'src/app/services/form-validator.service';
 import { DatePipe } from '@angular/common';
 import { IssueOnlineService } from 'src/app/services/issue-online.service';
+import { IssueOnlineFileUploadService } from 'src/app/services/issue-online-file-upload.service';
 
 @Component({
     selector: 'app-issue-online-criminal-contact-info-event',
@@ -28,16 +29,27 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     caseOpen = false;
     isLoading = false;
     formChannelValidate = true;
+    dataAttachment: any = [];
     maxDateValue: Date = new Date();
+    maxSizeBuffer = 0;
+    _fileName: string;
+    popupFormUploaded = false;
+    _fileSize: number;
+    _fileForm: any = {};
+    popupAttachment = false;
 
     serviceLabelID = [
         { ID: 1, TEXT: "AIS" },
         { ID: 2, TEXT: "TRUE" },
         { ID: 3, TEXT: "DTAC" },
         { ID: 4, TEXT: "NT (CAT TOT)" },
-        { ID: 5, TEXT: "อื่น ๆ" },
-        { ID: 5, TEXT: "N/A" },
+        { ID: 5, TEXT: "อื่น ๆ" }
     ];
+
+    destinationType = [
+        {ID: 1, TEXT: "หมายเลขโทรศัพท์"},
+        {ID: 2, TEXT: "ชื่อผู้ส่ง"}
+    ]
 
     socialType = [
         'LINE',
@@ -52,6 +64,23 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         'อื่นๆ',
     ];
 
+    fileType = [
+        'เบอร์โทรศัพท์',
+        'SMS',
+        'LINE',
+        'FACEBOOK',
+        // 'MESSENGER',
+        'INSTAGRAM',
+        'WEBSITE',
+        // 'EMAIL',
+        // 'TELEGRAM',
+        // 'WHATSAPP',
+        'TWITTER',
+        'อื่นๆ'
+    ];
+    fileTypeSelectedValue = '';
+    fileTypeSelected = false;
+
     appState: {
         checkOtherTel: boolean;
         checkOtherSms: boolean;
@@ -65,25 +94,27 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     constructor(
         private servBankInfo: BankInfoService,
         private _formValidate: FormValidatorService,
+        private _issueFile: IssueOnlineFileUploadService,
         private datePipe: DatePipe,
         private issueOnlineService: IssueOnlineService
     ) { }
 
     ngOnInit(): void {
-        this.isLoading = true;
+        // this.isLoading = true;
         this.maxDateValue.setHours(this.maxDateValue.getHours() + 1);
-        this.servBankInfo.GetCaseType().subscribe((_) => {
-            this.formData.CASE_TYPE_ID = null;
-            this.listCaseType = _;
-            this.formData.CRIMINAL_TEL = true;
-            this.formData.CRIMINAL_SMS = false;
-            this.formData.CRIMINAL_OTHER = false;
-            this.isLoading = false;
-        }, error => {
-            if (error.status === 500 || error.status === 524) {
-                this.mainConponent.checkReload(2);
-            }
-        });
+        this.formData.CRIMINAL_TEL = true;
+        this.formData.CRIMINAL_SMS = false;
+        this.formData.CRIMINAL_OTHER = false;
+        this.formData.CASE_TYPE_ID = null;
+        this.formData.CRIMINAL_SMS_DESTINATION_TYPE = "หมายเลขโทรศัพท์";
+        // this.servBankInfo.GetCaseType().subscribe((_) => {
+        // this.listCaseType = _;
+        // this.isLoading = false;
+        //   }, error => {
+        //     if (error.status === 500 || error.status === 524) {
+        //       this.mainConponent.checkReload(2);
+        //     }
+        //   });
     }
 
     ngDoCheck(): void {
@@ -96,16 +127,19 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
             this.formData.CRIMINAL_SMS_PROVIDER_DETAIL = '';
         }
         this.appState.checkOtherSocial = this.formData.CRIMINAL_TYPE_SOCIAL === 'อื่นๆ' ?? false;
+        this.fileTypeSelected = this.fileTypeSelectedValue !== '' ?? false;
 
-        if(this.formData.CRIMINAL_SMS_DATE_FULL){
+        if (this.formData.CRIMINAL_SMS_DATE_FULL) {
             this.formData.CRIMINAL_SMS_DATE = this.datePipe.transform(this.formData.CRIMINAL_SMS_DATE_FULL, 'yyyy-MM-dd');
             this.formData.CRIMINAL_SMS_TIME = this.datePipe.transform(this.formData.CRIMINAL_SMS_DATE_FULL, 'HH:mm:ss');
         }
 
-        if(this.formData.CRIMINAL_TEL_DATE_FULL){
+        if (this.formData.CRIMINAL_TEL_DATE_FULL) {
             this.formData.CRIMINAL_TEL_DATE = this.datePipe.transform(this.formData.CRIMINAL_TEL_DATE_FULL, 'yyyy-MM-dd');
             this.formData.CRIMINAL_TEL_TIME = this.datePipe.transform(this.formData.CRIMINAL_TEL_DATE_FULL, 'HH:mm:ss');
         }
+
+
     }
 
     async OnSelectCaseType(e) {
@@ -128,7 +162,6 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     }
 
     SubmitForm(e) {
-        // console.log([this.formData.CRIMINAL_TEL, this.formData.CRIMINAL_SMS, this.formData.CRIMINAL_OTHER].some((value) => value === true));
         if (![this.formData.CRIMINAL_TEL, this.formData.CRIMINAL_SMS, this.formData.CRIMINAL_OTHER].some((value) => value === true)) {
             Swal.fire({
                 title: "ผิดพลาด!",
@@ -151,11 +184,25 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                 );
                 return;
             }
+            if (this.formData.CRIMINAL_TEL_PROVIDER === 'อื่น ๆ') {
+                if (this.formData.CRIMINAL_TEL_PROVIDER_DETAIL === null ||
+                    this.formData.CRIMINAL_TEL_PROVIDER_DETAIL === undefined ||
+                    this.formData.CRIMINAL_TEL_PROVIDER_DETAIL === "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'กรอกข้อมูลไม่ครบ',
+                        html: 'กรุณากรอกชื่อค่ายโทรศัพท์ผู้เสียหายอื่นๆ'
+                    });
+                    return;
+                }
+            }
+            // else{
+            //     this.formData.CRIMINAL_TEL_PROVIDER_DETAIL = this.formData.CRIMINAL_TEL_PROVIDER;
+            // }
         } else {
             this.formData.CRIMINAL_TEL_ORIGIN = null;
             this.formData.CRIMINAL_TEL_PROVIDER = null;
             this.formData.CRIMINAL_TEL_DESTINATION = null;
-            this.formData.CRIMINAL_TEL_DATE_FULL = null;
             this.formData.CRIMINAL_TEL_DATE = null;
             this.formData.CRIMINAL_TEL_TIME = null;
         }
@@ -166,6 +213,21 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                 );
                 return;
             }
+            if (this.formData.CRIMINAL_SMS_PROVIDER === 'อื่น ๆ') {
+                if (this.formData.CRIMINAL_SMS_PROVIDER_DETAIL === null &&
+                    this.formData.CRIMINAL_SMS_PROVIDER_DETAIL === undefined &&
+                    this.formData.CRIMINAL_SMS_PROVIDER_DETAIL === "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'กรอกข้อมูลไม่ครบ',
+                        html: 'กรุณากรอกชื่อค่าย SMS โทรศัพท์ผู้เสียหาย'
+                    });
+                    return;
+                }
+            }
+            // else{
+            //     this.formData.CRIMINAL_SMS_PROVIDER_DETAIL = this.formData.CRIMINAL_SMS_PROVIDER;
+            // }
         } else {
             this.formData.CRIMINAL_SMS_ORIGIN = null;
             this.formData.CRIMINAL_SMS_PROVIDER = null;
@@ -186,6 +248,8 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
             this.formData.CRIMINAL_SOCIAL_TYPE_DETAIL = null;
             this.formData.CRIMINAL_SOCIAL_DETAIL = null;
         }
+        // formatDate
+        this.formData.ATTACHMENT = this.dataAttachment ?? [];
         const setData = {};
         const d = this.formData;
         for (const key in d) {
@@ -193,14 +257,20 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                 setData[key] = d[key];
             }
         }
-        const formCaseChannel = this.issueOnlineService.craeteCaseChanel(setData);
+        let formCaseChannel = this.issueOnlineService.craeteCaseChanel(this.formData);
+        // pack file's form
+        formCaseChannel = this.formatFormSubmitFile(formCaseChannel);
         this.mainConponent.formDataAll.formCriminalContact = {};
         this.mainConponent.formDataAll.formCaseChannelCriminalContact = {};
-        this.mainConponent.formDataAll.formCriminalContact = setData;
+        this.mainConponent.formDataAll.formCriminalContact = this.formData;
         this.mainConponent.formDataAll.formCaseChannelCriminalContact = formCaseChannel;
-        localStorage.setItem("form-criminal-contact", JSON.stringify(setData));
-        localStorage.setItem("form-criminal-contact-channel", JSON.stringify(formCaseChannel));
-        // console.log(this.formData, formCaseChannel);
+        if(localStorage.getItem("form-villain")){
+            const villain = JSON.parse(localStorage.getItem("form-villain"));
+            localStorage.setItem("form-villain",JSON.stringify(Object.assign(villain,{CASE_CHANNEL:[formCaseChannel]})));
+        }else{
+            localStorage.setItem("form-villain",JSON.stringify(Object.assign({},{CASE_CHANNEL:[formCaseChannel]})));
+        }
+        localStorage.setItem("form-criminal-contact",JSON.stringify(Object.assign({CASE_REPORT:[this.formData]})));
         this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
     }
 
@@ -217,6 +287,158 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         }
     }
 
+    OpenFileDialog() {
+        this.popupAttachment = true;
+        this.popupFormUploaded = false;
+    }
+
+    DeleteFileDocItemUpload(index = null) {
+        Swal.fire({
+            title: 'ยืนยันการลบข้อมูล?',
+            text: " ",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#7d7d7d',
+            cancelButtonText: 'ยกเลิก',
+            confirmButtonText: 'ตกลง'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.maxSizeBuffer -= this.dataAttachment[index].size ?? 0;
+                this.dataAttachment.splice(index, 1);
+            }
+        });
+    }
+
+    async openPdfInNewTabAdd(e): Promise<void> {
+        const something = e.Url.split(',')[1] || e.Url;
+        const fileData = atob(something);
+        const blob = new Blob([new Uint8Array([...fileData].map(item => item.charCodeAt(0)))], { type: e.Type });
+        const fileUrl = URL.createObjectURL(blob);
+        window.open(fileUrl, '_blank');
+    }
+
+    async UploadFileAttachment(uploadTag) {
+        const files: any = uploadTag.files;
+        if (files.length > 0) {
+            const fileCheck = await this._issueFile.CheckFileUploadAllowListSizeDialog(this.maxSizeBuffer, files);
+            if (fileCheck.status) {
+                let fileItem = {} as any;
+                this.maxSizeBuffer = fileCheck.uploadSizeAll ?? 0;
+                for (const item of fileCheck.filebase64Array) {
+                    this._fileName = item.originalName;
+                    const fileName = item.originalName;
+                    this._fileSize = item.sizeDetail;
+                    fileItem = {
+                        name: fileName,
+                        size: item.size,
+                        sizeDetail: this.BytesToSize(item.size),
+                        type: item.type,
+                        originalName: fileName,
+                        url: item.url,
+                    };
+                }
+                this._fileForm = fileItem;
+                this.popupFormUploaded = true;
+            }
+        }
+    }
+
+    OpenFileDialogAttachment(uploadTag) {
+        uploadTag.click();
+    }
+
+    async FilesDroppedAttachment(e) {
+        const files = e;
+        if (files.length > 0) {
+            const fileCheck = await this._issueFile.CheckFileUploadAllowListSizeDrop(this.maxSizeBuffer, files);
+            console.log(fileCheck);
+            if (fileCheck.status) {
+                let fileItem = {} as any;
+                this.maxSizeBuffer = fileCheck.uploadSizeAll ?? 0;
+                for (const item of fileCheck.filebase64Array) {
+                    const extention = this.textAfterLastDot(item.originalName);
+                    const fileName = this._fileName ? this._fileName + extention : item.originalName;
+                    this._fileSize = item.sizeDetail;
+                    fileItem = {
+                        name: fileName,
+                        size: item.size,
+                        sizeDetail: this.BytesToSize(item.size),
+                        type: item.type,
+                        originalName: fileName,
+                        url: item.url,
+                    };
+                }
+                this._fileForm = fileItem;
+                this.popupFormUploaded = true;
+            }
+        }
+    }
+
+    BytesToSize(bytes) {
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        if (bytes === 0) {
+            return '0 Byte';
+        }
+        const data: any = Math.floor(Math.log(bytes) / Math.log(1024));
+        const i = parseInt(data, 10);
+        return Math.round(bytes / Math.pow(1024, i)) + ' ' + sizes[i];
+    }
+
+    textAfterLastDot(name) {
+        const lastDotIndex = name.lastIndexOf('.');
+        return lastDotIndex !== -1 ? name.substring(lastDotIndex) : '';
+    }
+
+    ClearDocBufferAttachment() {
+        this._fileForm = undefined;
+        this.popupFormUploaded = false;
+    }
+
+    PopupUploadClose() {
+        this._fileForm = {};
+        this.fileTypeSelected = false;
+        this.fileTypeSelectedValue = '';
+        this.popupFormUploaded = false;
+        this.popupAttachment = false;
+    }
+
+    PopupUploadSave() {
+        if (this.popupFormUploaded) {
+            this.dataAttachment.push({
+                OriginalName: this._fileForm.originalName,
+                Url: this._fileForm.url,
+                Type: this._fileForm.type,
+                Size: this._fileForm.size,
+                sizeDetail: this._fileForm.sizeDetail,
+                formType: this.fileTypeSelectedValue
+            });
+            this.PopupUploadClose();
+        } else {
+            Swal.fire({
+                icon: 'warning',
+                title: 'แจ้งเตือน!',
+                text: "ท่านยังไม่ได้แนบไฟล์",
+                confirmButtonText: 'ตกลง'
+            }).then(() => {
+            });
+        }
+    }
+
+    CheckNumberBandit(event) {
+        const seperator = '^([0-9+])+$';
+        const maskSeperator = new RegExp(seperator, 'g');
+        const result = maskSeperator.test(event.key);
+        return result;
+    }
+    PasteCheckNumberBandit(event) {
+        const clipboardData = event.clipboardData;
+        const pastedText = clipboardData.getData('text');
+        const seperator = '^([0-9+])+$';
+        const maskSeperator = new RegExp(seperator, 'g');
+        const result = maskSeperator.test(pastedText);
+        return result;
+    }
     CheckNumber(event) {
         // const seperator  = '^[ก-๏\\s]+$';
         const seperator = '^([0-9])';
@@ -239,19 +461,67 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         return makeScope.test(params.value);
     }
 
-    CheckNumberBandit(event) {
-        const seperator = '^([0-9+])+$';
-        const maskSeperator = new RegExp(seperator, 'g');
-        const result = maskSeperator.test(event.key);
-        return result;
-    }
-    PasteCheckNumberBandit(event) {
-        const clipboardData = event.clipboardData;
-        const pastedText = clipboardData.getData('text');
-        const seperator = '^([0-9+])+$';
-        const maskSeperator = new RegExp(seperator, 'g');
-        const result = maskSeperator.test(pastedText);
-        return result;
+    formatFormSubmitFile(formCaseChannel: any): any {
+        if (this.formData.ATTACHMENT.length !== 0) {
+            this.formData.ATTACHMENT.forEach(element => {
+                switch (element.formType) {
+                case "EMAIL":
+                    formCaseChannel.CHANNEL_EMAIL_DOC = [];
+                    formCaseChannel.CHANNEL_EMAIL_DOC.push(element);
+                    break;
+                case "FACEBOOK":
+                    formCaseChannel.CHANNEL_FACEBOOK_DOC = [];
+                    formCaseChannel.CHANNEL_FACEBOOK_DOC.push(element);
+                    break;
+                case "INSTAGRAM":
+                    formCaseChannel.CHANNEL_INSTARGRAM_DOC = [];
+                    formCaseChannel.CHANNEL_INSTARGRAM_DOC.push(element);
+                    break;
+                case "LINE":
+                    formCaseChannel.CHANNEL_LINE_DOC = [];
+                    formCaseChannel.CHANNEL_LINE_DOC.push(element);
+                    break;
+                case "MESSENGER":
+                    formCaseChannel.CHANNEL_MESSENGER_DOC = [];
+                    formCaseChannel.CHANNEL_MESSENGER_DOC.push(element);
+                    break;
+                case "อื่นๆ":
+                    formCaseChannel.CHANNEL_OTHERS_DOC = [];
+                    formCaseChannel.CHANNEL_OTHERS_DOC.push(element);
+                    break;
+                case "เบอร์โทรศัพท์":
+                    formCaseChannel.CHANNEL_PHONE_DOC = [];
+                    formCaseChannel.CHANNEL_PHONE_DOC.push(element);
+                    break;
+                case "SMS":
+                    formCaseChannel.CHANNEL_SMS_DOC = [];
+                    formCaseChannel.CHANNEL_SMS_DOC.push(element);
+                    break;
+                case "TELEGRAM":
+                    formCaseChannel.CHANNEL_TELEGRAM_DOC = [];
+                    formCaseChannel.CHANNEL_TELEGRAM_DOC.push(element);
+                    break;
+                case "TWITTER":
+                    formCaseChannel.CHANNEL_TWITTER_DOC = [];
+                    formCaseChannel.CHANNEL_TWITTER_DOC.push(element);
+                    break;
+                case "WEBSITE":
+                    formCaseChannel.CHANNEL_WEBSITE_DOC = [];
+                    formCaseChannel.CHANNEL_WEBSITE_DOC.push(element);
+                    break;
+                case "WHATSAPP":
+                    formCaseChannel.CHANNEL_WHATAPP_DOC = [];
+                    formCaseChannel.CHANNEL_WHATAPP_DOC.push(element);
+                    break;
+                }
+            });
+        }
+        return formCaseChannel;
     }
 
+    selectTypeSender(){
+        if(this.formData.CRIMINAL_SMS_DESTINATION_TYPE){
+            this.formData.CRIMINAL_SMS_DESTINATION = null;
+        }
+    }
 }
