@@ -8,7 +8,6 @@
                         <dxo-label text="รายละเอียดเกี่ยวกับคนร้าย" [showColon]="false"></dxo-label>
                         <dxi-validation-rule type="required" message="กรุณากรอกรายละเอียดเกี่ยวกับคนร้าย"></dxi-validation-rule>
                         <div *dxTemplate="let data of 'temp2'">
-                            <p style="color: red;">* แจ้งเบาะแสเกี่ยวกับ แก๊งคอลเซนเตอร์ เว็บไซต์การพนันออนไลน์,แอบอ้างเป็นเจ้าหน้าที่รัฐ,เว็บไซต์เงินกู้ผิดกฎหมาย</p>
                             <dx-text-area [readOnly]="formReadOnly" [height]="150" [(value)]="formData.BEHAVEOR" [maxLength]="5000"></dx-text-area>
                         </div>
                     </dxi-item>

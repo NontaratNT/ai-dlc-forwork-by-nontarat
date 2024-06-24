@@ -451,7 +451,7 @@ export class IssueOnlineValidateComponent implements OnInit {
             if (this.formData.CASE_REPORT) {
                 if (this.formData.CASE_REPORT.length > 0) {
                     this.formReport = this.formData.CASE_REPORT[0];
-                    this.formData.REPORT_CLUE_DETAIL = this.formReport.BEHAVEOR;
+                    this.formData.CASE_CRIMINAL_CLUE_IN = this.formReport.CASE_BEHAVIOR;
                 }
             }
             if (this.formData.BANK_REF) {
