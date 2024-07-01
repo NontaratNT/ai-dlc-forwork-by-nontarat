@@ -162,15 +162,6 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     }
 
     SubmitForm(e) {
-        if (![this.formData.CRIMINAL_TEL, this.formData.CRIMINAL_SMS, this.formData.CRIMINAL_OTHER].some((value) => value === true)) {
-            Swal.fire({
-                title: "ผิดพลาด!",
-                text: "กรุณาเลือกช่องทางที่ติดต่อคนร้าย",
-                icon: "warning",
-                confirmButtonText: "Ok",
-            }).then(() => { });
-            return;
-        }
         if (!this.formEvent1.instance.validate().isValid) {
             this._formValidate.ValidateForm(
                 this.formEvent1.instance.validate().brokenRules

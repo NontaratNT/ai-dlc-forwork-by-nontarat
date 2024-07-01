@@ -58,7 +58,6 @@ export class IssueOnlineReportValidateComponent implements OnInit {
                 this.mainConponent.formInsert.formEvent);
             this.formData = mergedFrom;
             this.dataAttachment = mergedFrom.ATTACHMENT ?? [];
-            console.log(this.formData);
         }, 200);
     }
 

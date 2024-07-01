@@ -685,7 +685,7 @@ export class IssueOnlineValidateComponent implements OnInit {
 
     InsertForm(e, data) {
         this.isLoading = true;
-        const setData = {};
+        const setData = {} as any;
         for (const key in data) {
             if (
                 data[key] !== null &&
@@ -782,6 +782,9 @@ export class IssueOnlineValidateComponent implements OnInit {
                                 localStorage.removeItem("form-villain");
                                 localStorage.removeItem("form-index");
                                 localStorage.removeItem("form-config");
+                                localStorage.removeItem(
+                                    "form-criminal-contact"
+                                );
                                 this._router.navigate([
                                     "/mobile/track-status%3FopenExternalBrowser%3D1",
                                 ]);
@@ -830,6 +833,9 @@ export class IssueOnlineValidateComponent implements OnInit {
                                 localStorage.removeItem("form-villain");
                                 localStorage.removeItem("form-index");
                                 localStorage.removeItem("form-config");
+                                localStorage.removeItem(
+                                    "form-criminal-contact"
+                                );
                                 this._router.navigate(["/main/task-list"]);
                             });
                         });
