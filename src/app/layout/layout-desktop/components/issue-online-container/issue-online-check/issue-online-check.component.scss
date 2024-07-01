@@ -5,7 +5,7 @@
         border-radius: 20px;
         background-color: #eeeeee;
     }
-     ::ng-deep .dx-radiogroup {
+    ::ng-deep .dx-radiogroup {
         display: flex;
         justify-content: center;
     }
@@ -42,29 +42,39 @@
     }
 }
 
-#bankid-container>.dx-field-value {
-     ::ng-deep .dx-texteditor.dx-editor-outlined {
+#bankid-container > .dx-field-value {
+    ::ng-deep .dx-texteditor.dx-editor-outlined {
         border: 1px solid #808080;
     }
 }
 
-#bankname-container>.dx-field-label {
+#bankname-container > .dx-field-label {
     width: 25%;
 }
 
-#bankname-container>.dx-field-value {
+#bankname-container > .dx-field-value {
     width: 75%;
-     ::ng-deep .dx-texteditor.dx-editor-outlined {
+    ::ng-deep .dx-texteditor.dx-editor-outlined {
         border: 1px dashed #555 !important;
     }
 }
 
-#bankdate-container>.dx-field-label {
+#bankdate-container > .dx-field-label {
     padding: 0px 15px 9px 0;
 }
 
-#bankdate-container>.dx-field-value {
-     ::ng-deep .dx-texteditor.dx-editor-outlined {
+#bankdate-container > .dx-field-value {
+    ::ng-deep .dx-texteditor.dx-editor-outlined {
         border: 1px solid #808080;
+    }
+}
+
+.box-bank {
+    cursor: pointer;
+    .item-box-bank {
+        align-content: center;
+        align-items: center;
+        font-size: 22px;
+        font-weight: bold;
     }
 }

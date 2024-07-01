@@ -685,7 +685,11 @@ export class IssueOnlineValidateComponent implements OnInit {
 
     InsertForm(e, data) {
         this.isLoading = true;
+<<<<<<< HEAD
         const setData = {} as any;
+=======
+        const setData: any = {};
+>>>>>>> 161375f8049d8c7a82f8d881b2a7cf14ed46a6b0
         for (const key in data) {
             if (
                 data[key] !== null &&
