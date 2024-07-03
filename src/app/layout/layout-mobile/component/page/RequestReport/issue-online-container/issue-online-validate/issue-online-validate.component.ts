@@ -407,7 +407,7 @@ export class IssueOnlineValidateComponent implements OnInit {
     async ReloadData() {
         localStorage.setItem("form-index", "6");
         this.isLoading = true;
-        this.province = this.mainConponent.province;
+        // this.province = this.mainConponent.province;
         this.loadDateBox = false;
         this.reload = false;
         this.formLocationLoad = false;
@@ -441,6 +441,7 @@ export class IssueOnlineValidateComponent implements OnInit {
             if (this.formData.CASE_REPORT) {
                 if (this.formData.CASE_REPORT.length > 0) {
                     this.formReport = this.formData.CASE_REPORT[0];
+                    console.log( this.formReport);
                     this.formData.CASE_CRIMINAL_CLUE_IN = this.formReport.CASE_BEHAVIOR;
                 }
             }
@@ -836,7 +837,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                                 localStorage.removeItem(
                                     "form-criminal-contact"
                                 );
-                                this._router.navigate(["/main/task-list"]);
+                                this._router.navigate(["/mobile/track-status%3FopenExternalBrowser%3D1"]);
                             });
                         });
                 } else {

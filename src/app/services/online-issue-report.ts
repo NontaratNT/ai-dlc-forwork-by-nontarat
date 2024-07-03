@@ -4,8 +4,8 @@ import { HttpStatusResult, HttpStatusResultValue, req } from 'share-ui';
 import { OnlineCaseInfo, OnlineCaseParam } from '../common/@type/online-case';
 import { User } from './user';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { environment } from 'src/environments/environment.prod';
-// import { environment } from 'src/environments/environment.az-prod';
+// import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment.az-prod';
 
 @Injectable({
     providedIn: 'root'

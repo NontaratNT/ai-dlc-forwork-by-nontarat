@@ -45,7 +45,7 @@ export class IssueOnlineDamageSubComponent implements OnInit {
     formchecktypevalian: any = {};
     bankdatatypeselect: any = [
         { type_bank_id: 1, type_main: 'T', type_id: 'T', type_name: 'ธนาคาร' },
-        { type_bank_id: 2, type_main:' 'T, type_id: 'P', type_name: 'พร้อมเพย์' },
+        { type_bank_id: 2, type_main: 'T', type_id: 'P', type_name: 'พร้อมเพย์' },
         { type_bank_id: 3, type_main: 'P', type_id: 'P', type_name: 'True Money' },
         { type_bank_id: 4, type_main: 'P', type_id: 'C', type_name: 'เงินดิจิทัล (Cryptocurrency)' },
         { type_bank_id: 5, type_main: 'P', type_id: 'P', type_name: 'Paypal' },

@@ -556,7 +556,7 @@
         </div>
         <div class="content-end-line"></div>
     </div>
-    <div class="conten-block">
+    <div class="conten-block" *ngIf="formReport">
         <div class="content-title">ช่องทางการติดต่อคนร้าย</div>
         <div class="content-form" *ngIf="formReport">
             <div class="conten-block">
@@ -567,7 +567,7 @@
                             <dxi-validation-rule type="required"
                                 message="กรุณากรอกรายละเอียดเกี่ยวกับคนร้าย"></dxi-validation-rule>
                             <div *dxTemplate="let data of 'temp2'">
-                                <dx-text-area [readOnly]="formReadOnly" [height]="150" [(value)]="formReport.BEHAVEOR"
+                                <dx-text-area [readOnly]="formReadOnly" [height]="150" [(value)]="formReport.CASE_BEHAVIOR"
                                     [maxLength]="5000"></dx-text-area>
                             </div>
                         </dxi-item>
