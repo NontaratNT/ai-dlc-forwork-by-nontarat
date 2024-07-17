@@ -48,8 +48,12 @@ export class BpmProcinstService {
     //         .get();
     // }
     public getByInstId(instid: number): Observable<any> {
-        return this._req<any>().api('BpmProcInst/'+instid)
-            .disableCriticalDialogError().get();
+        // return this._req<any>().api('BpmProcInst/'+instid)
+        //     .disableCriticalDialogError().get();
+        const newHeader = new HttpHeaders({Authorization: "Bearer " + CookieStorage.accessToken});
+        return this.http.get<any>(`${environment.config.baseConfig.urlgdcceform}/BpmProcInst/${instid}`, {
+            headers: newHeader
+          });
     }
 
 

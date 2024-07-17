@@ -126,18 +126,20 @@ export class IssueOnlineBlessingComponent implements OnInit {
 
             this.formReadOnly = true;
             this.formType ="edit"
-            const dataForm = await this._OnlineCaseService.getbycaseId(procinstdata.DATA_ID).toPromise();
-            const bankRef = await this._OnlineCaseService.getBankRef(procinstdata.DATA_ID).toPromise();
-            this.formblessingdata.BLESSINGNO1   = dataForm.BLESSINGNO1 ?? '';
-            this.formblessingdata.BLESSINGNO2   = dataForm.BLESSINGNO2 ?? '';
-            this.formblessingdata.BLESSINGNO2_3   = dataForm.BLESSINGNO2_3 ?? '';
-            this.formblessingdata.BLESSINGNO3   = dataForm.BLESSINGNO3 ?? '';
-            this.submission.ways = Number(dataForm.WAY) ?? '';
+            if(procinstdata.DATA_ID){
+                const dataForm = await this._OnlineCaseService.getbycaseId(procinstdata.DATA_ID).toPromise();
+                const bankRef = await this._OnlineCaseService.getBankRef(procinstdata.DATA_ID).toPromise();
+                this.formblessingdata.BLESSINGNO1   = dataForm.BLESSINGNO1 ?? '';
+                this.formblessingdata.BLESSINGNO2   = dataForm.BLESSINGNO2 ?? '';
+                this.formblessingdata.BLESSINGNO2_3   = dataForm.BLESSINGNO2_3 ?? '';
+                this.formblessingdata.BLESSINGNO3   = dataForm.BLESSINGNO3 ?? '';
+                this.submission.ways = Number(dataForm.WAY) ?? '';
 
-            if(dataForm.WAY == '2'){
-                this._isShow3 = true;
+                if(dataForm.WAY == '2'){
+                    this._isShow3 = true;
+                }
+                this._dataSourcebankref =   bankRef ?? [];
             }
-            this._dataSourcebankref =   bankRef ?? [];
         }
     }
     Back(e) {
