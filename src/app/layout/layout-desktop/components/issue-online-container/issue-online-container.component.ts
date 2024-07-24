@@ -21,6 +21,8 @@ import { Platform } from "@angular/cdk/platform";
 import { browser } from "protractor";
 import { Observable } from "rxjs";
 import { IssueOnlineCriminalContatInfoComponent } from "./issue-online-criminal-contact-info/issue-online-criminal-contact-info.component";
+import { OnlineCaseService } from "src/app/services/online-case.service";
+import { User } from "src/app/services/user";
 @Component({
     selector: "app-issue-online-container",
     templateUrl: "./issue-online-container.component.html",
@@ -182,6 +184,7 @@ export class IssueOnlineContainerComponent implements OnInit {
         private _bpmProcinstServ: BpmProcinstService,
         private _activeRoute: ActivatedRoute,
         private serviceProvince: ProvinceService,
+        private _onlineCaseServ: OnlineCaseService,
         private platform: Platform
     ) {}
 
@@ -251,15 +254,16 @@ export class IssueOnlineContainerComponent implements OnInit {
                 if (result.isConfirmed) {
                     this.indexTab = Number(localStorage.getItem("form-index"));
                 } else {
-                    localStorage.removeItem("form-blessing");
-                    localStorage.removeItem("form-informer");
-                    localStorage.removeItem("form-event");
-                    localStorage.removeItem("form-damage");
-                    localStorage.removeItem("form-villain");
-                    localStorage.removeItem("form-attachment");
-                    localStorage.removeItem("form-questionare");
-                    localStorage.removeItem("form-index");
-                    localStorage.removeItem("form-criminal-contact");
+                    // localStorage.removeItem("form-blessing");
+                    // localStorage.removeItem("form-informer");
+                    // localStorage.removeItem("form-event");
+                    // localStorage.removeItem("form-damage");
+                    // localStorage.removeItem("form-villain");
+                    // localStorage.removeItem("form-attachment");
+                    // localStorage.removeItem("form-questionare");
+                    // localStorage.removeItem("form-index");
+                    // localStorage.removeItem("form-criminal-contact");
+                    this.handleSuccessNavigation();
                 }
             });
         }
@@ -305,6 +309,20 @@ export class IssueOnlineContainerComponent implements OnInit {
             "form-config",
             JSON.stringify(this.formDataAll.formConfigs)
         );
+    }
+
+    private handleSuccessNavigation(): void {
+        this._onlineCaseServ.SessionClear(User.Current.PersonalId).subscribe(() => {
+            localStorage.removeItem("form-blessing");
+            localStorage.removeItem("form-informer");
+            localStorage.removeItem("form-event");
+            localStorage.removeItem("form-damage");
+            localStorage.removeItem("form-villain");
+            localStorage.removeItem("form-attachment");
+            localStorage.removeItem("form-questionare");
+            localStorage.removeItem("form-index");
+            localStorage.removeItem("form-criminal-contact");
+        });
     }
     goUrl(url = "main/tasklist") {
         this._router.navigate([url]);

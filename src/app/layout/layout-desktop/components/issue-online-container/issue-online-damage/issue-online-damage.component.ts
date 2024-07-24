@@ -322,7 +322,7 @@ export class IssueOnlineDamageComponent implements OnInit {
         private _issueFile: IssueOnlineFileUploadService,
         private datePipe: DatePipe,
         private _OnlineCaseService: OnlineCaseService,
-        private _fileService: FileService
+        private _fileService: FileService,
 
     ) { }
 
@@ -472,9 +472,10 @@ export class IssueOnlineDamageComponent implements OnInit {
                 }else{
                     this.mainConponent.NextIndex(this.mainConponent.indexTab = 0);
                 }
-                if (localStorage.getItem("form-damage")) {
-                    this.formData = JSON.parse(localStorage.getItem("form-damage"));
-                    // console.log(this.formData);
+                const sessionData = await this._OnlineCaseService.SessionDamage({}, User.Current.PersonalId, "get").toPromise();
+                if (sessionData) {
+                    this.formData = sessionData;
+                    console.log(this.formData);
                     if (this.CheckArray(this.formData.CASE_MONEY)) {
                         await this.SetDataToListBank(this.formData.CASE_MONEY);
                     }
@@ -1847,12 +1848,17 @@ export class IssueOnlineDamageComponent implements OnInit {
             this.mainConponent.formDataAll.formDamage.listDamageBankOther = this.listDamageBankOther;
             this.mainConponent.formDataAll.formDamage.listDamageOther = this.listDamageOther;
             this.mainConponent.formDataAll.formDamage.listDamageCrypto = this.listDamageCrypto;
-            localStorage.setItem("form-damage", JSON.stringify(this.formData));
+            // localStorage.setItem("form-damage", JSON.stringify(this.formData));
             // console.log(this.formData);
         }
-        if (e != 'tab') {
-            this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
-        }
+        this.isLoading = true;
+        this._OnlineCaseService.SessionDamage(this.formData, User.Current.PersonalId, "create")
+        .subscribe(_ => {
+            this.isLoading = false;
+            if (e != 'tab') {
+                this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
+            }
+        });
     }
 
     InputConidtions(event) {

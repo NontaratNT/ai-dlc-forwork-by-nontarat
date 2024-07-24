@@ -351,6 +351,7 @@ export class IssueOnlineValidateComponent implements OnInit {
         "TWITTER",
         "อื่นๆ",
     ];
+    sessionDamage: any;
 
     constructor(
         private servicePersonal: PersonalService,
@@ -420,6 +421,9 @@ export class IssueOnlineValidateComponent implements OnInit {
         this.loadDateBox = false;
         this.reload = false;
         this.formLocationLoad = false;
+        this.sessionDamage = await this._onlineCaseServ
+            .SessionDamage({}, User.Current.PersonalId, 'get')
+            .toPromise();
         this.formData = {};
         setTimeout(() => {
             this.checkEmtrySession();
@@ -442,7 +446,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                 JSON.parse(localStorage.getItem("form-informer")),
                 JSON.parse(localStorage.getItem("form-event")),
                 JSON.parse(localStorage.getItem("form-villain")),
-                JSON.parse(localStorage.getItem("form-damage")),
+                this.sessionDamage,
                 JSON.parse(localStorage.getItem("form-criminal-contact"))
             );
             this.userType = this.mainConponent.userType;
@@ -782,17 +786,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                                 icon: "success",
                                 confirmButtonText: "ตกลง",
                             }).then(() => {
-                                localStorage.removeItem("form-blessing");
-                                localStorage.removeItem("form-informer");
-                                localStorage.removeItem("form-event");
-                                localStorage.removeItem("form-damage");
-                                localStorage.removeItem("form-villain");
-                                localStorage.removeItem("form-index");
-                                localStorage.removeItem("form-config");
-                                localStorage.removeItem(
-                                    "form-criminal-contact"
-                                );
-                                this._router.navigate(["/main/task-list"]);
+                                this.handleSuccessNavigation();
                             });
                         });
                 } else {
@@ -830,17 +824,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                                 icon: "success",
                                 confirmButtonText: "ตกลง",
                             }).then(() => {
-                                localStorage.removeItem("form-blessing");
-                                localStorage.removeItem("form-informer");
-                                localStorage.removeItem("form-event");
-                                localStorage.removeItem("form-damage");
-                                localStorage.removeItem("form-villain");
-                                localStorage.removeItem("form-index");
-                                localStorage.removeItem("form-config");
-                                localStorage.removeItem(
-                                    "form-criminal-contact"
-                                );
-                                this._router.navigate(["/main/task-list"]);
+                                this.handleSuccessNavigation();
                             });
                         });
                 } else {
@@ -860,6 +844,21 @@ export class IssueOnlineValidateComponent implements OnInit {
             return;
         }
     }
+
+    private handleSuccessNavigation(): void {
+        this._onlineCaseServ.SessionClear(User.Current.PersonalId).subscribe(() => {
+            localStorage.removeItem("form-blessing");
+            localStorage.removeItem("form-informer");
+            localStorage.removeItem("form-event");
+            localStorage.removeItem("form-damage");
+            localStorage.removeItem("form-villain");
+            localStorage.removeItem("form-index");
+            localStorage.removeItem("form-config");
+            localStorage.removeItem("form-criminal-contact");
+            this._router.navigate(["/main/task-list"]);
+        });
+    }
+
     // UpdateForm(data){
     //     this.isLoading = true;
     //     this._onlineCaseServ.UpdateData(this.mainConponent.caseId,data)
@@ -869,6 +868,20 @@ export class IssueOnlineValidateComponent implements OnInit {
     //         });
     // }
     checkEmtrySession() {
+        if (!this.sessionDamage) {
+            Swal.fire({
+                title: 'ผิดพลาด!',
+                html: 'คุณกรอกข้อมูลไม่สมบูรณ์ ระบบจะพาคุณไปยังหน้าที่ยังกรอกไม่สมบูรณ์',
+                icon: 'warning',
+                confirmButtonText: 'Ok',
+            }).then(() => {});
+            console.log("ความเสียหาย");
+            this.isLoading = false;
+            if (!this.sessionDamage) {
+                this.mainConponent.SelectTabIndex(4);
+                return;
+            }
+        }
         const requiredItems = [
             "form-blessing",
             "form-informer",
@@ -878,7 +891,9 @@ export class IssueOnlineValidateComponent implements OnInit {
         ];
 
         for (let i = 0; i < requiredItems.length; i++) {
-            if (!localStorage.getItem(requiredItems[i])) {
+            console.log(requiredItems[i]);
+            if (!localStorage.getItem(requiredItems[i]) && requiredItems[i] != "form-damage") {
+                console.log(requiredItems[i]);
                 Swal.fire({
                     title: "ผิดพลาด!",
                     html: "คุณกรอกข้อมูลไม่สมบูรณ์ ระบบจะพาคุณไปยังหน้าที่ยังกรอกไม่สมบูรณ์",
@@ -888,7 +903,9 @@ export class IssueOnlineValidateComponent implements OnInit {
                 this.isLoading = false;
                 if (requiredItems[i] == "form-blessing") {
                     this.mainConponent.SelectTabIndex(0);
-                } else {
+                } else if(requiredItems[i] == "form-damage"){
+
+                }else {
                     this.mainConponent.SelectTabIndex(i + 2);
                 }
                 return;
