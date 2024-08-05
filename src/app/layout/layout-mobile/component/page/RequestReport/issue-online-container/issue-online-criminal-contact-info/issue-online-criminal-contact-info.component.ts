@@ -1,7 +1,7 @@
 import { IssueOnlineContainerComponent } from './../issue-online-container.component';
 import { Component, DoCheck, OnInit, ViewChild } from '@angular/core';
 import { BankInfoService } from 'src/app/services/bank-info.service';
-import { DxFormComponent, DxSelectBoxComponent } from 'devextreme-angular';
+import { DxFormComponent, DxSelectBoxComponent, DxTextBoxComponent } from 'devextreme-angular';
 import Swal from 'sweetalert2';
 import { FormValidatorService } from 'src/app/services/form-validator.service';
 import { DatePipe } from '@angular/common';
@@ -49,7 +49,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     destinationType = [
         {ID: 1, TEXT: "หมายเลขโทรศัพท์"},
         {ID: 2, TEXT: "ชื่อผู้ส่ง"}
-    ]
+    ];
 
     socialType = [
         'LINE',
@@ -443,6 +443,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         const seperator = '^([0-9])';
         const maskSeperator = new RegExp(seperator, 'g');
         const result = maskSeperator.test(event.key);
+        console.log(result);
         return result;
     }
     PasteCheckNumber(event) {
@@ -452,12 +453,31 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         const seperator = '^([0-9])';
         const maskSeperator = new RegExp(seperator, 'g');
         const result = maskSeperator.test(pastedText);
+        console.log(result);
         return result;
     }
 
     PhoneNumberPattern(params) {
         const makeScope = new RegExp('^[0](?=[0-9]{9,9}$)', 'g');
         return makeScope.test(params.value);
+    }
+
+    checkPhoneNumberChanged(event, component: DxTextBoxComponent){
+        if(event.value !== "" || event.value !== undefined || event.value !== null){
+            const seperator = '^([0-9]){10}';
+            const maskSeperator = new RegExp(seperator, 'g');
+            const result = maskSeperator.test(event.value);
+            if(!result){
+                component.value = null;
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'กรอกข้อมูลผิดพลาด',
+                    html: 'กรุณากรอกข้อมูลใหม่อีกครั้ง'
+                });
+            }else{
+                component.isValid = true;
+            }
+        }
     }
 
     formatFormSubmitFile(formCaseChannel: any): any {

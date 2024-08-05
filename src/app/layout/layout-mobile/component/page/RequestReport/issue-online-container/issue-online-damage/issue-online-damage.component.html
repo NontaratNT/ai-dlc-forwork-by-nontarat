@@ -7,7 +7,7 @@
                 <div class="row block-damage-type">
                     <div class="col-12 col-sm-5 block left">
                         <div class="title">ประเภทของความเสียหาย (เลือกได้มากกว่า 1 รายการ)</div>
-                        <dx-check-box *ngIf="checkTypemoney" [readOnly]="formReadOnly || type1" text="เงิน" [(value)]="checkboxDamage.case_type1" (onValueChanged)="ChangeMoneyType($event,'CASE_MONEY_TYPE1')"></dx-check-box>
+                        <dx-check-box [readOnly]="formReadOnly || type1" text="เงิน" [(value)]="checkboxDamage.case_type1" (onValueChanged)="ChangeMoneyType($event,'CASE_MONEY_TYPE1')"></dx-check-box>
                         &nbsp;
                         <dx-check-box [readOnly]="formReadOnly || type2" text="ทรัพย์สินอื่นๆ" [(value)]="checkboxDamage.case_type2" (onValueChanged)="ChangeMoneyType($event,'CASE_MONEY_TYPE2')"></dx-check-box>
                         &nbsp;

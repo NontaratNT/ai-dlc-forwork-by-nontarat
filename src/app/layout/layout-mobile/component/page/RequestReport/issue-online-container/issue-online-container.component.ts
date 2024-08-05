@@ -392,10 +392,10 @@ export class IssueOnlineContainerComponent implements OnInit {
     public checkReload(page) {
         // console.log("เรียกข้อมูลไม่สำเร็จกำลังเรียกข้อมูลใหม่ที่หน้า ",page);
         switch (page) {
-            case 0: this.pagefirstConponent.ngOnInit(); break;
-            case 2: this.informerConponent.ngOnInit(); break;
-            case 3: this.eventConponent.ngOnInit(); break;
-            case 4: this.damageConponent.ngOnInit(); break;
+        case 0: this.pagefirstConponent.ngOnInit(); break;
+        case 2: this.informerConponent.ngOnInit(); break;
+        case 3: this.eventConponent.ngOnInit(); break;
+        case 4: this.damageConponent.ngOnInit(); break;
         }
     }
 
@@ -459,7 +459,7 @@ export class IssueOnlineContainerComponent implements OnInit {
             organize_id: Number(this.formData.ORGANIZE_ID),
             inst_id: Number(this.formData.INST_ID),
             personal_id: Number(User.Current.PersonalId)
-        }
+        };
         this.isLoading = true;
         this._bpmProcinstServ.userSelectOrgGdcc(setData)
             .subscribe(() => {
@@ -541,7 +541,7 @@ export class IssueOnlineContainerComponent implements OnInit {
                 this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME1 =
                     data[0].org_name;
 
-                //parame insert
+                // parame insert
                 this.formData.ORG_LOCATION_TYPE = 2;
                 this.formData.ORGANIZE_ID = data[0].org_id;
                 this.formData.ORG_LOCATION_NAME = data[0].org_name;
@@ -559,7 +559,7 @@ export class IssueOnlineContainerComponent implements OnInit {
                 this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME2 =
                     data[0].org_name;
 
-                //parame insert
+                // parame insert
                 this.formData.ORG_LOCATION_TYPE = 2;
                 this.formData.ORGANIZE_ID = data[0].org_id;
                 this.formData.ORG_LOCATION_NAME = data[0].org_name;
@@ -576,7 +576,7 @@ export class IssueOnlineContainerComponent implements OnInit {
                 this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME3 =
                     data[0].org_name;
 
-                //parame insert
+                // parame insert
                 this.formData.ORG_LOCATION_TYPE = 2;
                 this.formData.ORGANIZE_ID = data[0].org_id;
                 this.formData.ORG_LOCATION_NAME = data[0].org_name;
@@ -593,7 +593,7 @@ export class IssueOnlineContainerComponent implements OnInit {
                 this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME4 =
                     data[0].org_name;
 
-                //parame insert
+                // parame insert
                 this.formData.ORG_LOCATION_TYPE = 2;
                 this.formData.ORGANIZE_ID = data[0].org_id;
                 this.formData.ORG_LOCATION_NAME = data[0].org_name;
@@ -610,7 +610,7 @@ export class IssueOnlineContainerComponent implements OnInit {
                 this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME5 =
                     data[0].org_name;
 
-                //parame insert
+                // parame insert
                 this.formData.ORG_LOCATION_TYPE = 2;
                 this.formData.ORGANIZE_ID = data[0].org_id;
                 this.formData.ORG_LOCATION_NAME = data[0].org_name;

@@ -64,7 +64,7 @@
                 </dxi-item>
 
                 <div *dxTemplate="let data of 'temp4-sufferer'">
-                    <dx-text-box id="ctrlBankACCtemp4-sufferer" [(value)]="popupFormData.BANK_ORIGIN_ACCOUNT" [maxLength]="15" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)">
+                    <dx-text-box #bankaccnumcompsuf id="ctrlBankACCtemp4-sufferer" [(value)]="popupFormData.BANK_ORIGIN_ACCOUNT" [maxLength]="15" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)" (onValueChanged)="checkPhoneNumberChanged($event, bankaccnumcompsuf)">
                     </dx-text-box>
                     <dx-tooltip target="#ctrlBankACCtemp4-sufferer" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                         <div *dxTemplate="let data of 'content'">
@@ -98,7 +98,7 @@
                 </dxi-item>
 
                 <div *dxTemplate="let data of 'temp4-prompay'">
-                    <dx-text-box id="ctrlBankACCtemp4-prompay" [(value)]="popupFormData.BANK_ORIGIN_ACCOUNT_PROMPAY" [maxLength]="13" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)">
+                    <dx-text-box #prompaycompnum id="ctrlBankACCtemp4-prompay" [(value)]="popupFormData.BANK_ORIGIN_ACCOUNT_PROMPAY" [maxLength]="13" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)" (onValueChanged)="checkPhoneNumberChanged($event, prompaycompnum)">
                     </dx-text-box>
                     <dx-tooltip target="#ctrlBankACCtemp4-prompay" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                         <div *dxTemplate="let data of 'content'">
@@ -209,7 +209,7 @@
                 </dxi-item>
 
                 <div *dxTemplate="let data of 'temp4-sufferer'">
-                    <dx-text-box id="ctrlBankACCtemp4-sufferer" [(value)]="popupFormDatavillain.BANK_ACCOUNT" [maxLength]="15" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)">
+                    <dx-text-box #bankvilaccnumbercomp id="ctrlBankACCtemp4-sufferer" [(value)]="popupFormDatavillain.BANK_ACCOUNT" [maxLength]="15" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)" (onValueChanged)="checkPhoneNumberChanged($event, bankvilaccnumbercomp)">
                     </dx-text-box>
                     <dx-tooltip target="#ctrlBankACCtemp4-sufferer" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                         <div *dxTemplate="let data of 'content'">
@@ -241,7 +241,7 @@
                 </dxi-item>
 
                 <div *dxTemplate="let data of 'temp4-prompay'">
-                    <dx-text-box id="ctrlBankACCtemp4-prompay" [(value)]="popupFormDatavillain.BANK_ORIGIN_ACCOUNT_PROMPAY" [maxLength]="13" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)">
+                    <dx-text-box #ctrlBankACCtemp4prompay id="ctrlBankACCtemp4-prompay" [(value)]="popupFormDatavillain.BANK_ORIGIN_ACCOUNT_PROMPAY" [maxLength]="13" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)" (onValueChanged)="checkPhoneNumberChanged($event, ctrlBankACCtemp4prompay)">
                     </dx-text-box>
                     <dx-tooltip target="#ctrlBankACCtemp4-prompay" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                         <div *dxTemplate="let data of 'content'">

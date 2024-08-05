@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { DxFormComponent, DxScrollViewComponent, DxSelectBoxComponent } from 'devextreme-angular';
+import { DxFormComponent, DxScrollViewComponent, DxSelectBoxComponent, DxTextBoxComponent } from 'devextreme-angular';
 import { BankInfoService } from 'src/app/services/bank-info.service';
 import Swal from "sweetalert2";
 import { IssueOnlineDamageComponent } from '../issue-online-damage/issue-online-damage.component';
 
 @Component({
-  selector: 'app-issue-online-damage-sub',
-  templateUrl: './issue-online-damage-sub.component.html',
-  styleUrls: ['./issue-online-damage-sub.component.scss']
+    selector: 'app-issue-online-damage-sub',
+    templateUrl: './issue-online-damage-sub.component.html',
+    styleUrls: ['./issue-online-damage-sub.component.scss']
 })
 export class IssueOnlineDamageSubComponent implements OnInit {
     @ViewChild("selectBankInfoOrigin", { static: false })
@@ -50,7 +50,7 @@ export class IssueOnlineDamageSubComponent implements OnInit {
         { type_bank_id: 4, type_main: 'P', type_id: 'C', type_name: 'เงินดิจิทัล (Cryptocurrency)' },
         { type_bank_id: 5, type_main: 'P', type_id: 'P', type_name: 'Paypal' },
         { type_bank_id: 6, type_main: 'P', type_id: 'O', type_name: 'อื่นๆ' },
-    ]
+    ];
     selectNumberBankType = [
         { ID: "P", TEXT: "หมายเลขโทรศัพท์" },
         { ID: "W", TEXT: "Wallet ID" },
@@ -282,7 +282,7 @@ export class IssueOnlineDamageSubComponent implements OnInit {
         }
     }
     InputConidtions(event) {
-        let d = this.popupFormData.BANK_MONEY_OTHER_ID;
+        const d = this.popupFormData.BANK_MONEY_OTHER_ID;
         if (d === "T") {
             return this.TrueMoneyValidator(event);
         } else if (d === "C") {
@@ -315,7 +315,7 @@ export class IssueOnlineDamageSubComponent implements OnInit {
     }
 
     PhoneNumberValidator(event) {
-        let value = event.target.value + event.key;
+        const value = event.target.value + event.key;
         const makeScope = new RegExp("^[0-9](?=[0-9]{0,9}$)", "g");
         return makeScope.test(value);
     }
@@ -333,7 +333,7 @@ export class IssueOnlineDamageSubComponent implements OnInit {
     }
 
     WalletIdValidator(event) {
-        let value = event.target.value + event.key;
+        const value = event.target.value + event.key;
         const makeScope = new RegExp(
             "^[a-zA-Z](?=[a-zA-Z0-9ก-๙!@#$%^&*()_+]{0,31}$)",
             "g"
@@ -342,8 +342,26 @@ export class IssueOnlineDamageSubComponent implements OnInit {
     }
 
     BankAccountValidator(event) {
-        let value = event.target.value + event.key;
+        const value = event.target.value + event.key;
         const makeScope = new RegExp("^(?=[0-9]{0,15}$)", "g");
         return makeScope.test(value);
+    }
+
+    checkPhoneNumberChanged(event, component: DxTextBoxComponent){
+        if(event.value !== "" || event.value !== undefined || event.value !== null){
+            const seperator = '^([0-9])+$';
+            const maskSeperator = new RegExp(seperator, 'g');
+            const result = maskSeperator.test(event.value);
+            if(!result){
+                component.value = null;
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'กรอกข้อมูลผิดพลาด',
+                    html: 'กรุณากรอกข้อมูลใหม่อีกครั้ง'
+                });
+            }else{
+                component.isValid = true;
+            }
+        }
     }
 }
