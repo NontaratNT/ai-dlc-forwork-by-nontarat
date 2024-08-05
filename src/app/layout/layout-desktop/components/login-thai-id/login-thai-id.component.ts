@@ -36,7 +36,7 @@ export class LoginThaiIDComponent implements OnInit {
         // Perform your logic based on the parameter value
         const param = { 
           code: paramValue,
-          url_redirect:'https://officeruat.thaipoliceonline.com/login/thaiD'
+          url_redirect:'https://citizenuat.thaipoliceonline.com/login/thaiD'
         };
          this.thaiidservice.thaiIdgettoken(param).subscribe((res) => { 
           this._userInfo = this._jwtServ.decodeToken(res.id_token);

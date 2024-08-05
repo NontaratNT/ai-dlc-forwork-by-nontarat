@@ -37,25 +37,51 @@ import { Config } from 'share-ui';
 //     }
 // };
 
+// export const environment = {
+//     production: true,
+//     baseUrl: 'https://ashy-sky-0b532af00.3.azurestaticapps.net/',
+//     config: {
+//         baseConfig: {
+//             apiUrl: "https://api.thaipoliceonline.com/ccibazure/api",
+//             reportUrl: "https://officer.thaipoliceonline.com/web-report/",
+//             resourceUrl: "https://api.thaipoliceonline.com/eformazure/api/resource/",
+//             resourceUrlAzure: "https://api.thaipoliceonline.com/eformazure/api/resource/download?filePath=",
+//             hubUrl: "https://police-online-noti-azure.azurewebsites.net/hub",
+//             // urlgdcc:"https://citizenuat.thaipoliceonline.com/api/ccib/v1.0"
+//             urlgdcc:"https://officer.thaipoliceonline.com/api/ccib/v1.0",
+//             urlgdcceform:"https://officer.thaipoliceonline.com/api/e-form/v1.0"
+//         },
+//         eFormHost: "https://api.thaipoliceonline.com/eformazure/api",
+//         recaptcha: {
+//             siteKey: "6LeV1vQcAAAAAAUKdpLxVXjB9OLYR7ddI3sDmP0P",
+//             secretKey: "6LeV1vQcAAAAAJzMmWwJqq76i_fQuflBIF5upGbB"
+//         },
+//         versionControl: "1.6611.21.1"
+//     }
+// };
+
+
+
+//Thai ID
 export const environment = {
     production: true,
-    baseUrl: 'https://ashy-sky-0b532af00.3.azurestaticapps.net/',
+    baseUrl: 'https://green-plant-0331bd900.3.azurestaticapps.net/',
     config: {
         baseConfig: {
-            apiUrl: "https://api.thaipoliceonline.com/ccibazure/api",
-            reportUrl: "https://officer.thaipoliceonline.com/web-report/",
-            resourceUrl: "https://api.thaipoliceonline.com/eformazure/api/resource/",
+            apiUrl: "https://officeruat.thaipoliceonline.com/api/ccib/v1.0",
+            reportUrl: "http://192.168.10.70/web-report/",
+            resourceUrl: "http://192.168.10.71/resource/ccib/",
             resourceUrlAzure: "https://api.thaipoliceonline.com/eformazure/api/resource/download?filePath=",
-            hubUrl: "https://police-online-noti-azure.azurewebsites.net/hub",
-            // urlgdcc:"https://citizenuat.thaipoliceonline.com/api/ccib/v1.0"
+
+            hubUrl: "http://192.168.10.73/hub",
             urlgdcc:"https://officer.thaipoliceonline.com/api/ccib/v1.0",
             urlgdcceform:"https://officer.thaipoliceonline.com/api/e-form/v1.0"
         },
-        eFormHost: "https://api.thaipoliceonline.com/eformazure/api",
+        eFormHost: "https://officer.thaipoliceonline.com/api/e-form/v1.0",
         recaptcha: {
             siteKey: "6LeV1vQcAAAAAAUKdpLxVXjB9OLYR7ddI3sDmP0P",
             secretKey: "6LeV1vQcAAAAAJzMmWwJqq76i_fQuflBIF5upGbB"
         },
-        versionControl: "1.6611.21.1"
+        versionControl: "1.6609.29.1"
     }
-};
+}
