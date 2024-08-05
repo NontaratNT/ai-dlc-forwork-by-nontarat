@@ -88,7 +88,8 @@ export class IssueOnlineCheckComponent implements OnInit {
         }else{
             const _inst_id = Number(localStorage.getItem("inst_id"));
             const procinstdata = await this._BpmProcinstService.getByInstId(_inst_id).toPromise();
-            sessionStorage.setItem("case_id",procinstdata.DATA_ID);
+            console.log(procinstdata);
+            sessionStorage.setItem("case_id",procinstdata.Value.DATA_ID);
             const _case_id = Number(sessionStorage.getItem("case_id"));
             const bankRef = await this._OnlineCaseService.getBankRef(_case_id).toPromise();
             this.showMoneyWay = false;

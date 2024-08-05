@@ -108,10 +108,10 @@ export class IssueOnlineEditComponent implements OnInit {
     }
     LoadStatus(id) {
         this.bpmProcinstServ.getByInstId(id).subscribe(res => {
-            this.LoadStepData(res.GROUP_STATUS_CODE);
-            this.formOverview.TRACKING_CODE = res.TRACKING_CODE;
+            this.LoadStepData(res.Value.GROUP_STATUS_CODE);
+            this.formOverview.TRACKING_CODE = res.Value.TRACKING_CODE;
             // this.formOverview.CATEGORY_NAME = res.CATEGORY_NAME + " จาก " + res.PERSONAL_FULL_NAME;
-            this.formOverview.STATUS_NAME = this.statusText(res.STATUS_NAME);
+            this.formOverview.STATUS_NAME = this.statusText(res.Value.STATUS_NAME);
             this.isLoading = false;
         });
     }
@@ -175,14 +175,14 @@ export class IssueOnlineEditComponent implements OnInit {
                 this.numCount = _;
             });
             this.bpmProcinstServ.getByInstId(id).subscribe(res => {
-                this._wfinsId = res.WF_INSTANCE_ID;
-                this._formioId = res.FORM_IO_ID;
-                this._documentId = res.DOCUMENT_ID;
-                this.bpmData = res;
+                this._wfinsId = res.Value.WF_INSTANCE_ID;
+                this._formioId = res.Value.FORM_IO_ID;
+                this._documentId = res.Value.DOCUMENT_ID;
+                this.bpmData = res.Value;
                 this.dataForm = {
                     InstId:this._instId,
                     ProcessInstanceId:this._wfinsId,
-                    Submission:res,
+                    Submission:res.Value,
                 };
                 this.loadTab = true;
                 console.log(this.dataForm);
