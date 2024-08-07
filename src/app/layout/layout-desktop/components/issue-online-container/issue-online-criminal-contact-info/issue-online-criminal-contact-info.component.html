@@ -175,7 +175,7 @@
                 </div>
             </dx-form>
         </div>
-        <div class="content-form">
+        <div class="content-form"  *ngIf="formData.CRIMINAL_TEL || formData.CRIMINAL_SMS || formData.CRIMINAL_OTHER">
             <div class="content-block">
                 <div class="content-title">ข้อมูลไฟล์แนบ</div>
                 <div class="row" style="margin-bottom:10px;display:
@@ -228,7 +228,7 @@
 <dx-popup [width]="800" [height]="600" [showTitle]="true" title="เพิ่มรายการ" [dragEnabled]="false" [closeOnOutsideClick]="false" [showCloseButton]="false" [visible]="popupAttachment">
     <div *dxTemplate="let data of 'content'">
         <span><p style="color: red;">*กรุณาเลือกประเภทของไฟล์ ก่อนทำการอัปโหลดไฟล์</p></span>
-        <dx-select-box [dataSource]="fileType" [(value)]="fileTypeSelectedValue" placeholder="กรุณาเลือกประเภทไฟล์"></dx-select-box>
+        <dx-select-box [dataSource]="typeSelected" [(value)]="fileTypeSelectedValue" placeholder="กรุณาเลือกประเภทไฟล์"></dx-select-box>
         <dx-scroll-view *ngIf="fileTypeSelected" #view_form_popup_attachment [showScrollbar]="'always'" style="height: calc(60% - 45px);">
             <div id="popup-issue-online-attachment">
                 <div id="upload-file" class="mt-3">

@@ -268,7 +268,7 @@
                             </div>
                             <div class="content-form">
                                 <div class="block-table-item" style="margin-top: .875rem;">
-                                    <dx-data-grid #grid [dataSource]="listDamageBank" [showColumnLines]="true"
+                                    <dx-data-grid #grid [dataSource]="formData.listDamageBank" [showColumnLines]="true"
                                         [showRowLines]="true" [columnHidingEnabled]="true" [showBorders]="true"
                                         [rowAlternationEnabled]="true" [hoverStateEnabled]="false"
                                         [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล">
@@ -395,7 +395,7 @@
                             </div>
                             <div class="content-form">
                                 <div class="block-detail-damage">
-                                    <dx-data-grid id="table-block" [dataSource]="listDamageOther"
+                                    <dx-data-grid id="table-block" [dataSource]="formData.listDamageOther"
                                         [showColumnLines]="false" [showRowLines]="false" [columnAutoWidth]="true"
                                         [columnHidingEnabled]="true" [showBorders]="false"
                                         [rowAlternationEnabled]="true" [hoverStateEnabled]="true" [selectedRowKeys]="[]"
@@ -566,7 +566,7 @@
                     </div>
                 </div>
             </div>
-            <div class="conten-block" *ngIf="formReport && isLoading">
+            <div class="conten-block" *ngIf="formReport && !isLoading">
                 <div class="content-title">ช่องทางการติดต่อคนร้าย</div>
                 <div class="content-form" *ngIf="formReport != null && formReport != undefined && formReport != {}">
                     <div class="conten-block">
@@ -779,11 +779,6 @@
                                 <div *dxTemplate="let celldata of 'cellTemplate'">
                                     {{ celldata.component.pageIndex() * celldata.component.pageSize() + celldata.rowIndex + 1 }}
                                 </div>
-                                <dxi-column dataField="" caption="ลบ" [width]="50" alignment="center" [allowSorting]="false"
-                                    cellTemplate="cellTemplateDelete"></dxi-column>
-                                <div *dxTemplate="let d of 'cellTemplateDelete'">
-                                    <!-- <img class="text-download" src="assets/icon/trash.png" alt="icon" (click)="DeleteFileDocItemUpload(d.component.pageIndex() * d.component.pageSize() + d.rowIndex)"> -->
-                                </div>
                                 <dxi-column dataField="fileName" caption="ชื่อไฟล์" alignment="center"
                                     cellTemplate="openFileTemp">
                                 </dxi-column>
@@ -814,8 +809,9 @@
         </div>
 
     </div>
+</div>
 
-    <dx-popup [width]="800" [height]="600" [showTitle]="true" title="" [dragEnabled]="false"
+<dx-popup [width]="800" [height]="600" [showTitle]="true" title="" [dragEnabled]="false"
         [closeOnOutsideClick]="false" [showCloseButton]="false" [visible]="popupCaseChannel2">
         <div *dxTemplate="let data of 'content'">
             <dx-scroll-view [showScrollbar]="'always'" style="height: calc(100% - 45px);">
@@ -823,24 +819,19 @@
                     <div class="conten-block">
                         <div class="content-form">
                             <dx-form #formInformer4 [colCount]="4" labelLocation="top">
-
-
                                 <dxi-item template="temp001" [colSpan]="2" [isRequired]="false">
                                     <dxo-label
                                         text="ท่านได้รับทราบสื่อประชาสัมพันธ์การป้องกันภัยไซเบอร์ , วัคซีนไซเบอร์ หรือไม่"
                                         [showColon]="false">
                                     </dxo-label>
-
                                 </dxi-item>
                                 <div *dxTemplate="let data of 'temp001'">
                                     <dx-radio-group [readOnly]="false" [dataSource]="promote" layout="horizontal"
                                         valueExpr="ID" displayExpr="TEXT" (onValueChanged)="PromoteChange($event)"
                                         [(value)]="formData.IS_PROMOTE_RADIO "></dx-radio-group>
-
                                 </div>
                                 <dxi-item template="temp002" [colSpan]="2" [isRequired]="false">
                                     <dxo-label text="ทางช่องทางใด" [showColon]="false"></dxo-label>
-
                                 </dxi-item>
                                 <div *dxTemplate="let data of 'temp002'">
                                     <dx-text-box [readOnly]="false" [(value)]="formData.PROMOTE_CHANEL"></dx-text-box>
@@ -849,7 +840,6 @@
                                     <dxo-label
                                         text="วิธีการที่คนร้ายใช้ในการหลอกให้หลงเชื่อ (ข้อมูลของท่าน นำไปสู่การช่วยเหลือ เตือนภัย คนอื่นได้)"
                                         [showColon]="false"></dxo-label>
-
                                 </dxi-item>
                                 <div *dxTemplate="let data of 'temp003'">
                                     <dx-text-area [readOnly]="false" [(value)]="formData.PROMOTE_HOW_TO"
@@ -857,23 +847,26 @@
                                 </div>
                             </dx-form>
                             <div class="text-right btn-dx">
-                                <button class="btn btn-cancle"
+                                <!-- <button class="btn btn-cancle"
                                     (click)="SubmitForm($event)">ข้ามขั้นตอนและยืนยัน</button>
                                 <dx-button class="btn btn-submit" [disabled]="isLoading" text="ยืนยัน"
-                                    (onClick)="SubmitForm($event)"></dx-button>
-
+                                    (onClick)="SubmitForm($event)"></dx-button> -->
+                                <dx-button icon="floppy" type="normal" text="ข้ามขั้นตอนและยืนยัน" (onClick)="SubmitForm($event)">
+                                </dx-button>
+                                &nbsp;
+                                <dx-button icon="floppy" type="success" text="ยืนยัน" (onClick)="SubmitForm($event)">
+                                </dx-button>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </dx-scroll-view>
         </div>
-    </dx-popup>
-    <dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true"
-        [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
-    </dx-load-panel>
-    <ng-container *ngIf="popupViewFile">
-        <app-view-file-upload-m [fileData]="popupViewFileData" (popupChange)="ClosePopupViewFile($event)">
-        </app-view-file-upload-m>
-    </ng-container>
+</dx-popup>
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true"
+    [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>
+<ng-container *ngIf="popupViewFile">
+    <app-view-file-upload-m [fileData]="popupViewFileData" (popupChange)="ClosePopupViewFile($event)">
+    </app-view-file-upload-m>
+</ng-container>

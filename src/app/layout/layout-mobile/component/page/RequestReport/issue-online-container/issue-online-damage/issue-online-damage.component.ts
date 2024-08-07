@@ -31,6 +31,7 @@ import { DatePipe } from '@angular/common';
 import { OnlineCaseService } from "src/app/services/online-case.service";
 import { FileService } from "src/app/services/file.service";
 import { IssueOnlineDamageSubComponent } from "../issue-online-damage-sub/issue-online-damage-sub.component";
+import { FormValidatorService } from "src/app/services/form-validator.service";
 @Component({
     selector: "app-issue-online-damage",
     templateUrl: "./issue-online-damage.component.html",
@@ -248,7 +249,8 @@ export class IssueOnlineDamageComponent implements OnInit {
         private _issueFile: IssueOnlineFileUploadService,
         private datePipe: DatePipe,
         private _OnlineCaseService: OnlineCaseService,
-        private _fileService :FileService
+        private _fileService :FileService,
+        private _formValidate: FormValidatorService,
 
     ) { }
 
@@ -2179,6 +2181,11 @@ export class IssueOnlineDamageComponent implements OnInit {
                 this.listUploadFileformmoney.splice(0, 1);
                 this.calulatemoney([...this.listDamageCrytro, ...this.listDamageBank]);
                 this.now = null;
+            }else{
+                this._formValidate.ValidateForm(
+                    this.formbanknew.instance.validate().brokenRules
+                );
+                return;
             }
         }
     }

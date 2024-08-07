@@ -791,6 +791,9 @@ export class IssueOnlineValidateComponent implements OnInit {
                                 ]);
                             });
                         });
+                    // setTimeout(() => {
+                    //     this.isLoading = false;
+                    // }, 1000);
                 } else {
                     this.isLoading = false;
                     // console.log();

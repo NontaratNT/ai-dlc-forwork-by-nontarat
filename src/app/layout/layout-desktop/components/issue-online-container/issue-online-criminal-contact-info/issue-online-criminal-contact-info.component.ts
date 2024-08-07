@@ -78,6 +78,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         'TWITTER',
         'อื่นๆ'
     ];
+    typeSelected = [];
     fileTypeSelectedValue = '';
     fileTypeSelected = false;
 
@@ -102,7 +103,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     ngOnInit(): void {
         // this.isLoading = true;
         this.maxDateValue.setHours(this.maxDateValue.getHours() + 1);
-        this.formData.CRIMINAL_TEL = true;
+        this.formData.CRIMINAL_TEL = false;
         this.formData.CRIMINAL_SMS = false;
         this.formData.CRIMINAL_OTHER = false;
         this.formData.CASE_TYPE_ID = null;
@@ -287,6 +288,16 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     }
 
     OpenFileDialog() {
+        this.typeSelected = [];
+        if(this.formData.CRIMINAL_TEL){
+            this.typeSelected.push('เบอร์โทรศัพท์');
+        }
+        if(this.formData.CRIMINAL_SMS){
+            this.typeSelected.push('SMS');
+        }
+        if(this.formData.CRIMINAL_TYPE_SOCIAL){
+            this.typeSelected.push(this.formData.CRIMINAL_TYPE_SOCIAL);
+        }
         this.popupAttachment = true;
         this.popupFormUploaded = false;
     }

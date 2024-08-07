@@ -78,6 +78,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         'TWITTER',
         'อื่นๆ'
     ];
+    typeSelected = [];
     fileTypeSelectedValue = '';
     fileTypeSelected = false;
 
@@ -102,11 +103,11 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     ngOnInit(): void {
         // this.isLoading = true;
         this.maxDateValue.setHours(this.maxDateValue.getHours() + 1);
-        this.formData.CRIMINAL_TEL = true;
+        this.formData.CRIMINAL_TEL = false;
         this.formData.CRIMINAL_SMS = false;
         this.formData.CRIMINAL_OTHER = false;
         this.formData.CASE_TYPE_ID = null;
-        this.formData.CRIMINAL_SMS_DESTINATION_TYPE = "หมายเลขโทรศัพท์";
+        // this.formData.CRIMINAL_SMS_DESTINATION_TYPE = "หมายเลขโทรศัพท์";
         // this.servBankInfo.GetCaseType().subscribe((_) => {
         // this.listCaseType = _;
         // this.isLoading = false;
@@ -118,16 +119,16 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     }
 
     ngDoCheck(): void {
-        this.appState.checkOtherTel = this.formData.CRIMINAL_TEL_PROVIDER === 'อื่น ๆ' ?? false;
+        this.appState.checkOtherTel = this.formData.CRIMINAL_TEL_PROVIDER === 'อื่น ๆ' ? true : false;
         if (!this.appState.checkOtherTel) {
             this.formData.CRIMINAL_TEL_PROVIDER_DETAIL = '';
         }
-        this.appState.checkOtherSms = this.formData.CRIMINAL_SMS_PROVIDER === 'อื่น ๆ' ?? false;
+        this.appState.checkOtherSms = this.formData.CRIMINAL_SMS_PROVIDER === 'อื่น ๆ' ? true : false;
         if (!this.appState.checkOtherSms) {
             this.formData.CRIMINAL_SMS_PROVIDER_DETAIL = '';
         }
-        this.appState.checkOtherSocial = this.formData.CRIMINAL_TYPE_SOCIAL === 'อื่นๆ' ?? false;
-        this.fileTypeSelected = this.fileTypeSelectedValue !== '' ?? false;
+        this.appState.checkOtherSocial = this.formData.CRIMINAL_TYPE_SOCIAL === 'อื่นๆ' ? true : false;
+        this.fileTypeSelected = this.fileTypeSelectedValue !== '' ? true : false;
 
         if (this.formData.CRIMINAL_SMS_DATE_FULL) {
             this.formData.CRIMINAL_SMS_DATE = this.datePipe.transform(this.formData.CRIMINAL_SMS_DATE_FULL, 'yyyy-MM-dd');
@@ -287,6 +288,16 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     }
 
     OpenFileDialog() {
+        this.typeSelected = [];
+        if(this.formData.CRIMINAL_TEL){
+            this.typeSelected.push('เบอร์โทรศัพท์');
+        }
+        if(this.formData.CRIMINAL_SMS){
+            this.typeSelected.push('SMS');
+        }
+        if(this.formData.CRIMINAL_TYPE_SOCIAL){
+            this.typeSelected.push(this.formData.CRIMINAL_TYPE_SOCIAL);
+        }
         this.popupAttachment = true;
         this.popupFormUploaded = false;
     }
@@ -463,7 +474,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     }
 
     checkPhoneNumberChanged(event, component: DxTextBoxComponent){
-        if(event.value !== "" || event.value !== undefined || event.value !== null){
+        if(event.value !== "" && event.value !== undefined && event.value !== null){
             const seperator = '^([0-9]){10}';
             const maskSeperator = new RegExp(seperator, 'g');
             const result = maskSeperator.test(event.value);

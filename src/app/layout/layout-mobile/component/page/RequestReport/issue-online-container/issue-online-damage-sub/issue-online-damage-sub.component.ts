@@ -348,7 +348,7 @@ export class IssueOnlineDamageSubComponent implements OnInit {
     }
 
     checkPhoneNumberChanged(event, component: DxTextBoxComponent){
-        if(event.value !== "" || event.value !== undefined || event.value !== null){
+        if(event.value !== "" && event.value !== undefined && event.value !== null){
             const seperator = '^([0-9])+$';
             const maskSeperator = new RegExp(seperator, 'g');
             const result = maskSeperator.test(event.value);
