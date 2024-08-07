@@ -360,7 +360,22 @@ export class IssueOnlineDamageSubComponent implements OnInit {
                     html: 'กรุณากรอกข้อมูลใหม่อีกครั้ง'
                 });
             }else{
-                component.isValid = true;
+                if(event.value.length > 2){
+                    const newseperator = "^(.)\\1*$";
+                    const newmaskSeperator = new RegExp(newseperator, "gm");
+                    const newresult = newmaskSeperator.test(event.value);
+                    if(newresult){
+                        component.value = null;
+                        Swal.fire({
+                            title: "ผิดพลาด!",
+                            html: `คุณกรอกไม่ถูกต้อง เนื่องจากกรอกตัวอักษรซ้ำทั้งหมด`,
+                            icon: "warning",
+                            confirmButtonText: "Ok",
+                        });
+                        return;
+                    }
+                    component.isValid = true;
+                }
             }
         }
     }
