@@ -252,7 +252,10 @@ export class IssueOnlineDamageComponent implements OnInit {
         private _fileService :FileService,
         private _formValidate: FormValidatorService,
 
-    ) { }
+    ) {
+        this.bankListstart = [];
+        this.bankListend = [];
+    }
 
     ngOnInit(): void {
         this.maxDateValue.setHours(this.maxDateValue.getHours() + 1);
@@ -1945,9 +1948,9 @@ export class IssueOnlineDamageComponent implements OnInit {
         //     value["SHOW_NAME"] += '(ผู้เสียหาย)';
         // }
         if(value.TYPE_NAME === 'เงินดิจิทัล (Cryptocurrency)'){
-            this.bankCrytroListstart.push(value);
+            this.bankCrytroListstart.push({...value});
         }else{
-            this.bankListstart.push(value);
+            this.bankListstart.push({...value});
         }
         // this.formmoney.BANK_ORIGIN_LIST_ID = value["BANK_ORIGIN_ID"]
         this.formmoney.BANK_ORIGIN_LIST_ID = value["SHOW_NAME"];
@@ -1956,7 +1959,8 @@ export class IssueOnlineDamageComponent implements OnInit {
         // console.log("bankliststart",this.bankListstart);
     }
     outputdatabankvillain(value) {
-        // console.log('submit origin', value);
+        console.log('submit villain', value);
+        // creaye variavle
         if (value.TYPE_NAME === 'ธนาคาร' && value.ways === 1) {
             value["SHOW_NAME"] = '(ธนาคาร ผู้ร้าย)' + value.BANK_NAME + ': ' + value.BANK_ACCOUNT + ' ' + value.BANK_ACCOUNT_NAME;
         }
@@ -2003,11 +2007,12 @@ export class IssueOnlineDamageComponent implements OnInit {
             value["SHOW_NAME"] = '(อื่นๆ ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + ' ' + value.CASE_MONEY_BANK_OTHER_DETAIL;
             value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
         }
-        this.bankListend.push(value);
+        this.bankListend.push({...value});
         this.formmoney.BANK_LIST_ID = value["SHOW_NAME"];
-
     }
     onsavelistbanklist(e,type="") {
+        console.log(this.wayStart);
+        console.log(this.wayEnd);
         if (this.wayStart == this.wayEnd) {
             Swal.fire({
                 title: "ผิดพลาด!",
@@ -2364,6 +2369,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                 // console.log("orginlist", data);
 
                 if (data) {
+                    console.log("origin",data);
                     this.wayStart = data.ways;
                     this.formmoney.BANK_ORIGIN_ACCOUNT = data.BANK_ORIGIN_ACCOUNT;
                     this.formmoney.BANK_ORIGIN_ACCOUNT_NAME = data.BANK_ORIGIN_ACCOUNT_NAME;
@@ -2421,6 +2427,7 @@ export class IssueOnlineDamageComponent implements OnInit {
 
         if (e.value) {
             if(type === "crypto"){
+                console.log("object");
                 const data = this.selectBankInfolistCrypto.instance.option("selectedItem");
                 // console.log("defaullist", data);
                 if (data) {
@@ -2472,10 +2479,11 @@ export class IssueOnlineDamageComponent implements OnInit {
 
                 }
             }else{
+                console.table(this.selectBankInfolist.instance.option("selectedItem"));
                 const data = this.selectBankInfolist.instance.option("selectedItem");
                 // console.log("defaullist", data);
                 if (data) {
-
+                    console.log(data);
                     this.wayEnd = data.ways;
                     this.formmoney.BANK_ACCOUNT = data.BANK_ACCOUNT;
                     this.formmoney.BANK_ACCOUNT_NAME = data.BANK_ACCOUNT_NAME;
@@ -2487,7 +2495,7 @@ export class IssueOnlineDamageComponent implements OnInit {
 
                     const dataorigin = this.selectBankInfoOriginlist.instance.option("selectedItem");
 
-                    if (data) {
+                    if (dataorigin) {
                         // console.log(data);
 
                         this.formmoney.BANK_ORIGIN_ACCOUNT = dataorigin.BANK_ORIGIN_ACCOUNT;

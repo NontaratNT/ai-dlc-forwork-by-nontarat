@@ -234,6 +234,21 @@ export class TasklistComponent implements OnInit {
                         }
                     });
                 }
+                if (!(_.PERSONAL_TEL_NO)) {
+                    Swal.fire({
+                        title: "การติดตามสถานะ",
+                        text: "ท่านต้องเพิ่มหมายเลขโทรศัพท์หรือไม่?",
+                        html: "<p>กรุณาเพิ่มข้อมูลหมายเลขโทรศัพท์ของท่าน</p>",
+                        icon: "info",
+                        confirmButtonText: "ตกลง",
+                        // showCancelButton: true,
+                        // cancelButtonText: "ไม่",
+                    }).then((r) => {
+                        if (r.isConfirmed) {
+                            this.router.navigate(["main/personal"]);
+                        }
+                    });
+                }
                 if (_.USER_PICTURE) {
                     this.userImagePath =
                         environment.config.baseConfig.resourceUrl.replace(

@@ -26,7 +26,7 @@
                     <dxi-validation-rule type="required" message="กรุณากรอกประเภทบัญชี">
                     </dxi-validation-rule>
                 </dxi-item>
-                <dxi-item [colSpan]="1"></dxi-item>
+                <dxi-item [colSpan]="1" itemType="empty"></dxi-item>
                 <div *dxTemplate="let data of 'temp2-type'">
                     <dx-select-box #selectBanktype [dataSource]="bankdatatypeselect" [searchEnabled]="true" [(disabled)]="checktype" valueExpr="type_bank_id" displayExpr="type_name" placeholder="ประเภทบัญชี" (onValueChanged)="OnSelectBankType($event)" [(value)]="popupFormData.BANK_TYPE">
                     </dx-select-box>
@@ -171,7 +171,7 @@
                     <dxi-validation-rule type="required" message="กรุณากรอกประเภทบัญชี">
                     </dxi-validation-rule>
                 </dxi-item>
-                <dxi-item [colSpan]="1"></dxi-item>
+                <dxi-item [colSpan]="1" itemType="empty"></dxi-item>
                 <div *dxTemplate="let data of 'temp2-type'">
                     <dx-select-box #selectBanktypevalian [dataSource]="bankdatatypeselect" [searchEnabled]="true" valueExpr="type_id" displayExpr="type_name" placeholder="ประเภทบัญชี" (onValueChanged)="OnSelectBankTypevalian($event)" [(value)]="popupFormDatavillain.BANK_TYPE">
                     </dx-select-box>

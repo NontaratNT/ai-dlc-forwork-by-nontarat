@@ -119,6 +119,36 @@ export class TrackStatusComponent implements OnInit {
         this.align = ['left'];
         this.clr = 'left';
         this.servicePersonal.GetPersonalById(User.Current.PersonalId).subscribe(_ => {
+            if (!this.validateEmail(_.PERSONAL_EMAIL)) {
+                Swal.fire({
+                    title: "การติดตามสถานะ",
+                    text: "ท่านต้องการติดตามสถานะผ่านอีเมลหรือไม่?",
+                    html: "<p>กรุณาเพิ่มข้อมูลอีเมลของท่านเพื่อติดตามสถานะ</p>",
+                    icon: "info",
+                    confirmButtonText: "ใช่ ฉันต้องการ",
+                    showCancelButton: true,
+                    cancelButtonText: "ไม่",
+                }).then((r) => {
+                    if (r.isConfirmed) {
+                        this.router.navigate(["/mobile/personal"]);
+                    }
+                });
+            }
+            if (!(_.PERSONAL_TEL_NO)) {
+                Swal.fire({
+                    title: "การติดตามสถานะ",
+                    text: "ท่านต้องเพิ่มหมายเลขโทรศัพท์หรือไม่?",
+                    html: "<p>กรุณาเพิ่มข้อมูลหมายเลขโทรศัพท์ของท่าน</p>",
+                    icon: "info",
+                    confirmButtonText: "ตกลง",
+                    // showCancelButton: true,
+                    // cancelButtonText: "ไม่",
+                }).then((r) => {
+                    if (r.isConfirmed) {
+                        this.router.navigate(["/mobile/personal"]);
+                    }
+                });
+            }
             if (_.USER_PICTURE) {
                 this.userImagePath = environment.config.baseConfig.resourceUrl.replace("/ccib", "/bpm") + _.USER_PICTURE;
             }
@@ -228,6 +258,13 @@ export class TrackStatusComponent implements OnInit {
 
         }
         return "";
+    }
+
+    validateEmail(email) {
+        // eslint-disable-next-line max-len
+        const re =
+            /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
     }
 
     StdAndOffer(e) {
