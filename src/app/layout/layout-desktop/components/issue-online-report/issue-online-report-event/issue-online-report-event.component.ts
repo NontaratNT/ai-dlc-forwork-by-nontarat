@@ -100,16 +100,16 @@ export class IssueOnlineReportEventComponent implements OnInit, DoCheck {
     }
 
     ngDoCheck(): void {
-        this.appState.checkOtherTel = this.formData.CRIMINAL_TEL_PROVIDER === 'อื่น ๆ' ?? false;
+        this.appState.checkOtherTel = this.formData.CRIMINAL_TEL_PROVIDER === 'อื่น ๆ' ? true : false;
         if(!this.appState.checkOtherTel){
             this.formData.CRIMINAL_TEL_PROVIDER_DETAIL = '';
         }
-        this.appState.checkOtherSms = this.formData.CRIMINAL_SMS_PROVIDER === 'อื่น ๆ' ?? false;
+        this.appState.checkOtherSms = this.formData.CRIMINAL_SMS_PROVIDER === 'อื่น ๆ' ? true : false;
         if(!this.appState.checkOtherSms){
             this.formData.CRIMINAL_SMS_PROVIDER_DETAIL = '';
         }
-        this.appState.checkOtherSocial = this.formData.CRIMINAL_TYPE_SOCIAL === 'อื่นๆ' ?? false;
-        this.fileTypeSelected = this.fileTypeSelectedValue !== '' ?? false;
+        this.appState.checkOtherSocial = this.formData.CRIMINAL_TYPE_SOCIAL === 'อื่นๆ'  ? true : false;
+        this.fileTypeSelected = this.fileTypeSelectedValue !== ''  ? true : false;
     }
 
     async OnSelectCaseType(e) {

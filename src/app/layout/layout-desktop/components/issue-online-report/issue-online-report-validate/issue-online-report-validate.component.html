@@ -65,13 +65,13 @@
                 <div *dxTemplate="let data of 'CRIMINAL_TEL_DESTINATION'">
                     <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_TEL_DESTINATION"></dx-text-box>
                 </div>
-                <dxi-item template="CRIMINAL_TEL_DATE_FULL" [isRequired]="true" [colSpan]="2">
+                <dxi-item template="CRIMINAL_TEL_DATE" [isRequired]="true" [colSpan]="2">
                     <dxo-label text="วันเวลาที่คนร้ายติดต่อเข้ามา" [showColon]="false"></dxo-label>
                     <dxi-validation-rule type="required" message="กรุณาเลือกวันเวลาที่คนร้ายติดต่อเข้ามา">
                     </dxi-validation-rule>
                 </dxi-item>
-                <div *dxTemplate="let data of 'CRIMINAL_TEL_DATE_FULL'">
-                    <dx-text-box [readOnly]="true" [value]="ConvertDateFullMonth(formData.CRIMINAL_TEL_DATE_FULL)">
+                <div *dxTemplate="let data of 'CRIMINAL_TEL_DATE'">
+                    <dx-text-box [readOnly]="true" [value]="ConvertDateFullMonth(formData.CRIMINAL_TEL_DATE)">
                     </dx-text-box>
                 </div>
             </dx-form>
@@ -99,13 +99,13 @@
                 <div *dxTemplate="let data of 'CRIMINAL_SMS_DESTINATION'">
                     <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_SMS_DESTINATION"></dx-text-box>
                 </div>
-                <dxi-item template="CRIMINAL_SMS_DATE_FULL" [isRequired]="true" [colSpan]="2">
+                <dxi-item template="CRIMINAL_SMS_DATE" [isRequired]="true" [colSpan]="2">
                     <dxo-label text="วันเวลาที่รับข้อความ" [showColon]="false"></dxo-label>
                     <dxi-validation-rule type="required" message="กรุณาเลือกวันเวลาที่รับข้อความ">
                     </dxi-validation-rule>
                 </dxi-item>
-                <div *dxTemplate="let data of 'CRIMINAL_SMS_DATE_FULL'">
-                    <dx-text-box [readOnly]="true" [value]="ConvertDateFullMonth(formData.CRIMINAL_SMS_DATE_FULL)">
+                <div *dxTemplate="let data of 'CRIMINAL_SMS_DATE'">
+                    <dx-text-box [readOnly]="true" [value]="ConvertDateFullMonth(formData.CRIMINAL_SMS_DATE)">
                     </dx-text-box>
                 </div>
             </dx-form>
