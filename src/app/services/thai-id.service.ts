@@ -18,8 +18,8 @@ export class ThaiIDService {
   getApiData(): Observable<any> {
     const params = {
       response_type: 'code',
-      client_id: 'R2lpZndIaEhmdHdxRTdweUNiMDRZNmx3Y1JzSTZSM3E',
-      redirect_uri: 'https://officeruat.thaipoliceonline.com/login/thaiD',
+      client_id: 'WGYyT3lGeGo3c0Z6SEZSbTBRVktaN1VZbUZaVTJwWno',
+      redirect_uri: 'https://citizenuat.thaipoliceonline.com/login/thaiD',
       scope: 'pid th_fullname dob openid',
       state: 'af0ifjsldkj',
     };
@@ -30,7 +30,7 @@ export class ThaiIDService {
   }
 
   public thaiIdgettoken(param: any): Observable<any> {
-    return this._req<any>().api('LoginThaiID/gettoken')
+    return this._req<any>().api('LoginThaiID/gettokenext')
     .body(param)
     .disableCriticalDialogError().post();
 
