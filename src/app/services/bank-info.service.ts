@@ -13,15 +13,15 @@ export class BankInfoService {
     constructor(@Inject(EFORM_REQUEST) private _req: EformRequestFactory,private http: HttpClient) { }
 
     public GetBankInfo(): Observable<any[]> {
-        return req<any[]>('CmsBankInfo')
+        return req<any[]>('CmsBankInfo').host(environment.config.baseConfig.urlgdcc)
             .disableCriticalDialogError().get();
     }
     public GetBankWayOtherInfo(): Observable<any[]> {
-        return req<any[]>('CmsTrasferType')
+        return req<any[]>('CmsTrasferType').host(environment.config.baseConfig.urlgdcc)
             .disableCriticalDialogError().get();
     }
     public GetBankOtherInfo(): Observable<any[]> {
-        return req<any[]>('CmsBankOther')
+        return req<any[]>('CmsBankOther').host(environment.config.baseConfig.urlgdcc)
             .disableCriticalDialogError().get();
     }
     public GetBankOrg(BankId: number): Observable<any[]> {
@@ -39,7 +39,7 @@ export class BankInfoService {
             .disableCriticalDialogError().get();
     }
     public GetNearStation(): Observable<any[]> {
-        return this._req<any[]>('CmsOrganize/orgProvince')
+        return this._req<any[]>('CmsOrganize/orgProvince').host(environment.config.baseConfig.urlgdcceform)
             .disableCriticalDialogError().get();
     }
 
@@ -50,25 +50,25 @@ export class BankInfoService {
     }
 
     public GetLanguage(): Observable<any[]> {
-        return req<any[]>('CmsCaseLanguage')
+        return req<any[]>('CmsCaseLanguage').host(environment.config.baseConfig.urlgdcc)
             .disableCriticalDialogError().get();
     }
     public GetCaseChannel(): Observable<any[]> {
-        return req<any[]>('CmsChannel')
+        return req<any[]>('CmsChannel').host(environment.config.baseConfig.urlgdcc)
             .disableCriticalDialogError().get();
     }
     public GetCaseType(): Observable<any[]> {
-        return req<any[]>('CmsCaseType')
+        return req<any[]>('CmsCaseType').host(environment.config.baseConfig.urlgdcc)
             .disableCriticalDialogError().get();
     }
 
 
     public GetBankBranch(id: number): Observable<IBankBranch[]> {
-        return req<IBankBranch[]>(`CmsBankBranch/${id}/bankId`)
+        return req<IBankBranch[]>(`CmsBankBranch/${id}/bankId`).host(environment.config.baseConfig.urlgdcc)
             .disableCriticalDialogError().get();
     }
     public GetBankInfoByName(Name:string): Observable<any[]> {
-        return req<any[]>(`CmsBankInfo/${Name}`)
+        return req<any[]>(`CmsBankInfo/${Name}`).host(environment.config.baseConfig.urlgdcc)
             .disableCriticalDialogError().get();
     }
     public GetBankTrackNo(no:string): Observable<any> {

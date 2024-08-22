@@ -15,7 +15,7 @@ export class PersonalService {
     constructor(@Inject(EFORM_REQUEST) private _req: EformRequestFactory, private http: HttpClient) { }
 
     public Search(searchObj: any, offset: number, length: number): Observable<IPagingResult<IPersonal>> {
-        return this._req<IPagingResult<IPersonal>>("CmsPersonal/search")
+        return this._req<IPagingResult<IPersonal>>("CmsPersonal/search").host(environment.config.baseConfig.urlgdcceform)
             .body({ Condition: searchObj, Offset: offset, Length: length })
             .disableCriticalDialogError().post();
     }
@@ -26,29 +26,29 @@ export class PersonalService {
     }
 
     public GetPersonal(includeStatus = true): Observable<IPersonal[]> {
-        return this._req<IPersonal[]>('CmsPersonal')
+        return this._req<IPersonal[]>('CmsPersonal').host(environment.config.baseConfig.urlgdcceform)
             .queryString({ RecordStatus: includeStatus as any })
             .disableCriticalDialogError().get();
     }
     public GetPersonalById(id: number): Observable<IPersonal> {
-        return this._req<IPersonal>('CmsPersonal/' + id)
+        return this._req<IPersonal>('CmsPersonal/' + id).host(environment.config.baseConfig.urlgdcceform)
             .disableCriticalDialogError().get();
     }
 
     public GetPersonalManager(id: number): Observable<IOrganizeInfo[]> {
-        return this._req<IOrganizeInfo[]>('CmsPersonal/' + id + '/organize/manager')
+        return this._req<IOrganizeInfo[]>('CmsPersonal/' + id + '/organize/manager').host(environment.config.baseConfig.urlgdcceform)
             .disableCriticalDialogError().get();
     }
 
     public PutPersonal(id: number, param: FormData): Observable<IPersonal> {
-        return this._req<IPersonal>('CmsPersonal/' + id)
+        return this._req<IPersonal>('CmsPersonal/' + id).host(environment.config.baseConfig.urlgdcceform)
             .body(param)
             .disableCriticalDialogError().put();
     }
 
 
     public PostPersonal(param: FormData): Observable<IPersonal> {
-        return this._req<IPersonal>('CmsPersonal')
+        return this._req<IPersonal>('CmsPersonal').host(environment.config.baseConfig.urlgdcceform)
             .body(param)
             .disableCriticalDialogError().post();
     }

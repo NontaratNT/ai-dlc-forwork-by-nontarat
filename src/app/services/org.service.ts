@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IPagingResult, req } from 'share-ui';
 import { EformRequestFactory, EFORM_REQUEST } from "eform-share";
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -22,17 +23,17 @@ export class OrgService {
     }
 
     public getorgProvince(provinceid:any): Observable<IOrganizeInfo[]> {
-        return this._req<IOrganizeInfo[]>('CmsOrganize/orgProvince')
+        return this._req<IOrganizeInfo[]>('CmsOrganize/orgProvince').host(environment.config.baseConfig.urlgdcceform)
             .queryString({provinceId: <any>provinceid })
             .disableCriticalDialogError().get();
     }
 
     public getorgwalkin(): Observable<IOrganizeInfo[]> {
-        return this._req<IOrganizeInfo[]>('CmsOrganize/getorgwalkin')
+        return this._req<IOrganizeInfo[]>('CmsOrganize/getorgwalkin').host(environment.config.baseConfig.urlgdcceform)
             .disableCriticalDialogError().get();
     }
     public getorgwalkinall(): Observable<IOrganizeInfo[]> {
-        return this._req<IOrganizeInfo[]>('CmsOrganize/getorgall')
+        return this._req<IOrganizeInfo[]>('CmsOrganize/getorgall').host(environment.config.baseConfig.urlgdcceform)
             .disableCriticalDialogError().get();
     }
     // public GetApps(roleId: number): Observable<IAppInfo[]> {
@@ -45,7 +46,7 @@ export class OrgService {
             .disableCriticalDialogError().get();
     }
     public getorgariaall(): Observable<IOrgmaparea[]> {
-        return this._req<IOrgmaparea[]>('cmsorganize/getorgariaall')
+        return this._req<IOrgmaparea[]>('cmsorganize/getorgariaall').host(environment.config.baseConfig.urlgdcceform)
             .disableCriticalDialogError().get();
     }
     public InsertOrganizeInfo(param: FormData): Observable<any> {
