@@ -291,31 +291,44 @@ export class IssueOnlineCheckComponent implements OnInit {
                         return;
                     }
                     const value = e.value;
-                    const bank_name = value.replace(/\d+/g, '');
-                    const upperString = bank_name.toUpperCase();
-                    var haveBank = await this._bankInfoService.GetBankTrackNo(value.toUpperCase()).toPromise();
-                    if(haveBank.Value){
+                    const regex = /^.{8}[A-Z]{3,}/;
+                    if(regex.test(value)){
+                        const bank_name = value.replace(/\d+/g, '');
+                        const upperString = bank_name.toUpperCase();
+                        var haveBank = await this._bankInfoService.GetBankTrackNo(value.toUpperCase()).toPromise();
+                        if(haveBank.Value){
+                            Swal.fire({
+                                title: 'ผิดพลาด!',
+                                html: 'เลขอ้างอิงนี้มีการแจ้งแล้ว</br>รบกวนตรวจสอบคดีที่เคยบันทึกมาแล้ว',
+                                icon: 'warning',
+                                confirmButtonText: 'Ok',
+                            }).then(() => {this.submission.FREEZE_ACT_BANK_NAME = "";this.blockSave=true;});
+                            return;
+                        }
+                        await this._bankInfoService.GetBankInfoByName(upperString).subscribe((_) =>{
+                            if(_ != null){
+                                this.submission.FREEZE_ACT_BANK_NAME = _[0].BANK_NAME;
+                                this.blockSave=false;
+                            }else{
+                                Swal.fire({
+                                    title: "ผิดพลาด!",
+                                    text: "กรอกเลขอ้างอิงไม่ถูกต้อง",
+                                    icon: "warning",
+                                    confirmButtonText: "Ok",
+                                    }).then(() => {this.submission.FREEZE_ACT_BANK_NAME = "";this.blockSave=true;});
+                                }
+                        });
+                    }else{
                         Swal.fire({
                             title: 'ผิดพลาด!',
-                            html: 'เลขอ้างอิงนี้มีการแจ้งแล้ว</br>รบกวนตรวจสอบคดีที่เคยบันทึกมาแล้ว',
+                            text: 'กรอกเลขอ้างอิงไม่ถูกต้อง',
                             icon: 'warning',
                             confirmButtonText: 'Ok',
-                        }).then(() => {this.submission.FREEZE_ACT_BANK_NAME = "";this.blockSave=true;});
-                        return;
+                        }).then(() => {
+                            this.submission.FREEZE_ACT_BANK_NAME = '';
+                            this.blockSave = true;
+                        });
                     }
-                    await this._bankInfoService.GetBankInfoByName(upperString).subscribe((_) =>{
-                        if(_ != null){
-                            this.submission.FREEZE_ACT_BANK_NAME = _[0].BANK_NAME;
-                            this.blockSave=false;
-                        }else{
-                            Swal.fire({
-                                title: "ผิดพลาด!",
-                                text: "กรอกเลขอ้างอิงไม่ถูกต้อง",
-                                icon: "warning",
-                                confirmButtonText: "Ok",
-                                }).then(() => {this.submission.FREEZE_ACT_BANK_NAME = "";this.blockSave=true;});
-                            }
-                    });
                 }else{
                     Swal.fire({
                         title: "ผิดพลาด!",
