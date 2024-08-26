@@ -313,6 +313,7 @@ export class IssueOnlineContainerComponent implements OnInit {
         this.formDataInsert.CASE_TYPE_ID = 1;
         this.formDataInsert.CASE_FLAG = "O";
         this.formDataInsert.CASE_SELF_TYPE = (this.userType === "mySelf") ? "Y" : "N";
+        this.formDataInsert.DEVICE = "MOBILE";
         this.formDataAll = {
             DataDamageShow: {},
             formInformer: {},
@@ -328,6 +329,7 @@ export class IssueOnlineContainerComponent implements OnInit {
                 env: environment.config.baseConfig,
                 CASE_FLAG: "O",
                 CASE_SELF_TYPE: (this.userType === "mySelf") ? "Y" : "N",
+                DEVICE: "MOBILE"
             },
         };
     }

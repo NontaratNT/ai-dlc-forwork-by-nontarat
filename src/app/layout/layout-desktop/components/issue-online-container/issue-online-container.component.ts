@@ -289,6 +289,8 @@ export class IssueOnlineContainerComponent implements OnInit {
         this.formDataInsert.CASE_FLAG = "O";
         this.formDataInsert.CASE_SELF_TYPE =
             this.userType === "mySelf" ? "Y" : "N";
+        this.formDataInsert.DEVICE = "DESKTOP";
+
         // this.formDataInsert.env.browser = this.getBrowserInfo();
         // this.formDataInsert.env.device = this.getDeviceInfo();
         // this.formDataInsert.env.ip = this._ip;
