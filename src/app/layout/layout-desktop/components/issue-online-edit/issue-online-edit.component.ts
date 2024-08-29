@@ -221,9 +221,9 @@ export class IssueOnlineEditComponent implements OnInit {
     loaddata(id){
         if (id) {
             this.bpmProcinstServ.getByInstId(id).subscribe(res=>{
-                this._wfinsId = res.WF_INSTANCE_ID;
-                this._formioId = res.FORM_IO_ID;
-                this._documentId =res.DOCUMENT_ID;
+                this._wfinsId = res.Value.WF_INSTANCE_ID;
+                this._formioId =  res.Value.FORM_IO_ID;
+                this._documentId = res.Value.DOCUMENT_ID;
                 this.isLoading = false;
                 this.loadTab = true;
                 this.dataForm = {
