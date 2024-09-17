@@ -95,6 +95,8 @@
                     <dxo-label text="เลขพร้อมเพย์ (กรุณาระบุเฉพาะตัวเลข)" [showColon]="false"></dxo-label>
                     <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลเลขพร้อมเพย์">
                     </dxi-validation-rule>
+                    <dxi-validation-rule type="pattern" message="ระบุเลขพร้อมเพย์เป็นตัวเลข 10-13 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 0811112222" [pattern]="prompay">
+                    </dxi-validation-rule>
                 </dxi-item>
 
                 <div *dxTemplate="let data of 'temp4-prompay'">
@@ -237,6 +239,8 @@
                 <dxi-item *ngIf="formchecktypevalian.type_name === 'พร้อมเพย์'" template="temp4-prompay" [colSpan]="1" [isRequired]="true">
                     <dxo-label text="เลขพร้อมเพย์ (กรุณาระบุเฉพาะตัวเลข)" [showColon]="false"></dxo-label>
                     <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลเลขพร้อมเพย์">
+                    </dxi-validation-rule>
+                    <dxi-validation-rule type="pattern" message="ระบุเลขพร้อมเพย์เป็นตัวเลข 10-13 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 0811112222" [pattern]="prompay">
                     </dxi-validation-rule>
                 </dxi-item>
 

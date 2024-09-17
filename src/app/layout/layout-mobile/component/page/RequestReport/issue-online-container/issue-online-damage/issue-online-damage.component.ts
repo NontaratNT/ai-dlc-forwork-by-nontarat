@@ -1232,9 +1232,6 @@ export class IssueOnlineDamageComponent implements OnInit {
             confirmButtonText: "ตกลง",
         }).then((result) => {
             if (result.isConfirmed) {
-                // const dmValueAll = this.formData.CASE_MONEY[index].BANK_DAMAGE_VALUE ?? 0;
-                // this.formData.CASE_MONEY.splice(index, 1);
-                // this.formData.CASE_MONEY[index].BANK_DETAIL = e;
                 if (type === "T") {
                     if (
                         this.CheckArray(this.listDamageBank[index].BANK_DETAIL)
@@ -1685,11 +1682,14 @@ export class IssueOnlineDamageComponent implements OnInit {
                 }
             }
             this.mainConponent.formDataAll.DataDamageShow = {};
-            const listMoney = this.MergeArray(
+            this.listDamageBank = this.removeDuplicateObjects(this.listDamageBank);
+            this.listDamageCrytro = this.removeDuplicateObjects(this.listDamageCrytro);
+            this.calulatemoney([...this.listDamageCrytro, ...this.listDamageBank]);
+            const listMoney = this.removeDuplicateObjects(this.MergeArray(
                 [...this.listDamageCrytro, ...this.listDamageBank],
                 this.listDamageBankOther,
                 this.listDamageOther
-            );
+            ));
             this.mainConponent.formDataAll.formDamage = {};
             this.mainConponent.formDataAll.formDamage = this.formData;
             this.mainConponent.formDataAll.formDamage.CASE_MONEY = listMoney;
@@ -2011,8 +2011,6 @@ export class IssueOnlineDamageComponent implements OnInit {
         this.formmoney.BANK_LIST_ID = value["SHOW_NAME"];
     }
     onsavelistbanklist(e,type="") {
-        console.log(this.wayStart);
-        console.log(this.wayEnd);
         if (this.wayStart == this.wayEnd) {
             Swal.fire({
                 title: "ผิดพลาด!",
@@ -2665,5 +2663,38 @@ export class IssueOnlineDamageComponent implements OnInit {
         const dateWithTimeZone = new Date(time.getTime() + timeZoneOffsetMs);
         const formattedString = dateWithTimeZone.toISOString().replace("Z", `+${timeZoneOffset.toString().padStart(2, "0")}:00`);
         return formattedString;
+    }
+
+    areObjectsEqual(obj1, obj2) {
+        // ดึงคีย์ทั้งหมดของ object แล้วเรียงลำดับ
+        const keys1 = Object.keys(obj1).sort();
+        const keys2 = Object.keys(obj2).sort();
+
+        // ถ้าจำนวนคีย์ไม่เท่ากัน แสดงว่าไม่เหมือนกัน
+        if (keys1.length !== keys2.length) return false;
+
+        // เปรียบเทียบค่าแต่ละคีย์
+        for (let key of keys1) {
+            if(key != "MONNEY_DOC"){
+                if (obj1[key] !== obj2[key])
+                    {
+                        return false;
+                    }
+            }
+            // return false;
+        }
+        return true;
+      }
+
+    removeDuplicateObjects(arr) {
+        // ตรวจสอบว่า array ว่างหรือไม่
+        if (arr.length === 0) return arr;
+
+        // ใช้ฟังก์ชัน areObjectsEqual เพื่อเปรียบเทียบ object โดยไม่สนใจลำดับของฟิลด์
+        const uniqueArray = arr.filter((obj, index, self) =>
+          index === self.findIndex((t) => this.areObjectsEqual(t, obj))
+        );
+
+        return uniqueArray;
     }
 }

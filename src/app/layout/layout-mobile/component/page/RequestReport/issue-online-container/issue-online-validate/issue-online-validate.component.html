@@ -519,7 +519,7 @@
                                                                 </dx-data-grid>
                                                             </div>
                                                             <div class="list-samary-damage"
-                                                                *ngIf="CheckSammaryValue(item.data.BANK_DAMAGE_VALUE) > 0">
+                                                                *ngIf="+CheckSammaryValue(item.data.BANK_DAMAGE_VALUE) > 0">
                                                                 <div class="samary-damage">รวมยอดความเสียหาย
                                                                     {{CheckSammaryValue(item.data.BANK_DAMAGE_VALUE) |
                                                                     currency:'':''}} บาท</div>

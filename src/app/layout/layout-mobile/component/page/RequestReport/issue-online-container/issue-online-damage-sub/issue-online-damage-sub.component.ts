@@ -58,6 +58,7 @@ export class IssueOnlineDamageSubComponent implements OnInit {
     ];
     BankOriginNumberPattern = /^([0-9]{10,15})/;
     BankNumberPattern = /^([0-9Xx]{10,15})/;
+    prompay = /^([0-9]{10,13})/;
     emailOrNumber = "N";
     checktype = false;
     constructor(
