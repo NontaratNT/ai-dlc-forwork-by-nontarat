@@ -263,6 +263,9 @@ export class IssueOnlineCheckComponent implements OnInit {
                             title: 'ไม่ถูกต้อง',
                             text: 'เลข BANK CASE ID ไม่ถูกต้อง',
                             icon: 'error',
+                        }).then(() => {
+                            this.submission.FREEZE_ACT_BANK_NAME = '';
+                            this.blockSave = true;
                         });
                         return;
                     }
@@ -275,6 +278,9 @@ export class IssueOnlineCheckComponent implements OnInit {
                             title: 'ไม่ถูกต้อง',
                             text: 'เลข BANK CASE ID ไม่ถูกต้อง',
                             icon: 'error',
+                        }).then(() => {
+                            this.submission.FREEZE_ACT_BANK_NAME = '';
+                            this.blockSave = true;
                         });
                         return;
                     }
@@ -287,6 +293,9 @@ export class IssueOnlineCheckComponent implements OnInit {
                             title: 'ไม่ถูกต้อง',
                             text: 'เลข BANK CASE ID ไม่ถูกต้อง เนื่องจากวันที่ใน BANK CASE ID เกินกว่าวันปัจจุบัน',
                             icon: 'error',
+                        }).then(() => {
+                            this.submission.FREEZE_ACT_BANK_NAME = '';
+                            this.blockSave = true;
                         });
                         return;
                     }
@@ -305,19 +314,24 @@ export class IssueOnlineCheckComponent implements OnInit {
                             }).then(() => {this.submission.FREEZE_ACT_BANK_NAME = "";this.blockSave=true;});
                             return;
                         }
-                        await this._bankInfoService.GetBankInfoByName(upperString).subscribe((_) =>{
-                            if(_ != null){
-                                this.submission.FREEZE_ACT_BANK_NAME = _[0].BANK_NAME;
-                                this.blockSave=false;
-                            }else{
-                                Swal.fire({
-                                    title: "ผิดพลาด!",
-                                    text: "กรอกเลขอ้างอิงไม่ถูกต้อง",
-                                    icon: "warning",
-                                    confirmButtonText: "Ok",
-                                    }).then(() => {this.submission.FREEZE_ACT_BANK_NAME = "";this.blockSave=true;});
-                                }
-                        });
+                        if(upperString == "TMN"){
+                            this.submission.FREEZE_ACT_BANK_NAME = "TrueMoney Wallet";
+                            this.blockSave = false;
+                        }else{
+                            await this._bankInfoService.GetBankInfoByName(upperString).subscribe((_) =>{
+                                if(_ != null){
+                                    this.submission.FREEZE_ACT_BANK_NAME = _[0].BANK_NAME;
+                                    this.blockSave=false;
+                                }else{
+                                    Swal.fire({
+                                        title: "ผิดพลาด!",
+                                        text: "กรอกเลขอ้างอิงไม่ถูกต้อง",
+                                        icon: "warning",
+                                        confirmButtonText: "Ok",
+                                        }).then(() => {this.submission.FREEZE_ACT_BANK_NAME = "";this.blockSave=true;});
+                                    }
+                            });
+                        }
                     }else{
                         Swal.fire({
                             title: 'ผิดพลาด!',
