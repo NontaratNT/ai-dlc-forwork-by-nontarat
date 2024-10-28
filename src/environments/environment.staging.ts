@@ -56,6 +56,6 @@ export const environment = {
             siteKey: "6LeV1vQcAAAAAAUKdpLxVXjB9OLYR7ddI3sDmP0P",
             secretKey: "6LeV1vQcAAAAAJzMmWwJqq76i_fQuflBIF5upGbB"
         },
-        versionControl: "1.6611.21.1"
+        versionControl: "1.6709.23.1"
     }
 };

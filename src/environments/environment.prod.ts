@@ -67,6 +67,29 @@ export const environment = {
                 siteKey: "6LeV1vQcAAAAAAUKdpLxVXjB9OLYR7ddI3sDmP0P",
                 secretKey: "6LeV1vQcAAAAAJzMmWwJqq76i_fQuflBIF5upGbB"
             },
-            versionControl: "1.6609.29.1"
+            versionControl: "1.6709.23.1"
         }
     }
+
+//test uat
+// export const environment = {
+//     production: false,
+//     config: {
+//         baseConfig: {
+//             apiUrl: "https://citizenuat.thaipoliceonline.com/api/ccib/v1.0",
+//             reportUrl: "https://officeruat.thaipoliceonline.com/web-report/",
+//             resourceUrl: "https://officeruat.thaipoliceonline.com/resource/bpm/",
+//             resourceUrlAzure: "https://api.thaipoliceonline.com/eformazure/api/resource/download?filePath=",
+//             hubUrl: "https://officeruat.thaipoliceonline.com/noti/hub/",
+//             urlgdcc: "https://citizenuat.thaipoliceonline.com/api/ccib/v1.0",
+//             urlgdcceform: "https://officeruat.thaipoliceonline.com/api/e-form/v1.0",
+//         },
+//         eFormHost: "https://officeruat.thaipoliceonline.com/api/e-form/v1.0",
+//         videoHost: "https://officer.thaipoliceonline.com/",
+//         recaptcha: {
+//             siteKey: "6LeV1vQcAAAAAAUKdpLxVXjB9OLYR7ddI3sDmP0P",
+//             secretKey: "6LeV1vQcAAAAAJzMmWwJqq76i_fQuflBIF5upGbB"
+//         },
+//         versionControl: "1.6707.02.1"
+//     }
+// };
