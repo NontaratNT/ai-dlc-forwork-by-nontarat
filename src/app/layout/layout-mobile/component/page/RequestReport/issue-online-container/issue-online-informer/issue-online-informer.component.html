@@ -81,6 +81,14 @@
                 <div *dxTemplate="let data of 'temp4'">
                     <app-date-combo-picker *ngIf="loadDateBox" [disabled]="formReadOnly" [timezone]="'UTC+7'" [minDate]="minBirthDate" [maxDate]="maxBirthDate" [(date)]="formData.CASE_INFORMER_DATE"></app-date-combo-picker>
                 </div>
+                <dxi-item template="tempTelProvinder" [colSpan]="1" [isRequired]="true">
+                    <dxo-label text="ค่ายโทรศัพท์ผู้เสียหาย" [showColon]="true"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกค่ายโทรศัพท์ผู้เสียหาย"></dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'tempTelProvinder'">
+                    <dx-select-box [dataSource]="serviceLabelID" displayExpr="TEXT" valueExpr="TEXT" searchExpr="TEXT" [searchEnabled]="true" placeholder="ค่ายโทรศัพท์" [(value)]="formData.INFORMER_TEL_PROVIDER" [showClearButton]="true">
+                    </dx-select-box>
+                </div>
                 <dxi-item template="temp7" [colSpan]="1" [isRequired]="formValidate">
                     <dxo-label text="เบอร์โทรศัพท์มือถือ" [showColon]="false"></dxo-label>
                     <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลเบอร์โทรศัพท์มือถือ">

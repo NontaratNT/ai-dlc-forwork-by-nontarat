@@ -76,6 +76,11 @@ import { IssueOnlineQuestionareComponent } from './components/issue-online-conta
 import { DateTimeInputComponent } from "src/app/components/controls/date-time-input/date-time-input.component";
 import { IssueOnlineCheckComponent } from './components/issue-online-container/issue-online-check/issue-online-check.component';
 import { LoginThaiIDComponent } from './components/login-thai-id/login-thai-id.component';
+import { IssueOnlineReportComponent } from './components/issue-online-report/issue-online-report.component';
+import { IssueOnlineReportInformerComponent } from './components/issue-online-report/issue-online-report-informer/issue-online-report-informer.component';
+import { IssueOnlineReportEventComponent } from './components/issue-online-report/issue-online-report-event/issue-online-report-event.component';
+import { IssueOnlineReportValidateComponent } from './components/issue-online-report/issue-online-report-validate/issue-online-report-validate.component';
+import { IssueOnlineCriminalContatInfoComponent } from "./components/issue-online-container/issue-online-criminal-contact-info/issue-online-criminal-contact-info.component";
 
 
 const customNotifierOptions: NotifierOptions = {
@@ -161,7 +166,12 @@ const customNotifierOptions: NotifierOptions = {
         IssueOnlineQuestionareComponent,
         DateTimeInputComponent,
         IssueOnlineCheckComponent,
-        LoginThaiIDComponent
+        LoginThaiIDComponent,
+        IssueOnlineReportComponent,
+        IssueOnlineReportInformerComponent,
+        IssueOnlineReportEventComponent,
+        IssueOnlineReportValidateComponent,
+        IssueOnlineCriminalContatInfoComponent
     ],
     exports: [DateComboPickerComponent, DateComboRegisterComponent],
     imports: [

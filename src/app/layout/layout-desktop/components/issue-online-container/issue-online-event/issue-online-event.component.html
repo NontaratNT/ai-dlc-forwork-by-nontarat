@@ -305,6 +305,67 @@
         </dx-form>
     </div>
 </div>
+<div class="conten-block" *ngIf="channel_tel">
+    <div class="content-title">ช่องทางการติดต่อคนร้าย</div>
+    <div class="content-form">
+        <dx-form #formChannel [colCount]="2" labelLocation="top">
+            <dxi-item template="tempphonedestination" [colSpan]="1">
+                <dxo-label text="หมายเลขโทรศัพท์คนร้าย" [showColon]="false"></dxo-label>
+                <dxi-validation-rule type="required" message="กรุณากรอกหมายเลขโทรศัพท์คนร้าย">
+                </dxi-validation-rule>
+                <dxi-validation-rule type="custom" message="หมายเลขโทรศัพท์ 10 หลัก" [validationCallback]="PhoneNumberPattern">
+                </dxi-validation-rule>
+            </dxi-item>
+            <div *dxTemplate="let data of 'tempphonedestination'">
+                <dx-text-box id="ctfPhone_destination" [readOnly]="formReadOnly" [(value)]="formDataChannel.CASE_CHANNEL_PHONE_DESTINATION" [maxLength]="10" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)"></dx-text-box>
+                <dx-tooltip target="#ctfPhone_destination" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
+                    <div *dxTemplate="let data of 'content'">
+                        <p>ระบุหมายเลขโทรศัพท์จำนวน 10 หลักติดกันโดยไม่ต้องมีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 0819999999</p>
+                    </div>
+                </dx-tooltip>
+            </div>
+            <dxi-item template="tempdatephone" [isRequired]="true">
+                <dxo-label text="วันเวลาที่ติดต่อคนร้าย" [showColon]="false"></dxo-label>
+            </dxi-item>
+            <div *dxTemplate="let data of 'tempdatephone'">
+                <dx-date-box id="default" (onValueChanged)="OnSelectDate($event)" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [max]="maxDateValue" [value]="datePhone" displayFormat="yyyy-MM-dd HH:mm:ss"
+                    [openOnFieldClick]="false" [useMaskBehavior]="true">
+                </dx-date-box>
+            </div>
+        </dx-form>
+        <div class="container mb-3 mt-3">
+            <div class="d-flex justify-content-center">
+                <button *ngIf="!edit" class="btn btn-success pr-3 pl-3" (click)="addDataChannel()">เพิ่มข้อมูล</button>
+                <button *ngIf="edit" class="btn btn-danger pr-3 pl-3 mr-1" (click)="cancel()">ยกเลิก</button>
+                <button *ngIf="edit" class="btn btn-success pr-3 pl-3" (click)="addDataChannel()">บันทึกข้อมูล</button>
+            </div>
+        </div>
+        <div class="container mb-3">
+            <dx-data-grid [dataSource]="channel_data" [showColumnLines]="true" [wordWrapEnabled]="true" [showRowLines]="true" [showRowLines]="true" [columnHidingEnabled]="false" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="false" [selectedRowKeys]="[]"
+                noDataText="ไม่มีข้อมูล">
+                <dxo-paging [pageSize]="10"></dxo-paging>
+                <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                </dxo-editing>
+                <dxo-selection mode="single"></dxo-selection>
+                <dxi-column [width]="80" cellTemplate="editCellTempEdit" alignment="center" caption="แก้ไข"></dxi-column>
+                <div *dxTemplate="let data of 'editCellTempEdit'">
+                    <dx-button icon="edit" (onClick)="onEditItem(data,data.component.pageIndex() * data.component.pageSize() + data.rowIndex)"></dx-button>
+                </div>
+                <dxi-column [width]="80" cellTemplate="editCellTempDelete" alignment="center" caption="ลบ"></dxi-column>
+                <div *dxTemplate="let data of 'editCellTempDelete'">
+                    <dx-button stylingMode="contained" type="danger" icon="trash" (onClick)="onDeleteItem(data)"></dx-button>
+                </div>
+                <dxi-column dataField="CASE_CHANNEL_PHONE_DESTINATION" alignment="center" caption="เบอร์โทรศัพท์คนร้าย"></dxi-column>
+                <!-- <dxi-column dataField="DATE_PHONE" alignment="center" caption="วันที่ติดต่อคนร้าย" ></dxi-column> -->
+                <dxi-column [allowSearch]="false" dataField="DATE_PHONE" caption="วันที่ติดต่อคนร้าย" alignment="center" cellTemplate="displayFormatDate">
+                </dxi-column>
+                <div *dxTemplate="let celldata of 'displayFormatDate'">
+                    {{displayFormatDateTime(celldata.data.DATE_PHONE)}}
+                </div>
+            </dx-data-grid>
+        </div>
+    </div>
+</div>
 <div class="text-right btn-footer">
     <dx-button class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)">
     </dx-button>

@@ -229,7 +229,7 @@ export class IssueOnlineVillainComponent implements OnInit {
             this.uploadFileBufferStatus = false;
             this.province = this.mainConponent.province;
             // this.listCaseChannel  = await this.servBankInfo.GetCaseChannel().toPromise();
-            this.minBirthDate = this._date.SetDateDefault(80, true, true, true);
+            this.minBirthDate = this._date.SetDateDefault(100, true, true, true);
             this.maxBirthDate = this._date.SetDateDefault(0);
             // this.servBankInfo.GetCaseChannel().subscribe((_) => (this.listCaseChannel = _));
             if (this.mainConponent.formType === 'add') {
@@ -1065,8 +1065,8 @@ export class IssueOnlineVillainComponent implements OnInit {
                     this.ShowInvalidDialog("กรุณาเลือกภาษาที่ใช้ในการติดต่อ");
                     return;
                 }
-                this.formPopupvillain.CHANEL_PHONE_NAME = 'เบอร์โทรศัพท​์';
-                arr.push('เบอร์โทรศัพท​์');
+                this.formPopupvillain.CHANEL_PHONE_NAME = 'เบอร์โทรศัพท์';
+                arr.push('เบอร์โทรศัพท์');
                 this.formPopupvillain.CHANNEL_PHONE_DOC = this.listDocFilePhone ?? [];
                 this.formPopupvillain.CASE_CHANNEL_PHONE_DATE = this.formChannelPhone.CASE_CHANNEL_PHONE_DATE;
                 this.formPopupvillain.CASE_CHANNEL_PHONE_TIME = this.formChannelPhone.CASE_CHANNEL_PHONE_TIME;

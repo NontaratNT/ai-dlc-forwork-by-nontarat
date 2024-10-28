@@ -114,8 +114,8 @@ export class IssueOnlineFileUploadService {
             this.ShowInvalidDialog();
             return { status: false };
         }
-        if (file.size  / 1024 / 1024 > 5) {
-            this.ShowInvalidDialog('ไม่สามารถอัพโหลดไฟล์มากกว่า 5 MB ได้');
+        if (file.size  / 1024 / 1024 > 10) {
+            this.ShowInvalidDialog('ไม่สามารถอัพโหลดไฟล์มากกว่า 10 MB ได้');
             return { status: false };
         }
 
@@ -136,8 +136,8 @@ export class IssueOnlineFileUploadService {
         uploadSizeAll += res.filebase64.size;
         // console.log('uploadSizeAll',uploadSizeAll);
         // console.log('BytesToSize',this.BytesToSize(uploadSizeAll));
-        if (uploadSizeAll / 1024 / 1024 > 5){
-            this.ShowInvalidDialog("ไม่สามารถอัพโหลดไฟล์มากกว่า 5 MB ได้");
+        if (uploadSizeAll / 1024 / 1024 > 10){
+            this.ShowInvalidDialog("ไม่สามารถอัพโหลดไฟล์มากกว่า 10 MB ได้");
             return { status: false };
         }
         return { status: true, filebase64: res.filebase64,uploadSizeAll };
@@ -150,8 +150,8 @@ export class IssueOnlineFileUploadService {
                 return { status: false };
             }
             uploadSizeAll += check.filebase64.size;
-            if (uploadSizeAll / 1024 / 1024 > 5){
-                this.ShowInvalidDialog("ไม่สามารถอัพโหลดไฟล์มากกว่า 5 MB ได้");
+            if (uploadSizeAll / 1024 / 1024 > 10){
+                this.ShowInvalidDialog("ไม่สามารถอัพโหลดไฟล์มากกว่า 10 MB ได้");
                 return { status: false };
             }
             filebase64Array.push(check.filebase64);
@@ -166,8 +166,8 @@ export class IssueOnlineFileUploadService {
                 return { status: false };
             }
             uploadSizeAll += check.filebase64.size;
-            if (uploadSizeAll / 1024 / 1024 > 5){
-                this.ShowInvalidDialog("ไม่สามารถอัพโหลดไฟล์มากกว่า 5 MB ได้");
+            if (uploadSizeAll / 1024 / 1024 > 10){
+                this.ShowInvalidDialog("ไม่สามารถอัพโหลดไฟล์มากกว่า 10 MB ได้");
                 return { status: false };
             }
             filebase64Array.push(check.filebase64);

@@ -28,7 +28,8 @@ export class FooterComponent implements OnInit {
     }
     onSelectReport() {
         if (this.userSetting.userSetting.issue_status === false) {
-            this.router.navigate(["/mobile/issue-online/1"]);
+            // this.router.navigate(["/mobile/issue-online/1"]);
+            this.router.navigate(["/mobile/select-issue"]);
             this.userSetting.userSetting.location_name = undefined;
             this.userSetting.userSetting.iconVisible = false;
         }

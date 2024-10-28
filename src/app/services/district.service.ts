@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { req } from 'share-ui';
 import { ISubDistrictInfo } from './subdistrict.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -17,7 +18,7 @@ export class DistrictService {
     }
 
     public GetSubDistrictOfDistrict(district: number): Observable<ISubDistrictInfo[]> {
-        return req<ISubDistrictInfo[]>('CmsDistrict/' + district + '/sub-district').disableCriticalDialogError().get();
+        return req<ISubDistrictInfo[]>('CmsDistrict/' + district + '/sub-district').host(environment.config.baseConfig.urlgdcc).disableCriticalDialogError().get();
     }
 
 }

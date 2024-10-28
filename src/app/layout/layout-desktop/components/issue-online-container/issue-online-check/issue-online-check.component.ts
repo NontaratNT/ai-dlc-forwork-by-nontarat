@@ -59,6 +59,7 @@ export class IssueOnlineCheckComponent implements OnInit {
     async setDefaultData() {
         if (this.mainConponent.formType === "add") {
             this.formData = {};
+            this.submission = {};
             this.formType = "add";
             this.showMoneyWay = true;
             if(localStorage.getItem("form-blessing")){
@@ -71,11 +72,24 @@ export class IssueOnlineCheckComponent implements OnInit {
                         this._isShow = true;
                     }
                 }
+                if(this.submission.moneyWay==1){
+                    this.showBank = true
+                        if(this.submission.ways == 1 && this._dataSourcebankref.lenght > 0){
+                            this.checkcase = true;
+                        }else{
+                            this.checkcase = false;
+                        }
+                }else{
+                    this._isShow = false;
+                    this.showBank = false;
+                    this.checkcase = true;
+                }
             }
         }else{
             const _inst_id = Number(localStorage.getItem("inst_id"));
             const procinstdata = await this._BpmProcinstService.getByInstId(_inst_id).toPromise();
-            sessionStorage.setItem("case_id",procinstdata.DATA_ID);
+            console.log(procinstdata);
+            sessionStorage.setItem("case_id",procinstdata.Value.DATA_ID);
             const _case_id = Number(sessionStorage.getItem("case_id"));
             const bankRef = await this._OnlineCaseService.getBankRef(_case_id).toPromise();
             this.showMoneyWay = false;
@@ -238,35 +252,97 @@ export class IssueOnlineCheckComponent implements OnInit {
     }
 
     async checkBank(e){
+        // console.log(e);
         if (!e.event || e.event.type === "change") {
             if(e.value){
                 if(e.value.length >= 15){
-                    const value = e.value;
-                    const bank_name = value.replace(/\d+/g, '');
-                    const upperString = bank_name.toUpperCase();
-                    var haveBank = await this._bankInfoService.GetBankTrackNo(value.toUpperCase()).toPromise();
-                    if(haveBank){
+                    const pattern = /^\d{8}/g;
+                    const match = e.value.match(pattern);
+                    if (!match) {
                         Swal.fire({
-                            title: 'ผิดพลาด!',
-                            html: 'เลขอ้างอิงนี้มีการแจ้งแล้ว</br>รบกวนตรวจสอบคดีที่เคยบันทึกมาแล้ว',
-                            icon: 'warning',
-                            confirmButtonText: 'Ok',
-                        }).then(() => {this.submission.FREEZE_ACT_BANK_NAME = "";this.blockSave=true;});
+                            title: 'ไม่ถูกต้อง',
+                            text: 'เลข BANK CASE ID ไม่ถูกต้อง',
+                            icon: 'error',
+                        }).then(() => {
+                            this.submission.FREEZE_ACT_BANK_NAME = '';
+                            this.blockSave = true;
+                        });
                         return;
                     }
-                    await this._bankInfoService.GetBankInfoByName(upperString).subscribe((_) =>{
-                        if(_ != null){
-                            this.submission.FREEZE_ACT_BANK_NAME = _[0].BANK_NAME;
-                            this.blockSave=false;
-                        }else{
+                    const dateString: string = match[0].substring(0, 8);
+                    const year = Number(dateString.substring(0, 4));
+                    const month = Number(dateString.substring(4, 6));
+                    const day = Number(dateString.substring(6, 8));
+                    if (month <= 0 || month > 12 || day <= 0 || day > 31) {
+                        Swal.fire({
+                            title: 'ไม่ถูกต้อง',
+                            text: 'เลข BANK CASE ID ไม่ถูกต้อง',
+                            icon: 'error',
+                        }).then(() => {
+                            this.submission.FREEZE_ACT_BANK_NAME = '';
+                            this.blockSave = true;
+                        });
+                        return;
+                    }
+                    const date: Date =
+                        year > 2500
+                            ? new Date(year - 543, month - 1, day)
+                            : new Date(year, month - 1, day);
+                    if (date > new Date()) {
+                        Swal.fire({
+                            title: 'ไม่ถูกต้อง',
+                            text: 'เลข BANK CASE ID ไม่ถูกต้อง เนื่องจากวันที่ใน BANK CASE ID เกินกว่าวันปัจจุบัน',
+                            icon: 'error',
+                        }).then(() => {
+                            this.submission.FREEZE_ACT_BANK_NAME = '';
+                            this.blockSave = true;
+                        });
+                        return;
+                    }
+                    const value = e.value;
+                    const regex = /^.{8}[A-Z]{3,}/;
+                    if(regex.test(value)){
+                        const bank_name = value.replace(/\d+/g, '');
+                        const upperString = bank_name.toUpperCase();
+                        var haveBank = await this._bankInfoService.GetBankTrackNo(value.toUpperCase()).toPromise();
+                        if(haveBank.Value){
                             Swal.fire({
-                                title: "ผิดพลาด!",
-                                text: "กรอกเลขอ้างอิงไม่ถูกต้อง",
-                                icon: "warning",
-                                confirmButtonText: "Ok",
-                                }).then(() => {this.submission.FREEZE_ACT_BANK_NAME = "";this.blockSave=true;});
-                            }
-                    });
+                                title: 'ผิดพลาด!',
+                                html: 'เลขอ้างอิงนี้มีการแจ้งแล้ว</br>รบกวนตรวจสอบคดีที่เคยบันทึกมาแล้ว',
+                                icon: 'warning',
+                                confirmButtonText: 'Ok',
+                            }).then(() => {this.submission.FREEZE_ACT_BANK_NAME = "";this.blockSave=true;});
+                            return;
+                        }
+                        if(upperString == "TMN"){
+                            this.submission.FREEZE_ACT_BANK_NAME = "TrueMoney Wallet";
+                            this.blockSave = false;
+                        }else{
+                            await this._bankInfoService.GetBankInfoByName(upperString).subscribe((_) =>{
+                                if(_ != null){
+                                    this.submission.FREEZE_ACT_BANK_NAME = _[0].BANK_NAME;
+                                    this.blockSave=false;
+                                }else{
+                                    Swal.fire({
+                                        title: "ผิดพลาด!",
+                                        text: "กรอกเลขอ้างอิงไม่ถูกต้อง",
+                                        icon: "warning",
+                                        confirmButtonText: "Ok",
+                                        }).then(() => {this.submission.FREEZE_ACT_BANK_NAME = "";this.blockSave=true;});
+                                    }
+                            });
+                        }
+                    }else{
+                        Swal.fire({
+                            title: 'ผิดพลาด!',
+                            text: 'กรอกเลขอ้างอิงไม่ถูกต้อง',
+                            icon: 'warning',
+                            confirmButtonText: 'Ok',
+                        }).then(() => {
+                            this.submission.FREEZE_ACT_BANK_NAME = '';
+                            this.blockSave = true;
+                        });
+                    }
                 }else{
                     Swal.fire({
                         title: "ผิดพลาด!",
@@ -295,7 +371,7 @@ export class IssueOnlineCheckComponent implements OnInit {
                 this.formData.CHECK_BLESSING = true;
                 this.formData.WAY = this.submission.ways;
                 this.formData.BANK_REF = this._dataSourcebankref;
-                console.log(this.formData);
+                // console.log(this.formData);
                 localStorage.setItem("form-blessing",JSON.stringify(this.formData));
                 if(e != 'tab'){
                     this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);

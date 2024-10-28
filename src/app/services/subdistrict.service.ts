@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { IPagingResult, req } from 'share-ui';
 import { Observable } from 'rxjs';
 import { IPostcodeInfo } from './postcode.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -18,7 +19,7 @@ export class SubdistrictService {
     }
 
     public GetPostCode(subdistrictId: number): Observable<IPostcodeInfo[]> {
-        return req<IPostcodeInfo[]>('CmsSubDistrict/' + subdistrictId + '/post-code')
+        return req<IPostcodeInfo[]>('CmsSubDistrict/' + subdistrictId + '/post-code').host(environment.config.baseConfig.urlgdcc)
             .disableCriticalDialogError().get();
     }
 

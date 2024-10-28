@@ -100,7 +100,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6 mt-2 block-box-content-right box5 text-center">
+                    <!-- <div class="col-lg-4 col-md-6 mt-2 block-box-content-right box5 text-center">
                         <div class="block-box">
                             <div class="box-detail" (click)="RedirectExternal('https://www.facebook.com/PCTPOLICE')">
                                 <div class="box-item">
@@ -115,7 +115,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-lg-4 col-md-6 mt-2 block-box-content-right box6 text-center">
                         <div class="block-box">
                             <div class="box-detail" (click)="RedirectExternal('https://24hicarecenter.com/cybervaccinated')">
@@ -125,6 +125,20 @@
                                     </div>
                                     <div class="item mt-4">
                                         <div class="text-detail">ข้อมูลประชาสัมพันธ์ <br>และเตือนภัย</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 mt-2 block-box-content-right box6 text-center">
+                        <div class="block-box ext">
+                            <div class="box-detail" (click)="RedirectExternal('https://www.checkgon.com/')">
+                                <div class="box-item">
+                                    <div class="item ext col-12">
+                                        <img src="assets/icon/checkgon.png" alt="icon">
+                                    </div>
+                                    <div class="item mt-4">
+                                        <div class="text-detail">เช็คก่อน<br>เว็บไซต์สำหรับตรวจสอบและเช็กคนโกง</div>
                                     </div>
                                 </div>
                             </div>
@@ -292,7 +306,7 @@
                         <div class="col-8">
                             <div class="text-detail">ธนาคารเพื่อการเกษตร</div>
                             <div class="text-detail">และสหกรณ์การเกษตร</div>
-                            <div class="text-detail">0-2555-0555 กด * 3</div>
+                            <div class="text-detail">0-2555-0555 กด 111</div>
                         </div>
                     </div>
                 </div>
@@ -462,7 +476,7 @@
             <h4 class="font-weight-bold">ผู้ใช้บริการสามารถเข้าถึงระบบแจ้งความออนไลน์คดีอาชญากรรมทางเทคโนโลยีได้ที่ <a href="https://thaipoliceonline.go.th" target="_blank">thaipoliceonline.go.th</a></h4>
             <p class="m-0"></p>
             <p class="text-muted">*โปรดทราบว่ามีการเปลี่ยนแปลง Domain ดังกล่าวเพื่อปรับปรุงความสะดวกในการให้บริการ</p>
-            <button class="btn btn-primary font-weight-bold" (click)="popupStart = false">ปิด</button>
+            <button class="btn btn-primary font-weight-bold" (click)="closePopup()">ปิด</button>
         </div>
     </div>
 </dx-popup>

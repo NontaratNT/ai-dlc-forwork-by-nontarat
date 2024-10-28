@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 import { User } from 'src/app/services/user';
 import { DeviceDetectorService } from 'ngx-device-detector';
@@ -17,13 +17,15 @@ export class HomeNewComponent implements OnInit {
     hasSession = false;
     showpopupweb = false;
     popupVisible = false;
-    popupStart = true;
+    popupStart = false;
 
     isfullScreen : any
     width : any
+    isUrl = false;
 
     constructor(
         private router: Router,
+        private route: ActivatedRoute,
         private _loginServ: LoginService,
         private deviceService: DeviceDetectorService,private datePipe: DatePipe) { }
 
@@ -32,7 +34,10 @@ export class HomeNewComponent implements OnInit {
         if (user){
             this.hasSession = true;
         }
-
+        this.isUrl = window.location.href.includes(".com") && !window.location.href.includes("uat") ?  true: false;
+        if(this.isUrl){
+            // window.location.href = "https://thaipoliceonline.go.th/";
+        }
         // this.checkdatetimepopup();
 
         this.width = window.innerWidth;
@@ -93,6 +98,10 @@ export class HomeNewComponent implements OnInit {
     closePopupWarning(){
         this.popupVisible = false;
         this.CheckDeviceMode();
+    }
+    closePopup(){
+        this.popupStart = false;
+        window.location.href = "https://thaipoliceonline.go.th/";
     }
 }
 

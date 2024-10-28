@@ -11,9 +11,14 @@ import { BankInfoService } from "src/app/services/bank-info.service";
 import { DxSelectBoxComponent } from "devextreme-angular";
 import { CmsOccupationsService } from "src/app/services/cms-occupations.service";
 import { UserSettingService } from "src/app/services/user-setting.service";
-import { IOrganizeInfo, IOrgmaparea, OrgService } from "src/app/services/org.service";
+import {
+    IOrganizeInfo,
+    IOrgmaparea,
+    OrgService,
+} from "src/app/services/org.service";
 import { ProvinceService } from "src/app/services/province.service";
 import { environment } from "src/environments/environment";
+import { formatDate } from "devextreme/localization";
 
 @Component({
     selector: "app-issue-online-validate",
@@ -21,22 +26,35 @@ import { environment } from "src/environments/environment";
     styleUrls: ["./issue-online-validate.component.scss"],
 })
 export class IssueOnlineValidateComponent implements OnInit {
-    @ViewChild("selectCaseChannel", { static: false }) selectCaseChannel: DxSelectBoxComponent;
-    @ViewChild("selectorgwalkin", { static: false }) selectorgwalkin: DxSelectBoxComponent;
-    @ViewChild("selectPresentProvicelocation", { static: false }) selectPresentProvicelocation: DxSelectBoxComponent;
-    @ViewChild("selectProvicemaparea", { static: false }) selectProvicemaparea: DxSelectBoxComponent;
+    @ViewChild("selectCaseChannel", { static: false })
+    selectCaseChannel: DxSelectBoxComponent;
+    @ViewChild("selectorgwalkin", { static: false })
+    selectorgwalkin: DxSelectBoxComponent;
+    @ViewChild("selectPresentProvicelocation", { static: false })
+    selectPresentProvicelocation: DxSelectBoxComponent;
+    @ViewChild("selectProvicemaparea", { static: false })
+    selectProvicemaparea: DxSelectBoxComponent;
 
     public mainConponent: IssueOnlineContainerComponent;
     monthFulltTh = [
-        'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน',
-        'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม',
-        'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
+        "มกราคม",
+        "กุมภาพันธ์",
+        "มีนาคม",
+        "เมษายน",
+        "พฤษภาคม",
+        "มิถุนายน",
+        "กรกฎาคม",
+        "สิงหาคม",
+        "กันยายน",
+        "ตุลาคม",
+        "พฤศจิกายน",
+        "ธันวาคม",
     ];
     personalInfo = {};
     formData: any = {};
     isLoading = false;
     reload = true;
-    userType = 'mySelf';
+    userType = "mySelf";
     listDamageBank: any = [];
     listDamageBankOther: any = [];
     listMeetCriminal: any = {};
@@ -50,7 +68,7 @@ export class IssueOnlineValidateComponent implements OnInit {
     formLocationBankVictimLoad = false;
     formLocationBankVillain: any = {};
     formLocationBankVillainLoad = false;
-    formQuestionare: any = {}
+    formQuestionare: any = {};
     popupCaseChannel = false;
     popupCaseChannel2 = false;
     popupIndex = 0;
@@ -71,36 +89,68 @@ export class IssueOnlineValidateComponent implements OnInit {
         { ID: "ได้รับ", TEXT: "ได้รับ" },
     ];
     groupquestion1_1 = [
-        { id: "1.1", txt: "ซื้อของใน social (เช่น facebook twitter) โอนเงินแล้วบล๊อกเลย" },
-        { id: "1.2", txt: "ซื้อของใน platform  (lazada,shopee) แต่ ส่งให้ไปจ่ายเงินช่องทางอื่นๆ" },
-        { id: "1.3", txt: "ซื้อแล้ว หลายวันยังไม่ส่ง ยังติดต่อได้บ่ายเบี่ยง ผลัดวันประกันพรุ่ง" },
+        {
+            id: "1.1",
+            txt: "ซื้อของใน social (เช่น facebook twitter) โอนเงินแล้วบล๊อกเลย",
+        },
+        {
+            id: "1.2",
+            txt: "ซื้อของใน platform  (lazada,shopee) แต่ ส่งให้ไปจ่ายเงินช่องทางอื่นๆ",
+        },
+        {
+            id: "1.3",
+            txt: "ซื้อแล้ว หลายวันยังไม่ส่ง ยังติดต่อได้บ่ายเบี่ยง ผลัดวันประกันพรุ่ง",
+        },
     ];
     groupquestion1_2 = [
-        { id: "1.4", txt: "ซื้อแล้วส่งสินค้าอย่างอื่น (ซื้อโทรศัพท์ ส่ง สบู่)" },
-        { id: "1.5", txt: "ซื้อของแล้วส่งสินค้าไม่ตรงสเปค (ซื้อ tv 55 นิ้ว ส่ง 50 นิ้ว)" },
+        {
+            id: "1.4",
+            txt: "ซื้อแล้วส่งสินค้าอย่างอื่น (ซื้อโทรศัพท์ ส่ง สบู่)",
+        },
+        {
+            id: "1.5",
+            txt: "ซื้อของแล้วส่งสินค้าไม่ตรงสเปค (ซื้อ tv 55 นิ้ว ส่ง 50 นิ้ว)",
+        },
         { id: "1.6", txt: "เคยซื้อสินค้ากันมาก่อนแล้ว และเคยได้สินค้า" },
     ];
     groupquestion2 = [
         { id: "2.1", txt: "กู้เงิน ได้เงิน เรียกเก็บดอกเบี้ยเกินอัตรา" },
-        { id: "2.2", txt: "เป็นผู้ถูกรบกวนถูกแก๊งค์ปล่อยเงินกู้ โดยคนร้ายโทรมาทวงเงิน โดยที่ไม่ได้เกี่ยวข้อง" },
-        { id: "2.3", txt: "กู้เงิน ไม่ได้เงิน หลอกให้โอนค่าธรรมเนียมเพิ่มขึ้นเรื่อยๆ" },
+        {
+            id: "2.2",
+            txt: "เป็นผู้ถูกรบกวนถูกแก๊งค์ปล่อยเงินกู้ โดยคนร้ายโทรมาทวงเงิน โดยที่ไม่ได้เกี่ยวข้อง",
+        },
+        {
+            id: "2.3",
+            txt: "กู้เงิน ไม่ได้เงิน หลอกให้โอนค่าธรรมเนียมเพิ่มขึ้นเรื่อยๆ",
+        },
     ];
     groupquestion3 = [
-        { id: "3.1", txt: "ทำกิจกรรมต่างๆ หรืออ้างว่าซื้อขายสินค้า แล้วได้เงินรางวัลเพิ่มขึ้นเรื่อยๆ แต่ไม่มีการรับส่งสินค้าจริงๆ" },
-        { id: "3.2", txt: "แชร์ลูกโซ่ หรือชักชวนลงทุนใน แชร์ทองบ้านออมทอง หรือแชร์รูปแบบต่างๆ" },
+        {
+            id: "3.1",
+            txt: "ทำกิจกรรมต่างๆ หรืออ้างว่าซื้อขายสินค้า แล้วได้เงินรางวัลเพิ่มขึ้นเรื่อยๆ แต่ไม่มีการรับส่งสินค้าจริงๆ",
+        },
+        {
+            id: "3.2",
+            txt: "แชร์ลูกโซ่ หรือชักชวนลงทุนใน แชร์ทองบ้านออมทอง หรือแชร์รูปแบบต่างๆ",
+        },
     ];
     groupquestion5 = [
-        { id: "5.1", txt: "อ้างเป็นหน่วยงานรัฐ  เช่น สรรพากร ตำรวจ ดีเอสไอ ปปง." },
+        {
+            id: "5.1",
+            txt: "อ้างเป็นหน่วยงานรัฐ  เช่น สรรพากร ตำรวจ ดีเอสไอ ปปง.",
+        },
         { id: "5.2", txt: "อ้างเป็นหน่วยงานเอกชน เช่น ขนส่ง หรือพัสดุตกค้าง" },
-        { id: "5.3", txt: "ข่มขู่ และหรือหลอกลวงว่าจะช่วยเหลือ  และให้โอนเงินไปให้" },
+        {
+            id: "5.3",
+            txt: "ข่มขู่ และหรือหลอกลวงว่าจะช่วยเหลือ  และให้โอนเงินไปให้",
+        },
     ];
 
-    //เพิ่ม หน่วยงานให้เลือก
+    // เพิ่ม หน่วยงานให้เลือก
     checkboxLocation: any = {};
     checkboxaddresscard = false;
     checkboxlocationreadonly: any = {};
     formdataOrgsendcase: any = {
-
         ORG_LOCATION_TYPE: null,
         ORG_LOCATION_ID: null,
         ORG_LOCATION_NAME: "",
@@ -117,9 +167,7 @@ export class IssueOnlineValidateComponent implements OnInit {
         ORG_LOCATION_MAIN_ID5: null,
         ORG_LOCATION_MAIN_NAME5: "",
         ORG_LOCATION_CENTER_ID: null,
-        ORG_LOCATION_CENTER_NAME: ""
-
-
+        ORG_LOCATION_CENTER_NAME: "",
     };
     showSelect = false;
     dsorgbyaria: IOrganizeInfo[];
@@ -128,7 +176,6 @@ export class IssueOnlineValidateComponent implements OnInit {
     dsorgarea: IOrgmaparea[];
     province = [];
     checkBlessing = false;
-
 
     group1 = [
         { id: "1.1", txt: "1.1 แจ้งความเป็นหลักฐาน" },
@@ -159,72 +206,155 @@ export class IssueOnlineValidateComponent implements OnInit {
     ];
 
     orgtype2_1 = [
-        { org_id: 3536, org_name: "กองบังคับการตำรวจสืบสวนสอบสวนอาชญากรรมทางเทคโนโลยี 1 ที่ตั้ง  กรุงเทพฯ   อาคารรัฐประศาสนภักดี (อาคาร B) ศูนย์ราชการฯ แจ้งวัฒนะ ชั้น 4 ถนนแจ้งวัฒนะ แขวงทุ่งสองห้อง เขตหลักสี่ " },
+        {
+            org_id: 3536,
+            org_name:
+                "กองบังคับการตำรวจสืบสวนสอบสวนอาชญากรรมทางเทคโนโลยี 1 ที่ตั้ง  กรุงเทพฯ   อาคารรัฐประศาสนภักดี (อาคาร B) ศูนย์ราชการฯ แจ้งวัฒนะ ชั้น 4 ถนนแจ้งวัฒนะ แขวงทุ่งสองห้อง เขตหลักสี่ ",
+        },
     ];
     orgtype2_2 = [
-        { org_id: 3548, org_name: "กองบังคับการตำรวจสืบสวนสอบสวนอาชญากรรมทางเทคโนโลยี 2 ที่ตั้ง จังหวัดนนทบุรี อาคารเฉลิมพระเกียรติฯ เลขที่ 904 ชั้น 19 ตำบลบ้านใหม่ อำเภอปากเกร็ด " },
+        {
+            org_id: 3548,
+            org_name:
+                "กองบังคับการตำรวจสืบสวนสอบสวนอาชญากรรมทางเทคโนโลยี 2 ที่ตั้ง จังหวัดนนทบุรี อาคารเฉลิมพระเกียรติฯ เลขที่ 904 ชั้น 19 ตำบลบ้านใหม่ อำเภอปากเกร็ด ",
+        },
     ];
     orgtype2_3 = [
-        { org_id: 3559, org_name: "กองบังคับการตำรวจสืบสวนสอบสวนอาชญากรรมทางเทคโนโลยี 3 ที่ตั้ง จังหวัดขอนแก่น เลขที่ 102 ถนนมิตรภาพ ตำบลในเมือง อำเภอเมืองขอนแก่น " },
+        {
+            org_id: 3559,
+            org_name:
+                "กองบังคับการตำรวจสืบสวนสอบสวนอาชญากรรมทางเทคโนโลยี 3 ที่ตั้ง จังหวัดขอนแก่น เลขที่ 102 ถนนมิตรภาพ ตำบลในเมือง อำเภอเมืองขอนแก่น ",
+        },
     ];
     orgtype2_4 = [
-        { org_id: 3567, org_name: "กองบังคับการตำรวจสืบสวนสอบสวนอาชญากรรมทางเทคโนโลยี 4 ที่ตั้ง จังหวัดเชียงใหม่ เลขที่ 299 หมู่ 12 ถนนสมโภชเชียงใหม่ 700 ปี ตำบลป่าแดด อำเภอเมืองเชียงใหม่ " },
+        {
+            org_id: 3567,
+            org_name:
+                "กองบังคับการตำรวจสืบสวนสอบสวนอาชญากรรมทางเทคโนโลยี 4 ที่ตั้ง จังหวัดเชียงใหม่ เลขที่ 299 หมู่ 12 ถนนสมโภชเชียงใหม่ 700 ปี ตำบลป่าแดด อำเภอเมืองเชียงใหม่ ",
+        },
     ];
     orgtype2_5 = [
-        { org_id: 3578, org_name: "กองบังคับการตำรวจสืบสวนสอบสวนอาชญากรรมทางเทคโนโลยี 5 ที่ตั้ง จังหวัดสุราษฎร์ธานี เลขที่ 14 หมู่ 1 ตำบลบางกุ้ง อำเภอเมืองสุราษฎร์ธานี " }
+        {
+            org_id: 3578,
+            org_name:
+                "กองบังคับการตำรวจสืบสวนสอบสวนอาชญากรรมทางเทคโนโลยี 5 ที่ตั้ง จังหวัดสุราษฎร์ธานี เลขที่ 14 หมู่ 1 ตำบลบางกุ้ง อำเภอเมืองสุราษฎร์ธานี ",
+        },
     ];
     orgtype3 = [
-        { org_id: 2375, org_name: "กองบัญชาการตำรวจสอบสวนกลาง ที่ตั้ง กรุงเทพฯ ถนนพหลโยธิน แขวงจอมพล เขตจตุจักร" }
+        {
+            org_id: 2375,
+            org_name:
+                "กองบัญชาการตำรวจสอบสวนกลาง ที่ตั้ง กรุงเทพฯ ถนนพหลโยธิน แขวงจอมพล เขตจตุจักร",
+        },
     ];
     aria1and2 = [
-        'ตำรวจภูธรภาค 1 (ชัยนาท,นนทบุรี,ปทุมธานี,พระนครศรีอยุธยา,ลพบุรี,สมุทรปราการ,สระบุรี,สิงห์บุรี,อ่างทอง)',
-        'ตำรวจภูธรภาค 2 (จันทบุรี,ฉะเชิงเทรา,ชลบุรี,ตราด,นครนายก,ปราจีนบุรี,ระยอง,สระแก้ว)',
-        'ตำรวจภูธรภาค 7 (กาญจนบุรี,นครปฐม,ประจวบคีรีขันธ์,เพชรบุรี,ราชบุรี,สมุทรสงคราม,สมุทรสาคร,สุพรรณบุรี)'
-    ]
-
+        "ตำรวจภูธรภาค 1 (ชัยนาท,นนทบุรี,ปทุมธานี,พระนครศรีอยุธยา,ลพบุรี,สมุทรปราการ,สระบุรี,สิงห์บุรี,อ่างทอง)",
+        "ตำรวจภูธรภาค 2 (จันทบุรี,ฉะเชิงเทรา,ชลบุรี,ตราด,นครนายก,ปราจีนบุรี,ระยอง,สระแก้ว)",
+        "ตำรวจภูธรภาค 7 (กาญจนบุรี,นครปฐม,ประจวบคีรีขันธ์,เพชรบุรี,ราชบุรี,สมุทรสงคราม,สมุทรสาคร,สุพรรณบุรี)",
+    ];
 
     aria3and4 = [
-        'ตำรวจภูธรภาค 3 (ชัยภูมิ,นครราชสีมา,บุรีรัมย์,ยโสธร,ศรีสะเกษ,สุรินทร์,อำนาจเจริญ,อุบลราชธานี)',
-        'ตำรวจภูธรภาค 4 (กาฬสินธุ์,ขอนแก่น,นครพนม,บึงกาฬ,มหาสารคาม,มุกดาหาร,ร้อยเอ็ด,เลย,สกลนคร,หนองคาย,หนองบัวลำภู,อุดรธานี)'
-    ]
+        "ตำรวจภูธรภาค 3 (ชัยภูมิ,นครราชสีมา,บุรีรัมย์,ยโสธร,ศรีสะเกษ,สุรินทร์,อำนาจเจริญ,อุบลราชธานี)",
+        "ตำรวจภูธรภาค 4 (กาฬสินธุ์,ขอนแก่น,นครพนม,บึงกาฬ,มหาสารคาม,มุกดาหาร,ร้อยเอ็ด,เลย,สกลนคร,หนองคาย,หนองบัวลำภู,อุดรธานี)",
+    ];
 
     groupQuestion1_1 = [
-        { id: "1.1", txt: "ซื้อของใน social (เช่น facebook twitter) โอนเงินแล้วบล๊อกเลย" },
-        { id: "1.2", txt: "ซื้อของใน platform  (lazada,shopee) แต่ ส่งให้ไปจ่ายเงินช่องทางอื่นๆ" },
-        { id: "1.3", txt: "ซื้อแล้ว หลายวันยังไม่ส่ง ยังติดต่อได้บ่ายเบี่ยง ผลัดวันประกันพรุ่ง" },
+        {
+            id: "1.1",
+            txt: "ซื้อของใน social (เช่น facebook twitter) โอนเงินแล้วบล๊อกเลย",
+        },
+        {
+            id: "1.2",
+            txt: "ซื้อของใน platform  (lazada,shopee) แต่ ส่งให้ไปจ่ายเงินช่องทางอื่นๆ",
+        },
+        {
+            id: "1.3",
+            txt: "ซื้อแล้ว หลายวันยังไม่ส่ง ยังติดต่อได้บ่ายเบี่ยง ผลัดวันประกันพรุ่ง",
+        },
     ];
     groupQuestion1_2 = [
-        { id: "1.4", txt: "ซื้อแล้วส่งสินค้าอย่างอื่น (ซื้อโทรศัพท์ ส่ง สบู่)" },
-        { id: "1.5", txt: "ซื้อของแล้วส่งสินค้าไม่ตรงสเปค (ซื้อ tv 55 นิ้ว ส่ง 50 นิ้ว)" },
+        {
+            id: "1.4",
+            txt: "ซื้อแล้วส่งสินค้าอย่างอื่น (ซื้อโทรศัพท์ ส่ง สบู่)",
+        },
+        {
+            id: "1.5",
+            txt: "ซื้อของแล้วส่งสินค้าไม่ตรงสเปค (ซื้อ tv 55 นิ้ว ส่ง 50 นิ้ว)",
+        },
         { id: "1.6", txt: "เคยซื้อสินค้ากันมาก่อนแล้ว และเคยได้สินค้า" },
     ];
     groupQuestion2 = [
         { id: "2.1", txt: "กู้เงิน ได้เงิน เรียกเก็บดอกเบี้ยเกินอัตรา" },
-        { id: "2.2", txt: "เป็นผู้ถูกรบกวนถูกแก๊งค์ปล่อยเงินกู้ โดยคนร้ายโทรมาทวงเงิน โดยที่ไม่ได้เกี่ยวข้อง" },
-        { id: "2.3", txt: "กู้เงิน ไม่ได้เงิน หลอกให้โอนค่าธรรมเนียมเพิ่มขึ้นเรื่อยๆ" },
+        {
+            id: "2.2",
+            txt: "เป็นผู้ถูกรบกวนถูกแก๊งค์ปล่อยเงินกู้ โดยคนร้ายโทรมาทวงเงิน โดยที่ไม่ได้เกี่ยวข้อง",
+        },
+        {
+            id: "2.3",
+            txt: "กู้เงิน ไม่ได้เงิน หลอกให้โอนค่าธรรมเนียมเพิ่มขึ้นเรื่อยๆ",
+        },
     ];
     groupQuestion3 = [
-        { id: "3.1", txt: "ทำกิจกรรมต่างๆ หรืออ้างว่าซื้อขายสินค้า แล้วได้เงินรางวัลเพิ่มขึ้นเรื่อยๆ แต่ไม่มีการรับส่งสินค้าจริงๆ" },
-        { id: "3.2", txt: "แชร์ลูกโซ่ หรือชักชวนลงทุนใน แชร์ทองบ้านออมทอง หรือแชร์รูปแบบต่างๆ" },
+        {
+            id: "3.1",
+            txt: "ทำกิจกรรมต่างๆ หรืออ้างว่าซื้อขายสินค้า แล้วได้เงินรางวัลเพิ่มขึ้นเรื่อยๆ แต่ไม่มีการรับส่งสินค้าจริงๆ",
+        },
+        {
+            id: "3.2",
+            txt: "แชร์ลูกโซ่ หรือชักชวนลงทุนใน แชร์ทองบ้านออมทอง หรือแชร์รูปแบบต่างๆ",
+        },
     ];
     groupQuestion5 = [
-        { id: "5.1", txt: "อ้างเป็นหน่วยงานรัฐ  เช่น สรรพากร ตำรวจ ดีเอสไอ ปปง." },
+        {
+            id: "5.1",
+            txt: "อ้างเป็นหน่วยงานรัฐ  เช่น สรรพากร ตำรวจ ดีเอสไอ ปปง.",
+        },
         { id: "5.2", txt: "อ้างเป็นหน่วยงานเอกชน เช่น ขนส่ง หรือพัสดุตกค้าง" },
-        { id: "5.3", txt: "ข่มขู่ และหรือหลอกลวงว่าจะช่วยเหลือ  และให้โอนเงินไปให้" },
+        {
+            id: "5.3",
+            txt: "ข่มขู่ และหรือหลอกลวงว่าจะช่วยเหลือ  และให้โอนเงินไปให้",
+        },
     ];
 
     aria5and6 = [
-        'ตำรวจภูธรภาค 5 (เชียงใหม่,น่าน,พะเยา,แพร่,แม่ฮ่องสอน,ลำปาง,ลำพูน)',
-        'ตำรวจภูธรภาค 6 (กำแพงเพชร,ตาก,นครสวรรค์,พิจิตร,พิษณุโลก,เพชรบูรณ์,สุโขทัย,อุตรดิตถ์,อุทัยธานี)'
-    ]
+        "ตำรวจภูธรภาค 5 (เชียงใหม่,น่าน,พะเยา,แพร่,แม่ฮ่องสอน,ลำปาง,ลำพูน)",
+        "ตำรวจภูธรภาค 6 (กำแพงเพชร,ตาก,นครสวรรค์,พิจิตร,พิษณุโลก,เพชรบูรณ์,สุโขทัย,อุตรดิตถ์,อุทัยธานี)",
+    ];
 
     aria8and9 = [
-        'ตำรวจภูธรภาค 8 (กระบี่,ชุมพร,นครศรีธรรมราช,พังงา,ภูเก็ต,ระนอง,สุราษฎร์ธานี)',
-        'ตำรวจภูธรภาค 9 (ตรัง,นราธิวาส,ปัตตานี,พัทลุง,ยะลา,สงขลา,สตูล)'
-    ]
+        "ตำรวจภูธรภาค 8 (กระบี่,ชุมพร,นครศรีธรรมราช,พังงา,ภูเก็ต,ระนอง,สุราษฎร์ธานี)",
+        "ตำรวจภูธรภาค 9 (ตรัง,นราธิวาส,ปัตตานี,พัทลุง,ยะลา,สงขลา,สตูล)",
+    ];
     formReadOnly = true;
     bankInfoList: any = [];
-    mergedFrom:any = {};
+    mergedFrom: any = {};
+
+    channel_tel = false;
+    channel_data: any = [];
+
+    serviceLabelID = [
+        { ID: 1, TEXT: "AIS" },
+        { ID: 2, TEXT: "TRUE" },
+        { ID: 3, TEXT: "DTAC" },
+        { ID: 4, TEXT: "NT (CAT TOT)" },
+        { ID: 5, TEXT: "อื่น ๆ" },
+        { ID: 5, TEXT: "N/A" },
+    ];
+
+    socialType = [
+        "LINE",
+        "FACEBOOK",
+        // 'MESSENGER',
+        "INSTAGRAM",
+        "WEBSITE",
+        // 'EMAIL',
+        // 'TELEGRAM',
+        // 'WHATSAPP',
+        "TWITTER",
+        "อื่นๆ",
+    ];
+
+    formReport: any;
 
     constructor(
         private servicePersonal: PersonalService,
@@ -233,13 +363,17 @@ export class IssueOnlineValidateComponent implements OnInit {
         private _date: ConvertDateService,
         private servBankInfo: BankInfoService,
         private _OrgService: OrgService,
-        private serviceProvince: ProvinceService,
-
-    ) { }
+        private serviceProvince: ProvinceService
+    ) {}
 
     ngOnInit(): void {
         setTimeout(async () => {
-            this.minBirthDate = this._date.SetDateDefault(80, true, true, true);
+            this.minBirthDate = this._date.SetDateDefault(
+                100,
+                true,
+                true,
+                true
+            );
             this.maxBirthDate = this._date.SetDateDefault(0);
             this.ReloadData();
         }, 1000);
@@ -252,65 +386,85 @@ export class IssueOnlineValidateComponent implements OnInit {
     }
 
     OnSelectProvicemaparea(e) {
-
         if (e.value) {
-            const data = this.selectProvicemaparea.instance.option("selectedItem");
+            const data =
+                this.selectProvicemaparea.instance.option("selectedItem");
 
             if (data) {
-
                 this.formData.ORG_PROVINCE_MAP_AREA_ID = data.PROVINCE_ID;
-                this.formData.ORG_PROVINCE_MAP_AREA_NAME = data.PROVINCE_NAME_THA;
-                //parame insert
+                this.formData.ORG_PROVINCE_MAP_AREA_NAME =
+                    data.PROVINCE_NAME_THA;
+                // parame insert
                 this.formData.ORG_LOCATION_TYPE = 2;
                 this.formData.ORG_LOCATION_ID = data.ORG_ID;
                 this.formData.ORG_LOCATION_NAME = data.ORGANIZE_FULL_NAME;
             } else {
                 this.formData.ORG_PROVINCE_MAP_AREA_ID = e.value;
             }
-
-
         }
     }
 
     async ReloadData() {
-        localStorage.setItem("form-index","5");
+        localStorage.setItem("form-index", "6");
         this.isLoading = true;
-        this.province = this.mainConponent.province;
+        // this.province = this.mainConponent.province;
         this.loadDateBox = false;
         this.reload = false;
         this.formLocationLoad = false;
         this.formData = {};
         setTimeout(() => {
             this.checkEmtrySession();
-            if(!localStorage.getItem("form-config")){
-                var formConfigs = {
-                    FORM_CODE: 'CCIB_NOTIFY_PEOPLE@0.1',
+            if (!localStorage.getItem("form-config")) {
+                const formConfigs = {
+                    FORM_CODE: "CCIB_NOTIFY_PEOPLE@0.1",
                     env: environment.config.baseConfig,
-                    CASE_FLAG: 'O',
-                    CASE_SELF_TYPE: 'Y',
-                }
-                localStorage.setItem("form-config",JSON.stringify(formConfigs));
+                    CASE_FLAG: "O",
+                    CASE_SELF_TYPE: "Y",
+                };
+                localStorage.setItem(
+                    "form-config",
+                    JSON.stringify(formConfigs)
+                );
             }
-            this.mergedFrom = Object.assign({},
+            this.mergedFrom = Object.assign(
+                {},
                 JSON.parse(localStorage.getItem("form-config")),
                 JSON.parse(localStorage.getItem("form-blessing")),
                 JSON.parse(localStorage.getItem("form-informer")),
                 JSON.parse(localStorage.getItem("form-event")),
-                JSON.parse(localStorage.getItem("form-damage")));
+                JSON.parse(localStorage.getItem("form-villain")),
+                JSON.parse(localStorage.getItem("form-damage")),
+                JSON.parse(localStorage.getItem("form-criminal-contact"))
+            );
             this.userType = this.mainConponent.userType;
             this.formData = this.mergedFrom;
-            console.log( this.formData);
-            if(this.formData.BANK_REF){
-                this.formData.WAY = this.formData.BANK_REF.length > 0 ? 1 :2;
+            if (this.formData.CASE_REPORT) {
+                if (this.formData.CASE_REPORT.length > 0) {
+                    this.formReport = this.formData.CASE_REPORT[0];
+                    this.formData.CASE_CRIMINAL_CLUE_IN = this.formReport.CASE_BEHAVIOR;
+                }
             }
-            this.checkBlessing = this.mainConponent.formDataInsert.CHECK_BLESSING;
+            // console.log( this.formData);
+            if (this.formData.BANK_REF) {
+                this.formData.WAY = this.formData.BANK_REF.length > 0 ? 1 : 2;
+            }
+            this.channel_tel =
+                this.formData.CASE_TYPE_ID == 66 ||
+                this.formData.CASE_TYPE_ID == 67
+                    ? true
+                    : false;
+            if (this.channel_tel) {
+                if (this.formData.CASE_CHANNEL) {
+                    this.channel_data = this.formData.CASE_CHANNEL;
+                }
+            }
+            this.checkBlessing =
+                this.mainConponent.formDataInsert.CHECK_BLESSING;
             this.reload = true;
             this.loadDateBox = true;
-            this.isLoading = false;
             this.popupFormData = this.formData.Bank_personal_list;
 
             if (this.mainConponent.formType === "add") {
-
                 this.formData.ORG_PROVINCE_LOCATION_ID = null;
                 this.formData.ORG_PROVINCE_ID = null;
                 this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = null;
@@ -337,41 +491,45 @@ export class IssueOnlineValidateComponent implements OnInit {
                     this.checkboxlocationreadonly.readonly_type2 = true;
                     this.checkboxlocationreadonly.readonly_type3 = false;
                 }
-
-
             }
+            this.isLoading = false;
         }, 500);
 
-
         // this.formData.CASE_INFORMER_DATE = this._date.ConvertToDateFormat(this.formData.CASE_INFORMER_DATE);
-
     }
     CheckStatusDamage() {
-        if (this.formData.CASE_MONEY_TYPE1 === 'Y'
-            || this.formData.CASE_MONEY_TYPE2 === 'Y'
-            || this.formData.CASE_MONEY_TYPE3 === 'Y'
-            || this.formData.CASE_MONEY_TYPE4 === 'Y') {
+        if (
+            this.formData.CASE_MONEY_TYPE1 === "Y" ||
+            this.formData.CASE_MONEY_TYPE2 === "Y" ||
+            this.formData.CASE_MONEY_TYPE3 === "Y" ||
+            this.formData.CASE_MONEY_TYPE4 === "Y"
+        ) {
             return true;
         }
         return false;
-
     }
     CheckStatusLeft() {
-        if (this.formData.CASE_MONEY_TYPE1 === 'Y' && this.formData.CASE_MONEY_TYPE2 === 'Y') {
+        if (
+            this.formData.CASE_MONEY_TYPE1 === "Y" &&
+            this.formData.CASE_MONEY_TYPE2 === "Y"
+        ) {
             return "เงิน,ทรัพย์สินอื่นๆ";
-        } else if (this.formData.CASE_MONEY_TYPE1 === 'Y') {
+        } else if (this.formData.CASE_MONEY_TYPE1 === "Y") {
             return "เงิน";
-        } else if (this.formData.CASE_MONEY_TYPE2 === 'Y') {
+        } else if (this.formData.CASE_MONEY_TYPE2 === "Y") {
             return "เงิน";
         }
         return "";
     }
     CheckStatusRight() {
-        if (this.formData.CASE_MONEY_TYPE3 === 'Y' && this.formData.CASE_MONEY_TYPE4 === 'Y') {
+        if (
+            this.formData.CASE_MONEY_TYPE3 === "Y" &&
+            this.formData.CASE_MONEY_TYPE4 === "Y"
+        ) {
             return "โอนเงินผ่านธนาคาร, โอนเงินด้วยวิธีอื่น";
-        } else if (this.formData.CASE_MONEY_TYPE3 === 'Y') {
+        } else if (this.formData.CASE_MONEY_TYPE3 === "Y") {
             return "โอนเงินผ่านธนาคาร";
-        } else if (this.formData.CASE_MONEY_TYPE4 === 'Y') {
+        } else if (this.formData.CASE_MONEY_TYPE4 === "Y") {
             return "โอนเงินด้วยเงินดิจิทัล";
         }
         return "";
@@ -387,8 +545,8 @@ export class IssueOnlineValidateComponent implements OnInit {
         const month = d.getMonth();
         const ddate = ` ${d.getDate()} `;
         const textMonthNow = ` ${this.monthFulltTh[month]}`;
-        const year = (d.getFullYear() + 543);
-        return [ddate, ' ', textMonthNow, ' ', year].join("");
+        const year = d.getFullYear() + 543;
+        return [ddate, " ", textMonthNow, " ", year].join("");
     }
     DownloadFile(data) {
         const linkSource = data.url;
@@ -403,7 +561,6 @@ export class IssueOnlineValidateComponent implements OnInit {
             return true;
         }
         return false;
-
     }
     async CaseChannelSetDoc(data: any = []) {
         this.listDocFile = data.CHANNEL_DOC ?? [];
@@ -424,7 +581,7 @@ export class IssueOnlineValidateComponent implements OnInit {
         const d = data;
         for (const key in d) {
             if (d[key] !== null && d[key] !== undefined) {
-                if (key === 'CHANNEL_DOC') {
+                if (key === "CHANNEL_DOC") {
                     await this.CaseChannelSetDoc(d[key]);
                 } else {
                     setData[key] = d[key];
@@ -432,7 +589,10 @@ export class IssueOnlineValidateComponent implements OnInit {
             }
         }
         this.formPopup = setData;
-        const optionCaseChannel = this.listCaseChannel.filter(r => r.CHANNEL_ID === this.formPopup.CHANNEL_ID) ?? null;
+        const optionCaseChannel =
+            this.listCaseChannel.filter(
+                (r) => r.CHANNEL_ID === this.formPopup.CHANNEL_ID
+            ) ?? null;
         const caseOption = optionCaseChannel[0] ?? null;
         this.showCaseLabelName = caseOption.CHANNEL_DETAIL1;
         this.showcaseLabelID = caseOption.CHANNEL_DETAIL2;
@@ -452,11 +612,9 @@ export class IssueOnlineValidateComponent implements OnInit {
 
     onshowcheck2() {
         this.popupCaseChannel2 = true;
-
     }
     onsubmitcheck() {
         this.popupCaseChannel2 = false;
-
     }
     OnSelectCaseChannel(e) {
         if (e.value) {
@@ -469,11 +627,9 @@ export class IssueOnlineValidateComponent implements OnInit {
                 this.showcaseLabelID = data.CHANNEL_DETAIL2;
                 this.showcaseCode = data.CHANNEL_CODE;
                 this.showcaseOption = data.CHANNEL_OPTION_FLAG;
-
             } else {
                 this.formPopup.CHANNEL_ID = e.value;
             }
-
         }
     }
     PopupViewFile(data) {
@@ -486,7 +642,6 @@ export class IssueOnlineValidateComponent implements OnInit {
             }
         }
         this.popupViewFileData = data;
-
     }
     ClosePopupViewFile(e) {
         this.popupViewFile = false;
@@ -496,7 +651,12 @@ export class IssueOnlineValidateComponent implements OnInit {
         this.mainConponent.NextIndex(this.mainConponent.indexTab - 1);
     }
     SubmitForm(e) {
-        if (this.formData.IS_PROMOTE_RADIO == "ได้รับ" && (this.formData.PROMOTE_CHANEL == "" || this.formData.PROMOTE_CHANEL == undefined || this.formData.PROMOTE_CHANEL == null)) {
+        if (
+            this.formData.IS_PROMOTE_RADIO == "ได้รับ" &&
+            (this.formData.PROMOTE_CHANEL == "" ||
+                this.formData.PROMOTE_CHANEL == undefined ||
+                this.formData.PROMOTE_CHANEL == null)
+        ) {
             Swal.fire({
                 title: "ผิดพลาด!",
                 html: "กรุณากรอกช่องทางใด",
@@ -506,12 +666,10 @@ export class IssueOnlineValidateComponent implements OnInit {
             return;
         }
         this.popupCaseChannel2 = false;
-        if (this.mainConponent.formType === 'add') {
+        if (this.mainConponent.formType === "add") {
             this.InsertForm(e, this.formData);
         } else {
         }
-
-
     }
 
     alertmessagecustom(msg) {
@@ -520,26 +678,35 @@ export class IssueOnlineValidateComponent implements OnInit {
             text: msg ?? "กรุณากรอกข้อมูล",
             icon: "warning",
             confirmButtonText: "Ok",
-        }).then(() => { });
+        }).then(() => {});
         return;
     }
 
     InsertForm(e, data) {
         this.isLoading = true;
-        const setData = {};
+        const setData = {} as any;
         for (const key in data) {
-            if (data[key] !== null
-                && data[key] !== undefined
-                && key !== 'listDamageBank'
-                && key !== 'listDamageBankOther'
-                && key !== 'listDamageOther'
+            if (
+                data[key] !== null &&
+                data[key] !== undefined &&
+                key !== "listDamageBank" &&
+                key !== "listDamageBankOther" &&
+                key !== "listDamageOther" &&
+                key !== "listDamageCrypto" &&
+                key !== "listDamageCrytro"
             ) {
                 setData[key] = data[key];
             }
         }
-        if(this.formData.CHECK_BLESSING === undefined || this.formData.BLESSING_STATUS === undefined){
+        if (
+            this.formData.CHECK_BLESSING === undefined ||
+            this.formData.BLESSING_STATUS === undefined
+        ) {
         }
-        if(this.formData.CASE_INFORMER_FIRSTNAME === undefined && this.formData.CASE_INFORMER_LASTNAME === undefined){
+        if (
+            this.formData.CASE_INFORMER_FIRSTNAME === undefined &&
+            this.formData.CASE_INFORMER_LASTNAME === undefined
+        ) {
             Swal.fire({
                 title: "ผิดพลาด!",
                 html: "คุณกรอกข้อมูลไม่สมบูรณ์ ระบบจะพาคุณไปยังหน้าที่ยังกรอกไม่สมบูรณ์",
@@ -550,8 +717,14 @@ export class IssueOnlineValidateComponent implements OnInit {
             this.mainConponent.NextIndex(2);
             return;
         }
-        if(this.formData.CHECK_BLESSING || this.formData.BLESSING_STATUS === "Y"){
-            if(this.formData.ORG_LOCATION_ID == 0 ||this.formData.ORG_LOCATION_ID == 1){
+        if (
+            this.formData.CHECK_BLESSING ||
+            this.formData.BLESSING_STATUS === "Y"
+        ) {
+            if (
+                this.formData.ORG_LOCATION_ID == 0 ||
+                this.formData.ORG_LOCATION_ID == 1
+            ) {
                 Swal.fire({
                     title: "ผิดพลาด!",
                     html: "กรุณาเลือกสถานีที่คุณต้องการไปพบ",
@@ -562,7 +735,11 @@ export class IssueOnlineValidateComponent implements OnInit {
                 this.mainConponent.NextIndex(2);
                 return;
             }
-            if(this.formData.CASE_TYPE_ID === undefined || this.formData.CASE_TYPE_ID === 7 || this.formData.CASE_TYPE_ID === 0){
+            if (
+                this.formData.CASE_TYPE_ID === undefined ||
+                this.formData.CASE_TYPE_ID === 7 ||
+                this.formData.CASE_TYPE_ID === 0
+            ) {
                 Swal.fire({
                     title: "ผิดพลาด!",
                     text: "กรุณาเลือกประเภทคดี",
@@ -574,80 +751,103 @@ export class IssueOnlineValidateComponent implements OnInit {
                 return;
             }
             Swal.fire({
-                title: 'ยืนยันการแจ้งเรื่องเข้าสู่ระบบ!!',
-                text: "การแจ้งความออนไลน์เป็นการอำนวยความสะดวกแก่ท่านในการร้องทุกข์และแจ้งความประสงค์" +
+                title: "ยืนยันการแจ้งเรื่องเข้าสู่ระบบ!!",
+                text:
+                    "การแจ้งความออนไลน์เป็นการอำนวยความสะดวกแก่ท่านในการร้องทุกข์และแจ้งความประสงค์" +
                     "ให้อายัดเงินที่โอนเข้าไปในบัญชีคนร้ายและผู้เกี่ยวข้องโดยเร็ว " +
                     "ทันสถานการณ์ และท่านต้องไปให้ปากคำต่อพนักงานสอบสวนตามที่นัดหมาย เพื่อให้เป็นไปตามกฏหมายกำหนด" +
-                    "ระบบจะส่งเรื่องไปที่หน่วยงาน " + this.formData.ORG_LOCATION_NAME + " กรุณาตรวจสอบข้อมูลก่อนกดยืนยัน",
-                icon: 'warning',
-                confirmButtonText: 'ยืนยัน',
+                    "ระบบจะส่งเรื่องไปที่หน่วยงาน " +
+                    this.formData.ORG_LOCATION_NAME +
+                    " กรุณาตรวจสอบข้อมูลก่อนกดยืนยัน",
+                icon: "warning",
+                confirmButtonText: "ยืนยัน",
                 showCancelButton: true,
-                cancelButtonText: 'กลับไปแก้ไข'
+                cancelButtonText: "กลับไปแก้ไข",
             }).then((result) => {
                 if (result.isConfirmed) {
-                    this._onlineCaseServ.InsertDataMQ(setData)
-                        .pipe(finalize(() => this.isLoading = false))
+                    this._onlineCaseServ
+                        .InsertDataMQ(setData)
+                        .pipe(finalize(() => (this.isLoading = false)))
                         .subscribe(() => {
                             Swal.fire({
-                                title: 'แจ้งเรื่องสำเร็จ!',
-                                text: 'กรุณารอเรื่องเข้าสู่ระบบ 1-3 นาที',
-                                icon: 'success',
-                                confirmButtonText: 'ตกลง'
+                                title: "แจ้งเรื่องสำเร็จ!",
+                                text: "กรุณารอเรื่องเข้าสู่ระบบ 1-3 นาที",
+                                icon: "success",
+                                confirmButtonText: "ตกลง",
                             }).then(() => {
                                 localStorage.removeItem("form-blessing");
                                 localStorage.removeItem("form-informer");
                                 localStorage.removeItem("form-event");
                                 localStorage.removeItem("form-damage");
+                                localStorage.removeItem("form-villain");
                                 localStorage.removeItem("form-index");
                                 localStorage.removeItem("form-config");
-                                this._router.navigate(['/main/task-list']);
+                                localStorage.removeItem(
+                                    "form-criminal-contact"
+                                );
+                                this._router.navigate([
+                                    "/track-status%3FopenExternalBrowser%3D1",
+                                ]);
                             });
                         });
+                    // setTimeout(() => {
+                    //     this.isLoading = false;
+                    // }, 1000);
                 } else {
                     this.isLoading = false;
-                    console.log();
+                    // console.log();
                 }
             });
-        }else if(this.formData.CHECK_BLESSING == false || this.formData.BLESSING_STATUS === "N"){
-            setData["ORG_LOCATION_ID"] = 1;
-            setData["CASE_TYPE_ID"] = 7;
-            setData["ORG_LOCATION_NAME"] = "สำนักงานตำรวจแห่งชาติ";
+        } else if (
+            this.formData.CHECK_BLESSING == false ||
+            this.formData.BLESSING_STATUS === "N"
+        ) {
+            setData.ORG_LOCATION_ID = 1;
+            setData.CASE_TYPE_ID = 7;
+            setData.ORG_LOCATION_NAME = "สำนักงานตำรวจแห่งชาติ";
             Swal.fire({
-                title: 'ยืนยันการแจ้งเรื่องเข้าสู่ระบบ!!',
-                text: "การแจ้งความออนไลน์เป็นการอำนวยความสะดวกแก่ท่านในการร้องทุกข์และแจ้งความประสงค์" +
+                title: "ยืนยันการแจ้งเรื่องเข้าสู่ระบบ!!",
+                text:
+                    "การแจ้งความออนไลน์เป็นการอำนวยความสะดวกแก่ท่านในการร้องทุกข์และแจ้งความประสงค์" +
                     "ให้อายัดเงินที่โอนเข้าไปในบัญชีคนร้ายและผู้เกี่ยวข้องโดยเร็ว " +
                     "ทันสถานการณ์ และท่านต้องไปให้ปากคำต่อพนักงานสอบสวนตามที่นัดหมาย เพื่อให้เป็นไปตามกฏหมายกำหนด" +
                     "ระบบจะส่งเรื่องไปที่หน่วยงานที่เกี่ยวข้อง กรุณาตรวจสอบข้อมูลก่อนกดยืนยัน",
-                icon: 'warning',
-                confirmButtonText: 'ยืนยัน',
+                icon: "warning",
+                confirmButtonText: "ยืนยัน",
                 showCancelButton: true,
-                cancelButtonText: 'กลับไปแก้ไข'
+                cancelButtonText: "กลับไปแก้ไข",
             }).then((result) => {
                 if (result.isConfirmed) {
-                    this._onlineCaseServ.InsertDataMQ(setData)
-                        .pipe(finalize(() => this.isLoading = false))
+                    this._onlineCaseServ
+                        .InsertDataMQ(setData)
+                        .pipe(finalize(() => (this.isLoading = false)))
                         .subscribe(() => {
                             Swal.fire({
-                                title: 'แจ้งเรื่องสำเร็จ!',
-                                text: 'กรุณารอเรื่องเข้าสู่ระบบ 1-3 นาที',
-                                icon: 'success',
-                                confirmButtonText: 'ตกลง'
+                                title: "แจ้งเรื่องสำเร็จ!",
+                                text: "กรุณารอเรื่องเข้าสู่ระบบ 1-3 นาที",
+                                icon: "success",
+                                confirmButtonText: "ตกลง",
                             }).then(() => {
                                 localStorage.removeItem("form-blessing");
                                 localStorage.removeItem("form-informer");
                                 localStorage.removeItem("form-event");
                                 localStorage.removeItem("form-damage");
+                                localStorage.removeItem("form-villain");
+                                localStorage.removeItem("form-villain");
                                 localStorage.removeItem("form-index");
                                 localStorage.removeItem("form-config");
-                                this._router.navigate(['/main/task-list']);
+                                localStorage.removeItem(
+                                    "form-criminal-contact"
+                                );
+                                this._router.navigate(["//track-status%3FopenExternalBrowser%3D1"]);
                             });
                         });
                 } else {
                     this.isLoading = false;
-                    console.log();
+                    // console.log();
                 }
             });
-        }else{
+        } else {
             Swal.fire({
                 title: "ผิดพลาด!",
                 html: "คุณกรอกข้อมูลไม่สมบูรณ์ กรุณาตรวจสอบข้อมูลที่ท่านกรอกอีกครั้ง",
@@ -658,8 +858,6 @@ export class IssueOnlineValidateComponent implements OnInit {
             this.mainConponent.NextIndex(1);
             return;
         }
-
-
     }
     // UpdateForm(data){
     //     this.isLoading = true;
@@ -669,12 +867,12 @@ export class IssueOnlineValidateComponent implements OnInit {
     //             alert('success');
     //         });
     // }
-    checkEmtrySession(){
+    checkEmtrySession() {
         const requiredItems = [
             "form-blessing",
             "form-informer",
             "form-event",
-            "form-damage"
+            "form-damage",
         ];
 
         for (let i = 0; i < requiredItems.length; i++) {
@@ -686,13 +884,28 @@ export class IssueOnlineValidateComponent implements OnInit {
                     confirmButtonText: "Ok",
                 }).then(() => {});
                 this.isLoading = false;
-                if(requiredItems[i]=="form-blessing"){
+                if (requiredItems[i] == "form-blessing") {
                     this.mainConponent.NextIndex(0);
-                }else{
+                } else {
                     this.mainConponent.NextIndex(i + 2);
                 }
                 return;
             }
         }
+    }
+
+    displayFormatDateTime(date) {
+        return formatDate(date, "dateShortTimeThai");
+    }
+
+    async openPdfInNewTabAdd(e): Promise<void> {
+        const something = e.Url.split(",")[1] || e.Url;
+        const fileData = atob(something);
+        const blob = new Blob(
+            [new Uint8Array([...fileData].map((item) => item.charCodeAt(0)))],
+            { type: e.Type }
+        );
+        const fileUrl = URL.createObjectURL(blob);
+        window.open(fileUrl, "_blank");
     }
 }

@@ -90,6 +90,27 @@ export class OnlineCaseService {
         return req<any>(`CmsOnlineCaseInfo/bankref/${caseid}`)
             .disableCriticalDialogError().get();
     }
+    public SessionDamage(data: any,personal_id: number,type: string): Observable<any> {
+        return req<any>("CmsOnlineCaseInfo/session-damage")
+            .body({data: data, personal_id: personal_id, type: type})
+            .disableCriticalDialogError().post();
+    }
+
+    public SessionVillain(data: any,personal_id: number,type: string): Observable<any> {
+        return req<any>("CmsOnlineCaseInfo/session-villain")
+            .body({data: data, personal_id: personal_id, type: type})
+            .disableCriticalDialogError().post();
+    }
+    public SessionAttachment(data: any,personal_id: number,type: string): Observable<any> {
+        return req<any>("CmsOnlineCaseInfo/session-attachment")
+            .body({data: data, personal_id: personal_id, type: type})
+            .disableCriticalDialogError().post();
+    }
+    public SessionClear(personal_id: number): Observable<any> {
+        return req<any>("CmsOnlineCaseInfo/session-clear")
+            .body({personal_id: personal_id})
+            .disableCriticalDialogError().post();
+    }
 }
 
 export interface LocationInfo {

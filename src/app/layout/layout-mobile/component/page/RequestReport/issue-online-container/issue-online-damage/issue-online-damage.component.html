@@ -16,7 +16,7 @@
                         <dx-check-box [readOnly]="formReadOnly || type4" text="เงินดิจิทัล (Cryptocurrency)" [(value)]="checkboxDamage.case_type4" (onValueChanged)="ChangeMoneyType($event,'CASE_MONEY_TYPE4')"></dx-check-box>
                     </div>
                 </div>
-                <div class="conten-block" *ngIf="this.formData.CASE_MONEY_TYPE1 === 'Y'">
+                <div class="conten-block" *ngIf="formData.CASE_MONEY_TYPE1 === 'Y'">
                     <div class="content-end-line"></div>
                     <div class="content-title">
                         <div class="row block-damage-type-title">
@@ -152,14 +152,12 @@
                                 <div *dxTemplate="let cell of 'cellTemplatestart'">
 
                                     <div class="text-break">
-                                        <!-- <span>{{cell.data.BANK_ORIGIN_NAME+':'+cell.data.BANK_ORIGIN_ACCOUNT+'('+cell.data.BANK_ORIGIN_ACCOUNT_NAME+')'}}</span> -->
                                         <span>{{cell.data.SHOW_NAME}}</span>
                                     </div>
                                 </div>
                                 <dxi-column dataField="" caption="บัญชีปลายทาง" alignment="center" cellTemplate="cellTemplateend"></dxi-column>
                                 <div *dxTemplate="let cell of 'cellTemplateend'">
                                     <div class="text-break">
-                                        <!-- <span>{{cell.data.BANK_NAME+':'+cell.data.BANK_ACCOUNT+'('+cell.data.BANK_ACCOUNT_NAME+')'}}</span> -->
                                         <span>{{cell.data.SHOW_NAME_END}}</span>
                                     </div>
                                 </div>
@@ -170,17 +168,6 @@
                                         <span *ngIf="cell.data.BANK_TRANSFER_DATE"> {{cell.data.BANK_TRANSFER_TIME}} น.</span>
                                     </div>
                                 </div>
-
-                                <!-- <dxi-column dataField="DIRECTION" caption="ทิศทางการโอนเงิน" alignment="center"
-                            cellTemplate="cellTemplateDirection"></dxi-column>
-                        <div *dxTemplate="let cell of 'cellTemplateDirection'">
-                            <div class="text-break" *ngIf="cell.data.DIRECTION == 2;else dsdirection">
-                                <span>โอนเงิน</span>
-                            </div>
-                            <ng-template #dsdirection>
-                                <span>รับเงิน</span>
-                            </ng-template>
-                        </div> -->
 
                                 <dxi-column dataField="BANK_DAMAGE_VALUE" caption="จำนวนเงิน" alignment="center" cellTemplate="cellTemplateDamage"></dxi-column>
                                 <div *dxTemplate="let cell of 'cellTemplateDamage'">
@@ -487,7 +474,7 @@
                                                             </div>
                                                         </dx-data-grid>
                                                     </div>
-                                                    <div class="list-samary-damage" *ngIf="CheckSammaryValue(item.data.BANK_DAMAGE_VALUE) > 0">
+                                                    <div class="list-samary-damage" *ngIf="+CheckSammaryValue(item.data.BANK_DAMAGE_VALUE) > 0">
                                                         <div class="samary-damage">รวมยอดความเสียหาย {{CheckSammaryValue(item.data.BANK_DAMAGE_VALUE) | currency:'':''}} บาท</div>
                                                     </div>
                                                 </div>

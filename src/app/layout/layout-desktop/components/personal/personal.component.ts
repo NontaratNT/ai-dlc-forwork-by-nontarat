@@ -97,7 +97,9 @@ export class PersonalComponent implements OnInit {
             }
             this.minBirthDate = this._date.SetDateDefault(80,true,true,true);
             this.maxBirthDate = this._date.SetDateDefault(0);
-            this.formData.PERSONAL_BIRTH_DATE = this._date.ConvertToDateFormat(this.formData.PERSONAL_BIRTH_DATE);
+            if(this.formData.PERSONAL_BIRTH_DATE){
+                this.formData.PERSONAL_BIRTH_DATE = this._date.ConvertToDateFormat(this.formData.PERSONAL_BIRTH_DATE);
+            }
             this.loadDateBox = true;
         });
         this.servOccupations.getOccupations().subscribe(_ => {
@@ -112,6 +114,7 @@ export class PersonalComponent implements OnInit {
         } else {
             this.formData.PERSONAL_STATUS = 'I';
         }
+        console.log(this.formData.PERSONAL_BIRTH_DATE);
         this.formData.PERSONAL_BIRTH_DATE = this._date.ConvertToDateFormat(this.formData.PERSONAL_BIRTH_DATE);
 
         this.formData.UPDATE_DATE = null;
@@ -148,19 +151,51 @@ export class PersonalComponent implements OnInit {
                 this._isLoading = false;
             });
             return;
+        } else if(this.formData.PERSONAL_BIRTH_DATE == null || this.formData.PERSONAL_BIRTH_DATE == undefined) {
+            Swal.fire({
+                title: 'ผิดพลาด!',
+                text: "กรุณาเลือกวันเกิดของท่าน",
+                icon: 'warning',
+                confirmButtonText: 'ตกลง'
+            }).then(() => {
+                this._isLoading = false;
+            });
+            return;
+        } else if(this.formData.PERSONAL_FNAME_THA == null || this.formData.PERSONAL_FNAME_THA == undefined || this.formData.PERSONAL_FNAME_THA == "") {
+            Swal.fire({
+                title: 'ผิดพลาด!',
+                text: "กรุณากรอกชื่อของท่าน",
+                icon: 'warning',
+                confirmButtonText: 'ตกลง'
+            }).then(() => {
+                this._isLoading = false;
+            });
+            return;
+        } else if(this.formData.PERSONAL_LNAME_THA == null || this.formData.PERSONAL_LNAME_THA == undefined || this.formData.PERSONAL_LNAME_THA == "") {
+            Swal.fire({
+                title: 'ผิดพลาด!',
+                text: "กรุณากรอกนามสกุลของท่าน",
+                icon: 'warning',
+                confirmButtonText: 'ตกลง'
+            }).then(() => {
+                this._isLoading = false;
+            });
+            return;
         } else {
             this.servicePersonal.PutPersonal(this.id, this.FormatData())
-                .pipe(finalize(() => this._isLoading = false))
                 .subscribe(_ => {
-                    Swal.fire({
-                        title: 'สำเร็จ!',
-                        text: 'บันทึกเรียบร้อย',
-                        icon: 'success',
-                        confirmButtonText: 'ตกลง'
-                    }).then(() => {
-                        window.location.reload();
+                    this.servicePersonal.PutPersonalGDCC(this.id, this.FormatData())
+                    .pipe(finalize(() => this._isLoading = false)).subscribe(_ => {
+                        Swal.fire({
+                            title: 'สำเร็จ!',
+                            text: 'บันทึกเรียบร้อย',
+                            icon: 'success',
+                            confirmButtonText: 'ตกลง'
+                        }).then(() => {
+                            window.location.reload();
+                        });
                     });
-                });
+            });
         }
     }
 

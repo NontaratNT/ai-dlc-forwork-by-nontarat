@@ -11,7 +11,11 @@ import { ProblemOnlineComponent } from "./components/problem-online/problem-onli
 import { TaskAppointmentComponent } from "./components/task-appointment/task-appointment.component";
 import { TasklistComponent } from "./components/tasklist/tasklist.component";
 import { MainComponent } from "./layout/main/main.component";
+<<<<<<< HEAD
 import { LoginThaiIDComponent } from "./components/login-thai-id/login-thai-id.component";
+=======
+import { IssueOnlineReportComponent } from "./components/issue-online-report/issue-online-report.component";
+>>>>>>> origin/dev-nt-1441
 
 
 const routes: Routes = [
@@ -58,7 +62,14 @@ const routes: Routes = [
                 path: 'problem-online',
                 component: ProblemOnlineComponent,
             },
+<<<<<<< HEAD
             
+=======
+            {
+                path: 'issue-online-report',
+                component: IssueOnlineReportComponent,
+            },
+>>>>>>> origin/dev-nt-1441
         ]
     },
 ];

@@ -31,6 +31,7 @@ import { DatePipe } from '@angular/common';
 import { OnlineCaseService } from "src/app/services/online-case.service";
 import { FileService } from "src/app/services/file.service";
 import { IssueOnlineDamageSubComponent } from "../issue-online-damage-sub/issue-online-damage-sub.component";
+import { FormValidatorService } from "src/app/services/form-validator.service";
 @Component({
     selector: "app-issue-online-damage",
     templateUrl: "./issue-online-damage.component.html",
@@ -248,9 +249,13 @@ export class IssueOnlineDamageComponent implements OnInit {
         private _issueFile: IssueOnlineFileUploadService,
         private datePipe: DatePipe,
         private _OnlineCaseService: OnlineCaseService,
-        private _fileService :FileService
+        private _fileService :FileService,
+        private _formValidate: FormValidatorService,
 
-    ) { }
+    ) {
+        this.bankListstart = [];
+        this.bankListend = [];
+    }
 
     ngOnInit(): void {
         this.maxDateValue.setHours(this.maxDateValue.getHours() + 1);
@@ -401,7 +406,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                 }
                 if(localStorage.getItem("form-damage")){
                     this.formData = JSON.parse(localStorage.getItem("form-damage"));
-                    console.log(this.formData);
+                    // console.log(this.formData);
                     if (this.CheckArray(this.formData.CASE_MONEY)) {
                         await this.SetDataToListBank(this.formData.CASE_MONEY);
                     }
@@ -1183,7 +1188,7 @@ export class IssueOnlineDamageComponent implements OnInit {
     PopupViewFile(data) {
 
         if (data) {
-            console.log("datafile", data);
+            // console.log("datafile", data);
             // console.log('data.url',data.url);
             // const splitStr = data.url.split('base64,');
             // splitStr[0] = splitStr[0] + "base64,";
@@ -1227,9 +1232,6 @@ export class IssueOnlineDamageComponent implements OnInit {
             confirmButtonText: "ตกลง",
         }).then((result) => {
             if (result.isConfirmed) {
-                // const dmValueAll = this.formData.CASE_MONEY[index].BANK_DAMAGE_VALUE ?? 0;
-                // this.formData.CASE_MONEY.splice(index, 1);
-                // this.formData.CASE_MONEY[index].BANK_DETAIL = e;
                 if (type === "T") {
                     if (
                         this.CheckArray(this.listDamageBank[index].BANK_DETAIL)
@@ -1584,6 +1586,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                 data[setKey] = this.listUploadFileWayOther;
             }
             this.listDamageOther[index] = data;
+            this.calulatemoney([...this.listDamageCrytro, ...this.listDamageBank]);
         }
     }
     ItemDamageClose() {
@@ -1679,11 +1682,14 @@ export class IssueOnlineDamageComponent implements OnInit {
                 }
             }
             this.mainConponent.formDataAll.DataDamageShow = {};
-            const listMoney = this.MergeArray(
+            this.listDamageBank = this.removeDuplicateObjects(this.listDamageBank);
+            this.listDamageCrytro = this.removeDuplicateObjects(this.listDamageCrytro);
+            this.calulatemoney([...this.listDamageCrytro, ...this.listDamageBank]);
+            const listMoney = this.removeDuplicateObjects(this.MergeArray(
                 [...this.listDamageCrytro, ...this.listDamageBank],
                 this.listDamageBankOther,
                 this.listDamageOther
-            );
+            ));
             this.mainConponent.formDataAll.formDamage = {};
             this.mainConponent.formDataAll.formDamage = this.formData;
             this.mainConponent.formDataAll.formDamage.CASE_MONEY = listMoney;
@@ -1695,7 +1701,7 @@ export class IssueOnlineDamageComponent implements OnInit {
             this.mainConponent.formDataAll.formDamage.listDamageOther = this.listDamageOther;
             this.mainConponent.formDataAll.formDamage.listDamageCrytro = this.listDamageCrytro;
             localStorage.setItem("form-damage",JSON.stringify(this.formData));
-            console.log(this.formData);
+            // console.log(this.formData);
         }
         if (e != 'tab') {
             this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
@@ -1888,27 +1894,27 @@ export class IssueOnlineDamageComponent implements OnInit {
     }
 
     outputdatabank(value) {
-        console.log('submit sufferer', value);
+        // console.log('submit sufferer', value);
         if (value.TYPE_NAME === 'ธนาคาร' && value.ways === 1) {
-            value["SHOW_NAME"] = '(ธนาคาร ผู้ร้าย)' + value.BANK_ORIGIN_NAME + ': ' + value.BANK_ORIGIN_ACCOUNT + '(' + value.BANK_ORIGIN_ACCOUNT_NAME + ')';
+            value["SHOW_NAME"] = '(ธนาคาร ผู้ร้าย)' + value.BANK_ORIGIN_NAME + ': ' + value.BANK_ORIGIN_ACCOUNT + ' ' + value.BANK_ORIGIN_ACCOUNT_NAME;
         }
         else if (value.TYPE_NAME === 'ธนาคาร' && value.ways === 2) {
-            value["SHOW_NAME"] = '(ธนาคาร ผู้เสียหาย)' + value.BANK_ORIGIN_NAME + ': ' + value.BANK_ORIGIN_ACCOUNT + '(' + value.BANK_ORIGIN_ACCOUNT_NAME + ')';
+            value["SHOW_NAME"] = '(ธนาคาร ผู้เสียหาย)' + value.BANK_ORIGIN_NAME + ': ' + value.BANK_ORIGIN_ACCOUNT + ' ' + value.BANK_ORIGIN_ACCOUNT_NAME;
         }
         else if (value.TYPE_NAME === 'พร้อมเพย์' && value.ways === 1) {
-            value["SHOW_NAME"] = '(พร้อมเพย์ ผู้ร้าย)' + value.BANK_ORIGIN_ACCOUNT_PROMPAY + '(' + value.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY + ')';
+            value["SHOW_NAME"] = '(พร้อมเพย์ ผู้ร้าย)' + value.BANK_ORIGIN_ACCOUNT_PROMPAY + ' ' + value.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY;
             value['BANK_ORIGIN_ACCOUNT'] = value.BANK_ORIGIN_ACCOUNT_PROMPAY;
         }
         else if (value.TYPE_NAME === 'พร้อมเพย์' && value.ways === 2) {
-            value["SHOW_NAME"] = '(พร้อมเพย์ ผู้เสียหาย)' + value.BANK_ORIGIN_ACCOUNT_PROMPAY + '(' + value.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY + ')';
+            value["SHOW_NAME"] = '(พร้อมเพย์ ผู้เสียหาย)' + value.BANK_ORIGIN_ACCOUNT_PROMPAY + ' ' + value.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY;
             value['BANK_ORIGIN_ACCOUNT'] = value.BANK_ORIGIN_ACCOUNT_PROMPAY;
         }
         else if (value.TYPE_NAME === 'True Money' && value.ways === 1) {
-            value["SHOW_NAME"] = '(True Money ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT + '(' + value.TRUEMONEY_TYPE_NAME + ')';
+            value["SHOW_NAME"] = '(True Money ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT + ' ' + value.TRUEMONEY_TYPE_NAME;
             value['BANK_ORIGIN_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
         }
         else if (value.TYPE_NAME === 'True Money' && value.ways === 2) {
-            value["SHOW_NAME"] = '(True Money ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + '(' + value.TRUEMONEY_TYPE_NAME + ')';
+            value["SHOW_NAME"] = '(True Money ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + ' ' + value.TRUEMONEY_TYPE_NAME;
             value['BANK_ORIGIN_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
         }
         else if (value.TYPE_NAME === 'เงินดิจิทัล (Cryptocurrency)' && value.ways === 1) {
@@ -1928,11 +1934,11 @@ export class IssueOnlineDamageComponent implements OnInit {
             value['BANK_ORIGIN_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
         }
         else if (value.TYPE_NAME === 'อื่นๆ' && value.ways === 1) {
-            value["SHOW_NAME"] = '(อื่นๆ ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT + '(' + value.CASE_MONEY_BANK_OTHER_DETAIL + ')';
+            value["SHOW_NAME"] = '(อื่นๆ ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT + ' ' + value.CASE_MONEY_BANK_OTHER_DETAIL;
             value['BANK_ORIGIN_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
         }
         else if (value.TYPE_NAME === 'อื่นๆ' && value.ways === 2) {
-            value["SHOW_NAME"] = '(อื่นๆ ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + '(' + value.CASE_MONEY_BANK_OTHER_DETAIL + ')';
+            value["SHOW_NAME"] = '(อื่นๆ ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + ' ' + value.CASE_MONEY_BANK_OTHER_DETAIL;
             value['BANK_ORIGIN_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
         }
 
@@ -1942,9 +1948,9 @@ export class IssueOnlineDamageComponent implements OnInit {
         //     value["SHOW_NAME"] += '(ผู้เสียหาย)';
         // }
         if(value.TYPE_NAME === 'เงินดิจิทัล (Cryptocurrency)'){
-            this.bankCrytroListstart.push(value);
+            this.bankCrytroListstart.push({...value});
         }else{
-            this.bankListstart.push(value);
+            this.bankListstart.push({...value});
         }
         // this.formmoney.BANK_ORIGIN_LIST_ID = value["BANK_ORIGIN_ID"]
         this.formmoney.BANK_ORIGIN_LIST_ID = value["SHOW_NAME"];
@@ -1953,27 +1959,28 @@ export class IssueOnlineDamageComponent implements OnInit {
         // console.log("bankliststart",this.bankListstart);
     }
     outputdatabankvillain(value) {
-        console.log('submit origin', value);
+        console.log('submit villain', value);
+        // creaye variavle
         if (value.TYPE_NAME === 'ธนาคาร' && value.ways === 1) {
-            value["SHOW_NAME"] = '(ธนาคาร ผู้ร้าย)' + value.BANK_NAME + ': ' + value.BANK_ACCOUNT + '(' + value.BANK_ACCOUNT_NAME + ')';
+            value["SHOW_NAME"] = '(ธนาคาร ผู้ร้าย)' + value.BANK_NAME + ': ' + value.BANK_ACCOUNT + ' ' + value.BANK_ACCOUNT_NAME;
         }
         else if (value.TYPE_NAME === 'ธนาคาร' && value.ways === 2) {
-            value["SHOW_NAME"] = '(ธนาคาร ผู้เสียหาย)' + value.BANK_NAME + ': ' + value.BANK_ACCOUNT + '(' + value.BANK_ACCOUNT_NAME + ')';
+            value["SHOW_NAME"] = '(ธนาคาร ผู้เสียหาย)' + value.BANK_NAME + ': ' + value.BANK_ACCOUNT + ' ' + value.BANK_ACCOUNT_NAME;
         }
         else if (value.TYPE_NAME === 'พร้อมเพย์' && value.ways === 1) {
-            value["SHOW_NAME"] = '(พร้อมเพย์ ผู้ร้าย)' + value.BANK_ORIGIN_ACCOUNT_PROMPAY + '(' + value.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY + ')';
+            value["SHOW_NAME"] = '(พร้อมเพย์ ผู้ร้าย)' + value.BANK_ORIGIN_ACCOUNT_PROMPAY + ' ' + value.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY;
             value['BANK_ACCOUNT'] = value.BANK_ORIGIN_ACCOUNT_PROMPAY;
         }
         else if (value.TYPE_NAME === 'พร้อมเพย์' && value.ways === 2) {
-            value["SHOW_NAME"] = '(พร้อมเพย์ ผู้เสียหาย)' + value.BANK_ORIGIN_ACCOUNT_PROMPAY + '(' + value.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY + ')';
+            value["SHOW_NAME"] = '(พร้อมเพย์ ผู้เสียหาย)' + value.BANK_ORIGIN_ACCOUNT_PROMPAY + ' ' + value.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY;
             value['BANK_ACCOUNT'] = value.BANK_ORIGIN_ACCOUNT_PROMPAY;
         }
         else if (value.TYPE_NAME === 'True Money' && value.ways === 1) {
-            value["SHOW_NAME"] = '(True Money ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT + '(' + value.TRUEMONEY_TYPE_NAME + ')';
+            value["SHOW_NAME"] = '(True Money ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT + ' ' + value.TRUEMONEY_TYPE_NAME;
             value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
         }
         else if (value.TYPE_NAME === 'True Money' && value.ways === 2) {
-            value["SHOW_NAME"] = '(True Money ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + '(' + value.TRUEMONEY_TYPE_NAME + ')';
+            value["SHOW_NAME"] = '(True Money ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + ' ' + value.TRUEMONEY_TYPE_NAME;
             value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
         }
         else if (value.TYPE_NAME === 'เงินดิจิทัล (Cryptocurrency)' && value.ways === 1) {
@@ -1993,16 +2000,15 @@ export class IssueOnlineDamageComponent implements OnInit {
             value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
         }
         else if (value.TYPE_NAME === 'อื่นๆ' && value.ways === 1) {
-            value["SHOW_NAME"] = '(อื่นๆ ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT + '(' + value.CASE_MONEY_BANK_OTHER_DETAIL + ')';
+            value["SHOW_NAME"] = '(อื่นๆ ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT + ' ' + value.CASE_MONEY_BANK_OTHER_DETAIL;
             value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
         }
         else if (value.TYPE_NAME === 'อื่นๆ' && value.ways === 2) {
-            value["SHOW_NAME"] = '(อื่นๆ ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + '(' + value.CASE_MONEY_BANK_OTHER_DETAIL + ')';
+            value["SHOW_NAME"] = '(อื่นๆ ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + ' ' + value.CASE_MONEY_BANK_OTHER_DETAIL;
             value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
         }
-        this.bankListend.push(value);
+        this.bankListend.push({...value});
         this.formmoney.BANK_LIST_ID = value["SHOW_NAME"];
-
     }
     onsavelistbanklist(e,type="") {
         if (this.wayStart == this.wayEnd) {
@@ -2178,6 +2184,11 @@ export class IssueOnlineDamageComponent implements OnInit {
                 this.listUploadFileformmoney.splice(0, 1);
                 this.calulatemoney([...this.listDamageCrytro, ...this.listDamageBank]);
                 this.now = null;
+            }else{
+                this._formValidate.ValidateForm(
+                    this.formbanknew.instance.validate().brokenRules
+                );
+                return;
             }
         }
     }
@@ -2356,6 +2367,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                 // console.log("orginlist", data);
 
                 if (data) {
+                    console.log("origin",data);
                     this.wayStart = data.ways;
                     this.formmoney.BANK_ORIGIN_ACCOUNT = data.BANK_ORIGIN_ACCOUNT;
                     this.formmoney.BANK_ORIGIN_ACCOUNT_NAME = data.BANK_ORIGIN_ACCOUNT_NAME;
@@ -2413,6 +2425,7 @@ export class IssueOnlineDamageComponent implements OnInit {
 
         if (e.value) {
             if(type === "crypto"){
+                console.log("object");
                 const data = this.selectBankInfolistCrypto.instance.option("selectedItem");
                 // console.log("defaullist", data);
                 if (data) {
@@ -2429,7 +2442,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                     const dataorigin = this.selectBankInfoOriginlistCrypto.instance.option("selectedItem");
 
                     if (data) {
-                        console.log(data);
+                        // console.log(data);
 
                         this.formmoney.BANK_ORIGIN_ACCOUNT = dataorigin.BANK_ORIGIN_ACCOUNT;
                         this.formmoney.BANK_ORIGIN_ACCOUNT_NAME = dataorigin.BANK_ORIGIN_ACCOUNT_NAME;
@@ -2459,15 +2472,16 @@ export class IssueOnlineDamageComponent implements OnInit {
                     }
                     this.formmoneySub = this.formmoney;
 
-                    console.log('formmoney', this.formmoney);
+                    // console.log('formmoney', this.formmoney);
                 } else {
 
                 }
             }else{
+                console.table(this.selectBankInfolist.instance.option("selectedItem"));
                 const data = this.selectBankInfolist.instance.option("selectedItem");
                 // console.log("defaullist", data);
                 if (data) {
-
+                    console.log(data);
                     this.wayEnd = data.ways;
                     this.formmoney.BANK_ACCOUNT = data.BANK_ACCOUNT;
                     this.formmoney.BANK_ACCOUNT_NAME = data.BANK_ACCOUNT_NAME;
@@ -2479,8 +2493,8 @@ export class IssueOnlineDamageComponent implements OnInit {
 
                     const dataorigin = this.selectBankInfoOriginlist.instance.option("selectedItem");
 
-                    if (data) {
-                        console.log(data);
+                    if (dataorigin) {
+                        // console.log(data);
 
                         this.formmoney.BANK_ORIGIN_ACCOUNT = dataorigin.BANK_ORIGIN_ACCOUNT;
                         this.formmoney.BANK_ORIGIN_ACCOUNT_NAME = dataorigin.BANK_ORIGIN_ACCOUNT_NAME;
@@ -2510,7 +2524,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                     }
                     this.formmoneySub = this.formmoney;
 
-                    console.log('formmoney', this.formmoney);
+                    // console.log('formmoney', this.formmoney);
                 } else {
 
                 }
@@ -2592,11 +2606,11 @@ export class IssueOnlineDamageComponent implements OnInit {
                             this.formmoney.MONNEY_DOC.push(this.listUploadFileformmoney[0]);
                         }
 
-                        console.log(this.formmoney.MONNEY_DOC);
+                        // console.log(this.formmoney.MONNEY_DOC);
                     }
                 }
 
-                console.log('fileupload', this.listUploadFileformmoney);
+                // console.log('fileupload', this.listUploadFileformmoney);
                 this.isLoading = false;
             }
         }
@@ -2649,5 +2663,38 @@ export class IssueOnlineDamageComponent implements OnInit {
         const dateWithTimeZone = new Date(time.getTime() + timeZoneOffsetMs);
         const formattedString = dateWithTimeZone.toISOString().replace("Z", `+${timeZoneOffset.toString().padStart(2, "0")}:00`);
         return formattedString;
+    }
+
+    areObjectsEqual(obj1, obj2) {
+        // ดึงคีย์ทั้งหมดของ object แล้วเรียงลำดับ
+        const keys1 = Object.keys(obj1).sort();
+        const keys2 = Object.keys(obj2).sort();
+
+        // ถ้าจำนวนคีย์ไม่เท่ากัน แสดงว่าไม่เหมือนกัน
+        if (keys1.length !== keys2.length) return false;
+
+        // เปรียบเทียบค่าแต่ละคีย์
+        for (let key of keys1) {
+            if(key != "MONNEY_DOC"){
+                if (obj1[key] !== obj2[key])
+                    {
+                        return false;
+                    }
+            }
+            // return false;
+        }
+        return true;
+      }
+
+    removeDuplicateObjects(arr) {
+        // ตรวจสอบว่า array ว่างหรือไม่
+        if (arr.length === 0) return arr;
+
+        // ใช้ฟังก์ชัน areObjectsEqual เพื่อเปรียบเทียบ object โดยไม่สนใจลำดับของฟิลด์
+        const uniqueArray = arr.filter((obj, index, self) =>
+          index === self.findIndex((t) => this.areObjectsEqual(t, obj))
+        );
+
+        return uniqueArray;
     }
 }

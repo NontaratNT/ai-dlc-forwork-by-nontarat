@@ -106,18 +106,18 @@ export class IssueOnlineEditComponent implements OnInit {
     }
     LoadStatus(id){
         this.bpmProcinstServ.getByInstId(id).subscribe(res => {
-            this.bpmData = res;
-            this.shareBpmData.SetData(res);
+            this.bpmData = res.Value;
+            this.shareBpmData.SetData(res.Value);
             // OS เพิ่มหน้าถอนแจ้งความ
-            if(res.GROUP_STATUS_CODE === 'C01') {
+            if(res.Value.GROUP_STATUS_CODE === 'C01') {
                 this.listMneu.push({ id: 5, text: 'ถอนแจ้งความ', icon: 'fas fa-rotate-right',link:"/main/issue",index:4 })
             }
-            if (res.REJECT_FLAG === 'Y'){
+            if (res.Value.REJECT_FLAG === 'Y'){
                 this.caseReject = true;
                 this.LoadStepDataReject();
 
             }else{
-                this.LoadStepData(res.GROUP_STATUS_CODE);
+                this.LoadStepData(res.Value.GROUP_STATUS_CODE);
 
             }
             // this.formOverview.TRACKING_CODE = res.TRACKING_CODE;
@@ -221,9 +221,9 @@ export class IssueOnlineEditComponent implements OnInit {
     loaddata(id){
         if (id) {
             this.bpmProcinstServ.getByInstId(id).subscribe(res=>{
-                this._wfinsId = res.WF_INSTANCE_ID;
-                this._formioId = res.FORM_IO_ID;
-                this._documentId =res.DOCUMENT_ID;
+                this._wfinsId = res.Value.WF_INSTANCE_ID;
+                this._formioId =  res.Value.FORM_IO_ID;
+                this._documentId = res.Value.DOCUMENT_ID;
                 this.isLoading = false;
                 this.loadTab = true;
                 this.dataForm = {

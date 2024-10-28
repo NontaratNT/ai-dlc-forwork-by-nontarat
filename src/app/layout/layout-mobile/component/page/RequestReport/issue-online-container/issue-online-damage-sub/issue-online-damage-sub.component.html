@@ -26,7 +26,7 @@
                     <dxi-validation-rule type="required" message="กรุณากรอกประเภทบัญชี">
                     </dxi-validation-rule>
                 </dxi-item>
-                <dxi-item [colSpan]="1"></dxi-item>
+                <dxi-item [colSpan]="1" itemType="empty"></dxi-item>
                 <div *dxTemplate="let data of 'temp2-type'">
                     <dx-select-box #selectBanktype [dataSource]="bankdatatypeselect" [searchEnabled]="true" [(disabled)]="checktype" valueExpr="type_bank_id" displayExpr="type_name" placeholder="ประเภทบัญชี" (onValueChanged)="OnSelectBankType($event)" [(value)]="popupFormData.BANK_TYPE">
                     </dx-select-box>
@@ -64,7 +64,7 @@
                 </dxi-item>
 
                 <div *dxTemplate="let data of 'temp4-sufferer'">
-                    <dx-text-box id="ctrlBankACCtemp4-sufferer" [(value)]="popupFormData.BANK_ORIGIN_ACCOUNT" [maxLength]="15" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)">
+                    <dx-text-box #bankaccnumcompsuf id="ctrlBankACCtemp4-sufferer" [(value)]="popupFormData.BANK_ORIGIN_ACCOUNT" [maxLength]="15" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)" (onValueChanged)="checkPhoneNumberChanged($event, bankaccnumcompsuf)">
                     </dx-text-box>
                     <dx-tooltip target="#ctrlBankACCtemp4-sufferer" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                         <div *dxTemplate="let data of 'content'">
@@ -95,10 +95,12 @@
                     <dxo-label text="เลขพร้อมเพย์ (กรุณาระบุเฉพาะตัวเลข)" [showColon]="false"></dxo-label>
                     <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลเลขพร้อมเพย์">
                     </dxi-validation-rule>
+                    <dxi-validation-rule type="pattern" message="ระบุเลขพร้อมเพย์เป็นตัวเลข 10-13 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 0811112222" [pattern]="prompay">
+                    </dxi-validation-rule>
                 </dxi-item>
 
                 <div *dxTemplate="let data of 'temp4-prompay'">
-                    <dx-text-box id="ctrlBankACCtemp4-prompay" [(value)]="popupFormData.BANK_ORIGIN_ACCOUNT_PROMPAY" [maxLength]="13" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)">
+                    <dx-text-box #prompaycompnum id="ctrlBankACCtemp4-prompay" [(value)]="popupFormData.BANK_ORIGIN_ACCOUNT_PROMPAY" [maxLength]="13" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)" (onValueChanged)="checkPhoneNumberChanged($event, prompaycompnum)">
                     </dx-text-box>
                     <dx-tooltip target="#ctrlBankACCtemp4-prompay" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                         <div *dxTemplate="let data of 'content'">
@@ -171,7 +173,7 @@
                     <dxi-validation-rule type="required" message="กรุณากรอกประเภทบัญชี">
                     </dxi-validation-rule>
                 </dxi-item>
-                <dxi-item [colSpan]="1"></dxi-item>
+                <dxi-item [colSpan]="1" itemType="empty"></dxi-item>
                 <div *dxTemplate="let data of 'temp2-type'">
                     <dx-select-box #selectBanktypevalian [dataSource]="bankdatatypeselect" [searchEnabled]="true" valueExpr="type_id" displayExpr="type_name" placeholder="ประเภทบัญชี" (onValueChanged)="OnSelectBankTypevalian($event)" [(value)]="popupFormDatavillain.BANK_TYPE">
                     </dx-select-box>
@@ -209,7 +211,7 @@
                 </dxi-item>
 
                 <div *dxTemplate="let data of 'temp4-sufferer'">
-                    <dx-text-box id="ctrlBankACCtemp4-sufferer" [(value)]="popupFormDatavillain.BANK_ACCOUNT" [maxLength]="15" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)">
+                    <dx-text-box #bankvilaccnumbercomp id="ctrlBankACCtemp4-sufferer" [(value)]="popupFormDatavillain.BANK_ACCOUNT" [maxLength]="15" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)" (onValueChanged)="checkPhoneNumberChanged($event, bankvilaccnumbercomp)">
                     </dx-text-box>
                     <dx-tooltip target="#ctrlBankACCtemp4-sufferer" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                         <div *dxTemplate="let data of 'content'">
@@ -238,10 +240,12 @@
                     <dxo-label text="เลขพร้อมเพย์ (กรุณาระบุเฉพาะตัวเลข)" [showColon]="false"></dxo-label>
                     <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลเลขพร้อมเพย์">
                     </dxi-validation-rule>
+                    <dxi-validation-rule type="pattern" message="ระบุเลขพร้อมเพย์เป็นตัวเลข 10-13 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 0811112222" [pattern]="prompay">
+                    </dxi-validation-rule>
                 </dxi-item>
 
                 <div *dxTemplate="let data of 'temp4-prompay'">
-                    <dx-text-box id="ctrlBankACCtemp4-prompay" [(value)]="popupFormDatavillain.BANK_ORIGIN_ACCOUNT_PROMPAY" [maxLength]="13" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)">
+                    <dx-text-box #ctrlBankACCtemp4prompay id="ctrlBankACCtemp4-prompay" [(value)]="popupFormDatavillain.BANK_ORIGIN_ACCOUNT_PROMPAY" [maxLength]="13" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)" (onValueChanged)="checkPhoneNumberChanged($event, ctrlBankACCtemp4prompay)">
                     </dx-text-box>
                     <dx-tooltip target="#ctrlBankACCtemp4-prompay" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                         <div *dxTemplate="let data of 'content'">

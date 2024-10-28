@@ -21,6 +21,8 @@ import { OnlineCaseService } from "src/app/services/online-case.service";
 import { IOrganizeInfo } from "share-ui/lib/models/organize-info.service";
 import { OrgService } from "src/app/services/org.service";
 import { switchMap } from "rxjs/operators";
+import { DatePipe } from "@angular/common";
+import { formatDate } from "devextreme/localization";
 
 @Component({
     selector: "app-issue-online-event",
@@ -30,6 +32,7 @@ import { switchMap } from "rxjs/operators";
 export class IssueOnlineEventComponent implements OnInit {
 
     @ViewChild('formEvent1', { static: false }) formEvent1: DxFormComponent;
+    @ViewChild('formChannel', { static: false }) formChannel: DxFormComponent;
     @ViewChild("selectCaseType", { static: false }) selectCaseType: DxSelectBoxComponent;
     @ViewChild("selectPresentProvicelocationwalkin", { static: false }) selectPresentProvicelocationWalkin: DxSelectBoxComponent;;
     @ViewChild("selectorgwalkin", { static: false })  selectorgwalkin: DxSelectBoxComponent;
@@ -44,6 +47,7 @@ export class IssueOnlineEventComponent implements OnInit {
     isLoading = false;
     occupationList = [];
     formData: any = {};
+    formDataChannel: any = {};
     dataLocation: any = {};
     presentAddress: any = {};
     province = [];
@@ -56,6 +60,7 @@ export class IssueOnlineEventComponent implements OnInit {
     loadDateBox = false;
     minBirthDate: Date;
     maxBirthDate: Date;
+    datePhone: Date;
 
     checkboxaddresscard = false;
 
@@ -66,12 +71,19 @@ export class IssueOnlineEventComponent implements OnInit {
     issueOnline: any;
     checkblessing = false;
     recovery = false;
+    edit = false;
+
+    maxDateValue:Date = new Date();
 
     checkboxLocationwalkin: any = {};
     formdataOrgsendcasewalkin: any = {};
     dswalkinstatuspolice: IOrganizeInfo[];
     dsorgbyarialocation: IOrganizeInfo[];
     checkboxLocation: any = {};
+
+    channel_tel = false;
+    indexEdit = 0;
+    channel_data : any = [];
 
     walkInType = [
         { ID: 1, TEXT: "ยังไม่เคยพบ" },
@@ -119,11 +131,13 @@ export class IssueOnlineEventComponent implements OnInit {
         private _formValidate: FormValidatorService,
         private _OnlineCaseService: OnlineCaseService,
         private _OrgService: OrgService,
+        private datePipe: DatePipe,
     ) {
 
     }
 
     ngOnInit(): void {
+        this.maxDateValue.setHours(this.maxDateValue.getHours() + 1);
         this.isLoading = true;
         this.caseOpen = false;
 
@@ -154,6 +168,7 @@ export class IssueOnlineEventComponent implements OnInit {
                 this.formData.CASE_TYPE_NAME = data.CASE_TYPE_NAME;
                 this.caseType = data.CASE_TYPE_DESC;
                 this.caseOpen = true;
+                this.channel_tel = data.CASE_TYPE_ID == 66 || data.CASE_TYPE_ID == 67 ? true : false;
             } else {
                 this.formData.CASE_TYPE_ID = e.value;
             }
@@ -182,6 +197,12 @@ export class IssueOnlineEventComponent implements OnInit {
                 if(localStorage.getItem("form-event")){
                     this.formData = JSON.parse(localStorage.getItem("form-event"));
                     this.recovery = true;
+                    this.channel_tel = this.formData.CASE_TYPE_ID == 66 || this.formData.CASE_TYPE_ID == 67 ? true : false;
+                    if(this.channel_tel){
+                        if(localStorage.getItem("form-villain")){
+                            this.channel_data = JSON.parse(localStorage.getItem("form-villain")).CASE_CHANNEL;
+                        }
+                    }
                 }
 
             }else{
@@ -198,7 +219,7 @@ export class IssueOnlineEventComponent implements OnInit {
             }
             this.isLoading = false;
         }catch (error){
-            console.log(error);
+            // console.log(error);
             this.SetDefaultData();
         }
 
@@ -217,7 +238,7 @@ export class IssueOnlineEventComponent implements OnInit {
                 this.mainConponent.checkValidate = true;
                 return;
             }
-            console.log(this.formData.ORG_LOCATION_TYPE , " ", this.formData.ORG_LOCATION_ID);
+            // console.log(this.formData.ORG_LOCATION_TYPE , " ", this.formData.ORG_LOCATION_ID);
             if (this.formData.ORG_LOCATION_TYPE == 1) {
                 if (!this.formData.ORG_LOCATION_ID) {
                     this.alertmessagecustom("กรุณาเลือกสถานี");
@@ -242,7 +263,7 @@ export class IssueOnlineEventComponent implements OnInit {
                     return;
                 }
             }
-            console.log(this.formData);
+            // console.log(this.formData);
             if(this.formData.CASE_TYPE_ID === null || this.formData.CASE_TYPE_ID === 7){
                 Swal.fire({
                     title: "ผิดพลาด!",
@@ -261,10 +282,13 @@ export class IssueOnlineEventComponent implements OnInit {
                     setData[key] = this.formData[key];
                 }
             }
-            const setDataFormAll = Object.assign({},setData);
 
+            this.mainConponent.formDataAll.formVaillain = Object.assign({},{CASE_CHANNEL:this.channel_data});
+            localStorage.setItem("form-villain",JSON.stringify(Object.assign({},{CASE_CHANNEL:this.channel_data})));
+
+            const setDataFormAll = Object.assign({},setData);
             this.mainConponent.formDataAll.formEvent = setDataFormAll;
-            console.log(setDataFormAll);
+            // console.log(setDataFormAll);
             localStorage.setItem("form-event",JSON.stringify(setDataFormAll));
 
         }
@@ -650,5 +674,133 @@ export class IssueOnlineEventComponent implements OnInit {
         }).then(() => { });
         this.mainConponent.checkValidate = true;
         return;
+    }
+
+    PhoneNumberPattern(params) {
+        const makeScope = new RegExp('^[0](?=[0-9]{9,9}$)', 'g');
+        return makeScope.test(params.value);
+    }
+
+    CheckNumber(event) {
+        // const seperator  = '^[ก-๏\\s]+$';
+        const seperator = '^([0-9])';
+        const maskSeperator =  new RegExp(seperator , 'g');
+        const result =maskSeperator.test(event.key);
+        return result;
+    }
+    PasteCheckNumber(event) {
+        const clipboardData = event.clipboardData;
+        const pastedText = clipboardData.getData('text');
+        // const seperator  = '^[ก-๏\\s]+$';
+        const seperator = '^([0-9])';
+        const maskSeperator =  new RegExp(seperator , 'g');
+        const result =maskSeperator.test(pastedText);
+        return result;
+    }
+
+    OnSelectDate(e){
+        if(e.value){
+            const mydate = this.datePipe.transform(e.value, 'yyyy-MM-dd');
+            const mytime = this.datePipe.transform(e.value, 'HH:mm:ss');
+            this.formDataChannel.CASE_CHANNEL_PHONE_TIME = mytime;
+            this.formDataChannel.CASE_CHANNEL_PHONE_DATE = mydate;
+        }
+    }
+
+    cancel(){
+        this.formDataChannel = {};
+        this.datePhone = null;
+        this.indexEdit = 0;
+        this.edit = false;
+    }
+
+    addDataChannel() {
+        if (!this.formChannel.instance.validate().isValid){
+            this._formValidate.ValidateForm(this.formChannel.instance.validate().brokenRules);
+            return;
+        }else{
+            if(!this.edit){
+                if(this.formDataChannel.CASE_CHANNEL_PHONE_DATE != null){
+                    const dateStart = this.convertDate(this.formDataChannel.CASE_CHANNEL_PHONE_DATE,this.formDataChannel.CASE_CHANNEL_PHONE_TIME);
+                    this.datePhone = new Date(dateStart[0],dateStart[1],dateStart[2],dateStart[3],dateStart[4],dateStart[5]);
+                }
+                this.channel_data.push(
+                    {
+                        CASE_CHANNEL_PHONE_DESTINATION : this.formDataChannel.CASE_CHANNEL_PHONE_DESTINATION,
+                        CASE_CHANNEL_PHONE_DATE : this.formDataChannel.CASE_CHANNEL_PHONE_DATE,
+                        CASE_CHANNEL_PHONE_TIME: this.formDataChannel.CASE_CHANNEL_PHONE_TIME,
+                        CHANEL_PHONE : true,
+                        DATE_PHONE : this.datePhone,
+                        CHANNEL_PHONE_DOC : []
+                    }
+                );
+            }else{
+                if(this.formDataChannel.CASE_CHANNEL_PHONE_DATE != null){
+                    const dateStart = this.convertDate(this.formDataChannel.CASE_CHANNEL_PHONE_DATE,this.formDataChannel.CASE_CHANNEL_PHONE_TIME);
+                    this.datePhone = new Date(dateStart[0],dateStart[1],dateStart[2],dateStart[3],dateStart[4],dateStart[5]);
+                }
+                this.channel_data[this.indexEdit] = {
+                    CASE_CHANNEL_PHONE_DESTINATION : this.formDataChannel.CASE_CHANNEL_PHONE_DESTINATION,
+                    CASE_CHANNEL_PHONE_DATE : this.formDataChannel.CASE_CHANNEL_PHONE_DATE,
+                    CASE_CHANNEL_PHONE_TIME: this.formDataChannel.CASE_CHANNEL_PHONE_TIME,
+                    CHANEL_PHONE : true,
+                    DATE_PHONE : this.datePhone,
+                    CHANNEL_PHONE_DOC : []
+                }
+            }
+            this.formDataChannel = {};
+            this.datePhone = null;
+            this.edit = false;
+            // console.log(this.channel_data);
+            // console.log(this.channel_data[0].DATE_PHONE);
+        }
+
+    }
+
+    convertDate(date,time){
+        const dateIN = String(date+" "+time);
+        const [datePart, timePart] = dateIN.split(" ");
+        const [year, month, day] = datePart.split("-");
+        const [hours, minutes, seconds] = timePart.split(":");
+        return [Number(year),Number(month)-1,Number(day),Number(hours),Number(minutes),Number(seconds)]
+    }
+
+    onEditItem(event: any, index = null) {
+        this.indexEdit = index;
+        const data = event.data;
+        this.edit = true;
+        setTimeout(() => {
+            this.formDataChannel = {
+                CASE_CHANNEL_PHONE_DESTINATION: data.CASE_CHANNEL_PHONE_DESTINATION,
+                CASE_CHANNEL_PHONE_DATE: data.CASE_CHANNEL_PHONE_DATE,
+                CASE_CHANNEL_PHONE_TIME: data.CASE_CHANNEL_PHONE_TIME,
+                CHANEL_PHONE: data.CHANEL_PHONE,
+                DATE_PHONE: data.DATE_PHONE,
+                CHANNEL_PHONE_DOC: data.CHANNEL_PHONE_DOC
+            }
+            if(this.formDataChannel.CHANEL_PHONE && this.formDataChannel.CASE_CHANNEL_PHONE_DATE != null){
+                const dateStart = this.convertDate(this.formDataChannel.CASE_CHANNEL_PHONE_DATE,this.formDataChannel.CASE_CHANNEL_PHONE_TIME);
+                this.datePhone = new Date(dateStart[0],dateStart[1],dateStart[2],dateStart[3],dateStart[4],dateStart[5]);
+            }
+        }, 200)
+    }
+
+    onDeleteItem(event: any) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'ท่านต้องการลบข้อมูลหรือไม่?',
+            confirmButtonText: 'ตกลง',
+            showCancelButton: true,
+            cancelButtonText: 'ยกเลิก'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.channel_data.splice(event.rowIndex, 1)
+            }
+            return
+        })
+    }
+
+    displayFormatDateTime(date) {
+        return formatDate(date, 'dateShortTimeThai');
     }
 }

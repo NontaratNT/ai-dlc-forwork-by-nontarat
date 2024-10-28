@@ -234,6 +234,21 @@ export class TasklistComponent implements OnInit {
                         }
                     });
                 }
+                if (!(_.PERSONAL_TEL_NO)) {
+                    Swal.fire({
+                        title: "การติดตามสถานะ",
+                        text: "ท่านต้องเพิ่มหมายเลขโทรศัพท์หรือไม่?",
+                        html: "<p>กรุณาเพิ่มข้อมูลหมายเลขโทรศัพท์ของท่าน</p>",
+                        icon: "info",
+                        confirmButtonText: "ตกลง",
+                        // showCancelButton: true,
+                        // cancelButtonText: "ไม่",
+                    }).then((r) => {
+                        if (r.isConfirmed) {
+                            this.router.navigate(["main/personal"]);
+                        }
+                    });
+                }
                 if (_.USER_PICTURE) {
                     this.userImagePath =
                         environment.config.baseConfig.resourceUrl.replace(
@@ -305,7 +320,7 @@ export class TasklistComponent implements OnInit {
                     item.GROUP_STATUS_CODE !== "C02"
                 ) {
                     this.caseId = item.DATA_ID;
-                    this.onDoSurvey1(item.DATA_ID);
+                    // this.onDoSurvey1(item.DATA_ID);
                     // return;
                 }
                 if (
@@ -314,7 +329,7 @@ export class TasklistComponent implements OnInit {
                         item.GROUP_STATUS_CODE === "C06")
                 ) {
                     this.caseId = item.DATA_ID;
-                    this.onDoSurvey2(item.DATA_ID);
+                    // this.onDoSurvey2(item.DATA_ID);
                     // return;
                 }
             }
@@ -1222,7 +1237,7 @@ export class TasklistComponent implements OnInit {
                     const bank_name = value.replace(/\d+/g, '');
                     const upperString = bank_name.toUpperCase();
                     var haveBank = await this._bankInfoService.GetBankTrackNo(value.toUpperCase()).toPromise();
-                    if(haveBank){
+                    if(haveBank.Value){
                         Swal.fire({
                             title: 'ผิดพลาด!',
                             html: 'เลขอ้างอิงนี้มีการแจ้งแล้ว</br>รบกวนตรวจสอบคดีที่เคยบันทึกมาแล้ว',

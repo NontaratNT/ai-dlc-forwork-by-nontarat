@@ -1,0 +1,52 @@
+:host {
+    .tab-title {
+        font-size: 18px;
+        color: #2f2b66;
+    }
+     ::ng-deep {
+        .dx-icon.fa.fa-plus {
+            color: #fff !important;
+        }
+        .conten-block {
+            margin-top: 20px;
+            .content-title {
+                text-align: left;
+                padding: 10px 0 20px 0;
+                font-size: 18px;
+                color: #2f2b66;
+                font-weight: bold;
+            }
+            .content-end-line {
+                margin: auto;
+                width: 100%;
+                border-bottom: 1px solid #dddddd;
+                margin-top: 40px;
+            }
+        }
+    }
+    .btn-footer {
+        margin-top: 20px;
+    }
+}
+
+.open-file-text {
+    cursor: pointer;
+    color: #333a71;
+}
+
+.custom-ratio {
+     ::ng-deep .dx-widget.dx-collection>.dx-item.dx-radiobutton {
+        width: 500px;
+         ::ng-deep .dx-radio-value-container {
+            width: 40px;
+            vertical-align: top
+        }
+        .sub-content {
+            padding-top: 10px;
+        }
+        .sub-content>.location {
+            padding-left: 28px;
+            padding-right: 0px;
+        }
+    }
+}

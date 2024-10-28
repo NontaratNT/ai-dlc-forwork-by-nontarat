@@ -78,7 +78,23 @@
             </dxi-item>
             <div *dxTemplate="let data of 'temp4'">
                 <app-date-combo-picker *ngIf="loadDateBox" [disabled]="formReadOnly" [timezone]="'UTC+7'" [minDate]="minBirthDate" [maxDate]="maxBirthDate" [(date)]="formData.CASE_INFORMER_DATE"></app-date-combo-picker>
-
+            </div>
+            <dxi-item template="INFORMER_SMS_PROVIDER" [isRequired]="true" [colSpan]="1">
+                <dxo-label text="ค่ายโทรศัพท์ผู้เสียหาย" [showColon]="true"></dxo-label>
+                <dxi-validation-rule type="required" message="กรุณาเลือกค่ายโทรศัพท์ผู้เสียหาย">
+                </dxi-validation-rule>
+            </dxi-item>
+            <div *dxTemplate="let data of 'INFORMER_SMS_PROVIDER'">
+                <dx-select-box [dataSource]="serviceLabelID" displayExpr="TEXT" valueExpr="TEXT" searchExpr="TEXT" [searchEnabled]="true" placeholder="ค่ายโทรศัพท์" [(value)]="formData.INFORMER_TEL_PROVIDER" [showClearButton]="true">
+                </dx-select-box>
+            </div>
+            <dxi-item *ngIf="formData.INFORMER_TEL_PROVIDER === 'อื่น ๆ'" [colSpan]="1" [isRequired]="true" template="INFORMER_TEL_PROVIDER_DETAIL">
+                <dxo-label text="ชื่อค่ายโทรศัพท์ผู้เสียหาย" [showColon]="true"></dxo-label>
+                <dxi-validation-rule type="required" message="กรุณากรอกชื่อค่ายโทรศัพท์ผู้เสียหาย">
+                </dxi-validation-rule>
+            </dxi-item>
+            <div *dxTemplate="let data of 'INFORMER_TEL_PROVIDER_DETAIL'">
+                <dx-text-box placeholder="กรุณากรอกชื่อค่ายโทรศัพท์ผู้เสียหาย" [(value)]="formData.INFORMER_TEL_PROVIDER_DETAIL"></dx-text-box>
             </div>
             <dxi-item template="temp7" [colSpan]="1" [isRequired]="formValidate">
                 <dxo-label text="เบอร์โทรศัพท์มือถือ" [showColon]="false"></dxo-label>

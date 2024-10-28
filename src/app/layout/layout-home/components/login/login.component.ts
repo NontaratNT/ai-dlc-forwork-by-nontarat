@@ -16,6 +16,8 @@ import { AppComponent } from 'src/app/app.component';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { UserSettingService } from 'src/app/services/user-setting.service';
 import { FreezeAccountService } from 'src/app/services/bpm-freeze-account.service';
+
+declare var $:any;
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -35,6 +37,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     scopeWays2: boolean;
     _isShow: boolean = false;
     _isShow2: boolean = false;
+    isUrl: boolean = false;
     popupConsentVisible: boolean = false;
     constructor(
         private userServ: UserService,
@@ -53,6 +56,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.isUrl = window.location.href.includes(".com") && !window.location.href.includes("uat") ?  true: false;
+        if(this.isUrl){
+            window.location.href = "https://thaipoliceonline.go.th/login";
+        }
+        this.getIPAddress();
         // const nodesjs = new NodesJs({
         //     id: 'nodes',
         //     width: window.innerWidth,
@@ -305,9 +313,22 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     }
 
+<<<<<<< HEAD
     loginThaiID(){
         this.router.navigate(["login/thaiD"]);
 
     }
+=======
+    getIPAddress(){
+        try{
+            $.getJSON('https://api.ipify.org?format=json', function(data){
+            sessionStorage.setItem('ip_address',data.ip);
+        });
+        }catch{
+
+        }
+    }
+
+>>>>>>> origin/dev-nt-1441
 }
 

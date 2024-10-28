@@ -149,19 +149,51 @@ export class ProfileComponent implements OnInit {
                 this._isLoading = false;
             });
             return;
+        } else if(this.formData.PERSONAL_BIRTH_DATE == null || this.formData.PERSONAL_BIRTH_DATE == undefined) {
+            Swal.fire({
+                title: 'ผิดพลาด!',
+                text: "กรุณาเลือกวันเกิดของท่าน",
+                icon: 'warning',
+                confirmButtonText: 'ตกลง'
+            }).then(() => {
+                this._isLoading = false;
+            });
+            return;
+        } else if(this.formData.PERSONAL_FNAME_THA == null || this.formData.PERSONAL_FNAME_THA == undefined || this.formData.PERSONAL_FNAME_THA == "") {
+            Swal.fire({
+                title: 'ผิดพลาด!',
+                text: "กรุณากรอกชื่อของท่าน",
+                icon: 'warning',
+                confirmButtonText: 'ตกลง'
+            }).then(() => {
+                this._isLoading = false;
+            });
+            return;
+        } else if(this.formData.PERSONAL_LNAME_THA == null || this.formData.PERSONAL_LNAME_THA == undefined || this.formData.PERSONAL_LNAME_THA == "") {
+            Swal.fire({
+                title: 'ผิดพลาด!',
+                text: "กรุณากรอกนามสกุลของท่าน",
+                icon: 'warning',
+                confirmButtonText: 'ตกลง'
+            }).then(() => {
+                this._isLoading = false;
+            });
+            return;
         } else {
             this.servicePersonal.PutPersonal(this.id, this.FormatData())
-                .pipe(finalize(() => this._isLoading = false))
                 .subscribe(_ => {
-                    Swal.fire({
-                        title: 'สำเร็จ!',
-                        text: 'บันทึกเรียบร้อย',
-                        icon: 'success',
-                        confirmButtonText: 'ตกลง'
-                    }).then(() => {
-                        window.location.reload();
+                    this.servicePersonal.PutPersonalGDCC(this.id, this.FormatData())
+                    .pipe(finalize(() => this._isLoading = false)).subscribe(_ => {
+                        Swal.fire({
+                            title: 'สำเร็จ!',
+                            text: 'บันทึกเรียบร้อย',
+                            icon: 'success',
+                            confirmButtonText: 'ตกลง'
+                        }).then(() => {
+                            window.location.reload();
+                        });
                     });
-                });
+            });
         }
 
     }

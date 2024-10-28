@@ -252,6 +252,14 @@ export class IssueOnlineInformerComponent implements OnInit {
     checkblessings = false;
     dataForms: any = {};
     checkerror = 0;
+    serviceLabelID = [
+        { ID: 1, TEXT: "AIS" },
+        { ID: 2, TEXT: "TRUE" },
+        { ID: 3, TEXT: "DTAC" },
+        { ID: 4, TEXT: "NT (CAT TOT)" },
+        { ID: 5, TEXT: "อื่น ๆ" }
+    ];
+
     constructor(
         private router: Router,
         private servicePersonal: PersonalService,
@@ -496,7 +504,7 @@ export class IssueOnlineInformerComponent implements OnInit {
                 if(!localStorage.getItem("case_id")){
                     const _inst_id = Number(localStorage.getItem("inst_id"));
                     const procinstdata = await this._BpmProcinstService.getByInstId(_inst_id).toPromise();
-                    sessionStorage.setItem("case_id",procinstdata.DATA_ID);
+                    sessionStorage.setItem("case_id",procinstdata.Value.DATA_ID);
                 }
                 const _case_id = Number(sessionStorage.getItem("case_id"));
                 const dataForm = await this._OnlineCaseService.getbycaseId(_case_id).toPromise();
@@ -559,7 +567,7 @@ export class IssueOnlineInformerComponent implements OnInit {
                         this.dsorgbyaria = _;
                     });
             }
-            this.minBirthDate = this._date.SetDateDefault(80, true, true, true);
+            this.minBirthDate = this._date.SetDateDefault(100, true, true, true);
             this.maxBirthDate = this._date.SetDateDefault(0);
             this.loadDateBox = true;
             this.isLoading = false;
@@ -724,6 +732,9 @@ export class IssueOnlineInformerComponent implements OnInit {
             if(this.formData.CASE_INFORMER_DATE == "Invalid date" || undefined || null){
                 this.alertmessagecustom('กรุณาเลือกวันเดือนปีเกิด');
                 return
+            }
+            if(this.formData.INFORMER_TEL_PROVIDER === 'อื่น ๆ'){
+                this.formData.INFORMER_TEL_PROVIDER = this.formData.INFORMER_TEL_PROVIDER_DETAIL;
             }
             this.formData.NEXT = true;
             const setData = {};
@@ -969,7 +980,7 @@ export class IssueOnlineInformerComponent implements OnInit {
             this._OrgService.getorgProvince(e.value).subscribe((_) => {
                 this.dsorgbyaria = _;
             });
-            console.log("proviceorg", this.dsorgbyaria);
+            // console.log("proviceorg", this.dsorgbyaria);
         }
     }
 
