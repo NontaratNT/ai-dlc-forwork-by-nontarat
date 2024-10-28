@@ -313,12 +313,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     }
 
-<<<<<<< HEAD
     loginThaiID(){
         this.router.navigate(["login/thaiD"]);
 
     }
-=======
     getIPAddress(){
         try{
             $.getJSON('https://api.ipify.org?format=json', function(data){
@@ -329,6 +327,5 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
     }
 
->>>>>>> origin/dev-nt-1441
 }
 
