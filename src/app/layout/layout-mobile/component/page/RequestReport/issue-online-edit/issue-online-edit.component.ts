@@ -175,6 +175,7 @@ export class IssueOnlineEditComponent implements OnInit {
                 this.numCount = _;
             });
             this.bpmProcinstServ.getByInstId(id).subscribe(res => {
+                sessionStorage.setItem("case_id",res.Value.DATA_ID);
                 this._wfinsId = res.Value.WF_INSTANCE_ID;
                 this._formioId = res.Value.FORM_IO_ID;
                 this._documentId = res.Value.DOCUMENT_ID;
