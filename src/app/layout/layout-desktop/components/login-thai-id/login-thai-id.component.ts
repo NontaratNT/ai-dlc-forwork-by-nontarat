@@ -26,7 +26,9 @@ export class LoginThaiIDComponent implements OnInit {
      private deviceService: DeviceDetectorService,
 
      private thaiidservice:ThaiIDService,private _jwtServ: JwtHelperService,private route: ActivatedRoute, private router: Router) { }
-  url = 'https://imauth.bora.dopa.go.th/api/v1/oauth2/auth/?response_type=code&client_id=WGYyT3lGeGo3c0Z6SEZSbTBRVktaN1VZbUZaVTJwWno&redirect_uri=https://citizenuat.thaipoliceonline.com/login/thaiD&scope=pid%20th_fullname%20dob%20openid&state=af0ifjsldkj';
+  // url = 'https://imauth.bora.dopa.go.th/api/v1/oauth2/auth/?response_type=code&client_id=WGYyT3lGeGo3c0Z6SEZSbTBRVktaN1VZbUZaVTJwWno&redirect_uri=https://citizenuat.thaipoliceonline.com/login/thaiD&scope=pid%20th_fullname%20dob%20openid&state=af0ifjsldkj';
+  url = 'https://imauth.bora.dopa.go.th/api/v1/oauth2/auth/?response_type=code&client_id=RVJKZXRZWWR5NGIyTE1aYWl0aWFCUDRWYUZPU3lqWTk&redirect_uri=https://thaipoliceonline.go.th/login/thaiD&scope=pid%20th_fullname%20dob%20openid&state=af0ifjsldkj';
+
   async ngOnInit(): Promise<void> {
 
 
