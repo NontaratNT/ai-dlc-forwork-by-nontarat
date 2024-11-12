@@ -283,10 +283,10 @@ export class IssueOnlineDamageSubComponent implements OnInit {
         }
     }
     InputConidtions(event) {
-        const d = this.popupFormData.BANK_MONEY_OTHER_ID;
-        if (d === "T") {
+        const d = this.formchecktype.type_name;
+        if (d === "True Money") {
             return this.TrueMoneyValidator(event);
-        } else if (d === "C") {
+        } else if (d === "เงินดิจิทัล (Cryptocurrency)") {
             return this.CyrptoValidator(event);
         } else if (d === "P") {
             return this.EmailOrNumberValidator(event);

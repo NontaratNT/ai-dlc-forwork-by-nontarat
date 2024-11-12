@@ -467,11 +467,14 @@
                     </div>
                     <div class="content-form">
                         <!-- ฟอร์มต้นทาง form-origin-Cryp -->
+                        <div style="color: red;">*หมายเลข Wallet กรอกเฉพาะตัวอักษรภาษาอังกฤษและตัวเลขเท่านั้น</div>
                         <div class="row mb-2 justify-content-center">
                             <div class="col-11 bank-origin text-center">
                                 <dx-form #formOriginCrypto [colCount]="2" labelLocation="left">
                                     <dxi-item template="temp2-typeway" [colSpan]="2">
                                         <dxo-label text="เส้นทางการโอนเงิน" [showColon]="false"></dxo-label>
+                                        <dxi-validation-rule type="required" message="กรุณากรอกเส้นทางการโอนเงิน">
+                                        </dxi-validation-rule>
                                     </dxi-item>
                                     <div *dxTemplate="let data of 'temp2-typeway'">
                                         <dx-radio-group [items]="ways" valueExpr="id" displayExpr="text" [(value)]="FormDataOriginCrypto.WAYS" layout="horizontal" (onValueChanged)="onCheckWays($event, 'Crypfirst')">
@@ -486,9 +489,11 @@
                                     </div>
                                     <dxi-item template="temp2-wallet-input" [colSpan]="1">
                                         <dxo-label text="หมายเลข Wallet" [width]="200" [showColon]="false"></dxo-label>
+                                        <dxi-validation-rule type="required" message="กรุณากรอกหมายเลข Wallet">
+                                        </dxi-validation-rule>
                                     </dxi-item>
                                     <div *dxTemplate="let data of 'temp2-wallet-input'">
-                                        <dx-text-box id="ctrlMoneyOtherBank" (keypress)="CyrptoValidator($event)" [maxLength]="50" [(value)]="FormDataOriginCrypto.BANK_MONEY_OTHER_ACCOUNT"></dx-text-box>
+                                        <dx-text-box id="ctrlMoneyOtherBank" (keypress)="CyrptoValidator($event)" (paste)="PasteCyrpto($event)" [maxLength]="50" [(value)]="FormDataOriginCrypto.BANK_MONEY_OTHER_ACCOUNT"></dx-text-box>
                                     </div>
                                 </dx-form>
                             </div>
@@ -519,7 +524,7 @@
                                         </dxi-validation-rule>
                                     </dxi-item>
                                     <div *dxTemplate="let data of 'temp2-wallet-input'">
-                                        <dx-text-box id="ctrlMoneyOtherBank" (keypress)="CyrptoValidator($event)" [maxLength]="50" [(value)]="FormDataDestinationCrypto.BANK_MONEY_OTHER_ACCOUNT"></dx-text-box>
+                                        <dx-text-box id="ctrlMoneyOtherBank" (keypress)="CyrptoValidator($event)" (paste)="PasteCyrpto($event)" [maxLength]="50" [(value)]="FormDataDestinationCrypto.BANK_MONEY_OTHER_ACCOUNT"></dx-text-box>
                                     </div>
                                 </dx-form>
                             </div>

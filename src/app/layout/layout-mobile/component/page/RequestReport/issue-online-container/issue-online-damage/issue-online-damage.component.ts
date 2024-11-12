@@ -2103,6 +2103,11 @@ export class IssueOnlineDamageComponent implements OnInit {
                 this.listUploadFileformCrypto.splice(0, 1);
                 this.calulatemoney([...this.listDamageCrytro, ...this.listDamageBank]);
                 this.now = null;
+            }else{
+                this._formValidate.ValidateForm(
+                    this.formbanknewCrytro.instance.validate().brokenRules
+                );
+                return;
             }
         }else{
             if (this.formbanknew.instance.validate().isValid) {

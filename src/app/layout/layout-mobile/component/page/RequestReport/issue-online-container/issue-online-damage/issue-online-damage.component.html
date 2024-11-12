@@ -26,7 +26,8 @@
                         </div>
                     </div>
                     <div class="content-form">
-                        <p style="color:red;">กรณีมีการโอนเงินมากกว่า 1 ครั้ง ให้กรอกข้อมูลใหม่ และคลิกที่ปุ่ม <b>'เพิ่มข้อมูล'</b></p>
+                        <p style="color:red;">กรณีมีการโอนเงินมากกว่า 1 ครั้ง ให้กรอกข้อมูลใหม่ และคลิกที่ปุ่ม <b>'เพิ่มข้อมูล'</b></p><br>
+                        <p style="color:red;">*หมายเลข Wallet กรอกเฉพาะตัวอักษรภาษาอังกฤษและตัวเลขเท่านั้น</p>
                         <dx-form *ngIf="!formReadOnly" #formbanknew [colCount]="3" labelLocation="top">
                             <dxi-item template="tempstart" [colSpan]="1" [isRequired]="true">
                                 <dxo-label text="บัญชีต้นทาง" [showColon]="false"></dxo-label>
@@ -200,6 +201,7 @@
                     </div>
                     <div class="content-form">
                         <p style="color:red;">กรณีมีการโอนเงินมากกว่า 1 ครั้ง ให้กรอกข้อมูลใหม่ และคลิกที่ปุ่ม <b>'เพิ่มข้อมูล'</b></p>
+                        <div style="color: red;">*หมายเลข Wallet กรอกเฉพาะตัวอักษรภาษาอังกฤษและตัวเลขเท่านั้น</div>
                         <dx-form *ngIf="!formReadOnly" #formbanknewCrytro [colCount]="3" labelLocation="top">
 
                             <dxi-item template="tempstart" [colSpan]="1" [isRequired]="true">

@@ -310,13 +310,6 @@ export class IssueOnlineDamageComponent implements OnInit {
     _BankNumberPattern = /^([0-9Xx]{10,15})/;
 
     constructor(
-        private router: Router,
-        private servicePersonal: PersonalService,
-        private serviceProvince: ProvinceService,
-        private serviceDistrict: DistrictService,
-        private serviceSubDistrict: SubdistrictService,
-        private servOccupations: CmsOccupationsService,
-        private serviceTitle: TitleService,
         private servBankInfo: BankInfoService,
         private _date: ConvertDateService,
         private _issueFile: IssueOnlineFileUploadService,
@@ -395,6 +388,8 @@ export class IssueOnlineDamageComponent implements OnInit {
                             CASE_MONEY_DAMAGE_VALUE: 0,
                             CASE_MONEY: [],
                         };
+                        this.FormDataOrigin.WAYS = 2;
+                        this.FormDataDestination.WAYS = 1;
                         this.checkboxDamage = {
                             case_type1: true,
                             case_type2: false,
@@ -459,6 +454,8 @@ export class IssueOnlineDamageComponent implements OnInit {
                             CASE_MONEY_DAMAGE_VALUE: 0,
                             CASE_MONEY: []
                         };
+                        this.FormDataOriginCrypto.WAYS = 2;
+                        this.FormDataDestinationCrypto.WAYS = 1;
                         this.checkboxDamage = {
                             case_type1: false,
                             case_type2: false,
@@ -755,6 +752,8 @@ export class IssueOnlineDamageComponent implements OnInit {
                             this.listDamageBank = [];
                             this.formData.CASE_MONEY_TYPE3 = "N";
                             this.formData.CASE_MONEY_DAMAGE_VALUE = 0;
+                            this.FormDataOrigin.WAYS = 2;
+                            this.FormDataDestination.WAYS = 1;
                         } else {
                             this.checkboxDamage.case_type1 = true;
                         }
@@ -1214,9 +1213,9 @@ export class IssueOnlineDamageComponent implements OnInit {
         }
         return false;
     }
-    CheckSammaryValue(num) {
+    CheckSammaryValue(num) : number{
         if (num) {
-            return parseFloat(num).toFixed(2);
+            return parseFloat(num).toFixed(2) as unknown as number;
         }
         return 0;
     }
@@ -1953,8 +1952,17 @@ export class IssueOnlineDamageComponent implements OnInit {
         return !makeScope.test(params.value);
     }
     CyrptoValidator(event) {
-        const makeScope = new RegExp("^[A-Za-z0-9]", "g");
+        const makeScope = new RegExp("^[A-Za-z0-9]$", "g");
         return makeScope.test(event.key);
+    }
+    PasteCyrpto(event) {
+        const clipboardData = event.clipboardData;
+        const pastedText = clipboardData.getData('text');
+        // const seperator  = '^[ก-๏\\s]+$';
+        const seperator = '^[A-Za-z0-9]$';
+        const maskSeperator =  new RegExp(seperator , 'g');
+        const result =maskSeperator.test(pastedText);
+        return result;
     }
     AccountNamePattern(params) {
         const makeScope = new RegExp("[A-Za-zก-๏ ]", "g");
@@ -2258,8 +2266,13 @@ export class IssueOnlineDamageComponent implements OnInit {
         this.now = null;
 
         this.calulatemoney([...this.listDamageCrypto, ...this.listDamageBank]);
-        this.FormDataOrigin = {}
-        this.FormDataDestination = {}
+        this.FormDataOrigin = {
+            WAYS: 2
+        }
+        this.FormDataDestination = {
+            WAYS: 1
+        }
+        
     }
 
 
@@ -2726,7 +2739,7 @@ export class IssueOnlineDamageComponent implements OnInit {
             if (this.FormDataOriginCrypto.WAYS == getValue) {
                 this.FormDataDestinationCrypto.WAYS = diffValue
             }
-        } else if ('Cryptseccond') {
+        } else if (from === 'Cryptseccond') {
             if (this.FormDataDestinationCrypto.WAYS == getValue) {
                 this.FormDataOriginCrypto.WAYS = diffValue
             }
@@ -2735,7 +2748,7 @@ export class IssueOnlineDamageComponent implements OnInit {
             if (this.FormDataOrigin.WAYS == getValue) {
                 this.FormDataDestination.WAYS = diffValue
             }
-        } else if ('Bankseccond') {
+        } else if (from ==='Bankseccond') {
             if (this.FormDataDestination.WAYS == getValue) {
                 this.FormDataOrigin.WAYS = diffValue
             }
@@ -2858,22 +2871,24 @@ export class IssueOnlineDamageComponent implements OnInit {
     }
 
     setDefualtCryptoForm() {
+        console.log(this.FormDataOriginCrypto.WAYS);
+        const ogway = this.FormDataOriginCrypto.WAYS ?? 2 ;
+        const ogtype = this.FormDataOriginCrypto.BANK_TYPE;
+        const destiway = this.FormDataDestinationCrypto.WAYS ?? 1;
+        const destitype = this.FormDataDestinationCrypto.BANK_TYPE;
         this.FormDataOriginCrypto = {}
         this.FormDataDestinationCrypto = {}
         this.listUploadFileformcrypto = [];
-
-        const ogway = this.FormDataOriginCrypto.ways;
-        const ogtype = this.FormDataOriginCrypto.BANK_TYPE;
-        this.FormDataOriginCrypto.ways = ogway;
+       
+        this.FormDataOriginCrypto.WAYS = ogway;
         this.FormDataOriginCrypto.BANK_TYPE = ogtype;
         this.FormDataOriginCrypto.TYPE_MAIN = "P";
         this.FormDataOriginCrypto.TYPE_ID = "C";
         this.FormDataOriginCrypto.TYPE_NAME = "เงินดิจิทัล (Cryptocurrency)";
         this.FormDataOriginCrypto.TYPE_BANK_ID = 4;
 
-        const destiway = this.FormDataDestinationCrypto.ways;
-        const destitype = this.FormDataDestinationCrypto.BANK_TYPE;
-        this.FormDataDestinationCrypto.ways = destiway;
+        
+        this.FormDataDestinationCrypto.WAYS = destiway;
         this.FormDataDestinationCrypto.BANK_TYPE = destitype;
         this.FormDataDestinationCrypto.TYPE_MAIN = "P";
         this.FormDataDestinationCrypto.TYPE_ID = "C";
@@ -2895,6 +2910,15 @@ export class IssueOnlineDamageComponent implements OnInit {
                 this.formmoney.BANK_LIST_ID = null;
                 this.formmoney.BANK_ORIGIN_LIST_ID = null;
             });
+            return
+        }
+        if (!this.formOriginCrypto.instance.validate().isValid) {
+            Swal.fire({
+                title: "ผิดพลาด!",
+                html: "กรุณากรอกข้อมูลบัญชีต้นทางให้ครบ",
+                icon: "warning",
+                confirmButtonText: "Ok",
+            }).then(() => { });
             return
         }
         if (!this.formDestinyCrypto.instance.validate().isValid) {
