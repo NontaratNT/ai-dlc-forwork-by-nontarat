@@ -1008,7 +1008,7 @@ export class IssueOnlineDamageComponent implements OnInit {
     async OS_ItemDamageSubEdit(index = null, data = {} as any) {
         this.isAdding = false;
         this.editTransferData = { ...data, index }
-
+        console.log(data);
         this.formmoney.BANK_ORIGIN_LIST_ID = data.BANK_ORIGIN_LIST_ID;
         this.formmoney.BANK_LIST_ID = data.BANK_LIST_ID;
         this.formmoney.BANK_TRANSFER_DATE = data.BANK_TRANSFER_DATE;
@@ -1894,118 +1894,153 @@ export class IssueOnlineDamageComponent implements OnInit {
     }
 
     outputdatabank(value) {
-        // console.log('submit sufferer', value);
-        if (value.TYPE_NAME === 'ธนาคาร' && value.ways === 1) {
-            value["SHOW_NAME"] = '(ธนาคาร ผู้ร้าย)' + value.BANK_ORIGIN_NAME + ': ' + value.BANK_ORIGIN_ACCOUNT + ' ' + value.BANK_ORIGIN_ACCOUNT_NAME;
+        console.log('submit ori', value);
+        const typeNameMapping: Record<string, Record<number, string>> = {
+            'ธนาคาร': {
+                1: '(ธนาคาร ผู้ร้าย)',
+                2: '(ธนาคาร ผู้เสียหาย)',
+            },
+            'พร้อมเพย์': {
+                1: '(พร้อมเพย์ ผู้ร้าย)',
+                2: '(พร้อมเพย์ ผู้เสียหาย)',
+            },
+            'True Money': {
+                1: '(True Money ผู้ร้าย)',
+                2: '(True Money ผู้เสียหาย)',
+            },
+            'เงินดิจิทัล (Cryptocurrency)': {
+                1: '(Cryptocurrency ผู้ร้าย)',
+                2: '(Cryptocurrency ผู้เสียหาย)',
+            },
+            'อื่นๆ': {
+                1: '(อื่นๆ ผู้ร้าย)',
+                2: '(อื่นๆ ผู้เสียหาย)',
+            },
+            'QR Code': {
+                1: '(QR Code ผู้ร้าย)',
+                2: '(QR Code ผู้เสียหาย)',
+            },
+            'Max Card': {
+                1: '(Max Card ผู้ร้าย)',
+                2: '(Max Card ผู้เสียหาย)',
+            },
+            'Paypal': {
+                1: '(Paypal ผู้ร้าย)',
+                2: '(Paypal ผู้เสียหาย)',
+            },
+        };
+        console.log(value.TYPE_NAME);
+        console.log(value.ways);
+        const prefix = typeNameMapping[value.TYPE_NAME]?.[value.ways] || '';
+        if(value.TYPE_NAME == "True Money"){
+            value.TRUEMONEY_TYPE_NAME = !value.TRUEMONEY_TYPE_NAME ? value.TRUEMONEY_TYPE == "P" ? "หมายเลขโทรศัพท์" :  value.TRUEMONEY_TYPE == "W" ? "Wallet ID" : value.TRUEMONEY_TYPE == "B" ? "หมายเลขบัญชี" : "" : value.TRUEMONEY_TYPE_NAME;
         }
-        else if (value.TYPE_NAME === 'ธนาคาร' && value.ways === 2) {
-            value["SHOW_NAME"] = '(ธนาคาร ผู้เสียหาย)' + value.BANK_ORIGIN_NAME + ': ' + value.BANK_ORIGIN_ACCOUNT + ' ' + value.BANK_ORIGIN_ACCOUNT_NAME;
+        if (prefix) {
+            switch (value.TYPE_NAME) {
+                case 'ธนาคาร':
+                    value.SHOW_NAME = `${prefix}${value.BANK_ORIGIN_NAME}: ${value.BANK_ORIGIN_ACCOUNT} ${value.BANK_ORIGIN_ACCOUNT_NAME}`;
+                    break;
+    
+                case 'พร้อมเพย์':
+                    value.SHOW_NAME = `${prefix}${value.BANK_ORIGIN_ACCOUNT_PROMPAY} ${value.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY}`;
+                    value.BANK_ORIGIN_ACCOUNT = value.BANK_ORIGIN_ACCOUNT_PROMPAY;
+                    break;
+    
+                case 'True Money':
+                    value.SHOW_NAME = `${prefix}${value.BANK_MONEY_OTHER_ACCOUNT} ${value.BANK_ORIGIN_ACCOUNT_NAME} (${value.TRUEMONEY_TYPE_NAME || ''})`;
+                    value.BANK_ORIGIN_ACCOUNT = value.BANK_MONEY_OTHER_ACCOUNT;
+                    break;
+    
+                case 'เงินดิจิทัล (Cryptocurrency)':
+                case 'อื่นๆ':
+                case 'QR Code':
+                case 'Max Card':
+                case 'Paypal':
+                    value.SHOW_NAME = `${prefix}${value.BANK_MONEY_OTHER_ACCOUNT} ${value.BANK_ORIGIN_ACCOUNT_NAME || ''}`;
+                    value.BANK_ORIGIN_ACCOUNT = value.BANK_MONEY_OTHER_ACCOUNT;
+                    break;
+    
+                default:
+                    break;
+            }
         }
-        else if (value.TYPE_NAME === 'พร้อมเพย์' && value.ways === 1) {
-            value["SHOW_NAME"] = '(พร้อมเพย์ ผู้ร้าย)' + value.BANK_ORIGIN_ACCOUNT_PROMPAY + ' ' + value.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY;
-            value['BANK_ORIGIN_ACCOUNT'] = value.BANK_ORIGIN_ACCOUNT_PROMPAY;
-        }
-        else if (value.TYPE_NAME === 'พร้อมเพย์' && value.ways === 2) {
-            value["SHOW_NAME"] = '(พร้อมเพย์ ผู้เสียหาย)' + value.BANK_ORIGIN_ACCOUNT_PROMPAY + ' ' + value.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY;
-            value['BANK_ORIGIN_ACCOUNT'] = value.BANK_ORIGIN_ACCOUNT_PROMPAY;
-        }
-        else if (value.TYPE_NAME === 'True Money' && value.ways === 1) {
-            value["SHOW_NAME"] = '(True Money ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT + ' ' + value.TRUEMONEY_TYPE_NAME;
-            value['BANK_ORIGIN_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
-        }
-        else if (value.TYPE_NAME === 'True Money' && value.ways === 2) {
-            value["SHOW_NAME"] = '(True Money ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + ' ' + value.TRUEMONEY_TYPE_NAME;
-            value['BANK_ORIGIN_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
-        }
-        else if (value.TYPE_NAME === 'เงินดิจิทัล (Cryptocurrency)' && value.ways === 1) {
-            value["SHOW_NAME"] = '(Cryptocurrency ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT;
-            value['BANK_ORIGIN_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
-        }
-        else if (value.TYPE_NAME === 'เงินดิจิทัล (Cryptocurrency)' && value.ways === 2) {
-            value["SHOW_NAME"] = '(Cryptocurrency ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT;
-            value['BANK_ORIGIN_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
-        }
-        else if (value.TYPE_NAME === 'Paypal' && value.ways === 1) {
-            value["SHOW_NAME"] = '(Paypal ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT;
-            value['BANK_ORIGIN_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
-        }
-        else if (value.TYPE_NAME === 'Paypal' && value.ways === 2) {
-            value["SHOW_NAME"] = '(Paypal ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT;
-            value['BANK_ORIGIN_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
-        }
-        else if (value.TYPE_NAME === 'อื่นๆ' && value.ways === 1) {
-            value["SHOW_NAME"] = '(อื่นๆ ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT + ' ' + value.CASE_MONEY_BANK_OTHER_DETAIL;
-            value['BANK_ORIGIN_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
-        }
-        else if (value.TYPE_NAME === 'อื่นๆ' && value.ways === 2) {
-            value["SHOW_NAME"] = '(อื่นๆ ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + ' ' + value.CASE_MONEY_BANK_OTHER_DETAIL;
-            value['BANK_ORIGIN_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
-        }
-
-        // if(value.ways === 1){
-        //     value["SHOW_NAME"] += '(ผู้ร้าย)';
-        // }else if(value.ways === 2){
-        //     value["SHOW_NAME"] += '(ผู้เสียหาย)';
-        // }
         if(value.TYPE_NAME === 'เงินดิจิทัล (Cryptocurrency)'){
             this.bankCrytroListstart.push({...value});
         }else{
             this.bankListstart.push({...value});
         }
-        // this.formmoney.BANK_ORIGIN_LIST_ID = value["BANK_ORIGIN_ID"]
         this.formmoney.BANK_ORIGIN_LIST_ID = value["SHOW_NAME"];
-
-        // console.log("valueemit",value);
-        // console.log("bankliststart",this.bankListstart);
     }
     outputdatabankvillain(value) {
-        console.log('submit villain', value);
-        // creaye variavle
-        if (value.TYPE_NAME === 'ธนาคาร' && value.ways === 1) {
-            value["SHOW_NAME"] = '(ธนาคาร ผู้ร้าย)' + value.BANK_NAME + ': ' + value.BANK_ACCOUNT + ' ' + value.BANK_ACCOUNT_NAME;
+        console.log('submit des', value);
+        const typeNameMapping: Record<string, Record<number, string>> = {
+            'ธนาคาร': {
+                1: '(ธนาคาร ผู้ร้าย)',
+                2: '(ธนาคาร ผู้เสียหาย)',
+            },
+            'พร้อมเพย์': {
+                1: '(พร้อมเพย์ ผู้ร้าย)',
+                2: '(พร้อมเพย์ ผู้เสียหาย)',
+            },
+            'True Money': {
+                1: '(True Money ผู้ร้าย)',
+                2: '(True Money ผู้เสียหาย)',
+            },
+            'เงินดิจิทัล (Cryptocurrency)': {
+                1: '(Cryptocurrency ผู้ร้าย)',
+                2: '(Cryptocurrency ผู้เสียหาย)',
+            },
+            'อื่นๆ': {
+                1: '(อื่นๆ ผู้ร้าย)',
+                2: '(อื่นๆ ผู้เสียหาย)',
+            },
+            'QR Code': {
+                1: '(QR Code ผู้ร้าย)',
+                2: '(QR Code ผู้เสียหาย)',
+            },
+            'Max Card': {
+                1: '(Max Card ผู้ร้าย)',
+                2: '(Max Card ผู้เสียหาย)',
+            },
+            'Paypal': {
+                1: '(Paypal ผู้ร้าย)',
+                2: '(Paypal ผู้เสียหาย)',
+            },
+        };
+        console.log(value.TYPE_NAME);
+        console.log(value.ways);
+        const prefix = typeNameMapping[value.TYPE_NAME]?.[value.ways] || '';
+        if(value.TYPE_NAME == "True Money"){
+            value.TRUEMONEY_TYPE_NAME = !value.TRUEMONEY_TYPE_NAME ? value.TRUEMONEY_TYPE == "P" ? "หมายเลขโทรศัพท์" :  value.TRUEMONEY_TYPE == "W" ? "Wallet ID" : value.TRUEMONEY_TYPE == "B" ? "หมายเลขบัญชี" : "" : value.TRUEMONEY_TYPE_NAME;
         }
-        else if (value.TYPE_NAME === 'ธนาคาร' && value.ways === 2) {
-            value["SHOW_NAME"] = '(ธนาคาร ผู้เสียหาย)' + value.BANK_NAME + ': ' + value.BANK_ACCOUNT + ' ' + value.BANK_ACCOUNT_NAME;
-        }
-        else if (value.TYPE_NAME === 'พร้อมเพย์' && value.ways === 1) {
-            value["SHOW_NAME"] = '(พร้อมเพย์ ผู้ร้าย)' + value.BANK_ORIGIN_ACCOUNT_PROMPAY + ' ' + value.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY;
-            value['BANK_ACCOUNT'] = value.BANK_ORIGIN_ACCOUNT_PROMPAY;
-        }
-        else if (value.TYPE_NAME === 'พร้อมเพย์' && value.ways === 2) {
-            value["SHOW_NAME"] = '(พร้อมเพย์ ผู้เสียหาย)' + value.BANK_ORIGIN_ACCOUNT_PROMPAY + ' ' + value.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY;
-            value['BANK_ACCOUNT'] = value.BANK_ORIGIN_ACCOUNT_PROMPAY;
-        }
-        else if (value.TYPE_NAME === 'True Money' && value.ways === 1) {
-            value["SHOW_NAME"] = '(True Money ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT + ' ' + value.TRUEMONEY_TYPE_NAME;
-            value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
-        }
-        else if (value.TYPE_NAME === 'True Money' && value.ways === 2) {
-            value["SHOW_NAME"] = '(True Money ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + ' ' + value.TRUEMONEY_TYPE_NAME;
-            value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
-        }
-        else if (value.TYPE_NAME === 'เงินดิจิทัล (Cryptocurrency)' && value.ways === 1) {
-            value["SHOW_NAME"] = '(Cryptocurrency ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT;
-            value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
-        }
-        else if (value.TYPE_NAME === 'เงินดิจิทัล (Cryptocurrency)' && value.ways === 2) {
-            value["SHOW_NAME"] = '(Cryptocurrency ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT;
-            value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
-        }
-        else if (value.TYPE_NAME === 'Paypal' && value.ways === 1) {
-            value["SHOW_NAME"] = '(Paypal ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT;
-            value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
-        }
-        else if (value.TYPE_NAME === 'Paypal' && value.ways === 2) {
-            value["SHOW_NAME"] = '(Paypal ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT;
-            value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
-        }
-        else if (value.TYPE_NAME === 'อื่นๆ' && value.ways === 1) {
-            value["SHOW_NAME"] = '(อื่นๆ ผู้ร้าย)' + value.BANK_MONEY_OTHER_ACCOUNT + ' ' + value.CASE_MONEY_BANK_OTHER_DETAIL;
-            value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
-        }
-        else if (value.TYPE_NAME === 'อื่นๆ' && value.ways === 2) {
-            value["SHOW_NAME"] = '(อื่นๆ ผู้เสียหาย)' + value.BANK_MONEY_OTHER_ACCOUNT + ' ' + value.CASE_MONEY_BANK_OTHER_DETAIL;
-            value['BANK_ACCOUNT'] = value.BANK_MONEY_OTHER_ACCOUNT;
+        if (prefix) {
+            switch (value.TYPE_NAME) {
+                case 'ธนาคาร':
+                    value.SHOW_NAME = `${prefix}${value.BANK_NAME}: ${value.BANK_ACCOUNT} ${value.BANK_ACCOUNT_NAME}`;
+                    break;
+    
+                case 'พร้อมเพย์':
+                    value.SHOW_NAME = `${prefix}${value.BANK_ORIGIN_ACCOUNT_PROMPAY} ${value.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY}`;
+                    value.BANK_ACCOUNT = value.BANK_ORIGIN_ACCOUNT_PROMPAY;
+                    break;
+    
+                case 'True Money':
+                    value.SHOW_NAME = `${prefix}${value.BANK_MONEY_OTHER_ACCOUNT} ${value.BANK_ACCOUNT_NAME} (${value.TRUEMONEY_TYPE_NAME || ''})`;
+                    value.BANK_ACCOUNT = value.BANK_MONEY_OTHER_ACCOUNT;
+                    break;
+    
+                case 'เงินดิจิทัล (Cryptocurrency)':
+                case 'อื่นๆ':
+                case 'QR Code':
+                case 'Max Card':
+                case 'Paypal':
+                    value.SHOW_NAME = `${prefix}${value.BANK_MONEY_OTHER_ACCOUNT} ${value.BANK_MONEY_OTHER_ACCOUNT || ''}`;
+                    value.BANK_ACCOUNT = value.BANK_MONEY_OTHER_ACCOUNT;
+                    break;
+    
+                default:
+                    break;
+            }
         }
         this.bankListend.push({...value});
         this.formmoney.BANK_LIST_ID = value["SHOW_NAME"];

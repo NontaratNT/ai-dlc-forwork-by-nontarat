@@ -80,12 +80,12 @@
                                     <dx-number-box format="#,##0.##" [focusStateEnabled]="false" [(value)]="formmoney.BANK_DAMAGE_VALUE"></dx-number-box>
                                 </div>
                             </dxi-item>
-                            <dxi-item template="tempmoneydetail" [colSpan]="3" [isRequired]="false">
+                            <!-- <dxi-item template="tempmoneydetail" [colSpan]="3" [isRequired]="false">
                                 <dxo-label text="เหตุผล" [showColon]="false"></dxo-label>
                                 <div *dxTemplate="let data of 'tempmoneydetail'">
                                     <dx-text-area [(value)]="formmoney.BANK_REMARK"></dx-text-area>
                                 </div>
-                            </dxi-item>
+                            </dxi-item> -->
                         </dx-form>
                         <div *ngIf="!formReadOnly" class="remark-table-upload">* ขนาดไฟล์ทั้งหมดไม่เกิน 5MB</div>
                         <div *ngIf="CheckArray(listUploadFileformmoney)" class="upload-file-table">
@@ -256,12 +256,12 @@
                                     <dx-number-box format="#,##0.##" [focusStateEnabled]="false" [(value)]="formmoney.BANK_DAMAGE_VALUE"></dx-number-box>
                                 </div>
                             </dxi-item>
-                            <dxi-item template="tempmoneydetail" [colSpan]="3" [isRequired]="false">
+                            <!-- <dxi-item template="tempmoneydetail" [colSpan]="3" [isRequired]="false">
                                 <dxo-label text="เหตุผล" [showColon]="false"></dxo-label>
                                 <div *dxTemplate="let data of 'tempmoneydetail'">
                                     <dx-text-area [(value)]="formmoney.BANK_REMARK"></dx-text-area>
                                 </div>
-                            </dxi-item>
+                            </dxi-item> -->
 
 
                         </dx-form>

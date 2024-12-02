@@ -45,124 +45,142 @@
                                                 <dxo-label text="เส้นทางการโอนเงิน" [showColon]="false"></dxo-label>
                                                 <dxi-validation-rule type="required" message="กรุณากรอกเส้นทางการโอนเงิน">
                                                 </dxi-validation-rule>
+                                                <div *dxTemplate="let data of 'temp2-typeway'">
+                                                    <dx-radio-group [dataSource]="ways" valueExpr="id" displayExpr="text" [(value)]="FormDataOrigin.WAYS" layout="horizontal" (onValueChanged)="onCheckWays($event, 'Bankfirst')">
+                                                    </dx-radio-group>
+                                                </div>
                                             </dxi-item>
-                                            <div *dxTemplate="let data of 'temp2-typeway'">
-                                                <dx-radio-group [dataSource]="ways" valueExpr="id" displayExpr="text" [(value)]="FormDataOrigin.WAYS" layout="horizontal" (onValueChanged)="onCheckWays($event, 'Bankfirst')">
-                                                </dx-radio-group>
-                                            </div>
+                                            
                                             <dxi-item template="temp2-type" [colSpan]="1" [isRequired]="true">
                                                 <dxo-label text="ประเภทบัญชี" [width]="200" [showColon]="false"></dxo-label>
                                                 <dxi-validation-rule type="required" message="กรุณากรอกประเภทบัญชี">
                                                 </dxi-validation-rule>
+                                                <div *dxTemplate="let data of 'temp2-type'">
+                                                    <dx-select-box #selectBanktype [dataSource]="bankdatatypeselect" [searchEnabled]="true" valueExpr="type_bank_id" displayExpr="type_name" placeholder="ประเภทบัญชี" (onValueChanged)="OnSelectBankType($event,selectBanktype)" [(value)]="FormDataOrigin.TYPE_BANK_ID">
+                                                    </dx-select-box>
+                                                </div>
                                             </dxi-item>
-                                            <div *dxTemplate="let data of 'temp2-type'">
-                                                <dx-select-box #selectBanktype [dataSource]="bankdatatypeselect" [searchEnabled]="true" valueExpr="type_bank_id" displayExpr="type_name" placeholder="ประเภทบัญชี" (onValueChanged)="OnSelectBankType($event)" [(value)]="FormDataOrigin.TYPE_BANK_ID">
-                                                </dx-select-box>
-                                            </div>
-                                            <dxi-item *ngIf="formchecktype.type_name === 'ธนาคาร'" template="temp2-sufferer" [colSpan]="1" [isRequired]="true">
+                                            
+                                            <dxi-item *ngIf="FormDataOrigin.TYPE_BANK_ID === 1" template="temp2-sufferer" [colSpan]="1" [isRequired]="true">
                                                 <dxo-label text="ธนาคาร" [showColon]="false"></dxo-label>
                                                 <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลธนาคาร">
                                                 </dxi-validation-rule>
+                                                <div *dxTemplate="let data of 'temp2-sufferer'">
+                                                    <dx-select-box #selectBankInfoOrigin [dataSource]="bankInfoListOrigin" [searchEnabled]="true" valueExpr="BANK_ID" displayExpr="BANK_NAME" placeholder="ธนาคาร" (onValueChanged)="OnSelectBankAccountOrigin($event,selectBankInfoOrigin)" [(value)]="FormDataOrigin.BANK_ORIGIN_ID">
+                                                    </dx-select-box>
+                                                </div>
                                             </dxi-item>
-                                            <div *dxTemplate="let data of 'temp2-sufferer'">
-                                                <dx-select-box #selectBankInfoOrigin [dataSource]="bankInfoListOrigin" [searchEnabled]="true" valueExpr="BANK_ID" displayExpr="BANK_NAME" placeholder="ธนาคาร" (onValueChanged)="OnSelectBankAccountOrigin($event)" [(value)]="FormDataOrigin.BANK_ORIGIN_ID">
-                                                </dx-select-box>
-                                            </div>
-                                            <dxi-item *ngIf="formchecktype.type_name === 'ธนาคาร'" template="temp3-sufferer" [colSpan]="1" [isRequired]="true">
+                                            
+                                            <dxi-item *ngIf="FormDataOrigin.TYPE_BANK_ID === 1" template="temp3-sufferer" [colSpan]="1" [isRequired]="true">
                                                 <dxo-label text="ชื่อบัญชี" [showColon]="false"></dxo-label>
                                                 <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลชื่อบัญชี">
                                                 </dxi-validation-rule>
+                                                <div *dxTemplate="let data of 'temp3-sufferer'">
+                                                    <dx-text-box id="ctrlAccsufferer" (keypress)="AccountNameValidator($event)" [(value)]="FormDataOrigin.BANK_ORIGIN_ACCOUNT_NAME" (onValueChanged)="checkDuplicateString($event,'origin','BANK_ORIGIN_ACCOUNT_NAME')"></dx-text-box>
+                                                    <dx-tooltip target="#ctrlAccsufferer" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
+                                                        <div *dxTemplate="let data of 'content'">
+                                                            <p>หมายเหตุ: ชื่อบัญชี ต้องไม่มีตัวเลข และอักษรพิเศษ </p>
+                                                        </div>
+                                                    </dx-tooltip>
+                                                </div>
                                             </dxi-item>
-
-                                            <div *dxTemplate="let data of 'temp3-sufferer'">
-                                                <dx-text-box id="ctrlAccsufferer" (keypress)="AccountNameValidator($event)" [(value)]="FormDataOrigin.BANK_ORIGIN_ACCOUNT_NAME"></dx-text-box>
-                                                <dx-tooltip target="#ctrlAccsufferer" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
-                                                    <div *dxTemplate="let data of 'content'">
-                                                        <p>หมายเหตุ: ชื่อบัญชี ต้องไม่มีตัวเลข และอักษรพิเศษ </p>
-                                                    </div>
-                                                </dx-tooltip>
-                                            </div>
-
-                                            <dxi-item *ngIf="formchecktype.type_name === 'ธนาคาร'" template="temp4-sufferer" [colSpan]="1" [isRequired]="true">
+                                            
+                                            <dxi-item *ngIf="FormDataOrigin.TYPE_BANK_ID === 1" template="temp4-sufferer" [colSpan]="1" [isRequired]="true">
                                                 <dxo-label text="เลขบัญชี" [showColon]="false"></dxo-label>
                                                 <dxi-validation-rule type="required" message="กรุณากรอกเลขบัญชี">
                                                 </dxi-validation-rule>
                                                 <dxi-validation-rule type="pattern" message="ระบุเลขบัญชีธนาคารเป็นตัวเลข 10-15 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 4586412369" [pattern]="_BankNumberPattern">
                                                 </dxi-validation-rule>
+                                                <div *dxTemplate="let data of 'temp4-sufferer'">
+                                                    <dx-text-box id="ctrlBankACCtemp4-sufferer" [(value)]="FormDataOrigin.BANK_ORIGIN_ACCOUNT" [maxLength]="15" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)" (onValueChanged)="checkDuplicateString($event,'origin','BANK_ORIGIN_ACCOUNT')">
+                                                    </dx-text-box>
+                                                    <dx-tooltip target="#ctrlBankACCtemp4-sufferer" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
+                                                        <div *dxTemplate="let data of 'content'">
+                                                            <p *ngIf="FormDataOrigin.ways == 1">ระบุเลขบัญชีธนาคารเป็นตัวเลข 10-15 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ หากไม่ทราบเลขบัญชีเต็มคนร้ายสามารถใส่ x ได้ ตัวอย่าง 4586412369 หรือ 4562xxx515
+                                                            </p>
+                                                            <p *ngIf="FormDataOrigin.ways == 2">ระบุเลขบัญชีธนาคารเป็นตัวเลข 10-15 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 4586412369
+                                                            </p>
+                                                        </div>
+                                                    </dx-tooltip>
+                                                </div>
                                             </dxi-item>
-
-                                            <div *dxTemplate="let data of 'temp4-sufferer'">
-                                                <dx-text-box id="ctrlBankACCtemp4-sufferer" [(value)]="FormDataOrigin.BANK_ORIGIN_ACCOUNT" [maxLength]="15" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)">
-                                                </dx-text-box>
-                                                <dx-tooltip target="#ctrlBankACCtemp4-sufferer" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
-                                                    <div *dxTemplate="let data of 'content'">
-                                                        <p *ngIf="FormDataOrigin.ways == 1">ระบุเลขบัญชีธนาคารเป็นตัวเลข 10-15 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ หากไม่ทราบเลขบัญชีเต็มคนร้ายสามารถใส่ x ได้ ตัวอย่าง 4586412369 หรือ 4562xxx515
-                                                        </p>
-                                                        <p *ngIf="FormDataOrigin.ways == 2">ระบุเลขบัญชีธนาคารเป็นตัวเลข 10-15 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 4586412369
-                                                        </p>
-                                                    </div>
-                                                </dx-tooltip>
-                                            </div>
-                                            <!-- พร้อมเพย์ -->
-                                            <dxi-item *ngIf="formchecktype.type_name === 'พร้อมเพย์'" template="temp3-prompay" [colSpan]="1" [isRequired]="true">
+                                            
+                                            <!-- พร้อมเพย์ --> 
+                                            <dxi-item *ngIf="FormDataOrigin.TYPE_BANK_ID === 2"  template="temp3-prompay" [colSpan]="1" [isRequired]="true">
                                                 <dxo-label text="ชื่อบัญชี" [showColon]="false"></dxo-label>
                                                 <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลชื่อบัญชี">
                                                 </dxi-validation-rule>
+                                                <div *dxTemplate="let data of 'temp3-prompay'">
+                                                    <dx-text-box id="ctrlAccsufferer" (keypress)="AccountNameValidator($event)" [(value)]="FormDataOrigin.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY" (onValueChanged)="checkDuplicateString($event,'origin','BANK_ORIGIN_ACCOUNT_NAME_PROMPAY')"></dx-text-box>
+                                                    <dx-tooltip target="#ctrlAccsufferer" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
+                                                        <div *dxTemplate="let data of 'content'">
+                                                            <p>หมายเหตุ: ชื่อบัญชี ต้องไม่มีตัวเลข และอักษรพิเศษ </p>
+                                                        </div>
+                                                    </dx-tooltip>
+                                                </div>
                                             </dxi-item>
-
-                                            <div *dxTemplate="let data of 'temp3-prompay'">
-                                                <dx-text-box id="ctrlAccsufferer" (keypress)="AccountNameValidator($event)" [(value)]="FormDataOrigin.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY"></dx-text-box>
-                                                <dx-tooltip target="#ctrlAccsufferer" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
-                                                    <div *dxTemplate="let data of 'content'">
-                                                        <p>หมายเหตุ: ชื่อบัญชี ต้องไม่มีตัวเลข และอักษรพิเศษ </p>
-                                                    </div>
-                                                </dx-tooltip>
-                                            </div>
-
-                                            <dxi-item *ngIf="formchecktype.type_name === 'พร้อมเพย์'" template="temp4-prompay" [colSpan]="1" [isRequired]="true">
+                                            
+                                            <dxi-item *ngIf="FormDataOrigin.TYPE_BANK_ID === 2"  template="temp4-prompay" [colSpan]="1" [isRequired]="true">
                                                 <dxo-label text="เลขพร้อมเพย์" [showColon]="false"></dxo-label>
                                                 <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลเลขพร้อมเพย์">
                                                 </dxi-validation-rule>
+                                                <dxi-validation-rule type="pattern" message="ระบุเลขบัญชีธนาคารเป็นตัวเลข 10-13 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 0815100001" [pattern]="_prompayNumberPattern">
+                                                </dxi-validation-rule>
+                                                <div *dxTemplate="let data of 'temp4-prompay'">
+                                                    <dx-text-box id="ctrlBankACCtemp4-prompay" [(value)]="FormDataOrigin.BANK_ORIGIN_ACCOUNT_PROMPAY" [maxLength]="13" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)" (onValueChanged)="checkDuplicateString($event,'origin','BANK_ORIGIN_ACCOUNT_PROMPAY')">
+                                                    </dx-text-box>
+                                                    <dx-tooltip target="#ctrlBankACCtemp4-prompay" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
+                                                        <div *dxTemplate="let data of 'content'">
+                                                            <p>ระบุเลขเลขพร้อมเพย์เป็นตัวเลข 10 หรือ 13 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง เบอร์โทรศัพท์ 08123456789 หรือ เลขบัตรประชาชน 1234567891011
+                                                            </p>
+                                                        </div>
+                                                    </dx-tooltip>
+                                                </div>
                                             </dxi-item>
-
-                                            <div *dxTemplate="let data of 'temp4-prompay'">
-                                                <dx-text-box id="ctrlBankACCtemp4-prompay" [(value)]="FormDataOrigin.BANK_ORIGIN_ACCOUNT_PROMPAY" [maxLength]="13" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)">
-                                                </dx-text-box>
-                                                <dx-tooltip target="#ctrlBankACCtemp4-prompay" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
-                                                    <div *dxTemplate="let data of 'content'">
-                                                        <p>ระบุเลขเลขพร้อมเพย์เป็นตัวเลข 10 หรือ 13 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง เบอร์โทรศัพท์ 08123456789 หรือ เลขบัตรประชาชน 1234567891011
-                                                        </p>
-                                                    </div>
-                                                </dx-tooltip>
-                                            </div>
-
                                             <!-- true walled -->
-                                            <dxi-item template="temp12" [colSpan]="1" [isRequired]="true" *ngIf="formchecktype.type_name === 'True Money'">
+                                            <dxi-item *ngIf="FormDataOrigin.TYPE_BANK_ID === 7" template="temp2-type-sub"  [colSpan]="1">
+                                                <dxo-label text="ประเภท Wallet" [width]="200" [showColon]="false"></dxo-label>
+                                                <dxi-validation-rule type="required" message="กรุณากรอกประเภท Wallet">
+                                                </dxi-validation-rule>
+                                                <div *dxTemplate="let data of 'temp2-type-sub'">
+                                                    <dx-select-box #selectBankSubtype [dataSource]="bankdatatypeselectsub" [searchEnabled]="true" valueExpr="type_bank_id" displayExpr="type_name" placeholder="ประเภท Wallet" (onValueChanged)="OnSelectSubBankType($event,selectBankSubtype)" [(value)]="FormDataOrigin.TYPE_BANK_SUB_ID">
+                                                    </dx-select-box>
+                                                </div>
+                                            </dxi-item>
+                                            
+                                            <dxi-item *ngIf="FormDataOrigin.TYPE_BANK_ID === 7 && FormDataOrigin.TYPE_BANK_SUB_ID === 3" template="temp12" [colSpan]="1" [isRequired]="true" >
                                                 <dxo-label text="ประเภทการโอน" [showColon]="false"></dxo-label>
                                                 <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลประเภทประเภทบัญชี">
                                                 </dxi-validation-rule>
-                                            </dxi-item>
-                                            <div *dxTemplate="let data of 'temp12'">
-                                                <dx-select-box #selecttruemoneytype [dataSource]="selectNumberBankType" valueExpr="ID" displayExpr="TEXT" (onValueChanged)="OnSelecttruemoneyType($event)" placeholder="ประเภทการโอน" [(value)]="FormDataOrigin.TRUEMONEY_TYPE">
-                                                </dx-select-box>
-                                            </div>
-                                            <dxi-item *ngIf="formchecktype.type_name === 'อื่นๆ'" template="temp2other" [colSpan]="1" [isRequired]="true">
-                                                <dxo-label text="ระบุ (ในกรณีอื่นๆ)" [showColon]="false"></dxo-label>
-                                                <div *dxTemplate="let data of 'temp2other'">
-                                                    <dx-text-box [(value)]="FormDataOrigin.CASE_MONEY_BANK_OTHER_DETAIL"></dx-text-box>
+                                                <div *dxTemplate="let data of 'temp12'">
+                                                    <dx-select-box #selecttruemoneytype [dataSource]="selectNumberBankType" valueExpr="ID" displayExpr="TEXT" (onValueChanged)="OnSelecttruemoneyType($event,selecttruemoneytype)" placeholder="ประเภทการโอน" [(value)]="FormDataOrigin.TRUEMONEY_TYPE">
+                                                    </dx-select-box>
                                                 </div>
                                             </dxi-item>
-                                            <dxi-item *ngIf="formchecktype.type_name === 'True Money' || formchecktype.type_name === 'เงินดิจิทัล (Cryptocurrency)' || formchecktype.type_name === 'Paypal'
-                                     || formchecktype.type_name === 'อื่นๆ'" template="temp4truemoney" [colSpan]="1" [isRequired]="true">
-                                                <dxo-label text="รหัสหรือเอกลักษณ์บัญชีปลายทาง" [showColon]="false"></dxo-label>
-                                                <dxi-validation-rule type="required" message="กรุณากรอกรหัสหรือเอกลักษณ์บัญชีปลายทาง">
+                                            
+                                            
+                                            <dxi-item *ngIf="FormDataOrigin.TYPE_BANK_ID === 7  || FormDataOrigin.TYPE_BANK_ID === 8" template="temp3-sufferer-wallet" [colSpan]="1" [isRequired]="true">
+                                                <dxo-label text="ชื่อบัญชี" [showColon]="false"></dxo-label>
+                                                <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลชื่อบัญชี">
                                                 </dxi-validation-rule>
-
+                                                <div *dxTemplate="let data of 'temp3-sufferer-wallet'">
+                                                    <dx-text-box id="ctrlAccsuffererother" (keypress)="AccountNameValidator($event)" [(value)]="FormDataOrigin.BANK_ORIGIN_ACCOUNT_NAME" (onValueChanged)="checkDuplicateString($event,'origin','BANK_ORIGIN_ACCOUNT_NAME')"></dx-text-box>
+                                                    <dx-tooltip target="#ctrlAccsuffererother" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
+                                                        <div *dxTemplate="let data of 'content'">
+                                                            <p>หมายเหตุ: ชื่อบัญชี ต้องไม่มีตัวเลข และอักษรพิเศษ </p>
+                                                        </div>
+                                                    </dx-tooltip>
+                                                </div>
                                             </dxi-item>
-                                            <div *dxTemplate="let data of 'temp4truemoney'">
-                                                <dx-text-box id="ctrlMoneyOtherBank" (keypress)="InputConidtions($event)" [maxLength]="50" [(value)]="FormDataOrigin.BANK_MONEY_OTHER_ACCOUNT"></dx-text-box>
-                                            </div>
-
+                                            
+                                            <dxi-item *ngIf="FormDataOrigin.TYPE_BANK_ID === 4  || FormDataOrigin.TYPE_BANK_ID === 6 || FormDataOrigin.TYPE_BANK_ID === 7  || FormDataOrigin.TYPE_BANK_ID === 8" template="temp4truemoney" [colSpan]="1">
+                                                <dxo-label text="รหัสหรือเอกลักษณ์บัญชีต้นทาง" [showColon]="false"></dxo-label>
+                                                <dxi-validation-rule  type="required" message="กรุณากรอกรหัสหรือเอกลักษณ์บัญชีต้นทาง">
+                                                </dxi-validation-rule>
+                                                <div *dxTemplate="let data of 'temp4truemoney'">
+                                                    <dx-text-box id="ctrlMoneyOtherBank" (keypress)="InputConidtions($event)" [maxLength]="50" [(value)]="FormDataOrigin.BANK_MONEY_OTHER_ACCOUNT" (onValueChanged)="checkDuplicateString($event,'origin','BANK_MONEY_OTHER_ACCOUNT')"></dx-text-box>
+                                                </div>
+                                            </dxi-item>
                                         </dx-form>
                                     </div>
                                 </div>
@@ -177,127 +195,152 @@
                                                 <dxo-label text="เส้นทางการโอนเงิน" [showColon]="false"></dxo-label>
                                                 <dxi-validation-rule type="required" message="กรุณากรอกเส้นทางการโอนเงิน">
                                                 </dxi-validation-rule>
+                                                <div *dxTemplate="let data of 'temp2-typeway'">
+                                                    <dx-radio-group [items]="ways" valueExpr="id" displayExpr="text" [(value)]="FormDataDestination.WAYS" [isRequired]="true" class="my-2" layout="horizontal" (onValueChanged)="onCheckWays($event, 'Bankseccond')">
+                                                    </dx-radio-group>
+                                                </div>
                                             </dxi-item>
-                                            <div *dxTemplate="let data of 'temp2-typeway'">
-                                                <dx-radio-group [items]="ways" valueExpr="id" displayExpr="text" [(value)]="FormDataDestination.WAYS" [isRequired]="true" class="my-2" layout="horizontal" (onValueChanged)="onCheckWays($event, 'Bankseccond')">
-                                                </dx-radio-group>
-                                            </div>
+                                            
                                             <dxi-item [colSpan]="1" itemType="empty"></dxi-item>
                                             <dxi-item template="temp2-type" [colSpan]="1" [isRequired]="true">
                                                 <dxo-label text="ประเภทบัญชี" [showColon]="false"></dxo-label>
                                                 <dxi-validation-rule type="required" message="กรุณากรอกประเภทบัญชี">
                                                 </dxi-validation-rule>
+                                                <div *dxTemplate="let data of 'temp2-type'">
+                                                    <dx-select-box #selectBanktypevalian [dataSource]="bankdatatypeselect" [searchEnabled]="true" valueExpr="type_bank_id" displayExpr="type_name" placeholder="ประเภทบัญชี" (onValueChanged)="OnSelectBankTypevalian($event,selectBanktypevalian)" [(value)]="FormDataDestination.TYPE_BANK_ID">
+                                                    </dx-select-box>
+                                                </div>
                                             </dxi-item>
-                                            <div *dxTemplate="let data of 'temp2-type'">
-                                                <dx-select-box #selectBanktypevalian [dataSource]="bankdatatypeselect" [searchEnabled]="true" valueExpr="type_bank_id" displayExpr="type_name" placeholder="ประเภทบัญชี" (onValueChanged)="OnSelectBankTypevalian($event)" [(value)]="FormDataDestination.TYPE_BANK_ID">
-                                                </dx-select-box>
-                                            </div>
-                                            <dxi-item *ngIf="formchecktypevalian.type_name === 'ธนาคาร'" template="temp2-sufferer" [colSpan]="2" [isRequired]="true">
+                                            
+                                            <dxi-item *ngIf="FormDataDestination.TYPE_BANK_ID === 1" template="temp2-sufferer" [colSpan]="2" [isRequired]="true">
                                                 <dxo-label text="ธนาคาร" [showColon]="false"></dxo-label>
                                                 <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลธนาคาร">
                                                 </dxi-validation-rule>
+                                                <div *dxTemplate="let data of 'temp2-sufferer'">
+                                                    <dx-select-box #selectBankInfovillian [dataSource]="bankInfoListOrigin" [searchEnabled]="true" valueExpr="BANK_ID" displayExpr="BANK_NAME" placeholder="ธนาคาร" (onValueChanged)="OnSelectBankAccount($event,selectBankInfovillian)" [(value)]="FormDataDestination.BANK_ID">
+                                                    </dx-select-box>
+                                                </div>
                                             </dxi-item>
-                                            <div *dxTemplate="let data of 'temp2-sufferer'">
-                                                <dx-select-box #selectBankInfovillian [dataSource]="bankInfoListOrigin" [searchEnabled]="true" valueExpr="BANK_ID" displayExpr="BANK_NAME" placeholder="ธนาคาร" (onValueChanged)="OnSelectBankAccount($event)" [(value)]="FormDataDestination.BANK_ID">
-                                                </dx-select-box>
-                                            </div>
-                                            <dxi-item *ngIf="formchecktypevalian.type_name === 'ธนาคาร'" template="temp3-sufferer" [colSpan]="1" [isRequired]="true">
+                                            
+                                            <dxi-item *ngIf="FormDataDestination.TYPE_BANK_ID === 1" template="temp3-sufferer" [colSpan]="1" [isRequired]="true">
                                                 <dxo-label text="ชื่อบัญชี" [showColon]="false"></dxo-label>
                                                 <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลชื่อบัญชี">
                                                 </dxi-validation-rule>
+                                                <div *dxTemplate="let data of 'temp3-sufferer'">
+                                                    <dx-text-box id="ctrlAccsufferer-rc" (keypress)="AccountNameValidator($event)" [(value)]="FormDataDestination.BANK_ACCOUNT_NAME" (onValueChanged)="checkDuplicateString($event,'destination','BANK_ACCOUNT_NAME')"></dx-text-box>
+                                                    <dx-tooltip target="#ctrlAccsufferer-rc" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
+                                                        <div *dxTemplate="let data of 'content'">
+                                                            <p>หมายเหตุ: ชื่อบัญชี ต้องไม่มีตัวเลข และอักษรพิเศษ </p>
+                                                        </div>
+                                                    </dx-tooltip>
+                                                </div>
                                             </dxi-item>
-
-                                            <div *dxTemplate="let data of 'temp3-sufferer'">
-                                                <dx-text-box id="ctrlAccsufferer-rc" (keypress)="AccountNameValidator($event)" [(value)]="FormDataDestination.BANK_ACCOUNT_NAME"></dx-text-box>
-                                                <dx-tooltip target="#ctrlAccsufferer-rc" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
-                                                    <div *dxTemplate="let data of 'content'">
-                                                        <p>หมายเหตุ: ชื่อบัญชี ต้องไม่มีตัวเลข และอักษรพิเศษ </p>
-                                                    </div>
-                                                </dx-tooltip>
-                                            </div>
-
-                                            <dxi-item *ngIf="formchecktypevalian.type_name === 'ธนาคาร'" template="temp4-sufferer" [colSpan]="1" [isRequired]="true">
+        
+                                            
+        
+                                            <dxi-item *ngIf="FormDataDestination.TYPE_BANK_ID === 1" template="temp4-sufferer" [colSpan]="1" [isRequired]="true">
                                                 <dxo-label text="เลขบัญชี" [showColon]="false"></dxo-label>
                                                 <dxi-validation-rule type="required" message="กรุณากรอกเลขบัญชี">
                                                 </dxi-validation-rule>
                                                 <dxi-validation-rule type="pattern" message="ระบุเลขบัญชีธนาคารเป็นตัวเลข 10-15 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 4586412369" [pattern]="_BankNumberPattern">
                                                 </dxi-validation-rule>
+                                                <div *dxTemplate="let data of 'temp4-sufferer'">
+                                                    <dx-text-box id="ctrlBankACCtemp4-sufferer-rc" [(value)]="FormDataDestination.BANK_ACCOUNT" [maxLength]="15" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)"
+                                                    (onValueChanged)="checkDuplicateString($event,'destination','BANK_ACCOUNT')">
+                                                    </dx-text-box>
+                                                    <dx-tooltip target="#ctrlBankACCtemp4-sufferer-rc" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
+                                                        <div *dxTemplate="let data of 'content'">
+                                                            <p *ngIf="FormDataDestination.ways == 1">ระบุเลขบัญชีธนาคารเป็นตัวเลข 10-15 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ หากไม่ทราบเลขบัญชีเต็มคนร้ายสามารถใส่ x ได้ ตัวอย่าง 4586412369 หรือ 4562xxx515
+                                                            </p>
+                                                            <p *ngIf="FormDataDestination.ways == 2">ระบุเลขบัญชีธนาคารเป็นตัวเลข 10-15 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 4586412369
+                                                            </p>
+                                                        </div>
+                                                    </dx-tooltip>
+                                                </div>
                                             </dxi-item>
-
-                                            <div *dxTemplate="let data of 'temp4-sufferer'">
-                                                <dx-text-box id="ctrlBankACCtemp4-sufferer-rc" [(value)]="FormDataDestination.BANK_ACCOUNT" [maxLength]="15" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)">
-                                                </dx-text-box>
-                                                <dx-tooltip target="#ctrlBankACCtemp4-sufferer-rc" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
-                                                    <div *dxTemplate="let data of 'content'">
-                                                        <p *ngIf="FormDataDestination.ways == 1">ระบุเลขบัญชีธนาคารเป็นตัวเลข 10-15 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ หากไม่ทราบเลขบัญชีเต็มคนร้ายสามารถใส่ x ได้ ตัวอย่าง 4586412369 หรือ 4562xxx515
-                                                        </p>
-                                                        <p *ngIf="FormDataDestination.ways == 2">ระบุเลขบัญชีธนาคารเป็นตัวเลข 10-15 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 4586412369
-                                                        </p>
-                                                    </div>
-                                                </dx-tooltip>
-                                            </div>
+        
+                                            
                                             <!-- พร้อมเพย์ -->
-                                            <dxi-item *ngIf="formchecktypevalian.type_name === 'พร้อมเพย์'" template="temp3-prompay" [colSpan]="1" [isRequired]="true">
+                                            <dxi-item *ngIf="FormDataDestination.TYPE_BANK_ID === 2" template="temp3-prompay" [colSpan]="1" [isRequired]="true">
                                                 <dxo-label text="ชื่อบัญชี" [showColon]="false"></dxo-label>
                                                 <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลชื่อบัญชี">
                                                 </dxi-validation-rule>
+                                                <div *dxTemplate="let data of 'temp3-prompay'">
+                                                    <dx-text-box id="ctrlAccsufferer-rc" (keypress)="AccountNameValidator($event)" [(value)]="FormDataDestination.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY"
+                                                    (onValueChanged)="checkDuplicateString($event,'destination','BANK_ORIGIN_ACCOUNT_NAME_PROMPAY')"></dx-text-box>
+                                                    <dx-tooltip target="#ctrlAccsufferer-rc" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
+                                                        <div *dxTemplate="let data of 'content'">
+                                                            <p>หมายเหตุ: ชื่อบัญชี ต้องไม่มีตัวเลข และอักษรพิเศษ </p>
+                                                        </div>
+                                                    </dx-tooltip>
+                                                </div>
                                             </dxi-item>
-
-                                            <div *dxTemplate="let data of 'temp3-prompay'">
-                                                <dx-text-box id="ctrlAccsufferer-rc" (keypress)="AccountNameValidator($event)" [(value)]="FormDataDestination.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY"></dx-text-box>
-                                                <dx-tooltip target="#ctrlAccsufferer-rc" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
-                                                    <div *dxTemplate="let data of 'content'">
-                                                        <p>หมายเหตุ: ชื่อบัญชี ต้องไม่มีตัวเลข และอักษรพิเศษ </p>
-                                                    </div>
-                                                </dx-tooltip>
-                                            </div>
-
-                                            <dxi-item *ngIf="formchecktypevalian.type_name === 'พร้อมเพย์'" template="temp4-prompay" [colSpan]="1" [isRequired]="true">
+        
+                                            
+        
+                                            <dxi-item *ngIf="FormDataDestination.TYPE_BANK_ID === 2" template="temp4-prompay" [colSpan]="1" [isRequired]="true">
                                                 <dxo-label text="เลขพร้อมเพย์ (กรุณาระบุเฉพาะตัวเลข)" [showColon]="false"></dxo-label>
                                                 <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลเลขพร้อมเพย์">
                                                 </dxi-validation-rule>
+                                                <dxi-validation-rule type="pattern" message="ระบุเลขบัญชีธนาคารเป็นตัวเลข 10-13 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 0815100001" [pattern]="_prompayNumberPattern">
+                                                </dxi-validation-rule>
+                                                <div *dxTemplate="let data of 'temp4-prompay'">
+                                                    <dx-text-box id="ctrlBankACCtemp4-prompay-rc" [(value)]="FormDataDestination.BANK_ORIGIN_ACCOUNT_PROMPAY" [maxLength]="13" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)"
+                                                    (onValueChanged)="checkDuplicateString($event,'destination','BANK_ORIGIN_ACCOUNT_PROMPAY')">
+                                                    </dx-text-box>
+                                                    <dx-tooltip target="#ctrlBankACCtemp4-prompay-rc" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
+                                                        <div *dxTemplate="let data of 'content'">
+                                                            <p>ระบุเลขเลขพร้อมเพย์เป็นตัวเลข 10 หรือ 13 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง เบอร์โทรศัพท์ 08123456789 หรือ เลขบัตรประชาชน 1234567891011
+                                                            </p>
+                                                        </div>
+                                                    </dx-tooltip>
+                                                </div>
                                             </dxi-item>
-
-                                            <div *dxTemplate="let data of 'temp4-prompay'">
-                                                <dx-text-box id="ctrlBankACCtemp4-prompay-rc" [(value)]="FormDataDestination.BANK_ORIGIN_ACCOUNT_PROMPAY" [maxLength]="13" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)">
-                                                </dx-text-box>
-                                                <dx-tooltip target="#ctrlBankACCtemp4-prompay-rc" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
-                                                    <div *dxTemplate="let data of 'content'">
-                                                        <p>ระบุเลขเลขพร้อมเพย์เป็นตัวเลข 10 หรือ 13 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง เบอร์โทรศัพท์ 08123456789 หรือ เลขบัตรประชาชน 1234567891011
-                                                        </p>
-                                                    </div>
-                                                </dx-tooltip>
-                                            </div>
-
+        
                                             <!-- true walled -->
-                                            <dxi-item template="temp12" [colSpan]="1" [isRequired]="true" *ngIf="formchecktypevalian.type_name === 'True Money'">
+                                            <dxi-item  *ngIf="FormDataDestination.TYPE_BANK_ID === 7" template="temp2-type-sub" [colSpan]="1" [isRequired]="true">
+                                                <dxo-label text="ประเภท Wallet" [width]="200" [showColon]="false"></dxo-label>
+                                                <dxi-validation-rule type="required" message="กรุณากรอกประเภท Wallet">
+                                                </dxi-validation-rule>
+                                                <div *dxTemplate="let data of 'temp2-type-sub'">
+                                                    <dx-select-box #selectBankSubtypevalian [dataSource]="bankdatatypeselectsub" [searchEnabled]="true" valueExpr="type_bank_id" displayExpr="type_name" placeholder="ประเภท Wallet" (onValueChanged)="OnSelectSubBankTypevalian($event,selectBankSubtypevalian)" [(value)]="FormDataDestination.TYPE_BANK_SUB_ID">
+                                                    </dx-select-box>
+                                                </div>
+                                            </dxi-item>
+                                            
+                                            <dxi-item  *ngIf="FormDataDestination.TYPE_BANK_SUB_ID === 3" template="temp12" [colSpan]="1" [isRequired]="true">
                                                 <dxo-label text="ประเภทการโอน" [showColon]="false"></dxo-label>
                                                 <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลประเภทประเภทบัญชี">
                                                 </dxi-validation-rule>
-                                            </dxi-item>
-                                            <div *dxTemplate="let data of 'temp12'">
-                                                <dx-select-box #selecttruemoneytypevalian [dataSource]="selectNumberBankType" valueExpr="ID" displayExpr="TEXT" (onValueChanged)="OnSelecttruemoneyTypevalian($event)" placeholder="ประเภทการโอน" [(value)]="FormDataDestination.TRUEMONEY_TYPE">
-                                                </dx-select-box>
-                                            </div>
-
-
-
-                                            <dxi-item *ngIf="formchecktypevalian.type_name === 'อื่นๆ'" template="temp2other" [colSpan]="1" [isRequired]="true">
-                                                <dxo-label text="ระบุ (ในกรณีอื่นๆ)" [showColon]="false"></dxo-label>
-                                                <div *dxTemplate="let data of 'temp2other'">
-                                                    <dx-text-box [(value)]="FormDataDestination.CASE_MONEY_BANK_OTHER_DETAIL"></dx-text-box>
+                                                <div *dxTemplate="let data of 'temp12'">
+                                                    <dx-select-box #selecttruemoneytypevalian [dataSource]="selectNumberBankType" valueExpr="ID" displayExpr="TEXT" (onValueChanged)="OnSelecttruemoneyTypevalian($event,selecttruemoneytypevalian)" placeholder="ประเภทการโอน" [(value)]="FormDataDestination.TRUEMONEY_TYPE">
+                                                    </dx-select-box>
                                                 </div>
                                             </dxi-item>
-                                            <dxi-item *ngIf="formchecktypevalian.type_name === 'True Money' || formchecktypevalian.type_name === 'เงินดิจิทัล (Cryptocurrency)' || formchecktypevalian.type_name === 'Paypal'
-                                     || formchecktypevalian.type_name === 'อื่นๆ'" template="temp4truemoney" [colSpan]="1" [isRequired]="true">
+                                            
+                                            <dxi-item *ngIf="FormDataDestination.TYPE_BANK_ID === 7 || FormDataDestination.TYPE_BANK_ID === 8" template="temp3-sufferer-wallet" [colSpan]="1" [isRequired]="true">
+                                                <dxo-label text="ชื่อบัญชี" [showColon]="false"></dxo-label>
+                                                <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลชื่อบัญชี">
+                                                </dxi-validation-rule>
+                                                <div *dxTemplate="let data of 'temp3-sufferer-wallet'">
+                                                    <dx-text-box id="ctrlAccsufferer" (keypress)="AccountNameValidator($event)" [(value)]="FormDataDestination.BANK_ACCOUNT_NAME" (onValueChanged)="checkDuplicateString($event,'origin','BANK_ACCOUNT_NAME')"></dx-text-box>
+                                                    <dx-tooltip target="#ctrlAccsufferer" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
+                                                        <div *dxTemplate="let data of 'content'">
+                                                            <p>หมายเหตุ: ชื่อบัญชี ต้องไม่มีตัวเลข และอักษรพิเศษ </p>
+                                                        </div>
+                                                    </dx-tooltip>
+                                                </div>
+                                            </dxi-item>
+                                            
+                                            <dxi-item *ngIf="FormDataDestination.TYPE_BANK_ID === 4 || FormDataDestination.TYPE_BANK_ID === 6 || FormDataDestination.TYPE_BANK_ID === 7 || FormDataDestination.TYPE_BANK_ID === 8" template="temp4truemoney" [colSpan]="1">
                                                 <dxo-label text="รหัสหรือเอกลักษณ์บัญชีปลายทาง" [showColon]="false"></dxo-label>
                                                 <dxi-validation-rule type="required" message="กรุณากรอกรหัสหรือเอกลักษณ์บัญชีปลายทาง">
                                                 </dxi-validation-rule>
-
+                                                <div *dxTemplate="let data of 'temp4truemoney'">
+                                                    <dx-text-box id="ctrlMoneyOtherBank" (keypress)="InputConidtions($event)" [maxLength]="50" [(value)]="FormDataDestination.BANK_MONEY_OTHER_ACCOUNT" (onValueChanged)="checkDuplicateString($event,'origin','BANK_MONEY_OTHER_ACCOUNT')"></dx-text-box>
+                                                </div>
                                             </dxi-item>
-                                            <div *dxTemplate="let data of 'temp4truemoney'">
-                                                <dx-text-box id="ctrlMoneyOtherBank" (keypress)="InputConidtions($event)" [maxLength]="50" [(value)]="FormDataDestination.BANK_MONEY_OTHER_ACCOUNT"></dx-text-box>
-                                            </div>
+                                            
                                         </dx-form>
                                     </div>
                                 </div>
@@ -858,209 +901,6 @@
     <div *dxTemplate="let data of 'content'">
         <dx-scroll-view #view_form [showScrollbar]="'always'" style="height: calc(100% - 45px);">
             <div id="popup-add-damage" *ngIf="reloadDataPopup">
-                <div *ngIf="popupFormData.CASE_MONEY_CHANNEL_TYPE ==='T'" class="money-channel-bank">
-                    <dx-form #form1 [colCount]="2" labelLocation="top">
-                        <dxi-item template="temp1" [colSpan]="2">
-                            <dxo-label text="ประเภทการโอน" [showColon]="false"></dxo-label>
-                        </dxi-item>
-                        <div *dxTemplate="let data of 'temp1'">
-                            <dx-radio-group [dataSource]="bankTransferType" layout="horizontal" valueExpr="ID" displayExpr="TEXT" (onValueChanged)="ChangeBankTranferType($event)" [(value)]="this.popupFormData.CASE_MONEY_BANK_TRANFER"></dx-radio-group>
-                        </div>
-                        <dxi-item itemType="empty" *ngIf="popupFormData.CASE_MONEY_BANK_TRANFER === 'T'" [colSpan]="2"></dxi-item>
-                        <dxi-item :cssClass="st-villain-bg-first" [colSpan]="2" *ngIf="popupFormData.CASE_MONEY_BANK_TRANFER === 'T'">
-                            <dxo-label text="บัญชีผู้เสียหาย" [showColon]="false"></dxo-label>
-                        </dxi-item>
-                        <dxi-item *ngIf="popupFormData.CASE_MONEY_BANK_TRANFER === 'T'" template="temp2-sufferer" :cssClass="st-villain-bg" [colSpan]="2" [isRequired]="true">
-                            <dxo-label text="ธนาคาร" [showColon]="false"></dxo-label>
-                            <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลธนาคาร">
-                            </dxi-validation-rule>
-                        </dxi-item>
-                        <div *dxTemplate="let data of 'temp2-sufferer'">
-                            <dx-select-box #selectBankInfoOrigin [dataSource]="bankInfoListOrigin" [searchEnabled]="true" valueExpr="BANK_ID" displayExpr="BANK_NAME" placeholder="ธนาคาร" (onValueChanged)="OnSelectBankAccountOrigin($event)" [(value)]="popupFormData.BANK_ORIGIN_ID">
-                            </dx-select-box>
-                        </div>
-                        <dxi-item template="temp3-sufferer" :cssClass="st-villain-bg-last" [colSpan]="1" [isRequired]="true" *ngIf="popupFormData.CASE_MONEY_BANK_TRANFER === 'T'">
-                            <dxo-label text="ชื่อบัญชี" [showColon]="false"></dxo-label>
-                            <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลชื่อบัญชี">
-                            </dxi-validation-rule>
-                        </dxi-item>
-                        <div *dxTemplate="let data of 'temp3-sufferer'">
-                            <dx-text-box id="ctrlAccsufferer" (keypress)="AccountNameValidator($event)" [(value)]="popupFormData.BANK_ORIGIN_ACCOUNT_NAME"></dx-text-box>
-                            <dx-tooltip target="#ctrlAccsufferer" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
-                                <div *dxTemplate="let data of 'content'">
-                                    <p>หมายเหตุ: ชื่อบัญชี ต้องไม่มีตัวเลข และอักษรพิเศษ </p>
-                                </div>
-                            </dx-tooltip>
-                        </div>
-                        <dxi-item template="temp4-sufferer" :cssClass="st-villain-bg-last" [colSpan]="1" [isRequired]="true" *ngIf="popupFormData.CASE_MONEY_BANK_TRANFER === 'T'">
-                            <dxo-label [text]="popupConfigs.LabelBankAccount" [showColon]="false"></dxo-label>
-                            <dxi-validation-rule type="custom" message="ระบุเลขบัญชีธนาคารเป็นตัวเลข 10-15 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 4586412369" [validationCallback]="BankNumberPattern">
-                            </dxi-validation-rule>
-                            <dxi-validation-rule type="numeric" [message]="'รูปแบบ '+popupConfigs.LabelBankAccount+' ไม่ถูกต้อง'">
-                            </dxi-validation-rule>
-                        </dxi-item>
-                        <div *dxTemplate="let data of 'temp4-sufferer'">
-                            <dx-text-box id="ctrlBankACCtemp4-sufferer" [(value)]="popupFormData.BANK_ORIGIN_ACCOUNT" [maxLength]="15" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)">
-                            </dx-text-box>
-                            <dx-tooltip target="#ctrlBankACCtemp4-sufferer" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
-                                <div *dxTemplate="let data of 'content'">
-                                    <p>ระบุเลขบัญชีธนาคารเป็นตัวเลข 10-15 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 4586412369
-                                    </p>
-                                </div>
-                            </dx-tooltip>
-                        </div>
-                        <dxi-item itemType="empty" *ngIf="popupFormData.CASE_MONEY_BANK_TRANFER === 'T'" [colSpan]="2"></dxi-item>
-
-                        <dxi-item [colSpan]="2" *ngIf="popupFormData.CASE_MONEY_BANK_TRANFER === 'T'" :cssClass="st-sufferer-bg-first">
-                            <dxo-label text="บัญชีผู้ต้องหา" [showColon]="false"></dxo-label>
-                        </dxi-item>
-                        <dxi-item *ngIf="popupFormData.CASE_MONEY_BANK_TRANFER === 'T'" template="temp2" [colSpan]="2" :cssClass="st-sufferer-bg" [isRequired]="true">
-                            <dxo-label text="ธนาคาร" [showColon]="false"></dxo-label>
-                            <dxi-validation-rule type="required" message="กรุณาเลือกธนาคาร">
-                            </dxi-validation-rule>
-                            <div *dxTemplate="let data of 'temp2'">
-                                <dx-select-box #selectBankInfo [dataSource]="bankInfoList" [searchEnabled]="true" valueExpr="BANK_ID" displayExpr="BANK_NAME" placeholder="ธนาคาร" (onValueChanged)="OnSelectBankAccount($event)" [(value)]="popupFormData.BANK_ID">
-                                </dx-select-box>
-                            </div>
-                        </dxi-item>
-                        <dxi-item template="temp3" [colSpan]="1" [isRequired]="true" :cssClass="st-sufferer-bg-last">
-                            <dxo-label text="ชื่อบัญชี" [showColon]="false"></dxo-label>
-                            <dxi-validation-rule type="required" message="กรุณากรอกชื่อบัญชี">
-                            </dxi-validation-rule>
-                            <div *dxTemplate="let data of 'temp3'">
-                                <dx-text-box id="ctrlAcc" (keypress)="CheckString($event)" [(value)]="popupFormData.BANK_ACCOUNT_NAME"></dx-text-box>
-                                <dx-tooltip target="#ctrlAcc" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
-                                    <div *dxTemplate="let data of 'content'">
-                                        <p>หมายเหตุ: ชื่อบัญชี ต้องไม่มีตัวเลข และอักษรพิเศษ </p>
-                                    </div>
-                                </dx-tooltip>
-                            </div>
-
-                        </dxi-item>
-                        <dxi-item template="temp4" [colSpan]="1" [isRequired]="true" :cssClass="st-sufferer-bg-last">
-                            <dxo-label [text]="popupConfigs.LabelBankAccount + ' (กรุณาระบุเฉพาะตัวเลข)'" [showColon]="false"></dxo-label>
-                            <dxi-validation-rule type="required" [message]="'กรุณากรอก '+popupConfigs.LabelBankAccount">
-                            </dxi-validation-rule>
-                            <dxi-validation-rule *ngIf="popupConfigs.LabelBankAccount === 'เลขพร้อมเพย์'" type="custom" message="หมายเลขโทรศัพท์ 10 หลัก หรือเลขบัตรประชาชน 13 หลัก ตัวอย่าง 0819999999" [validationCallback]="PhoneNumberPattern">
-                            </dxi-validation-rule>
-                            <dxi-validation-rule *ngIf="popupConfigs.LabelBankAccount !== 'เลขพร้อมเพย์'" type="custom" message="ระบุเลขบัญชีธนาคารเป็นตัวเลข 10-15 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 145669999999" [validationCallback]="BankNumberPattern">
-                            </dxi-validation-rule>
-                            <dxi-validation-rule type="numeric" [message]="'รูปแบบ '+popupConfigs.LabelBankAccount+' ไม่ถูกต้อง'">
-                            </dxi-validation-rule>
-                            <div *dxTemplate="let data of 'temp4'">
-                                <dx-text-box id="ctrlBankACCtemp4" [(value)]="popupFormData.BANK_ACCOUNT" [maxLength]="(popupConfigs.LabelBankAccount === 'เลขพร้อมเพย์')?13:15" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)">
-                                </dx-text-box>
-                                <dx-tooltip *ngIf="popupConfigs.LabelBankAccount === 'เลขพร้อมเพย์'" target="#ctrlBankACCtemp4" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
-                                    <div *dxTemplate="let data of 'content'">
-                                        <p>[หมายเลขโทรศัพท์] ระบุหมายเลขโทรศัพท์จำนวน 10 หลักติดกันโดยไม่ต้องมีขีดคั่น ตัวอย่าง 0819999999</p>
-                                        <p>[เลขบัตรประชาชน] ระบุหมายเลข [0-9] จำนวน 13 หลักติดกันโดยไม่มีขีดคั่นหรือช่องว่าง ตัวอย่าง 145669999999</p>
-                                    </div>
-                                </dx-tooltip>
-                                <dx-tooltip *ngIf="popupConfigs.LabelBankAccount !== 'เลขพร้อมเพย์'" target="#ctrlBankACCtemp4" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
-                                    <div *dxTemplate="let data of 'content'">
-                                        <p>ระบุเลขบัญชีธนาคารเป็นตัวเลข 10-15 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 4586412369</p>
-                                    </div>
-                                </dx-tooltip>
-                            </div>
-                        </dxi-item>
-
-
-                    </dx-form>
-                    <div class="remark-remember-account" *ngIf="popupFormData.CASE_MONEY_BANK_TRANFER === 'T'" style="margin-top:1rem;color:#ff0000;">*กรณี ไม่ทราบเลขบัญชีเต็ม กรุณาตรวจสอบกับธนาคารที่ท่านใช้โอนเงิน
-                    </div>
-
-                </div>
-
-                <div *ngIf="popupFormData.CASE_MONEY_CHANNEL_TYPE ==='P'" class="money-channel-otherbank">
-                    <dx-form #form2 [colCount]="2" labelLocation="top">
-                        <dxi-item template="temp1" [colSpan]="1" [isRequired]="true">
-                            <dxo-label text="ประเภทการโอนเงิน" [showColon]="false"></dxo-label>
-                            <dxi-validation-rule type="required" message="กรุณากรอกประเภทการโอนเงิน">
-                            </dxi-validation-rule>
-                            <div *dxTemplate="let data of 'temp1'">
-                                <dx-select-box [dataSource]="bankOtherList" valueExpr="TRANSFER_TYPE_CODE" displayExpr="TRANSFER_TYPE_NAME" placeholder="ประเภทการโอนเงิน" (onValueChanged)="OnSelectBankOther($event)" [(value)]="popupFormData.BANK_MONEY_OTHER_ID">
-                                </dx-select-box>
-                            </div>
-                        </dxi-item>
-                        <dxi-item template="temp12" [colSpan]="1" [isRequired]="true" *ngIf="this.popupFormData.BANK_MONEY_OTHER_ID ==='T'">
-                            <dxo-label text="ประเภทบัญชี" [showColon]="false"></dxo-label>
-                            <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลประเภทประเภทบัญชี">
-                            </dxi-validation-rule>
-                        </dxi-item>
-                        <div *dxTemplate="let data of 'temp12'">
-                            <dx-select-box [dataSource]="selectNumberBankType" valueExpr="ID" displayExpr="TEXT" placeholder="ประเภทบัญชี" [(value)]="bankTypeSelected">
-                            </dx-select-box>
-                        </div>
-                        <dxi-item *ngIf="this.popupFormData.TRANSFER_CODE !=='999' && this.popupFormData.BANK_MONEY_OTHER_ID !=='C'" itemType="empty" [colSpan]="1"></dxi-item>
-                        <dxi-item *ngIf="this.popupFormData.TRANSFER_CODE ==='999'" template="temp2" [colSpan]="1" [isRequired]="true">
-                            <dxo-label text="ระบุ (ในกรณีอื่นๆ)" [showColon]="false"></dxo-label>
-                            <dxi-validation-rule type="required" message="กรุณากรอกระบุ (ในกรณีอื่นๆ)">
-                            </dxi-validation-rule>
-                            <div *dxTemplate="let data of 'temp2'">
-                                <dx-text-box [(value)]="popupFormData.BANK_MONEY_OTHER_DETAIL"></dx-text-box>
-                            </div>
-                        </dxi-item>
-                        <dxi-item *ngIf="this.popupFormData.BANK_MONEY_OTHER_ID ==='C'" template="temp3" [colSpan]="1" [isRequired]="true">
-                            <dxo-label text="สกุลเงิน" [showColon]="false"></dxo-label>
-                            <dxi-validation-rule type="required" message="กรุณากรอกสกุลเงิน">
-                            </dxi-validation-rule>
-                            <div *dxTemplate="let data of 'temp3'">
-                                <dx-text-box [(value)]="popupFormData.BANK_MONEY_OTHER_CURRENCY_NAME"></dx-text-box>
-                            </div>
-                        </dxi-item>
-                        <dxi-item template="temp4" [colSpan]="1" [isRequired]="true">
-                            <dxo-label text="รหัสหรือเอกลักษณ์บัญชีปลายทาง" [showColon]="false"></dxo-label>
-                            <dxi-validation-rule type="required" message="กรุณากรอกรหัสหรือเอกลักษณ์บัญชีปลายทาง">
-                            </dxi-validation-rule>
-
-                            <ng-container *ngIf="popupFormData.BANK_MONEY_OTHER_ID === 'T'">
-                                <dxi-validation-rule *ngIf="bankTypeSelected === 'P'" type="required" message="กรุณากรอก หมายเลขโทรศัพท์!">
-                                </dxi-validation-rule>
-                                <dxi-validation-rule *ngIf="bankTypeSelected === 'P'" type="custom" message="หมายเลขโทรศัพท์ 10 หลัก" [validationCallback]="PhoneNumberPattern">
-                                </dxi-validation-rule>
-                                <dxi-validation-rule *ngIf="bankTypeSelected === 'W'" type="custom" message="ชื่อบัญชีต้องขึ้นด้วยตัวอักษร [A-z] และมีจำนวน 3-32 ตัวอักษร" [validationCallback]="WalletIdPattern">
-                                </dxi-validation-rule>
-                                <dxi-validation-rule *ngIf="bankTypeSelected === 'B'" type="custom" message="หมายเลขบัญชีธนาคาร 10-15 หลัก" [validationCallback]="BankAccountPattern">
-                                </dxi-validation-rule>
-                            </ng-container>
-                            <ng-container *ngIf="popupFormData.BANK_MONEY_OTHER_ID === 'P' && emailOrNumber === 'N'">
-                                <dxi-validation-rule type="custom" [validationCallback]="PhoneNumberPattern" message="หมายเลขจะต้องไม่มีขีด หรือตัวอักษรพิเศษ"></dxi-validation-rule>
-                            </ng-container>
-                            <ng-container *ngIf="popupFormData.BANK_MONEY_OTHER_ID === 'P' && emailOrNumber === 'E'">
-                                <dxi-validation-rule type="custom" [validationCallback]="EmailPatternCharacters" message="Email จะต้องไม่มีเครื่องหมาย &, =, ', +, (,), <, >, * ฯลฯ"></dxi-validation-rule>
-                                <dxi-validation-rule type="custom" [validationCallback]="EmailPatternDot" message="Email มีจุด (.) ติดกันมากกว่า 1 จุด"></dxi-validation-rule>
-                                <dxi-validation-rule type="custom" [validationCallback]="EmailPatternNameLength" message="กรุณาตรวจสอบชื่อผู้ใช้งาน"></dxi-validation-rule>
-                                <dxi-validation-rule type="custom" [validationCallback]="EmailPatternAtSign" message="กรุณาใส่เครื่องหมาย @"></dxi-validation-rule>
-                                <dxi-validation-rule type="email" message="กรุณาตรวจสอบชื่อ domain"></dxi-validation-rule>
-                            </ng-container>
-
-                            <div *dxTemplate="let data of 'temp4'">
-                                <dx-text-box id="ctrlMoneyOtherBank" (keypress)="InputConidtions($event)" [(value)]="popupFormData.BANK_MONEY_OTHER_ACCOUNT"></dx-text-box>
-                                <dx-tooltip *ngIf="popupFormData.BANK_MONEY_OTHER_ID === 'T'" target="#ctrlMoneyOtherBank" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
-                                    <div *dxTemplate="let data of 'content'">
-                                        <p *ngIf="bankTypeSelected === 'P'" style="text-align:start;">[หมายเลขโทรศัพท์] ระบุหมายเลขโทรศัพท์จำนวน 10 หลักติดกันโดยไม่ต้องมีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 0819999999</p>
-                                        <p *ngIf="bankTypeSelected === 'W'" style="text-align:start;">[Wallet ID] ต้องเป็นตัวอักษรภาษาอังกฤษ a-z ตัวเลข 0-9 หรืออักขระพิเศษ ห้ามเว้นวรรค จำนวน 3-32 ตัวอักษร และขึ้นต้นด้วยตัวอักษรเท่านั้น</p>
-                                        <p *ngIf="bankTypeSelected === 'B'" style="text-align:start;">[บัญชีธนาคาร] ระบุเลขบัญชีธนาคารเป็นตัวเลข 10-15 หลักโดยไม่มีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 4586412369</p>
-                                    </div>
-                                </dx-tooltip>
-                                <dx-tooltip *ngIf="popupFormData.BANK_MONEY_OTHER_ID === 'C'" target="#ctrlMoneyOtherBank" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
-                                    <div *dxTemplate="let data of 'content'">
-                                        <p style="text-align:start;">รหัสจะต้องเป็นตัวอักษรภาษาอังกฤษ a-z พิมพ์ใหญ่หรือเล็ก ตัวเลข 0-9 เท่านั้น ห้ามมีอักขระพิเศษ ห้ามเว้นวรรค</p>
-                                    </div>
-                                </dx-tooltip>
-                                <dx-tooltip *ngIf="popupFormData.BANK_MONEY_OTHER_ID === 'P'" target="#ctrlMoneyOtherBank" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
-                                    <div *dxTemplate="let data of 'content'">
-                                        <p>[Email] อีเมลสามารถมีตัวอักษร (a-z), ตัวเลข (0-9) และจุด (.) ได้ แต่ต้องไม่มีเครื่องหมาย &, =, ', +, (,),
-                                            <,>, * ฯลฯ
-                                        </p>
-                                        <p>[หมายเลขโทรศัพท์] ระบุหมายเลขโทรศัพท์จำนวน 10 หลักติดกันโดยไม่ต้องมีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ ตัวอย่าง 0819999999</p>
-                                    </div>
-                                </dx-tooltip>
-                            </div>
-                        </dxi-item>
-                    </dx-form>
-                </div>
-
                 <div *ngIf="popupFormData.CASE_MONEY_CHANNEL_TYPE ==='O'" class="money-channel-other">
                     <dx-form #form3 [colCount]="2" labelLocation="top">
                         <dxi-item template="temp1" [colSpan]="1" [isRequired]="true">

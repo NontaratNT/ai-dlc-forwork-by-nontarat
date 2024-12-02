@@ -49,7 +49,9 @@ export class IssueOnlineDamageSubComponent implements OnInit {
         { type_bank_id: 3, type_main: 'P', type_id: 'P', type_name: 'True Money' },
         { type_bank_id: 4, type_main: 'P', type_id: 'C', type_name: 'เงินดิจิทัล (Cryptocurrency)' },
         { type_bank_id: 5, type_main: 'P', type_id: 'P', type_name: 'Paypal' },
-        { type_bank_id: 6, type_main: 'P', type_id: 'O', type_name: 'อื่นๆ' },
+        { type_bank_id: 8, type_main: 'P', type_id: 'P', type_name: 'QR Code' },
+        { type_bank_id: 9, type_main: 'P', type_id: 'P', type_name: 'Max Card' },
+        { type_bank_id: 6, type_main: 'P', type_id: 'O', type_name: 'อื่นๆ' }
     ];
     selectNumberBankType = [
         { ID: "P", TEXT: "หมายเลขโทรศัพท์" },
@@ -79,6 +81,8 @@ export class IssueOnlineDamageSubComponent implements OnInit {
             { type_bank_id: 3, type_main: 'P', type_id: 'P', type_name: 'True Money' },
             { type_bank_id: 4, type_main: 'P', type_id: 'C', type_name: 'เงินดิจิทัล (Cryptocurrency)' },
             { type_bank_id: 5, type_main: 'P', type_id: 'P', type_name: 'Paypal' },
+            { type_bank_id: 8, type_main: 'P', type_id: 'P', type_name: 'QR Code' },
+            { type_bank_id: 9, type_main: 'P', type_id: 'P', type_name: 'Max Card' },
             { type_bank_id: 6, type_main: 'P', type_id: 'O', type_name: 'อื่นๆ' },
         ];
         this.popupFormData.ways = 2;
@@ -153,9 +157,10 @@ export class IssueOnlineDamageSubComponent implements OnInit {
                 this.popupFormDatavillain.TYPE_MAIN = data.type_main;
                 this.popupFormDatavillain.TYPE_ID = data.type_id;
                 this.popupFormDatavillain.TYPE_NAME = data.type_name;
-                this.popupFormData.TYPE_BANK_ID = data.type_bank_id;
+                this.popupFormDatavillain.TYPE_BANK_ID = data.type_bank_id;
             } else {
             }
+            console.log(this.popupFormDatavillain);
         }
     }
 
@@ -283,6 +288,8 @@ export class IssueOnlineDamageSubComponent implements OnInit {
         }
     }
     InputConidtions(event) {
+        
+        
         const d = this.formchecktype.type_name;
         if (d === "True Money") {
             return this.TrueMoneyValidator(event);
@@ -290,9 +297,24 @@ export class IssueOnlineDamageSubComponent implements OnInit {
             return this.CyrptoValidator(event);
         } else if (d === "P") {
             return this.EmailOrNumberValidator(event);
+        } else if (this.popupFormData.TYPE_NAME === "True Money" || this.popupFormData.TYPE_NAME === "Paypal" || this.popupFormData.TYPE_NAME === "Max Card" || this.popupFormDatavillain.TYPE_NAME === "True Money" || this.popupFormDatavillain.TYPE_NAME === "Paypal" || this.popupFormDatavillain.TYPE_NAME === "Max Card") {
+            return this.WalletValidator(event);
+        } else if (this.popupFormData.TYPE_NAME === "QR Code" || this.popupFormDatavillain.TYPE_NAME === "QR Code") {
+            return this.QRCodeValidator(event);
         } else {
             return true;
         }
+    }
+    WalletValidator(event) {
+        let value = event.target.value + event.key;
+        const makeScope = new RegExp("^[0-9]+$", "g");
+        return makeScope.test(value);
+    }
+
+    QRCodeValidator(event) {
+        let value = event.target.value + event.key;
+        const makeScope = new RegExp("^[0-9A-Za-z]+$", "g");
+        return makeScope.test(value);
     }
     CyrptoPattern(params) {
         const makeScope = new RegExp("[^A-Za-z0-9]", "g");
