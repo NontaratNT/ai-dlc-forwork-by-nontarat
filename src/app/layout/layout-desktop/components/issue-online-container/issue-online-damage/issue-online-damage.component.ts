@@ -2217,7 +2217,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                     break;
     
                 case 'True Money':
-                    value.SHOW_NAME = `${prefix}${value.BANK_MONEY_OTHER_ACCOUNT} ${value.BANK_ORIGIN_ACCOUNT_NAME} (${value.TRUEMONEY_TYPE_NAME || ''})`;
+                    value.SHOW_NAME = `${prefix}${value.BANK_MONEY_OTHER_ACCOUNT} ${value.BANK_ORIGIN_ACCOUNT_NAME || ''} (${value.TRUEMONEY_TYPE_NAME || ''})`;
                     value.BANK_ORIGIN_ACCOUNT = value.BANK_MONEY_OTHER_ACCOUNT;
                     break;
     
@@ -2291,7 +2291,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                     break;
     
                 case 'True Money':
-                    value.SHOW_NAME = `${prefix}${value.BANK_MONEY_OTHER_ACCOUNT} ${value.BANK_ACCOUNT_NAME} (${value.TRUEMONEY_TYPE_NAME || ''})`;
+                    value.SHOW_NAME = `${prefix}${value.BANK_MONEY_OTHER_ACCOUNT} ${value.BANK_ACCOUNT_NAME || ''} (${value.TRUEMONEY_TYPE_NAME || ''})`;
                     value.BANK_ACCOUNT = value.BANK_MONEY_OTHER_ACCOUNT;
                     break;
     
@@ -2300,7 +2300,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                 case 'QR Code':
                 case 'Max Card':
                 case 'Paypal':
-                    value.SHOW_NAME = `${prefix}${value.BANK_MONEY_OTHER_ACCOUNT} ${value.BANK_ORIGIN_ACCOUNT_NAME || ''}`;
+                    value.SHOW_NAME = `${prefix}${value.BANK_MONEY_OTHER_ACCOUNT} ${value.BANK_ACCOUNT_NAME || ''}`;
                     value.BANK_ACCOUNT = value.BANK_MONEY_OTHER_ACCOUNT;
                     break;
     
@@ -2760,7 +2760,6 @@ export class IssueOnlineDamageComponent implements OnInit {
                     BANK_MONEY_OTHER_ACCOUNT: this.firstLoadEditOrigin ? this.FormDataOrigin.BANK_MONEY_OTHER_ACCOUNT : null,
                     BANK_ORIGIN_ACCOUNT_NAME_PROMPAY: this.firstLoadEditOrigin ? this.FormDataOrigin.BANK_ORIGIN_ACCOUNT_NAME_PROMPAY : null,
                     BANK_ORIGIN_ACCOUNT_PROMPAY: this.firstLoadEditOrigin ? this.FormDataOrigin.BANK_ORIGIN_ACCOUNT_PROMPAY : null,
-                    BANK_ACCOUNT_NAME: this.firstLoadEditDestination ? this.FormDataDestination.BANK_ACCOUNT_NAME : null,
                 };
                 this.formmoney.BANK_DAMAGE_VALUE_UNIT = this.FormDataOrigin.TYPE_BANK_ID == 1 || this.FormDataOrigin.TYPE_BANK_ID == 2 ?  "บาท" : this.formmoney.BANK_DAMAGE_VALUE_UNIT;
                 this.show_value =

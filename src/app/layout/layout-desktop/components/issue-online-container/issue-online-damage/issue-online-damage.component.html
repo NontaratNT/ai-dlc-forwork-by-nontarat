@@ -159,9 +159,9 @@
                                             </dxi-item>
                                             
                                             
-                                            <dxi-item *ngIf="FormDataOrigin.TYPE_BANK_ID === 7  || FormDataOrigin.TYPE_BANK_ID === 8" template="temp3-sufferer-wallet" [colSpan]="1" [isRequired]="true">
+                                            <dxi-item *ngIf="FormDataOrigin.TYPE_BANK_ID === 7  || FormDataOrigin.TYPE_BANK_ID === 8" template="temp3-sufferer-wallet" [colSpan]="1">
                                                 <dxo-label text="ชื่อบัญชี" [showColon]="false"></dxo-label>
-                                                <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลชื่อบัญชี">
+                                                <dxi-validation-rule *ngIf="FormDataOrigin.TYPE_BANK_ID !== 7" type="required" message="กรุณากรอกข้อมูลชื่อบัญชี">
                                                 </dxi-validation-rule>
                                                 <div *dxTemplate="let data of 'temp3-sufferer-wallet'">
                                                     <dx-text-box id="ctrlAccsuffererother" (keypress)="AccountNameValidator($event)" [(value)]="FormDataOrigin.BANK_ORIGIN_ACCOUNT_NAME" (onValueChanged)="checkDuplicateString($event,'origin','BANK_ORIGIN_ACCOUNT_NAME')"></dx-text-box>
@@ -318,9 +318,9 @@
                                                 </div>
                                             </dxi-item>
                                             
-                                            <dxi-item *ngIf="FormDataDestination.TYPE_BANK_ID === 7 || FormDataDestination.TYPE_BANK_ID === 8" template="temp3-sufferer-wallet" [colSpan]="1" [isRequired]="true">
+                                            <dxi-item *ngIf="FormDataDestination.TYPE_BANK_ID === 7 || FormDataDestination.TYPE_BANK_ID === 8" template="temp3-sufferer-wallet" [colSpan]="1">
                                                 <dxo-label text="ชื่อบัญชี" [showColon]="false"></dxo-label>
-                                                <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลชื่อบัญชี">
+                                                <dxi-validation-rule *ngIf="FormDataDestination.TYPE_BANK_ID !== 7" type="required" message="กรุณากรอกข้อมูลชื่อบัญชี">
                                                 </dxi-validation-rule>
                                                 <div *dxTemplate="let data of 'temp3-sufferer-wallet'">
                                                     <dx-text-box id="ctrlAccsufferer" (keypress)="AccountNameValidator($event)" [(value)]="FormDataDestination.BANK_ACCOUNT_NAME" (onValueChanged)="checkDuplicateString($event,'origin','BANK_ACCOUNT_NAME')"></dx-text-box>

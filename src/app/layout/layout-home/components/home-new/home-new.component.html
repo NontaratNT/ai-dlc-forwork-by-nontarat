@@ -77,7 +77,7 @@
                                         <img src="assets/icon/358726.jpg" alt="line">
                                     </div>
                                     <div class="item">
-                                        <div class="text-detail">@police1441</div>
+                                        <div class="text-detail">&#64;police1441</div>
                                         <div class="text-detail">Line Chat</div>
                                         <div class="text-detail">แชทบอทให้คำปรึกษาคดี</div>
                                     </div>
@@ -116,7 +116,18 @@
                             </div>
                         </div>
                     </div> -->
-                    <div class="col-lg-4 col-md-6 mt-2 block-box-content-right box6 text-center">
+                    <div class="col-lg-3 col-md-6 mt-2 block-box-content-right box6 text-center">
+                        <div class="block-box" style="padding-top: 5px;padding-bottom: 5px;height:100%;">
+                            <div class="box-detail" (click)="openPopupCybercheck()" style="height:100%;">
+                                <div class="box-item" style="height:100%;">
+                                    <div class="item cybercheck col-12" style="height:100%;">
+                                        <img style="height:100%;width: auto;" src="assets/icon/2704849.jpg" alt="icon">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mt-2 block-box-content-right box6 text-center">
                         <div class="block-box">
                             <div class="box-detail" (click)="RedirectExternal('https://24hicarecenter.com/cybervaccinated')">
                                 <div class="box-item">
@@ -130,7 +141,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6 mt-2 block-box-content-right box6 text-center">
+                    <div class="col-lg-3 col-md-6 mt-2 block-box-content-right box6 text-center">
                         <div class="block-box ext">
                             <div class="box-detail" (click)="RedirectExternal('https://www.checkgon.com/')">
                                 <div class="box-item">
@@ -144,7 +155,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6 mt-2 block-box-content-right box6 text-center">
+                    <div class="col-lg-3 col-md-6 mt-2 block-box-content-right box6 text-center">
                         <div class="block-box ext">
                             <div class="box-detail" (click)="RedirectExternal('https://www.chaladohn.com/')">
                                 <div class="box-item">
@@ -162,7 +173,13 @@
             </div>
         </div>
         <div class="block-box-login col-12" *ngIf="!hasSession">
-            <div class="box-login-detail" (click)="OnIssueOnline()">เข้าสู่ระบบ</div>
+            <div class="text-link" (click)="OnIssueOnline()"><span><img src="assets/icon/Chield_check_light.png" height="30px" alt="icon"></span> เข้าสู่ระบบ</div>
+        </div>
+        <div class="block-box-login col-12" *ngIf="hasSession">
+            <div class="text-link box-login-detail" (click)="logout()"><span><img src="assets/image/police/desktop/logout.png" height="30px" alt="icon"></span>ออกจากระบบ</div>
+        </div>
+        <div class="row block-header d-flex justify-content-center">
+            ท่านสามารถติดต่อ ศูนย์ AOC สายด่วน 1441 เพื่ออายัดบัญชี และขอคำปรึกษาในการแจ้งความได้ตลอด 24 ชั่วโมง
         </div>
         <div class="row section2">
             <div class="block-title">

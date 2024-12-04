@@ -35,6 +35,7 @@ export class IssueOnlineService {
             CASE_CHANNEL_SMS_DESTINATION: data.CRIMINAL_SMS_DESTINATION,
             CASE_CHANNEL_SMS_DATE: data.CRIMINAL_SMS_DATE,
             CASE_CHANNEL_SMS_TIME: data.CRIMINAL_SMS_TIME,
+            CASE_CHANNEL_SMS_DETAIL : data.CRIMINAL_SMS_DETAIL,
             CHANEL_LINE : data.CRIMINAL_TYPE_SOCIAL === 'LINE' ? true : false,
             CASE_CHANNEL_LINE_DETAIL_NAME : data.CRIMINAL_TYPE_SOCIAL === 'LINE' ? `${data.CRIMINAL_SOCIAL_DETAIL}` : '',
             CHANEL_FACEBOOK: data.CRIMINAL_TYPE_SOCIAL === 'FACEBOOK' ? true : false,

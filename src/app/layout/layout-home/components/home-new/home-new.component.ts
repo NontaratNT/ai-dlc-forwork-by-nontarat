@@ -4,6 +4,8 @@ import { LoginService } from 'src/app/services/login.service';
 import { User } from 'src/app/services/user';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { DatePipe } from '@angular/common';
+import Swal from 'sweetalert2';
+import { UserSettingService } from 'src/app/services/user-setting.service';
 
 @Component({
     selector: 'app-home-new',
@@ -27,6 +29,7 @@ export class HomeNewComponent implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private _loginServ: LoginService,
+        private userSetting: UserSettingService,
         private deviceService: DeviceDetectorService,private datePipe: DatePipe) { }
 
     ngOnInit(): void {
@@ -56,6 +59,35 @@ export class HomeNewComponent implements OnInit {
     OnIssueOnline() {
         // this.popupVisible = true;
         this.CheckDeviceMode();
+    }
+    logout() {
+        Swal.fire({
+            title: 'คุณต้องการออกจากระบบ หรือไม่?',
+            text: " ",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#2778c4',
+            cancelButtonColor: '#ce312c',
+            cancelButtonText: 'ยกเลิก',
+            confirmButtonText: 'ตกลง'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this._isLoading = true;
+
+                Swal.fire({
+                    title: 'สำเร็จ!',
+                    text: 'คุณได้ออกจากระบบเรียบร้อย',
+                    icon: 'success',
+                    confirmButtonText: 'ตกลง'
+                }).then(() => {
+                    this.userSetting.userSetting.location_name = undefined;
+                    this.userSetting.Save();
+                    this._loginServ.logout();
+                    location.reload();
+                });
+
+            }
+        });
     }
     CheckDeviceMode() {
         this.deviceInfo = this.deviceService.getDeviceInfo();
@@ -102,6 +134,14 @@ export class HomeNewComponent implements OnInit {
     closePopup(){
         this.popupStart = false;
         window.location.href = "https://thaipoliceonline.go.th/";
+    }
+    openPopupCybercheck(){
+        Swal.fire({
+            title: 'แจ้งเตือน!',
+            html: "ท่านสามารถโหลดแอปพลิเคชัน CyberCheck<br>ได้ที่ Google Play และ App Store",
+            icon: 'warning',
+            confirmButtonText: 'ตกลง'
+        });
     }
 }
 

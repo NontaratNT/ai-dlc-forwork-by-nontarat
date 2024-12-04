@@ -2,8 +2,8 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <div class="row">
-                    <div class="col col-p-unset">
+                <div class="row header-row">
+                    <div class="col-xl-8 col-p-unset">
                         <div class="menu-header-list-left">
                             <div class="list-detail">
                                 <ul>
@@ -14,43 +14,44 @@
                                     </li>
                                     <li class="nav-title text-link" (click)="RedirectUrl('/')">
                                         <div class="text-desktop">
-                                            <!-- <div>การรับแจ้งความทางออนไลน์คดีอาชญากรรมทางเทคโนโลยี (thaipoliceonline.com)</div> -->
                                             <div>สำนักงานตำรวจแห่งชาติ</div>
                                             <div class="sub-title">ROYAL  THAI  POLICE</div>
                                         </div>
                                         <div class="text-mobile">
-                                            <!-- <div>การรับแจ้งความทางออนไลน์คดีอาชญากรรมทางเทคโนโลยี (thaipoliceonline.com)</div> -->
                                             <div>สำนักงานตำรวจแห่งชาติ</div>
                                             <div class="sub-title">ROYAL  THAI  POLICE</div>
                                         </div>
-                                        <!-- <div class="line"></div>
-                                        <div>สำนักงานตำรวจแห่งชาติ</div> -->
+                                    </li>
+                                    <li class="nav-logo text-link">
+                                        <div>
+                                            <img src="assets/icon/ccib.png" alt="logo" (click)="RedirectUrl('/')">
+                                        </div>
+                                    </li>
+                                    <li class="nav-title-2 text-link">
+                                        <div class="text-desktop">
+                                            <div>กองบัญชาการตำรวจสืบสวนสอบสวนอาชญากรรมทางเทคโนโลยี</div>
+                                        </div>
+                                        <div class="text-mobile">
+                                            <div>กองบัญชาการตำรวจสืบสวนสอบสวนอาชญากรรมทางเทคโนโลยี</div>
+                                        </div>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="col-menu-header col-auto col-p-unset">
+                    <div class="col-xl-4 col-menu-header col-auto col-p-unset">
                         <div class="menu-header-list-right">
                             <div class="list-detail">
                                 <ul>
-                                    <!-- <li class="btn-menu">
-                                        <div class="text-link" (click)="RedirectUrl('/news')">ประชาสัมพันธ์</div>
-                                    </li> -->
                                     <li>
-                                        <div style="text-align: right; font-size: 20px;text-shadow: 0px 1px 14px black;">เคยลงทะเบียนแล้ว<br>สามารถเข้าสู่ระบบได้ทันที</div>
+                                        <div style="text-align: right; font-size: 1vw;text-shadow: 0px 1px 14px black;">เคยลงทะเบียนแล้ว<br>สามารถเข้าสู่ระบบได้ทันที</div>
                                     </li>
                                     <li class="btn-menu row" *ngIf="!hasSession">
-                                        <div class="text-link" (click)="OnIssueOnline()"><span><img src="assets/icon/Chield_check_light.png" height="30px" alt="icon"></span> เข้าสู่ระบบ</div>
+                                        <div class="text-link" (click)="OnIssueOnline()"><img src="assets/icon/Chield_check_light.png" height="30px" alt="icon"> เข้าสู่ระบบ</div>
                                     </li>
-                                    <!-- กรณีปิดระบบชั่วคราวต้องปิด tag ไว้ เปิดใช้ระบบเอา comment ออก แล้วปิดด้านล่างไว้ -->
-                                    <!-- <li class="btn-menu" >
-                                        <div class="text-link" (click)="RedirectUrl('/')">เข้าสู่ระบบ</div>
-                                    </li> -->
                                     <li class="btn-menu" *ngIf="hasSession">
                                         <div class="text-link logout-text" (click)="logout()">ออกจากระบบ</div>
                                     </li>
-
                                 </ul>
                             </div>
                         </div>
@@ -60,7 +61,6 @@
                     <img class="text-link" src="assets/image/police/desktop/logout.png" alt="logout" (click)="logout()">
                 </div>
             </div>
-
         </div>
     </div>
 

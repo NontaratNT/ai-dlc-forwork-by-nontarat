@@ -1947,7 +1947,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                     break;
     
                 case 'True Money':
-                    value.SHOW_NAME = `${prefix}${value.BANK_MONEY_OTHER_ACCOUNT} ${value.BANK_ORIGIN_ACCOUNT_NAME} (${value.TRUEMONEY_TYPE_NAME || ''})`;
+                    value.SHOW_NAME = `${prefix}${value.BANK_MONEY_OTHER_ACCOUNT} ${value.BANK_ORIGIN_ACCOUNT_NAME || ''} (${value.TRUEMONEY_TYPE_NAME || ''})`;
                     value.BANK_ORIGIN_ACCOUNT = value.BANK_MONEY_OTHER_ACCOUNT;
                     break;
     
@@ -2025,18 +2025,18 @@ export class IssueOnlineDamageComponent implements OnInit {
                     break;
     
                 case 'True Money':
-                    value.SHOW_NAME = `${prefix}${value.BANK_MONEY_OTHER_ACCOUNT} ${value.BANK_ACCOUNT_NAME} (${value.TRUEMONEY_TYPE_NAME || ''})`;
+                    value.SHOW_NAME = `${prefix}${value.BANK_MONEY_OTHER_ACCOUNT} ${value.BANK_ACCOUNT_NAME || ''} (${value.TRUEMONEY_TYPE_NAME || ''})`;
                     value.BANK_ACCOUNT = value.BANK_MONEY_OTHER_ACCOUNT;
                     break;
     
                 case 'เงินดิจิทัล (Cryptocurrency)':
-                case 'อื่นๆ':
-                case 'QR Code':
-                case 'Max Card':
-                case 'Paypal':
-                    value.SHOW_NAME = `${prefix}${value.BANK_MONEY_OTHER_ACCOUNT} ${value.BANK_MONEY_OTHER_ACCOUNT || ''}`;
-                    value.BANK_ACCOUNT = value.BANK_MONEY_OTHER_ACCOUNT;
-                    break;
+                    case 'อื่นๆ':
+                    case 'QR Code':
+                    case 'Max Card':
+                    case 'Paypal':
+                        value.SHOW_NAME = `${prefix}${value.BANK_MONEY_OTHER_ACCOUNT} ${value.BANK_ACCOUNT_NAME || ''}`;
+                        value.BANK_ACCOUNT = value.BANK_MONEY_OTHER_ACCOUNT;
+                        break;
     
                 default:
                     break;

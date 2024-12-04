@@ -119,28 +119,47 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     }
 
     ngDoCheck(): void {
-        this.appState.checkOtherTel = this.formData.CRIMINAL_TEL_PROVIDER === 'อื่น ๆ' ?? false;
+        // Update `checkOtherTel` based on `CRIMINAL_TEL_PROVIDER` and clear details if not 'อื่น ๆ'
+        this.appState.checkOtherTel = this.formData.CRIMINAL_TEL_PROVIDER === 'อื่น ๆ';
         if (!this.appState.checkOtherTel) {
             this.formData.CRIMINAL_TEL_PROVIDER_DETAIL = '';
         }
-        this.appState.checkOtherSms = this.formData.CRIMINAL_SMS_PROVIDER === 'อื่น ๆ' ?? false;
+    
+        // Update `checkOtherSms` based on `CRIMINAL_SMS_PROVIDER` and clear details if not 'อื่น ๆ'
+        this.appState.checkOtherSms = this.formData.CRIMINAL_SMS_PROVIDER === 'อื่น ๆ';
         if (!this.appState.checkOtherSms) {
             this.formData.CRIMINAL_SMS_PROVIDER_DETAIL = '';
         }
-        this.appState.checkOtherSocial = this.formData.CRIMINAL_TYPE_SOCIAL === 'อื่นๆ' ?? false;
-        this.fileTypeSelected = this.fileTypeSelectedValue !== '' ?? false;
-
+    
+        // Update `checkOtherSocial` based on `CRIMINAL_TYPE_SOCIAL`
+        this.appState.checkOtherSocial = this.formData.CRIMINAL_TYPE_SOCIAL === 'อื่นๆ';
+    
+        // Update `fileTypeSelected` based on `fileTypeSelectedValue`
+        this.fileTypeSelected = this.fileTypeSelectedValue !== '';
+    
+        // Process SMS date and time if `CRIMINAL_SMS_DATE_FULL` exists
         if (this.formData.CRIMINAL_SMS_DATE_FULL) {
-            this.formData.CRIMINAL_SMS_DATE = this.datePipe.transform(this.formData.CRIMINAL_SMS_DATE_FULL, 'yyyy-MM-dd');
-            this.formData.CRIMINAL_SMS_TIME = this.datePipe.transform(this.formData.CRIMINAL_SMS_DATE_FULL, 'HH:mm:ss');
+            this.formData.CRIMINAL_SMS_DATE = this.datePipe.transform(
+                this.formData.CRIMINAL_SMS_DATE_FULL,
+                'yyyy-MM-dd'
+            );
+            this.formData.CRIMINAL_SMS_TIME = this.datePipe.transform(
+                this.formData.CRIMINAL_SMS_DATE_FULL,
+                'HH:mm:ss'
+            );
         }
-
+    
+        // Process TEL date and time if `CRIMINAL_TEL_DATE_FULL` exists
         if (this.formData.CRIMINAL_TEL_DATE_FULL) {
-            this.formData.CRIMINAL_TEL_DATE = this.datePipe.transform(this.formData.CRIMINAL_TEL_DATE_FULL, 'yyyy-MM-dd');
-            this.formData.CRIMINAL_TEL_TIME = this.datePipe.transform(this.formData.CRIMINAL_TEL_DATE_FULL, 'HH:mm:ss');
+            this.formData.CRIMINAL_TEL_DATE = this.datePipe.transform(
+                this.formData.CRIMINAL_TEL_DATE_FULL,
+                'yyyy-MM-dd'
+            );
+            this.formData.CRIMINAL_TEL_TIME = this.datePipe.transform(
+                this.formData.CRIMINAL_TEL_DATE_FULL,
+                'HH:mm:ss'
+            );
         }
-
-
     }
 
     async OnSelectCaseType(e) {
