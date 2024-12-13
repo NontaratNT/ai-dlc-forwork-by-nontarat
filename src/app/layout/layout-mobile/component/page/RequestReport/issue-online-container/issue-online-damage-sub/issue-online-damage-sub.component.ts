@@ -278,6 +278,34 @@ export class IssueOnlineDamageSubComponent implements OnInit {
         const result = makeScope.test(event.key);
         return result;
     }
+    PasteAccountNameValidator(event) {
+        const clipboardData = event.clipboardData;
+        const pastedText = clipboardData.getData("text");
+        // const seperator  = '^[ก-๏\\s]+$';
+        const seperator = "^[A-Za-zก-๏. ]+$";
+        const maskSeperator = new RegExp(seperator, "g");
+        const result = maskSeperator.test(pastedText);
+        return result;
+    }
+    ChangeAccountNameValidator(event,tag:DxTextBoxComponent) {
+        console.log(event);
+        if(event.value){
+            const seperator = "^[A-Za-zก-๏. ]+$";
+            const maskSeperator = new RegExp(seperator, "g");
+            const result = maskSeperator.test(event.value);
+            if(!result){
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'กรอกข้อมูลผิดพลาด',
+                    html: 'กรุณากรอกข้อมูลใหม่อีกครั้ง'
+                });
+                tag.value = null;
+                return '';
+            }
+            return result;
+        }
+        return false;
+    }
     TrueMoneyValidator(event) {
         if (event.value === "P") {
             return this.PhoneNumberValidator(event);
@@ -288,8 +316,6 @@ export class IssueOnlineDamageSubComponent implements OnInit {
         }
     }
     InputConidtions(event) {
-        
-        
         const d = this.formchecktype.type_name;
         if (d === "True Money") {
             return this.TrueMoneyValidator(event);
@@ -304,6 +330,42 @@ export class IssueOnlineDamageSubComponent implements OnInit {
         } else {
             return true;
         }
+    }
+    ChangeInputConidtions(event,tag:DxTextBoxComponent) {
+        if(event.value){
+            if (this.popupFormData.TYPE_NAME === "True Money" || this.popupFormData.TYPE_NAME === "Paypal" || this.popupFormData.TYPE_NAME === "Max Card" || this.popupFormDatavillain.TYPE_NAME === "True Money" || this.popupFormDatavillain.TYPE_NAME === "Paypal" || this.popupFormDatavillain.TYPE_NAME === "Max Card") {
+                const seperator = "^[0-9]+$";
+                const maskSeperator = new RegExp(seperator, "g");
+                const result = maskSeperator.test(event.value);
+                if(!result){
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'กรอกข้อมูลผิดพลาด',
+                        html: 'กรุณากรอกข้อมูลใหม่อีกครั้ง'
+                    });
+                    tag.value = null;
+                    return '';
+                }
+                return result;
+            } else if (this.popupFormData.TYPE_NAME === "QR Code" || this.popupFormDatavillain.TYPE_NAME === "QR Code") {
+                const seperator = "^[0-9A-Za-z]+$";
+                const maskSeperator = new RegExp(seperator, "g");
+                const result = maskSeperator.test(event.value);
+                if(!result){
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'กรอกข้อมูลผิดพลาด',
+                        html: 'กรุณากรอกข้อมูลใหม่อีกครั้ง'
+                    });
+                    tag.value = null;
+                    return '';
+                }
+                return result;
+            } else {
+                return true;
+            }
+        }
+        return false;
     }
     WalletValidator(event) {
         let value = event.target.value + event.key;

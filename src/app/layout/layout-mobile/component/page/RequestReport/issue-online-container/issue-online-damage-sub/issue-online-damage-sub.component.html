@@ -124,7 +124,13 @@
                     <dxi-validation-rule  *ngIf="popupFormData.TYPE_BANK_ID === 8" type="required" message="กรุณากรอกข้อมูลชื่อบัญชี">
                     </dxi-validation-rule>
                     <div *dxTemplate="let data of 'temp3-sufferer-wallet'">
-                        <dx-text-box id="ctrlAccsufferer" (keypress)="AccountNameValidator($event)" [(value)]="popupFormData.BANK_ORIGIN_ACCOUNT_NAME"></dx-text-box>
+                        <dx-text-box id="ctrlAccsufferer" 
+                        #BANK_ACCOUNT_NAME_O placeholder="ชื่อบัญชี (กรอกเฉพาะตัวอักษรเท่านั้น)"
+                        (keypress)="AccountNameValidator($event)"
+                        (paste)="PasteAccountNameValidator($event)" 
+                        (keydown)="AccountNameValidator($event)"
+                        (onValueChanged)="ChangeAccountNameValidator($event,BANK_ACCOUNT_NAME_O)"
+                        [(value)]="popupFormData.BANK_ORIGIN_ACCOUNT_NAME"></dx-text-box>
                         <dx-tooltip target="#ctrlAccsufferer" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                             <div *dxTemplate="let data of 'content'">
                                 <p>หมายเหตุ: ชื่อบัญชี ต้องไม่มีตัวเลข และอักษรพิเศษ </p>
@@ -138,7 +144,10 @@
                     </dxi-validation-rule>
                 </dxi-item>
                 <div *dxTemplate="let data of 'temp4truemoney'">
-                    <dx-text-box id="ctrlMoneyOtherBank" (keypress)="InputConidtions($event)" [(value)]="popupFormData.BANK_MONEY_OTHER_ACCOUNT"></dx-text-box>
+                    <dx-text-box *ngIf="this.popupFormData.TYPE_NAME === 'True Money' || this.popupFormData.TYPE_NAME === 'Paypal' || this.popupFormData.TYPE_NAME === 'Max Card'; else notLoggedInTemplate" id="ctrlMoneyOtherBank" (keypress)="InputConidtions($event)" (keyup)="InputConidtions($event)" (keypress)="InputConidtions($event)"  [(value)]="popupFormData.BANK_MONEY_OTHER_ACCOUNT" placeholder="ชื่อบัญชี (กรอกเฉพาะตัวเลขเท่านั้น)"></dx-text-box>
+                        <ng-template #notLoggedInTemplate>
+                            <dx-text-box #BANK_MONEY_OTHER_ACCOUNT_O id="ctrlMoneyOtherBank" (keypress)="InputConidtions($event)" (keyup)="InputConidtions($event)" (keypress)="InputConidtions($event)"  [(value)]="popupFormData.BANK_MONEY_OTHER_ACCOUNT" (onValueChanged)="ChangeInputConidtions($event,BANK_MONEY_OTHER_ACCOUNT_O)"></dx-text-box>
+                        </ng-template>
                 </div>
             </dx-form>
             <div class="text-center btn-dx">
@@ -271,7 +280,12 @@
                     <dxi-validation-rule *ngIf="popupFormDatavillain.TYPE_BANK_ID === 8" type="required" message="กรุณากรอกข้อมูลชื่อบัญชี">
                     </dxi-validation-rule>
                     <div *dxTemplate="let data of 'temp3-sufferer-wallet'">
-                        <dx-text-box id="ctrlAccsufferer" (keypress)="AccountNameValidator($event)" [(value)]="popupFormDatavillain.BANK_ACCOUNT_NAME"></dx-text-box>
+                        <dx-text-box id="ctrlAccsufferer"  #BANK_ACCOUNT_NAME placeholder="ชื่อบัญชี (กรอกเฉพาะตัวอักษรเท่านั้น)"
+                        (keypress)="AccountNameValidator($event)"
+                        (paste)="PasteAccountNameValidator($event)" 
+                        (keydown)="AccountNameValidator($event)"
+                        (onValueChanged)="ChangeAccountNameValidator($event,BANK_ACCOUNT_NAME)"
+                         [(value)]="popupFormDatavillain.BANK_ACCOUNT_NAME"></dx-text-box>
                         <dx-tooltip target="#ctrlAccsufferer" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [hideOnOutsideClick]="false">
                             <div *dxTemplate="let data of 'content'">
                                 <p>หมายเหตุ: ชื่อบัญชี ต้องไม่มีตัวเลข และอักษรพิเศษ </p>
@@ -289,10 +303,20 @@
                     <dxo-label text="รหัสหรือเอกลักษณ์บัญชีปลายทาง" [showColon]="false"></dxo-label>
                     <dxi-validation-rule type="required" message="กรุณากรอกรหัสหรือเอกลักษณ์บัญชีปลายทาง">
                     </dxi-validation-rule>
-
                 </dxi-item>
                 <div *dxTemplate="let data of 'temp4truemoney'">
-                    <dx-text-box id="ctrlMoneyOtherBank" (keypress)="InputConidtions($event)" [(value)]="popupFormDatavillain.BANK_MONEY_OTHER_ACCOUNT"></dx-text-box>
+                    <dx-text-box #BANK_MONEY_OTHER_ACCOUNT *ngIf="this.popupFormDatavillain.TYPE_NAME === 'True Money' || this.popupFormDatavillain.TYPE_NAME === 'Paypal' || this.popupFormDatavillain.TYPE_NAME === 'Max Card'; else notLoggedInTemplate" id="ctrlMoneyOtherBank" [(value)]="popupFormDatavillain.BANK_MONEY_OTHER_ACCOUNT" 
+                            (keypress)="InputConidtions($event)" 
+                            (keydown)="InputConidtions($event)"
+                            (keypress)="InputConidtions($event)" 
+                    (onValueChanged)="ChangeInputConidtions($event,BANK_MONEY_OTHER_ACCOUNT)" placeholder="ชื่อบัญชี (กรอกเฉพาะตัวเลขเท่านั้น)"></dx-text-box>
+                        <ng-template #notLoggedInTemplate>
+                            <dx-text-box #BANK_MONEY_OTHER_ACCOUNT id="ctrlMoneyOtherBank" 
+                            (keypress)="InputConidtions($event)" 
+                            (keydown)="InputConidtions($event)"
+                            (keypress)="InputConidtions($event)" 
+                            [(value)]="popupFormDatavillain.BANK_MONEY_OTHER_ACCOUNT" (onValueChanged)="ChangeInputConidtions($event,BANK_MONEY_OTHER_ACCOUNT)"></dx-text-box>
+                        </ng-template>
                 </div>
             </dx-form>
             <div class="text-center btn-dx">
