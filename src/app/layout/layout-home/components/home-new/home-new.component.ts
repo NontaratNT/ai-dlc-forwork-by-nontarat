@@ -21,8 +21,8 @@ export class HomeNewComponent implements OnInit {
     popupVisible = false;
     popupStart = false;
 
-    isfullScreen : any
-    width : any
+    isfullScreen: any;
+    width: any;
     isUrl = false;
 
     constructor(
@@ -119,13 +119,13 @@ export class HomeNewComponent implements OnInit {
     checkdatetimepopup(){
 
         const datenow  = this.datePipe.transform(Date.now(), 'yyyy-MM-dd hh:mm:ss');
-        const dateOne = new Date(datenow)
-        const dateTwo = new Date('2022-10-30 06:00:00')
+        const dateOne = new Date(datenow);
+        const dateTwo = new Date('2022-10-30 06:00:00');
         if(dateOne.toISOString() > dateTwo.toISOString()){
             this.showpopupweb = false;
-         }else{
+        }else{
             this.showpopupweb = false;
-         }
+        }
     }
     closePopupWarning(){
         this.popupVisible = false;
@@ -143,5 +143,8 @@ export class HomeNewComponent implements OnInit {
             confirmButtonText: 'ตกลง'
         });
     }
-}
 
+    onClickBanner(){
+        this.router.navigate(['/login'], { queryParams: { icli: 'al' } });
+    }
+}

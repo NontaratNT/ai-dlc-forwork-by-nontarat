@@ -62,13 +62,14 @@ import { Config } from 'share-ui';
 
 
 
-//Thai ID
+// Thai ID
 export const environment = {
     production: true,
     baseUrl: 'https://green-plant-0331bd900.3.azurestaticapps.net/',
     config: {
         baseConfig: {
-            apiUrl: "https://officeruat.thaipoliceonline.com/api/ccib/v1.0",
+            // apiUrl: "https://officeruat.thaipoliceonline.com/api/ccib/v1.0",
+            apiUrl: "https://citizenuat.thaipoliceonline.com/api/ccib/v1.0",
             reportUrl: "http://192.168.10.70/web-report/",
             resourceUrl: "http://192.168.10.71/resource/ccib/",
             resourceUrlAzure: "https://api.thaipoliceonline.com/eformazure/api/resource/download?filePath=",
@@ -77,11 +78,12 @@ export const environment = {
             urlgdcc:"https://officer.thaipoliceonline.com/api/ccib/v1.0",
             urlgdcceform:"https://officer.thaipoliceonline.com/api/e-form/v1.0"
         },
-        eFormHost: "https://officer.thaipoliceonline.com/api/e-form/v1.0",
+        // eFormHost: "https://officer.thaipoliceonline.com/api/e-form/v1.0",
+        eFormHost: "https://officeruat.thaipoliceonline.com/api/e-form/v1.0",
         recaptcha: {
             siteKey: "6LeV1vQcAAAAAAUKdpLxVXjB9OLYR7ddI3sDmP0P",
             secretKey: "6LeV1vQcAAAAAJzMmWwJqq76i_fQuflBIF5upGbB"
         },
         versionControl: "1.6712.04.1"
     }
-}
+};

@@ -1,27 +1,31 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ForgetPasswordComponent } from '../forget-password/forget-password.component';
-import { DxMultiViewComponent } from 'devextreme-angular';
-import { IAccessToken, UserService } from 'src/app/services/user.service';
-import { Router } from '@angular/router';
-import { finalize } from 'rxjs/operators';
-import { Dialog } from 'share-ui';
+import { Component, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { ForgetPasswordComponent } from "../forget-password/forget-password.component";
+import { DxMultiViewComponent } from "devextreme-angular";
+import { IAccessToken, UserService } from "src/app/services/user.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { finalize } from "rxjs/operators";
+import { Dialog } from "share-ui";
 import { SocialAuthService } from "angularx-social-login";
-import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
+import {
+    FacebookLoginProvider,
+    GoogleLoginProvider,
+} from "angularx-social-login";
 import { SocialUser } from "angularx-social-login";
-import { LoginService } from 'src/app/services/login.service';
-import { CookieStorage } from 'src/app/common/cookie';
-import { AppService } from 'src/app/app.service';
-import Swal from 'sweetalert2';
-import { AppComponent } from 'src/app/app.component';
-import { DeviceDetectorService } from 'ngx-device-detector';
-import { UserSettingService } from 'src/app/services/user-setting.service';
-import { FreezeAccountService } from 'src/app/services/bpm-freeze-account.service';
+import { LoginService } from "src/app/services/login.service";
+import { CookieStorage } from "src/app/common/cookie";
+import { AppService } from "src/app/app.service";
+import Swal from "sweetalert2";
+import { AppComponent } from "src/app/app.component";
+import { DeviceDetectorService } from "ngx-device-detector";
+import { UserSettingService } from "src/app/services/user-setting.service";
+import { FreezeAccountService } from "src/app/services/bpm-freeze-account.service";
+import { User } from '../../../../services/user';
 
-declare var $:any;
+declare let $: any;
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss']
+    selector: "app-login",
+    templateUrl: "./login.component.html",
+    styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent implements OnInit, OnDestroy {
     usersocial!: SocialUser;
@@ -32,17 +36,21 @@ export class LoginComponent implements OnInit, OnDestroy {
     deviceInfo = null;
     popupVisible = true;
     submission = {} as any;
-    ways = [{ id: 1, text: 'ดำเนินการแล้ว' }, { id: 2, text: 'ยังไม่ได้ดำเนินการ' }];
+    ways = [
+        { id: 1, text: "ดำเนินการแล้ว" },
+        { id: 2, text: "ยังไม่ได้ดำเนินการ" },
+    ];
     scopeWays1: boolean;
     scopeWays2: boolean;
-    _isShow: boolean = false;
-    _isShow2: boolean = false;
-    isUrl: boolean = false;
-    popupConsentVisible: boolean = false;
+    _isShow = false;
+    _isShow2 = false;
+    isUrl = false;
+    popupConsentVisible = false;
     constructor(
         private userServ: UserService,
         private _dialog: Dialog,
         private router: Router,
+        private routerAc: ActivatedRoute,
         private userSetting: UserSettingService,
         private authService: SocialAuthService,
         private loginServ: LoginService,
@@ -56,8 +64,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.isUrl = window.location.href.includes(".com") && !window.location.href.includes("uat") ?  true: false;
-        if(this.isUrl){
+        this.isUrl =
+            window.location.href.includes(".com") &&
+            !window.location.href.includes("uat")
+                ? true
+                : false;
+        if (this.isUrl) {
             window.location.href = "https://thaipoliceonline.go.th/login";
         }
         this.getIPAddress();
@@ -85,11 +97,14 @@ export class LoginComponent implements OnInit, OnDestroy {
         const isTablet = this.deviceService.isTablet();
         const isDesktopDevice = this.deviceService.isDesktop();
         if (isMobile) {
-
             // location.reload();
-            this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-                this.router.navigate(["/mobile/track-status?openExternalBrowser=1"]);
-            });
+            this.router
+                .navigateByUrl("/", { skipLocationChange: true })
+                .then(() => {
+                    this.router.navigate([
+                        "/mobile/track-status?openExternalBrowser=1",
+                    ]);
+                });
         } else {
             this.router.navigate(["/main/task-list"]);
         }
@@ -118,30 +133,40 @@ export class LoginComponent implements OnInit, OnDestroy {
             // this.userSetting.Save();
             this.userServ
                 .authenticate(usename, password, 1.1)
-                .pipe(finalize(() => this._isLoading = false))
-                .subscribe(u => {
+                .pipe(finalize(() => (this._isLoading = false)))
+                .subscribe((u) => {
                     if (u) {
-                        if (this.isRemember) {
-                            CookieStorage.assignSetting({ RememberLogin: true });
-                        }
+                        this.routerAc.queryParams.subscribe((params) => {
+                            if (params.icli) {
+                                // User.Current.UserId
+                                this.userServ.getTokenCypherVac(User.Current.UserId).toPromise().then((res) => {
+                                    window.location.href = `https://bt-cyber-vaccine.demotoday.net?redirecthas=${res}`;
+                                });
+                                return;
+                            }
+                            if (this.isRemember) {
+                                CookieStorage.assignSetting({
+                                    RememberLogin: true,
+                                });
+                            }
 
-                        CookieStorage.accessToken = ({
-                            Token: u.Token,
-                            RefreshToken: u.RefreshToken
-                        } as IAccessToken);
+                            CookieStorage.accessToken = {
+                                Token: u.Token,
+                                RefreshToken: u.RefreshToken,
+                            } as IAccessToken;
 
-                        // this.router.navigate([this.loginServ._successLoginRedirectTo]);
-                        this.CheckDeviceMode();
+                            // this.router.navigate([this.loginServ._successLoginRedirectTo]);
+                            this.CheckDeviceMode();
+                        });
                     }
                 });
-        }
-        else {
+        } else {
             // this._dialog.info("ไม่ถูกต้อง", "กรุณากรอก 'ชื่อผู้ใช้' และ 'รหัสผ่าน'").then(() => this._isLoading = false);
             Swal.fire({
-                title: 'ไม่ถูกต้อง!',
-                text: 'กรุณากรอก ชื่อผู้ใช้ และ รหัสผ่าน',
-                icon: 'warning',
-                confirmButtonText: 'ตกลง'
+                title: "ไม่ถูกต้อง!",
+                text: "กรุณากรอก ชื่อผู้ใช้ และ รหัสผ่าน",
+                icon: "warning",
+                confirmButtonText: "ตกลง",
             }).then(() => {
                 this._isLoading = false;
             });
@@ -154,45 +179,49 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
         this.authService.authState.subscribe((user) => {
             this.usersocial = user;
-            this.loggedIn = (user != null);
+            this.loggedIn = user != null;
             if (this.usersocial) {
-                let name = this.usersocial.email.substring(0, this.usersocial.email.lastIndexOf("@"));
+                let name = this.usersocial.email.substring(
+                    0,
+                    this.usersocial.email.lastIndexOf("@")
+                );
                 if (name.indexOf(".") !== -1) {
-                    name = this.usersocial.email.substring(0, name.indexOf("."));
+                    name = this.usersocial.email.substring(
+                        0,
+                        name.indexOf(".")
+                    );
                 }
-                this.userServ.authenticate(name, '1234', 1.1)
-                    .pipe(finalize(() => this._isLoading = false))
-                    .subscribe(r => {
+                this.userServ
+                    .authenticate(name, "1234", 1.1)
+                    .pipe(finalize(() => (this._isLoading = false)))
+                    .subscribe((r) => {
                         if (r) {
                             window.location.reload();
-                        }
-                        else {
+                        } else {
                             // this._dialog.info("แจ้งเตือน", "กรุณาลงทะเบียนด้วย Google ก่อน !!!").then(() => window.location.reload());
                             Swal.fire({
-                                title: 'แจ้งเตือน!',
-                                text: 'กรุณาลงทะเบียนด้วย Google ก่อน !!!',
-                                icon: 'warning',
-                                confirmButtonText: 'ตกลง'
+                                title: "แจ้งเตือน!",
+                                text: "กรุณาลงทะเบียนด้วย Google ก่อน !!!",
+                                icon: "warning",
+                                confirmButtonText: "ตกลง",
                             }).then(() => {
                                 window.location.reload();
                             });
                         }
                     });
                 this._isLoading = false;
-            }
-            else {
+            } else {
                 // this._dialog.info("แจ้งเตือน", "อีเมล หรือ รหัสผ่านไม่ถูกต้อง กรุณาใส่ใหม่อีกครั้งหรือกดลืมรหัสผ่าน  !!!!")
                 //     .then(() => this._isLoading = false);
                 Swal.fire({
-                    title: 'แจ้งเตือน!',
-                    text: 'อีเมล หรือ รหัสผ่านไม่ถูกต้อง กรุณาใส่ใหม่อีกครั้งหรือกดลืมรหัสผ่าน !!!',
-                    icon: 'warning',
-                    confirmButtonText: 'ตกลง'
+                    title: "แจ้งเตือน!",
+                    text: "อีเมล หรือ รหัสผ่านไม่ถูกต้อง กรุณาใส่ใหม่อีกครั้งหรือกดลืมรหัสผ่าน !!!",
+                    icon: "warning",
+                    confirmButtonText: "ตกลง",
                 }).then(() => {
                     this._isLoading = false;
                 });
             }
-
         });
     }
     relode() {
@@ -204,40 +233,45 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
         this.authService.authState.subscribe((user) => {
             this.usersocial = user;
-            this.loggedIn = (user != null);
+            this.loggedIn = user != null;
             if (this.usersocial) {
-                let name = this.usersocial.email.substring(0, this.usersocial.email.lastIndexOf("@"));
+                let name = this.usersocial.email.substring(
+                    0,
+                    this.usersocial.email.lastIndexOf("@")
+                );
                 if (name.indexOf(".") !== -1) {
-                    name = this.usersocial.email.substring(0, name.indexOf("."));
+                    name = this.usersocial.email.substring(
+                        0,
+                        name.indexOf(".")
+                    );
                 }
-                this.userServ.authenticate(name, '1234', 1.1)
-                    .pipe(finalize(() => this._isLoading = false))
-                    .subscribe(r => {
+                this.userServ
+                    .authenticate(name, "1234", 1.1)
+                    .pipe(finalize(() => (this._isLoading = false)))
+                    .subscribe((r) => {
                         if (r) {
                             window.location.reload();
-                        }
-                        else {
+                        } else {
                             // this._dialog.info("แจ้งเตือน", "กรุณาลงทะเบียนด้วย Facebook ก่อน !!!").then(() => window.location.reload());
                             Swal.fire({
-                                title: 'แจ้งเตือน!',
-                                text: 'กรุณาลงทะเบียนด้วย Facebook ก่อน !!!',
-                                icon: 'warning',
-                                confirmButtonText: 'ตกลง'
+                                title: "แจ้งเตือน!",
+                                text: "กรุณาลงทะเบียนด้วย Facebook ก่อน !!!",
+                                icon: "warning",
+                                confirmButtonText: "ตกลง",
                             }).then(() => {
                                 window.location.reload();
                             });
                         }
                     });
                 this._isLoading = false;
-            }
-            else {
+            } else {
                 // this._dialog.info("แจ้งเตือน", "อีเมล หรือ รหัสผ่านไม่ถูกต้อง กรุณาใส่ใหม่อีกครั้งหรือกดลืมรหัสผ่าน  !!!!")
                 //     .then(() => this._isLoading = false);
                 Swal.fire({
-                    title: 'แจ้งเตือน!',
-                    text: 'อีเมล หรือ รหัสผ่านไม่ถูกต้อง กรุณาใส่ใหม่อีกครั้งหรือกดลืมรหัสผ่าน !!!',
-                    icon: 'warning',
-                    confirmButtonText: 'ตกลง'
+                    title: "แจ้งเตือน!",
+                    text: "อีเมล หรือ รหัสผ่านไม่ถูกต้อง กรุณาใส่ใหม่อีกครั้งหรือกดลืมรหัสผ่าน !!!",
+                    icon: "warning",
+                    confirmButtonText: "ตกลง",
                 }).then(() => {
                     this._isLoading = false;
                 });
@@ -246,39 +280,40 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     onRegister(event: any) {
-
         console.clear();
         console.log(event);
         console.log(this.submission);
         this._isLoading = true;
         if (this._isShow2) {
             Swal.fire({
-                title: 'แจ้งเตือน!',
-                text: 'ระบบจะนำท่านไปสู่ขั้นตอนลงทะเบียนยืนยันตัวตน!!!',
-                icon: 'warning',
-                confirmButtonText: 'ตกลง'
+                title: "แจ้งเตือน!",
+                text: "ระบบจะนำท่านไปสู่ขั้นตอนลงทะเบียนยืนยันตัวตน!!!",
+                icon: "warning",
+                confirmButtonText: "ตกลง",
             }).then(() => {
                 this._isLoading = false;
                 this.router.navigate(["register"]);
-                document.body.scrollTop = document.documentElement.scrollTop = 0;
+                document.body.scrollTop =
+                    document.documentElement.scrollTop = 0;
             });
-        }
-        else {
+        } else {
             try {
-                this.freezeAccountService.post(this.submission).subscribe((_) => {
-                    Swal.fire({
-                        title: 'แจ้งเตือน!',
-                        text: 'ดำเนินการบันทึกข้อมูลเรียบร้อย ระบบจะนำท่านไปสู่ขั้นตอนลงทะเบียนยืนยันตัวตน!!!',
-                        icon: 'success',
-                        confirmButtonText: 'ตกลง'
-                    }).then(() => {
-                        this._isLoading = false;
-                        this.router.navigate(["register"]);
-                        document.body.scrollTop = document.documentElement.scrollTop = 0;
+                this.freezeAccountService
+                    .post(this.submission)
+                    .subscribe((_) => {
+                        Swal.fire({
+                            title: "แจ้งเตือน!",
+                            text: "ดำเนินการบันทึกข้อมูลเรียบร้อย ระบบจะนำท่านไปสู่ขั้นตอนลงทะเบียนยืนยันตัวตน!!!",
+                            icon: "success",
+                            confirmButtonText: "ตกลง",
+                        }).then(() => {
+                            this._isLoading = false;
+                            this.router.navigate(["register"]);
+                            document.body.scrollTop =
+                                document.documentElement.scrollTop = 0;
+                        });
                     });
-                })
             } catch (error) {
-
             } finally {
                 setTimeout(() => {
                     this._isLoading = false;
@@ -289,16 +324,16 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     onWaysValueChanged(event: any) {
         console.log(event);
-        let val = event.value;
+        const val = event.value;
         switch (val) {
-            case 1:
-                this._isShow = true;
-                this._isShow2 = false;
-                break;
-            case 2:
-                this._isShow = false;
-                this._isShow2 = true;
-                break;
+        case 1:
+            this._isShow = true;
+            this._isShow2 = false;
+            break;
+        case 2:
+            this._isShow = false;
+            this._isShow2 = true;
+            break;
         }
     }
 
@@ -310,22 +345,16 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.router.navigate(["register"]);
             document.body.scrollTop = document.documentElement.scrollTop = 0;
         }, 2000);
-
     }
 
-    loginThaiID(){
-        this.router.navigate(["login/thaiD"]);
-
+    loginThaiID() {
+        this.router.navigate(["login/thaiD"], { queryParams: { icli: "al" } });
     }
-    getIPAddress(){
-        try{
-            $.getJSON('https://api.ipify.org?format=json', function(data){
-            sessionStorage.setItem('ip_address',data.ip);
-        });
-        }catch{
-
-        }
+    getIPAddress() {
+        try {
+            $.getJSON("https://api.ipify.org?format=json", function(data) {
+                sessionStorage.setItem("ip_address", data.ip);
+            });
+        } catch {}
     }
-
 }
-

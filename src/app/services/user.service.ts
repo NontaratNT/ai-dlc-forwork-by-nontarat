@@ -104,6 +104,13 @@ export class UserService {
         CookieStorage.removeAccessToken();
     }
 
+    public getTokenCypherVac(userId: number): Observable<string> {
+        return this._req<string>('VacchineCyber/EndcryptData')
+            .body({ Data: userId })
+            .disableCriticalDialogError()
+            .post();
+    }
+
     private createProfile(accressToken: string): IUserProfile {
         const payload: IUserProfile = this.jwtHelper.decodeToken(accressToken);
         payload.UserId = +payload.UserId;
