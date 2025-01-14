@@ -109,14 +109,14 @@ export class TasklistComponent implements OnInit {
     ans4;
     caseId;
     now: Date;
-    maxDateValue:Date = new Date();
+    maxDateValue: Date = new Date();
     blockSave = true;
     orgShow =false;
 
-    popupConsentVisible: boolean = false;
+    popupConsentVisible = false;
     submission = {} as any;
-    _isShow: boolean = false;
-    _isShow2: boolean = false;
+    _isShow = false;
+    _isShow2 = false;
     ways = [{ id: 1, text: 'ดำเนินการแล้ว' }, { id: 2, text: 'ยังไม่ได้ดำเนินการ' }];
     selectcaseID: any;
 
@@ -167,7 +167,7 @@ export class TasklistComponent implements OnInit {
         private _issueOnlineService: IssueOnlineService,
         private _bankInfoService: BankInfoService,
         private datePipe: DatePipe,
-        private _logService : LogExportService,
+        private _logService: LogExportService,
         private serviceProvince: ProvinceService,
         private _OrgService: OrgService,
 
@@ -177,37 +177,37 @@ export class TasklistComponent implements OnInit {
         this._searchParam.FLOW_ID = 3;
         this.submission = {} as any;
     }
-;
+
     ngOnInit(): void {
         this.maxDateValue.setHours(this.maxDateValue.getHours() + 1);
         this._isLoading = true;
         // this.popupConsentVisible = true;
-    //     this._dataSource = [
-    //         {
-    //         TRACKING_CODE: '1254658975',
-    //         OPTIONAL_DATA: 'testsss',
-    //         OPTIONAL_DATA_REPLACE: 'testsss',
-    //         ORGANIZE_NAME_THA: 'testss',
-    //         OFFICER_FULL_NAME:'05151515',
-    //         PERSONAL_TEL_NO: '02515151515',
-    //         CREATE_DATE_TEXT: Date.now(),
-    //         GROUP_STATUS_NAME: 'test',
-    //         DATA_ID: 123
+        //     this._dataSource = [
+        //         {
+        //         TRACKING_CODE: '1254658975',
+        //         OPTIONAL_DATA: 'testsss',
+        //         OPTIONAL_DATA_REPLACE: 'testsss',
+        //         ORGANIZE_NAME_THA: 'testss',
+        //         OFFICER_FULL_NAME:'05151515',
+        //         PERSONAL_TEL_NO: '02515151515',
+        //         CREATE_DATE_TEXT: Date.now(),
+        //         GROUP_STATUS_NAME: 'test',
+        //         DATA_ID: 123
 
-    //     },
-    //     {
-    //         TRACKING_CODE: '5555555555',
-    //         OPTIONAL_DATA: 'testsss',
-    //         OPTIONAL_DATA_REPLACE: 'testsss',
-    //         ORGANIZE_NAME_THA: 'testss',
-    //         OFFICER_FULL_NAME:'05151515',
-    //         PERSONAL_TEL_NO: '02515151515',
-    //         CREATE_DATE_TEXT: Date.now(),
-    //         GROUP_STATUS_NAME: 'test',
-    //         DATA_ID: 12345
+        //     },
+        //     {
+        //         TRACKING_CODE: '5555555555',
+        //         OPTIONAL_DATA: 'testsss',
+        //         OPTIONAL_DATA_REPLACE: 'testsss',
+        //         ORGANIZE_NAME_THA: 'testss',
+        //         OFFICER_FULL_NAME:'05151515',
+        //         PERSONAL_TEL_NO: '02515151515',
+        //         CREATE_DATE_TEXT: Date.now(),
+        //         GROUP_STATUS_NAME: 'test',
+        //         DATA_ID: 12345
 
-    //     }
-    // ]
+        //     }
+        // ]
         // this.surveyService.getSurveyByCaseId(123456).subscribe(res => {
         //     console.log(res);
         //     // if (res.) {
@@ -425,28 +425,28 @@ export class TasklistComponent implements OnInit {
                                 "input[name='ans1']:checked"
                             ) as HTMLInputElement)
                                 ? (
-                                      Swal.getPopup().querySelector(
-                                          "input[name='ans1']:checked"
-                                      ) as HTMLInputElement
-                                  ).value
+                                    Swal.getPopup().querySelector(
+                                        "input[name='ans1']:checked"
+                                    ) as HTMLInputElement
+                                ).value
                                 : null;
                             this.ans2 = (Swal.getPopup().querySelector(
                                 "input[name='ans2']:checked"
                             ) as HTMLInputElement)
                                 ? (
-                                      Swal.getPopup().querySelector(
-                                          "input[name='ans2']:checked"
-                                      ) as HTMLInputElement
-                                  ).value
+                                    Swal.getPopup().querySelector(
+                                        "input[name='ans2']:checked"
+                                    ) as HTMLInputElement
+                                ).value
                                 : null;
                             this.ans3 = (Swal.getPopup().querySelector(
                                 "input[name='ans3']:checked"
                             ) as HTMLInputElement)
                                 ? (
-                                      Swal.getPopup().querySelector(
-                                          "input[name='ans3']:checked"
-                                      ) as HTMLInputElement
-                                  ).value
+                                    Swal.getPopup().querySelector(
+                                        "input[name='ans3']:checked"
+                                    ) as HTMLInputElement
+                                ).value
                                 : null;
                             this.ans4 = (
                                 Swal.getPopup().querySelector(
@@ -494,8 +494,8 @@ export class TasklistComponent implements OnInit {
                                     }
                                 });
 
-                                //start ส่งไปที่ gdcc
-                                this.surveyService
+                            // start ส่งไปที่ gdcc
+                            this.surveyService
                                 .postSurveygdcc({
                                     caseId,
                                     answers: [
@@ -518,7 +518,7 @@ export class TasklistComponent implements OnInit {
                                     ],
                                 })
                                 .subscribe();
-                                //end  ส่งไปที่ gdcc
+                            // end  ส่งไปที่ gdcc
                         } else if (result.isConfirmed) {
                             Swal.fire({
                                 title: "กรุณาระบุคะแนนความพึงพอใจ",
@@ -603,19 +603,19 @@ export class TasklistComponent implements OnInit {
                                 "input[name='ans1']:checked"
                             ) as HTMLInputElement)
                                 ? (
-                                      Swal.getPopup().querySelector(
-                                          "input[name='ans1']:checked"
-                                      ) as HTMLInputElement
-                                  ).value
+                                    Swal.getPopup().querySelector(
+                                        "input[name='ans1']:checked"
+                                    ) as HTMLInputElement
+                                ).value
                                 : null;
                             this.ans2 = (Swal.getPopup().querySelector(
                                 "input[name='ans2']:checked"
                             ) as HTMLInputElement)
                                 ? (
-                                      Swal.getPopup().querySelector(
-                                          "input[name='ans2']:checked"
-                                      ) as HTMLInputElement
-                                  ).value
+                                    Swal.getPopup().querySelector(
+                                        "input[name='ans2']:checked"
+                                    ) as HTMLInputElement
+                                ).value
                                 : null;
                             this.ans3 = (
                                 Swal.getPopup().querySelector(
@@ -654,8 +654,8 @@ export class TasklistComponent implements OnInit {
                                     }
                                 });
 
-                                //start ส่งไปที่ gdcc
-                                this.surveyService
+                            // start ส่งไปที่ gdcc
+                            this.surveyService
                                 .postSurveygdcc({
                                     caseId,
                                     answers: [
@@ -674,7 +674,7 @@ export class TasklistComponent implements OnInit {
                                     ],
                                 })
                                 .subscribe();
-                                //end  ส่งไปที่ gdcc
+                            // end  ส่งไปที่ gdcc
                         } else if (result.isConfirmed) {
                             Swal.fire({
                                 title: "กรุณาระบุคะแนนความพึงพอใจ",
@@ -922,6 +922,18 @@ export class TasklistComponent implements OnInit {
                 // console.log(_);
                 const countItem = _.length ?? 0;
                 this.statusWidth = countItem * 200;
+                _.splice(2, 0, {
+                    GroupStatusCode: "C0T",
+                    GroupStatusName: "พบพนักงานสอบสวน",
+                    GroupStatusIcon: "fa fa-check-circle",
+                    Count: 0,
+                });
+                _.splice(5, 0, {
+                    GroupStatusCode: "C0T1",
+                    GroupStatusName: "ออกหมาย",
+                    GroupStatusIcon: "fa fa-check-circle",
+                    Count: 0,
+                });
                 this.data = [];
                 const setData = [];
                 for (const [key, i] of _.entries()) {
@@ -981,7 +993,7 @@ export class TasklistComponent implements OnInit {
     }
     predicateBy(prop) {
         // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-        return function (a, b) {
+        return function(a, b) {
             if (a[prop] > b[prop]) {
                 return 1;
             } else if (a[prop] < b[prop]) {
@@ -1095,18 +1107,18 @@ export class TasklistComponent implements OnInit {
 
     onWaysValueChanged(event: any) {
         console.log(event);
-        let val = event;
+        const val = event;
         switch (val) {
-            case 1:
-                this._isShow = true;
-                this._isShow2 = false;
-                this.popupHeight = 600;
-                break;
-            case 2:
-                this._isShow = false;
-                this._isShow2 = true;
-                this.popupHeight = 600;
-                break;
+        case 1:
+            this._isShow = true;
+            this._isShow2 = false;
+            this.popupHeight = 600;
+            break;
+        case 2:
+            this._isShow = false;
+            this._isShow2 = true;
+            this.popupHeight = 600;
+            break;
         }
     }
 
@@ -1157,28 +1169,28 @@ export class TasklistComponent implements OnInit {
 
                 console.log(this.selectcaseID);
                 this.freezeAccountService.post(this.submission)
-                .subscribe(() => {
+                    .subscribe(() => {
                         this.popupConsentVisible = false;
-                });
+                    });
                 try{
                     this.freezeAccountService.postgdcc(this.submission)
-                    .subscribe(() => {
+                        .subscribe(() => {
                             this.popupConsentVisible = false;
-                    });
+                        });
                 } catch (error) {
 
                 }
 
-                    Swal.fire({
-                        title: 'แจ้งเตือน!',
-                        text: 'ดำเนินการบันทึกข้อมูลเรียบร้อย!!!',
-                        icon: 'success',
-                        confirmButtonText: 'ตกลง'
-                    }).then(() => {
-                        location.reload();
-                        // this._isLoading = true;
-                        // this.router.navigate(["/main/issue-online/1"]);
-                    });
+                Swal.fire({
+                    title: 'แจ้งเตือน!',
+                    text: 'ดำเนินการบันทึกข้อมูลเรียบร้อย!!!',
+                    icon: 'success',
+                    confirmButtonText: 'ตกลง'
+                }).then(() => {
+                    location.reload();
+                    // this._isLoading = true;
+                    // this.router.navigate(["/main/issue-online/1"]);
+                });
             } catch (error) {
 
             } finally {
@@ -1220,7 +1232,7 @@ export class TasklistComponent implements OnInit {
         const [datePart, timePart] = dateIN.split(" ");
         const [year, month, day] = datePart.split("-");
         const [hours, minutes, seconds] = timePart.split(":");
-        return [Number(year),Number(month)-1,Number(day),Number(hours),Number(minutes),Number(seconds)]
+        return [Number(year),Number(month)-1,Number(day),Number(hours),Number(minutes),Number(seconds)];
     }
     convertTimezone(time){
         const timeZoneOffset = 7 * 60;
@@ -1236,7 +1248,7 @@ export class TasklistComponent implements OnInit {
                     const value = e.value;
                     const bank_name = value.replace(/\d+/g, '');
                     const upperString = bank_name.toUpperCase();
-                    var haveBank = await this._bankInfoService.GetBankTrackNo(value.toUpperCase()).toPromise();
+                    const haveBank = await this._bankInfoService.GetBankTrackNo(value.toUpperCase()).toPromise();
                     if(haveBank.Value){
                         Swal.fire({
                             title: 'ผิดพลาด!',
@@ -1266,7 +1278,7 @@ export class TasklistComponent implements OnInit {
                         icon: "warning",
                         confirmButtonText: "Ok",
                     }).then(() => {this.blockSave=true;});
-                    return
+                    return;
                 }
             }
         }
@@ -1278,18 +1290,18 @@ export class TasklistComponent implements OnInit {
             this.popupConsentVisible = true;
             this.selectcaseID = data.DATA_ID;
 
-            let val = 1;
+            const val = 1 as any;
             switch (val) {
-                case 1:
-                    this._isShow = true;
-                    this._isShow2 = false;
-                    this.popupHeight = 600;
-                    break;
-                case 2:
-                    this._isShow = false;
-                    this._isShow2 = true;
-                    this.popupHeight = 600;
-                    break;
+            case 1:
+                this._isShow = true;
+                this._isShow2 = false;
+                this.popupHeight = 600;
+                break;
+            case 2:
+                this._isShow = false;
+                this._isShow2 = true;
+                this.popupHeight = 600;
+                break;
             }
         }
     }
@@ -1436,7 +1448,7 @@ export class TasklistComponent implements OnInit {
                 this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME1 =
                     data[0].org_name;
 
-                //parame insert
+                // parame insert
                 this.formData.ORG_LOCATION_TYPE = 2;
                 this.formData.ORGANIZE_ID = data[0].org_id;
                 this.formData.ORG_LOCATION_NAME = data[0].org_name;
@@ -1454,7 +1466,7 @@ export class TasklistComponent implements OnInit {
                 this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME2 =
                     data[0].org_name;
 
-                //parame insert
+                // parame insert
                 this.formData.ORG_LOCATION_TYPE = 2;
                 this.formData.ORGANIZE_ID = data[0].org_id;
                 this.formData.ORG_LOCATION_NAME = data[0].org_name;
@@ -1471,7 +1483,7 @@ export class TasklistComponent implements OnInit {
                 this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME3 =
                     data[0].org_name;
 
-                //parame insert
+                // parame insert
                 this.formData.ORG_LOCATION_TYPE = 2;
                 this.formData.ORGANIZE_ID = data[0].org_id;
                 this.formData.ORG_LOCATION_NAME = data[0].org_name;
@@ -1488,7 +1500,7 @@ export class TasklistComponent implements OnInit {
                 this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME4 =
                     data[0].org_name;
 
-                //parame insert
+                // parame insert
                 this.formData.ORG_LOCATION_TYPE = 2;
                 this.formData.ORGANIZE_ID = data[0].org_id;
                 this.formData.ORG_LOCATION_NAME = data[0].org_name;
@@ -1505,7 +1517,7 @@ export class TasklistComponent implements OnInit {
                 this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME5 =
                     data[0].org_name;
 
-                //parame insert
+                // parame insert
                 this.formData.ORG_LOCATION_TYPE = 2;
                 this.formData.ORGANIZE_ID = data[0].org_id;
                 this.formData.ORG_LOCATION_NAME = data[0].org_name;
@@ -1528,24 +1540,24 @@ export class TasklistComponent implements OnInit {
             organize_id : Number(this.formData.ORGANIZE_ID),
             inst_id : Number(this.formData.INST_ID),
             personal_id : Number(User.Current.PersonalId)
-        }
+        };
         this._isLoading = true;
         this.bpmProcinstServ.userSelectOrgGdcc(setData)
-        .subscribe(() => {
-            this.bpmProcinstServ.userSelectOrg(setData)
             .subscribe(() => {
-                Swal.fire({
-                    title: 'แจ้งเตือน!',
-                    text: 'เลือกหน่วยงานสำเร็จ!!!',
-                    icon: 'success',
-                    confirmButtonText: 'ตกลง'
-                }).then(() => {
-                    this._isLoading = false;
-                    this.onClose();
-                    location.reload();
-                });
+                this.bpmProcinstServ.userSelectOrg(setData)
+                    .subscribe(() => {
+                        Swal.fire({
+                            title: 'แจ้งเตือน!',
+                            text: 'เลือกหน่วยงานสำเร็จ!!!',
+                            icon: 'success',
+                            confirmButtonText: 'ตกลง'
+                        }).then(() => {
+                            this._isLoading = false;
+                            this.onClose();
+                            location.reload();
+                        });
+                    });
             });
-        });
     }
 
 }
