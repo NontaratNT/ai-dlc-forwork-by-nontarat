@@ -283,6 +283,17 @@ export class IssueOnlineCheckComponent implements OnInit {
                         });
                         return;
                     }
+                    else if (date < new Date(2023, 0, 1)) {
+                        Swal.fire({
+                            title: 'ไม่ถูกต้อง',
+                            text: 'เลข BANK CASE ID ไม่ถูกต้อง เนื่องจากปีใน BANK CASE ID น้อยกว่าปีกำหนด(พ.ศ.2566)',
+                            icon: 'error',
+                        }).then(() => {
+                            this.submission.FREEZE_ACT_BANK_NAME = '';
+                            this.blockSave = true;
+                        });
+                        return;
+                    }
                     const value = e.value;
                     const regex = /^.{8}[A-Z]{3,}/;
                     if(regex.test(value)){
