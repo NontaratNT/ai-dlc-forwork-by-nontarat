@@ -205,7 +205,7 @@
                                                 <div class="stepwizard form-no" [ngStyle]="{'width.px': statusWidth}">
                                                     <div class="stepwizard-row setup-panel">
                                                         <div *ngFor="let item of data" class="stepwizard-step">
-                                                            <span style="cursor: pointer !important;position: relative;" class="text-hover {{item.GROUP_STATUS_CLASS_DETAIL}}" (click)="bindTaskList(item.GROUP_STATUS_CODE)">
+                                                            <span style="cursor: pointer !important;position: relative;" class="text-hover {{item.GROUP_STATUS_CLASS_DETAIL}}" (click)="bindTaskList(item.GROUP_STATUS_CODE, item.STATUS_CODE)">
                                                                 <div class="alert-task-new"
                                                                     *ngIf="checkValue(item.GROUP_COUNT)">
                                                                     {{item.GROUP_COUNT}}</div>

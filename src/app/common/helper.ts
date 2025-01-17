@@ -56,3 +56,9 @@ export function parseDate(myDate, myTimezone) {
     return res;
 }
 
+
+export function trimObject(obj: any): void {
+    if (obj) {
+        Object.keys(obj).forEach((k) => (obj[k] == null || obj[k] === undefined) && delete obj[k]);
+    }
+}

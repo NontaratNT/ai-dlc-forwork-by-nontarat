@@ -13,7 +13,7 @@ import { Observable } from "rxjs";
 import { IFlowInfo } from "src/app/common/bpm";
 import { BpmMdmFlowService } from "src/app/services/bpm-mdm-flow.service";
 import { StatusService } from "src/app/services/status.service";
-import { finalize } from "rxjs/operators";
+import { finalize, filter } from 'rxjs/operators';
 import { environment } from "src/environments/environment";
 import { GroupStatusService } from "src/app/services/group-status.service";
 import { LoginService } from "src/app/services/login.service";
@@ -291,6 +291,11 @@ export class TasklistComponent implements OnInit {
             .GetAppointmentList(filterAppointment)
             .subscribe((listItem) => {
                 if (listItem) {
+                    // listItem APPOINTMENT_DATE More than the current day.
+                    listItem = listItem.filter(
+                        (item) =>
+                            new Date(item.APPOINTMENT_DATE) >= new Date()
+                    );
                     this.countAppointmentList = listItem.length;
                     this.listAppointment = listItem;
                 }
@@ -819,7 +824,7 @@ export class TasklistComponent implements OnInit {
     formatDate(e) {
         return formatDate(new Date(e.CREATE_DATE), "dateShortTimeThai");
     }
-    async bindTaskList(groupStatusCode) {
+    async bindTaskList(groupStatusCode,statusCode = "") {
         // this._searchParam.GROUP_STATUS_CODE = groupStatusCode;
         // if (this._searchParam.flowCode) {
         //     this._dataSource = new DataSource({
@@ -840,7 +845,8 @@ export class TasklistComponent implements OnInit {
         this._dataSource = [];
         const param: IBpmProcInstFilter = {
             personalId: User.Current.PersonalId,
-            GroupStatusCode: groupStatusCode,
+            GroupStatusCode: groupStatusCode === "C0T" ||  groupStatusCode === "C0T1" ? null : groupStatusCode,
+            StatusCode : groupStatusCode === "C0T" ||  groupStatusCode === "C0T1" ? statusCode : null,
         };
         if (groupStatusCode === "C07") {
             param.GeStatusOrRejectFlag = true;
@@ -922,18 +928,6 @@ export class TasklistComponent implements OnInit {
                 // console.log(_);
                 const countItem = _.length ?? 0;
                 this.statusWidth = countItem * 200;
-                _.splice(2, 0, {
-                    GroupStatusCode: "C0T",
-                    GroupStatusName: "พบพนักงานสอบสวน",
-                    GroupStatusIcon: "fa fa-check-circle",
-                    Count: 0,
-                });
-                _.splice(5, 0, {
-                    GroupStatusCode: "C0T1",
-                    GroupStatusName: "ออกหมาย",
-                    GroupStatusIcon: "fa fa-check-circle",
-                    Count: 0,
-                });
                 this.data = [];
                 const setData = [];
                 for (const [key, i] of _.entries()) {
@@ -941,6 +935,7 @@ export class TasklistComponent implements OnInit {
                         INDEX: key + 1,
                         GROUP_STATUS_CODE: i.GroupStatusCode,
                         GROUP_STATUS_NAME: i.GroupStatusName,
+                        STATUS_CODE: i.StatusCode ?? "",
                         GROUP_ICON: i.GroupStatusIcon,
                         GROUP_COUNT: i.Count,
                         GROUP_STATUS_CLASS: "btn btn-circle btn-default",

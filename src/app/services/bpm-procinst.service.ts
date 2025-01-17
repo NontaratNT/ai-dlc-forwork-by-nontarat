@@ -7,6 +7,7 @@ import { AnyRecord } from 'dns';
 import { environment } from 'src/environments/environment';
 import { CookieStorage } from '../common/cookie';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { trimObject } from '../common/helper';
 
 @Injectable({
     providedIn: 'root'
@@ -25,6 +26,7 @@ export class BpmProcinstService {
             .disableCriticalDialogError().get();
     }
     public getTaskListAndReject(filter: any): Observable<IBpmProcInst[]> {
+        trimObject(filter);
         return this._req<IBpmProcInst[]>().api('BpmProcInst')
             .queryString(filter)
             .disableCriticalDialogError().get();
@@ -154,4 +156,5 @@ export interface IBpmProcInstFilter {
     GroupStatusCode: string;
     StatusRejectFlag?: boolean;
     GeStatusOrRejectFlag?: boolean;
+    StatusCode ?: string;
 }
