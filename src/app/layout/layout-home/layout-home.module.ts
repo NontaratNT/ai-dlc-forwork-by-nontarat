@@ -60,6 +60,7 @@ import { MainRegisterComponent } from './layout/main-register/main-register.comp
 import { HeaderRegisterComponent } from './layout/header-register/header-register.component';
 import { ViewCaseComponent } from 'src/app/components/page/view-case/view-case.component';
 import { HomeVisibleComponent } from './components/home-visible/home-visible.component';
+import { HeaderReDesignComponent } from './layout/header-re-design/header-re-design.component';
 
 const customNotifierOptions: NotifierOptions = {
     position: {
@@ -124,8 +125,9 @@ const customNotifierOptions: NotifierOptions = {
         PagenotfoundComponent,
         MainHomeComponent,
         HeaderNewComponent,
-        HomeNewComponent,
+        HomeNewComponent,   
         HeaderMainComponent,
+        HeaderReDesignComponent,
         MainRegisterComponent,
         HeaderRegisterComponent,
         ViewCaseComponent,
@@ -163,7 +165,7 @@ const customNotifierOptions: NotifierOptions = {
         NotifierModule.withConfig(customNotifierOptions),
         NgxPaginationModule,
         LayoutDesktopModule,
-        CountdownModule ,
+        CountdownModule,
 
 
     ], schemas: [CUSTOM_ELEMENTS_SCHEMA]

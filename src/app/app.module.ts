@@ -13,7 +13,7 @@ import {
     DxButtonModule, DxDataGridModule, DxSelectBoxModule, DxDateBoxModule,
     DxDrawerModule, DxCheckBoxModule, DxFormModule, DxLoadPanelModule, DxRadioGroupModule,
     DxMultiViewModule, DxNumberBoxModule, DxTextBoxModule, DxTreeViewModule, DxTreeListModule,
-    DxPopupModule, DxTextAreaModule, DxTabPanelModule,DxSwitchModule, DxScrollViewModule, DxFileUploaderModule,
+    DxPopupModule, DxTextAreaModule, DxTabPanelModule, DxSwitchModule, DxScrollViewModule, DxFileUploaderModule,
     DxTemplateModule,
     DxToolbarModule, DxValidatorModule
 } from "devextreme-angular";
@@ -134,7 +134,7 @@ const customNotifierOptions: NotifierOptions = {
         NgxPaginationModule,
         DxTreeListModule,
         DxPopupModule,
-        CountdownModule ,
+        CountdownModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
