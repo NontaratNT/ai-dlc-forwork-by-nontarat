@@ -1,3 +1,22 @@
 :host ::ng-deep .dx-scrollable-content {
-    padding-right: 0px !important;
-  }
+  padding-right: 0px !important;
+  display: flex;
+  flex-direction: column;
+}
+
+#police-index-page .block-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  /* ให้ครอบคลุมพื้นที่เต็ม */
+  height: auto;
+  /* ป้องกันการกำหนดความสูงคงที่ */
+}
+
+app-main-re-design,
+app-faq {
+  width: 100%;
+  /* ใช้พื้นที่เต็ม */
+  margin: 0;
+  padding: 0;
+}

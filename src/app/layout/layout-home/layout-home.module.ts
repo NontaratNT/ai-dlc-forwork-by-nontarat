@@ -24,6 +24,7 @@ import {
     DxFileUploaderModule,
     DxTemplateModule,
     DxTooltipModule,
+    DxGalleryModule,
 } from "devextreme-angular";
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
 
@@ -63,6 +64,7 @@ import { HomeVisibleComponent } from './components/home-visible/home-visible.com
 import { HeaderReDesignComponent } from './layout/re-design/header-re-design/header-re-design.component';
 import { FooterReDesignComponent } from './layout/re-design/footer-re-design/footer-re-design.component';
 import { FaqComponent } from './components/re-design/faq/faq.component';
+import { MainReDesignComponent } from './components/re-design/main-re-design/main-re-design.component';
 
 const customNotifierOptions: NotifierOptions = {
     position: {
@@ -128,7 +130,7 @@ const customNotifierOptions: NotifierOptions = {
         PagenotfoundComponent,
         MainHomeComponent,
         HeaderNewComponent,
-        HomeNewComponent,   
+        HomeNewComponent,
         HeaderMainComponent,
         HeaderReDesignComponent,
         MainRegisterComponent,
@@ -136,7 +138,7 @@ const customNotifierOptions: NotifierOptions = {
         ViewCaseComponent,
         HomeVisibleComponent,
 
-
+        MainReDesignComponent,
         FaqComponent,
     ],
     imports: [
@@ -166,6 +168,7 @@ const customNotifierOptions: NotifierOptions = {
         DxSwitchModule,
         DxScrollViewModule,
         DxFileUploaderModule,
+        DxGalleryModule,
         DxTemplateModule,
         FormsModule,
         NotifierModule.withConfig(customNotifierOptions),
