@@ -60,7 +60,8 @@ import { MainRegisterComponent } from './layout/main-register/main-register.comp
 import { HeaderRegisterComponent } from './layout/header-register/header-register.component';
 import { ViewCaseComponent } from 'src/app/components/page/view-case/view-case.component';
 import { HomeVisibleComponent } from './components/home-visible/home-visible.component';
-import { HeaderReDesignComponent } from './layout/header-re-design/header-re-design.component';
+import { HeaderReDesignComponent } from './layout/re-design/header-re-design/header-re-design.component';
+import { FooterReDesignComponent } from './layout/re-design/footer-re-design/footer-re-design.component';
 
 const customNotifierOptions: NotifierOptions = {
     position: {
@@ -122,6 +123,7 @@ const customNotifierOptions: NotifierOptions = {
         RegisterPeopleOtpComponent,
         ResetPasswordComponent,
         FooterNewComponent,
+        FooterReDesignComponent,
         PagenotfoundComponent,
         MainHomeComponent,
         HeaderNewComponent,
