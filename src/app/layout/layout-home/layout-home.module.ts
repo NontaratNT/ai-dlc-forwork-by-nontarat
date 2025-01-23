@@ -62,6 +62,7 @@ import { ViewCaseComponent } from 'src/app/components/page/view-case/view-case.c
 import { HomeVisibleComponent } from './components/home-visible/home-visible.component';
 import { HeaderReDesignComponent } from './layout/re-design/header-re-design/header-re-design.component';
 import { FooterReDesignComponent } from './layout/re-design/footer-re-design/footer-re-design.component';
+import { FaqComponent } from './components/re-design/faq/faq.component';
 
 const customNotifierOptions: NotifierOptions = {
     position: {
@@ -133,7 +134,10 @@ const customNotifierOptions: NotifierOptions = {
         MainRegisterComponent,
         HeaderRegisterComponent,
         ViewCaseComponent,
-        HomeVisibleComponent
+        HomeVisibleComponent,
+
+
+        FaqComponent,
     ],
     imports: [
         DxiItemModule,

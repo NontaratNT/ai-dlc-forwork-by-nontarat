@@ -39,12 +39,13 @@ body::-webkit-scrollbar {
 
 body {
     background: white;
+    overflow: hidden;
 }
 
-body {
-    scrollbar-width: none;
-    scrollbar-color: var(--thumbBG) var(--scrollbarBG);
-}
+// body {
+//     scrollbar-width: none;
+//     scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+// }
 
 body::-webkit-scrollbar-track {
     background: var(--scrollbarBG);
@@ -556,7 +557,7 @@ div.btn-dx {
     background-repeat: no-repeat;
     background-size: cover;
     .block-content {
-        padding: 90px 10px 10px 10px;
+        padding: 90px 0px 10px 0px;
     }
 }
 
