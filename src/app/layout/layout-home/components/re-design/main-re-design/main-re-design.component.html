@@ -1,15 +1,16 @@
 <div class="slider-container">
      <div class="slides" [style.transform]="'translateX(-' + currentIndex * 100 + '%)'">
-          <div class="slide" *ngFor="let slide of slides">
-               <img src="{{slide.images}}" alt="">
+          <div class="slide" *ngFor="let slide of slides" [ngStyle]="{'background-image': 'url(' + slide.images + ')'}">
+               <!-- app-box-frame ที่ตำแหน่งตายตัว -->
+               <app-box-frame *ngIf="slide.id === 1" [boxes]="boxes" class="app-box-frame"></app-box-frame>
           </div>
      </div>
 
-     <!-- Navigation Arrows -->
+     <!-- ปุ่มเลื่อน -->
      <button class="nav left" (click)="prevSlide()">&#10094;</button>
      <button class="nav right" (click)="nextSlide()">&#10095;</button>
 
-     <!-- Dots for Slide Navigation -->
+     <!-- จุด Dot -->
      <div class="dots">
           <span class="dot" *ngFor="let slide of slides; let i = index" [class.active]="i === currentIndex"
                (click)="goToSlide(i)"></span>

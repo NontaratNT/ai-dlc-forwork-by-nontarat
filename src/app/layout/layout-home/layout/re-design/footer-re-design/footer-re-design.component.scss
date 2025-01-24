@@ -1,32 +1,45 @@
-:host {
-     .footer-block {
-         background-color: #0B2652;
-         width: 100%;
-         position: fixed;
-         bottom: 0;
-         z-index: 99;
-         min-height: 40px;
-         * {
-             font-size: 16px;
-             color: #ffffff;
-         }
-         .block-left,
-         .block-right {
-             padding-top: 10px;
-         }
-         // .block-right {
-         //     text-align: right;
-         //     padding-bottom: 10px;
-         // }
-         .block-right {
-             text-align: right;
-             padding-bottom: 10px;
-         }
-         @media screen and (max-width: 574.98px) {
-             .block-right {
-                 text-align: left;
-             }
-         }
-     }
- }
- 
+/* Footer */
+.footer-block {
+    background-color: #002855;
+    /* สีพื้นหลัง */
+    color: #ffffff;
+    /* สีข้อความ */
+    padding: 15px 0;
+    /* ระยะห่างภายใน */
+    font-size: 14px;
+    /* ขนาดข้อความ */
+    line-height: 1.5;
+    /* ความสูงของบรรทัด */
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+    /* เพิ่มเงาด้านบน */
+    width: 100%;
+    /* เต็มความกว้าง */
+    position: relative;
+    /* ให้ติดล่างสุด */
+}
+
+/* ไฮไลต์ข้อความ */
+.highlight-text {
+    color: #F3CE7A;
+    font-weight: bold;
+}
+
+.block-left,
+.block-right {
+    padding: 5px 10px;
+    /* ระยะห่างซ้าย-ขวา */
+}
+
+.block-right {
+    text-align: right;
+    /* จัดข้อความชิดขวา */
+}
+
+@media (max-width: 576px) {
+
+    .block-left,
+    .block-right {
+        text-align: center;
+        /* จัดข้อความให้อยู่ตรงกลางในหน้าจอเล็ก */
+    }
+}

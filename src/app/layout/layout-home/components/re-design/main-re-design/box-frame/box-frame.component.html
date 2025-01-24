@@ -1,0 +1,101 @@
+<div class="frame">
+     <!-- ใช้ ngFor เพื่อวนลูป boxes และแสดงข้อมูลใน header -->
+     <div *ngFor="let box of boxes" class="header">
+          {{box.header}}
+
+          <div class="content">
+               <!-- แสดงแต่ละ box ใน content โดยแบ่งคอลัมน์ -->
+               <div class="box col-12">
+                    <div class="box-content col-6 p-0" style="border-right: 2px solid #FFD300;">
+                         <div class="title-content">
+                              {{box.titleContent}}
+                         </div>
+                         <div class="text-count">
+                              {{box.textCount}}
+                         </div>
+                         <div class="text-unit">
+                              {{box.textSubject}}
+                         </div>
+                    </div>
+                    <div class="box-content col-6">
+                         <div class="title-content">
+                              {{box.titleContent2}}
+                         </div>
+                         <div class="text-count">
+                              {{box.textCount2}}
+                         </div>
+                         <div class="text-unit">
+                              {{box.textUnit}}
+                         </div>
+                    </div>
+               </div>
+
+               <div class="box2 col-12">
+                    <div class="box-content col-4 p-0" style="border-right: 2px solid #FFD300;">
+                         <div class="title-content">
+                              {{box.reportOnline}}
+                         </div>
+                         <div class="text-count">
+                              {{box.reportOnlineCount}}
+                         </div>
+                         <div class="text-unit">
+                              {{box.reportOnlineSubject}}
+                         </div>
+                    </div>
+                    <div class="box-content col-4 px-2 py-0" style="border-right: 2px solid #FFD300;">
+                         <div class="title-content">
+                              {{box.reportToThePoliceAgency}}
+                         </div>
+                         <div class="text-count">
+                              {{box.reportToThePoliceAgencyCount}}
+                         </div>
+                         <div class="text-unit">
+                              {{box.reportToThePoliceAgencySubject}}
+                         </div>
+                    </div>
+                    <div class="box-content col-4 pl-5 py-0 pr-2">
+                         <div class="title-content">
+                              {{box.averageCase}}
+                         </div>
+                         <div class="text-count-average">
+                              {{box.averageCaseCount}}
+                         </div>
+                         <div class="text-unit">
+                              {{box.averageCaseSubjectToday}}
+                         </div>
+                    </div>
+               </div>
+
+               <div class="box3 col-12">
+                    <div class="box-content col-6 p-0" style="border-right: 2px solid #FFD300;">
+                         <div class="title-content">
+                              {{box.freezeTheAccountImmediately}}
+                         </div>
+                         <div class="text-count">
+                              {{box.freezeTheAccountImmediatelyCount}}
+                         </div>
+                         <div class="text-unit">
+                              {{box.freezeTheAccountImmediatelyValue}}
+                         </div>
+                         <div class="text-unit">
+                              {{box.freezeTheAccountImmediatelyFrom}}
+                         </div>
+                    </div>
+                    <div class="box-content col-6">
+                         <div class="title-content mostCommonOnlineCases">
+                              {{box.mostCommonOnlineCases}}
+                         </div>
+                         <div class="text-unit mostCases mt-2" *ngFor="let item of box.mostCases">
+                              <div>
+                                   {{item.case}}
+                              </div>
+
+                              <div>
+                                   {{item.count}}
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </div>
+</div>
