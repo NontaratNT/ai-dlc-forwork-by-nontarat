@@ -67,6 +67,7 @@ import { FaqComponent } from './components/re-design/faq/faq.component';
 import { MainReDesignComponent } from './components/re-design/main-re-design/main-re-design.component';
 import { BoxFrameComponent } from './components/re-design/main-re-design/box-frame/box-frame.component';
 import { BoxFrameSecondComponent } from './components/re-design/main-re-design/box-frame-second/box-frame-second.component';
+import { ResponsiveHelperComponent } from './components/re-design/responsive-helper/responsive-helper.component';
 
 const customNotifierOptions: NotifierOptions = {
     position: {
@@ -145,6 +146,7 @@ const customNotifierOptions: NotifierOptions = {
 
         BoxFrameComponent,
         BoxFrameSecondComponent,
+        ResponsiveHelperComponent
 
     ],
     imports: [
