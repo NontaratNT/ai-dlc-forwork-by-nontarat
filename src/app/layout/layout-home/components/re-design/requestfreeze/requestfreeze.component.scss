@@ -1,0 +1,48 @@
+.text-blue{
+    color: #1E3A8A !important;
+}
+
+.bg-gray{
+    background-color: #F3F4F6 !important;
+}
+
+.bg-blue-800{
+    background: linear-gradient(0deg, #273880, #273880),
+    linear-gradient(0deg, rgba(0, 16, 88, 0.5) 0%, rgba(39, 56, 128, 0) 73.5%) !important; 
+}
+
+.rounded-24{
+    border-radius: 24px;
+}
+
+.rounded-16{
+    border-radius:16px;
+}
+
+
+
+.bank-logo {
+  width: 50px;
+  height: 50px;
+}
+.text-orange {
+  color: #ff7f00;
+}
+.dot-container {
+  display: flex;
+  align-items: center;
+}
+.dot {
+  height: 12px;
+  width: 12px;
+  margin: 0 4px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.dot.active {
+  background-color: #ff7f00;
+}
+  

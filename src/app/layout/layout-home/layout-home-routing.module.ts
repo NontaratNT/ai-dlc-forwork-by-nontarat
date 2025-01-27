@@ -23,6 +23,7 @@ import { MainRegisterComponent } from './layout/main-register/main-register.comp
 import { MainComponent } from './layout/main/main.component';
 import { LoginThaiIDComponent } from '../layout-desktop/components/login-thai-id/login-thai-id.component';
 import { FaqComponent } from './components/re-design/faq/faq.component';
+import { RequestfreezeComponent } from './components/re-design/requestfreeze/requestfreeze.component';
 
 const routes: Routes = [
     {
@@ -40,7 +41,8 @@ const routes: Routes = [
             // { path: 'about', component: AboutComponent },
             // { path: 'contact', component: ContactComponent },
             // { path: 'service', component: ServiceComponent },
-            { path: 'faq', component: FaqComponent }
+            { path: 'faq', component: FaqComponent },
+            { path: 'rqf', component: RequestfreezeComponent }
 
         ],
 

@@ -65,7 +65,7 @@ import { HeaderReDesignComponent } from './layout/re-design/header-re-design/hea
 import { FooterReDesignComponent } from './layout/re-design/footer-re-design/footer-re-design.component';
 import { FaqComponent } from './components/re-design/faq/faq.component';
 import { MainReDesignComponent } from './components/re-design/main-re-design/main-re-design.component';
-
+import { RequestfreezeComponent } from './components/re-design/requestfreeze/requestfreeze.component';
 const customNotifierOptions: NotifierOptions = {
     position: {
         horizontal: {
@@ -137,7 +137,7 @@ const customNotifierOptions: NotifierOptions = {
         HeaderRegisterComponent,
         ViewCaseComponent,
         HomeVisibleComponent,
-
+        RequestfreezeComponent,
         MainReDesignComponent,
         FaqComponent,
     ],
