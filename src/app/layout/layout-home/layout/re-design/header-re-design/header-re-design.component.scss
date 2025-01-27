@@ -402,6 +402,10 @@
           .logout-icon {
                display: block !important;
           }
+
+          .menu-header {
+               padding: 20px 15px;
+          }
      }
 
      @media screen and (max-width: 495px) {
@@ -411,6 +415,14 @@
 
           .nav-title-2 .text-mobile {
                font-size: 2.5vw;
+          }
+
+          .menu-header {
+               padding: 20px 15px;
+          }
+
+          .box-container {
+               left: 0px;
           }
      }
 

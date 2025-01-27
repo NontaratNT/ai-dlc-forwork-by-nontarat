@@ -2,7 +2,10 @@
      <div class="slides" [style.transform]="'translateX(-' + currentIndex * 100 + '%)'">
           <div class="slide" *ngFor="let slide of slides" [ngStyle]="{'background-image': 'url(' + slide.images + ')'}">
                <!-- app-box-frame ที่ตำแหน่งตายตัว -->
-               <app-box-frame *ngIf="slide.id === 1" [boxes]="boxes" class="app-box-frame"></app-box-frame>
+               <div class="box-container" *ngIf="slide.id === 1">
+                    <box-frame [boxes]="boxes" class="box-frame"></box-frame>
+                    <box-frame-text class="box-frame-text"></box-frame-text>
+               </div>
           </div>
      </div>
 
