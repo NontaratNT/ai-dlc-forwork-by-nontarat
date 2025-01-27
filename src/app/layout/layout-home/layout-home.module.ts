@@ -66,7 +66,7 @@ import { FooterReDesignComponent } from './layout/re-design/footer-re-design/foo
 import { FaqComponent } from './components/re-design/faq/faq.component';
 import { MainReDesignComponent } from './components/re-design/main-re-design/main-re-design.component';
 import { BoxFrameComponent } from './components/re-design/main-re-design/box-frame/box-frame.component';
-import { BoxFrameTextComponent } from './components/re-design/main-re-design/box-frame/box-frame-text/box-frame-text.component';
+import { BoxFrameSecondComponent } from './components/re-design/main-re-design/box-frame-second/box-frame-second.component';
 
 const customNotifierOptions: NotifierOptions = {
     position: {
@@ -144,7 +144,8 @@ const customNotifierOptions: NotifierOptions = {
         FaqComponent,
 
         BoxFrameComponent,
-        BoxFrameTextComponent,
+        BoxFrameSecondComponent,
+
     ],
     imports: [
         DxiItemModule,

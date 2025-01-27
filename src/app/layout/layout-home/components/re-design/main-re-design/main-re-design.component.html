@@ -4,7 +4,9 @@
                <!-- app-box-frame ที่ตำแหน่งตายตัว -->
                <div class="box-container" *ngIf="slide.id === 1">
                     <box-frame [boxes]="boxes" class="box-frame"></box-frame>
-                    <box-frame-text class="box-frame-text"></box-frame-text>
+               </div>
+               <div *ngIf="slide.id === 2">
+                    <box-frame-second></box-frame-second>
                </div>
           </div>
      </div>

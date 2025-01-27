@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BoxFrameTextComponent } from './box-frame-text.component';
+import { BoxFrameSecondComponent } from './box-frame-second.component';
 
-describe('BoxFrameTextComponent', () => {
-  let component: BoxFrameTextComponent;
-  let fixture: ComponentFixture<BoxFrameTextComponent>;
+describe('BoxFrameSecondComponent', () => {
+  let component: BoxFrameSecondComponent;
+  let fixture: ComponentFixture<BoxFrameSecondComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BoxFrameTextComponent ]
+      declarations: [ BoxFrameSecondComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BoxFrameTextComponent);
+    fixture = TestBed.createComponent(BoxFrameSecondComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
