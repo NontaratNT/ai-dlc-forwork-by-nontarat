@@ -2,6 +2,7 @@
 $fa-font-path: "../../fontawesome/webfonts";
 @import "~share-ui/styles/_theme";
 @import "~eform-share/styles/_theme";
+
 @font-face {
     font-family: THSarabun;
     src: url(assets/fonts/sarabun/THSarabun.ttf) format("truetype");
@@ -42,6 +43,15 @@ body {
     overflow: hidden;
 }
 
+body,
+html {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 // body {
 //     scrollbar-width: none;
 //     scrollbar-color: var(--thumbBG) var(--scrollbarBG);
@@ -61,6 +71,10 @@ body::-webkit-scrollbar-track {
 // }
 .dx-box-item-content {
     font-size: 16px !important;
+}
+
+.dx-scrollable-content{
+    padding-right: 0px !important;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -126,6 +140,7 @@ body::-webkit-scrollbar-track {
         padding: 0;
         margin: 0;
     }
+
     .notifier__notification {
         cursor: pointer;
         width: auto;
@@ -136,24 +151,30 @@ body::-webkit-scrollbar-track {
         // top: 430px;
         padding: 10px;
         white-space: normal;
+
         &:hover {
             background-color: #f1f1f1;
         }
+
         .close {
             position: absolute;
             top: 0;
             right: 5px;
+
             .icon {
                 font-size: 20px;
                 font-family: "Font Awesome 5 Free" !important;
             }
         }
+
         .notify-header {
             font-weight: bold;
         }
+
         .notify-body {
             white-space: normal;
         }
+
         // .notifier-message {
         //     width: 390px;
         //     min-height: 82px;
@@ -189,6 +210,7 @@ body::-webkit-scrollbar-track {
             display: flex;
             justify-content: center;
         }
+
         .btn-wizard-nav-cancel {
             margin-right: 10px;
             background-color: #6c757d !important;
@@ -233,10 +255,12 @@ body::-webkit-scrollbar-track {
 
 div.btn-dx {
     margin-top: 15px;
-     :focus,
+
+    :focus,
     .focus {
         box-shadow: unset;
     }
+
     .btn-submit {
         // color: #fff;
         // background-color: #337ab7;
@@ -248,6 +272,7 @@ div.btn-dx {
         background-color: #00b889;
         border-radius: 6px;
     }
+
     .btn-submit:hover {
         width: 100px;
         height: 40px;
@@ -258,6 +283,7 @@ div.btn-dx {
         // background-color: #296293;
         // border-color: #296293;
     }
+
     .btn.btn-back {
         width: 100px;
         height: 40px;
@@ -266,6 +292,7 @@ div.btn-dx {
         border: 1px solid #8e8e8e;
         border-radius: 6px;
     }
+
     .btn.btn-back:hover {
         width: 100px;
         height: 40px;
@@ -274,6 +301,7 @@ div.btn-dx {
         border: 1px solid #8e8e8e;
         opacity: 0.75;
     }
+
     .btn.btn-cancle {
         width: 100px;
         height: 40px;
@@ -282,6 +310,7 @@ div.btn-dx {
         border: 1px solid #8e8e8e;
         border-radius: 6px;
     }
+
     .btn.btn-cancle:hover {
         width: 100px;
         height: 40px;
@@ -298,35 +327,42 @@ div.btn-dx {
         background-color: #dc3545;
         border-color: #dc3545;
     }
+
     .btn.btn-cancle:hover {
         color: #fff;
         background-color: #c82333;
         border-color: #bd2130;
     }
+
     .btn.btn-selected {
         color: #fff;
         background-color: #337ab7;
         border-color: #337ab7;
     }
+
     .btn.btn-selected:hover {
         color: #fff;
         background-color: #296293;
         border-color: #296293;
     }
+
     .btn.btn-not-selected {
         color: #212529;
         background-color: #f8f9fa;
         border-color: #f8f9fa;
     }
+
     .btn.btn-not-selected:hover {
         color: #212529;
         background-color: #e2e6ea;
         border-color: #dae0e5;
     }
+
     .btn:focus,
     .btn.focus {
         box-shadow: unset;
     }
+
     // .btn.btn-submit {
     //     color: #fff;
     //     background-color: #337ab7;
@@ -348,6 +384,7 @@ div.btn-dx {
         background-color: #0085f0;
         border-radius: 6px;
     }
+
     .btn-submit:hover {
         width: 130px;
         height: 48px;
@@ -358,6 +395,7 @@ div.btn-dx {
         // background-color: #296293;
         // border-color: #296293;
     }
+
     .btn.btn-back {
         width: 130px;
         height: 48px;
@@ -366,6 +404,7 @@ div.btn-dx {
         border: 1px solid #8e8e8e;
         border-radius: 6px;
     }
+
     .btn.btn-back:hover {
         width: 130px;
         height: 48px;
@@ -374,28 +413,35 @@ div.btn-dx {
         border: 1px solid #8e8e8e;
         opacity: 0.75;
     }
+
     .required:after {
         content: " *";
         color: red;
     }
+
     .text-link {
         cursor: pointer;
         color: #007bff;
         text-decoration: none;
     }
+
     .text-link:hover {
         color: #0056b3;
         text-decoration: underline;
     }
+
     .text-title {
         font-weight: bold;
     }
+
     * {
         font-size: 14px;
     }
+
     .main-card {
         margin: 20px 0px 20px 0px;
     }
+
     .card-header {
         // background-color: #337ab7;
         background: #f6f7f9;
@@ -408,14 +454,17 @@ div.btn-dx {
 }
 
 #desktop-content {
+
     // background-color: #f6f7fc;
     .block-content {
         margin: 95px 30px 20px 50px;
+
         .title-left {
             display: inline;
             color: #3d3d3d;
             font-size: 32px;
         }
+
         .title-right {
             display: inline;
             color: #2f2b66;
@@ -423,6 +472,7 @@ div.btn-dx {
             float: right;
             line-height: 3.3em;
         }
+
         .block-main {
             min-height: 200px;
             margin-top: 20px;
@@ -443,35 +493,42 @@ div.btn-dx {
         background-color: #dc3545;
         border-color: #dc3545;
     }
+
     .btn.btn-cancle:hover {
         color: #fff;
         background-color: #c82333;
         border-color: #bd2130;
     }
+
     .btn.btn-selected {
         color: #fff;
         background-color: #337ab7;
         border-color: #337ab7;
     }
+
     .btn.btn-selected:hover {
         color: #fff;
         background-color: #296293;
         border-color: #296293;
     }
+
     .btn.btn-not-selected {
         color: #212529;
         background-color: #f8f9fa;
         border-color: #f8f9fa;
     }
+
     .btn.btn-not-selected:hover {
         color: #212529;
         background-color: #e2e6ea;
         border-color: #dae0e5;
     }
+
     .btn:focus,
     .btn.focus {
         box-shadow: unset;
     }
+
     // .btn.btn-submit {
     //     color: #fff;
     //     background-color: #337ab7;
@@ -493,6 +550,7 @@ div.btn-dx {
         background-color: #0085f0;
         border-radius: 6px;
     }
+
     .btn-submit:hover {
         width: 166px;
         height: 48px;
@@ -503,6 +561,7 @@ div.btn-dx {
         // background-color: #296293;
         // border-color: #296293;
     }
+
     .btn.btn-back {
         width: 166px;
         height: 48px;
@@ -511,6 +570,7 @@ div.btn-dx {
         border: 1px solid #8e8e8e;
         border-radius: 6px;
     }
+
     .btn.btn-back:hover {
         width: 166px;
         height: 48px;
@@ -519,28 +579,35 @@ div.btn-dx {
         border: 1px solid #8e8e8e;
         opacity: 0.75;
     }
+
     .required:after {
         content: " *";
         color: red;
     }
+
     .text-link {
         cursor: pointer;
         color: #007bff;
         text-decoration: none;
     }
+
     .text-link:hover {
         color: #0056b3;
         text-decoration: underline;
     }
+
     .text-title {
         font-weight: bold;
     }
+
     * {
         font-size: 16px;
     }
+
     .main-card {
         margin: 20px 0px 20px 0px;
     }
+
     .card-header {
         background-color: #337ab7;
         color: white;
@@ -556,6 +623,7 @@ div.btn-dx {
     background-image: url('assets/image/bg-police-online-desktop.png');
     background-repeat: no-repeat;
     background-size: cover;
+
     .block-content {
         padding: 90px 0px 10px 0px;
     }
@@ -573,6 +641,7 @@ div.btn-dx {
     background-image: url('assets/image/bg-police-online-main-desktop.png');
     background-repeat: no-repeat;
     background-size: cover;
+
     .block-content {
         padding: 90px 10px 10px 10px;
     }
@@ -588,6 +657,7 @@ div.btn-dx {
 
 #police-register-page {
     background-color: #0e2563;
+
     .block-content {
         // padding: 90px 10px 10px 10px;
     }
@@ -604,9 +674,11 @@ form {
             display: inline-block;
             text-align: center;
         }
+
         .checkbox-group label {
             display: block;
         }
+
         input[type="radio"] {
             -webkit-appearance: none;
             width: 40px;
@@ -618,8 +690,9 @@ form {
             margin: 0 5px;
             transition: all .2s ease;
 
-            &:hover, &:checked {
-                filter:	grayscale(0);
+            &:hover,
+            &:checked {
+                filter: grayscale(0);
                 //fill: red;
                 //background-color: #b2ff59;
                 //border: 1px solid red;
@@ -643,10 +716,12 @@ form {
                 background: url('assets/icon/neutral.svg') center;
                 background-size: cover;
             }
+
             &.sad {
                 background: url('assets/icon/sad.svg') center;
                 background-size: cover;
             }
+
             &.very-sad {
                 background: url('assets/icon/very-sad.svg') center;
                 background-size: cover;

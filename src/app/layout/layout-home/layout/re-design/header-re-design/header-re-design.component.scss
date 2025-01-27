@@ -1,10 +1,10 @@
 :host {
      .menu-header {
-          z-index: 200;
+          z-index: 999;
           position: fixed;
           width: 100%;
           top: 0;
-          padding: 20px 20px;
+          padding: 15px 15px;
           background: #FFFFFF; //เพิ่มใหม่ Ice
           box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); //เพิ่มใหม่ Ice
 
@@ -146,8 +146,8 @@
                               padding-right: 15px; // เพิ่มระยะห่างจากเนื้อหา
                               margin-right: 15px; // ระยะห่างระหว่างเส้นกับไอเท็มถัดไป
                               border-right: 2px solid #343434; // เส้นแบ่งด้านขวา
-                          }
-                          
+                         }
+
                          .btn-menu {
                               padding-left: 15px; // ระยะห่างด้านซ้ายของไอเท็ม
 
@@ -159,42 +159,6 @@
                                    &:hover {
                                         text-decoration: underline;
                                    }
-                              }
-                         }
-                    }
-               }
-          }
-
-          .menu-header-list-right {
-               .list-detail {
-                    ul {
-                         float: right;
-                         display: table-row;
-                         margin: 0px !important;
-                    }
-
-                    ul li {
-                         color: #ffffff;
-                         display: table-cell;
-                         // height: 80px;
-                         list-style-type: none;
-                         margin: 0;
-                         vertical-align: middle;
-                         padding-left: 15px;
-
-                         .text-link {
-                              display: flex;
-                              align-items: center;
-                              color: #ffffff;
-                              padding: 10px 25px;
-                              background: #273880;
-                              border-radius: 10px;
-                              box-sizing: border-box;
-                              font-size: 1vw;
-                              max-height: 50px;
-
-                              .text-signin {
-                                   margin: 0px 5px;
                               }
                          }
                     }
@@ -222,45 +186,58 @@
 
      @media screen and (max-width: 1300px) {
 
-          .header-row {
-               justify-content: space-between !important;
+          .container-fluid {
+               height: 100%;
+               display: grid;
+               align-items: center;
+
+               .col-p-unset {
+                    padding: 0;
+               }
+
+               .header-row {
+                    justify-content: center !important;
+               }
           }
 
+          .col-xl-6.col-menu-header {
+               flex: 0 0 0% !important;
+               max-width: 0% !important;
+          }
 
           .menu-header-list-left {
                .list-detail {
-                    padding-left: 0px;
-                    color: #ffffff;
-
                     ul {
-                         display: table-row;
+                         display: flex;
+                         align-items: center; // จัดให้อยู่กึ่งกลางในแนวตั้ง
+                         justify-content: center !important;
+                         padding: 0;
+                         margin: 0;
+                         list-style: none; // เอา bullet point ออก
                     }
 
-                    ul li {
-                         display: table-cell;
-                         // height: 80px;
-                         list-style-type: none;
-                         margin: 0;
-                         // padding-left: 15px;
-                    }
 
                     .nav-logo {
-                         width: 9%;
+                         div {
+                              display: flex; // ใช้ Flexbox เพื่อจัดให้อยู่ในแนวนอน
+                              align-items: center; // จัดให้อยู่กึ่งกลางในแนวตั้ง
+                              justify-content: center; // จัดให้อยู่กึ่งกลางในแนวนอน
 
-                         img {
-                              width: 60px;
+                              img {
+                                   width: 50px; // ขนาดรูปภาพ
+                                   margin: 0 2px; // เพิ่มระยะห่างระหว่างรูปภาพ
+                              }
                          }
                     }
 
                     .nav-title {
-                         width: 40%;
 
                          .line {
                               border-top: 1px solid #ffffff;
                          }
 
                          .text-desktop {
-                              font-size: 1.1vw;
+                              font-size: 1.2vw !important;
                               font-weight: bold;
                               line-height: 1.0;
                               // text-shadow: 2px 2px 14px #454545;
@@ -271,7 +248,7 @@
                               }
 
                               .sub-title {
-                                   font-size: 1vw;
+                                   font-size: 1.2vw !important;
                                    letter-spacing: 1px;
                                    font-weight: 600;
                                    color: #343434 !important;
@@ -281,14 +258,54 @@
                     }
                }
           }
+
+          .menu-header-list-center {
+               display: none !important;
+          }
      }
 
      @media screen and (max-width: 1100px) {
           .menu-header-list-left {
-               padding-left: 0px !important;
-
                .list-detail {
-                    padding-left: 0px !important;
+                    .nav-logo {
+                         div {
+                              display: flex; // ใช้ Flexbox เพื่อจัดให้อยู่ในแนวนอน
+                              align-items: center; // จัดให้อยู่กึ่งกลางในแนวตั้ง
+                              justify-content: center; // จัดให้อยู่กึ่งกลางในแนวนอน
+
+                              img {
+                                   width: 50px; // ขนาดรูปภาพ
+                                   margin: 0 2px; // เพิ่มระยะห่างระหว่างรูปภาพ
+                              }
+                         }
+                    }
+
+                    .nav-title {
+
+                         .line {
+                              border-top: 1px solid #ffffff;
+                         }
+
+                         .text-desktop {
+                              font-size: 2vw !important;
+                              font-weight: bold;
+                              line-height: 1.0;
+                              // text-shadow: 2px 2px 14px #454545;
+
+                              .main-title {
+                                   color: #273880;
+                                   letter-spacing: 1px;
+                              }
+
+                              .sub-title {
+                                   font-size: 2vw !important;
+                                   letter-spacing: 1px;
+                                   font-weight: 600;
+                                   color: #343434 !important;
+                                   margin-top: 10px;
+                              }
+                         }
+                    }
                }
           }
 
@@ -298,18 +315,47 @@
      }
 
      @media screen and (max-width: 950px) {
-          .text-desktop {
-               font-size: 33px !important;
+          .menu-header-list-left {
+               .list-detail {
+                    .nav-logo {
+                         div {
+                              display: flex; // ใช้ Flexbox เพื่อจัดให้อยู่ในแนวนอน
+                              align-items: center; // จัดให้อยู่กึ่งกลางในแนวตั้ง
+                              justify-content: center; // จัดให้อยู่กึ่งกลางในแนวนอน
 
-               .main-title {
-                    color: #273880;
-                    letter-spacing: 1px;
-               }
+                              img {
+                                   width: 50px; // ขนาดรูปภาพ
+                                   margin: 0 2px; // เพิ่มระยะห่างระหว่างรูปภาพ
+                              }
+                         }
+                    }
 
-               .sub-title {
-                    font-size: 17px !important;
-                    letter-spacing: 1px;
-                    color: #343434 !important;
+                    .nav-title {
+
+                         .line {
+                              border-top: 1px solid #ffffff;
+                         }
+
+                         .text-desktop {
+                              font-size: 2vw !important;
+                              font-weight: bold;
+                              line-height: 1.0;
+                              // text-shadow: 2px 2px 14px #454545;
+
+                              .main-title {
+                                   color: #273880;
+                                   letter-spacing: 1px;
+                              }
+
+                              .sub-title {
+                                   font-size: 2vw !important;
+                                   letter-spacing: 1px;
+                                   font-weight: 600;
+                                   color: #343434 !important;
+                                   margin-top: 10px;
+                              }
+                         }
+                    }
                }
           }
      }
@@ -334,30 +380,6 @@
           }
      }
 
-     // @media screen and (max-width: 634px) {
-     //     .nav-title .text-mobile {
-     //         font-size: 28px;
-     //     }
-     //     .nav-title-2 .text-mobile {
-     //         font-size: 28px;
-     //     }
-     // }
-     // @media screen and (max-width: 394px) {
-     //     .nav-title .text-mobile {
-     //         font-size: 28px;
-     //     }
-     //     .nav-title-2 .text-mobile {
-     //         font-size: 28px;
-     //     }
-     // }
-     // @media screen and (max-width: 339px) {
-     //     .nav-title .text-mobile {
-     //         font-size: 20px;
-     //     }
-     //     .nav-title-2 .text-mobile {
-     //         font-size: 20px;
-     //     }
-     // }
      @media screen and (max-width: 575px) {
           .menu-header-list-left {
                padding-left: 0 !important;
@@ -380,6 +402,10 @@
           .logout-icon {
                display: block !important;
           }
+
+          .menu-header {
+               padding: 20px 15px;
+          }
      }
 
      @media screen and (max-width: 495px) {
@@ -389,6 +415,14 @@
 
           .nav-title-2 .text-mobile {
                font-size: 2.5vw;
+          }
+
+          .menu-header {
+               padding: 20px 15px;
+          }
+
+          .box-container {
+               left: 0px;
           }
      }
 
