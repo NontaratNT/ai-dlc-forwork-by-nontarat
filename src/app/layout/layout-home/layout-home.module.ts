@@ -65,14 +65,11 @@ import { HeaderReDesignComponent } from './layout/re-design/header-re-design/hea
 import { FooterReDesignComponent } from './layout/re-design/footer-re-design/footer-re-design.component';
 import { FaqComponent } from './components/re-design/faq/faq.component';
 import { MainReDesignComponent } from './components/re-design/main-re-design/main-re-design.component';
-<<<<<<< HEAD
-import { RequestfreezeComponent } from './components/re-design/requestfreeze/requestfreeze.component';
-=======
 import { BoxFrameComponent } from './components/re-design/main-re-design/box-frame/box-frame.component';
 import { BoxFrameSecondComponent } from './components/re-design/main-re-design/box-frame-second/box-frame-second.component';
 import { ResponsiveHelperComponent } from './components/re-design/responsive-helper/responsive-helper.component';
+import { RequestfreezeComponent } from './components/re-design/requestfreeze/requestfreeze.component';
 
->>>>>>> bd9061e6f00da430e32341b992cdc2532e91651b
 const customNotifierOptions: NotifierOptions = {
     position: {
         horizontal: {
