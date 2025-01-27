@@ -144,11 +144,9 @@ const customNotifierOptions: NotifierOptions = {
         RequestfreezeComponent,
         MainReDesignComponent,
         FaqComponent,
-
         BoxFrameComponent,
         BoxFrameSecondComponent,
         ResponsiveHelperComponent
-
     ],
     imports: [
         DxiItemModule,
