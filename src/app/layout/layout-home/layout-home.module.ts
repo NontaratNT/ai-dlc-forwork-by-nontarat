@@ -68,6 +68,7 @@ import { MainReDesignComponent } from './components/re-design/main-re-design/mai
 import { RequestfreezeComponent } from './components/re-design/requestfreeze/requestfreeze.component';
 import { BoxFrameComponent } from './components/re-design/main-re-design/box-frame/box-frame.component';
 import { BoxFrameSecondComponent } from './components/re-design/main-re-design/box-frame-second/box-frame-second.component';
+>>>>>>> e6a31db5bf6c462660d4dbf5ef6502d6caeb7dee
 const customNotifierOptions: NotifierOptions = {
     position: {
         horizontal: {
@@ -145,6 +146,7 @@ const customNotifierOptions: NotifierOptions = {
 
         BoxFrameComponent,
         BoxFrameSecondComponent,
+        ResponsiveHelperComponent
 
     ],
     imports: [
