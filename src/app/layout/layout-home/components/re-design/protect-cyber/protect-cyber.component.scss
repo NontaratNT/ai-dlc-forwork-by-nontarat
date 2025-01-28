@@ -7,9 +7,6 @@
      width: 100vw;
      cursor: grab;
      scroll-behavior: smooth;
-     z-index: 9999;
-     position: relative;
-     /* ทำให้สามารถใช้ z-index กับ container นี้ได้ */
 
      &.active {
           cursor: grabbing;
@@ -25,7 +22,7 @@
           background-position: center;
           background-repeat: no-repeat;
           position: relative;
-          /* ถ้ามีภาพที่ต้องการแสดง */
+          /* เพื่อให้ content อยู่เหนือภาพ */
      }
 
      .box {
@@ -34,8 +31,9 @@
           align-items: center;
           justify-content: space-between;
           position: relative;
+          /* ทำให้ content อยู่เหนือ background */
           z-index: 10;
-          /* ทำให้เนื้อหาของ box อยู่เหนือพื้นหลัง */
+          /* ให้ content อยู่เหนือ background */
      }
 
      .content {
