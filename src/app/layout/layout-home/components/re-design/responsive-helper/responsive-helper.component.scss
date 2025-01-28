@@ -1,4 +1,4 @@
-.box-frame-text-button {
+.box-tasktop {
      z-index: 99999;
      position: fixed;
      bottom: 8vw;
@@ -38,5 +38,110 @@
           border-radius: 8px;
           cursor: pointer;
      }
-
 }
+
+.box-moblie {
+     display: none;
+}
+
+@media screen and (min-width: 318px) and (max-width: 575px) {
+
+     .box-tasktop {
+          display: none;
+     }
+
+     .box-moblie {
+          z-index: 99999;
+          position: fixed;
+          bottom: 8vw;
+          right: 5vw;
+          display: flex;
+          flex-direction: column;
+
+          img {
+               width: 5vw;
+               margin-right: 0vw;
+          }
+
+          .caseOnline {
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               width: 8vw;
+               height: 8vw;
+               font-size: 1vw;
+               font-weight: 600;
+               color: #ffffff;
+               background-color: #FF5A01;
+               border-radius: 50%;
+               cursor: pointer;
+               margin: 3px 0;
+          }
+
+          .tel1441 {
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               width: 8vw;
+               height: 8vw;
+               font-size: 1vw;
+               font-weight: 600;
+               color: #ffffff;
+               background-color: #273880;
+               border-radius: 50%;
+               cursor: pointer;
+               margin: 3px 0;
+          }
+     }
+}
+
+@media screen and (min-width: 576px) and (max-width: 767px) {
+     .box-tasktop {
+          z-index: 99999;
+          position: fixed;
+          bottom: 8vw;
+          right: 5vw;
+          display: flex;
+          flex-direction: column;
+          z-index: 999;
+
+          img {
+               width: 3vw;
+               margin-right: 1vw;
+          }
+
+          .caseOnline {
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               width: 21vw;
+               height: 5vw;
+               font-size: 2vw;
+               font-weight: 600;
+               color: #ffffff;
+               background-color: #FF5A01;
+               border-radius: 8px;
+               cursor: pointer;
+               margin: 3px 0;
+          }
+
+          .tel1441 {
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               width: 21vw;
+               height: 5vw;
+               font-size: 2vw;
+               font-weight: 600;
+               color: #ffffff;
+               background-color: #273880;
+               border-radius: 8px;
+               cursor: pointer;
+               margin: 3px 0;
+          }
+     }
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {}
