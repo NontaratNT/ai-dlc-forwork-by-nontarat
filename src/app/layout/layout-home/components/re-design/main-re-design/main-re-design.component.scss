@@ -197,7 +197,7 @@
      }
 }
 
-@media screen and (max-width: 495px) {
+@media screen and (min-width: 318px) and (max-width: 575px) {
 
      .box-second {
           display: none;
@@ -217,9 +217,13 @@
           padding: 5vw;
      }
 
+     .slider-container {
+          height: 80vh !important;
+     }
+
      .box-container {
           position: absolute;
-          top: 80vw !important;
+          top: 70vw !important;
           left: 0px;
           transform: translateY(-50%);
           display: flex;
@@ -236,41 +240,8 @@
      }
 }
 
-@media screen and (max-width: 575px) {
+@media screen and (min-width: 576px) and (max-width: 767px) {}
 
-     .box-second {
-          display: none;
-     }
+@media screen and (min-width: 768px) and (max-width: 991px) {}
 
-     .slide {
-          min-width: 100%;
-          height: 100%;
-          display: flex;
-          justify-content: center;
-          /* จัดให้อยู่ชิดซ้าย */
-          align-items: center;
-          background-color: black;
-          background-size: cover;
-          background-position: center;
-          position: relative;
-          padding: 5vw;
-     }
-
-     .box-container {
-          position: absolute;
-          top: 70vw;
-          left: 0px;
-          transform: translateY(-50%);
-          display: flex;
-          flex-direction: column;
-
-          .box-frame {
-               width: 100%;
-               max-width: 100vw;
-               min-width: 100vw;
-               height: auto;
-               padding: 0;
-          }
-
-     }
-}
+@media screen and (min-width: 992px) and (max-width: 1199px) {}
