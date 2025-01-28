@@ -71,6 +71,7 @@ import { ResponsiveHelperComponent } from './components/re-design/responsive-hel
 import { RequestfreezeComponent } from './components/re-design/requestfreeze/requestfreeze.component';
 import { ProtectCyberComponent } from './components/re-design/protect-cyber/protect-cyber.component';
 import { SecurityServiceComponent } from './components/re-design/security-service/security-service.component';
+import { FormationnewsComponent } from './components/re-design/formationnews/formationnews.component';
 
 const customNotifierOptions: NotifierOptions = {
     position: {
@@ -151,6 +152,7 @@ const customNotifierOptions: NotifierOptions = {
         ResponsiveHelperComponent,
         ProtectCyberComponent,
         SecurityServiceComponent,
+        FormationnewsComponent,
     ],
     imports: [
         DxiItemModule,
