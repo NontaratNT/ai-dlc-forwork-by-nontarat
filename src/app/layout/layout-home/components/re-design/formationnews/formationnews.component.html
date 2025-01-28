@@ -1,1 +1,37 @@
-<p>formationnews works!</p>
+<div class="newscontainer">
+    <header class="newsheader">
+        <h2 class="newstitle">ข่าวประชาสัมพันธ์ / เตือนภัยไซเบอร์</h2>
+        <div class="newscontrols">
+            <button class="newsbutton">ดูข่าวสารทั้งหมด</button>
+        </div>
+    </header>
+    <div class="news-form">
+        <section class="news-card">
+            <section class="news-list">
+                <div class="news-item fade-animation" *ngFor="let news of paginatedNews[currentPage]">
+                    <img [src]="news.image" [alt]="news.title" class="news-image">
+                    <div class="news-details">
+                        <span class="news-category">{{ news.category }}</span>
+                        <h4 class="news-title">{{ news.title }}</h4>
+                        <p class="news-description">{{ news.description }}</p>
+                        <div class="news-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>{{ news.date }}</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+    <footer class="pagination-controls">
+        <div class="dot-controls">
+            <span *ngFor="let page of paginatedNews; let i = index" class="dot" [class.active]="i === currentPage"
+                (click)="navigateToPage(i)"></span>
+        </div>
+        <div>
+        <button class="prev-button" (click)="prevPage()" [disabled]="currentPage === 0">&larr;</button>
+        <button class="next-button" (click)="nextPage()"
+            [disabled]="currentPage === paginatedNews.length - 1">&rarr;</button>
+        </div>
+    </footer>
+</div>

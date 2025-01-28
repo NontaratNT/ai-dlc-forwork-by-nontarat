@@ -30,8 +30,16 @@
     padding: 40px 0 0 40px;
 }
 
+@media screen and (max-width: 768px) {
+    .p{
+        padding: 10px 0 0 10px;
+    }
+    .mh{
+        height: 300px;
+    }
+}
 /* เพิ่ม Media Query สำหรับ Responsive */
-@media (max-width: 767px) {
+@media screen and (max-width: 480px) {
     .container {
         flex-direction: column;
         text-align: center;
@@ -60,6 +68,7 @@
         font-size: 18px;
     }
     .mh{
-        max-height: 600px;
+        height: auto;
+        max-height: 600px ;
     }
 }
