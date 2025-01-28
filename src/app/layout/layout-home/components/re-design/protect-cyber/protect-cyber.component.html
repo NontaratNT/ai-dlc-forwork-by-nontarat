@@ -1,0 +1,17 @@
+<div class="scroll-container">
+     <div class="background-container" *ngFor="let slide of slides"
+          [ngStyle]="{ 'background-image': 'url(' + slide.images + ')' }">
+          <!-- Content ของคุณ -->
+          <div class="content">
+               <label class="text-main">ห่างกลโกงมิจฉาชีพ</label>
+               <label class="text-second">ป้องกันภัยร้ายจาก</label>
+               <label class="text-second">อาชญากรไซเบอร์</label>
+               <label class="text-third">
+                    เพื่อเป็นหนึ่งในช่องทางการป้องกันประชาชนที่ได้รับผลกระทบจากมิจฉาชีพ
+               </label>
+               <label class="text-third">
+                    ทั้งทางข้อความ โทรศัพท์ Call center หลอกหลวงต่างๆ ทั้งในและต่างประเทศ
+               </label>
+          </div>
+     </div>
+</div>

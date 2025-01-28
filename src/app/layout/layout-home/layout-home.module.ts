@@ -69,6 +69,7 @@ import { BoxFrameComponent } from './components/re-design/main-re-design/box-fra
 import { BoxFrameSecondComponent } from './components/re-design/main-re-design/box-frame-second/box-frame-second.component';
 import { ResponsiveHelperComponent } from './components/re-design/responsive-helper/responsive-helper.component';
 import { RequestfreezeComponent } from './components/re-design/requestfreeze/requestfreeze.component';
+import { ProtectCyberComponent } from './components/re-design/protect-cyber/protect-cyber.component';
 
 const customNotifierOptions: NotifierOptions = {
     position: {
@@ -146,7 +147,8 @@ const customNotifierOptions: NotifierOptions = {
         FaqComponent,
         BoxFrameComponent,
         BoxFrameSecondComponent,
-        ResponsiveHelperComponent
+        ResponsiveHelperComponent,
+        ProtectCyberComponent
     ],
     imports: [
         DxiItemModule,
