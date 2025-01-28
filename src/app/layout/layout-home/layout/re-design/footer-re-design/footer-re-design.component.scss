@@ -26,13 +26,48 @@
 
 .block-left,
 .block-right {
-    padding: 5px 10px;
+    padding: 0vw 6vw;
     /* ระยะห่างซ้าย-ขวา */
+}
+
+.block-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .block-right {
     text-align: right;
     /* จัดข้อความชิดขวา */
+}
+
+.container-text {
+    display: flex;
+    flex-direction: column;
+
+
+    .text-main {
+        font-size: 1.2vw;
+        margin: 0px 10px;
+    }
+}
+
+.text-footer{
+    font-size: 2vw;
+    font-weight: 600;
+}
+
+.container-logo {
+    position: relative;
+    bottom: 80px;
+    img {
+        width: 4vw;
+    }
+}
+
+.text-social {
+    font-size: 1vw;
+    margin: 10px 0px;
 }
 
 @media (max-width: 576px) {
