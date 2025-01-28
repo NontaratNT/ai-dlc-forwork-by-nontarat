@@ -1,76 +1,53 @@
-<div class="bg-gray py-5 d-flex flex-column align-items-center">
-    <div class="container mt-5">
-        <h2 class="h2 text-blue font-weight-bold text-left">แจ้งอายัดบัญชีด้วยตัวเอง</h2>
-        <div class="d-flex align-items-end justify-content-end p-2 rounded">
-            <button class="bg-warning mr-4">เรียงจาก</button>
-            <input type="text" placeholder="ค้นหารายการที่ต้องการ" class="rounded" />
+<div class="freeze-container">
+    <header class="freeze-header">
+        <h2 class="freeze-title">แจ้งอายัดบัญชีด้วยตัวเอง</h2>
+        <div class="freeze-controls">
+            <button class="sort-button">เรียงจาก <span class="sort-icon">⬆</span></button>
+            <input type="text" placeholder="ค้นหารายการที่ต้องการ" class="search-input">
         </div>
-    </div>
-    <div class="container m-2 p-2 d-flex">
-        <div class="container m-2 p-2 rounded-24 bg-white shadow" style="width: 220px;">
-            <div class="box-detail" style="text-align: center;">
-                <div class="box-item bg-blue-800 rounded-16 m-2 p-2">
-                    <div class="item col-12">
-                        <img src="assets/icon/checkgon.png" alt="icon" style="width: 100%; max-width: 150px;">
+    </header>
+
+    <div class="freeze-form">
+        <div class="freeze-content">
+            <section class="freeze-cards">
+                <div class="highlight-card">
+                    <div class="highlight-item">
+                        <img src="assets/icon/checkgon.png" alt="เช็คก่อน" class="highlight-img">
+                        <h3>เช็คก่อน</h3>
+                        <p>เว็บไซต์สำหรับตรวจสอบและเช็กคนโกง</p>
                     </div>
-                    <div class="item mt-4">
-                        <div class="text-detail text-white font-weight-bold" style="font-size: 18px;">เช็คก่อน</div>
-                        <div class="text-detail text-white" style="font-size: 14px;">
-                            เว็บไซต์สำหรับตรวจสอบและเช็กคนโกง
-                        </div>
+                    <div class="highlight-item">
+                        <img src="assets/icon/logo_CHO1.png" alt="ฉลาดโอน" class="highlight-img">
+                        <h3>ฉลาดโอน</h3>
+                        <p>เช็กก่อนเชื่อบริการช่วยตรวจสอบ<br>บัญชีปลายทางก่อนโอนเงิน</p>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <div class="box-detail" style="text-align: center;">
-                <div class="box-item bg-blue-800 rounded-16 m-2 p-2">
-                    <div class="item col-12">
-                        <img src="assets/icon/logo_CHO1.png" alt="icon" style="width: 100%; max-width: 150px;">
+            <section class="bank-list">
+                <div class="bank-item" *ngFor="let bank of paginatedBanks[currentPage]">
+                    <img [src]="bank.logo" [alt]="bank.name" class="bank-logo">
+                    <div class="bank-details">
+                        <h4>{{ bank.name }}</h4>
+                        <p>{{ bank.phone }}</p>
                     </div>
-                    <div class="item mt-4">
-                        <div class="text-detail text-white font-weight-bold" style="font-size: 18px;">ฉลาดโอน</div>
-                        <div class="text-detail text-white" style="font-size: 13px;">
-                            เช็กก่อนเชื่อบริการช่วยตรวจสอบ<br>บัญชีปลายทางก่อนโอนเงิน
-                        </div>
-                    </div>
+                    <a [href]="'tel:' + bank.phone" class="call-button">
+                        <i class="fas fa-phone"></i>
+                    </a>
                 </div>
+            </section>
+        </div>
+
+        <footer class="pagination-controls">
+            <div class="dot-controls">
+                <span *ngFor="let page of paginatedBanks; let i = index" class="dot" [class.active]="i === currentPage"
+                    (click)="navigateToPage(i)"></span>
             </div>
-        </div>
-        <!--  -->
-        <div class="ml-2 row row-cols-1 row-cols-md-3 g-2 justify-content-center">
-            <div *ngFor="let bank of paginatedBanks[currentPage]" class="col-4">
-                <div class="card text-center" style="height: 150px; padding: 10px;">
-                    <div class="card-body" style="padding: 5px;">
-                        <div class="bank-logo">
-                            <img [src]="bank.logo" [alt]="bank.name"
-                                class="bank-logo img-fluid rounded mx-auto d-block" style="max-height: 50px;">
-                        </div>
-                        <h5 class="card-title" style="font-size: 14px; margin: 5px 0;">{{ bank.name }}</h5>
-                        <p class="card-text" style="font-size: 12px; margin: 5px 0;">{{ bank.phone }}</p>
-                        <a [href]="'tel:' + bank.phone" class="btn btn-primary btn-sm">
-                            <i class="fas fa-phone"></i> Call
-                        </a>
-                    </div>
-                </div>
+            <div>
+            <button class="prev-button" (click)="prevPage()" [disabled]="currentPage === 0">&larr;</button>
+            <button class="next-button" (click)="nextPage()"
+                [disabled]="currentPage === paginatedBanks.length - 1">&rarr;</button>
             </div>
-        </div>
+        </footer>
     </div>
-
-    <!-- Navigation dots and buttons -->
-    <div class="d-flex justify-content-center mt-3">
-        <div class="dot-container mx-2">
-            <span *ngFor="let page of paginatedBanks; let i = index" class="dot" [class.active]="i === currentPage"
-                (click)="navigateToPage(i)">
-            </span>
-        </div>
-        <button class="btn btn-outline-secondary" (click)="prevPage()" [disabled]="currentPage === 0">
-            <i class="text-warning p-1 fas fa-chevron-left"></i>
-        </button>
-
-        <button class="btn btn-outline-secondary" (click)="nextPage()"
-            [disabled]="currentPage === paginatedBanks.length - 1">
-            <i class="text-warning p-1 fas fa-chevron-right"></i>
-        </button>
-    </div>
-
 </div>
