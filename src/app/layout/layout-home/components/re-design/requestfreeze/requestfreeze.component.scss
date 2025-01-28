@@ -1,6 +1,5 @@
-  .freeze-container {
-  font-family: Arial, sans-serif;
-  background-color: #F3F4F6;
+.freeze-container {
+  background-color: #f3f4f6;
   padding: 20px;
 }
 .freeze-header {
@@ -10,8 +9,8 @@
   margin-bottom: 20px;
 }
 .freeze-title {
-  color: #1E3A8A;
-  font-size: 24px;
+  color: #1e3a8a;
+  font-size: 32px;
   font-weight: bold;
 }
 .freeze-controls {
@@ -19,8 +18,8 @@
   gap: 10px;
 }
 .sort-button {
-  background-color: #FF7F00;
-  color: #FFF;
+  background-color: #ff7f00;
+  color: #fff;
   border: none;
   border-radius: 5px;
   padding: 10px;
@@ -30,7 +29,7 @@
   gap: 5px;
 }
 .search-input {
-  border: 1px solid #CCC;
+  border: 1px solid #ccc;
   border-radius: 5px;
   padding: 10px;
 }
@@ -40,7 +39,7 @@
   gap: 20px;
 }
 .highlight-card {
-  background: #FFF;
+  background: #fff;
   border-radius: 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
@@ -53,10 +52,14 @@
 .highlight-item {
   text-align: center;
   background: linear-gradient(0deg, #273880, #273880),
-  linear-gradient(0deg, rgba(0, 16, 88, 0.5) 0%, rgba(39, 56, 128, 0) 73.5%) !important;
+      linear-gradient(
+          0deg,
+          rgba(0, 16, 88, 0.5) 0%,
+          rgba(39, 56, 128, 0) 73.5%
+      ) !important;
   padding: 6px;
   border-radius: 16px;
-  color:#FFF;
+  color: #fff;
 }
 .highlight-img {
   max-width: 100px;
@@ -66,19 +69,22 @@
   flex: 2;
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 15px; 
+  align-content: flex-start;
 }
 .bank-item {
-  background: #FFF;
+  background: #fff;
   border-radius: 10px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 15px;
+  gap: 5px;
+  padding: 10px;
   flex: 1 1 calc(33.333% - 15px);
-  max-width: calc(33.333% - 15px);
+  max-width:calc(33.333% - 5px);
   height: 120px;
+  opacity: 0;
+  transform: translateX(20px);
+  animation: fadeIn 0.5s ease forwards;
 }
 
 .bank-logo {
@@ -96,14 +102,16 @@
   color: #555;
 }
 .call-button {
-  color: #FF7F00;
+  margin-left: auto;
+  color: #ff7f00;
   font-size: 20px;
 }
 .pagination-controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 20px;
+  margin-top: -30px;
+  padding-left: 320px;
   gap: 10px;
 }
 .dot-controls {
@@ -113,57 +121,114 @@
 .dot {
   width: 10px;
   height: 10px;
-  background-color: #BBB;
+  background-color: #bbb;
   border-radius: 50%;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 .dot.active {
-  background-color: #FF7F00;
+  background-color: #ff7f00;
 }
-.prev-button, .next-button {
+.prev-button,
+.next-button {
   background: none;
   border: none;
   font-size: 18px;
   cursor: pointer;
-  color: #FF7F00;
+  color: #ff7f00;
 }
-.prev-button:disabled, .next-button:disabled {
-  color: #CCC;
+.prev-button:disabled,
+.next-button:disabled {
+  color: #ccc;
   cursor: not-allowed;
 }
+
+@keyframes fadeIn {
+  0% {
+      opacity: 0;
+      transform: translateX(20px);
+  }
+  100% {
+      opacity: 1;
+      transform: translateX(0);
+  }
+}
+
+
 @media screen and (max-width: 768px) {
   .bank-item {
       flex: 1 1 calc(50% - 15px);
       max-width: calc(50% - 15px);
+      height: 140px; 
+      padding: 10px; 
   }
   .freeze-content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    align-items: center;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
   }
+  .pagination-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 70px;
+      padding-left: 190px;
+      gap: 10px;
+  }
+  .freeze-container {
+      height: 580px;
+  }
+  .freeze-content {
+      height: 390px;
+  }
+  .highlight-card{
+    max-width: 170px;
+}
 }
 @media screen and (max-width: 480px) {
   .bank-item {
-      max-width: 80%;
+      max-width: 50%;
+      height: 150px; 
+      padding: 5px; 
   }
   .freeze-header {
       flex-direction: column;
       gap: 10px;
   }
   .bank-list {
-    flex: 2;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
+      flex: 2;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
   }
   .freeze-content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    align-items: center;
-    justify-content: center;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+      justify-content: center;
+  }
+  .pagination-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 360px;
+      padding: 0px;
+      gap: 10px;
+  }
+  .freeze-container {
+      height: 950px;
+  }
+  .highlight-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      max-width: 380px;
+      gap: 15px;
   }
 }

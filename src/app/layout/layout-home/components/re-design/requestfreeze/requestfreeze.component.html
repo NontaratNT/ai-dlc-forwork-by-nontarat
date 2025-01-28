@@ -14,18 +14,18 @@
                     <div class="highlight-item">
                         <img src="assets/icon/checkgon.png" alt="เช็คก่อน" class="highlight-img">
                         <h3>เช็คก่อน</h3>
-                        <p>เว็บไซต์สำหรับตรวจสอบและเช็กคนโกง</p>
+                        <p>เว็บไซต์ที่ใช้สำหรับช่วยเหลือตรวจสอบ และเช็กรายชื่อคนโกง</p>
                     </div>
                     <div class="highlight-item">
                         <img src="assets/icon/logo_CHO1.png" alt="ฉลาดโอน" class="highlight-img">
                         <h3>ฉลาดโอน</h3>
-                        <p>เช็กก่อนเชื่อบริการช่วยตรวจสอบ<br>บัญชีปลายทางก่อนโอนเงิน</p>
+                        <p>เช็กก่อนเชื่อบริการช่วยตรวจสอบบัญชีปลายทางก่อนโอนเงิน</p>
                     </div>
                 </div>
             </section>
 
-            <section class="bank-list">
-                <div class="bank-item" *ngFor="let bank of paginatedBanks[currentPage]">
+            <section class="bank-list ">
+                <div class="bank-item fade-animation " *ngFor="let bank of paginatedBanks[currentPage]">
                     <img [src]="bank.logo" [alt]="bank.name" class="bank-logo">
                     <div class="bank-details">
                         <h4>{{ bank.name }}</h4>
@@ -51,3 +51,5 @@
         </footer>
     </div>
 </div>
+
+    
