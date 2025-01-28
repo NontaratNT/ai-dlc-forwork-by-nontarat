@@ -41,8 +41,6 @@ const routes: Routes = [
             // { path: 'about', component: AboutComponent },
             // { path: 'contact', component: ContactComponent },
             // { path: 'service', component: ServiceComponent },
-            { path: 'faq', component: FaqComponent },
-            { path: 'rqf', component: RequestfreezeComponent }
 
         ],
 
