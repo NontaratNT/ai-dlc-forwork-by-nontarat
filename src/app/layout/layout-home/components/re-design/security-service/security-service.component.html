@@ -1,0 +1,22 @@
+<div class="container-security">
+     <div class="text-security">
+          บริการเสริมความปลอดภัย
+     </div>
+     <div class="box-security">
+          <ng-container *ngFor="let item of detailSecurity">
+               <div class="icon-security" *ngIf="item.id === 1 || item.id === 2 || item.id === 3">
+                    <img [src]="item.image" alt="icon">
+                    <label for="" class="desc-security">{{item.description}}</label>
+               </div>
+               <div class="icon-securitys" *ngIf="item.id === 4 || item.id === 5">
+                    <div>
+                         <img [src]="item.image" alt="icon">
+                    </div>
+                    <div>
+                         <label for="" class="title-security">{{item.title}}</label>
+                         <label for="" class="desc-security">{{item.description}}</label>
+                    </div>
+               </div>
+          </ng-container>
+     </div>
+</div>
