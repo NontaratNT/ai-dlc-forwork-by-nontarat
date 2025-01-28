@@ -2,16 +2,35 @@
      <div class="background-container" *ngFor="let slide of slides"
           [ngStyle]="{ 'background-image': 'url(' + slide.images + ')' }">
           <!-- Content ของคุณ -->
-          <div class="content">
-               <label class="text-main">ห่างกลโกงมิจฉาชีพ</label>
-               <label class="text-second">ป้องกันภัยร้ายจาก</label>
-               <label class="text-second">อาชญากรไซเบอร์</label>
-               <label class="text-third">
-                    เพื่อเป็นหนึ่งในช่องทางการป้องกันประชาชนที่ได้รับผลกระทบจากมิจฉาชีพ
-               </label>
-               <label class="text-third">
-                    ทั้งทางข้อความ โทรศัพท์ Call center หลอกหลวงต่างๆ ทั้งในและต่างประเทศ
-               </label>
+          <div class="box">
+               <div class="content">
+                    <label class="text-main">ห่างกลโกงมิจฉาชีพ</label>
+                    <label class="text-second">ป้องกันภัยร้ายจาก</label>
+                    <label class="text-second">อาชญากรไซเบอร์</label>
+                    <label class="text-third">
+                         เพื่อเป็นหนึ่งในช่องทางการป้องกันประชาชนที่ได้รับผลกระทบจากมิจฉาชีพ
+                    </label>
+                    <label class="text-third">
+                         ทั้งทางข้อความ โทรศัพท์ Call center หลอกหลวงต่างๆ ทั้งในและต่างประเทศ
+                    </label>
+               </div>
+               <div *ngFor="let item of protectedCyber">
+                    <div class="protected-cyber">
+                         <!-- สำหรับเลขคี่ -->
+                         <div *ngIf="item.id % 2 !== 0" class="odd-number">
+                              <img [src]="item.image" alt="icon">
+                              <label class="title-cyber">{{ item.title }}</label>
+                              <label class="description-cyber">{{ item.description }}</label>
+                         </div>
+
+                         <!-- สำหรับเลขคู่ -->
+                         <div *ngIf="item.id % 2 === 0" class="even-number">
+                              <label class="title-cyber">{{ item.title }}</label>
+                              <label class="description-cyber">{{ item.description }}</label>
+                              <img [src]="item.image" alt="icon">
+                         </div>
+                    </div>
+               </div>
           </div>
      </div>
 </div>

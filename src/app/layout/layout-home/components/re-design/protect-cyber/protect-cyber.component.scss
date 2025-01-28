@@ -7,13 +7,17 @@
      width: 100vw;
      cursor: grab;
      scroll-behavior: smooth;
+     z-index: 9999;
+     position: relative;
+     /* ทำให้สามารถใช้ z-index กับ container นี้ได้ */
 
      &.active {
           cursor: grabbing;
-          /* แสดงไอคอนเมาส์ขณะลาก */
      }
 
      .background-container {
+          display: flex;
+          flex-direction: row;
           flex: 0 0 auto;
           width: 200vw;
           height: 100%;
@@ -21,29 +25,45 @@
           background-position: center;
           background-repeat: no-repeat;
           position: relative;
+          /* ถ้ามีภาพที่ต้องการแสดง */
+     }
+
+     .box {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          position: relative;
+          z-index: 10;
+          /* ทำให้เนื้อหาของ box อยู่เหนือพื้นหลัง */
      }
 
      .content {
           position: absolute;
-          top: 15vw;
-          left: 5vw;
+          top: 35%;
+          left: 2%;
           display: flex;
           flex-direction: column;
+          align-items: flex-start;
+
+          .text-main,
+          .text-second,
+          .text-third {
+               letter-spacing: 0.5px;
+          }
 
           .text-main {
                font-size: 1.5vw;
                font-weight: 600;
                color: #ff5a01;
                margin: 0;
-               letter-spacing: 0.5px;
           }
 
           .text-second {
-               font-size: 4vw;
+               font-size: 3vw;
                font-weight: 700;
                color: #273880;
                margin: 0;
-               letter-spacing: 0.5px;
           }
 
           .text-third {
@@ -51,7 +71,40 @@
                font-weight: 600;
                color: #000000;
                margin: 0;
-               letter-spacing: 0.5px;
+          }
+     }
+
+     .protected-cyber {
+          position: relative;
+          top: 0vw;
+          left: 40vw;
+
+          img {
+               width: 15vw;
+               height: 15vw;
+               object-fit: contain;
+          }
+
+          .odd-number,
+          .even-number {
+               display: flex;
+               flex-direction: column;
+               margin: 0vw 3vw;
+          }
+
+          .title-cyber {
+               font-size: 1.3vw;
+               font-weight: 600;
+               color: #273880;
+          }
+
+          .description-cyber {
+               font-size: .9vw;
+               font-weight: 500;
+               color: #000000;
+               overflow: overlay;
+               white-space: break-spaces;
+               width: 260px;
           }
      }
 }

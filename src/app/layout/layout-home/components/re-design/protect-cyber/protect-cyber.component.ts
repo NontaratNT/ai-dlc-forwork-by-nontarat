@@ -50,8 +50,15 @@ export class ProtectCyberComponent implements OnInit {
     event.preventDefault(); // ป้องกันการทำงานเริ่มต้น
     const container = this.el.nativeElement.querySelector('.scroll-container');
     const x = event.pageX - container.offsetLeft;
-    const walk = (x - this.startX) * 2; // คำนวณระยะการลาก (สามารถปรับตัวคูณได้)
-    container.scrollLeft = this.scrollLeft - walk;
+    const walk = (x - this.startX) * 4; // คำนวณระยะการลาก
+
+    // ใช้ requestAnimationFrame เพื่อให้การเลื่อนสมูทมากขึ้น
+    requestAnimationFrame(() => {
+      container.scrollTo({
+        left: this.scrollLeft - walk,
+        behavior: 'smooth'
+      });
+    });
   }
 
   // หยุดการลาก
@@ -68,4 +75,43 @@ export class ProtectCyberComponent implements OnInit {
     },
     // เพิ่ม slide อื่น ๆ ได้ที่นี่
   ];
+
+  protectedCyber = [
+    {
+      id: 1,
+      title: 'เช็กก่อน',
+      description: 'เว็บไซต์ที่ใช้สำหรับช่วยเหลือตรวจสอบและเช็กรายชื่อมิจฉาชีพหรือคนโกง',
+      image: 'assets/image/img/protact-bg/bg-1.png'
+    },
+    {
+      id: 2,
+      title: 'ฉลาดโอน',
+      description: 'มีสติก่อนโอน ฉลาดโอนบริการช่วยตรวจสอบบัญชี ปลายทางก่อนโอนเงิน เพื่อไม่ให้ตกเป็นเหยื่อ',
+      image: 'assets/image/img/protact-bg/bg-2.png'
+    },
+    {
+      id: 3,
+      title: 'สายด่วน 1441',
+      description: 'เพื่ออายัดบัญชี ขอความช่วยเหลือ และขอคำปรึกษา แจ้งความออนไลน์ได้ตลอด 24 ชั่วโมง',
+      image: 'assets/image/img/protact-bg/bg-3.png'
+    },
+    {
+      id: 4,
+      title: 'Cyber Check',
+      description: 'แอปพลิเคชันปกป้องข้อมูลและเตือนภัยให้ประชาชน ปลอดภัยจากอาชญากรไซเบอร์',
+      image: 'assets/image/img/protact-bg/bg-4.png'
+    },
+    {
+      id: 5,
+      title: 'แจ้งความออนไลน์',
+      description: 'กรณีตกเป็นเหยื่อเกี่ยวกับการหลอกลวงทางออนไลน์ ทางโทรศัพท์ อาชญากรไซเบอร์',
+      image: 'assets/image/img/protact-bg/bg-5.png'
+    },
+    {
+      id: 6,
+      title: 'แจ้งอายัดบัญชี',
+      description: 'รีบติดต่อธนาคารที่มีบัญชีอยู่ แจ้งอายัดบัญชีธนาคาร ปลายทางให้เร็วที่สุด เพื่อลดมูลค่าความเสียหาย',
+      image: 'assets/image/img/protact-bg/bg-6.png'
+    },
+  ]
 }
