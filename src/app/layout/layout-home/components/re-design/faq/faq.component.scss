@@ -1,22 +1,62 @@
-.text-blue{
+.container{
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+.text-blue {
     color: #1E3A8A !important;
 }
-.bg-gray-300{
+
+.bg-gray-300 {
     background-color: #E0E0E0 !important;
 }
-.bg-blue-800{
+
+.bg-blue-800 {
     background: linear-gradient(0deg, #273880, #273880),
     linear-gradient(0deg, rgba(0, 16, 88, 0.5) 0%, rgba(39, 56, 128, 0) 73.5%) !important; 
 }
 
-.rounded-xl{
+.rounded-xl {
     border-radius: 24px;
 }
 
-.pl{
-    padding-left: 100px;
+.font-sm {
+    font-size: 14px;
+}
+.mh-res{
+    max-height: 300px;
+}
+.p{
+    padding: 40px 0 0 40px;
 }
 
-.font-sm{
-    font-size: 14px;
+/* เพิ่ม Media Query สำหรับ Responsive */
+@media (max-width: 767px) {
+    .container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .text-md-left {
+        text-align: center;
+    }
+    .p {
+        padding: 20px 0 0 0;
+    }
+    .mr-3 {
+        margin-right: 0;
+    }
+    .rounded-xl {
+        border-radius: 0px !important;
+    }
+    .d-flex {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .h5{
+        font-size: 18px;
+    }
 }
