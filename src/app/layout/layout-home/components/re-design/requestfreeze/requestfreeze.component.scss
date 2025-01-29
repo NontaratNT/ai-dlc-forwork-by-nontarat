@@ -84,7 +84,7 @@
   height: 120px;
   opacity: 0;
   transform: translateX(20px);
-  animation: fadeIn 0.5s ease forwards;
+  animation: slideIn 0.5s ease forwards;
 }
 
 .bank-logo {
@@ -143,14 +143,14 @@
   cursor: not-allowed;
 }
 
-@keyframes fadeIn {
+@keyframes slideIn {
   0% {
+      transform: translateX(100%);
       opacity: 0;
-      transform: translateX(20px);
   }
   100% {
-      opacity: 1;
       transform: translateX(0);
+      opacity: 1;
   }
 }
 
