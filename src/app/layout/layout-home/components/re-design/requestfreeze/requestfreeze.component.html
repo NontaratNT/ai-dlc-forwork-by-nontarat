@@ -24,7 +24,7 @@
                 </div>
             </section>
 
-            <section class="bank-list ">
+            <div class="bank-list">
                 <div class="bank-item fade-animation " *ngFor="let bank of paginatedBanks[currentPage]">
                     <img [src]="bank.logo" [alt]="bank.name" class="bank-logo">
                     <div class="bank-details">
@@ -35,7 +35,7 @@
                         <i class="fas fa-phone"></i>
                     </a>
                 </div>
-            </section>
+            </div>
         </div>
 
         <footer class="pagination-controls">
