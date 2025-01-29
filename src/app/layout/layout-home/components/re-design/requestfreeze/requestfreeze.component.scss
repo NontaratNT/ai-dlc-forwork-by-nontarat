@@ -76,7 +76,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 24vw;
+  width: 100%
 }
 
 .highlight-item {
@@ -336,6 +336,7 @@
   .highlight-card {
     padding: 10px;
     flex: 1;
+    width: 90vw;
   }
 
   .bank-list {
@@ -372,12 +373,9 @@
   }
 
   .call-button {
-    background: #ff7f00;
     height: 6vw;
     color: #fff;
     font-size: 2.5vw;
-    border: 1px solid #FF7F01;
-    border-radius: 51%;
     width: 7vw;
     text-align: center;
     padding: 1vw;
