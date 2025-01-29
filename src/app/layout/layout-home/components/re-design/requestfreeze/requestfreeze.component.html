@@ -2,8 +2,11 @@
     <header class="freeze-header">
         <h2 class="freeze-title">แจ้งอายัดบัญชีด้วยตัวเอง</h2>
         <div class="freeze-controls">
-            <button class="sort-button">เรียงจาก <span class="sort-icon">⬆</span></button>
-            <input type="text" placeholder="ค้นหารายการที่ต้องการ" class="search-input">
+            <button class="sort-button">เรียงจาก <span><img src="assets/icon/arrowupdown.svg" alt="arrowupdown" class="sorticon"></span></button>
+            <div class="input-container">
+                <input type="text" placeholder="ค้นหารายการที่ต้องการ" class="search-input">
+                <img src="assets/icon/search.svg" alt="search" class="icon-search">
+            </div>
         </div>
     </header>
 
@@ -32,7 +35,7 @@
                         <p>{{ bank.phone }}</p>
                     </div>
                     <a [href]="'tel:' + bank.phone" class="call-button">
-                        <i class="fas fa-phone"></i>
+                        <img src="assets/icon/callringing.svg" alt="call" class="call-icon">
                     </a>
                 </div>
             </section>
@@ -43,7 +46,7 @@
                 <span *ngFor="let page of paginatedBanks; let i = index" class="dot" [class.active]="i === currentPage"
                     (click)="navigateToPage(i)"></span>
             </div>
-            <div>
+            <div class="button-controls">
             <button class="prev-button" (click)="prevPage()" [disabled]="currentPage === 0">&larr;</button>
             <button class="next-button" (click)="nextPage()"
                 [disabled]="currentPage === paginatedBanks.length - 1">&rarr;</button>

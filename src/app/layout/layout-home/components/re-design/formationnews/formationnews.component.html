@@ -5,7 +5,6 @@
             <button class="newsbutton">ดูข่าวสารทั้งหมด</button>
         </div>
     </header>
-    <div class="news-form">
         <section class="news-card">
             <section class="news-list">
                 <div class="news-item fade-animation" *ngFor="let news of paginatedNews[currentPage]">
@@ -13,25 +12,24 @@
                     <div class="news-details">
                         <span class="news-category">{{ news.category }}</span>
                         <h4 class="news-title">{{ news.title }}</h4>
-                        <p class="news-description">{{ news.description }}</p>
+                        <p class="news-description">{{ news.des }}</p>
                         <div class="news-date">
-                            <i class="fas fa-calendar-alt"></i>
+                            <img src="assets/icon/calendar.png" alt="calendar" class="calendar-icon">
                             <span>{{ news.date }}</span>
                         </div>
                     </div>
                 </div>
             </section>
         </section>
-    </div>
     <footer class="pagination-controls">
         <div class="dot-controls">
             <span *ngFor="let page of paginatedNews; let i = index" class="dot" [class.active]="i === currentPage"
                 (click)="navigateToPage(i)"></span>
         </div>
-        <div>
-        <button class="prev-button" (click)="prevPage()" [disabled]="currentPage === 0">&larr;</button>
-        <button class="next-button" (click)="nextPage()"
-            [disabled]="currentPage === paginatedNews.length - 1">&rarr;</button>
+        <div class="button-controls">
+            <button class="prev-button" (click)="prevPage()" [disabled]="currentPage === 0">&larr;</button>
+            <button class="next-button" (click)="nextPage()"
+                [disabled]="currentPage === paginatedNews.length - 1">&rarr;</button>
         </div>
     </footer>
 </div>
