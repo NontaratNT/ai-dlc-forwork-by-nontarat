@@ -1,91 +1,98 @@
-<div class="frame-desktop">
-     <!-- ใช้ ngFor เพื่อวนลูป boxes และแสดงข้อมูลใน header -->
-     <div *ngFor="let box of boxes" class="header">
-          {{box.header}}
+<div class="frameMain">
 
-          <div class="content">
+     <div class="boxLeft">
+          <!-- ใช้ ngFor เพื่อวนลูป boxes และแสดงข้อมูลใน header -->
+          <div *ngFor="let box of boxes" class="header">
+               {{box.header}}
                <!-- แสดงแต่ละ box ใน content โดยแบ่งคอลัมน์ -->
-               <div class="box col-12">
-                    <div class="box-content col-6 p-0" style="border-right: 2px solid #FFD300;">
-                         <div class="title-content">
-                              {{box.titleContent}}
+               <div class="box-main">
+
+                    <div class="boxs" style="border-right: 2px solid #FFD300;">
+                         <div class="textCaseOnline">
+                              {{box.textCaseOnline}}
                          </div>
-                         <div class="text-count">
-                              {{box.textCount}}
+                         <div class="countCaseOnline">
+                              {{box.countCaseOnline}}
                          </div>
-                         <div class="text-unit">
-                              {{box.textSubject}}
-                         </div>
-                    </div>
-                    <div class="box-content col-6">
-                         <div class="title-content">
-                              {{box.titleContent2}}
-                         </div>
-                         <div class="text-count">
-                              {{box.textCount2}}
-                         </div>
-                         <div class="text-unit">
-                              {{box.textUnit}}
+                         <div class="unitCaseOnline">
+                              {{box.unitCaseOnline}}
                          </div>
                     </div>
+
+                    <div class="boxs">
+                         <div class="textCaseOnline">
+                              {{box.textCaseOnline2}}
+                         </div>
+                         <div class="countCaseOnline">
+                              {{box.countCaseOnline2}}
+                         </div>
+                         <div class="unitCaseOnline">
+                              {{box.unitCaseOnline2}}
+                         </div>
+                    </div>
+
                </div>
 
-               <div class="box2 col-12">
-                    <div class="box-content col-4 p-0" style="border-right: 2px solid #FFD300;">
-                         <div class="title-content">
+               <div class="box-second" style="border-top: 2px solid #FFD300;">
+
+                    <div class="boxs" style="border-right: 2px solid #FFD300;">
+                         <div class="textWhite1">
                               {{box.reportOnline}}
                          </div>
-                         <div class="text-count">
+                         <div class="textWhite2">
                               {{box.reportOnlineCount}}
                          </div>
-                         <div class="text-unit">
+                         <div class="textWhite3">
                               {{box.reportOnlineSubject}}
                          </div>
                     </div>
-                    <div class="box-content col-4 px-2 py-0" style="border-right: 2px solid #FFD300;">
-                         <div class="title-content">
+
+                    <div class="boxs" style="border-right: 2px solid #FFD300;">
+                         <div class="textWhite1">
                               {{box.reportToThePoliceAgency}}
                          </div>
-                         <div class="text-count">
+                         <div class="textWhite2">
                               {{box.reportToThePoliceAgencyCount}}
                          </div>
-                         <div class="text-unit">
+                         <div class="textWhite3">
                               {{box.reportToThePoliceAgencySubject}}
                          </div>
                     </div>
-                    <div class="box-content col-4 pl-5 py-0 pr-2">
-                         <div class="title-content">
+
+                    <div class="boxs" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                         <div class="textWhite1">
                               {{box.averageCase}}
                          </div>
-                         <div class="text-count-average">
+                         <div class="textWhite2">
                               {{box.averageCaseCount}}
                          </div>
-                         <div class="text-unit">
+                         <div class="textWhite3">
                               {{box.averageCaseSubjectToday}}
                          </div>
                     </div>
+
                </div>
 
-               <div class="box3 col-12">
-                    <div class="box-content col-6 p-0" style="border-right: 2px solid #FFD300;">
-                         <div class="title-content">
+               <div class="box-third">
+                    <div class="boxs" style="border-right: 2px solid #FFD300;">
+                         <div class="textCaseOnline">
                               {{box.freezeTheAccountImmediately}}
                          </div>
-                         <div class="text-count">
+                         <div class="countCaseOnline">
                               {{box.freezeTheAccountImmediatelyCount}}
                          </div>
-                         <div class="text-unit">
+                         <div class="unitCaseOnline">
                               {{box.freezeTheAccountImmediatelyValue}}
                          </div>
-                         <div class="text-unit">
+                         <div class="unitCaseOnline">
                               {{box.freezeTheAccountImmediatelyFrom}}
                          </div>
                     </div>
-                    <div class="box-content col-6">
-                         <div class="title-content mostCommonOnlineCases">
+                    <div class="boxs">
+                         <div class="textYellow1">
                               {{box.mostCommonOnlineCases}}
                          </div>
-                         <div class="text-unit mostCases mt-2" *ngFor="let item of box.mostCases">
+                         <div class="textWhite1 mostCases" *ngFor="let item of box.mostCases">
                               <div>
                                    {{item.case}}
                               </div>
@@ -98,106 +105,9 @@
                </div>
           </div>
      </div>
-     
-</div>
 
-<div class="mobile">
-     <div class="frame-mobile">
-          <ng-container *ngFor="let box of boxes">
-               <div class="header">
-                    {{box.header}}
-               </div>
-               <div class="row py-2">
-                    <div class="col-6" style="border-right: 2px solid #FFD300;">
-                         <div class="titleMobile">
-                              {{box.titleContent}}
-                         </div>
-                         <div class="countMobile">
-                              {{box.textCount}}
-                         </div>
-                         <div class="unitMobile">
-                              {{box.textSubject}}
-                         </div>
-                    </div>
-                    <div class="col-6">
-                         <div class="titleMobile">
-                              {{box.titleContent2}}
-                         </div>
-                         <div class="countMobile">
-                              {{box.textCount2}}
-                         </div>
-                         <div class="unitMobile">
-                              {{box.textUnit}}
-                         </div>
-                    </div>
-               </div>
-               <div class="row py-2" style="border-top: 2px solid #FFD300;">
-                    <div class="col-6" style="border-right: 2px solid #FFD300;">
-                         <div class="titleMobile">
-                              {{box.reportOnline}}
-                         </div>
-                         <div class="countMobile">
-                              {{box.reportOnlineCount}}
-                         </div>
-                         <div class="unitMobile">
-                              {{box.reportOnlineSubject}}
-                         </div>
-                    </div>
-                    <div class="col-6">
-                         <div class="titleMobile">
-                              {{box.reportToThePoliceAgency}}
-                         </div>
-                         <div class="countMobile">
-                              {{box.reportToThePoliceAgencyCount}}
-                         </div>
-                         <div class="unitMobile">
-                              {{box.reportToThePoliceAgencySubject}}
-                         </div>
-                    </div>
-               </div>
-               <div class="row py-2" style="border-top: 2px solid #FFD300;">
-                    <div class="col-5  box-center ">
-                         <div class="titleMobile">
-                              {{box.averageCase}}
-                         </div>
-                         <div class="countMobile">
-                              {{box.averageCaseCount}}
-                         </div>
-                         <div class="unitMobile">
-                              {{box.averageCaseSubjectToday}}
-                         </div>
-                    </div>
-                    <div class="col-7 box-center">
-                         <div class="titleFreeze">
-                              {{box.freezeTheAccountImmediately}}
-                         </div>
-                         <div class="countMobile">
-                              {{box.freezeTheAccountImmediatelyCount}}
-                         </div>
-                         <div class="textFreeze">
-                              {{box.freezeTheAccountImmediatelyValue}}
-                         </div>
-                         <div class="textFreeze">
-                              {{box.freezeTheAccountImmediatelyFrom}}
-                         </div>
-                    </div>
-               </div>
-               <div class="row py-2" style="border-top: 2px solid #FFD300;">
-                    <div class="col-12">
-                         <div class="mostCommonOnlineCases">
-                              {{box.mostCommonOnlineCases}}
-                         </div>
-                         <div class="mostCases mt-2" *ngFor="let item of box.mostCases">
-                              <div>
-                                   {{item.case}}
-                              </div>
-
-                              <div>
-                                   {{item.count}}
-                              </div>
-                         </div>
-                    </div>
-               </div>
-          </ng-container>
+     <div class="boxRight">
+          <label class="caseOnline m-0" style="color: #fff;">แจ้งความออนไลน์</label>
+          <label class="caseTechnolody" style="color: #fff;">คดีอาชญากรรมทางเทคโนโลยี</label>
      </div>
 </div>

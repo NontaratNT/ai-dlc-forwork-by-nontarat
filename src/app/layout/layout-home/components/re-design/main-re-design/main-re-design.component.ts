@@ -10,12 +10,12 @@ export class MainReDesignComponent implements OnInit {
   boxes = [
     {
       header: 'สถิติความเสียหายสะสม : 1 มี.ค. 2565 - 30 พ.ย. 2567',
-      titleContent: 'คดีออนไลน์',
-      titleContent2: 'มูลค่าความเสียหายรวม',
-      textCount: '739,494',
-      textCount2: '7 หมื่นล้าน',
-      textSubject: 'เรื่อง',
-      textUnit: 'บาท',
+      textCaseOnline: 'คดีออนไลน์',
+      countCaseOnline: '739,494',
+      unitCaseOnline: 'เรื่อง',
+      textCaseOnline2: 'มูลค่าความเสียหายรวม',
+      countCaseOnline2: '7 หมื่นล้าน',
+      unitCaseOnline2: 'บาท',
       reportOnline: 'แจ้งความออนไลน์',
       reportOnlineCount: '353,536',
       reportOnlineSubject: 'เรื่อง',
