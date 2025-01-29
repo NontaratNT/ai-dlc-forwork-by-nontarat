@@ -72,7 +72,8 @@ import { RequestfreezeComponent } from './components/re-design/requestfreeze/req
 import { ProtectCyberComponent } from './components/re-design/protect-cyber/protect-cyber.component';
 import { SecurityServiceComponent } from './components/re-design/security-service/security-service.component';
 import { FormationnewsComponent } from './components/re-design/formationnews/formationnews.component';
-
+import { DetailnewsComponent } from './components/re-design/newsdetailcomponent/detailnews/detailnews.component';
+import { FormaNewsComponent } from './components/re-design/newsdetailcomponent/formanews/formationnews.component';
 const customNotifierOptions: NotifierOptions = {
     position: {
         horizontal: {
@@ -153,6 +154,8 @@ const customNotifierOptions: NotifierOptions = {
         ProtectCyberComponent,
         SecurityServiceComponent,
         FormationnewsComponent,
+        DetailnewsComponent,
+        FormaNewsComponent,
     ],
     imports: [
         DxiItemModule,
