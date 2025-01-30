@@ -9,6 +9,52 @@ export class NewsCyberComponent implements OnInit, AfterViewInit {
 
   @ViewChild('boxNews') boxNews!: ElementRef;
   isVisible = false;
+  newsList = [];
+  paginatedNews: any[][] = [];
+  currentPage = 0;
+  itemsPerPage = 3;
+
+  ngAfterViewInit() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          this.isVisible = true;
+        } else {
+          this.isVisible = false;
+        }
+      });
+    }, { threshold: 0.2 });
+
+    observer.observe(this.boxNews.nativeElement);
+  }
+
+  ngOnInit(): void {
+    this.setupPagination();
+  }
+
+  setupPagination(): void {
+    for (let i = 0; i < this.formationNews.length; i += this.itemsPerPage) {
+      this.paginatedNews.push(this.formationNews.slice(i, i + this.itemsPerPage));
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.paginatedNews.length - 1) {
+      this.currentPage++;
+    }
+  }
+
+  prevPage(): void {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+    }
+  }
+
+  navigateToPage(pageIndex: number): void {
+    if (pageIndex >= 0 && pageIndex < this.paginatedNews.length) {
+      this.currentPage = pageIndex;
+    }
+  }
 
   formationNews = [
     {
@@ -54,50 +100,5 @@ export class NewsCyberComponent implements OnInit, AfterViewInit {
       image: "assets/image/news/news6.png",
     },
   ];
-
-  paginatedNews: any[][] = [];
-  currentPage = 0;
-  itemsPerPage = 3;
-
-  ngAfterViewInit() {
-    // ใช้ IntersectionObserver เพื่อตรวจสอบว่าองค์ประกอบเข้าสู่หน้าจอหรือไม่
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        this.isVisible = true;
-        this.boxNews.nativeElement.classList.add('slide-in');
-        observer.disconnect(); // หยุดสังเกตเมื่อแสดงแล้ว
-      }
-    }, { threshold: 0.2 });
-
-    observer.observe(this.boxNews.nativeElement);
-  }
-
-  ngOnInit(): void {
-    this.setupPagination();
-  }
-
-  setupPagination(): void {
-    for (let i = 0; i < this.formationNews.length; i += this.itemsPerPage) {
-      this.paginatedNews.push(this.formationNews.slice(i, i + this.itemsPerPage));
-    }
-  }
-
-  nextPage(): void {
-    if (this.currentPage < this.paginatedNews.length - 1) {
-      this.currentPage++;
-    }
-  }
-
-  prevPage(): void {
-    if (this.currentPage > 0) {
-      this.currentPage--;
-    }
-  }
-
-  navigateToPage(pageIndex: number): void {
-    if (pageIndex >= 0 && pageIndex < this.paginatedNews.length) {
-      this.currentPage = pageIndex;
-    }
-  }
 }
 
