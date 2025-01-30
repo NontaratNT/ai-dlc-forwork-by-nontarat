@@ -8,8 +8,9 @@
      cursor: grab;
      scroll-behavior: smooth;
      touch-action: pan-x;
+     /* อนุญาตให้เลื่อนในแนวนอนได้ */
      -webkit-overflow-scrolling: touch;
-
+     /* เปิดใช้งานการเลื่อนแบบสมูทใน iOS */
 
      &.active {
           cursor: grabbing;

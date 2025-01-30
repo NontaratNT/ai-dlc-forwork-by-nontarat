@@ -25,6 +25,14 @@ $fa-font-path: "../../fontawesome/webfonts";
 
 * {
     font-family: SukhumvitSet;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+img,
+a {
+    pointer-events: auto;
+    /* ทำให้ลิงก์และปุ่มทำงานได้ตามปกติ */
 }
 
 html {
@@ -73,7 +81,7 @@ body::-webkit-scrollbar-track {
     font-size: 16px !important;
 }
 
-.dx-scrollable-content{
+.dx-scrollable-content {
     padding-right: 0px !important;
 }
 

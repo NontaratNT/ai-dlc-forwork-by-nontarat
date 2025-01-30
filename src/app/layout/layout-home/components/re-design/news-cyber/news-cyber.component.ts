@@ -8,6 +8,9 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 export class NewsCyberComponent implements OnInit, AfterViewInit {
 
   @ViewChild('boxNews') boxNews!: ElementRef;
+  @ViewChild('titleNews') titleNews!: ElementRef;
+  @ViewChild('buttonNews') buttonNews!: ElementRef;
+
   isVisible = false;
   newsList = [];
   paginatedNews: any[][] = [];
@@ -26,6 +29,30 @@ export class NewsCyberComponent implements OnInit, AfterViewInit {
     }, { threshold: 0.2 });
 
     observer.observe(this.boxNews.nativeElement);
+
+    const observer2 = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          this.isVisible = true;
+        } else {
+          this.isVisible = false;
+        }
+      });
+    }, { threshold: 0.2 });
+
+    observer2.observe(this.titleNews.nativeElement);
+
+    const observer3 = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          this.isVisible = true;
+        } else {
+          this.isVisible = false;
+        }
+      });
+    }, { threshold: 0.2 });
+
+    observer3.observe(this.buttonNews.nativeElement);
   }
 
   ngOnInit(): void {

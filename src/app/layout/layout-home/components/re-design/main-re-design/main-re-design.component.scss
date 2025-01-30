@@ -109,3 +109,15 @@
      font-weight: 600;
      opacity: 0.9;
 }
+
+.boxFrame {
+     transform: translateY(30px);
+     transition: opacity 1s ease-out, transform 1s ease-out;
+     opacity: 0;
+
+     &.slide-in {
+          opacity: 1;
+          transform: translateY(0);
+          transition-delay: calc(0.2s * var(--i));
+     }
+}
