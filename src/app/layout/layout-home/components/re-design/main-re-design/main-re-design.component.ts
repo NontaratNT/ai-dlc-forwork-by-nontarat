@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-main-re-design',
@@ -6,6 +6,39 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main-re-design.component.scss']
 })
 export class MainReDesignComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+  slides = [
+    {
+      id: 1,
+      images: 'assets/icon/bg/pages-1.png'
+    },
+    {
+      id: 2,
+      images: 'assets/icon/bg/pages-2.png'
+    },
+    // เพิ่ม slide อื่น ๆ ได้ที่นี่
+  ];
+
+  currentIndex = 0;
+
+  nextSlide() {
+    this.currentIndex = (this.currentIndex + 1) % this.slides.length;
+  }
+
+  prevSlide() {
+    this.currentIndex =
+      (this.currentIndex - 1 + this.slides.length) % this.slides.length;
+  }
+
+  goToSlide(index: number) {
+    this.currentIndex = index;
+  }
+
 
   boxes = [
     {
@@ -54,37 +87,4 @@ export class MainReDesignComponent implements OnInit {
       ]
     },
   ];
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-  slides = [
-    {
-      id: 1,
-      images: 'assets/icon/bg/pages-1.png'
-    },
-    {
-      id: 2,
-      images: 'assets/icon/bg/pages-2.png'
-    },
-    // เพิ่ม slide อื่น ๆ ได้ที่นี่
-  ];
-
-  currentIndex = 0;
-
-  nextSlide() {
-    this.currentIndex = (this.currentIndex + 1) % this.slides.length;
-  }
-
-  prevSlide() {
-    this.currentIndex =
-      (this.currentIndex - 1 + this.slides.length) % this.slides.length;
-  }
-
-  goToSlide(index: number) {
-    this.currentIndex = index;
-  }
-
 }

@@ -74,6 +74,7 @@ import { SecurityServiceComponent } from './components/re-design/security-servic
 import { FormationnewsComponent } from './components/re-design/formationnews/formationnews.component';
 import { DetailnewsComponent } from './components/re-design/newsdetailcomponent/detailnews/detailnews.component';
 import { FormaNewsComponent } from './components/re-design/newsdetailcomponent/formanews/formationnews.component';
+import { NewsCyberComponent } from './components/re-design/news-cyber/news-cyber.component';
 const customNotifierOptions: NotifierOptions = {
     position: {
         horizontal: {
@@ -156,6 +157,7 @@ const customNotifierOptions: NotifierOptions = {
         FormationnewsComponent,
         DetailnewsComponent,
         FormaNewsComponent,
+        NewsCyberComponent,
     ],
     imports: [
         DxiItemModule,
