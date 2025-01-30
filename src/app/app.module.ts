@@ -39,7 +39,6 @@ import { LayoutMobileModule } from './layout/layout-mobile/layout-mobile.module'
 import { LayoutHomeModule } from './layout/layout-home/layout-home.module';
 import { CountdownModule } from "ngx-countdown";
 import { NgxImageCompressService } from "ngx-image-compress";
-
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function rootLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');

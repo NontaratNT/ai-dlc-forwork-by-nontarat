@@ -8,9 +8,8 @@
      cursor: grab;
      scroll-behavior: smooth;
      touch-action: pan-x;
-     /* อนุญาตให้เลื่อนในแนวนอนได้ */
      -webkit-overflow-scrolling: touch;
-     /* เปิดใช้งานการเลื่อนแบบสมูทใน iOS */
+
 
      &.active {
           cursor: grabbing;
@@ -392,4 +391,21 @@
                font-size: 1.5vw !important;
           }
      }
+}
+
+.progress-bar-container {
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 5px;
+     background-color: #ddd;
+     cursor: pointer;
+}
+
+.progress-bar {
+     height: 100%;
+     width: 0;
+     background-color: orange;
+     transition: width 1.5s ease-in-out;
 }
