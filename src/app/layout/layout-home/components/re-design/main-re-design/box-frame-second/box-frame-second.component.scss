@@ -1,216 +1,114 @@
-.container-desktop {
+.containerDesktop,
+.container-mobile {
+     transform: translateX(30px) scale(0.8);
+     transition: opacity 1s ease-out, transform 1s ease-out;
+     opacity: 0;
+
+     &.slideRight {
+          opacity: 1;
+          transform: translateX(0) scale(1);
+          transition-delay: calc(0.2s * var(--i));
+     }
+
      display: flex;
      flex-direction: column;
-     align-items: start;
-     justify-content: start;
+     align-items: center;
+     justify-content: center;
      width: 100%;
+     padding: 20px;
+     text-align: center;
+}
 
-     img {
-          width: 13vw;
-          height: 100%;
-          margin: 10px 0px;
+.container-desktop img,
+.container-mobile img {
+     width: 15vw;
+     height: auto;
+     margin-bottom: 15px;
+}
+
+.textFirst {
+     font-size: 1.2vw;
+     font-weight: 500;
+     letter-spacing: 0.1vw;
+     color: #fff;
+     margin-bottom: 5px;
+}
+
+.textSecond {
+     font-size: 4vw;
+     font-weight: 700;
+     letter-spacing: 0.2vw;
+     color: #fff;
+     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+     margin-bottom: 5px;
+}
+
+.textThird {
+     font-size: 1.8vw;
+     font-weight: 600;
+     letter-spacing: 0.1vw;
+     color: #fff;
+     opacity: 0.9;
+     margin-bottom: 20px;
+}
+
+.buttonTestOnilne {
+     padding: 1vw 3vw;
+     font-size: 1.2vw;
+     font-weight: 500;
+     color: #fff;
+     border-radius: 15px;
+     background: linear-gradient(45deg, #FF5A01, #FF7700);
+     box-shadow: 0px 4px 10px rgba(255, 90, 1, 0.3);
+     cursor: pointer;
+     transition: all 0.3s ease;
+}
+
+.buttonTestOnilne:hover {
+     background: linear-gradient(45deg, #FF7700, #FF5A01);
+     box-shadow: 0px 6px 15px rgba(255, 90, 1, 0.5);
+     transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+     .container-desktop {
+          display: none;
+     }
+
+     .container-mobile {
+          display: flex;
      }
 
      .textFirst {
-          font-size: 1.5vw;
-          font-weight: 500;
-          letter-spacing: .2vw;
-          color: #fff;
-          margin: 5px 0px
+          font-size: 3.5vw;
      }
 
      .textSecond {
-          font-size: 5vw;
-          font-weight: 700;
-          letter-spacing: .2vw;
-          color: #fff;
-          margin: 2px 0px
+          font-size: 8vw;
      }
 
      .textThird {
-          font-size: 2vw;
-          font-weight: 600;
-          letter-spacing: .2vw;
-          color: #fff;
-          margin: 2px 0px 25px 0px;
+          font-size: 4vw;
      }
 
      .buttonTestOnilne {
-          padding: 1vw 4vw;
-          font-size: 1.5vw;
-          font-weight: 500;
-          color: #fff;
-          border-radius: 12px;
-          background-color: #FF5A01;
-          cursor: pointer;
+          font-size: 3vw;
+          padding: 2vw 5vw;
      }
 }
 
-.container-mobile {
-     display: none;
-}
-
-
-@media screen and (max-width: 495px) {
-
-     .container-desktop {
+@media (min-width: 769px) {
+     .container-mobile {
           display: none;
      }
-
-     .container-mobile {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          width: 100%;
-
-          img {
-               width: 45vw;
-               height: 100%;
-               margin: 10px 0px;
-          }
-
-          .textFirst {
-               font-size: 4vw;
-               font-weight: 500;
-               letter-spacing: .2vw;
-               color: #fff;
-               margin: 5px 0px
-          }
-
-          .textSecond {
-               font-size: 10vw;
-               font-weight: 700;
-               letter-spacing: .2vw;
-               color: #fff;
-               margin: 2px 0px
-          }
-
-          .textThird {
-               font-size: 6vw;
-               font-weight: 600;
-               letter-spacing: .2vw;
-               color: #fff;
-               margin: 2px 0px 25px 0px;
-          }
-
-          .buttonTestOnilne {
-               padding: 2vw 4vw;
-               font-size: 5vw;
-               font-weight: 500;
-               color: #fff;
-               border-radius: 12px;
-               background-color: #FF5A01;
-               cursor: pointer;
-          }
-     }
-
 }
 
-@media screen and (max-width: 575px) {
-     .container-desktop {
-          display: none;
-     }
 
-     .container-mobile {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          width: 100%;
+@media screen and (min-width: 318px) and (max-width: 575px) {}
 
-          img {
-               width: 45vw;
-               height: 100%;
-               margin: 10px 0px;
-          }
+@media screen and (min-width: 576px) and (max-width: 767px) {}
 
-          .textFirst {
-               font-size: 4vw;
-               font-weight: 500;
-               letter-spacing: .2vw;
-               color: #fff;
-               margin: 5px 0px
-          }
+@media screen and (min-width: 768px) and (max-width: 991px) {}
 
-          .textSecond {
-               font-size: 10vw;
-               font-weight: 700;
-               letter-spacing: .2vw;
-               color: #fff;
-               margin: 2px 0px
-          }
-
-          .textThird {
-               font-size: 6vw;
-               font-weight: 600;
-               letter-spacing: .2vw;
-               color: #fff;
-               margin: 2px 0px 25px 0px;
-          }
-
-          .buttonTestOnilne {
-               padding: 2vw 4vw;
-               font-size: 5vw;
-               font-weight: 500;
-               color: #fff;
-               border-radius: 12px;
-               background-color: #FF5A01;
-               cursor: pointer;
-          }
-     }
-}
-
-@media screen and (max-width: 768px) {
-     .container-desktop {
-          display: none;
-     }
-
-     .container-mobile {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          width: 100%;
-
-          img {
-               width: 40vw;
-               height: 100%;
-               margin: 10px 0px;
-          }
-
-          .textFirst {
-               font-size: 4vw;
-               font-weight: 500;
-               letter-spacing: .2vw;
-               color: #fff;
-               margin: 5px 0px
-          }
-
-          .textSecond {
-               font-size: 8vw;
-               font-weight: 700;
-               letter-spacing: .2vw;
-               color: #fff;
-               margin: 2px 0px
-          }
-
-          .textThird {
-               font-size: 4vw;
-               font-weight: 600;
-               letter-spacing: .2vw;
-               color: #fff;
-               margin: 2px 0px 25px 0px;
-          }
-
-          .buttonTestOnilne {
-               padding: 2vw 4vw;
-               font-size: 4vw;
-               font-weight: 500;
-               color: #fff;
-               border-radius: 12px;
-               background-color: #FF5A01;
-               cursor: pointer;
-          }
-     }
-}
+@media screen and (min-width: 992px) and (max-width: 1199px) {}
