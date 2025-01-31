@@ -8,6 +8,7 @@ import { User } from './user';
 import { EformRequestFactory, EFORM_REQUEST } from 'eform-share';
 import { CookieStorage } from '../common/cookie';
 import Swal from 'sweetalert2';
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
@@ -105,7 +106,7 @@ export class UserService {
     }
 
     public getTokenCypherVac(userId: number): Observable<string> {
-        return this._req<string>('VacchineCyber/EndcryptData')
+        return this._req<string>('VacchineCyber/EndcryptData').host(environment.config.baseConfig.urlgdcceform)
             .body({ Data: userId })
             .disableCriticalDialogError()
             .post();
