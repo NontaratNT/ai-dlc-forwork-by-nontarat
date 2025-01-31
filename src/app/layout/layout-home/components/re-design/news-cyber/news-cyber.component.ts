@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NewsService } from 'src/app/services/re-design/news/news.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-news-cyber',
@@ -19,6 +20,7 @@ export class NewsCyberComponent implements OnInit, AfterViewInit {
   itemsPerPage = 3;
 
   constructor(
+     private _router: Router,
     private service: NewsService
   ) { }
 
@@ -45,11 +47,11 @@ export class NewsCyberComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.service.getNewsTop5().subscribe((res: any) => {
       this.formationNews = res.Value.Data;
-      console.log(this.formationNews); // ตรวจสอบว่าได้รับข้อมูลจาก API หรือไม่
+      // console.log(this.formationNews); // ตรวจสอบว่าได้รับข้อมูลจาก API หรือไม่
       this.setupPagination(); // เรียก setupPagination() หลังจากได้รับข้อมูล
     });
   }
-  
+
   setupPagination(): void {
     // ตรวจสอบว่า formationNews มีข้อมูลแล้วหรือไม่ก่อนแบ่งหน้า
     if (this.formationNews && this.formationNews.length > 0) {
@@ -75,6 +77,10 @@ export class NewsCyberComponent implements OnInit, AfterViewInit {
     if (pageIndex >= 0 && pageIndex < this.paginatedNews.length) {
       this.currentPage = pageIndex;
     }
+  }
+
+  RedirectUrl(url) {
+    this._router.navigate([url]);
   }
 
   // formationNews = [

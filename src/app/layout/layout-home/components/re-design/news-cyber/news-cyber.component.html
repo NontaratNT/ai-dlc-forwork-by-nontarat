@@ -1,7 +1,7 @@
 <div class="containerNews">
      <div class="headerNews">
           <h2 class="titleNews" #titleNews [ngClass]="{'slide-in': isVisible}">ข่าวประชาสัมพันธ์ / เตือนภัยไซเบอร์</h2>
-          <div class="buttonNews" #buttonNews [ngClass]="{'slide-in': isVisible}">ดูข่าวสารทั้งหมด</div>
+          <div class="buttonNews" #buttonNews [ngClass]="{'slide-in': isVisible}" (click)="RedirectUrl('/news')">ดูข่าวสารทั้งหมด</div>
      </div>
      <div class="cardNews">
           <ng-container *ngFor="let news of paginatedNews[currentPage]">

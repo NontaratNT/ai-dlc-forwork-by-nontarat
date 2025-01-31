@@ -23,7 +23,7 @@ export class BoxFrameComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.service.getStatic().subscribe((res) => {
       this.dataStatic = res.Value;
-      console.log(this.dataStatic);
+      // console.log(this.dataStatic);
     });
   }
 
