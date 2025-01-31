@@ -1,5 +1,4 @@
-.containerDesktop,
-.container-mobile {
+.containerDesktop {
      transform: translateX(30px) scale(0.8);
      transition: opacity 1s ease-out, transform 1s ease-out;
      opacity: 0;
@@ -19,8 +18,7 @@
      text-align: center;
 }
 
-.container-desktop img,
-.container-mobile img {
+.container-desktop img {
      width: 15vw;
      height: auto;
      margin-bottom: 15px;
@@ -76,10 +74,6 @@
           display: none;
      }
 
-     .container-mobile {
-          display: flex;
-     }
-
      .textFirst {
           font-size: 3.5vw;
      }
@@ -98,14 +92,14 @@
      }
 }
 
-@media (min-width: 769px) {
-     .container-mobile {
-          display: none;
+@media screen and (min-width: 318px) and (max-width: 575px) {
+     .containerDesktop {
+          padding: 1vw 20px;
+          img {
+               width: 30vw;
+          }
      }
 }
-
-
-@media screen and (min-width: 318px) and (max-width: 575px) {}
 
 @media screen and (min-width: 576px) and (max-width: 767px) {}
 

@@ -81,8 +81,8 @@
           left: 40vw;
 
           img {
-               width: 15vw;
-               height: 15vw;
+               width: 24vw;
+               height: 14vw;
                object-fit: contain;
           }
 
@@ -258,7 +258,7 @@
           display: flex;
           overflow-x: auto;
           overflow: hidden;
-          height: 55vh;
+          height: 65vh;
           width: 100vw;
      }
 
@@ -296,7 +296,7 @@
           left: 40vw;
 
           img {
-               width: 25vw !important;
+               width: 100% !important;
                height: 25vw !important;
                object-fit: contain;
           }

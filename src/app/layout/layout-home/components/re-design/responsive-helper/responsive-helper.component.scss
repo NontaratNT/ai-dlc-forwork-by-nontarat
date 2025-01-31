@@ -1,5 +1,5 @@
 .box-tasktop {
-     z-index: 1;
+     z-index: 999;
      position: fixed;
      bottom: 5%;
      right: 7%;
@@ -97,7 +97,7 @@
 
 @media screen and (min-width: 576px) and (max-width: 767px) {
      .box-tasktop {
-          z-index: 99999;
+          z-index: 999;
           position: fixed;
           bottom: 8vw;
           right: 5vw;
@@ -142,6 +142,18 @@
      }
 }
 
-@media screen and (min-width: 768px) and (max-width: 991px) {}
+@media screen and (min-width: 768px) and (max-width: 991px) {
+     .caseOnline {
+          width: 15vw !important;
+          height: 4vw !important;
+          font-size: 1.4vw !important;
+     }
+
+     .tel1441 {
+          width: 15vw !important;
+          height: 4vw !important;
+          font-size: 1.4vw !important;
+     }
+}
 
 @media screen and (min-width: 992px) and (max-width: 1199px) {}

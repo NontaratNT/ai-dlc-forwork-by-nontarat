@@ -1,7 +1,7 @@
 .frameMain {
      display: grid;
      grid-template-columns: repeat(2, 1fr);
-     gap: 4vw;
+     gap: 2vw;
 
      .boxLeft {
           width: 40vw;
@@ -528,8 +528,8 @@
 
                }
           }
-
-          .boxRight {
+          
+          .boxCenter{
                display: none;
           }
      }

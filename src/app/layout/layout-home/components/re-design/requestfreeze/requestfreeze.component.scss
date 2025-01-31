@@ -1,8 +1,9 @@
 .freeze-container {
-  background-color: #f3f4f6;
-  padding: 3vw 13vw;
+  background-color: #F5F5F5;
+  padding: 3vw 2vw;
 }
 
+/* === Header Styles === */
 .freeze-header {
   display: flex;
   justify-content: space-between;
@@ -12,7 +13,7 @@
 
 .freeze-title {
   color: #1e3a8a;
-  font-size: 32px;
+  font-size: 2.5vw;
   font-weight: bold;
 }
 
@@ -21,25 +22,25 @@
   gap: 10px;
 }
 
-.sorticon {
-  width: 20px;
-  height: 20px;
-}
-
-
-
 .sort-button {
   background-color: #ff7f00;
   color: #fff;
   border: none;
   border-radius: 8px;
-  padding: 8px 10px 8px 10px;
+  padding: 10px 12px;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 5px;
+  font-weight: bold;
+  transition: background 0.3s;
 }
 
+.sort-button:hover {
+  background-color: #e67000;
+}
+
+/* === Search Box === */
 .input-container {
   position: relative;
   display: flex;
@@ -50,9 +51,15 @@
   width: 100%;
   padding: 10px 40px;
   font-size: 16px;
-  border: 1px solid gray;
+  border: 1px solid #ced4da;
   border-radius: 8px;
-  background-color: #f3f4f6;
+  background-color: #f8f9fa;
+  transition: border-color 0.3s;
+}
+
+.search-input:focus {
+  border-color: #1e3a8a;
+  outline: none;
 }
 
 .icon-search {
@@ -62,97 +69,100 @@
   height: 20px;
 }
 
+/* === Content Area === */
 .freeze-content {
   display: flex;
   flex-direction: column;
-  // flex-wrap: wrap;
   gap: 20px;
 }
 
 .highlight-card {
-  background: #fff;
-  border-radius: 25px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 10px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 100%
 }
 
 .highlight-item {
   text-align: center;
-  background: linear-gradient(0deg, #273880, #273880),
-    linear-gradient(0deg,
-      rgba(0, 16, 88, 0.5) 0%,
-      rgba(39, 56, 128, 0) 73.5%) !important;
+  background: linear-gradient(0deg, #273880, #273880);
   padding: 6px;
   border-radius: 16px;
   color: #fff;
-}
-
-.highlight-img {
-  max-width: 100px;
-  margin-bottom: 10px;
+  font-weight: bold;
 }
 
 .bank-list {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
 }
 
+/* === Bank Item === */
 .bank-item {
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
-  gap: 5px;
-  padding: 10px;
-  flex: 1 1 calc(33.333% - 15px);
-  // max-width: calc(33.333% - 5px);
-  height: 10vw;
-  opacity: 0;
-  transform: translateX(20px);
-  animation: slideIn 0.5s ease forwards;
+  align-items: center;
+  padding: 15px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  justify-content: space-between;
+  /* ดัน icon โทรศัพท์ไปชิดขวา */
+}
+
+.bank-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .bank-logo {
-  width: 4vw;
-  height: 4vw;
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.bank-details {
+  flex-grow: 1;
+  padding: 0 10px;
 }
 
 .bank-details h4 {
   margin: 0;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
+  color: #333;
 }
 
 .bank-details p {
-  margin: 5px 0 0;
+  margin: 4px 0 0;
   font-size: 14px;
-  color: #555;
+  color: #777;
 }
 
-.call-icon {
-  width: 20px;
-  height: 20px;
-}
-
+/* === ปรับให้ icon โทรศัพท์ ชิดขวาสุด === */
 .call-button {
-  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
   color: #ff7f00;
-  font-size: 20px;
+  transition: background 0.3s;
+  margin-left: auto;
 }
 
+/* === Pagination === */
 .pagination-controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 10px 15px 0px 15px;
-  padding: 0;
-  grid-gap: 10px;
   gap: 10px;
+  margin-top: 20px;
 }
 
 .prev-button,
@@ -161,11 +171,173 @@
   font-size: 18px;
   cursor: pointer;
   color: #ff7f00;
-  margin: 0px 0px 0 5px;
-  border: 1px solid;
+  border: 1px solid #ff7f00;
   border-radius: 50%;
-  background-color: rgba(224, 224, 224, 0.2);
+  width: 40px;
+  height: 40px;
 }
+
+.prev-button:disabled,
+.next-button:disabled {
+  color: #ccc;
+  border-color: #ccc;
+  cursor: not-allowed;
+}
+
+
+@media screen and (min-width: 318px) and (max-width: 575px) {
+  .freeze-container {
+    background-color: #f3f4f6;
+    padding: 10px;
+  }
+
+  .freeze-title {
+    color: #1e3a8a;
+    font-size: 6vw;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+
+  .freeze-header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+
+  .sort-button {
+    font-size: 3vw;
+  }
+
+  .search-input {
+    font-size: 2.5vw;
+  }
+
+  .freeze-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .highlight-card {
+    padding: 10px;
+    width: 90vw;
+  }
+
+  .bank-item {
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .bank-logo {
+    width: 12vw;
+    height: 12vw;
+    margin: 5px 0;
+  }
+
+  .bank-details h4,
+  .bank-details p {
+    font-size: 3.5vw;
+    text-align: center;
+  }
+
+  .call-button {
+    height: 8vw;
+    font-size: 3vw;
+    width: 8vw;
+    text-align: center;
+    padding: 1vw;
+    margin: auto;
+  }
+
+  .pagination-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    gap: 10px;
+  }
+
+  .prev-button,
+  .next-button {
+    font-size: 18px;
+    cursor: pointer;
+    color: #ff7f00;
+    border: 1px solid;
+    border-radius: 50%;
+    background: rgba(224, 224, 224, 0.2);
+  }
+}
+
+@media screen and (min-width: 576px) and (max-width: 767px) {
+
+  .bank-item {
+    height: auto;
+    padding: 15px;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .bank-logo {
+    width: 6vw;
+    height: 6vw;
+  }
+
+  .bank-details {
+    flex-grow: 1;
+    /* ให้ข้อมูลธนาคารขยายได้เต็มที่ */
+    min-width: 0;
+  }
+
+  .bank-details h4 {
+    font-size: 2.5vw;
+  }
+
+  .bank-details p {
+    font-size: 2vw;
+  }
+
+  .call-button {
+    width: 6vw;
+    height: 6vw;
+    font-size: 2.5vw;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+
+  .bank-item {
+    padding: 20px;
+    flex-direction: row;
+  }
+
+  .bank-logo {
+    width: 5vw;
+    height: 5vw;
+  }
+
+  .bank-details h4 {
+    font-size: 2vw;
+  }
+
+  .bank-details p {
+    font-size: 1.8vw;
+  }
+
+  .call-button {
+    font-size: 2vw;
+  }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+  .freeze-container {
+    padding: 3vw;
+  }
+}
+
 
 .dot-controls {
   display: flex;
@@ -185,24 +357,6 @@
   background-color: #ff7f00;
 }
 
-.prev-button,
-.next-button {
-  background: none;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
-  color: #ff7f00;
-  border: 1px solid #ff7f00;
-  border-radius: 50%;
-}
-
-.prev-button:disabled,
-.next-button:disabled {
-  color: #ccc;
-  cursor: not-allowed;
-  border: 1px solid #ccc;
-}
-
 .button-controls {
   display: flex;
   gap: 10px;
@@ -217,436 +371,6 @@
   100% {
     opacity: 1;
     transform: translateX(0);
-  }
-}
-
-
-// @media screen and (max-width: 768px) {
-//   .bank-item {
-//       flex: 1 1 calc(50% - 15px);
-//       max-width: calc(50% - 15px);
-//       height: 140px; 
-//       padding: 10px; 
-//   }
-//   .freeze-content {
-//       display: flex;
-//       flex-wrap: wrap;
-//       gap: 20px;
-//   }
-//   .pagination-controls {
-//       display: flex;
-//       justify-content: space-between;
-//       align-items: center;
-//       margin-top: 70px;
-//       padding-left: 190px;
-//       gap: 10px;
-//   }
-//   .freeze-container {
-//       height: 580px;
-//   }
-//   .freeze-content {
-//       height: 390px;
-//   }
-//   .highlight-card{
-//     max-width: 170px;
-// }
-// }
-// @media screen and (max-width: 480px) {
-//   .bank-item {
-//       max-width: 50%;
-//       height: 150px; 
-//       padding: 5px; 
-//   }
-//   .freeze-header {
-//       flex-direction: column;
-//       gap: 10px;
-//   }
-//   .bank-list {
-//       flex: 2;
-//       display: flex;
-//       flex-wrap: wrap;
-//       gap: 15px;
-//       justify-content: center;
-//   }
-//   .freeze-content {
-//       display: flex;
-//       flex-wrap: wrap;
-//       gap: 20px;
-//       align-items: center;
-//       justify-content: center;
-//   }
-//   .pagination-controls {
-//       display: flex;
-//       justify-content: space-between;
-//       align-items: center;
-//       margin-top: 360px;
-//       padding: 0px;
-//       gap: 10px;
-//   }
-//   .freeze-container {
-//       height: 950px;
-//   }
-//   .highlight-card {
-//       background: #fff;
-//       border-radius: 16px;
-//       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-//       padding: 20px;
-//       flex: 1;
-//       display: flex;
-//       flex-direction: row;
-//       max-width: 380px;
-//       gap: 15px;
-//   }
-// }
-
-@media screen and (min-width: 318px) and (max-width: 575px) {
-
-  .freeze-container {
-    background-color: #f3f4f6;
-    padding: 10px;
-  }
-
-  .freeze-title {
-    color: #1e3a8a;
-    font-size: 6vw;
-    font-weight: 700;
-    margin: 0px 0px 20px 0px;
-  }
-
-  .freeze-header {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-  }
-
-  .sort-button {
-    font-size: 3vw;
-  }
-
-  .search-input {
-    font-size: 2.5vw;
-  }
-
-  .freeze-content {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .highlight-card {
-    padding: 10px;
-    flex: 1;
-    width: 90vw;
-  }
-
-  .bank-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); // แบ่งเป็น 2 คอลัมน์
-    gap: 5px; // ระยะห่างระหว่าง item
-  }
-
-  .bank-item {
-    width: 100% !important;
-    height: 37vw;
-    padding: 5px 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .bank-logo {
-    width: 9vw;
-    height: 8vw;
-    margin: 1vw 0;
-  }
-
-  .bank-details h4 {
-    margin: 0;
-    font-size: 2.5vw;
-    font-weight: 700;
-    text-align: center;
-  }
-
-  .bank-details p {
-    font-size: 2.5vw;
-    text-align: center;
-  }
-
-  .call-button {
-    height: 6vw;
-    color: #fff;
-    font-size: 2.5vw;
-    width: 7vw;
-    text-align: center;
-    padding: 1vw;
-    position: absolute;
-    top: 70%;
-  }
-
-  .pagination-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 10px 15px 0px 15px;
-    padding: 0;
-    grid-gap: 10px;
-    gap: 10px;
-  }
-
-  .prev-button,
-  .next-button {
-    background: none;
-    font-size: 18px;
-    cursor: pointer;
-    color: #ff7f00;
-    margin: 0px 0px 0 5px;
-    border: 1px solid;
-    border-radius: 50%;
-    background-color: rgba(224, 224, 224, 0.2);
-  }
-
-}
-
-@media screen and (min-width: 576px) and (max-width: 767px) {
-
-  .highlight-item {
-    width: 35vw;
-  }
-
-  .highlight-item h3 {
-    font-size: 3vw;
-  }
-
-  .highlight-item p {
-    font-size: 2vw;
-  }
-
-  .freeze-container {
-    background-color: #f3f4f6;
-    padding: 20px;
-  }
-
-  .freeze-title {
-    color: #1e3a8a;
-    font-size: 4vw;
-    font-weight: 700;
-  }
-
-  .freeze-header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-
-  .sort-button {
-    display: flex;
-    justify-content: center;
-    font-size: 2.5vw;
-    font-weight: 500;
-    width: 15vw;
-    height: 6vw;
-  }
-
-  .search-input {
-    font-size: 2vw;
-  }
-
-  .freeze-content {
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    gap: 10px !important;
-  }
-
-  .highlight-card {
-    display: flex;
-    padding: 10px;
-    width: 37vw;
-    align-items: center;
-  }
-
-  .bank-item {
-    width: 100% !important;
-    height: 15vw;
-    padding: 20px 10px;
-    display: flex;
-    flex-direction: row;
-  }
-
-  .bank-details h4 {
-    font-size: 2vw;
-  }
-
-  .bank-list {
-    gap: 10px;
-  }
-
-  .bank-logo {
-    width: 5vw;
-    height: 5vw;
-  }
-
-  .bank-details p {
-    font-size: 1.5vw;
-  }
-
-  .call-button {
-    height: 6vw;
-    color: #ff7f00;
-    font-size: 2.5vw;
-    width: 7vw;
-    text-align: center;
-    padding: 1vw;
-  }
-
-
-  .pagination-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 10px 15px 0px 15px;
-    padding: 0;
-    grid-gap: 10px;
-    gap: 10px;
-  }
-
-  .prev-button,
-  .next-button {
-    background: none;
-    font-size: 18px;
-    cursor: pointer;
-    color: #ff7f00;
-    margin: 0px 0px 0 5px;
-    border: 1px solid;
-    border-radius: 50%;
-    background-color: rgba(224, 224, 224, 0.2);
-  }
-}
-
-@media screen and (min-width: 768px) and (max-width: 991px) {
-  .highlight-item {
-    width: 35vw;
-  }
-
-  .highlight-item h3 {
-    font-size: 3vw;
-  }
-
-  .highlight-item p {
-    font-size: 2vw;
-  }
-
-  .freeze-container {
-    background-color: #f3f4f6;
-    padding: 20px;
-  }
-
-  .freeze-title {
-    color: #1e3a8a;
-    font-size: 3.5vw;
-    font-weight: 700;
-  }
-
-  .freeze-header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-
-  .sort-button {
-    display: flex;
-    justify-content: center;
-    font-size: 2vw;
-    font-weight: 500;
-    width: 15vw;
-    height: 5vw;
-  }
-
-  .search-input {
-    font-size: 1.5vw;
-  }
-
-  .freeze-content {
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    gap: 10px !important;
-  }
-
-  .highlight-card {
-    display: flex;
-    padding: 10px;
-    width: 37vw;
-    align-items: center;
-  }
-
-  .bank-item {
-    width: 100% !important;
-    height: 15vw;
-    padding: 20px 10px;
-    display: flex;
-    flex-direction: row;
-  }
-
-  .bank-details h4 {
-    font-size: 2vw;
-  }
-
-  .bank-list {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); // แบ่งเป็น 2 คอลัมน์
-    gap: 5px; // ระยะห่างระหว่าง item
-  }
-
-  .bank-logo {
-    width: 5vw;
-    height: 5vw;
-  }
-
-  .bank-details p {
-    font-size: 1.5vw;
-  }
-
-  .call-button {
-    height: 6vw;
-    color: #ff7f00;
-    font-size: 2.5vw;
-    width: 7vw;
-    text-align: center;
-    padding: 1vw;
-  }
-
-
-  .pagination-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 10px 15px 0px 15px;
-    padding: 0;
-    grid-gap: 10px;
-    gap: 10px;
-  }
-
-  .prev-button,
-  .next-button {
-    background: none;
-    font-size: 18px;
-    cursor: pointer;
-    color: #ff7f00;
-    margin: 0px 0px 0 5px;
-    border: 1px solid;
-    border-radius: 50%;
-    background-color: rgba(224, 224, 224, 0.2);
-  }
-}
-
-@media screen and (min-width: 992px) and (max-width: 1199px) {
-  .freeze-container {
-    background-color: #f3f4f6;
-    padding: 3vw 3vw;
   }
 }
 
