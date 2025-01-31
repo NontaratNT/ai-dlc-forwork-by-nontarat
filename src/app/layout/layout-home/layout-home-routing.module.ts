@@ -29,6 +29,7 @@ const routes: Routes = [
         component: MainHomeComponent,
         children: [
             { path: '', component: HomeNewComponent },//ปิดไว้กรณีปรับปรุงเว็บ วันที่ 17 มีนาคม 2566
+            { path: 'home-admin', component: HomeNewComponent },//ปิดไว้กรณีปรับปรุงเว็บ วันที่ 17 มีนาคม 2566
             // { path: '', component: HomeVisibleComponent },//ใช้กรณีปิดเว็บเท่านั้นถ้าเปิดใช้งานต้องปิด tag นี้ไป
             // { path: '', component: HomeComponent },
             // { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },

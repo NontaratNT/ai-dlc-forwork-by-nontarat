@@ -39,8 +39,10 @@ export class HomeNewComponent implements OnInit {
         }
         this.isUrl = window.location.href.includes(".com") && !window.location.href.includes("uat") ?  true: false;
         if(this.isUrl){
-            // window.location.href = "https://thaipoliceonline.go.th/";
+            window.location.href = "https://thaipoliceonline.go.th/";
         }
+
+        this.showpopupweb = location.pathname.includes("admin") ? false : true;
         // this.checkdatetimepopup();
 
         this.width = window.innerWidth;
