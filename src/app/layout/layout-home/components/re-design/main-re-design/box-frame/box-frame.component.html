@@ -13,7 +13,7 @@
                               คดีออนไลน์
                          </div>
                          <div class="countCaseOnline">
-                              {{this.dataStatic.TOTAL_CASE ? this.dataStatic.TOTAL_CASE : 0}}
+                              {{this.dataStatic?.TOTAL_CASE ? this.dataStatic?.TOTAL_CASE : 0}}
                          </div>
                          <div class="unitCaseOnline">
                               เรื่อง
@@ -25,7 +25,7 @@
                               มูลค่าความเสียหายรวม
                          </div>
                          <div class="countCaseOnline">
-                              {{this.dataStatic.TOTAL_DAMAGE ? this.dataStatic.TOTAL_DAMAGE : 0}}
+                              {{this.dataStatic?.TOTAL_DAMAGE ? this.dataStatic?.TOTAL_DAMAGE : 0}}
                          </div>
                          <div class="unitCaseOnline">
                               บาท
@@ -42,7 +42,7 @@
                               แจ้งความออนไลน์
                          </div>
                          <div class="textWhite2">
-                              {{this.dataStatic.CASE_L ? this.dataStatic.CASE_L : 0}}
+                              {{this.dataStatic?.CASE_L ? this.dataStatic?.CASE_L : 0}}
                          </div>
                          <div class="textWhite3">
                               เรื่อง
@@ -55,7 +55,7 @@
                               แจ้งความที่หน่วยงาน
                          </div>
                          <div class="textWhite2">
-                              {{this.dataStatic.CASE_WALKIN ? this.dataStatic.CASE_WALKIN : 0}}
+                              {{this.dataStatic?.CASE_WALKIN ? this.dataStatic?.CASE_WALKIN : 0}}
                          </div>
                          <div class="textWhite3">
                               เรื่อง
@@ -68,7 +68,7 @@
                               เฉลี่ยคดี
                          </div>
                          <div class="textWhite2">
-                              {{this.dataStatic.CASE_PER_DAY ? this.dataStatic.CASE_PER_DAY: 0}}
+                              {{this.dataStatic?.CASE_PER_DAY ? this.dataStatic?.CASE_PER_DAY: 0}}
                          </div>
                          <div class="textWhite3">
                               เรื่องต่อวัน
@@ -84,13 +84,13 @@
                               อายัดบัญชีได้ทัน
                          </div>
                          <div class="countCaseOnline">
-                              {{this.dataStatic.FREEZE_PERCENTAGE ? this.dataStatic.FREEZE_PERCENTAGE: 0}} %
+                              {{this.dataStatic?.FREEZE_PERCENTAGE ? this.dataStatic?.FREEZE_PERCENTAGE: 0}} %
                          </div>
                          <div class="unitCaseOnline">
-                              มูลค่า : {{this.dataStatic.FREEZE_MONEY_TOTAL ? this.dataStatic.FREEZE_MONEY_TOTAL : 0}}
+                              มูลค่า : {{this.dataStatic?.FREEZE_MONEY_TOTAL ? this.dataStatic?.FREEZE_MONEY_TOTAL : 0}}
                          </div>
                          <div class="unitCaseOnline">
-                              จาก : {{this.dataStatic.TOTAL_DAMAGE ? this.dataStatic.TOTAL_DAMAGE : 0}}
+                              จาก : {{this.dataStatic?.TOTAL_DAMAGE ? this.dataStatic?.TOTAL_DAMAGE : 0}}
                          </div>
                     </div>
                     <div class="boxsRight" #boxsRight [ngClass]="{'slideRight': isVisible}">
@@ -100,58 +100,58 @@
                          <div class="textWhite1 mostCases">
                               <div class="case01">
                                    <div class="case011">
-                                        {{this.dataStatic.CASE_TYPE_NO1 ? this.dataStatic.CASE_TYPE_NO1 : 0}}
+                                        {{this.dataStatic?.CASE_TYPE_NO1 ? this.dataStatic?.CASE_TYPE_NO1 : 0}}
                                    </div>
                                    <div>
-                                        {{this.dataStatic.PERCENTAGE_NO1 ? this.dataStatic.PERCENTAGE_NO1 : 0}} %
+                                        {{this.dataStatic?.PERCENTAGE_NO1 ? this.dataStatic?.PERCENTAGE_NO1 : 0}} %
                                    </div>
                               </div>
                               
                               <div class="case01">
                                    <div class="case011">
-                                        {{this.dataStatic.CASE_TYPE_NO2 ? this.dataStatic.CASE_TYPE_NO2 : 0}}
+                                        {{this.dataStatic?.CASE_TYPE_NO2 ? this.dataStatic?.CASE_TYPE_NO2 : 0}}
                                    </div>
                                    <div>
-                                        {{this.dataStatic.PERCENTAGE_NO2 ? this.dataStatic.PERCENTAGE_NO2 : 0}} %
+                                        {{this.dataStatic?.PERCENTAGE_NO2 ? this.dataStatic?.PERCENTAGE_NO2 : 0}} %
                                    </div>
                               </div>
                               <div class="case01">
                                    <div class="case011">
-                                        {{this.dataStatic.CASE_TYPE_NO3 ? this.dataStatic.CASE_TYPE_NO3 : 0}}
+                                        {{this.dataStatic?.CASE_TYPE_NO3 ? this.dataStatic?.CASE_TYPE_NO3 : 0}}
                                    </div>
                                    <div>
-                                        {{this.dataStatic.PERCENTAGE_NO3 ? this.dataStatic.PERCENTAGE_NO3 : 0}} %
+                                        {{this.dataStatic?.PERCENTAGE_NO3 ? this.dataStatic?.PERCENTAGE_NO3 : 0}} %
                                    </div>
                               </div>
                               <div class="case01">
                                    <div class="case011">
-                                        {{this.dataStatic.CASE_TYPE_NO4 ? this.dataStatic.CASE_TYPE_NO4 : 0}}
+                                        {{this.dataStatic?.CASE_TYPE_NO4 ? this.dataStatic?.CASE_TYPE_NO4 : 0}}
                                    </div>
                                    <div>
-                                        {{this.dataStatic.PERCENTAGE_NO4 ? this.dataStatic.PERCENTAGE_NO4 : 0}} %
+                                        {{this.dataStatic?.PERCENTAGE_NO4 ? this.dataStatic?.PERCENTAGE_NO4 : 0}} %
                                    </div>
                               </div>
                               <div class="case01">
                                    <div class="case011">
-                                        {{this.dataStatic.CASE_TYPE_NO5 ? this.dataStatic.CASE_TYPE_NO5 : 0}}
+                                        {{this.dataStatic?.CASE_TYPE_NO5 ? this.dataStatic?.CASE_TYPE_NO5 : 0}}
                                    </div>
                                    <div>
-                                        {{this.dataStatic.PERCENTAGE_NO5 ? this.dataStatic.PERCENTAGE_NO5 : 0}} %
+                                        {{this.dataStatic?.PERCENTAGE_NO5 ? this.dataStatic?.PERCENTAGE_NO5 : 0}} %
                                    </div>
                               </div>
 
                               <!-- <div>
-                                   {{this.dataStatic.CASE_TYPE_NO2 ? this.dataStatic.CASE_TYPE_NO2 : 0}}
-                                   {{this.dataStatic.CASE_TYPE_NO3 ? this.dataStatic.CASE_TYPE_NO3 : 0}}
-                                   {{this.dataStatic.CASE_TYPE_NO4 ? this.dataStatic.CASE_TYPE_NO4 : 0}}
-                                   {{this.dataStatic.CASE_TYPE_NO5 ? this.dataStatic.CASE_TYPE_NO5 : 0}}
+                                   {{this.dataStatic?.CASE_TYPE_NO2 ? this.dataStatic?.CASE_TYPE_NO2 : 0}}
+                                   {{this.dataStatic?.CASE_TYPE_NO3 ? this.dataStatic?.CASE_TYPE_NO3 : 0}}
+                                   {{this.dataStatic?.CASE_TYPE_NO4 ? this.dataStatic?.CASE_TYPE_NO4 : 0}}
+                                   {{this.dataStatic?.CASE_TYPE_NO5 ? this.dataStatic?.CASE_TYPE_NO5 : 0}}
                               </div>
                               <div>
 
-                                   {{this.dataStatic.PERCENTAGE_NO2 ? this.dataStatic.PERCENTAGE_NO2 : 0}} %
-                                   {{this.dataStatic.PERCENTAGE_NO3 ? this.dataStatic.PERCENTAGE_NO3 : 0}} %
-                                   {{this.dataStatic.PERCENTAGE_NO4 ? this.dataStatic.PERCENTAGE_NO4 : 0}} %
-                                   {{this.dataStatic.PERCENTAGE_NO5 ? this.dataStatic.PERCENTAGE_NO5 : 0}} %
+                                   {{this.dataStatic?.PERCENTAGE_NO2 ? this.dataStatic?.PERCENTAGE_NO2 : 0}} %
+                                   {{this.dataStatic?.PERCENTAGE_NO3 ? this.dataStatic?.PERCENTAGE_NO3 : 0}} %
+                                   {{this.dataStatic?.PERCENTAGE_NO4 ? this.dataStatic?.PERCENTAGE_NO4 : 0}} %
+                                   {{this.dataStatic?.PERCENTAGE_NO5 ? this.dataStatic?.PERCENTAGE_NO5 : 0}} %
                               </div> -->
                          </div>
                     </div>
