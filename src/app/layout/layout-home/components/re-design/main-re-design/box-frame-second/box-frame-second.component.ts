@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'box-frame-second',
@@ -10,7 +11,7 @@ export class BoxFrameSecondComponent implements OnInit, AfterViewInit {
   isVisible: boolean;
   @ViewChild('containerDesktop') containerDesktop!: ElementRef;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -27,6 +28,10 @@ export class BoxFrameSecondComponent implements OnInit, AfterViewInit {
     }, { threshold: 0.2 });
 
     observer.observe(this.containerDesktop.nativeElement);
+  }
+
+  onClickBanner() {
+    this.router.navigate(['/login'], { queryParams: { icli: 'al' } });
   }
 
 }

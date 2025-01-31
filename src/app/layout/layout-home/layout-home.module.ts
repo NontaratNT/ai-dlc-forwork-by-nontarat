@@ -75,6 +75,7 @@ import { NewsCyberComponent } from './components/re-design/news-cyber/news-cyber
 import { DetailNewsComponent } from './components/re-design/news-all/detail-news/detail-news.component';
 import { PageNewsComponent } from './components/re-design/news-all/page-news/page-news.component';
 import { QapageComponent } from './components/re-design/qapage/qapage.component';
+import { ThaiDatePipe } from 'src/app/components/pipe/thaiDate.pipe';
 
 const customNotifierOptions: NotifierOptions = {
     position: {
@@ -158,7 +159,8 @@ const customNotifierOptions: NotifierOptions = {
         PageNewsComponent,
         DetailNewsComponent,
         NewsCyberComponent,
-        QapageComponent
+        QapageComponent,
+        ThaiDatePipe
     ],
     imports: [
         DxiItemModule,
@@ -196,6 +198,7 @@ const customNotifierOptions: NotifierOptions = {
         CountdownModule,
 
 
-    ], schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    ], schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    exports: [ThaiDatePipe]
 })
 export class LayoutHomeModule { }
