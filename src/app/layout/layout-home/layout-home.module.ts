@@ -71,7 +71,6 @@ import { ResponsiveHelperComponent } from './components/re-design/responsive-hel
 import { RequestfreezeComponent } from './components/re-design/requestfreeze/requestfreeze.component';
 import { ProtectCyberComponent } from './components/re-design/protect-cyber/protect-cyber.component';
 import { SecurityServiceComponent } from './components/re-design/security-service/security-service.component';
-import { FormationnewsComponent } from './components/re-design/formationnews/formationnews.component';
 import { NewsCyberComponent } from './components/re-design/news-cyber/news-cyber.component';
 import { DetailNewsComponent } from './components/re-design/news-all/detail-news/detail-news.component';
 import { PageNewsComponent } from './components/re-design/news-all/page-news/page-news.component';
@@ -156,7 +155,6 @@ const customNotifierOptions: NotifierOptions = {
         ResponsiveHelperComponent,
         ProtectCyberComponent,
         SecurityServiceComponent,
-        FormationnewsComponent,
         PageNewsComponent,
         DetailNewsComponent,
         NewsCyberComponent,

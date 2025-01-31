@@ -6,14 +6,14 @@
      <div class="cardNews">
           <ng-container *ngFor="let news of paginatedNews[currentPage]">
                <div class="boxNews" #boxNews [ngClass]="{'slide-in': isVisible}">
-                    <img [src]="news.image" [alt]="news.title" class="imageNews">
+                    <img [src]="news.ImageUrl" [alt]="news.NewsTitle" class="imageNews">
                     <div class="detailNews">
-                         <span class="categoryNews">{{ news.category }}</span>
-                         <h4 class="titleNews">{{ news.title }}</h4>
-                         <p class="desNews">{{ news.des }}</p>
+                         <span class="categoryNews">{{ news.CategoryName }}</span>
+                         <h4 class="titleNews">{{ news.NewsTitle }}</h4>
+                         <p class="desNews">{{ news.NewsDescription }}</p>
                          <div class="dateNews">
                               <img src="assets/icon/calendar.png" alt="calendar" width="25" class="calendar-icon">
-                              <span>{{ news.date }}</span>
+                              <span>{{ news.CreateDate }}</span>
                          </div>
                     </div>
                </div>
