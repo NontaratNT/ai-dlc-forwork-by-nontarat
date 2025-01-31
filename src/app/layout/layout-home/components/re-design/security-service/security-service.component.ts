@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NewsService } from 'src/app/services/re-design/news/news.service';
 
 @Component({
@@ -16,7 +17,8 @@ export class SecurityServiceComponent implements OnInit {
 
   constructor(
     private el: ElementRef,
-    private service: NewsService
+    private service: NewsService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -94,6 +96,10 @@ export class SecurityServiceComponent implements OnInit {
         window.location.href = 'https://www.chaladohn.com/';
         break;
 
+      case 3:
+        this.router.navigate(['/login'], { queryParams: { icli: 'al' } });
+        break;
+        
       case 4:
         const downloadLink = document.createElement("a");
         downloadLink.href = 'tel:081-866-3000';
