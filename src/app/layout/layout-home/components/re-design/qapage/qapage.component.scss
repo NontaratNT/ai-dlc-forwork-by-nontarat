@@ -1,0 +1,300 @@
+:host {
+    #police-index-page {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh; // ให้หน้าครอบคลุมความสูงเต็มหน้าจอ
+        flex: 1;
+        .block-content {
+            flex: 1; // ใช้พื้นที่ที่เหลือทั้งหมดระหว่าง header และ footer
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            background-color: #fff;
+        }
+
+        footer-re-design {
+            background-color: #0b2652;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px 0;
+            width: 100%;
+        }
+    }
+}
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    /* ทำให้ Footer อยู่ด้านล่างสุด */
+}
+
+//css qa
+
+.qa-divider{
+    border-bottom: 2px solid #a0a0a0;
+}
+p {
+    font-weight: 600;
+}
+.qa-container {
+    padding: 4vw;
+}
+
+.breadcrumbs {
+    font-size: 1.2vw;
+    font-weight: bold;
+    margin-bottom: 1vw;
+    line-height: 1.5;
+}
+
+h1 {
+    font-size: 3vw;
+    font-weight: bold;
+    color: #343434;
+    margin-bottom: 2vw;
+}
+
+.qa-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2vw;
+}
+
+.qa-nav-list {
+    flex: 1 1 20%;
+    min-width: 15vw;
+    display: flex;
+    flex-direction: column;
+    gap: 1vw;
+    padding-right: 2vw;
+    color: #273880;
+    font-weight: bold;
+}
+
+.qa-nav-list label {
+    cursor: pointer;
+    padding: 0.5vw 1vw;
+    border-radius: 0.5vw;
+    transition: background-color 0.3s;
+}
+
+.qa-nav-list label:hover {
+    background-color: #f0f0f0;
+}
+
+.qa-content-main {
+    flex: 1 1 70%;
+    min-width: 20vw;
+}
+
+.qa-pointtext {
+    font-weight: bold;
+    margin-top: 1vw;
+    font-size: 1.2vw;
+    color: #ff5a01;
+}
+
+.regisbtn {
+    padding: 1vw 4vw;
+    background-color: #273880;
+    color: #fff;
+    border: 1px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.regisbtn:hover {
+    background-color: #5786d1;
+}
+
+.jbtn {
+    padding: 1vw 2vw;
+    background-color: #fff;
+    color: #273880;
+    border: 1px solid #273880;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.jbtn:hover {
+    background-color: #273880;
+    color: #fff;
+    border: 1px solid #fff;
+}
+
+.cbtn {
+  display: none;
+    padding: 1vw 2vw;
+    background-color: #fff;
+    color: #ff5a01;
+    border: 1px solid #ff5a01;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.cbtn:hover {
+    background-color: #ff5a01;
+    color: #fff;
+    border: 1px solid #fff;
+}
+
+.button-control {
+    display: flex;
+    gap: 1vw;
+    margin-top: 1vw;
+}
+.qa-header-sec {
+    font-weight: bold;
+    font-size: 3vw;
+    color: #273880;
+}
+
+.qa-channel {
+    margin-bottom: 2vw;
+}
+
+.qa-channel-item {
+    display: flex;
+    gap: 1vw;
+    align-items: flex-start;
+    margin-bottom: 5px; 
+}
+
+.qa-channel-number {
+    width: 2.5vw;
+    height: 2.5vw;
+    min-width: 24px;
+    min-height: 24px;
+    border-radius: 50%;
+    background-color: #ff5a01;
+    font-size: 16px;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 35px;
+  font-size: 16px;
+  border: 1px solid gray;
+  border-radius: 8px;
+  background-color: #f3f4f6;
+}
+
+.icon-search {
+  position: absolute;
+  left: 10px;
+  width: 20px;
+  height: 20px;
+}
+
+
+.c-text {
+  font-weight: bold; 
+  color: #273880; 
+  text-align: center; 
+  position: relative; 
+  cursor: pointer;
+}
+
+.c-text::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #273880;
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+}
+
+
+@media (max-width: 1200px) {
+    .qa-nav-list {
+        flex: 1 1 25%;
+    }
+
+    .qa-content-main {
+        flex: 1 1 65%;
+    }
+
+    h1 {
+        font-size: 4vw;
+    }
+
+    .breadcrumbs {
+        font-size: 1.5vw;
+    }
+    .qa-header-sec {
+        font-size: 3vw;
+    }
+}
+
+@media (max-width: 992px) {
+    .qa-nav-list {
+        flex: 1 1 30%;
+    }
+
+    .qa-content-main {
+        flex: 1 1 60%;
+    }
+
+    .breadcrumbs {
+        font-size: 2vw;
+    }
+    .qa-header-sec {
+        font-size: 3vw;
+    }
+}
+
+@media (max-width: 768px) {
+    .qa-nav-list {
+        border-right: none;
+    }
+
+    h1 {
+        font-size: 4vw;
+    }
+
+    .breadcrumbs {
+        font-size: 2vw;
+    }
+}
+
+@media (max-width: 576px) {
+    .qa-container {
+        padding: 3vw;
+    }
+    .qa-nav-list {
+        flex: 1 1 100%;
+        padding-right: 0;
+        border-bottom: 1px solid #a0a0a0;
+    }
+
+    .qa-content-main {
+        flex: 1 1 100%;
+    }
+
+    h1 {
+        font-size: 7vw;
+    }
+    .breadcrumbs {
+        font-size: 4vw;
+    }
+    .qa-pointtext {
+        font-size: 3vw;
+    }
+    .qa-header-sec {
+        font-size: 6vw;
+    }
+}
