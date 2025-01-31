@@ -13,7 +13,7 @@
                          <p class="desNews">{{ news.NewsDescription }}</p>
                          <div class="dateNews">
                               <img src="assets/icon/calendar.png" alt="calendar" width="25" class="calendar-icon">
-                              <span>{{ news.CreateDate }}</span>
+                              <span>{{ news.CreateDate | thaiDate}}</span>
                          </div>
                     </div>
                </div>
