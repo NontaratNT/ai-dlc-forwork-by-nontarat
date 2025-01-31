@@ -85,6 +85,29 @@ export class SecurityServiceComponent implements OnInit {
     container.classList.remove('active');
   }
 
+  onSwitchService(id: number): void {
+    switch (id) {
+      case 1:
+        window.location.href = 'https://www.checkgon.com/';
+        break;
+      case 2:
+        window.location.href = 'https://www.chaladohn.com/';
+        break;
+
+      case 4:
+        const downloadLink = document.createElement("a");
+        downloadLink.href = 'tel:081-866-3000';
+        downloadLink.click();
+        break;
+        
+      case 5:
+        window.location.href = 'https://m.me/mysisbot';
+        break;
+      default:
+        break;
+    }
+  }
+
   // detailSecurity = [
   //   { id: 1, title: 'เช็กก่อน', description: 'เว็บไซต์ที่ใช้สำหรับช่วยเหลือ ตรวจสอบและเช็กรายชื่อคนโกง', image: 'assets/image/img/security/checkgon.png' },
   //   { id: 2, title: 'ฉลาดโอน', description: 'เช็กก่อนเชื่อบริการช่วยตรวจสอบ บัญชีปลายทางก่อนโอนเงิน', image: 'assets/image/img/security/check.png' },
