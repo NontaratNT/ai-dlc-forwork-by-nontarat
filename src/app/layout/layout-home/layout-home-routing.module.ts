@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ViewCaseComponent } from 'src/app/components/page/view-case/view-case.component';
 import { LoginGuard } from 'src/app/guard/login.guard';
@@ -24,6 +24,7 @@ import { MainComponent } from './layout/main/main.component';
 import { LoginThaiIDComponent } from '../layout-desktop/components/login-thai-id/login-thai-id.component';
 import { DetailNewsComponent } from './components/re-design/news-all/detail-news/detail-news.component';
 import { PageNewsComponent } from './components/re-design/news-all/page-news/page-news.component';
+import { QapageComponent } from './components/re-design/qapage/qapage.component';
 
 const routes: Routes = [
     {
@@ -48,7 +49,7 @@ const routes: Routes = [
     },
     { path: 'dtn', component: DetailNewsComponent },
     { path: 'news', component: PageNewsComponent },
-
+    { path: 'qa', component: QapageComponent },
     // { path: 'news', component: NewsComponent },
     { path: 'news/detail/:id', component: NewsDetailComponent },
     {

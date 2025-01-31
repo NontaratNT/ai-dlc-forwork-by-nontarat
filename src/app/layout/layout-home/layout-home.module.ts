@@ -75,6 +75,8 @@ import { FormationnewsComponent } from './components/re-design/formationnews/for
 import { NewsCyberComponent } from './components/re-design/news-cyber/news-cyber.component';
 import { DetailNewsComponent } from './components/re-design/news-all/detail-news/detail-news.component';
 import { PageNewsComponent } from './components/re-design/news-all/page-news/page-news.component';
+import { QapageComponent } from './components/re-design/qapage/qapage.component';
+
 const customNotifierOptions: NotifierOptions = {
     position: {
         horizontal: {
@@ -158,6 +160,7 @@ const customNotifierOptions: NotifierOptions = {
         PageNewsComponent,
         DetailNewsComponent,
         NewsCyberComponent,
+        QapageComponent
     ],
     imports: [
         DxiItemModule,
