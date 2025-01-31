@@ -34,6 +34,13 @@
     height: 24px;
 }
 
+.app-image {
+    height: 70px;
+    width: 220px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
 @media screen and (max-width: 768px) {
     .p{
         padding: 10px 0 0 10px;
