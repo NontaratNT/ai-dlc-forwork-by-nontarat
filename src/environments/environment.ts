@@ -30,6 +30,7 @@ export const environment = {
             urlgdcc:"http://localhost:14121/api",
             urlgdcceform:"https://officer.thaipoliceonline.com/api/e-form/v1.0"
         },
+        apieCCib: "https://officeruat.thaipoliceonline.go.th/api/ccib/v1.0",
         eFormHost: "http://localhost:5243/api",
         recaptcha: {
             siteKey: "6LfYkEkaAAAAAMGpXixKjWVrYpWDP8AeDMu_dijr",

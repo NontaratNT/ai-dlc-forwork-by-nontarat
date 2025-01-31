@@ -1,87 +1,18 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-news-cyber',
-  templateUrl: './news-cyber.component.html',
-  styleUrls: ['./news-cyber.component.scss']
+  selector: 'app-page-news',
+  templateUrl: './page-news.component.html',
+  styleUrls: ['./page-news.component.scss']
 })
-export class NewsCyberComponent implements OnInit, AfterViewInit {
+export class PageNewsComponent implements OnInit {
 
-  @ViewChild('boxNews') boxNews!: ElementRef;
-  @ViewChild('titleNews') titleNews!: ElementRef;
-  @ViewChild('buttonNews') buttonNews!: ElementRef;
-
-  isVisible = false;
-  newsList = [];
-  paginatedNews: any[][] = [];
-  currentPage = 0;
-  itemsPerPage = 3;
-
-  ngAfterViewInit() {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          this.isVisible = true;
-        } else {
-          this.isVisible = false;
-        }
-      });
-    }, { threshold: 0.2 });
-
-    observer.observe(this.boxNews.nativeElement);
-
-    const observer2 = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          this.isVisible = true;
-        } else {
-          this.isVisible = false;
-        }
-      });
-    }, { threshold: 0.2 });
-
-    observer2.observe(this.titleNews.nativeElement);
-
-    const observer3 = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          this.isVisible = true;
-        } else {
-          this.isVisible = false;
-        }
-      });
-    }, { threshold: 0.2 });
-
-    observer3.observe(this.buttonNews.nativeElement);
-  }
+  constructor() { }
 
   ngOnInit(): void {
-    this.setupPagination();
   }
 
-  setupPagination(): void {
-    for (let i = 0; i < this.formationNews.length; i += this.itemsPerPage) {
-      this.paginatedNews.push(this.formationNews.slice(i, i + this.itemsPerPage));
-    }
-  }
-
-  nextPage(): void {
-    if (this.currentPage < this.paginatedNews.length - 1) {
-      this.currentPage++;
-    }
-  }
-
-  prevPage(): void {
-    if (this.currentPage > 0) {
-      this.currentPage--;
-    }
-  }
-
-  navigateToPage(pageIndex: number): void {
-    if (pageIndex >= 0 && pageIndex < this.paginatedNews.length) {
-      this.currentPage = pageIndex;
-    }
-  }
+  activeTab: string = 'all'; // ค่าเริ่มต้นของแท็บที่เลือก
 
   formationNews = [
     {
@@ -96,7 +27,7 @@ export class NewsCyberComponent implements OnInit, AfterViewInit {
       title: "ระบาดหนักอีเมลหลอกลวงพุ่งสูงสุดในรอบปี",
       des: "การแพร่ระบาดของอีเมลปลอมในชื่อธนาคารดัง หลอกขโมยเงินจากบัญชีผู้ใช้ไปกว่า 100 ล้านบาท",
       date: "พฤษภาคม 2567",
-      image: "assets/image/news/check.png",
+      image: "assets/image/news/news2.png",
     },
     {
       category: "กลโกงออนไลน์",
@@ -127,5 +58,10 @@ export class NewsCyberComponent implements OnInit, AfterViewInit {
       image: "assets/image/news/news6.png",
     },
   ];
-}
+  // ฟังก์ชันสำหรับเปลี่ยนแท็บ
+  selectTab(tab: string) {
+    this.activeTab = tab;
+  }
 
+
+}

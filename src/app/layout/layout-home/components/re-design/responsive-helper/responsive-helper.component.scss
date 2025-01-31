@@ -1,5 +1,5 @@
 .box-tasktop {
-     z-index: 999;
+     z-index: 1;
      position: fixed;
      bottom: 5%;
      right: 7%;
@@ -51,7 +51,7 @@
      }
 
      .box-moblie {
-          z-index: 99999;
+          z-index: 10;
           position: fixed;
           bottom: 8vw;
           right: 5vw;

@@ -88,6 +88,7 @@ const customNotifierOptions: NotifierOptions = {
 @NgModule({
     declarations: [
         AppComponent,
+
     ],
     imports: [
         BrowserModule,

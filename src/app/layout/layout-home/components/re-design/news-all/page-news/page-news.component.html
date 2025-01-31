@@ -1,0 +1,57 @@
+<div id="police-index-page">
+     <header-re-design></header-re-design>
+     <div class="block-content">
+          <div class="news-container">
+               <div class="newsHeader">
+                    <div class="breadcrumbs">หน้าแรก > ข่าวประชาสัมพันธ์และ เตือนภัยไซเบอร์</div>
+                    <label class="titleNews">ข่าวประชาสัมพันธ์และเตือนภัยไซเบอร์</label>
+               </div>
+
+               <div class="tabs-container">
+                    <!-- Tabs Header -->
+                    <div class="tabs-header">
+                         <button class="tab-label" [class.active]="activeTab === 'all'"
+                              (click)="selectTab('all')">ทั้งหมด</button>
+                         <button class="tab-label" [class.active]="activeTab === 'formation'"
+                              (click)="selectTab('formation')">ข่าวประชาสัมพันธ์</button>
+                         <button class="tab-label" [class.active]="activeTab === 'cyber'"
+                              (click)="selectTab('cyber')">เตือนภัยไซเบอร์</button>
+                         <button class="tab-label" [class.active]="activeTab === 'scam'"
+                              (click)="selectTab('scam')">กลโกงออนไลน์</button>
+                    </div>
+
+                    <!-- Tabs Content -->
+                    <div class="tab-content" *ngIf="activeTab === 'all'">
+                         <section class="newsCard">
+                              <div class="newsItem fade-animation" *ngFor="let news of formationNews">
+                                   <img [src]="news.image" [alt]="news.title" class="newsImage">
+                                   <div class="newsDetails">
+                                        <label class="newsCategory">{{ news.category }}</label>
+                                        <label class="newsTitle">{{ news.title }}</label>
+                                        <label class="newsDescription">{{ news.des }}</label>
+                                        <div class="newsDate">
+                                             <img src="assets/icon/calendar.png" alt="calendar" class="calendar-icon">
+                                             <label>{{ news.date }}</label>
+                                        </div>
+                                   </div>
+                              </div>
+                         </section>
+                    </div>
+                    <div class="tab-content" *ngIf="activeTab === 'formation'">
+                         <p>เนื้อหาทั้งหมด</p>
+                    </div>
+                    <div class="tab-content" *ngIf="activeTab === 'cyber'">
+                         <p>เนื้อหาทั้งหมด</p>
+                    </div>
+                    <div class="tab-content" *ngIf="activeTab === 'scam'">
+                         <p>เนื้อหาทั้งหมด</p>
+                    </div>
+               </div>
+
+               <div class="view-more">
+                    <button>ดูข่าวเพิ่มเติม</button>
+               </div>
+          </div>
+     </div>
+</div>
+<footer-re-design></footer-re-design>

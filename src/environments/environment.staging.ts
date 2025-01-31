@@ -75,10 +75,11 @@ export const environment = {
             resourceUrlAzure: "https://api.thaipoliceonline.com/eformazure/api/resource/download?filePath=",
 
             hubUrl: "http://192.168.10.73/hub",
-            urlgdcc:"https://officer.thaipoliceonline.com/api/ccib/v1.0",
-            urlgdcceform:"https://officer.thaipoliceonline.com/api/e-form/v1.0"
+            urlgdcc: "https://officer.thaipoliceonline.com/api/ccib/v1.0",
+            urlgdcceform: "https://officer.thaipoliceonline.com/api/e-form/v1.0"
         },
         // eFormHost: "https://officer.thaipoliceonline.com/api/e-form/v1.0",
+        apieCCib: "https://officeruat.thaipoliceonline.go.th/api/ccib/v1.0",
         eFormHost: "https://officeruat.thaipoliceonline.com/api/e-form/v1.0",
         recaptcha: {
             siteKey: "6LeV1vQcAAAAAAUKdpLxVXjB9OLYR7ddI3sDmP0P",

@@ -2,11 +2,11 @@
      <div class="textSecurity">บริการเสริมความปลอดภัย</div>
      <div class="boxSecurity">
           <ng-container *ngFor="let item of detailSecurity">
-               <div class="iconSecurity" *ngIf="item.id <= 3">
-                    <img [src]="item.image" alt="icon">
-                    <label class="descSecurity">{{ item.description }}</label>
+               <div class="iconSecurity">
+                    <img [src]="item.ImageUrl" alt="icon">
+                    <label class="descSecurity">{{ item.ServiceDescription }}</label>
                </div>
-               <div class="iconSecuritys" *ngIf="item.id >= 4">
+               <!-- <div class="iconSecuritys" *ngIf="item.id >= 4">
                     <div>
                          <img [src]="item.image" alt="icon">
                     </div>
@@ -14,7 +14,7 @@
                          <label class="titleSecurity">{{ item.title }}</label>
                          <label class="descSecurity">{{ item.description }}</label>
                     </div>
-               </div>
+               </div> -->
           </ng-container>
      </div>
 </div>

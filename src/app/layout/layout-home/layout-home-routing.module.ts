@@ -22,8 +22,8 @@ import { MainRegisterComponent } from './layout/main-register/main-register.comp
 // import { ServiceComponent } from './components/service/service.component';
 import { MainComponent } from './layout/main/main.component';
 import { LoginThaiIDComponent } from '../layout-desktop/components/login-thai-id/login-thai-id.component';
-import { DetailnewsComponent } from './components/re-design/newsdetailcomponent/detailnews/detailnews.component';
-import { FormaNewsComponent } from './components/re-design/newsdetailcomponent/formanews/formationnews.component';
+import { DetailNewsComponent } from './components/re-design/news-all/detail-news/detail-news.component';
+import { PageNewsComponent } from './components/re-design/news-all/page-news/page-news.component';
 
 const routes: Routes = [
     {
@@ -41,13 +41,13 @@ const routes: Routes = [
             // { path: 'about', component: AboutComponent },
             // { path: 'contact', component: ContactComponent },
             // { path: 'service', component: ServiceComponent },
-            
+
         ],
-       
+
 
     },
-    {path:'dtn', component: DetailnewsComponent},
-    {path:'new', component: FormaNewsComponent},
+    { path: 'dtn', component: DetailNewsComponent },
+    { path: 'news', component: PageNewsComponent },
 
     // { path: 'news', component: NewsComponent },
     { path: 'news/detail/:id', component: NewsDetailComponent },

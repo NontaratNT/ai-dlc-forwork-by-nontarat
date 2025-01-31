@@ -72,9 +72,9 @@ import { RequestfreezeComponent } from './components/re-design/requestfreeze/req
 import { ProtectCyberComponent } from './components/re-design/protect-cyber/protect-cyber.component';
 import { SecurityServiceComponent } from './components/re-design/security-service/security-service.component';
 import { FormationnewsComponent } from './components/re-design/formationnews/formationnews.component';
-import { DetailnewsComponent } from './components/re-design/newsdetailcomponent/detailnews/detailnews.component';
-import { FormaNewsComponent } from './components/re-design/newsdetailcomponent/formanews/formationnews.component';
 import { NewsCyberComponent } from './components/re-design/news-cyber/news-cyber.component';
+import { DetailNewsComponent } from './components/re-design/news-all/detail-news/detail-news.component';
+import { PageNewsComponent } from './components/re-design/news-all/page-news/page-news.component';
 const customNotifierOptions: NotifierOptions = {
     position: {
         horizontal: {
@@ -155,8 +155,8 @@ const customNotifierOptions: NotifierOptions = {
         ProtectCyberComponent,
         SecurityServiceComponent,
         FormationnewsComponent,
-        DetailnewsComponent,
-        FormaNewsComponent,
+        PageNewsComponent,
+        DetailNewsComponent,
         NewsCyberComponent,
     ],
     imports: [
