@@ -2,33 +2,33 @@
 
      <div class="boxLeft">
           <!-- ใช้ ngFor เพื่อวนลูป boxes และแสดงข้อมูลใน header -->
-          <div *ngFor="let box of boxes" class="header">
-               {{box.header}}
+          <div class="header">
+               สถิติความเสียหายสะสม ณ วันที่ 31 มกราคม 2568
                <!-- แสดงแต่ละ box ใน content โดยแบ่งคอลัมน์ -->
                <div class="boxMain">
 
                     <div class="boxsLeft" #boxsLeft [ngClass]="{'slideLeft': isVisible}"
                          style="border-right: 2px solid #FFD300;">
                          <div class="textCaseOnline">
-                              {{box.textCaseOnline}}
+                              คดีออนไลน์
                          </div>
                          <div class="countCaseOnline">
-                              {{box.countCaseOnline}}
+                              {{this.dataStatic.TOTAL_CASE ? this.dataStatic.TOTAL_CASE : 0}}
                          </div>
                          <div class="unitCaseOnline">
-                              {{box.unitCaseOnline}}
+                              เรื่อง
                          </div>
                     </div>
 
                     <div class="boxsRight" #boxsRight [ngClass]="{'slideRight': isVisible}">
                          <div class="textCaseOnline">
-                              {{box.textCaseOnline2}}
+                              มูลค่าความเสียหายรวม
                          </div>
                          <div class="countCaseOnline">
-                              {{box.countCaseOnline2}}
+                              {{this.dataStatic.TOTAL_DAMAGE ? this.dataStatic.TOTAL_DAMAGE : 0}}
                          </div>
                          <div class="unitCaseOnline">
-                              {{box.unitCaseOnline2}}
+                              บาท
                          </div>
                     </div>
 
@@ -39,39 +39,39 @@
                     <div class="boxsLeft" #boxsLeft [ngClass]="{'slideLeft': isVisible}"
                          style="border-right: 2px solid #FFD300;">
                          <div class="textWhite1">
-                              {{box.reportOnline}}
+                              แจ้งความออนไลน์
                          </div>
                          <div class="textWhite2">
-                              {{box.reportOnlineCount}}
+                              {{this.dataStatic.CASE_L ? this.dataStatic.CASE_L : 0}}
                          </div>
                          <div class="textWhite3">
-                              {{box.reportOnlineSubject}}
+                              เรื่อง
                          </div>
                     </div>
 
                     <div class="boxsCenter" #boxsCenter [ngClass]="{'slideIn': isVisible}"
                          style="border-right: 2px solid #FFD300;">
                          <div class="textWhite1">
-                              {{box.reportToThePoliceAgency}}
+                              แจ้งความที่หน่วยงาน
                          </div>
                          <div class="textWhite2">
-                              {{box.reportToThePoliceAgencyCount}}
+                              {{this.dataStatic.CASE_WALKIN ? this.dataStatic.CASE_WALKIN : 0}}
                          </div>
                          <div class="textWhite3">
-                              {{box.reportToThePoliceAgencySubject}}
+                              เรื่อง
                          </div>
                     </div>
 
                     <div class="boxsRight" #boxsRight [ngClass]="{'slideRight': isVisible}"
                          style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
                          <div class="textWhite1">
-                              {{box.averageCase}}
+                              เฉลี่ยคดี
                          </div>
                          <div class="textWhite2">
-                              {{box.averageCaseCount}}
+                              {{this.dataStatic.CASE_PER_DAY ? this.dataStatic.CASE_PER_DAY: 0}}
                          </div>
                          <div class="textWhite3">
-                              {{box.averageCaseSubjectToday}}
+                              เรื่องต่อวัน
                          </div>
                     </div>
 
@@ -81,30 +81,78 @@
                     <div class="boxsLeft" #boxsLeft [ngClass]="{'slideLeft': isVisible}"
                          style="border-right: 2px solid #FFD300;">
                          <div class="textCaseOnline">
-                              {{box.freezeTheAccountImmediately}}
+                              อายัดบัญชีได้ทัน
                          </div>
                          <div class="countCaseOnline">
-                              {{box.freezeTheAccountImmediatelyCount}}
+                              {{this.dataStatic.FREEZE_PERCENTAGE ? this.dataStatic.FREEZE_PERCENTAGE: 0}} %
                          </div>
                          <div class="unitCaseOnline">
-                              {{box.freezeTheAccountImmediatelyValue}}
+                              มูลค่า : {{this.dataStatic.FREEZE_MONEY_TOTAL ? this.dataStatic.FREEZE_MONEY_TOTAL : 0}}
                          </div>
                          <div class="unitCaseOnline">
-                              {{box.freezeTheAccountImmediatelyFrom}}
+                              จาก : {{this.dataStatic.TOTAL_DAMAGE ? this.dataStatic.TOTAL_DAMAGE : 0}}
                          </div>
                     </div>
                     <div class="boxsRight" #boxsRight [ngClass]="{'slideRight': isVisible}">
                          <div class="textYellow1">
-                              {{box.mostCommonOnlineCases}}
+                              5 คดีออนไลน์ที่พบมากที่สุด
                          </div>
-                         <div class="textWhite1 mostCases" *ngFor="let item of box.mostCases">
-                              <div>
-                                   {{item.case}}
+                         <div class="textWhite1 mostCases">
+                              <div class="case01">
+                                   <div class="case011">
+                                        {{this.dataStatic.CASE_TYPE_NO1 ? this.dataStatic.CASE_TYPE_NO1 : 0}}
+                                   </div>
+                                   <div>
+                                        {{this.dataStatic.PERCENTAGE_NO1 ? this.dataStatic.PERCENTAGE_NO1 : 0}} %
+                                   </div>
+                              </div>
+                              
+                              <div class="case01">
+                                   <div class="case011">
+                                        {{this.dataStatic.CASE_TYPE_NO2 ? this.dataStatic.CASE_TYPE_NO2 : 0}}
+                                   </div>
+                                   <div>
+                                        {{this.dataStatic.PERCENTAGE_NO2 ? this.dataStatic.PERCENTAGE_NO2 : 0}} %
+                                   </div>
+                              </div>
+                              <div class="case01">
+                                   <div class="case011">
+                                        {{this.dataStatic.CASE_TYPE_NO3 ? this.dataStatic.CASE_TYPE_NO3 : 0}}
+                                   </div>
+                                   <div>
+                                        {{this.dataStatic.PERCENTAGE_NO3 ? this.dataStatic.PERCENTAGE_NO3 : 0}} %
+                                   </div>
+                              </div>
+                              <div class="case01">
+                                   <div class="case011">
+                                        {{this.dataStatic.CASE_TYPE_NO4 ? this.dataStatic.CASE_TYPE_NO4 : 0}}
+                                   </div>
+                                   <div>
+                                        {{this.dataStatic.PERCENTAGE_NO4 ? this.dataStatic.PERCENTAGE_NO4 : 0}} %
+                                   </div>
+                              </div>
+                              <div class="case01">
+                                   <div class="case011">
+                                        {{this.dataStatic.CASE_TYPE_NO5 ? this.dataStatic.CASE_TYPE_NO5 : 0}}
+                                   </div>
+                                   <div>
+                                        {{this.dataStatic.PERCENTAGE_NO5 ? this.dataStatic.PERCENTAGE_NO5 : 0}} %
+                                   </div>
                               </div>
 
-                              <div>
-                                   {{item.count}}
+                              <!-- <div>
+                                   {{this.dataStatic.CASE_TYPE_NO2 ? this.dataStatic.CASE_TYPE_NO2 : 0}}
+                                   {{this.dataStatic.CASE_TYPE_NO3 ? this.dataStatic.CASE_TYPE_NO3 : 0}}
+                                   {{this.dataStatic.CASE_TYPE_NO4 ? this.dataStatic.CASE_TYPE_NO4 : 0}}
+                                   {{this.dataStatic.CASE_TYPE_NO5 ? this.dataStatic.CASE_TYPE_NO5 : 0}}
                               </div>
+                              <div>
+
+                                   {{this.dataStatic.PERCENTAGE_NO2 ? this.dataStatic.PERCENTAGE_NO2 : 0}} %
+                                   {{this.dataStatic.PERCENTAGE_NO3 ? this.dataStatic.PERCENTAGE_NO3 : 0}} %
+                                   {{this.dataStatic.PERCENTAGE_NO4 ? this.dataStatic.PERCENTAGE_NO4 : 0}} %
+                                   {{this.dataStatic.PERCENTAGE_NO5 ? this.dataStatic.PERCENTAGE_NO5 : 0}} %
+                              </div> -->
                          </div>
                     </div>
                </div>

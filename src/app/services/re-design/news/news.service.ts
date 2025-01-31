@@ -40,4 +40,8 @@ export class NewsService {
   getCyber(): Observable<any> {
     return this.http.get(`${this._baseUrl}/CCPCyberCrimePrevention/Preventionslist`);
   }
+
+  getStatic(): Observable<any> {
+    return this.http.get(`${this._baseUrl}/CCPCaseStat`);
+  }
 }

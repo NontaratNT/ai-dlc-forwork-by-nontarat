@@ -279,6 +279,7 @@
                               flex-direction: row;
                               justify-content: space-between;
                          }
+
                     }
 
                     .boxsRight {
@@ -331,11 +332,24 @@
                               font-weight: 500;
                               letter-spacing: 1px;
                               margin-top: 2px;
+
+                              .case01 {
+                                   display: flex;
+                                   align-items: center;
+                                   justify-content: space-between;
+
+                                   .case011 {
+                                        overflow: hidden;
+                                        white-space: nowrap;
+                                        width: 15vw;
+                                        text-overflow: ellipsis;
+                                   }
+                              }
                          }
 
                          .mostCases {
                               display: flex;
-                              flex-direction: row;
+                              flex-direction: column;
                               justify-content: space-between;
                          }
                     }
@@ -528,8 +542,8 @@
 
                }
           }
-          
-          .boxCenter{
+
+          .boxCenter {
                display: none;
           }
      }

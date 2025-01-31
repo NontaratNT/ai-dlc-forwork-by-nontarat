@@ -79,7 +79,7 @@ export const environment = {
             urlgdcceform: "https://officer.thaipoliceonline.com/api/e-form/v1.0"
         },
         // eFormHost: "https://officer.thaipoliceonline.com/api/e-form/v1.0",
-        apieCCib: "https://officeruat.thaipoliceonline.go.th/api/ccib/v1.0",
+        apieCCib: "https://officer.thaipoliceonline.go.th/api/ccib/v1.0",
         eFormHost: "https://officeruat.thaipoliceonline.com/api/e-form/v1.0",
         recaptcha: {
             siteKey: "6LeV1vQcAAAAAAUKdpLxVXjB9OLYR7ddI3sDmP0P",

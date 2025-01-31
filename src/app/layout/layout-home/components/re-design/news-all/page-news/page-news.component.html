@@ -12,39 +12,74 @@
                     <div class="tabs-header">
                          <button class="tab-label" [class.active]="activeTab === 'all'"
                               (click)="selectTab('all')">ทั้งหมด</button>
-                         <button class="tab-label" [class.active]="activeTab === 'formation'"
-                              (click)="selectTab('formation')">ข่าวประชาสัมพันธ์</button>
-                         <button class="tab-label" [class.active]="activeTab === 'cyber'"
-                              (click)="selectTab('cyber')">เตือนภัยไซเบอร์</button>
-                         <button class="tab-label" [class.active]="activeTab === 'scam'"
-                              (click)="selectTab('scam')">กลโกงออนไลน์</button>
+                         <button class="tab-label" [class.active]="activeTab === 1"
+                              (click)="selectTab(1)">ข่าวประชาสัมพันธ์</button>
+                         <button class="tab-label" [class.active]="activeTab === 2"
+                              (click)="selectTab(2)">เตือนภัยไซเบอร์</button>
+                         <button class="tab-label" [class.active]="activeTab === 3"
+                              (click)="selectTab(3)">กลโกงออนไลน์</button>
                     </div>
 
                     <!-- Tabs Content -->
                     <div class="tab-content" *ngIf="activeTab === 'all'">
                          <section class="newsCard">
-                              <div class="newsItem fade-animation" *ngFor="let news of formationNews">
-                                   <img [src]="news.image" [alt]="news.title" class="newsImage">
+                              <div class="newsItem fade-animation" *ngFor="let news of newsData">
+                                   <img [src]="news.ImageUrl" [alt]="news.NewsTitle" class="newsImage">
                                    <div class="newsDetails">
-                                        <label class="newsCategory">{{ news.category }}</label>
-                                        <label class="newsTitle">{{ news.title }}</label>
-                                        <label class="newsDescription">{{ news.des }}</label>
+                                        <label class="newsCategory">{{ news.CategoryName }}</label>
+                                        <label class="newsTitle">{{ news.NewsTitle }}</label>
+                                        <label class="newsDescription">{{ news.NewsDescription }}</label>
                                         <div class="newsDate">
                                              <img src="assets/icon/calendar.png" alt="calendar" class="calendar-icon">
-                                             <label>{{ news.date }}</label>
+                                             <label>{{ news.CreateDate }}</label>
                                         </div>
                                    </div>
                               </div>
                          </section>
                     </div>
-                    <div class="tab-content" *ngIf="activeTab === 'formation'">
-                         <p>เนื้อหาทั้งหมด</p>
+                    <div class="tab-content" *ngIf="activeTab === 1">
+                         <section class="newsCard">
+                              <div class="newsItem fade-animation" *ngFor="let news of news1">
+                                   <img [src]="news.ImageUrl" [alt]="news.NewsTitle" class="newsImage">
+                                   <div class="newsDetails">
+                                        <label class="newsCategory">{{ news.CategoryName }}</label>
+                                        <label class="newsTitle">{{ news.NewsTitle }}</label>
+                                        <label class="newsDescription">{{ news.NewsDescription }}</label>
+                                        <div class="newsDate">
+                                             <img src="assets/icon/calendar.png" alt="calendar" class="calendar-icon">
+                                             <label>{{ news.CreateDate }}</label>
+                                        </div>
+                                   </div>
+                              </div>
+                         </section>
                     </div>
-                    <div class="tab-content" *ngIf="activeTab === 'cyber'">
-                         <p>เนื้อหาทั้งหมด</p>
+                    <div class="tab-content" *ngIf="activeTab === 2">
+                         <div class="newsItem fade-animation" *ngFor="let news of news2">
+                              <img [src]="news.ImageUrl" [alt]="news.NewsTitle" class="newsImage">
+                              <div class="newsDetails">
+                                   <label class="newsCategory">{{ news.CategoryName }}</label>
+                                   <label class="newsTitle">{{ news.NewsTitle }}</label>
+                                   <label class="newsDescription">{{ news.NewsDescription }}</label>
+                                   <div class="newsDate">
+                                        <img src="assets/icon/calendar.png" alt="calendar" class="calendar-icon">
+                                        <label>{{ news.CreateDate }}</label>
+                                   </div>
+                              </div>
+                         </div>
                     </div>
-                    <div class="tab-content" *ngIf="activeTab === 'scam'">
-                         <p>เนื้อหาทั้งหมด</p>
+                    <div class="tab-content" *ngIf="activeTab === 3">
+                         <div class="newsItem fade-animation" *ngFor="let news of news3">
+                              <img [src]="news.ImageUrl" [alt]="news.NewsTitle" class="newsImage">
+                              <div class="newsDetails">
+                                   <label class="newsCategory">{{ news.CategoryName }}</label>
+                                   <label class="newsTitle">{{ news.NewsTitle }}</label>
+                                   <label class="newsDescription">{{ news.NewsDescription }}</label>
+                                   <div class="newsDate">
+                                        <img src="assets/icon/calendar.png" alt="calendar" class="calendar-icon">
+                                        <label>{{ news.CreateDate }}</label>
+                                   </div>
+                              </div>
+                         </div>
                     </div>
                </div>
 
