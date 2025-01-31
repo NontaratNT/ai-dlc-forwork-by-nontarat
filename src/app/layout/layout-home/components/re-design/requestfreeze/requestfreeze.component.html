@@ -30,12 +30,12 @@
             <div>
                 <div class="bank-list">
                     <div class="bank-item fade-animation " *ngFor="let bank of paginatedBanks[currentPage]">
-                        <img [src]="bank.logo" [alt]="bank.name" class="bank-logo">
+                        <img [src]="bank.ImageUrl" [alt]="bank.ContactBankName" class="bank-logo">
                         <div class="bank-details">
-                            <h4>{{ bank.name }}</h4>
-                            <p>{{ bank.phone }}</p>
+                            <h4>{{ bank.ContactBankName }}</h4>
+                            <p>{{ bank.ContactDescription }}</p>
                         </div>
-                        <a [href]="'tel:' + bank.phone" class="call-button">
+                        <a [href]="'tel:' + bank.ContactBankPhone" class="call-button">
                             <img src="assets/icon/callringing.svg" alt="call" class="call-icon">
                         </a>
                     </div>

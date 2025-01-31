@@ -15,17 +15,17 @@
                <div *ngFor="let item of protectedCyber">
                     <div class="protected-cyber">
                          <!-- สำหรับเลขคี่ -->
-                         <div *ngIf="item.id % 2 !== 0" class="odd-number">
-                              <img [src]="item.image" alt="icon">
-                              <label class="title-cyber">{{ item.title }}</label>
-                              <label class="description-cyber">{{ item.description }}</label>
+                         <div *ngIf="item.CyberId % 2 !== 0" class="odd-number">
+                              <img [src]="item.ImageUrl" alt="icon">
+                              <label class="title-cyber">{{ item.CyberTitle }}</label>
+                              <label class="description-cyber">{{ item.CyberDescription }}</label>
                          </div>
 
                          <!-- สำหรับเลขคู่ -->
-                         <div *ngIf="item.id % 2 === 0" class="even-number">
-                              <label class="title-cyber">{{ item.title }}</label>
-                              <label class="description-cyber">{{ item.description }}</label>
-                              <img [src]="item.image" alt="icon">
+                         <div *ngIf="item.CyberId % 2 === 0" class="even-number">
+                              <label class="title-cyber">{{ item.CyberTitle }}</label>
+                              <label class="description-cyber">{{ item.CyberDescription }}</label>
+                              <img [src]="item.ImageUrl" alt="icon">
                          </div>
                     </div>
                </div>

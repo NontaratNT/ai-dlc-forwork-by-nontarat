@@ -36,4 +36,8 @@ export class NewsService {
   getBankList(): Observable<any> {
     return this.http.get(`${this._baseUrl}/CCPContactBanks/ContactBanklist`);
   }
+
+  getCyber(): Observable<any> {
+    return this.http.get(`${this._baseUrl}/CCPCyberCrimePrevention/Preventionslist`);
+  }
 }
