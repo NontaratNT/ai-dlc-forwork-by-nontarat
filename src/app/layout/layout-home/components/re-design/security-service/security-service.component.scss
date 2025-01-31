@@ -42,7 +42,7 @@
           width: 20vw;
           white-space: normal;
           scroll-snap-align: center;
-          backdrop-filter: blur(10px);
+          // backdrop-filter: blur(10px);
      }
 
      .iconSecurity {
@@ -50,7 +50,7 @@
           text-align: center;
 
           img {
-               width: 7vw;
+               width: 6vw;
                margin-bottom: 1vw;
                filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.2));
           }
