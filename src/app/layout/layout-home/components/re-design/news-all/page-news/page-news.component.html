@@ -54,38 +54,42 @@
                          </section>
                     </div>
                     <div class="tab-content" *ngIf="activeTab === 2">
-                         <div class="newsItem fade-animation" *ngFor="let news of news2">
-                              <img [src]="news.ImageUrl" [alt]="news.NewsTitle" class="newsImage">
-                              <div class="newsDetails">
-                                   <label class="newsCategory">{{ news.CategoryName }}</label>
-                                   <label class="newsTitle">{{ news.NewsTitle }}</label>
-                                   <label class="newsDescription">{{ news.NewsDescription }}</label>
-                                   <div class="newsDate">
-                                        <img src="assets/icon/calendar.png" alt="calendar" class="calendar-icon">
-                                        <label>{{ news.CreateDate }}</label>
+                         <section class="newsCard">
+                              <div class="newsItem fade-animation" *ngFor="let news of news2">
+                                   <img [src]="news.ImageUrl" [alt]="news.NewsTitle" class="newsImage">
+                                   <div class="newsDetails">
+                                        <label class="newsCategory">{{ news.CategoryName }}</label>
+                                        <label class="newsTitle">{{ news.NewsTitle }}</label>
+                                        <label class="newsDescription">{{ news.NewsDescription }}</label>
+                                        <div class="newsDate">
+                                             <img src="assets/icon/calendar.png" alt="calendar" class="calendar-icon">
+                                             <label>{{ news.CreateDate }}</label>
+                                        </div>
                                    </div>
                               </div>
-                         </div>
+                         </section>
                     </div>
                     <div class="tab-content" *ngIf="activeTab === 3">
-                         <div class="newsItem fade-animation" *ngFor="let news of news3">
-                              <img [src]="news.ImageUrl" [alt]="news.NewsTitle" class="newsImage">
-                              <div class="newsDetails">
-                                   <label class="newsCategory">{{ news.CategoryName }}</label>
-                                   <label class="newsTitle">{{ news.NewsTitle }}</label>
-                                   <label class="newsDescription">{{ news.NewsDescription }}</label>
-                                   <div class="newsDate">
-                                        <img src="assets/icon/calendar.png" alt="calendar" class="calendar-icon">
-                                        <label>{{ news.CreateDate }}</label>
+                         <section class="newsCard">
+                              <div class="newsItem fade-animation" *ngFor="let news of news3">
+                                   <img [src]="news.ImageUrl" [alt]="news.NewsTitle" class="newsImage">
+                                   <div class="newsDetails">
+                                        <label class="newsCategory">{{ news.CategoryName }}</label>
+                                        <label class="newsTitle">{{ news.NewsTitle }}</label>
+                                        <label class="newsDescription">{{ news.NewsDescription }}</label>
+                                        <div class="newsDate">
+                                             <img src="assets/icon/calendar.png" alt="calendar" class="calendar-icon">
+                                             <label>{{ news.CreateDate }}</label>
+                                        </div>
                                    </div>
                               </div>
-                         </div>
+                         </section>
                     </div>
                </div>
 
-               <div class="view-more">
+               <!-- <div class="view-more">
                     <button>ดูข่าวเพิ่มเติม</button>
-               </div>
+               </div> -->
           </div>
      </div>
 </div>
