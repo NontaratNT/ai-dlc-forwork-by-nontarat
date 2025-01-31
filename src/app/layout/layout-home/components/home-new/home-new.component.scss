@@ -1,4 +1,13 @@
 :host {
+    ::ng-deep .dx-overlay-content.dx-popup-normal.dx-popup-draggable.dx-resizable{
+        width: 50vw;
+        height: auto;
+    }
+    
+    ::ng-deep .dx-overlay-content.dx-popup-normal.dx-popup-draggable.dx-resizable{
+        width: 50vw;
+        height: auto;
+    }
     .block-content-detail {
         padding-bottom: 30px;
         .section1{
