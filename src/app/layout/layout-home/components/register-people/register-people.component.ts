@@ -73,6 +73,8 @@ export class RegisterPeopleComponent implements OnInit {
         this.serviceTitle.GetTitleInfomer().subscribe((_) => (this.title = _));
         this.minBirthDate = this._date.SetDateDefault(100, true, true, true);
         this.maxBirthDate = this._date.SetDateDefault(0);
+        this.formRegister.TYPE_CYBER = false;
+        this.formRegister.CYBER_STATUS = "N";
         // this.formRegister.PERSONAL_BIRTH_DATE = this._date.SetDateDefault(0);
         this.loadDateBox = true;
 
@@ -566,6 +568,10 @@ export class RegisterPeopleComponent implements OnInit {
     }
     setDefaultPicThree() {
         this.ppidImagePath3 = "assets/image/id-card.jpg";
+    }
+
+    checkTypeCyber(event) {
+        this.formRegister.CYBER_STATUS = event.value ? "Y" : "N";
     }
 
 }
