@@ -348,6 +348,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     loginThaiID() {
+        this.routerAc.queryParams.subscribe((params) => {
+            if(params.icli === "al"){
+                localStorage.setItem('icli', params.icli);
+            }
+        });
         this.router.navigate(["login/thaiD"], { queryParams: { icli: "al" } });
     }
     getIPAddress() {
