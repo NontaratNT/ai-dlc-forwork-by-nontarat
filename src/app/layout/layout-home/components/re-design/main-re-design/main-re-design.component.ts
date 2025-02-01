@@ -21,6 +21,10 @@ export class MainReDesignComponent implements OnInit {
       id: 2,
       images: 'assets/icon/bg/pages-2.png'
     },
+    {
+      id: 3,
+      images: ''
+    },
     // เพิ่ม slide อื่น ๆ ได้ที่นี่
   ];
 
