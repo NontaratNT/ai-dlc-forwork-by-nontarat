@@ -40,6 +40,10 @@ export class ResponsiveHelperComponent implements OnInit {
     this.CheckDeviceMode();
   }
 
+  openLink(link: string) {
+    window.open(link, '_blank');
+  }
+
 
 
 }

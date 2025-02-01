@@ -38,6 +38,20 @@
           border-radius: 8px;
           cursor: pointer;
      }
+
+     .facebook {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 11vw;
+          height: 3vw;
+          font-size: 0.9vw;
+          font-weight: 600;
+          color: #ffffff;
+          background-color: #273880;
+          border-radius: 8px;
+          cursor: pointer;
+     }
 }
 
 .box-moblie {
@@ -92,6 +106,21 @@
                cursor: pointer;
                margin: 3px 0;
           }
+
+          .facebook {
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               width: 8vw;
+               height: 8vw;
+               font-size:0.9vw;
+               font-weight: 600;
+               color: #ffffff;
+               background-color: #273880;
+               border-radius: 50%;
+               cursor: pointer;
+               margin: 3px 0;
+          }
      }
 }
 
@@ -139,6 +168,21 @@
                cursor: pointer;
                margin: 3px 0;
           }
+
+          .facebook {
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               width: 21vw;
+               height: 5vw;
+               font-size: 1.5vw;
+               font-weight: 600;
+               color: #ffffff;
+               background-color: #273880;
+               border-radius: 8px;
+               cursor: pointer;
+               margin: 3px 0;
+          }
      }
 }
 
@@ -150,6 +194,12 @@
      }
 
      .tel1441 {
+          width: 15vw !important;
+          height: 4vw !important;
+          font-size: 1.4vw !important;
+     }
+
+     .facebook {
           width: 15vw !important;
           height: 4vw !important;
           font-size: 1.4vw !important;

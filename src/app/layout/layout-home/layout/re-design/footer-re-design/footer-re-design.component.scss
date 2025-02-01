@@ -16,7 +16,7 @@
     /* เต็มความกว้าง */
     position: relative;
 
-    z-index: -1;
+    z-index: 0;
     /* ให้ติดล่างสุด */
 }
 
@@ -70,6 +70,10 @@
 .text-social {
     font-size: 1vw;
     margin: 10px 0px;
+}
+
+::ng-deep .text-link {
+    cursor: pointer;
 }
 
 @media (max-width: 576px) {
