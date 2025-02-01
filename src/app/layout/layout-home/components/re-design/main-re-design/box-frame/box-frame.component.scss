@@ -220,7 +220,7 @@
                .boxThird {
                     padding: 1vw 0;
                     display: grid;
-                    grid-template-columns: repeat(2, 1fr);
+                    grid-template-columns: 32% 63%;
                     gap: 1vw;
 
                     .boxsLeft {

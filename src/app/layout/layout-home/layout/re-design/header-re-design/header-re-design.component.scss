@@ -259,7 +259,14 @@
                }
           }
 
-          .menu-header-list-center {
+          // .menu-header-list-center {
+          //      display: none !important;
+          // }
+
+          .col-p-unset{
+               display: contents !important;
+          }
+          .text-links-container {
                display: none !important;
           }
      }
