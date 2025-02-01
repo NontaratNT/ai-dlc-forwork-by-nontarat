@@ -30,6 +30,22 @@
                             </div>
                         </div>
                     </div>
+                    <!-- <div class="col-xl-4 col-p-unset menu-header-list-mobile">
+                        <div class="list-detail">
+                            <ul class="m-0">
+                                <li class="btn-menu row mx-2" *ngIf="!hasSession">
+                                    <div class="text-link" (click)="OnIssueOnline()">
+                                        <img src="assets/icon/check_light.png" height="30px" alt="icon">
+                                        <label for="" class="text-signin">เข้าสู่ระบบ</label>
+                                    </div>
+                                </li>
+
+                                <li class="btn-menu" *ngIf="hasSession">
+                                    <div class="text-link logout-text" (click)="logout()">ออกจากระบบ</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div> -->
                     <div class="col-xl-6 col-menu-header col-p-unset">
                         <div class="menu-header-list-center">
                             <div class="list-detail">
@@ -83,6 +99,8 @@
                                 </ul>
                             </div>
                         </div>
+                        
+
                     </div>
                 </div>
                 <div class="logout-icon" *ngIf="hasSession">
