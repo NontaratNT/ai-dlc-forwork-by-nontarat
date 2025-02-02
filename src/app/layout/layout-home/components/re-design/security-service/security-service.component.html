@@ -2,19 +2,23 @@
      <div class="textSecurity">บริการเสริมความปลอดภัย</div>
      <div class="boxSecurity">
           <ng-container *ngFor="let item of detailSecurity">
-               <div class="iconSecurity" (click)="onSwitchService(item.ServiceSeq)">
+               <div class="iconSecurity" (click)="onSwitchService(item.ServiceSeq)" *ngIf="item.ServiceSeq < 4">
                     <img [src]="item.ImageUrl" class="imageNews">
                     <label class="descSecurity">{{ item.ServiceDescription }}</label>
                </div>
-               <!-- <div class="iconSecuritys" *ngIf="item.id >= 4">
+               <div class="iconSecuritys" (click)="onSwitchService(item.ServiceSeq)" *ngIf="item.ServiceSeq >= 4">
                     <div>
-                         <img [src]="item.image" alt="icon">
+                         <img [src]="item.ImageUrl" alt="icon">
                     </div>
-                    <div>
-                         <label class="titleSecurity">{{ item.title }}</label>
-                         <label class="descSecurity">{{ item.description }}</label>
+                    <div *ngIf="item.ServiceSeq === 4">
+                         <label class="titleSecurity">Line Chat</label>
+                         <label class="descSecurity">{{ item.ServiceDescription }}</label>
                     </div>
-               </div> -->
+                    <div *ngIf="item.ServiceSeq === 5">
+                         <label class="titleSecurity">Chat Bot</label>
+                         <label class="descSecurity">{{ item.ServiceDescription }}</label>
+                    </div>
+               </div>
           </ng-container>
      </div>
 </div>
