@@ -128,6 +128,8 @@ export interface IRegister {
     PERSONAL_EMAIL?: string;
     NEW_PASSWORD?: string;
     FRONT_PPD_PICTURE: any;
+    TYPE_CYBER: any;
+    CYBER_STATUS: any;
 }
 export interface IActive {
     EMAIL?: string;

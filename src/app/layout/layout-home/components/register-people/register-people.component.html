@@ -154,6 +154,8 @@
                                                         message="กรุณากรอกLaser Code หลังบัตรประจำตัวประชาชน">
                                                     </dxi-validation-rule>
                                                 </dx-text-box>
+                                                <div class="mt-3"></div>
+                                                <dx-check-box [readOnly]="false" [(value)]="formRegister.TYPE_CYBER" text="ลงทะเบียนเพื่อเข้าใช้งานเป็นอาสาสมัครไซเบอร์"  (onValueChanged)="checkTypeCyber($event)"></dx-check-box>
                                             </div>
                                             <dxi-item [colSpan]="1" template="templateimage1"></dxi-item>
                                             <div *dxTemplate="let data of 'templateimage1'">

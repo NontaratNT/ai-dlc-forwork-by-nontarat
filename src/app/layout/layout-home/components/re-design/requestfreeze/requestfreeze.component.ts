@@ -14,16 +14,20 @@ export class RequestfreezeComponent implements OnInit {
   currentPage = 0;
   itemsPerPage = 8;
   bankContacts: any[] = [];
+  orderBy = false;
+  bankContactsMain: any[] = [];
 
   ngOnInit(): void {
     this.service.getBankList().subscribe((res: any) => {
       this.bankContacts = res.Value;
+      this.bankContactsMain = res.Value;
       this.setupPagination();
     });
     this.setupPagination();
   }
 
   setupPagination(): void {
+    this.paginatedBanks = [];
     for (let i = 0; i < this.bankContacts.length; i += this.itemsPerPage) {
       this.paginatedBanks.push(this.bankContacts.slice(i, i + this.itemsPerPage));
     }
@@ -72,5 +76,24 @@ export class RequestfreezeComponent implements OnInit {
   //   { name: 'แมกซ์ การ์ด', phone: '1614 กด 4', logo: 'assets/icon/max.jpg' },
   // ];
 
+  sortBanksList(): void {
+    this.orderBy = !this.orderBy;
+    if(this.orderBy) {
+      this.bankContacts.sort((a, b) => b.ContactSeq - a.ContactSeq); 
+    }else{
+      this.bankContacts.sort((a, b) => a.ContactSeq - b.ContactSeq); 
+    }
+    this.setupPagination();
+  }
 
+  searchBanksList(event: any): void {
+    const searchValue = event.target.value;
+    if(searchValue){
+        this.bankContacts = this.bankContactsMain.filter((bank: any) => bank.ContactBankName.includes(searchValue));
+        this.setupPagination();
+    }else{
+      this.bankContacts = this.bankContactsMain;
+      this.setupPagination();
+    }
+  }
 }

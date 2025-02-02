@@ -8,6 +8,7 @@ import { IAccessToken, UserService } from "src/app/services/user.service";
 import { UserSettingService } from "src/app/services/user-setting.service";
 import { DeviceDetectorService } from "ngx-device-detector";
 import Swal from "sweetalert2";
+import { User } from "src/app/services/user";
 
 @Component({
     selector: "app-login-thai-id",
@@ -73,7 +74,6 @@ export class LoginThaiIDComponent implements OnInit {
                         }
                     });
             } else {
-                localStorage.removeItem('icli');
                 window.location.href = this.url;
             }
         });
@@ -92,10 +92,6 @@ export class LoginThaiIDComponent implements OnInit {
                 .authenticateThaiID(usename, password, 1.1)
                 .pipe(finalize(() => (this._isLoading = false)))
                 .subscribe((u) => {
-                    if(localStorage.getItem('icli') === 'al'){
-                        window.open("https://google.com", '_blank');
-                        return;
-                    }
                     if (u) {
                         if (this.isRemember) {
                             CookieStorage.assignSetting({
@@ -107,6 +103,14 @@ export class LoginThaiIDComponent implements OnInit {
                             Token: u.Token,
                             RefreshToken: u.RefreshToken,
                         } as IAccessToken;
+
+                        if(localStorage.getItem('icli') === 'al'){
+                            localStorage.removeItem('icli');
+                            this.userServ.getTokenCypherVac(User.Current.UserId).toPromise().then((res) => {
+                                 window.location.href = `https://bt-cyber-vaccine.demotoday.net?redirecthas=${res}`;
+                            });
+                            return;
+                        }
 
                         // this.router.navigate([this.loginServ._successLoginRedirectTo]);
                         this.CheckDeviceMode();
