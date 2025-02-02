@@ -3,7 +3,7 @@
      <div class="boxLeft">
           <!-- ใช้ ngFor เพื่อวนลูป boxes และแสดงข้อมูลใน header -->
           <div class="header">
-               สถิติความเสียหายสะสม ณ วันที่ {{this.dataStatic?.END_DATE | thaiDate}}
+               สถิติความเสียหายสะสม ตั้งแต่วันที่ 1 มกราคม 2568 ถึง วันที่ {{this.dataStatic?.END_DATE | thaiDate}}
                <!-- แสดงแต่ละ box ใน content โดยแบ่งคอลัมน์ -->
                <div class="boxMain">
 
@@ -77,7 +77,7 @@
 
                </div>
 
-               <div class="boxThird">
+               <!-- <div class="boxThird">
                     <div class="boxsLeft" #boxsLeft [ngClass]="{'slideLeft': isVisible}"
                          style="border-right: 2px solid #FFD300;">
                          <div class="textCaseOnline">
@@ -140,7 +140,7 @@
                                    </div>
                               </div>
 
-                              <!-- <div>
+                              <div>
                                    {{this.dataStatic?.CASE_TYPE_NO2 ? this.dataStatic?.CASE_TYPE_NO2 : 0}}
                                    {{this.dataStatic?.CASE_TYPE_NO3 ? this.dataStatic?.CASE_TYPE_NO3 : 0}}
                                    {{this.dataStatic?.CASE_TYPE_NO4 ? this.dataStatic?.CASE_TYPE_NO4 : 0}}
@@ -152,10 +152,10 @@
                                    {{this.dataStatic?.PERCENTAGE_NO3 ? this.dataStatic?.PERCENTAGE_NO3 : 0}} %
                                    {{this.dataStatic?.PERCENTAGE_NO4 ? this.dataStatic?.PERCENTAGE_NO4 : 0}} %
                                    {{this.dataStatic?.PERCENTAGE_NO5 ? this.dataStatic?.PERCENTAGE_NO5 : 0}} %
-                              </div> -->
+                              </div>
                          </div>
                     </div>
-               </div>
+               </div> -->
           </div>
      </div>
 
