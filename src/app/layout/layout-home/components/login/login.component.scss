@@ -5,32 +5,40 @@
             margin: 10px;
             color: #ffffff;
         }
-        .block-while-box {
+
+        .block-while-box{
             background-color: #ffffff;
             border-radius: 8px;
             padding: 30px;
+
             form {
                 .form-group {
                     font-size: 20px;
-                    input{
+
+                    input {
                         font-size: 20px;
                     }
                 }
+
                 .block-forget-password {
                     span {
                         font-size: 20px;
                         text-decoration-line: underline;
                     }
                 }
+
                 .block-login {
                     padding-top: 10px;
                 }
+
                 .block-line {
                     padding: 10px 0 10px 0;
+
                     .draw-line {
                         text-align: center;
                         position: relative;
                         z-index: 2;
+
                         &:after {
                             content: "";
                             position: absolute;
@@ -40,6 +48,7 @@
                             border-top: solid 1px #E4E4E4;
                             z-index: -1;
                         }
+
                         .text-line {
                             color: #C4C4C4;
                             margin: 0;
@@ -51,37 +60,68 @@
                 }
             }
         }
+
+        .block-while-box-2 {
+            // background-image: url('assets/image/bg-police-online-main-desktop.png');
+            border-radius: 8px;
+            padding: 10px;
+        }
     }
+
     @media screen and (min-width: 616px) {
+        ::ng-deep .img-thaId{
+            width: 15%;
+        }
         .block-content-detail {
             .block-title-box {
                 font-size: 40px;
+
                 .title-th {
                     font-weight: bold;
                 }
             }
+
             .block-while-box {
                 margin: auto;
                 width: 700px;
                 height: 450px;
             }
+
+            .block-while-box-2 {
+                margin: auto;
+                width: 700px;
+                height: 130px;
+            }
         }
     }
+
     @media screen and (max-width: 615px) {
+        ::ng-deep .img-thaId{
+            width: 10%;
+        }
         .block-content-detail {
             .block-title-box {
                 font-size: 22px;
+
                 .title-th {
                     font-weight: bold;
                 }
             }
+
             .block-while-box {
                 margin: auto;
                 width: 100%;
-                height: 450px;
+                height: 500px;
+            }
+
+            .block-while-box-2 {
+                margin: auto;
+                width: 100%;
+                height: 130px;
             }
         }
     }
+
     .btns-login {
         width: 100%;
         height: 55px;
@@ -90,6 +130,7 @@
         border-radius: 4px;
         font-size: 20px;
     }
+
     .btns-login:hover {
         width: 100%;
         height: 55px;
@@ -97,6 +138,7 @@
         background-color: #204992;
         opacity: 0.75;
     }
+
     .btns-register {
         width: 100%;
         height: 50px;
@@ -105,12 +147,14 @@
         border: 1px solid #204992;
         border-radius: 4px;
         font-size: 20px;
-         ::ng-deep {
+
+        ::ng-deep {
             .dx-button-text {
                 font-weight: bold;
             }
         }
     }
+
     .btns-register:hover {
         width: 100%;
         height: 50px;
@@ -119,12 +163,15 @@
         border: 1px solid #204992;
         opacity: 0.75;
     }
+
     .text-link {
         cursor: pointer;
+
         &:hover {
             opacity: 0.75;
         }
     }
+
     .not-copy {
         -webkit-user-select: none !important;
         -moz-user-select: none !important;
@@ -132,16 +179,49 @@
         user-select: none !important;
     }
 }
+
 .fullscreen {
-	width: 100% !important;
-	height: 100% !important;
+    width: 100% !important;
+    height: 100% !important;
 }
+
 ::ng-deep .dx-popup-draggable .dx-popup-title {
     background: #337ab7 !important;
     color: #fff !important;
 }
 
-.customtext{
+.customtext {
     color: red;
 }
 
+.bank-logo {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+
+.bank-details {
+    flex-grow: 1;
+    padding: 0 10px;
+}
+
+.bank-details h4 {
+    margin: 0;
+    font-size: 19px;
+    font-weight: bold;
+    color: #083A6B;
+}
+
+.bank-details p {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: #000000;
+}
+
+.bank-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+  }
