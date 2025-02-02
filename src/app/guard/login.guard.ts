@@ -5,6 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from '../services/user';
 import { IAccessToken, UserService } from '../services/user.service';
 import { CookieStorage } from '../common/cookie';
+import Swal from 'sweetalert2';
 
 @Injectable({
     providedIn: 'root'
@@ -25,6 +26,22 @@ export class LoginGuard implements CanActivate {
                     window.location.href = `https://bt-cyber-vaccine.demotoday.net?redirecthas=${res}`;
                 });
                 return false;
+            }else if(state.url === "/login?icli=landing"){
+                if (User.Current.Age >= 60) {
+                    this.router.navigate(["/senior-cyber-police"]);
+                } else {
+                    Swal.fire({
+                        title: "ขออภัย!",
+                        text: "อายุของท่านยังไม่ถึงกำหนดเข้าใช้งาน",
+                        icon: "warning",
+                        confirmButtonText: "ตกลง",
+                    }).then((_) => {
+                        if (_.isConfirmed) {
+                            this.router.navigate(["/"]);
+                        }
+                    });
+                }
+                return false
             }
             this.router.navigate(["/home"], {replaceUrl: true});
             return false;

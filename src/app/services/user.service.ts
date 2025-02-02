@@ -123,6 +123,7 @@ export class UserService {
         payload.OrganizeId = +payload.OrganizeId;
         payload.OrganizeLevel = +payload.OrganizeLevel;
         payload.OrganizeRootId = +payload.OrganizeRootId;
+        payload.Age = +payload.Age;
         return payload;
     }
 
@@ -183,6 +184,7 @@ export interface IUserProfile {
     UserType: number;
     PersonalType: number;
     UserIal: number;
+    Age: number;
 }
 
 export interface IAccessToken {
