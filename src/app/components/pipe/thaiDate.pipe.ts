@@ -22,6 +22,6 @@ export class ThaiDatePipe implements PipeTransform {
     const hours = date.getHours();
     const minutes = date.getMinutes().toString().padStart(2, '0'); // Ensures two-digit minutes
 
-    return `${day} ${month} ${year} ${hours}:${minutes} น.`;
+    return `${day} ${month} ${year}`;
   }
 }
