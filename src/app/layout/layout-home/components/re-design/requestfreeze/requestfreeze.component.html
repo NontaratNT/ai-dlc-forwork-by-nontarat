@@ -2,10 +2,10 @@
     <header class="freeze-header">
         <h2 class="freeze-title">แจ้งอายัดบัญชีด้วยตัวเอง</h2>
         <div class="freeze-controls">
-            <button class="sort-button">เรียงจาก <span><img src="assets/icon/arrowupdown.svg" alt="arrowupdown"
+            <button class="sort-button" (click)="sortBanksList()">เรียงจาก <span><img src="assets/icon/arrowupdown.svg" alt="arrowupdown"
                         class="sorticon"></span></button>
             <div class="input-container">
-                <input type="text" placeholder="ค้นหารายการที่ต้องการ" class="search-input">
+                <input type="text" placeholder="ค้นหารายการที่ต้องการ" class="search-input" (input)="searchBanksList($event)">
                 <img src="assets/icon/search.svg" alt="search" class="icon-search">
             </div>
         </div>
