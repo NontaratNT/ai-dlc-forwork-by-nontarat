@@ -77,6 +77,7 @@ import { PageNewsComponent } from './components/re-design/news-all/page-news/pag
 import { QapageComponent } from './components/re-design/qapage/qapage.component';
 import { ThaiDatePipe } from 'src/app/components/pipe/thaiDate.pipe';
 import { BoxFrameThridComponent } from './components/re-design/main-re-design/box-frame-thrid/box-frame-thrid.component';
+import { BoxSeniorCyberComponent } from './components/re-design/main-re-design/box-senior-cyber/box-senior-cyber.component';
 
 const customNotifierOptions: NotifierOptions = {
     position: {
@@ -155,6 +156,7 @@ const customNotifierOptions: NotifierOptions = {
         BoxFrameComponent,
         BoxFrameSecondComponent,
         BoxFrameThridComponent,
+        BoxSeniorCyberComponent,
         ResponsiveHelperComponent,
         ProtectCyberComponent,
         SecurityServiceComponent,

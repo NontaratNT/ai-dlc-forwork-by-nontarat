@@ -25,6 +25,7 @@ import { LoginThaiIDComponent } from '../layout-desktop/components/login-thai-id
 import { DetailNewsComponent } from './components/re-design/news-all/detail-news/detail-news.component';
 import { PageNewsComponent } from './components/re-design/news-all/page-news/page-news.component';
 import { QapageComponent } from './components/re-design/qapage/qapage.component';
+import { BoxSeniorCyberComponent } from './components/re-design/main-re-design/box-senior-cyber/box-senior-cyber.component';
 
 const routes: Routes = [
     {
@@ -48,6 +49,7 @@ const routes: Routes = [
 
 
     },
+    { path: 'senior-cyber-police', component: BoxSeniorCyberComponent },
     { path: 'dtn', component: DetailNewsComponent },
     { path: 'news', component: PageNewsComponent },
     { path: 'qa', component: QapageComponent },
