@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { NewsService } from "src/app/services/re-design/news/news.service";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "app-page-news",
@@ -12,7 +13,7 @@ export class PageNewsComponent implements OnInit {
     news2: any[] = [];
     news3: any[] = [];
 
-    constructor(private service: NewsService) {}
+    constructor(private service: NewsService, private router: Router) {}
 
     ngOnInit(): void {
         this.service.getNewsAll().subscribe((res) => {
@@ -105,5 +106,9 @@ export class PageNewsComponent implements OnInit {
                 }
             }
         });
+    }
+
+    ToMain() {
+        this.router.navigate(["/"]);
     }
 }
