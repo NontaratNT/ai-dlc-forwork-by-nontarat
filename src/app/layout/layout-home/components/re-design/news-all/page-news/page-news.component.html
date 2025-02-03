@@ -31,7 +31,7 @@
                                         <label class="newsDescription">{{ news.NewsDescription }}</label>
                                         <div class="newsDate">
                                              <img src="assets/icon/calendar.png" alt="calendar" class="calendar-icon">
-                                             <label>{{ news.CreateDate }}</label>
+                                             <label style="margin-bottom: 0;">{{ news.CreateDate | thaiDate}}</label>
                                         </div>
                                    </div>
                               </div>
@@ -92,5 +92,6 @@
                </div> -->
           </div>
      </div>
+     <button class="to-top-btn" (click)="scrollToTop()">&#8679;</button>
 </div>
 <footer-re-design></footer-re-design>
