@@ -13,7 +13,8 @@
 
 .slide {
      min-width: 100%;
-     height: 100vh;
+     // height: 100vh;
+     height: calc(100vh - 90px); //new heigth
      display: flex;
      justify-content: center;
      align-items: center;
