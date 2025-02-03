@@ -64,7 +64,7 @@ export class QapageComponent implements OnInit {
     }
 
     ToMain() {
-        window.location.href = "/";
+        this.router.navigate(["/"]);
     }
 
     TelLink(href) {

@@ -35,7 +35,7 @@ html {
 //css qa
 
 .qa-divider {
-    border-bottom: 2px solid #a0a0a0;
+    border-bottom: 1px solid #a0a0a0;
 }
 p {
     font-weight: 600;
@@ -70,7 +70,7 @@ h1 {
     display: flex;
     flex-direction: column;
     gap: 1vw;
-    padding-right: 2vw;
+    // padding-right: 2vw;
     color: #273880;
     font-weight: bold;
 }
@@ -211,10 +211,10 @@ h1 {
     left: 0;
 }
 label.active {
-    background-color: #ffa500;
+    background-color: #ff5a01;
     color: white;
     font-weight: bold;
-    border-radius: 5px;
+    border-radius: 8px;
 }
 @media (max-width: 1200px) {
     .qa-nav-list {
