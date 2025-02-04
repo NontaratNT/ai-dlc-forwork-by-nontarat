@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NewsService } from 'src/app/services/re-design/news/news.service';
+import { User } from 'src/app/services/user';
 
 @Component({
   selector: 'app-security-service',
@@ -110,6 +111,10 @@ export class SecurityServiceComponent implements OnInit {
         
       case 5:
         window.location.href = 'https://m.me/mysisbot';
+        break;
+
+      case 6:
+        this.router.navigate(['/login'], { queryParams: { icli: 'landing' } });
         break;
       default:
         break;

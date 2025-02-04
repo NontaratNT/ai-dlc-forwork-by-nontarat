@@ -1,5 +1,21 @@
+<!-- <div class="menu-header-list-left">
+     <div class="list-detail">
+         <ul class="text-link" (click)="openLink('/')">
+             <li class="btn-back">
+                 <div>
+                     <img src="assets/icon/icon-back.png" alt="icon">
+                 </div>
+             </li>
+             <li class="btn-back">
+                 <div>
+                     <span class="text-back">ย้อนกลับ</span>
+                 </div>
+             </li>
+         </ul>
+     </div>
+ </div> -->
 <div class="slide" *ngFor="let slide of slides" [ngStyle]="{'background-image': 'url(' + slide.images + ')'}">
-     <img src="assets/image/img/senior/logo-police.png" class="logoPolice" alt="">
+     <img src="assets/image/img/senior/logo-police.png" class="logoPolice" alt=""  (click)="openLinkPage('/')">
      <div class="box">
           <img src="assets/image/img/senior/group-ll.png" class="groupLL" alt="">
           <img src="assets/image/img/senior/text.png" class="imgText" alt="">

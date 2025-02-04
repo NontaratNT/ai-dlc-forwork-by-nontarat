@@ -31,14 +31,14 @@ export class LoginThaiIDComponent implements OnInit {
         private _jwtServ: JwtHelperService,
         private route: ActivatedRoute,
         private router: Router
-    ) {}
+    ) { }
     // url = 'https://imauth.bora.dopa.go.th/api/v1/oauth2/auth/?response_type=code&client_id=WGYyT3lGeGo3c0Z6SEZSbTBRVktaN1VZbUZaVTJwWno&redirect_uri=https://citizenuat.thaipoliceonline.com/login/thaiD&scope=pid%20th_fullname%20dob%20openid&state=af0ifjsldkj';
     url =
-    "https://imauth.bora.dopa.go.th/api/v1/oauth2/auth/?response_type=code&client_id=RVJKZXRZWWR5NGIyTE1aYWl0aWFCUDRWYUZPU3lqWTk&redirect_uri=https://thaipoliceonline.go.th/login/thaiD&scope=pid%20th_fullname%20dob%20openid&state=af0ifjsldkj";
+        "https://imauth.bora.dopa.go.th/api/v1/oauth2/auth/?response_type=code&client_id=RVJKZXRZWWR5NGIyTE1aYWl0aWFCUDRWYUZPU3lqWTk&redirect_uri=https://thaipoliceonline.go.th/login/thaiD&scope=pid%20th_fullname%20dob%20openid&state=af0ifjsldkj";
 
     async ngOnInit(): Promise<void> {
         this.route.queryParams.subscribe((params) => {
-            if(params.icli){
+            if (params.icli) {
                 localStorage.setItem('icli', params.icli);
             }
             const paramValue = params.code;
@@ -51,7 +51,6 @@ export class LoginThaiIDComponent implements OnInit {
                 this.thaiidservice
                     .thaiIdgettokenGDCC(param)
                     .subscribe((res) => {
-                        console.log(res);
                         if (!res.IsSuccess) {
                             Swal.fire({
                                 title: "ผิดพลาด!",
@@ -103,17 +102,35 @@ export class LoginThaiIDComponent implements OnInit {
                             Token: u.Token,
                             RefreshToken: u.RefreshToken,
                         } as IAccessToken;
-
-                        if(localStorage.getItem('icli') === 'al'){
+                        if (localStorage.getItem('icli') === 'al') {
                             localStorage.removeItem('icli');
                             this.userServ.getTokenCypherVac(User.Current.UserId).toPromise().then((res) => {
-                                 window.location.href = `https://bt-cyber-vaccine.demotoday.net?redirecthas=${res}`;
+                                window.location.href = `https://bt-cyber-vaccine.demotoday.net?redirecthas=${res}`;
                             });
                             return;
+                        } else if (localStorage.getItem('icli') === 'landing') {
+                            localStorage.removeItem('icli');
+                            if (User.Current.Age >= 60) {
+                                this._isLoading = false;
+                                this.router.navigate(["/senior-cyber-police"]);
+                            } else {
+                                Swal.fire({
+                                    title: "ขออภัย!",
+                                    text: "อายุของท่านยังไม่ถึงกำหนดเข้าใช้งาน",
+                                    icon: "warning",
+                                    confirmButtonText: "ตกลง",
+                                }).then((_) => {
+                                    if (_.isConfirmed) {
+                                        this._isLoading = false;
+                                        this.router.navigate(["/"]);
+                                    }
+                                });
+                            }
+                        }else{
+                            this.CheckDeviceMode();
                         }
-
                         // this.router.navigate([this.loginServ._successLoginRedirectTo]);
-                        this.CheckDeviceMode();
+                        
                     } else {
                         Swal.fire({
                             title: "ผิดพลาด!",

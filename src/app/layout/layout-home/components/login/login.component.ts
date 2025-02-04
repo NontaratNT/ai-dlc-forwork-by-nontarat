@@ -138,10 +138,37 @@ export class LoginComponent implements OnInit, OnDestroy {
                     if (u) {
                         this.routerAc.queryParams.subscribe((params) => {
                             if (params.icli) {
-                                // User.Current.UserId
-                                this.userServ.getTokenCypherVac(User.Current.UserId).toPromise().then((res) => {
-                                    window.location.href = `https://bt-cyber-vaccine.demotoday.net?redirecthas=${res}`;
-                                });
+                                if (this.isRemember) {
+                                    CookieStorage.assignSetting({
+                                        RememberLogin: true,
+                                    });
+                                }
+    
+                                CookieStorage.accessToken = {
+                                    Token: u.Token,
+                                    RefreshToken: u.RefreshToken,
+                                } as IAccessToken;
+                                if(params.icli === "al"){
+                                    this.userServ.getTokenCypherVac(User.Current.UserId).toPromise().then((res) => {
+                                        window.location.href = `https://bt-cyber-vaccine.demotoday.net?redirecthas=${res}`;
+                                    });
+                                }else if(params.icli === "landing"){
+                                    if(User.Current.Age >= 60){
+                                        this._isLoading = false;
+                                        this.router.navigate(["/senior-cyber-police"]);
+                                    }else{
+                                        Swal.fire({
+                                            title: "ขออภัย!",
+                                            text: "อายุของท่านยังไม่ถึงเกณฑ์ที่กำหนด",
+                                            icon: "warning",
+                                            confirmButtonText: "ตกลง",
+                                        }).then(() => {
+                                            this._isLoading = false;
+                                            this.router.navigate(["/"]);
+                                        });
+                                    }
+                                }
+                                
                                 return;
                             }
                             if (this.isRemember) {
@@ -349,11 +376,14 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     loginThaiID() {
         this.routerAc.queryParams.subscribe((params) => {
-            if(params.icli === "al"){
+            if(params.icli){
                 localStorage.setItem('icli', params.icli);
+                this.router.navigate(["login/thaiD"], { queryParams: { icli: params.icli } });
+            }else{
+                this.router.navigate(["login/thaiD"]);
             }
         });
-        this.router.navigate(["login/thaiD"], { queryParams: { icli: "al" } });
+        
     }
     getIPAddress() {
         try {
