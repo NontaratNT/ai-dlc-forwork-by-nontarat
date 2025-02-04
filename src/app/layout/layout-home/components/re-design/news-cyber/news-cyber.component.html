@@ -5,7 +5,7 @@
      </div>
      <div class="cardNews">
           <ng-container *ngFor="let news of paginatedNews[currentPage]">
-               <div class="boxNews" #boxNews [ngClass]="{'slide-in': isVisible}">
+               <div class="boxNews" #boxNews [ngClass]="{'slide-in': isVisible}" (click)="navigateToDetail(news.NewsId)">
                     <img [src]="news.ImageUrl" [alt]="news.NewsTitle" class="imageNews">
                     <div class="detailNews">
                          <span class="categoryNews">{{ news.CategoryName }}</span>

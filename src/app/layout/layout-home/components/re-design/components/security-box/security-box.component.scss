@@ -1,0 +1,39 @@
+.containerSecurity {
+    display: flex;
+    flex-direction: column;
+    .textSecurity {
+        font-size: 16px;
+        font-weight: 600;
+        color: #ff5a01;
+        margin: 10px 0;
+    }
+}
+.iconSecurity {
+    display: flex;
+    align-items: center;
+    background-color: #273880;
+    height: 80px;
+    width: 124px;
+    border-radius: 8px;
+    justify-content: center;
+    padding: 15px;
+    margin-bottom: 5px;
+    img {
+        width: 95px;
+        height: 50px;
+        object-fit: contain;
+    }
+}
+.descSecurity {
+    display: flex !important;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #273880;
+}
+.securityWitget {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    cursor: pointer;
+}
