@@ -27,7 +27,7 @@ export class LoginGuard implements CanActivate {
                 });
                 return false;
             }else if(state.url === "/login?icli=landing"){
-                if (User.Current.Age >= 60) {
+                if (User.Current?.Age >= 60) {
                     this.router.navigate(["/senior-cyber-police"]);
                 } else {
                     Swal.fire({

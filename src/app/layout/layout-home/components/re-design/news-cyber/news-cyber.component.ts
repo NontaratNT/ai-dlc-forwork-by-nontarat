@@ -83,6 +83,10 @@ export class NewsCyberComponent implements OnInit, AfterViewInit {
     this._router.navigate([url]);
   }
 
+  navigateToDetail(newsId: number): void {
+    this._router.navigate([`news/detail/${newsId}`]); 
+}
+
   // formationNews = [
   //   {
   //     category: "ข่าวประชาสัมพันธ์",

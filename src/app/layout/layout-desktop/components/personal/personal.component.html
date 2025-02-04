@@ -34,7 +34,7 @@
                                                                     <dx-select-box [dataSource]="title" displayExpr="TITLE_NAME" valueExpr="TITLE_ID" placeholder="คำนำหน้า" [showClearButton]="true" [(value)]="formData.TITLE_ID">
                                                                     </dx-select-box><br>
                                                                     <div class="text-custom">ชื่อ:</div>
-                                                                    <dx-text-box placeholder="ชื่อ" [showClearButton]="true" [(value)]="formData.PERSONAL_FNAME_THA">
+                                                                    <dx-text-box placeholder="ชื่อ" [showClearButton]="true" [(value)]="formData.PERSONAL_FNAME_THA" (keypress)="checkThaiLang($event)" (paste)="pasteCheckThaiLang($event)">
                                                                         <dxi-validation-rule type="required" message="ชื่อ">
                                                                         </dxi-validation-rule>
                                                                     </dx-text-box>
@@ -56,17 +56,14 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <!-- <dxi-item dataField="PERSONAL_FNAME_THA" editorType="dxTextBox"
-                                                                [isRequired]="true" [editorOptions]="{ placeholder: 'ชื่อ' }">
-                                                                <dxo-label alignment="left" text="ชื่อ"></dxo-label>
-                                                                <dxi-validation-rule type="required" message="กรุณากรอกชื่อ">
-                                                                </dxi-validation-rule>
-                                                            </dxi-item> -->
-                                                                <dxi-item dataField="PERSONAL_LNAME_THA" [isRequired]="true" editorType="dxTextBox" [editorOptions]="{ placeholder: 'นามสกุล' , showClearButton:true}">
-                                                                    <dxo-label alignment="left" text="นามสกุล">
-                                                                    </dxo-label>
+                                                                <dxi-item template="templateLname" [colSpan]="1">
+                                                                    <dxo-label text="นามสกุล"></dxo-label>
                                                                     <dxi-validation-rule type="required" message="กรุณากรอกนามสกุล">
                                                                     </dxi-validation-rule>
+                                                                    <div *dxTemplate="let data of 'templateLname'">
+                                                                        <dx-text-box placeholder="นามสกุล" [showClearButton]="true" [(value)]="formData.PERSONAL_LNAME_THA" (keypress)="checkThaiLang($event)" (paste)="pasteCheckThaiLang($event)">
+                                                                        </dx-text-box>
+                                                                    </div>
                                                                 </dxi-item>
                                                                 <dxi-item dataField="PERSONAL_CITIZEN_NUMBER" [isRequired]="true" editorType="dxTextBox" [editorOptions]="{ placeholder: 'เลขบัตรประชาชน' , showClearButton:true , disabled:true}">
                                                                     <dxo-label alignment="left" text="เลขบัตรประชาชน">

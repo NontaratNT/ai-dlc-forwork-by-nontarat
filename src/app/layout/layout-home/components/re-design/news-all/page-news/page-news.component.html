@@ -22,8 +22,8 @@
 
                     <!-- Tabs Content -->
                     <div class="tab-content" *ngIf="activeTab === 'all'">
-                         <section class="newsCard">
-                              <div class="newsItem fade-animation" *ngFor="let news of newsData">
+                         <section class="newsCard" >
+                              <div class="newsItem fade-animation" *ngFor="let news of newsData" (click)="navigateToDetail(news.NewsId)">
                                    <img [src]="news.ImageUrl" [alt]="news.NewsTitle" class="newsImage">
                                    <div class="newsDetails">
                                         <label class="newsCategory">{{ news.CategoryName }}</label>
