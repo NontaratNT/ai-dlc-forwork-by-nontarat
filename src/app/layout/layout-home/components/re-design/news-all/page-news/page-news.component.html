@@ -23,7 +23,7 @@
                     <!-- Tabs Content -->
                     <div class="tab-content" *ngIf="activeTab === 'all'">
                          <section class="newsCard" >
-                              <div class="newsItem fade-animation" *ngFor="let news of newsData" (click)="navigateToDetail(news.NewsId)">
+                              <label class="newsItem fade-animation" *ngFor="let news of newsData" (click)="navigateToDetail(news.NewsId)">
                                    <img [src]="news.ImageUrl" [alt]="news.NewsTitle" class="newsImage">
                                    <div class="newsDetails">
                                         <label class="newsCategory">{{ news.CategoryName }}</label>
@@ -34,7 +34,7 @@
                                              <label style="margin-bottom: 0;">{{ news.CreateDate | thaiDate}}</label>
                                         </div>
                                    </div>
-                              </div>
+                              </label>
                          </section>
                     </div>
                     <div class="tab-content" *ngIf="activeTab === 1">

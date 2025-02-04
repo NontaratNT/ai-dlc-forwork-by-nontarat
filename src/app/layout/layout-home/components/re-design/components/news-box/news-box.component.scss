@@ -1,7 +1,7 @@
-.containerSecurity {
+.containerNews {
     display: flex;
     flex-direction: column;
-    .textSecurity {
+    .textNews {
         font-size: 16px;
         font-weight: 600;
         color: #ff5a01;
@@ -22,16 +22,17 @@
         border-radius: 16px;
     }
 }
-.descSecurity {
+.descNews {
     display: flex !important;
     align-items: center;
     font-size: 14px;
     font-weight: 600;
     color: #273880;
 }
-.securityWitget {
+.NewsWitget {
     display: flex;
     flex-direction: row;
     gap: 10px;
     cursor: pointer;
 }
+

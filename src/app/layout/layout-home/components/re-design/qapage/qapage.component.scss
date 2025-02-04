@@ -41,7 +41,7 @@ p {
     font-weight: 600;
 }
 .qa-container {
-    padding: 4vw;
+    padding: 130px 15px 15px 15px;
 }
 
 .breadcrumbs {
@@ -256,8 +256,7 @@ label.active {
 
 @media (max-width: 768px) {
     .qa-container {
-        padding: 3vw;
-        padding-top: inherit;
+        padding: 120px 15px 15px 15px;
     }
     .qa-nav-list {
         border-right: none;
@@ -274,8 +273,7 @@ label.active {
 
 @media (max-width: 576px) {
     .qa-container {
-        padding: 3vw;
-        padding-top: inherit;
+        padding: 120px 15px 15px 15px;
     }
     .qa-nav-list {
         flex: 1 1 100%;

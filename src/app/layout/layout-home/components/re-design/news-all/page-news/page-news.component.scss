@@ -60,7 +60,7 @@ html {
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
-    padding: 55px 15px 15px 15px;
+    padding: 90px 15px 15px 15px;
 }
 
 .newsHeader {
@@ -130,6 +130,7 @@ html {
         overflow: hidden;
         background-color: #fff;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
     }
 
     .newsItem:hover {
