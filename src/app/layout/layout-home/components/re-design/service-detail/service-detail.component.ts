@@ -21,15 +21,15 @@ export class ServiceDetailComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        // รับค่าพารามิเตอร์ newsId จาก URL
+        
         const newsId = this.route.snapshot.paramMap.get("newsId");
 
         if (newsId) {
-            // แปลง newsId จาก string เป็น number ก่อนเรียกใช้งาน
+            
             const numericNewId = Number(newsId);
 
             if (!isNaN(numericNewId)) {
-                this.loadNewsDetails(numericNewId); // ส่ง newsId ที่เป็นตัวเลขไปยังฟังก์ชัน
+                this.loadNewsDetails(numericNewId); 
             } else {
                 this.handleError("Invalid newsId: Not a number");
             }
@@ -44,7 +44,7 @@ export class ServiceDetailComponent implements OnInit {
 
         this.newsservice.getNewsById(newsId).subscribe(
             (response) => {
-                this.newsDetail = response.Value; // เก็บข้อมูลข่าวที่ได้จาก API
+                this.newsDetail = response.Value; 
                 this.isLoading = false;
             },
             (error) => {
@@ -70,7 +70,7 @@ export class ServiceDetailComponent implements OnInit {
         } else if (previousUrl === "/") {
             this.router.navigate(["/"]);
         } else {
-            this.location.back(); // ใช้ Location service เพื่อนำทางกลับ
+            this.location.back();
         }
     }
     

@@ -1,14 +1,14 @@
-.containerSecurity {
+.containerSecuritywitget {
     display: flex;
     flex-direction: column;
-    .textSecurity {
+    .textSecuritywitget {
         font-size: 16px;
         font-weight: 600;
         color: #ff5a01;
         margin: 10px 0;
     }
 }
-.iconSecurity {
+.iconSecuritywitget {
     display: flex;
     align-items: center;
     background-color: #273880;
@@ -24,7 +24,7 @@
         object-fit: contain;
     }
 }
-.descSecurity {
+.descSecuritywitget {
     display: flex !important;
     align-items: center;
     font-size: 14px;

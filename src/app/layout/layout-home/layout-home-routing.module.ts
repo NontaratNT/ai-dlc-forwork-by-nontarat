@@ -56,7 +56,7 @@ const routes: Routes = [
     { path: 'news/detail/:Id', component: DetailNewsComponent },
     { path: 'news', component: PageNewsComponent },
     { path: 'qa', component: QapageComponent },
-    {path: 'sdt', component: ServiceDetailComponent},
+    // {path: 'sdt', component: ServiceDetailComponent},
     // { path: 'news', component: NewsComponent },
     // { path: 'news/detail/:id', component: NewsDetailComponent },
     {

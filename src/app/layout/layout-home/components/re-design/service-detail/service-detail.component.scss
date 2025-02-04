@@ -36,39 +36,39 @@ html {
 
 // new detail css
 
-.news-container {
+.service-container {
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
     padding: 120px 15px 15px 15px;
 }
 
-.newsHeader {
+.serviceHeader {
     display: flex;
     flex-direction: row;
     margin-bottom: 5px;
 }
 
-.newsHeader .breadcrumb {
+.serviceHeader .breadcrumb {
     font-size: 14px;
     align-self: center;
 }
 .titleNews {
     color: #ff5a01;
 }
-.newsHeader h1 {
+.serviceHeader h1 {
     font-size: 24px;
     color: #333;
 }
 
-//news content
-.news-content {
+//service content
+.service-content {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     gap: 2vw;
 }
-.news-nav-list {
+.service-nav-list {
     flex: 1 1 20%;
     min-width: 15vw;
     display: flex;
@@ -78,61 +78,61 @@ html {
     font-weight: bold;
 }
 
-// news detail
-.news-content-main {
+// service detail
+.service-content-main {
     flex: 1 1 70%;
     padding: 10px 50px 10px 50px;
 }
-.news-header {
+.service-header {
     text-align: start;
     margin-bottom: 20px;
 }
 
-.news-category {
+.service-category {
     font-size: 16px;
     color: #ff5a01;
     font-weight: bold;
 }
 
-.news-title {
+.service-title {
     font-size: 32px;
     color: #273880;
     font-weight: 700;
     margin: 10px 0;
 }
 
-.news-author,
-.news-date {
+.service-author,
+.service-date {
     font-size: 14px;
     color: #666666;
 }
 
-.news-image {
+.service-image {
     margin: 20px 0;
     text-align: center;
 }
 
-.news-image img {
+.service-image img {
     width: 100%;
     max-height: 300px;
     object-fit: contain;
     border-radius: 8px;
 }
 
-.news-body h2 {
+.service-body h2 {
     font-size: 18px;
     color: #273880;
     margin: 15px 0 10px;
 }
 
-.news-body p {
+.service-body p {
     font-size: 16px;
     line-height: 1.6;
     color: #000000;
     margin-bottom: 15px;
 }
 
-.news-footer {
+.service-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -162,11 +162,11 @@ html {
         margin-top: 20px;
         flex: 1 1 100%;
     }
-    .news-content-main {
+    .service-content-main {
         flex: 1 1 100%;
         padding: 10px 20px 10px 20px;
     }
-    .news-content {
+    .service-content {
         flex-direction: column;
     }
 }

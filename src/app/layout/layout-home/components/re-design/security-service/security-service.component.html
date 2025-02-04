@@ -1,4 +1,4 @@
-<div class="containerSecurity">
+<div class="containerSecurity" *ngIf="types === 'main'">
      <div class="textSecurity">บริการเสริมความปลอดภัย</div>
      <div class="boxSecurity">
           <ng-container *ngFor="let item of detailSecurity">
@@ -22,3 +22,18 @@
           </ng-container>
      </div>
 </div>
+
+
+<div class="containerSecuritywitget" *ngIf="types === 'witget'">
+     <div class="textSecuritywitget">บริการเสริมความปลอดภัย</div>
+     <div class="boxSecuritywitget">
+         <ng-container *ngFor="let item of detailSecurity">
+             <label class="securityWitget">
+                 <div class="iconSecuritywitget">
+                     <img [src]="item.ImageUrl" class="imageNewswitget">
+                 </div>
+                 <label class="descSecuritywitget">{{ item.ServiceDescription }}</label>
+             </label>
+         </ng-container>
+     </div>
+ </div>
