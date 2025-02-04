@@ -159,7 +159,7 @@
      }
 
      .menuHeaderRight {
-          display: flex !important;
+          display: none !important;
           position: absolute;
           top: 120%;
           right: 5%;
@@ -174,11 +174,14 @@
           opacity: 0;
           transform: translateY(-20px); // เริ่มต้นอยู่สูงขึ้น
           z-index: 1000;
+          pointer-events: none; // ป้องกันไม่ให้เมนูที่ปิดรับการคลิก
 
           // เมื่อเปิดเมนู
           &.open {
+               display: flex !important;
                transform: translateY(0);
                opacity: 1;
+               pointer-events: auto; // เมื่อเปิดเมนู ให้สามารถคลิกได้
 
                // สำหรับรายการในเมนูที่เปิด
                li,
@@ -192,6 +195,8 @@
 
           // เมื่อปิดเมนู
           &:not(.open) {
+               display: none !important;
+               pointer-events: none; // ป้องกันไม่ให้คลิกในเมนูที่ปิด
 
                li,
                .boxButton,
@@ -359,7 +364,7 @@
      }
 
      .menuHeaderRight {
-          display: flex !important;
+          display: none !important;
           position: absolute;
           top: 120%;
           right: 5%;
@@ -374,11 +379,14 @@
           opacity: 0;
           transform: translateY(-20px); // เริ่มต้นอยู่สูงขึ้น
           z-index: 1000;
+          pointer-events: none; // ป้องกันไม่ให้เมนูที่ปิดรับการคลิก
 
           // เมื่อเปิดเมนู
           &.open {
+               display: flex !important;
                transform: translateY(0);
                opacity: 1;
+               pointer-events: auto; // เมื่อเปิดเมนู ให้สามารถคลิกได้
 
                // สำหรับรายการในเมนูที่เปิด
                li,
@@ -392,6 +400,8 @@
 
           // เมื่อปิดเมนู
           &:not(.open) {
+               display: none !important;
+               pointer-events: none; // ป้องกันไม่ให้คลิกในเมนูที่ปิด
 
                li,
                .boxButton,
@@ -574,10 +584,13 @@
           opacity: 0;
           transform: translateY(-20px); // เริ่มต้นเมนูให้อยู่สูงขึ้น
           z-index: 1000;
+          pointer-events: none; // ป้องกันไม่ให้เมนูที่ปิดรับการคลิก
 
           &.open {
+               display: flex !important;
                transform: translateY(0);
                opacity: 1;
+               pointer-events: auto; // เมื่อเปิดเมนู ให้สามารถคลิกได้
 
                // ให้เมนูที่เปิดแล้วแสดงทีละตัว
                li,
@@ -591,6 +604,8 @@
 
           // เริ่มต้นแสดงผลที่ซ่อนอยู่
           &:not(.open) {
+               display: none !important;
+               pointer-events: none; // ป้องกันไม่ให้คลิกในเมนูที่ปิด
 
                li,
                .boxButton,
