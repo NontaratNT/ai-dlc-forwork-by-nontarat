@@ -23,7 +23,7 @@ export class MainReDesignComponent implements OnInit {
     },
     {
       id: 3,
-      images: ''
+      images: 'assets/icon/bg/pages-3.png'
     },
     // เพิ่ม slide อื่น ๆ ได้ที่นี่
   ];
