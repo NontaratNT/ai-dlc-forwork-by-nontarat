@@ -392,5 +392,20 @@ export class PersonalComponent implements OnInit {
         this._readOnly = true;
         this._checkEdit = false;
     }
+
+    checkThaiLang(event) {
+        const seperator = '^[ก-๏]+$';
+        const maskSeperator = new RegExp(seperator, 'g');
+        const result = maskSeperator.test(event.key);
+        return result;
+    }
+    pasteCheckThaiLang(event) {
+        const clipboardData = event.clipboardData;
+        const pastedText = clipboardData.getData('text');
+        const seperator = '^[ก-๏]+$';
+        const maskSeperator = new RegExp(seperator, 'g');
+        const result = maskSeperator.test(pastedText);
+        return result;
+    }
 }
 
