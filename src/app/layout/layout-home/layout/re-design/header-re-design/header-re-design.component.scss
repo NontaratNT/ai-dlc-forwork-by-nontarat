@@ -1,597 +1,722 @@
-:host {
-     .menu-header {
-          z-index: 999;
-          position: fixed;
-          width: 100%;
-          top: 0;
-          padding: 15px 15px;
-          background: #FFFFFF; //เพิ่มใหม่ Ice
-          box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); //เพิ่มใหม่ Ice
+.menuHeader {
+     z-index: 999;
+     position: fixed;
+     width: 100%;
+     top: 0;
+     padding: 1vw 2vw;
+     background: #FFFFFF;
+     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     transition: all 0.3s ease-in-out;
 
-          .container-fluid {
-               height: 100%;
-               display: grid;
-               align-items: center;
+     .menuHeaderLeft {
+          list-style: none;
+          display: flex;
+          align-items: center;
+          padding: 0;
+          margin: 0;
 
-               .col-p-unset {
-                    padding: 0;
-                    display: flex;
-                    align-items: center;
-                    justify-content: end;
-               }
+          img {
+               height: 50px;
+               cursor: pointer;
+               transition: transform 0.3s ease-in-out;
 
-               .header-row {
-                    justify-content: space-between;
+               &:hover {
+                    transform: scale(1.1);
                }
           }
 
-          .menu-header-list-left {
-               ul {
-                    display: flex;
-                    align-items: center; // จัดให้อยู่กึ่งกลางในแนวตั้ง
-                    padding: 0;
+          .boxCyberCrime {
+               display: flex;
+               flex-direction: column;
+               align-items: flex-start;
+               margin: 0 10px;
+
+               .mainTitle {
+                    font-size: 1.2vw;
+                    color: #273880;
+                    font-weight: 600;
                     margin: 0;
-                    list-style: none; // เอา bullet point ออก
                }
 
-               ul li {
-                    flex: 0 1 auto; // ให้แต่ละรายการมีขนาดตามเนื้อหาหรือกำหนดเอง
-                    display: flex;
-                    align-items: center; // จัดให้อยู่ตรงกลางในแนวตั้ง
-                    justify-content: center;
-                    padding: 0 10px; // เว้นระยะห่างระหว่างแต่ละรายการ
-               }
-
-               .nav-logo {
-                    div {
-                         display: flex; // ใช้ Flexbox เพื่อจัดให้อยู่ในแนวนอน
-                         align-items: center; // จัดให้อยู่กึ่งกลางในแนวตั้ง
-                         justify-content: center; // จัดให้อยู่กึ่งกลางในแนวนอน
-
-                         img {
-                              width: 60px; // ขนาดรูปภาพ
-                              margin: 0 2px; // เพิ่มระยะห่างระหว่างรูปภาพ
-                         }
-                    }
-               }
-
-               .nav-title {
-                    flex: 1; // ให้เนื้อหาใน nav-title ใช้พื้นที่ที่เหลือ
-                    text-align: center;
-
-                    .text-desktop {
-                         text-align: left; // จัดข้อความชิดด้านซ้าย
-                         display: flex; // ใช้ Flexbox สำหรับการจัดวาง
-                         flex-direction: column; // จัดให้องค์ประกอบในแนวตั้ง
-                         align-items: flex-start; // ชิดด้านซ้าย (start)
-
-                         .main-title {
-                              color: #273880;
-                              letter-spacing: 1px;
-                              font-weight: bold;
-                         }
-
-                         .sub-title {
-                              font-size: 1vw;
-                              letter-spacing: 1px;
-                              font-weight: 600;
-                              color: #343434;
-                              margin-top: 2px;
-                         }
-                    }
-
+               .subTitle {
+                    font-size: 1vw;
+                    color: #343434;
+                    font-weight: 500;
+                    margin: 0;
                }
           }
+     }
 
-          .menu-header-list-center {
-               height: 100%; // ให้แน่ใจว่า div มีความสูงเต็ม
-               display: grid;
+     .menuHeaderRight {
+          list-style: none;
+          display: flex;
+          align-items: center;
+          padding: 0;
+          margin: 0;
+          gap: 1vw;
+
+          .textRight {
+               font-size: 16px;
+               font-weight: 600;
+               color: #000000;
+               margin: 0;
+          }
+
+          .btnSignin,
+          .btnLogout {
+               display: flex;
                align-items: center;
+               justify-content: center;
+               color: #ffffff;
+               padding: 8px 20px;
+               background: #273880;
+               border-radius: 8px;
+               max-height: 50px;
+               transition: background-color 0.3s ease-in-out;
 
-               .list-detail {
-                    ul {
-                         display: flex; // ใช้ Flexbox เพื่อจัดเรียงในแนวนอน
-                         justify-content: space-between; // เพิ่มช่องว่างเท่ากันระหว่างไอเท็ม
-                         align-items: center; // จัดให้อยู่กึ่งกลางในแนวตั้ง
-                         padding: 0;
-                         margin: 0;
-                         list-style: none; // ลบสัญลักษณ์ bullet
-                    }
-
-                    ul li {
-                         display: flex;
-                         justify-content: center;
-                         align-items: center;
-                         padding: 0 0; // เพิ่มระยะห่างระหว่างไอเท็ม
-                         text-align: center;
-
-                         .text-links {
-                              color: #000000;
-                              font-size: 1rem; // ขนาดตัวหนังสือเหมาะสม
-                              text-decoration: none; // ลบเส้นใต้
-                              cursor: pointer; // เปลี่ยน cursor เมื่อ hover
-                              transition: color 0.3s ease-in-out; // เพิ่มเอฟเฟกต์ตอน hover
-
-                              &:hover {
-                                   color: #007bff; // เปลี่ยนสีเมื่อ hover
-                              }
-
-                              img {
-                                   height: 30px; // จำกัดขนาดรูปภาพ
-                              }
-
-                              label {
-                                   margin: 0 5px; // เพิ่มระยะห่างระหว่างรูปกับข้อความ
-                              }
-                         }
-
-                         .text-link {
-                              display: flex;
-                              align-items: center;
-                              justify-content: center;
-                              color: #ffffff;
-                              padding: 8px 20px;
-                              background: #273880;
-                              border-radius: 8px;
-                              max-height: 50px;
-                              transition: background-color 0.3s ease-in-out;
-
-                              &:hover {
-                                   background-color: #1a2b5a; // เปลี่ยนสีเมื่อ hover
-                              }
-
-                              .text-signin {
-                                   margin: 0px 0px 0px 8px; // เว้นระยะห่างระหว่างรูปกับข้อความ
-                              }
-                         }
-
-                         .text-links-container {
-                              padding-right: 15px; // เพิ่มระยะห่างจากเนื้อหา
-                              margin-right: 15px; // ระยะห่างระหว่างเส้นกับไอเท็มถัดไป
-                              border-right: 2px solid #343434; // เส้นแบ่งด้านขวา
-                         }
-
-                         .btn-menu {
-                              padding-left: 15px; // ระยะห่างด้านซ้ายของไอเท็ม
-
-                              .logout-text {
-                                   color: #ff0000;
-                                   font-weight: bold;
-                                   cursor: pointer;
-
-                                   &:hover {
-                                        text-decoration: underline;
-                                   }
-                              }
-                         }
-                    }
-               }
-          }
-
-          .menu-header-list-mobile {
-               display: none;
-          }
-
-          .logout-icon {
-               display: none;
-               position: absolute;
-               top: 22px;
-               right: 8px;
-
-               img {
-                    width: 28px;
-               }
-          }
-
-          .line {
-               border-left-style: solid;
-               border-color: white;
-               padding-left: 10px !important;
-               border-width: 1px;
-          }
-     }
-
-     @media screen and (max-width: 1300px) {
-
-          .container-fluid {
-               height: 100%;
-               display: grid;
-               align-items: center;
-
-               .col-p-unset {
-                    padding: 0;
-                    display: flex;
-                    align-items: center;
+               &:hover {
+                    background-color: #1a2b5a; // เปลี่ยนสีเมื่อ hover
                }
 
-               .header-row {
-                    justify-content: center !important;
-               }
-          }
-
-          .col-xl-6.col-menu-header {
-               flex: 0 0 0% !important;
-               max-width: 0% !important;
-          }
-
-          .menu-header-list-left {
-               .list-detail {
-                    ul {
-                         display: flex;
-                         align-items: center; // จัดให้อยู่กึ่งกลางในแนวตั้ง
-                         justify-content: center !important;
-                         padding: 0;
-                         margin: 0;
-                         list-style: none; // เอา bullet point ออก
-                    }
-
-
-                    .nav-logo {
-                         div {
-                              display: flex; // ใช้ Flexbox เพื่อจัดให้อยู่ในแนวนอน
-                              align-items: center; // จัดให้อยู่กึ่งกลางในแนวตั้ง
-                              justify-content: center; // จัดให้อยู่กึ่งกลางในแนวนอน
-
-                              img {
-                                   width: 50px; // ขนาดรูปภาพ
-                                   margin: 0 2px; // เพิ่มระยะห่างระหว่างรูปภาพ
-                              }
-                         }
-                    }
-
-                    .nav-title {
-
-                         .line {
-                              border-top: 1px solid #ffffff;
-                         }
-
-                         .text-desktop {
-                              font-size: 1.2vw !important;
-                              font-weight: bold;
-                              line-height: 1.0;
-                              // text-shadow: 2px 2px 14px #454545;
-
-                              .main-title {
-                                   color: #273880;
-                                   letter-spacing: 1px;
-                              }
-
-                              .sub-title {
-                                   font-size: 1.2vw !important;
-                                   letter-spacing: 1px;
-                                   font-weight: 600;
-                                   color: #343434 !important;
-                                   margin-top: 10px;
-                              }
-                         }
-                    }
-               }
-          }
-
-          // .menu-header-list-center {
-          //      display: none !important;
-          // }
-
-          .col-p-unset{
-               display: contents !important;
-          }
-          .text-links-container {
-               display: none !important;
-          }
-
-          .menu-header-list-mobile {
-               display: flex !important;
-          }
-     }
-
-     @media screen and (max-width: 1100px) {
-          .menu-header-list-left {
-               .list-detail {
-                    .nav-logo {
-                         div {
-                              display: flex; // ใช้ Flexbox เพื่อจัดให้อยู่ในแนวนอน
-                              align-items: center; // จัดให้อยู่กึ่งกลางในแนวตั้ง
-                              justify-content: center; // จัดให้อยู่กึ่งกลางในแนวนอน
-
-                              img {
-                                   width: 50px; // ขนาดรูปภาพ
-                                   margin: 0 2px; // เพิ่มระยะห่างระหว่างรูปภาพ
-                              }
-                         }
-                    }
-
-                    .nav-title {
-
-                         .line {
-                              border-top: 1px solid #ffffff;
-                         }
-
-                         .text-desktop {
-                              font-size: 2vw !important;
-                              font-weight: bold;
-                              line-height: 1.0;
-                              // text-shadow: 2px 2px 14px #454545;
-
-                              .main-title {
-                                   color: #273880;
-                                   letter-spacing: 1px;
-                              }
-
-                              .sub-title {
-                                   font-size: 2vw !important;
-                                   letter-spacing: 1px;
-                                   font-weight: 600;
-                                   color: #343434 !important;
-                                   margin-top: 10px;
-                              }
-                         }
-                    }
-               }
-          }
-
-          .menu-header-list-right {
-               padding-right: 0px !important;
-          }
-     }
-
-     @media screen and (max-width: 950px) {
-          .menu-header-list-left {
-               .list-detail {
-                    .nav-logo {
-                         div {
-                              display: flex; // ใช้ Flexbox เพื่อจัดให้อยู่ในแนวนอน
-                              align-items: center; // จัดให้อยู่กึ่งกลางในแนวตั้ง
-                              justify-content: center; // จัดให้อยู่กึ่งกลางในแนวนอน
-
-                              img {
-                                   width: 50px; // ขนาดรูปภาพ
-                                   margin: 0 2px; // เพิ่มระยะห่างระหว่างรูปภาพ
-                              }
-                         }
-                    }
-
-                    .nav-title {
-
-                         .line {
-                              border-top: 1px solid #ffffff;
-                         }
-
-                         .text-desktop {
-                              font-size: 2vw !important;
-                              font-weight: bold;
-                              line-height: 1.0;
-                              // text-shadow: 2px 2px 14px #454545;
-
-                              .main-title {
-                                   color: #273880;
-                                   letter-spacing: 1px;
-                              }
-
-                              .sub-title {
-                                   font-size: 2vw !important;
-                                   letter-spacing: 1px;
-                                   font-weight: 600;
-                                   color: #343434 !important;
-                                   margin-top: 10px;
-                              }
-                         }
-                    }
+               .textSignin,
+               .textLogout {
+                    font-size: 16px;
+                    font-weight: 600;
+                    margin: 0;
                }
           }
      }
 
-     @media screen and (min-width: 800px) {
-          .nav-title .text-mobile {
-               display: none;
-          }
-
-          .nav-title-2 .text-mobile {
-               display: none;
-          }
-     }
-
-     @media screen and (max-width: 800px) {
-          .nav-title .text-desktop {
-               display: none;
-          }
-
-          .nav-title-2 .text-desktop {
-               display: none;
-          }
-     }
-
-     @media screen and (max-width: 575px) {
-          .menu-header-list-left {
-               padding-left: 0 !important;
-
-               .list-detail {
-                    .nav-logo {
-                         img {
-                              width: 40px;
-                         }
-                    }
-
-                    .nav-title {
-                         .line {
-                              border-top: 1px solid #ffffff;
-                         }
-                    }
-               }
-          }
-
-          .logout-icon {
-               display: block !important;
-          }
-
-          .menu-header {
-               padding: 20px 15px;
-          }
-     }
-
-     @media screen and (max-width: 495px) {
-          .nav-title .text-mobile {
-               font-size: 2.5vw;
-          }
-
-          .nav-title-2 .text-mobile {
-               font-size: 2.5vw;
-          }
-
-          .menu-header {
-               padding: 20px 15px;
-          }
-
-          .box-container {
-               left: 0px;
-          }
-     }
-
-     @media screen and (max-width: 444px) {
-          .menu-header-list-left {
-               .list-detail {
-                    ul {
-                         padding-left: 0 !important;
-                    }
-
-                    padding-left : 0 !important;
-                    justify-content: center;
-                    display: flex;
-
-                    .nav-title.text-link {
-                         display: none !important;
-                    }
-
-                    .nav-title-2.text-link {
-                         display: none !important;
-                    }
-               }
-          }
-
-
-          .menu-header-list-mobile {
-               display: flex !important;
-               justify-content: flex-end !important;
-
-               .list-detail {
-                    ul {
-                         padding-left: 0 !important;
-                         margin-top: 0 !important;
-                    }
-
-               }
-          }
-
-          .menu-header-list-center {
-
-               .nav-title.text-link {
-                    display: none !important;
-               }
-
-               .nav-title-2.text-link {
-                    display: none !important;
-               }
-          }
-     }
-
-     @media screen and (max-width: 330px) {
-          .menu-header-list-left {
-               .list-detail {
-                    .nav-title {
-                         font-size: 12px;
-                    }
-               }
-          }
-
-          .logout-icon {
-               top: 20px;
-               right: 8px;
-
-               img {
-                    width: 20px !important;
-               }
-          }
-     }
-
-     .text-link {
+     .hamburger-menu {
+          display: none;
           cursor: pointer;
+          flex-direction: column;
+          gap: 4px;
+          justify-content: center;
+          align-items: center;
 
-          &:hover {
-               opacity: 0.75;
+          img {
+               width: 5vw !important;
           }
      }
 
-     .not-copy {
-          -webkit-user-select: none !important;
-          -moz-user-select: none !important;
-          -ms-user-select: none !important;
-          user-select: none !important;
+}
+
+/* 📌 หน้าจอเล็กมาก (มือถือขนาดเล็ก) */
+@media screen and (min-width: 318px) and (max-width: 575px) {
+     .menuHeader {
+          padding: 3vw 2vw;
+
+          .menuHeaderLeft {
+
+               .boxLogo {
+                    width: 35vw;
+               }
+
+               img {
+                    height: 10vw;
+               }
+
+               .boxCyberCrime {
+                    margin: 0;
+
+                    .mainTitle {
+                         font-size: 4vw;
+                    }
+
+                    .subTitle {
+                         font-size: 3vw;
+                    }
+               }
+          }
+     }
+
+     .menuHeaderRight {
+          display: none !important;
+     }
+
+     .hamburger-menu {
+          display: flex !important;
+          cursor: pointer;
+          transition: transform 0.3s ease-in-out;
+
+          img {
+               width: 5vw !important;
+          }
+
+          .iconHamburger {
+               width: 100%;
+               height: auto;
+               transition: transform 0.4s ease-in-out;
+          }
+
+          .iconHamburger.open {
+               transform: rotate(180deg);
+          }
+     }
+
+     .menuHeaderRight {
+          display: flex !important;
+          position: absolute;
+          top: 120%;
+          right: 5%;
+          background-color: #ffffff;
+          width: 215px;
+          padding: 0px 15px !important;
+          border-radius: 12px;
+          box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+          flex-direction: column;
+          align-items: flex-start;
+          transition: transform 0.4s ease-in-out, opacity 0.3s ease-in-out;
+          opacity: 0;
+          transform: translateY(-20px); // เริ่มต้นอยู่สูงขึ้น
+          z-index: 1000;
+
+          // เมื่อเปิดเมนู
+          &.open {
+               transform: translateY(0);
+               opacity: 1;
+
+               // สำหรับรายการในเมนูที่เปิด
+               li,
+               .boxButton,
+               .btnSignin,
+               .btnLogout {
+                    opacity: 1;
+                    transform: translateX(0); // เลื่อนมาจากซ้าย
+               }
+          }
+
+          // เมื่อปิดเมนู
+          &:not(.open) {
+
+               li,
+               .boxButton,
+               .btnSignin,
+               .btnLogout {
+                    opacity: 0;
+                    transform: translateX(-20px); // เลื่อนไปทางซ้ายเมื่อปิด
+               }
+          }
+
+          // สำหรับรายการแต่ละตัวในเมนู
+          li,
+          .boxButton,
+          .btnSignin,
+          .btnLogout {
+               width: 100%;
+               padding: 10px 5px 5px 5px;
+               font-size: 16px !important;
+               font-weight: 600;
+               color: #273880;
+               cursor: pointer;
+               transition: background 0.3s ease-in-out, color 0.3s ease-in-out, opacity 0.5s ease-in-out, transform 0.4s ease-in-out;
+               border-radius: 8px;
+               opacity: 0;
+               transform: translateX(-20px); // เริ่มต้นเลื่อนไปทางซ้าย
+
+               // เพิ่ม Delay ให้ค่อยๆ โผล่มาทีละอัน
+               &:nth-child(1) {
+                    transition-delay: 0.1s;
+               }
+
+               &:nth-child(2) {
+                    transition-delay: 0.3s;
+               }
+
+               &:nth-child(3) {
+                    transition-delay: 0.5s;
+               }
+
+               &:nth-child(4) {
+                    transition-delay: 0.7s;
+               }
+
+               &:nth-child(5) {
+                    transition-delay: 0.9s;
+               }
+
+               &:nth-child(6) {
+                    transition-delay: 1.1s;
+               }
+
+               &:nth-child(7) {
+                    transition-delay: 1.3s;
+               }
+          }
+
+          // Hover ของ li
+          li:hover {
+               background: #f4f6fc;
+               color: #1a2b5a;
+          }
+
+          // ส่วนของ Box Button
+          .boxButton {
+               padding: 10px 10px;
+               border-top: 1px solid;
+               border-radius: 0px;
+          }
+
+          .btnSignin,
+          .btnLogout {
+               text-align: center;
+               padding: 10px;
+               font-size: 16px !important;
+               font-weight: 600;
+               border-radius: 8px;
+               transition: background-color 0.3s ease-in-out;
+          }
+
+          .btnSignin {
+               background: #273880;
+               color: #ffffff;
+
+               .textSignin {
+                    font-size: 14px !important;
+               }
+          }
+
+          .btnSignin:hover {
+               background: #1a2b5a;
+          }
+
+          .btnLogout {
+               background: #d9534f;
+               color: #ffffff;
+               font-size: 14px !important;
+
+               .textLogout {
+                    font-size: 14px !important;
+               }
+          }
+
+          .btnLogout:hover {
+               background: #c9302c;
+          }
+
+          .textRight {
+               font-size: 14px !important;
+          }
      }
 }
 
-ul li {
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     padding: 0 0; // เพิ่มระยะห่างระหว่างไอเท็ม
-     text-align: center;
+/* 📌 หน้าจอมือถือปกติ */
+@media screen and (min-width: 576px) and (max-width: 767px) {
 
-     .text-links {
-          color: #000000;
-          font-size: 1rem; // ขนาดตัวหนังสือเหมาะสม
-          text-decoration: none; // ลบเส้นใต้
-          cursor: pointer; // เปลี่ยน cursor เมื่อ hover
-          transition: color 0.3s ease-in-out; // เพิ่มเอฟเฟกต์ตอน hover
+     .menuHeader {
+          padding: 3vw 2vw;
 
-          &:hover {
-               color: #007bff; // เปลี่ยนสีเมื่อ hover
-          }
+          .menuHeaderLeft {
 
-          img {
-               height: 30px; // จำกัดขนาดรูปภาพ
-          }
+               .boxLogo {
+                    width: 35vw;
+               }
 
-          label {
-               margin: 0 5px; // เพิ่มระยะห่างระหว่างรูปกับข้อความ
-          }
-     }
+               img {
+                    height: 10vw;
+               }
 
-     .text-link {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #ffffff;
-          padding: 8px 20px;
-          background: #273880;
-          border-radius: 8px;
-          max-height: 50px;
-          transition: background-color 0.3s ease-in-out;
+               .boxCyberCrime {
+                    margin: 0;
 
-          &:hover {
-               background-color: #1a2b5a; // เปลี่ยนสีเมื่อ hover
-          }
+                    .mainTitle {
+                         font-size: 4vw;
+                    }
 
-          .text-signin {
-               margin: 0px 0px 0px 8px; // เว้นระยะห่างระหว่างรูปกับข้อความ
-          }
-     }
-
-     .text-links-container {
-          padding-right: 15px; // เพิ่มระยะห่างจากเนื้อหา
-          margin-right: 15px; // ระยะห่างระหว่างเส้นกับไอเท็มถัดไป
-          border-right: 2px solid #343434; // เส้นแบ่งด้านขวา
-     }
-
-     .btn-menu {
-          padding-left: 15px; // ระยะห่างด้านซ้ายของไอเท็ม
-
-          .logout-text {
-               color: #ff0000;
-               font-weight: bold;
-               cursor: pointer;
-
-               &:hover {
-                    text-decoration: underline;
+                    .subTitle {
+                         font-size: 3vw;
+                    }
                }
           }
+     }
+
+     .menuHeaderRight {
+          display: none !important;
+     }
+
+     .hamburger-menu {
+          display: flex !important;
+          cursor: pointer;
+          transition: transform 0.3s ease-in-out;
+
+          img {
+               width: 5vw !important;
+          }
+
+          .iconHamburger {
+               width: 100%;
+               height: auto;
+               transition: transform 0.4s ease-in-out;
+          }
+
+          .iconHamburger.open {
+               transform: rotate(180deg);
+          }
+     }
+
+     .menuHeaderRight {
+          display: flex !important;
+          position: absolute;
+          top: 120%;
+          right: 5%;
+          background-color: #ffffff;
+          width: 215px;
+          padding: 0px 15px !important;
+          border-radius: 12px;
+          box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+          flex-direction: column;
+          align-items: flex-start;
+          transition: transform 0.4s ease-in-out, opacity 0.3s ease-in-out;
+          opacity: 0;
+          transform: translateY(-20px); // เริ่มต้นอยู่สูงขึ้น
+          z-index: 1000;
+
+          // เมื่อเปิดเมนู
+          &.open {
+               transform: translateY(0);
+               opacity: 1;
+
+               // สำหรับรายการในเมนูที่เปิด
+               li,
+               .boxButton,
+               .btnSignin,
+               .btnLogout {
+                    opacity: 1;
+                    transform: translateX(0); // เลื่อนมาจากซ้าย
+               }
+          }
+
+          // เมื่อปิดเมนู
+          &:not(.open) {
+
+               li,
+               .boxButton,
+               .btnSignin,
+               .btnLogout {
+                    opacity: 0;
+                    transform: translateX(-20px); // เลื่อนไปทางซ้ายเมื่อปิด
+               }
+          }
+
+          // สำหรับรายการแต่ละตัวในเมนู
+          li,
+          .boxButton,
+          .btnSignin,
+          .btnLogout {
+               width: 100%;
+               padding: 10px 5px 5px 5px;
+               font-size: 16px !important;
+               font-weight: 600;
+               color: #273880;
+               cursor: pointer;
+               transition: background 0.3s ease-in-out, color 0.3s ease-in-out, opacity 0.5s ease-in-out, transform 0.4s ease-in-out;
+               border-radius: 8px;
+               opacity: 0;
+               transform: translateX(-20px); // เริ่มต้นเลื่อนไปทางซ้าย
+
+               // เพิ่ม Delay ให้ค่อยๆ โผล่มาทีละอัน
+               &:nth-child(1) {
+                    transition-delay: 0.1s;
+               }
+
+               &:nth-child(2) {
+                    transition-delay: 0.3s;
+               }
+
+               &:nth-child(3) {
+                    transition-delay: 0.5s;
+               }
+
+               &:nth-child(4) {
+                    transition-delay: 0.7s;
+               }
+
+               &:nth-child(5) {
+                    transition-delay: 0.9s;
+               }
+
+               &:nth-child(6) {
+                    transition-delay: 1.1s;
+               }
+
+               &:nth-child(7) {
+                    transition-delay: 1.3s;
+               }
+          }
+
+          // Hover ของ li
+          li:hover {
+               background: #f4f6fc;
+               color: #1a2b5a;
+          }
+
+          // ส่วนของ Box Button
+          .boxButton {
+               padding: 10px 10px;
+               border-top: 1px solid;
+               border-radius: 0px;
+          }
+
+          .btnSignin,
+          .btnLogout {
+               text-align: center;
+               padding: 10px;
+               font-size: 16px !important;
+               font-weight: 600;
+               border-radius: 8px;
+               transition: background-color 0.3s ease-in-out;
+          }
+
+          .btnSignin {
+               background: #273880;
+               color: #ffffff;
+
+               .textSignin {
+                    font-size: 14px !important;
+               }
+          }
+
+          .btnSignin:hover {
+               background: #1a2b5a;
+          }
+
+          .btnLogout {
+               background: #d9534f;
+               color: #ffffff;
+               font-size: 14px !important;
+
+               .textLogout {
+                    font-size: 14px !important;
+               }
+          }
+
+          .btnLogout:hover {
+               background: #c9302c;
+          }
+
+          .textRight {
+               font-size: 14px !important;
+          }
+     }
+}
+
+/* 📌 หน้าจอแท็บเล็ต */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+
+     .menuHeader {
+          padding: 3vw 2vw;
+
+          .menuHeaderLeft {
+
+               .boxLogo {
+                    width: 15vw;
+               }
+
+               img {
+                    height: 6vw;
+               }
+
+               .boxCyberCrime {
+                    margin: 0;
+
+                    .mainTitle {
+                         font-size: 2.8vw;
+                    }
+
+                    .subTitle {
+                         font-size: 2vw;
+                    }
+               }
+          }
+
+          .hamburger-menu {
+               display: flex !important;
+               cursor: pointer;
+               transition: transform 0.3s ease-in-out;
+
+               img {
+                    width: 3.5vw !important;
+               }
+
+               .iconHamburger {
+                    width: 100%;
+                    height: auto;
+                    transition: transform 0.4s ease-in-out;
+               }
+
+               .iconHamburger.open {
+                    transform: rotate(180deg);
+               }
+          }
+     }
+
+     .menuHeaderRight {
+          display: none !important;
+     }
+
+     .menuHeaderRight {
+          display: flex !important;
+          position: absolute;
+          top: 110%;
+          right: 2%;
+          background-color: #ffffff;
+          width: 215px;
+          padding: 0px 15px !important;
+          border-radius: 12px;
+          box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+          flex-direction: column;
+          align-items: flex-start;
+          transition: transform 0.3s ease, opacity 0.3s ease;
+          opacity: 0;
+          transform: translateY(-20px); // เริ่มต้นเมนูให้อยู่สูงขึ้น
+          z-index: 1000;
+
+          &.open {
+               transform: translateY(0);
+               opacity: 1;
+
+               // ให้เมนูที่เปิดแล้วแสดงทีละตัว
+               li,
+               .boxButton,
+               .btnSignin,
+               .btnLogout {
+                    opacity: 1;
+                    transform: translateX(0);
+               }
+          }
+
+          // เริ่มต้นแสดงผลที่ซ่อนอยู่
+          &:not(.open) {
+
+               li,
+               .boxButton,
+               .btnSignin,
+               .btnLogout {
+                    opacity: 0;
+                    transform: translateX(-20px); // ซ่อนรายการเมนู
+               }
+          }
+
+          // รายการในเมนูแต่ละตัว
+          li,
+          .boxButton,
+          .btnSignin,
+          .btnLogout {
+               width: 100%;
+               padding: 10px 5px 5px 5px;
+               font-size: 16px !important;
+               font-weight: 600;
+               color: #273880;
+               cursor: pointer;
+               transition: background 0.3s ease, color 0.3s ease, opacity 0.4s ease, transform 0.3s ease;
+               border-radius: 8px;
+               opacity: 0;
+               transform: translateX(-20px); // เริ่มต้นแสดงจากทางซ้าย
+
+               // ดีเลย์การแสดงผลแต่ละรายการ
+               &:nth-child(1) {
+                    transition-delay: 0.1s;
+               }
+
+               &:nth-child(2) {
+                    transition-delay: 0.2s;
+               }
+
+               &:nth-child(3) {
+                    transition-delay: 0.3s;
+               }
+
+               &:nth-child(4) {
+                    transition-delay: 0.4s;
+               }
+
+               &:nth-child(5) {
+                    transition-delay: 0.5s;
+               }
+
+               &:nth-child(6) {
+                    transition-delay: 0.6s;
+               }
+
+               &:nth-child(7) {
+                    transition-delay: 0.7s;
+               }
+          }
+
+          // Hover ของ li
+          li:hover {
+               background: #f4f6fc;
+               color: #1a2b5a;
+          }
+
+          .boxButton {
+               padding: 10px 10px;
+               border-top: 1px solid;
+               border-radius: 0px;
+          }
+
+          .btnSignin,
+          .btnLogout {
+               text-align: center;
+               padding: 10px;
+               font-size: 16px !important;
+               font-weight: 600;
+               border-radius: 8px;
+               transition: background-color 0.3s ease-in-out;
+          }
+
+          .btnSignin {
+               background: #273880;
+               color: #ffffff;
+
+               .textSignin {
+                    font-size: 14px !important;
+               }
+          }
+
+          .btnSignin:hover {
+               background: #1a2b5a;
+          }
+
+          .btnLogout {
+               background: #d9534f;
+               color: #ffffff;
+               font-size: 14px !important;
+
+               .textLogout {
+                    font-size: 14px !important;
+               }
+          }
+
+          .btnLogout:hover {
+               background: #c9302c;
+          }
+
+          .textRight {
+               font-size: 14px !important;
+          }
+     }
+}
+
+/* 📌 หน้าจอเดสก์ท็อปขนาดกลาง */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+     .menuHeader {
+          padding: 1vw 2vw;
+     }
+
+     .menuHeaderLeft img {
+          height: 55px; // ขนาด logo
+     }
+
+     .menuHeaderRight {
+          display: flex !important; // แสดงเมนู
+     }
+
+     .hamburger-menu {
+          display: none !important; // ซ่อนปุ่มฮัมเบอร์เกอร์ในหน้าจอขนาดกลาง
      }
 }

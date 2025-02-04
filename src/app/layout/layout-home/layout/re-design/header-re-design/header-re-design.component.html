@@ -1,4 +1,4 @@
-<nav class="menu-header not-copy">
+<!-- <nav class="menu-header not-copy">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -20,32 +20,11 @@
                                             </div>
                                             <div class="sub-title">CYBER CRIME INVESTIGATION BUREAU</div>
                                         </div>
-                                        <!-- <div class="text-mobile">
-                                            <div class="main-title">กองบัญชาการตำรวจสืบสวนสอบสวนอาชญากรรมทางเทคโนโลยี
-                                            </div>
-                                            <div class="sub-title">CYBER CRIME INVESTIGATION BUREAU</div>
-                                        </div> -->
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="col-xl-4 col-p-unset menu-header-list-mobile">
-                        <div class="list-detail">
-                            <ul class="m-0">
-                                <li class="btn-menu row mx-2" *ngIf="!hasSession">
-                                    <div class="text-link" (click)="OnIssueOnline()">
-                                        <img src="assets/icon/check_light.png" height="30px" alt="icon">
-                                        <label for="" class="text-signin">เข้าสู่ระบบ</label>
-                                    </div>
-                                </li>
-
-                                <li class="btn-menu" *ngIf="hasSession">
-                                    <div class="text-link logout-text" (click)="logout()">ออกจากระบบ</div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div> -->
                     <div class="col-xl-6 col-menu-header col-p-unset">
                         <div class="menu-header-list-center">
                             <div class="list-detail">
@@ -55,37 +34,11 @@
                                             <label for="" class="text-home">หน้าหลัก</label>
                                         </div>
                                     </li>
-                                    <!-- <li>
-                                        <div class="text-links" (click)="RedirectUrl('/')">
-                                            <label for="" class="text-home">ป้องกันภัยไซเบอร์</label>
-                                        </div>
-                                    </li> -->
                                     <li>
                                         <div class="text-links" (click)="RedirectUrl('/news')">
                                             <label for="" class="text-home">ข่าวสาร/เตือนภัยไซเบอร์</label>
                                         </div>
                                     </li>
-                                    <!-- <li>
-                                        <div class="text-links" (click)="RedirectUrl('/')">
-                                            <label for="" class="text-home">อายัดบัญชี</label>
-                                        </div>
-                                    </li> -->
-                                    <!-- <li class="text-links-container"
-                                        style="border-right: 2px solid #343434 !important;">
-                                        <div class="text-links" (click)="RedirectUrl('/')">
-                                            <label for="" class="text-home">
-                                                <img src="assets/icon/Black.png" width="30" alt="icon">
-                                            </label>
-                                        </div>
-                                    </li> -->
-                                    <!-- <li class="text-links-container"
-                                        style="border-right: 2px solid #343434 !important;">
-                                        <div class="text-links" (click)="RedirectUrl('/')">
-                                            <label for="" class="text-home">
-                                                <img src="assets/icon/Frame 2.png" width="40" alt="icon">
-                                            </label>
-                                        </div>
-                                    </li> -->
                                     <li class="btn-menu row mx-2" *ngIf="!hasSession">
                                         <div class="text-link" (click)="OnIssueOnline()">
                                             <img src="assets/icon/check_light.png" height="30px" alt="icon">
@@ -99,7 +52,7 @@
                                 </ul>
                             </div>
                         </div>
-                        
+
 
                     </div>
                 </div>
@@ -143,4 +96,60 @@
              border-radius: 5px; width: 330px;height: 60px;" (onClick)="closePopupWarning()"></dx-button>
         </div>
     </div>
-</dx-popup>
+</dx-popup> -->
+<div class="menuHeader">
+    <ul class="menuHeaderLeft">
+        <li class="boxLogo">
+            <img src="assets/icon/Emblem_of_Royal_Thai_Police 1.png" alt="logo" (click)="RedirectUrl('/')">
+            <img src="assets/icon/Cyber.png" alt="logo" (click)="RedirectUrl('/')">
+        </li>
+        <li class="boxCyberCrime">
+            <label class="mainTitle">
+                กองบัญชาการตำรวจสืบสวนสอบสวนอาชญากรรมทางเทคโนโลยี
+            </label>
+            <label class="subTitle">
+                CYBER CRIME INVESTIGATION BUREAU
+            </label>
+        </li>
+    </ul>
+
+    <!-- เมนูขวา -->
+    <ul class="menuHeaderRight" [ngClass]="{'open': menuOpen}">
+        <li (click)="RedirectUrl('/')">
+            <label class="textRight">หน้าหลัก</label>
+        </li>
+        <li (click)="RedirectUrl('/news')">
+            <label class="textRight">ป้องกันภัยไซเบอร์</label>
+        </li>
+        <li (click)="RedirectUrl('/')">
+            <label class="textRight">ข่าวสาร</label>
+        </li>
+        <li (click)="RedirectUrl('/news')">
+            <label class="textRight">อายัดบัญชี</label>
+        </li>
+        <li (click)="RedirectUrl('/')">
+            <label class="textRight">คำถามที่พบบ่อย</label>
+        </li>
+        <li (click)="RedirectUrl('/news')">
+            <label class="textRight">ตัวช่วยการเข้าถึง</label>
+        </li>
+        <li class="boxButton" *ngIf="!hasSession">
+            <div class="btnSignin" (click)="OnIssueOnline()">
+                <img src="assets/icon/check_light.png" height="30px" alt="icon">
+                <label class="textSignin">เข้าสู่ระบบ</label>
+            </div>
+        </li>
+
+        <li *ngIf="hasSession">
+            <div class="btnLogout" (click)="logout()">
+                <label class="textLogout">ออกจากระบบ</label>
+            </div>
+        </li>
+    </ul>
+
+    <!-- ปุ่มฮัมเบอร์เกอร์ -->
+    <div class="hamburger-menu" (click)="toggleMenu()">
+        <img class="iconHamburger" [src]="menuOpen ? 'assets/image/btn/close.png' : 'assets/image/btn/hamburger.png'"
+            [class.open]="menuOpen" alt="Menu">
+    </div>
+</div>

@@ -17,6 +17,8 @@ export class HeaderReDesignComponent implements OnInit {
   hasSession = false;
   popupVisible = false;
   deviceInfo = null;
+  menuOpen: boolean = false;  // ควบคุมการเปิด/ปิดเมนู
+
   constructor(
     private _router: Router,
     private userSetting: UserSettingService,
@@ -30,13 +32,16 @@ export class HeaderReDesignComponent implements OnInit {
       this.hasSession = true;
     }
   }
+
   RedirectUrl(url) {
     this._router.navigate([url]);
   }
+
   OnIssueOnline() {
     this.CheckDeviceMode();
     // this.popupVisible = true;
   }
+
   logout() {
     Swal.fire({
       title: 'คุณต้องการออกจากระบบ หรือไม่?',
@@ -62,15 +67,15 @@ export class HeaderReDesignComponent implements OnInit {
           this._loginServ.logout();
           location.reload();
         });
-
       }
     });
   }
+
   closePopupWarning() {
-    console.log("object");
     this.popupVisible = false;
     this.CheckDeviceMode();
   }
+
   CheckDeviceMode() {
     this.deviceInfo = this.deviceService.getDeviceInfo();
     const isMobile = this.deviceService.isMobile();
@@ -81,4 +86,8 @@ export class HeaderReDesignComponent implements OnInit {
     }
   }
 
+  // ฟังก์ชันเปิด/ปิดเมนู
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
 }
