@@ -90,22 +90,7 @@ export class QapageComponent implements OnInit {
         // this.popupVisible = true;
         this.CheckDeviceMode();
     }
-
-    scrollToTop(): void {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-    ngAfterViewInit(): void {
-        window.addEventListener("scroll", () => {
-            const button = document.querySelector(".to-top-btn");
-            if (button) {
-                if (window.scrollY > 300) {
-                    button.classList.add("show");
-                } else {
-                    button.classList.remove("show");
-                }
-            }
-        });
-    }
+    
     ngAfterViewChecked(): void {
         // ตรวจสอบว่า pendingScrollId มีค่าหรือไม่
         if (this.pendingScrollId) {

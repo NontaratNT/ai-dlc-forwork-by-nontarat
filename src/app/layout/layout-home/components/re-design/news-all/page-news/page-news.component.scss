@@ -34,27 +34,6 @@ html {
     /* ทำให้ Footer อยู่ด้านล่างสุด */
 }
 
-// to-top-btn
-.to-top-btn {
-    position: fixed;
-    bottom: 15px;
-    right: 15px;
-    background-color: #ff5a01;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    display: none; /* ซ่อนปุ่มไว้ก่อน */
-}
-
-.to-top-btn.show {
-    display: block; /* แสดงปุ่มเมื่อมีการเลื่อนลง */
-    z-index: 999;
-}
-
 // css container
 .news-container {
     display: flex;

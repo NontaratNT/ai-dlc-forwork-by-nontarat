@@ -1,14 +1,15 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
 import { NewsService } from "src/app/services/re-design/news/news.service";
 import { Location } from "@angular/common";
 @Component({
-    selector: "app-detail-news",
-    templateUrl: "./detail-news.component.html",
-    styleUrls: ["./detail-news.component.scss"],
+  selector: 'app-service-detail',
+  templateUrl: './service-detail.component.html',
+  styleUrls: ['./service-detail.component.scss']
 })
-export class DetailNewsComponent implements OnInit {
-    newsDetail: any = {};
+export class ServiceDetailComponent implements OnInit {
+
+  newsDetail: any = {};
     isLoading: boolean = true;
     isError: boolean = false;
 
@@ -73,4 +74,5 @@ export class DetailNewsComponent implements OnInit {
         }
     }
     
+
 }
