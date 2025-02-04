@@ -1,44 +1,38 @@
 <div class="bg-light py-5 d-flex flex-column justify-content-between">
+  <div class="bg-light py-5 d-flex flex-column justify-content-between">
     <div class="bg-light py-5 d-flex flex-column justify-content-between">
-        <div class="bg-light py-5 d-flex flex-column justify-content-between">
-            <div *ngFor="let group of appInfo | keyvalue; trackBy: trackByGroup" class="container mb-5 d-flex flex-column flex-md-row justify-content-between align-items-center bg-blue-800 rounded-xl">
-              <div class="text-center text-md-left p">
-                <h1 class="display-4 font-weight-bold h1 text-warning">{{ group.key }}</h1>
-                <p class="mb-4 text-white font-weight-bold h4" [innerHTML]="group.value.AppDescription"></p>
-                <p class="text-white font-weight-bold font-sm" [ngClass]="{'d-none': group.value.Apps?.length == 0}">
-                  {{ group.value.Apps?.length >= 2 ? 'สามารถดาวน์โหลด Mobile Application ได้ทั้งสองระบบ' : 'สามารถดาวน์โหลด Mobile Application' }}
-                </p>
-                <div class="d-flex justify-content-center m-2">
-                  <div *ngFor="let app of group.value.Apps; trackBy: trackByApp" class="d-flex align-items-center py-2 rounded-3 mr-1">
-                    <img [src]="app.ImageUrl" [alt]="app.AppType" class="app-image" (click)="openApp(app.AppLink)">
-                  </div>
-                </div>
-              </div>
-              <!-- <div style="position: relative; margin-top: -150px;"> -->
-              <div>
-                <img  src="../assets/image/img/phone.png" alt="Phone Mockup" class="img-fluid rounded-xl mh">
-              </div>
+      <div *ngFor="let group of appInfo | keyvalue; trackBy: trackByGroup"
+        class="container mb-5 d-flex flex-column flex-md-row justify-content-between align-items-center bg-blue-800 rounded-xl">
+        <div class="text-center text-md-left p">
+          <h1 class="display-4 font-weight-bold h1 text-warning">{{ group.key }}</h1>
+          <p class="mb-4 text-white font-weight-bold h4" [innerHTML]="group.value.AppDescription"></p>
+          <p class="text-white font-weight-bold font-sm" [ngClass]="{'d-none': group.value.Apps?.length == 0}">
+            {{ group.value.Apps?.length >= 2 ? 'สามารถดาวน์โหลด Mobile Application ได้ทั้งสองระบบ' : 'สามารถดาวน์โหลด
+            Mobile Application' }}
+          </p>
+          <div class="d-flex justify-content-center m-2">
+            <div *ngFor="let app of group.value.Apps; trackBy: trackByApp"
+              class="d-flex align-items-center py-2 rounded-3 mr-1">
+              <img [src]="app.ImageUrl" [alt]="app.AppType" class="app-image" (click)="openApp(app.AppLink)">
             </div>
           </div>
+        </div>
+        <!-- <div style="position: relative; margin-top: -150px;"> -->
+        <div>
+          <img src="../assets/image/img/phone.png" alt="Phone Mockup" class="img-fluid rounded-xl mh">
+        </div>
+      </div>
+    </div>
 
     <!-- faq -->
-    <!-- <div class="container mt-5" style="max-width: 750px; margin: 0 auto;">
-        <h2 class="h2 text-blue font-weight-bold text-center res-con">คำถามที่พบบ่อย</h2>
-        <div class="text-blue bg-gray-300 font-weight-bold p-2 m-2 rounded h5 d-flex justify-content-between align-items-center">ลงทะเบียนเข้าสู่ระบบได้ช่องทางใดบ้าง
-            <img src="assets/icon/arrowright.svg" alt="arrow" class="iconarrow">
+    <h2 class="h2 text-blue font-weight-bold text-center res-con">คำถามที่พบบ่อย</h2>
+    <div class="container mt-1" style="max-width: 750px; margin: 0 auto;">
+      <div *ngFor="let faqs of faq" (click)="navigateToFaq(faqs.FAQ_ID)" style="cursor: pointer;">
+        <div
+          class="text-blue bg-gray-300 font-weight-bold p-2 m-2 rounded h5 d-flex justify-content-between align-items-center">
+          {{ faqs.FAQ_QUESTION }}
+          <img src="assets/icon/arrowright.svg" alt="arrow" class="iconarrow">
         </div>
-        <div class="text-blue bg-gray-300 font-weight-bold p-2 m-2 rounded h5 d-flex justify-content-between align-items-center">เมื่อตกเป็นเหยื่อต้องดำเนินอย่างไร
-            <img src="assets/icon/arrowright.svg" alt="arrow" class="iconarrow">
-        </div>
-        <div class="text-blue bg-gray-300 font-weight-bold p-2 m-2 rounded h5 d-flex justify-content-between align-items-center">ต้องการแจ้งความออนไลน์ต้องดำเนินอย่างไร
-            <img src="assets/icon/arrowright.svg" alt="arrow" class="iconarrow">
-        </div>
-        <div class="text-blue bg-gray-300 font-weight-bold p-2 m-2 rounded h5 d-flex justify-content-between align-items-center">ติดตามผลการแจ้งความหรือความคืบหน้าของคดี
-            <img src="assets/icon/arrowright.svg" alt="arrow" class="iconarrow">
-        </div>
-        <div class="text-blue bg-gray-300 font-weight-bold p-2 m-2 rounded h5 d-flex justify-content-between align-items-center">วิธีการตรวจสอบบุคคลต้องสงสัยเป็นมิจฉาชีพ
-            <img src="assets/icon/arrowright.svg" alt="arrow" class="iconarrow">
-        </div>
-    </div> -->
+      </div>
 
-</div>
+    </div>

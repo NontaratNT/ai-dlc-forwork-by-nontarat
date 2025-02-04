@@ -4,7 +4,8 @@
     <div class="qa-container">
       <div class="qa-header">
         <div class="breadcrumbs">
-          <span style="color: black;">หน้าแรก</span> <span style="color: #FF5A01;">&gt; คำถามที่พบบ่อย</span>
+          <span style="color: #343434; cursor: pointer;" (click)="ToMain()">หน้าแรก</span> <span style="color: #FF5A01;">&gt;
+            คำถามที่พบบ่อย</span>
         </div>
         <h1>คำถามที่พบบ่อย</h1>
       </div>
@@ -12,37 +13,39 @@
       <div class="qa-content">
         <div class="qa-nav-list">
           <div class="input-container">
-            <input type="text" placeholder="ค้นหารายการที่ต้องการ" class="search-input">
+            <input type="text" placeholder="ค้นหารายการที่ต้องการ" class="search-input" (keyup)="searchFaqList($event)">
             <img src="assets/icon/search.svg" alt="search" class="icon-search">
-        </div>
-          <label>ลงทะเบียนเข้าสู่ระบบได้ช่องทางใดบ้าง</label>
-          <label>เมื่อตกเป็นเหยื่อต้องดำเนินอย่างไร</label>
-          <label>ต้องการแจ้งความออนไลน์ต้องดำเนินอย่างไร</label>
-          <label>วิธีการตรวจสอบบุคคลต้องสงสัยเป็นมิจฉาชีพ</label>
-          <label>คดีแบบไหนที่สามารถแจ้งความออนไลน์ได้?</label>
+          </div>
+          <div *ngFor="let faqs of faq">
+            <label (click)="scrollTo(faqs.FAQ_ID)" [class.active]="activeFaq === faqs.FAQ_ID">{{ faqs.FAQ_QUESTION }}</label>
+          </div>
         </div>
         <div class="qa-content-main">
           <section class="qa-item">
-            <p class="qa-pointtext">คำถาม</p>
-            <header class="qa-header-sec">ลงทะเบียนเข้าสู่ระบบได้ช่องทางใดบ้าง?</header>
-            <p class="qa-pointtext">คำตอบ</p>
-            <p>คุณสามารถลงทะเบียนเข้าสู่ระบบได้ 2 ช่องทางดังนี้:</p>
-            <div class="qa-channel">
-              <div class="qa-channel-item">
-                <div class="qa-channel-number">1</div>
-                <p>ผ่านอีเมลและเบอร์โทรศัพท์: ใช้ข้อมูลอีเมลและเบอร์โทรศัพท์เพื่อสร้างบัญชีและเข้าสู่ระบบได้อย่างง่ายดาย
-                </p>
-              </div>
-              <div class="qa-channel-item">
+            <div *ngFor="let faqs of faq" [id]="'faq-' + faqs.FAQ_ID" [class.active]="faqs.FAQ_ID === activeFaq">
+              <p class="qa-pointtext">คำถาม</p>
+              <header class="qa-header-sec">{{ faqs.FAQ_QUESTION }}</header>
+              <p class="qa-pointtext">คำตอบ</p>
+              <!-- <p>คุณสามารถลงทะเบียนเข้าสู่ระบบได้ 2 ช่องทางดังนี้:</p> -->
+              <div class="qa-channel">
+                <div class="qa-channel-item">
+                  <!-- <div class="qa-channel-number">{{faqs.FAQ_SEQ}}</div> -->
+                  <p>{{ faqs.FAQ_ANSWER }}
+                  </p>
+                  
+                </div>
+                <!-- <div class="qa-channel-item">
                 <div class="qa-channel-number">2</div>
                 <p>ผ่านระบบ ThaiD: ใช้บริการลงทะเบียนผ่าน ThaiD เพื่อการยืนยันตัวตนที่ปลอดภัยและรวดเร็ว</p>
+              </div> -->
               </div>
+              <hr class="qa-divider">
             </div>
-            <p><strong>เลือกช่องทางที่สะดวกสำหรับคุณเพื่อเริ่มต้นใช้งาน!</strong></p>
-            <button class="regisbtn">ลงทะเบียนที่นี่</button>
+            <!-- <p><strong>เลือกช่องทางที่สะดวกสำหรับคุณเพื่อเริ่มต้นใช้งาน!</strong></p> -->
+            <!-- <button class="regisbtn" (click)="openLink('/login')">ลงทะเบียนที่นี่</button> -->
           </section>
-          <hr class="qa-divider">
-          <section class="qa-item">
+
+          <!-- <section class="qa-item">
             <p class="qa-pointtext">คำถาม</p>
             <header class="qa-header-sec">เมื่อตกเป็นเหยื่อต้องดำเนินอย่างไร?</header>
             <p class="qa-pointtext">คำตอบ</p>
@@ -60,7 +63,7 @@
                         <div class="qa-channel-number">2</div>
                         <p>ติดต่อธนาคารเพื่อขออายัดบัญชี: หากการฉ้อโกงเกี่ยวข้องกับบัญชีธนาคารหรือบัตรเครดิต ให้รีบติดต่อ
                             ธนาคารที่เกี่ยวข้องทันที เพื่อขออายัดบัญชีหรือบัตร และป้องกันการสูญเสียเงินเพิ่มเติม
-                           <br> <span class="c-text">ติดต่อธนาคารของท่านได้ที่นี่</span>
+                           <br> <span class="c-text" [routerLink]="['/']" fragment="requestFreeze">ติดต่อธนาคารของท่านได้ที่นี่</span>
                         </p>
                     </div>
             
@@ -85,14 +88,16 @@
             </div>
             <p><strong>เลือกช่องทางการดำเนินการ</strong></p>
             <div class="button-control">
-              <button class="regisbtn">สายด่วน 1441</button>
-              <button class="jbtn">แจ้งความออนไลน์</button>
+              <button class="regisbtn"(click)="TelLink('tel:1441')">สายด่วน 1441</button>
+              <button class="jbtn" (click)="OnIssueOnline()">แจ้งความออนไลน์</button> 
               <button class="cbtn">ติดต่อทางศูนย์ให้คำปรึกษา</button>
-            </div>
-          </section>
+            </div> 
+          </section> -->
         </div>
       </div>
     </div>
+    <button class="to-top-btn" (click)="scrollToTop()">&#8679;</button>
+
   </div>
 </div>
 <footer-re-design></footer-re-design>

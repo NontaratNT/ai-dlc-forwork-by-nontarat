@@ -1,0 +1,84 @@
+:host {
+    #police-index-page {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh; // ให้หน้าครอบคลุมความสูงเต็มหน้าจอ
+        flex: 1;
+
+        .block-content {
+            flex: 1; // ใช้พื้นที่ที่เหลือทั้งหมดระหว่าง header และ footer
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            background-color: #ffffff;
+        }
+
+        footer-re-design {
+            background-color: #0b2652;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px 0;
+            width: 100%;
+        }
+    }
+}
+
+body,
+html {
+     font-weight: 600;
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    /* ทำให้ Footer อยู่ด้านล่างสุด */
+}
+
+
+// new detail css
+
+.news-container {
+     display: flex;
+     flex-direction: column;
+     background-color: #ffffff;
+     padding: 55px 15px 15px 15px;
+ }
+ 
+ .newsHeader {
+     display: flex;
+     flex-direction: row;
+     margin-bottom: 20px;
+ }
+ 
+ .newsHeader .breadcrumb {
+     font-size: 14px;
+     align-self: center;
+ }
+ .titleNews {
+     color: #ff5a01;
+ }
+ .newsHeader h1 {
+     font-size: 24px;
+     color: #333;
+ }
+
+ //news content
+ .news-content {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row-reverse;
+    gap: 2vw;
+}
+.news-nav-list {
+    flex: 1 1 20%;
+    min-width: 15vw;
+    display: flex;
+    flex-direction: column;
+    gap: 1vw;
+    color: #ff5a01;
+    font-weight: bold;
+}
+.news-content-main{
+    flex: 1 1 70%;
+    min-width: 20vw;
+}

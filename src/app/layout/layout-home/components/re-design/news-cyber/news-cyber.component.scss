@@ -1,6 +1,7 @@
 .containerNews {
      background-color: #ffffff;
-     padding: 2vw 4vw;
+     // padding: 2vw 4vw;
+     padding: 50px 50px 50px 50px;
      display: flex;
      flex-direction: column;
      gap: 1.5vw;
@@ -68,7 +69,7 @@
                display: flex;
                flex-direction: column;
                width: 100%;
-               padding: 1vw;
+               padding: 0;
                transform: translateY(30px);
                transition: opacity 1s ease-out, transform 1s ease-out;
                opacity: 0;
@@ -84,9 +85,9 @@
 
                .imageNews {
                     width: 100%;
-                    height: 12vw;
+                    height: 20vw;
+                    border-radius: 24px;
                     object-fit: cover;
-                    border-radius: 8px;
                }
 
                .detailNews {
@@ -143,7 +144,7 @@
           justify-content: space-between;
           align-items: center;
           width: 100%;
-          padding: 1vw 0;
+          padding: 0;
 
           .dotNews {
                display: flex;
@@ -171,7 +172,7 @@
           .buttonsNews {
                display: flex;
                gap: 0.8vw;
-
+               cursor: pointer;
                button {
                     width: 35px;
                     height: 35px;
