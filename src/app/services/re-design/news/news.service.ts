@@ -8,6 +8,7 @@ import { environment } from "src/environments/environment";
 })
 export class NewsService {
     private _baseUrl = environment.config.apieCCib;
+    // private _baseUrl = "https://officeruat.thaipoliceonline.go.th/api/ccib/v1.0"
     constructor(private http: HttpClient) {}
 
     getNewsAll(): Observable<any> {
@@ -58,8 +59,8 @@ export class NewsService {
         return this.http.get(`${this._baseUrl}/CCPCaseStat`);
     }
 
-    getNewsById(newid: number): Observable<any> {
-        const url = `${this._baseUrl}/CCPNews/${newid}`;
+    getNewsById(newsId: number): Observable<any> {
+        const url = `${this._baseUrl}/CCPNews/${newsId}`;
         return this.http.get<any>(url);
     }
 }

@@ -13,6 +13,7 @@ export class PageNewsComponent implements OnInit {
     news2: any[] = [];
     news3: any[] = [];
 
+
     constructor(private service: NewsService, private router: Router) {}
 
     ngOnInit(): void {
@@ -112,7 +113,15 @@ export class PageNewsComponent implements OnInit {
         this.router.navigate(["/"]);
     }
 
-    navigateToDetail(newsId: number): void {
-        this.router.navigate([`news/detail/${newsId}`]); 
+    navigateToDetail(newsId: number | null | undefined): void {
+        if (!newsId) {
+            console.error('Invalid newsId:', newsId);
+            return;
+        }
+    
+        this.router.navigate([`news/detail/${newsId}`]).catch((error) => {
+            console.error('Navigation error:', error);
+        });
     }
+    
 }

@@ -89,13 +89,13 @@ html {
 }
 
 .news-category {
-    font-size: 14px;
+    font-size: 16px;
     color: #ff5a01;
     font-weight: bold;
 }
 
 .news-title {
-    font-size: 24px;
+    font-size: 32px;
     color: #273880;
     font-weight: 700;
     margin: 10px 0;
@@ -103,7 +103,7 @@ html {
 
 .news-author,
 .news-date {
-    font-size: 12px;
+    font-size: 14px;
     color: #666666;
 }
 
@@ -115,7 +115,7 @@ html {
 .news-image img {
     width: 100%;
     max-height: 300px;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: 8px;
 }
 
@@ -126,9 +126,9 @@ html {
 }
 
 .news-body p {
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.6;
-    color: #333333;
+    color: #000000;
     margin-bottom: 15px;
 }
 

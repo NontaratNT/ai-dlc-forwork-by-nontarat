@@ -1,12 +1,15 @@
 <div class="containerSecurity">
     <div class="textSecurity">ข่าวสารที่น่าสนใจ</div>
     <div class="boxSecurity">
-        <ng-container *ngFor="let item of detailSecurity">
+        <ng-container *ngFor="let item of topnews">
             <label class="securityWitget">
-                <div class="iconSecurity">
+                <div class="topnewsImage">
                     <img [src]="item.ImageUrl" class="imageNews">
                 </div>
-                <label class="descSecurity">{{ item.ServiceDescription }}</label>
+                <div>
+                    <label class="descSecurity">{{ item.NewsTitle }}</label>
+                    <label class="descSecurity">{{ item.CreateDate | thaiDate }}</label>
+                </div>
             </label>
         </ng-container>
     </div>

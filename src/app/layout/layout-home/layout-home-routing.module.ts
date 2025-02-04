@@ -51,7 +51,8 @@ const routes: Routes = [
 
     },
     { path: 'senior-cyber-police', component: BoxSeniorCyberComponent },
-    { path: 'news/detail/:id', component: DetailNewsComponent },
+    // { path: 'news/detail/:newsId', component: DetailNewsComponent },
+    { path: 'news/detail/:Id', component: DetailNewsComponent },
     { path: 'news', component: PageNewsComponent },
     { path: 'qa', component: QapageComponent },
     // { path: 'news', component: NewsComponent },
