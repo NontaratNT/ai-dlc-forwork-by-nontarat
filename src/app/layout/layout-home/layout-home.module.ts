@@ -80,6 +80,8 @@ import { BoxFrameThridComponent } from './components/re-design/main-re-design/bo
 import { BoxSeniorCyberComponent } from './components/re-design/main-re-design/box-senior-cyber/box-senior-cyber.component';
 import { SecurityBoxComponent } from './components/re-design/components/security-box/security-box.component';
 import { NewsBoxComponent } from './components/re-design/components/news-box/news-box.component';
+import { ServiceDetailComponent } from './components/re-design/service-detail/service-detail.component';
+import { TotopbtnComponent } from './components/re-design/components/totopbtn/totopbtn.component';
 const customNotifierOptions: NotifierOptions = {
     position: {
         horizontal: {
@@ -168,6 +170,8 @@ const customNotifierOptions: NotifierOptions = {
         ThaiDatePipe,
         SecurityBoxComponent,
         NewsBoxComponent,
+        ServiceDetailComponent,
+        TotopbtnComponent
     ],
     imports: [
         DxiItemModule,
@@ -203,7 +207,7 @@ const customNotifierOptions: NotifierOptions = {
         NgxPaginationModule,
         LayoutDesktopModule,
         CountdownModule,
-
+        
 
     ], schemas: [CUSTOM_ELEMENTS_SCHEMA],
     exports: [ThaiDatePipe]

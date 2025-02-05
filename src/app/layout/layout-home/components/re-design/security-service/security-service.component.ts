@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NewsService } from 'src/app/services/re-design/news/news.service';
 import { User } from 'src/app/services/user';
@@ -9,7 +9,7 @@ import { User } from 'src/app/services/user';
   styleUrls: ['./security-service.component.scss']
 })
 export class SecurityServiceComponent implements OnInit {
-
+  @Input() types: 'main' | 'witget' = 'main';
   isDragging = false;
   startX = 0;
   scrollLeft = 0;
@@ -88,6 +88,7 @@ export class SecurityServiceComponent implements OnInit {
   }
 
   onSwitchService(id: number): void {
+    
     switch (id) {
       case 1:
         window.location.href = 'https://www.checkgon.com/';

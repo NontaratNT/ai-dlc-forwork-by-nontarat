@@ -4,7 +4,7 @@
           <div class="news-container">
                <div class="newsHeader">
                     <div class="breadcrumbs" (click)="ToMain()" style="cursor: pointer;">หน้าแรก</div>
-                    <label class="titleNews">&gt;ข่าวประชาสัมพันธ์และเตือนภัยไซเบอร์</label>
+                    <label class="titleNews">&gt;ข่าวประชาสัมพันธ์ / เตือนภัยไซเบอร์</label>
                </div>
 
                <div class="tabs-container">
@@ -23,7 +23,7 @@
                     <!-- Tabs Content -->
                     <div class="tab-content" *ngIf="activeTab === 'all'">
                          <section class="newsCard" >
-                              <div class="newsItem fade-animation" *ngFor="let news of newsData" (click)="navigateToDetail(news.NewsId)">
+                              <label class="newsItem fade-animation" *ngFor="let news of newsData" (click)="navigateToDetail(news.NewsId)">
                                    <img [src]="news.ImageUrl" [alt]="news.NewsTitle" class="newsImage">
                                    <div class="newsDetails">
                                         <label class="newsCategory">{{ news.CategoryName }}</label>
@@ -34,12 +34,12 @@
                                              <label style="margin-bottom: 0;">{{ news.CreateDate | thaiDate}}</label>
                                         </div>
                                    </div>
-                              </div>
+                              </label>
                          </section>
                     </div>
                     <div class="tab-content" *ngIf="activeTab === 1">
                          <section class="newsCard">
-                              <div class="newsItem fade-animation" *ngFor="let news of news1">
+                              <label class="newsItem fade-animation" *ngFor="let news of news1" (click)="navigateToDetail(news.NewsId)">
                                    <img [src]="news.ImageUrl" [alt]="news.NewsTitle" class="newsImage">
                                    <div class="newsDetails">
                                         <label class="newsCategory">{{ news.CategoryName }}</label>
@@ -50,12 +50,12 @@
                                              <label>{{ news.CreateDate }}</label>
                                         </div>
                                    </div>
-                              </div>
+                              </label>
                          </section>
                     </div>
                     <div class="tab-content" *ngIf="activeTab === 2">
                          <section class="newsCard">
-                              <div class="newsItem fade-animation" *ngFor="let news of news2">
+                              <label class="newsItem fade-animation" *ngFor="let news of news2" (click)="navigateToDetail(news.NewsId)">
                                    <img [src]="news.ImageUrl" [alt]="news.NewsTitle" class="newsImage">
                                    <div class="newsDetails">
                                         <label class="newsCategory">{{ news.CategoryName }}</label>
@@ -66,12 +66,12 @@
                                              <label>{{ news.CreateDate }}</label>
                                         </div>
                                    </div>
-                              </div>
+                              </label>
                          </section>
                     </div>
                     <div class="tab-content" *ngIf="activeTab === 3">
                          <section class="newsCard">
-                              <div class="newsItem fade-animation" *ngFor="let news of news3">
+                              <label class="newsItem fade-animation" *ngFor="let news of news3" (click)="navigateToDetail(news.NewsId)">
                                    <img [src]="news.ImageUrl" [alt]="news.NewsTitle" class="newsImage">
                                    <div class="newsDetails">
                                         <label class="newsCategory">{{ news.CategoryName }}</label>
@@ -82,7 +82,7 @@
                                              <label>{{ news.CreateDate }}</label>
                                         </div>
                                    </div>
-                              </div>
+                              </label>
                          </section>
                     </div>
                </div>
@@ -91,7 +91,7 @@
                     <button>ดูข่าวเพิ่มเติม</button>
                </div> -->
           </div>
+          <app-totopbtn></app-totopbtn>
      </div>
-     <button class="to-top-btn" (click)="scrollToTop()">&#8679;</button>
 </div>
 <footer-re-design></footer-re-design>

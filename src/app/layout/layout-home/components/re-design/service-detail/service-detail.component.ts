@@ -1,14 +1,15 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
 import { NewsService } from "src/app/services/re-design/news/news.service";
 import { Location } from "@angular/common";
 @Component({
-    selector: "app-detail-news",
-    templateUrl: "./detail-news.component.html",
-    styleUrls: ["./detail-news.component.scss"],
+  selector: 'app-service-detail',
+  templateUrl: './service-detail.component.html',
+  styleUrls: ['./service-detail.component.scss']
 })
-export class DetailNewsComponent implements OnInit {
-    newsDetail: any = {};
+export class ServiceDetailComponent implements OnInit {
+
+  newsDetail: any = {};
     isLoading: boolean = true;
     isError: boolean = false;
 
@@ -20,21 +21,21 @@ export class DetailNewsComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        // สังเกตการเปลี่ยนแปลงพารามิเตอร์ newsId
-        this.route.params.subscribe((params) => {
-            const newsId = params['newsId'];
-            if (newsId) {
-                const numericNewsId = Number(newsId);
+        
+        const newsId = this.route.snapshot.paramMap.get("newsId");
 
-                if (!isNaN(numericNewsId)) {
-                    this.loadNewsDetails(numericNewsId); // โหลดเนื้อหาใหม่ตาม newsId
-                } else {
-                    this.handleError("Invalid newsId: Not a number");
-                }
+        if (newsId) {
+            
+            const numericNewId = Number(newsId);
+
+            if (!isNaN(numericNewId)) {
+                this.loadNewsDetails(numericNewId); 
             } else {
-                this.handleError("No newsId found in URL");
+                this.handleError("Invalid newsId: Not a number");
             }
-        });
+        } else {
+            this.handleError("No newsId found in URL");
+        }
     }
 
     loadNewsDetails(newsId: number): void {
@@ -43,7 +44,7 @@ export class DetailNewsComponent implements OnInit {
 
         this.newsservice.getNewsById(newsId).subscribe(
             (response) => {
-                this.newsDetail = response.Value; // เก็บข้อมูลข่าวที่ได้จาก API
+                this.newsDetail = response.Value; 
                 this.isLoading = false;
             },
             (error) => {
@@ -69,8 +70,9 @@ export class DetailNewsComponent implements OnInit {
         } else if (previousUrl === "/") {
             this.router.navigate(["/"]);
         } else {
-            this.location.back(); // ใช้ Location service เพื่อนำทางกลับ
+            this.location.back();
         }
     }
-}
+    
 
+}

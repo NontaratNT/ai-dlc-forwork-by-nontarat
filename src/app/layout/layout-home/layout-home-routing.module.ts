@@ -27,6 +27,7 @@ import { PageNewsComponent } from './components/re-design/news-all/page-news/pag
 import { QapageComponent } from './components/re-design/qapage/qapage.component';
 import { BoxSeniorCyberComponent } from './components/re-design/main-re-design/box-senior-cyber/box-senior-cyber.component';
 import { SecurityBoxComponent } from './components/re-design/components/security-box/security-box.component';
+import { ServiceDetailComponent } from './components/re-design/service-detail/service-detail.component';
 
 const routes: Routes = [
     {
@@ -52,9 +53,10 @@ const routes: Routes = [
     },
     { path: 'senior-cyber-police', component: BoxSeniorCyberComponent },
     // { path: 'news/detail/:newsId', component: DetailNewsComponent },
-    { path: 'news/detail/:Id', component: DetailNewsComponent },
+    { path: 'news/detail/:newsId', component: DetailNewsComponent },
     { path: 'news', component: PageNewsComponent },
     { path: 'qa', component: QapageComponent },
+    // {path: 'sdt', component: ServiceDetailComponent},
     // { path: 'news', component: NewsComponent },
     // { path: 'news/detail/:id', component: NewsDetailComponent },
     {

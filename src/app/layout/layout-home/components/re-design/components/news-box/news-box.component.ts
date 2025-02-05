@@ -20,4 +20,15 @@ export class NewsBoxComponent implements OnInit {
             }
         });
     }
+
+    navigateToDetail(newsId: number | null | undefined): void {
+        if (!newsId) {
+            console.error('Invalid newsId:', newsId);
+            return;
+        }
+    
+        this.router.navigate([`news/detail/${newsId}`]).catch((error) => {
+            console.error('Navigation error:', error);
+        });
+    }
 }

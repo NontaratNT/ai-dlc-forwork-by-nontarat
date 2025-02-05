@@ -93,22 +93,6 @@ export class PageNewsComponent implements OnInit {
         }
     }
 
-    scrollToTop(): void {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-    ngAfterViewInit(): void {
-        window.addEventListener("scroll", () => {
-            const button = document.querySelector(".to-top-btn");
-            if (button) {
-                if (window.scrollY > 150) {
-                    button.classList.add("show");
-                } else {
-                    button.classList.remove("show");
-                }
-            }
-        });
-    }
-
     ToMain() {
         this.router.navigate(["/"]);
     }

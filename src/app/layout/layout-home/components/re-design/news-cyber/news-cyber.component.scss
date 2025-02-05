@@ -74,7 +74,7 @@
                transition: opacity 1s ease-out, transform 1s ease-out;
                opacity: 0;
                /* ตั้งค่าเริ่มต้นให้ไม่เห็น */
-
+               cursor: pointer;
                /* เพิ่ม transition-delay */
                &.slide-in {
                     opacity: 1;
