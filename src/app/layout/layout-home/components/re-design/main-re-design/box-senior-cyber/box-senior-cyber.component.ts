@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/services/user';
 import Swal from 'sweetalert2';
@@ -10,6 +10,8 @@ import Swal from 'sweetalert2';
 })
 export class BoxSeniorCyberComponent implements OnInit {
 
+  @Input() types: 'senior' | 'seniorPages' = 'senior';
+
   slides = [
     {
       id: 1,
@@ -20,7 +22,7 @@ export class BoxSeniorCyberComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
-    if(!User.Current){
+    if (!User.Current) {
       this.router.navigate(["/"]);
     }
     if (User.Current.Age < 60) {

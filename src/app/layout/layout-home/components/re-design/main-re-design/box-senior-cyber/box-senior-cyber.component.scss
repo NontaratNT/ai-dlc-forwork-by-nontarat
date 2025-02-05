@@ -33,6 +33,8 @@
           margin: 0px 30px;
      }
 
+
+
      .camera {
           width: 3vw;
      }
@@ -114,5 +116,91 @@
 
      .senior60 {
           width: 40vw;
+     }
+
+}
+
+//Pages 
+.slidePages {
+     min-width: 100%;
+     height: calc(100vh - 275px);
+     background-color: #273880;
+     background-size: cover;
+     background-position: center;
+     position: relative;
+     padding: 65px 125px 65px 125px;
+
+     .slidePages img {
+          width: 100%;
+          max-width: 1200px;
+          height: auto;
+          object-fit: contain;
+     }
+
+     .boxMain {
+          display: flex;
+          align-items: center;
+          justify-content: space-evenly;
+
+          .boxLeft {
+               display: flex;
+               flex-direction: column;
+               align-items: flex-start;
+
+               .logoPolicePages {
+                    width: 35vw;
+               }
+
+               .logoSenior {
+                    width: 35vw;
+               }
+
+               .logoTextTalk {
+                    width: 35vw;
+                    padding: 10px 0 30px 30px;
+               }
+
+               .buttonSenior {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: #FF5A01;
+                    padding: 9px 0px;
+                    border-radius: 10px;
+                    width: 100%;
+                    margin: 0 0 10px 30px;
+                    cursor: pointer;
+
+                    .camera {
+                         width: 3vw;
+                         cursor: pointer;
+                    }
+
+                    .textZoom1 {
+                         font-size: 1.2vw;
+                         color: #fff;
+                         margin: 0 5px;
+                         cursor: pointer;
+                    }
+               }
+
+               .logoInfo {
+                    width: 36vw;
+                    padding: 10px 0 0 30px;
+               }
+
+               .logoResult {
+                    width: 15vw;
+                    padding: 10px 0 0 30px;
+               }
+          }
+
+          .boxRight {
+
+               .senior60 {
+                    width: 35vw;
+               }
+          }
      }
 }

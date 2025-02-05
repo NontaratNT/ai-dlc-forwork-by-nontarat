@@ -15,6 +15,6 @@ export class MainHomeComponent implements OnInit {
 
     openLink(link: string) {
         this.router.navigate([link], { queryParams: { icli: 'landing' } });
-      }
+    }
 
 }

@@ -155,7 +155,7 @@
                สถิติความเสียหายสะสม ตั้งแต่วันที่ 1 มกราคม 2568 ถึง วันที่ {{item?.END_DATE | thaiDate}}
           </label>
           <div class="boxFirst">
-               <div class="boxLeft" #boxsLeft [ngClass]="{'slideLeft': isVisible}">
+               <div class="boxLeft" #boxLeft [ngClass]="{'slideLeft': isVisible}">
                     <label for="caseOnline" class="titleWhite">คดีออนไลน์</label>
                     <label for="TOTAL_CASE" class="dataYellow">
                          {{item?.TOTAL_CASE ? item?.TOTAL_CASE : 0}}

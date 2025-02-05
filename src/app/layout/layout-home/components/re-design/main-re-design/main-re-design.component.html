@@ -1,37 +1,10 @@
-<!-- <div class="slider-container">
-     <div class="slides" [style.transform]="'translateX(-' + currentIndex * 100 + '%)'">
-          <div class="slide" *ngFor="let slide of slides" [ngStyle]="{'background-image': 'url(' + slide.images + ')'}">
-               <div *ngIf="slide.id === 1">
-                    <box-frame [boxes]="boxes"></box-frame>
-               </div>
-               <div *ngIf="slide.id === 2">
-                    <box-frame-second></box-frame-second>
-               </div>
-               <div *ngIf="slide.id === 3">
-                    <app-box-frame-thrid></app-box-frame-thrid>
-               </div>
-          </div>
-     </div>
-
-     <button class="nav nav-left" (click)="prevSlide()">&#10094;</button>
-     <button class="nav nav-right" (click)="nextSlide()">&#10095;</button>
-
-     <div class="dots">
-          <span class="dot" *ngFor="let slide of slides; let i = index" [class.active]="i === currentIndex"
-               (click)="goToSlide(i)"></span>
-     </div>
-</div> -->
 <div class="slideContainer">
      <div class="slideBox" [style.transform]="'translateX(-' + currentIndex * 100 + '%)'">
           <div class="slideDetail" *ngFor="let slide of slides"
                [ngStyle]="{'background-image': 'url(' + slide.images + ')'}">
-
                <box-frame *ngIf="slide.id === 1"></box-frame>
-
-               <div *ngIf="slide.id === 2">
-               </div>
-               <div *ngIf="slide.id === 3">
-               </div>
+               <box-frame-second *ngIf="slide.id === 2"></box-frame-second>
+               <box-frame-thrid *ngIf="slide.id === 3"></box-frame-thrid>
           </div>
      </div>
 
