@@ -20,21 +20,21 @@ export class DetailNewsComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        // รับค่าพารามิเตอร์ newsId จาก URL
-        const newsId = this.route.snapshot.paramMap.get("newsId");
+        // สังเกตการเปลี่ยนแปลงพารามิเตอร์ newsId
+        this.route.params.subscribe((params) => {
+            const newsId = params['newsId'];
+            if (newsId) {
+                const numericNewsId = Number(newsId);
 
-        if (newsId) {
-            // แปลง newsId จาก string เป็น number ก่อนเรียกใช้งาน
-            const numericNewId = Number(newsId);
-
-            if (!isNaN(numericNewId)) {
-                this.loadNewsDetails(numericNewId); // ส่ง newsId ที่เป็นตัวเลขไปยังฟังก์ชัน
+                if (!isNaN(numericNewsId)) {
+                    this.loadNewsDetails(numericNewsId); // โหลดเนื้อหาใหม่ตาม newsId
+                } else {
+                    this.handleError("Invalid newsId: Not a number");
+                }
             } else {
-                this.handleError("Invalid newsId: Not a number");
+                this.handleError("No newsId found in URL");
             }
-        } else {
-            this.handleError("No newsId found in URL");
-        }
+        });
     }
 
     loadNewsDetails(newsId: number): void {
@@ -72,5 +72,5 @@ export class DetailNewsComponent implements OnInit {
             this.location.back(); // ใช้ Location service เพื่อนำทางกลับ
         }
     }
-    
 }
+

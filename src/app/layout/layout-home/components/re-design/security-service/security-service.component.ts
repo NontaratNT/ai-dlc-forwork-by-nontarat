@@ -91,6 +91,7 @@ export class SecurityServiceComponent implements OnInit {
   }
 
   onSwitchService(id: number): void {
+    
     switch (id) {
       case 1:
         window.location.href = 'https://www.checkgon.com/';

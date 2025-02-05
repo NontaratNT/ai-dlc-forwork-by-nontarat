@@ -10,16 +10,16 @@
             <div class="news-content">
                 <div class="news-content-main">
                     <div class="news-header">
-                        <p class="news-category">test</p>
-                        <h1 class="news-title">test</h1>
-                        <p class="news-author">test</p>
-                        <p class="news-date">test</p>
+                        <p class="news-category">{{newsDetail.CATEGORY_NAME}}</p>
+                        <h1 class="news-title">{{newsDetail.NEWS_TITLE}}</h1>
+                        <p class="news-author">{{newsDetail.AUTHOR_NAME}}</p>
+                        <p class="news-date">{{newsDetail.CREATE_DATE | thaiDate}}</p>
                     </div>
                     <div class="news-image">
-                        <img src="assets/icon/Emblem_of_Royal_Thai_Police 1.png">
+                        <img [src]="newsDetail.NEWS_IMAGE_URL" [alt]="newsDetail.NEWS_TITLE">
                     </div>
-                    <div class="news-body">
-                        test
+                    <div class="news-body" [innerHTML]="newsDetail.NEWS_CONTENT">
+                        {{newsDetail.NEWS_CONTENT}}
                     </div>
                     <hr>
                     <div class="news-footer">

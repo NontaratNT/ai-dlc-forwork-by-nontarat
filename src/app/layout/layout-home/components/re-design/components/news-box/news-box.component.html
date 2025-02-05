@@ -2,7 +2,7 @@
     <div class="textNews">ข่าวสารที่น่าสนใจ</div>
     <div class="boxSecurity">
         <ng-container *ngFor="let item of topnews">
-            <label class="NewsWitget">
+            <label class="NewsWitget" (click)="navigateToDetail(item.NewsId)">
                 <div class="topnewsImage">
                     <img [src]="item.ImageUrl" class="imageNews">
                 </div>
