@@ -92,16 +92,13 @@ export class HeaderReDesignComponent implements OnInit {
         this.menuOpen = !this.menuOpen;
     }
 
-    scrollToSection(sectionName: string): void {
+    scrollToSection(sectionName: string, redirectUrl: string = ""): void {
         const target = document.querySelector(
             `[data-section="${sectionName}"]`
-        ); // ค้นหา section ตามชื่อ
+        );
         let headerOffset =
             document.querySelector(".menuHeaderRight")?.clientHeight || 100;
 
-        if (sectionName === "faq") {
-            headerOffset -= 120; 
-        }
         if (target) {
             const topPosition =
                 (target as HTMLElement).getBoundingClientRect().top +
@@ -109,10 +106,22 @@ export class HeaderReDesignComponent implements OnInit {
                 headerOffset;
 
             window.scrollTo({ top: topPosition, behavior: "smooth" });
+
+            // ตรวจสอบว่าการ Scroll สำเร็จหรือไม่ (เผื่อกรณีองค์ประกอบถูกโหลดช้าหรือไม่อยู่บนหน้า)
+            setTimeout(() => {
+                const newPosition = (
+                    target as HTMLElement
+                ).getBoundingClientRect().top;
+                if (Math.abs(newPosition) > 10) {
+                    if (redirectUrl) {
+                        this._router.navigateByUrl(redirectUrl);
+                    }
+                }
+            }, 500);
         } else {
-            console.warn(
-                `Element with data-section="${sectionName}" not found.`
-            );
+            if (redirectUrl) {
+                this._router.navigateByUrl(redirectUrl);
+            }
         }
     }
 }
