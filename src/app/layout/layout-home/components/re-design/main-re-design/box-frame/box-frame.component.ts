@@ -18,12 +18,14 @@ export class BoxFrameComponent implements OnInit, AfterViewInit {
 
   dataStatic: any;
 
+  index: any;
+  showTooltip: boolean = false;  // กำหนดตัวแปรเพื่อควบคุมการแสดง tooltip
   constructor(private service: NewsService) { }
 
   ngOnInit(): void {
     this.service.getStatic().subscribe((res) => {
-      this.dataStatic = res.Value;
-      // console.log(this.dataStatic);
+      this.dataStatic = [res.Value];
+      console.log(this.dataStatic);
     });
   }
 
