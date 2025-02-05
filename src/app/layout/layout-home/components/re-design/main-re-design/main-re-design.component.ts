@@ -10,6 +10,9 @@ export class MainReDesignComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    // setInterval(() => {
+    //   this.nextSlide();
+    // }, 5000);  // 5000ms = 5 วินาที
   }
 
   slides = [

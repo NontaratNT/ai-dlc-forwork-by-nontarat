@@ -1,10 +1,8 @@
-<div class="frameMain">
+<!-- <div class="frameMain">
 
      <div class="boxLeft">
-          <!-- ใช้ ngFor เพื่อวนลูป boxes และแสดงข้อมูลใน header -->
           <div class="header">
                สถิติความเสียหายสะสม ตั้งแต่วันที่ 1 มกราคม 2568 ถึง วันที่ {{this.dataStatic?.END_DATE | thaiDate}}
-               <!-- แสดงแต่ละ box ใน content โดยแบ่งคอลัมน์ -->
                <div class="boxMain">
 
                     <div class="boxsLeft" #boxsLeft [ngClass]="{'slideLeft': isVisible}"
@@ -77,7 +75,7 @@
 
                </div>
 
-               <!-- <div class="boxThird">
+               <div class="boxThird">
                     <div class="boxsLeft" #boxsLeft [ngClass]="{'slideLeft': isVisible}"
                          style="border-right: 2px solid #FFD300;">
                          <div class="textCaseOnline">
@@ -106,7 +104,7 @@
                                         {{this.dataStatic?.PERCENTAGE_NO1 ? this.dataStatic?.PERCENTAGE_NO1 : 0}} %
                                    </div>
                               </div>
-                              
+
                               <div class="case01">
                                    <div class="case011">
                                         {{this.dataStatic?.CASE_TYPE_NO2 ? this.dataStatic?.CASE_TYPE_NO2 : 0}}
@@ -139,28 +137,110 @@
                                         {{this.dataStatic?.PERCENTAGE_NO5 ? this.dataStatic?.PERCENTAGE_NO5 : 0}} %
                                    </div>
                               </div>
-
-                              <div>
-                                   {{this.dataStatic?.CASE_TYPE_NO2 ? this.dataStatic?.CASE_TYPE_NO2 : 0}}
-                                   {{this.dataStatic?.CASE_TYPE_NO3 ? this.dataStatic?.CASE_TYPE_NO3 : 0}}
-                                   {{this.dataStatic?.CASE_TYPE_NO4 ? this.dataStatic?.CASE_TYPE_NO4 : 0}}
-                                   {{this.dataStatic?.CASE_TYPE_NO5 ? this.dataStatic?.CASE_TYPE_NO5 : 0}}
-                              </div>
-                              <div>
-
-                                   {{this.dataStatic?.PERCENTAGE_NO2 ? this.dataStatic?.PERCENTAGE_NO2 : 0}} %
-                                   {{this.dataStatic?.PERCENTAGE_NO3 ? this.dataStatic?.PERCENTAGE_NO3 : 0}} %
-                                   {{this.dataStatic?.PERCENTAGE_NO4 ? this.dataStatic?.PERCENTAGE_NO4 : 0}} %
-                                   {{this.dataStatic?.PERCENTAGE_NO5 ? this.dataStatic?.PERCENTAGE_NO5 : 0}} %
-                              </div>
                          </div>
                     </div>
-               </div> -->
+               </div>
           </div>
      </div>
 
      <div class="boxCenter" #boxsCenter [ngClass]="{'slideIn': isVisible}">
           <label class="caseOnline m-0" style="color: #fff;">แจ้งความออนไลน์</label>
           <label class="caseTechnolody" style="color: #fff;">คดีอาชญากรรมทางเทคโนโลยี</label>
+     </div>
+</div> -->
+
+<div class="boxFrame">
+     <div class="boxFrameLeft" *ngFor="let item of dataStatic">
+          <label for="END_DATE" class="textHeader">
+               สถิติความเสียหายสะสม ตั้งแต่วันที่ 1 มกราคม 2568 ถึง วันที่ {{item?.END_DATE | thaiDate}}
+          </label>
+          <div class="boxFirst">
+               <div class="boxLeft" #boxsLeft [ngClass]="{'slideLeft': isVisible}">
+                    <label for="caseOnline" class="titleWhite">คดีออนไลน์</label>
+                    <label for="TOTAL_CASE" class="dataYellow">
+                         {{item?.TOTAL_CASE ? item?.TOTAL_CASE : 0}}
+                    </label>
+                    <label class="subTitleWhite">เรื่อง</label>
+               </div>
+               <div class="boxRight">
+                    <label class="titleWhite">มูลค่าความเสียหายรวม</label>
+                    <label class="dataYellow">
+                         {{item?.TOTAL_DAMAGE ? item?.TOTAL_DAMAGE : 0}}
+                    </label>
+                    <label class="subTitleWhite">บาท</label>
+               </div>
+          </div>
+
+          <div class="boxSecond">
+               <div class="boxLeft" #boxsLeft [ngClass]="{'slideLeft': isVisible}">
+                    <label class="titleWhite">แจ้งความออนไลน์</label>
+                    <label class="dataYellow">
+                         {{item?.CASE_L ? item?.CASE_L : 0}}
+                    </label>
+                    <label class="subTitleWhite">เรื่อง</label>
+               </div>
+               <div class="boxCenter">
+                    <label class="titleWhite">แจ้งความที่หน่วยงาน</label>
+                    <label class="dataYellow">
+                         {{item?.CASE_WALKIN ? item?.CASE_WALKIN : 0}}
+                    </label>
+                    <label class="subTitleWhite">เรื่อง</label>
+               </div>
+               <div class="boxRight">
+                    <label class="titleWhite">เฉลี่ยคดี</label>
+                    <label class="dataYellow">
+                         {{item?.CASE_PER_DAY ? item?.CASE_PER_DAY: 0}}
+                    </label>
+                    <label class="subTitleWhite">เรื่องต่อวัน</label>
+               </div>
+          </div>
+
+          <div class="boxThird">
+               <div class="boxLeft" #boxsLeft [ngClass]="{'slideLeft': isVisible}">
+                    <label class="titleWhite">อายัดบัญชีได้ทัน</label>
+                    <label class="dataYellow">
+                         {{item?.FREEZE_PERCENTAGE ? item?.FREEZE_PERCENTAGE: 0}} %
+                    </label>
+                    <label class="subTitleWhite">
+                         มูลค่า : {{item?.FREEZE_MONEY_TOTAL ? item?.FREEZE_MONEY_TOTAL : 0}}
+                    </label>
+                    <label class="subTitleWhite">
+                         จาก : {{item?.TOTAL_DAMAGE ? item?.TOTAL_DAMAGE : 0}}
+                    </label>
+               </div>
+               <div class="boxRight" #boxsRight [ngClass]="{'slideRight': isVisible}">
+                    <label class="titleYellow">5 คดีออนไลน์ที่พบมากที่สุด</label>
+
+                    <div class="boxCase">
+                         <span class="titleCase">{{item?.CASE_TYPE_NO1 ? item?.CASE_TYPE_NO1 : 0}}</span>
+                         <span>{{item?.PERCENTAGE_NO1 ? item?.PERCENTAGE_NO1 : 0}} %</span>
+                    </div>
+
+                    <div class="boxCase">
+                         <span class="titleCase">{{item?.CASE_TYPE_NO2 ? item?.CASE_TYPE_NO2 : 0}}</span>
+                         <span>{{item?.PERCENTAGE_NO2 ? item?.PERCENTAGE_NO2 : 0}} %</span>
+                    </div>
+
+                    <div class="boxCase">
+                         <span class="titleCase">{{item?.CASE_TYPE_NO3 ? item?.CASE_TYPE_NO3 : 0}}</span>
+                         <span>{{item?.PERCENTAGE_NO3 ? item?.PERCENTAGE_NO3 : 0}} %</span>
+                    </div>
+
+                    <div class="boxCase">
+                         <span class="titleCase">{{item?.CASE_TYPE_NO4 ? item?.CASE_TYPE_NO4 : 0}}</span>
+                         <span>{{item?.PERCENTAGE_NO4 ? item?.PERCENTAGE_NO4 : 0}} %</span>
+                    </div>
+
+                    <div class="boxCase">
+                         <span class="titleCase">{{item?.CASE_TYPE_NO5 ? item?.CASE_TYPE_NO5 :
+                              0}}</span>
+                         <span>{{item?.PERCENTAGE_NO5 ? item?.PERCENTAGE_NO5 : 0}} %</span>
+                    </div>
+               </div>
+          </div>
+     </div>
+     <div class="boxFrameRight">
+          <label for="" class="textOnline">แจ้งความออนไลน์</label>
+          <label for="" class="textCase">คดีอาชญากรรมทางเทคโนโลยี</label>
      </div>
 </div>

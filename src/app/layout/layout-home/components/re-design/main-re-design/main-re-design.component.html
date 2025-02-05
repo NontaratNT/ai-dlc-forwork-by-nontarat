@@ -1,4 +1,4 @@
-<div class="slider-container">
+<!-- <div class="slider-container">
      <div class="slides" [style.transform]="'translateX(-' + currentIndex * 100 + '%)'">
           <div class="slide" *ngFor="let slide of slides" [ngStyle]="{'background-image': 'url(' + slide.images + ')'}">
                <div *ngIf="slide.id === 1">
@@ -20,11 +20,30 @@
           <span class="dot" *ngFor="let slide of slides; let i = index" [class.active]="i === currentIndex"
                (click)="goToSlide(i)"></span>
      </div>
-</div>
-<!-- <div class="slider-container">
-     <div class="slides" [style.transform]="'translateX(-' + currentIndex * 100 + '%)'">
-          <div class="slide" *ngFor="let slide of slides" [ngStyle]="{'background-image': 'url(' + slide.images + ')'}">
+</div> -->
+<div class="slideContainer">
+     <div class="slideBox" [style.transform]="'translateX(-' + currentIndex * 100 + '%)'">
+          <div class="slideDetail" *ngFor="let slide of slides"
+               [ngStyle]="{'background-image': 'url(' + slide.images + ')'}">
 
+               <box-frame *ngIf="slide.id === 1"></box-frame>
+
+               <div *ngIf="slide.id === 2">
+               </div>
+               <div *ngIf="slide.id === 3">
+               </div>
           </div>
      </div>
-</div> -->
+
+     <button class="btn btnLeft" (click)="prevSlide()">
+          &#8592;
+     </button>
+     <button class="btn btnRight" (click)="nextSlide()">
+          &#8594;
+     </button>
+
+     <div class="dots">
+          <span class="dot" *ngFor="let slide of slides; let i = index" [class.active]="i === currentIndex"
+               (click)="goToSlide(i)"></span>
+     </div>
+</div>

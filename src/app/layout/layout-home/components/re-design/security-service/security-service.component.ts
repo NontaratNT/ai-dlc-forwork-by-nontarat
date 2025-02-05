@@ -35,10 +35,7 @@ export class SecurityServiceComponent implements OnInit {
     }
 
     this.service.getBanner().subscribe((res: any) => {
-      console.log(res.Value);
       this.detailSecurity = res.Value;
-      console.log(this.detailSecurity);
-      
     });
   }
 
