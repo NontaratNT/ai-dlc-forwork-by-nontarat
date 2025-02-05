@@ -115,24 +115,24 @@
 
     <!-- เมนูขวา -->
     <ul class="menuHeaderRight" [ngClass]="{'open': menuOpen}">
-        <li (click)="RedirectUrl('/')">
+        <li (click)="scrollToSection('home')">
             <label class="textRight">หน้าหลัก</label>
         </li>
-        <li (click)="RedirectUrl('/news')">
+        <li (click)="scrollToSection('cyber-security')">
             <label class="textRight">ป้องกันภัยไซเบอร์</label>
         </li>
-        <li (click)="RedirectUrl('/')">
+        <li (click)="scrollToSection('news')">
             <label class="textRight">ข่าวสาร</label>
         </li>
-        <li (click)="RedirectUrl('/news')">
+        <li (click)="scrollToSection('freeze-account')">
             <label class="textRight">อายัดบัญชี</label>
         </li>
-        <li (click)="RedirectUrl('/')">
+        <li (click)="scrollToSection('faq')">
             <label class="textRight">คำถามที่พบบ่อย</label>
         </li>
-        <li (click)="RedirectUrl('/news')">
+        <!-- <li (click)="RedirectUrl('/')">
             <label class="textRight">ตัวช่วยการเข้าถึง</label>
-        </li>
+        </li> -->
         <li class="boxButton" *ngIf="!hasSession">
             <div class="btnSignin" (click)="OnIssueOnline()">
                 <img src="assets/icon/check_light.png" height="30px" alt="icon">

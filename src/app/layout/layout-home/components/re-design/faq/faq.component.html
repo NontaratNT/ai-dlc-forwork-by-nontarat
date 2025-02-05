@@ -6,9 +6,9 @@
         <div class="text-center text-md-left p">
           <h1 class="display-4 font-weight-bold h1 text-warning">{{ group.key }}</h1>
           <p class="mb-4 text-white font-weight-bold h4" [innerHTML]="group.value.AppDescription"></p>
-          <p class="text-white font-weight-bold font-sm" [ngClass]="{'d-none': group.value.Apps?.length == 0}">
-            {{ group.value.Apps?.length >= 2 ? 'สามารถดาวน์โหลด Mobile Application ได้ทั้งสองระบบ' : 'สามารถดาวน์โหลด
-            Mobile Application' }}
+          <p class="text-white font-weight-bold font-sm" [ngClass]="{'d-none': group.value.Apps?.length == 0}">{{
+            group.value.Apps?.length >= 2 ? 'สามารถดาวน์โหลด Mobile Application ได้ทั้งสองระบบ' : 'สามารถดาวน์โหลดMobile
+            Application' }}
           </p>
           <div class="d-flex justify-content-center m-2">
             <div *ngFor="let app of group.value.Apps; trackBy: trackByApp"
@@ -25,14 +25,15 @@
     </div>
 
     <!-- faq -->
-    <h2 class="h2 text-blue font-weight-bold text-center res-con">คำถามที่พบบ่อย</h2>
-    <div class="container mt-1" style="max-width: 750px; margin: 0 auto;">
-      <div *ngFor="let faqs of faq" (click)="navigateToFaq(faqs.FAQ_ID)" style="cursor: pointer;">
-        <div
-          class="text-blue bg-gray-300 font-weight-bold p-2 m-2 rounded h5 d-flex justify-content-between align-items-center">
-          {{ faqs.FAQ_QUESTION }}
-          <img src="assets/icon/arrowright.svg" alt="arrow" class="iconarrow">
+    <div>
+      <h2 class="h2 text-blue font-weight-bold text-center res-con">คำถามที่พบบ่อย</h2>
+      <div class="container mt-1" style="max-width: 750px; margin: 0 auto;">
+        <div *ngFor="let faqs of faq" (click)="navigateToFaq(faqs.FAQ_ID)" style="cursor: pointer;">
+          <div
+            class="text-blue bg-gray-300 font-weight-bold p-2 m-2 rounded h5 d-flex justify-content-between align-items-center">
+            {{ faqs.FAQ_QUESTION }}
+            <img src="assets/icon/arrowright.svg" alt="arrow" class="iconarrow">
+          </div>
         </div>
       </div>
-
     </div>

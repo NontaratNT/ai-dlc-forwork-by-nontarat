@@ -63,6 +63,7 @@
                font-weight: 600;
                color: #000000;
                margin: 0;
+               cursor: pointer;
           }
 
           .btnSignin,
@@ -730,6 +731,7 @@
      .menuHeaderRight {
           display: flex !important; // แสดงเมนู
      }
+  
 
      .hamburger-menu {
           display: none !important; // ซ่อนปุ่มฮัมเบอร์เกอร์ในหน้าจอขนาดกลาง
