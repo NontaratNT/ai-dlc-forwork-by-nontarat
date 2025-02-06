@@ -82,6 +82,7 @@ import { SecurityBoxComponent } from './components/re-design/components/security
 import { NewsBoxComponent } from './components/re-design/components/news-box/news-box.component';
 import { ServiceDetailComponent } from './components/re-design/service-detail/service-detail.component';
 import { TotopbtnComponent } from './components/re-design/components/totopbtn/totopbtn.component';
+import { PhoneappcomComponent } from './components/re-design/phoneappcom/phoneappcom.component';
 const customNotifierOptions: NotifierOptions = {
     position: {
         horizontal: {
@@ -171,7 +172,8 @@ const customNotifierOptions: NotifierOptions = {
         SecurityBoxComponent,
         NewsBoxComponent,
         ServiceDetailComponent,
-        TotopbtnComponent
+        TotopbtnComponent,
+        PhoneappcomComponent
     ],
     imports: [
         DxiItemModule,
