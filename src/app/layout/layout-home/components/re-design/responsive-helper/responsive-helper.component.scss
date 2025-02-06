@@ -58,6 +58,24 @@
      display: none;
 }
 
+.to-top-btn {
+     text-align: center;
+     background-color: #ff5a01;
+     color: white;
+     border: none;
+     font-size: 1.2rem;
+     border-radius: 50%;
+     cursor: pointer;
+     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+     display: none;
+     /* ซ่อนปุ่มไว้ก่อน */
+}
+
+.to-top-btn.show {
+     display: block;
+     z-index: 9999;
+}
+
 @media screen and (min-width: 318px) and (max-width: 575px) {
 
      .box-tasktop {
@@ -113,7 +131,7 @@
                justify-content: center;
                width: 8vw;
                height: 8vw;
-               font-size:0.9vw;
+               font-size: 0.9vw;
                font-weight: 600;
                color: #ffffff;
                background-color: #273880;
