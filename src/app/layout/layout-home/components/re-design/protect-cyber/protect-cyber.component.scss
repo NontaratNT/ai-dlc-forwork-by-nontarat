@@ -9,6 +9,7 @@
      scroll-behavior: smooth;
      touch-action: pan-x;
      -webkit-overflow-scrolling: touch;
+     position: relative;
 
      &.active {
           cursor: grabbing;
@@ -117,6 +118,24 @@
                margin: 0;
           }
      }
+
+}
+
+/* Progress bar ที่ลอยอยู่บน slide */
+.progressBar {
+     position: relative;
+     top: 40rem;
+     left: 0;
+     width: 25rem;
+     height: 5px;
+     margin: 0 3rem;
+     background-color: #eee;
+     z-index: 999;
+}
+
+.progress {
+     height: 100%;
+     background-color: #ff5a01;
 }
 
 @media screen and (min-width: 961px) and (max-width: 1350px) {

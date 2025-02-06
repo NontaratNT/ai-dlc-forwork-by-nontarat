@@ -8,19 +8,12 @@ import { NewsService } from 'src/app/services/re-design/news/news.service';
 })
 export class ProtectCyberComponent implements OnInit {
 
-  // @HostListener('wheel', ['$event'])
-  // onScroll(event: WheelEvent): void {
-  //   const container = document.querySelector('.scrollContainer') as HTMLElement;
-  //   if (container) {
-  //     container.scrollLeft += event.deltaY; // เลื่อนแนวนอนเมื่อเลื่อนเมาส์
-  //     event.preventDefault(); // ป้องกันการเลื่อนแนวตั้ง
-  //   }
-  // }
-
-  isDragging = false; // ตรวจสอบว่ากำลังลากหรือสัมผัสอยู่หรือไม่
-  startX = 0; // ตำแหน่งเริ่มต้นของการลาก/สัมผัส (X-axis)
+  isDragging = false; // ตรวจสอบว่ากำลังกดหรือไม่
+  startX = 0; // ตำแหน่งเริ่มต้นของการลาก
   scrollLeft = 0; // ตำแหน่ง scroll ดั้งเดิม
   protectedCyber: any[] = [];
+  scrollProgress: number = 0; // ค่าความก้าวหน้าของการเลื่อน
+
   constructor(
     private el: ElementRef,
     private service: NewsService
@@ -39,11 +32,22 @@ export class ProtectCyberComponent implements OnInit {
       container.addEventListener('touchstart', this.onTouchStart.bind(this));
       container.addEventListener('touchmove', this.onTouchMove.bind(this));
       container.addEventListener('touchend', this.onTouchEnd.bind(this));
+
+      // ฟังก์ชันคำนวณการเลื่อน
+      container.addEventListener('scroll', this.onScroll.bind(this));
     }
 
     this.service.getCyber().subscribe((res: any) => {
       this.protectedCyber = res.Value;
     });
+  }
+
+  // ฟังก์ชันสำหรับการคำนวณการเลื่อนและอัปเดต progress bar
+  onScroll(): void {
+    const container = this.el.nativeElement.querySelector('.scrollContainer');
+    const scrollWidth = container.scrollWidth - container.clientWidth; // ความยาวทั้งหมดที่สามารถเลื่อน
+    const scrollLeft = container.scrollLeft; // ตำแหน่งที่เลื่อน
+    this.scrollProgress = (scrollLeft / scrollWidth) * 100; // คำนวณเปอร์เซ็นต์
   }
 
   // ฟังก์ชันสำหรับเมาส์
@@ -72,30 +76,30 @@ export class ProtectCyberComponent implements OnInit {
     this.stopDragging();
   }
 
-  // เริ่มการลากหรือสัมผัส
+  // เริ่มการลาก
   private startDragging(positionX: number): void {
     const container = this.el.nativeElement.querySelector('.scrollContainer');
     this.isDragging = true;
-    this.startX = positionX - container.offsetLeft; // คำนวณตำแหน่ง X เริ่มต้น
-    this.scrollLeft = container.scrollLeft; // เก็บตำแหน่ง scroll ปัจจุบัน
-    container.classList.add('active'); // เพิ่มคลาสเพื่อแสดงไอคอนลาก
+    this.startX = positionX - container.offsetLeft;
+    this.scrollLeft = container.scrollLeft;
+    container.classList.add('active');
   }
 
-  // ระหว่างการลากหรือสัมผัส
+  // ระหว่างการลาก
   private drag(positionX: number): void {
     if (!this.isDragging) {
       return;
     }
     const container = this.el.nativeElement.querySelector('.scrollContainer');
-    const walk = (positionX - this.startX) * 4; // คำนวณระยะการเลื่อน
-    container.scrollLeft = this.scrollLeft - walk; // ปรับตำแหน่ง scroll
+    const walk = (positionX - this.startX) * 4;
+    container.scrollLeft = this.scrollLeft - walk;
   }
 
-  // หยุดการลากหรือสัมผัส
+  // หยุดการลาก
   private stopDragging(): void {
     const container = this.el.nativeElement.querySelector('.scrollContainer');
     this.isDragging = false;
-    container.classList.remove('active'); // ลบคลาสเมื่อหยุดลาก
+    container.classList.remove('active');
   }
 
   slides = [

@@ -1,13 +1,13 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { NewsService } from 'src/app/services/re-design/news/news.service';
 import { Router } from '@angular/router';
+import { NewsService } from 'src/app/services/re-design/news/news.service';
 
 @Component({
-  selector: 'app-news-cyber',
-  templateUrl: './news-cyber.component.html',
-  styleUrls: ['./news-cyber.component.scss']
+  selector: 'app-news-cyber-tablet',
+  templateUrl: './news-cyber-tablet.component.html',
+  styleUrls: ['./news-cyber-tablet.component.scss']
 })
-export class NewsCyberComponent implements OnInit, AfterViewInit {
+export class NewsCyberTabletComponent implements OnInit, AfterViewInit {
 
   @ViewChild('boxNews') boxNews!: ElementRef;
   @ViewChild('titleNews') titleNews!: ElementRef;
@@ -88,4 +88,3 @@ export class NewsCyberComponent implements OnInit, AfterViewInit {
   }
 
 }
-

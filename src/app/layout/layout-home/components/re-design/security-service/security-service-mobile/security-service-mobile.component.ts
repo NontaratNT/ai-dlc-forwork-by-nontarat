@@ -1,14 +1,13 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NewsService } from 'src/app/services/re-design/news/news.service';
 
 @Component({
-  selector: 'app-security-service',
-  templateUrl: './security-service.component.html',
-  styleUrls: ['./security-service.component.scss']
+  selector: 'app-security-service-mobile',
+  templateUrl: './security-service-mobile.component.html',
+  styleUrls: ['./security-service-mobile.component.scss']
 })
-export class SecurityServiceComponent implements OnInit {
-  @Input() types: 'main' | 'witget' = 'main';
+export class SecurityServiceMobileComponent implements OnInit {
 
   detailSecurity: any[] = [];
   isDragging = false;

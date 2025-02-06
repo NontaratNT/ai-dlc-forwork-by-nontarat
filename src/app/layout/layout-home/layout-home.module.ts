@@ -86,6 +86,10 @@ import { ProtectCyberMobileComponent } from './components/re-design/protect-cybe
 import { ProtectCyberTabletComponent } from './components/re-design/protect-cyber/protect-cyber-tablet/protect-cyber-tablet.component';
 
 import { PhoneappcomComponent } from './components/re-design/phoneappcom/phoneappcom.component';
+import { NewsCyberMobileComponent } from './components/re-design/news-cyber/news-cyber-mobile/news-cyber-mobile.component';
+import { NewsCyberTabletComponent } from './components/re-design/news-cyber/news-cyber-tablet/news-cyber-tablet.component';
+import { SecurityServiceMobileComponent } from './components/re-design/security-service/security-service-mobile/security-service-mobile.component';
+import { SecurityServiceTabletComponent } from './components/re-design/security-service/security-service-tablet/security-service-tablet.component';
 const customNotifierOptions: NotifierOptions = {
     position: {
         horizontal: {
@@ -169,9 +173,13 @@ const customNotifierOptions: NotifierOptions = {
         ProtectCyberMobileComponent,
         ProtectCyberTabletComponent,
         SecurityServiceComponent,
+        SecurityServiceTabletComponent,
+        SecurityServiceMobileComponent,
         PageNewsComponent,
         DetailNewsComponent,
         NewsCyberComponent,
+        NewsCyberMobileComponent,
+        NewsCyberTabletComponent,
         QapageComponent,
         ThaiDatePipe,
         SecurityBoxComponent,

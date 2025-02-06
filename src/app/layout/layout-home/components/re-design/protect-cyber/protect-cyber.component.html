@@ -1,6 +1,10 @@
+<div class="progressBar">
+     <div class="progress" [style.width.%]="scrollProgress"></div>
+</div>
 <div class="scrollContainer">
      <div class="background-container" *ngFor="let slide of slides"
           [ngStyle]="{ 'background-image': 'url(' + slide.images + ')' }">
+
           <div class="box">
                <div class="content">
                     <label class="text-main">ห่างกลโกงมิจฉาชีพ</label>
@@ -27,7 +31,6 @@
                          <img [src]="item.ImageUrl" alt="icon">
                     </div>
                </div>
-
           </div>
      </div>
 </div>

@@ -5,22 +5,27 @@
             <responsive-helper></responsive-helper>
             <app-main-re-design data-section="home"></app-main-re-design>
             <box-senior-cyber [types]="'seniorPages'"></box-senior-cyber>
+
             <ng-container *ngIf="isMobile; else tabletOrDesktop">
                 <app-protect-cyber-mobile data-section="cyber-security"></app-protect-cyber-mobile>
+                <app-security-service-mobile></app-security-service-mobile>
+                <app-news-cyber-mobile data-section="news"></app-news-cyber-mobile>
             </ng-container>
 
             <ng-template #tabletOrDesktop>
                 <ng-container *ngIf="isTablet; else desktopView">
                     <app-protect-cyber-tablet data-section="cyber-security"></app-protect-cyber-tablet>
+                    <app-security-service-tablet></app-security-service-tablet>
+                    <app-news-cyber-tablet data-section="news"></app-news-cyber-tablet>
                 </ng-container>
             </ng-template>
 
             <ng-template #desktopView>
                 <app-protect-cyber data-section="cyber-security"></app-protect-cyber>
+                <app-security-service [types]="'main'"></app-security-service>
+                <app-news-cyber data-section="news"></app-news-cyber>
             </ng-template>
 
-            <app-security-service></app-security-service>
-            <app-news-cyber data-section="news"></app-news-cyber>
             <app-requestfreeze data-section="freeze-account"></app-requestfreeze>
             <app-phoneappcom></app-phoneappcom>
             <app-faq data-section="faq"></app-faq>
