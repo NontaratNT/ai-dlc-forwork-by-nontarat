@@ -18,7 +18,7 @@
           justify-content: space-between;
           align-items: center;
 
-          .titleNews {
+          .titleNews,.subtitleNews {
                font-size: 1.8vw;
                font-weight: bold;
                color: #273880;
@@ -212,12 +212,13 @@
      }
 
      .containerNews .headerNews .titleNews {
-          font-size: 6vw;
+          font-size: 7vw;
      }
 
      .containerNews .headerNews .buttonNews {
-          font-size: 4vw;
-          padding: 2.5vw 5vw;
+          font-size: 16px;
+          padding: 1.5vw 3vw;
+          text-align: center;
      }
 
      .containerNews .cardNews .boxNews .imageNews {
@@ -229,7 +230,7 @@
           font-weight: bold;
      }
 
-     .containerNews .cardNews .boxNews .detailNews .titleNews {
+     .containerNews .cardNews .boxNews .detailNews .subtitleNews {
           font-size: 4vw;
           font-weight: bold;
      }
