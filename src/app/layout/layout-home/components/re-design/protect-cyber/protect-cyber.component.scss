@@ -73,9 +73,9 @@
           margin: 0 0 0 55px;
 
           img {
-               width: 22vw;
+               width: 20vw;
                height: 15vw;
-               border-radius: 16px;
+               border-radius: 12px;
                object-fit: fill;
           }
 
@@ -83,19 +83,22 @@
                display: flex;
                flex-direction: column;
                position: relative;
-               bottom: 5vw;
+               bottom: 3vw;
+               width: 22vw;
           }
 
           .even-number {
                display: flex;
                flex-direction: column;
+               position: relative;
+               top: 1vw;
           }
 
           .title-cyber {
                font-size: 1.5vw;
                font-weight: 600;
                color: #273880;
-               margin: 10px 0 10px 0;
+               margin: 0px 0 10px 0;
           }
 
           .description-cyber {
