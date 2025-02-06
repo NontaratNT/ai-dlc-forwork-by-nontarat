@@ -5,7 +5,20 @@
             <responsive-helper></responsive-helper>
             <app-main-re-design data-section="home"></app-main-re-design>
             <box-senior-cyber [types]="'seniorPages'"></box-senior-cyber>
-            <app-protect-cyber data-section="cyber-security"></app-protect-cyber>
+            <ng-container *ngIf="isMobile; else tabletOrDesktop">
+                <app-protect-cyber-mobile data-section="cyber-security"></app-protect-cyber-mobile>
+            </ng-container>
+
+            <ng-template #tabletOrDesktop>
+                <ng-container *ngIf="isTablet; else desktopView">
+                    <app-protect-cyber-tablet data-section="cyber-security"></app-protect-cyber-tablet>
+                </ng-container>
+            </ng-template>
+
+            <ng-template #desktopView>
+                <app-protect-cyber data-section="cyber-security"></app-protect-cyber>
+            </ng-template>
+
             <app-security-service></app-security-service>
             <app-news-cyber data-section="news"></app-news-cyber>
             <app-requestfreeze data-section="freeze-account"></app-requestfreeze>

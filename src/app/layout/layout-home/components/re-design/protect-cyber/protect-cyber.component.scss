@@ -3,7 +3,7 @@
      display: flex;
      overflow-x: auto;
      overflow: hidden;
-     height: calc(100vh - 60px);
+     height: 45rem;
      width: 100vw;
      cursor: grab;
      scroll-behavior: smooth;
@@ -46,26 +46,26 @@
           }
 
           .text-main {
-               font-size: 1.5vw;
+               font-size: 2.5rem;
                font-weight: 600;
                color: #ff5a01;
                margin: 0;
           }
 
           .text-second {
-               font-size: 3vw;
+               font-size: 4rem;
                font-weight: 700;
                color: #273880;
                margin: 0;
           }
 
           .text-third {
-               font-size: 1vw;
+               font-size: 1.2rem;
                font-weight: 600;
                color: #000000;
                margin: 0;
                white-space: break-spaces;
-               width: 35vw;
+               width: 34rem;
           }
      }
 
@@ -73,8 +73,8 @@
           margin: 0 0 0 55px;
 
           img {
-               width: 20vw;
-               height: 15vw;
+               width: 20rem;
+               height: 15rem;
                border-radius: 12px;
                object-fit: fill;
           }
@@ -83,8 +83,8 @@
                display: flex;
                flex-direction: column;
                position: relative;
-               bottom: 3vw;
-               width: 22vw;
+               bottom: 3rem;
+               width: 20rem;
           }
 
           .even-number {
@@ -95,23 +95,23 @@
           }
 
           .title-cyber {
-               font-size: 1.5vw;
+               font-size: 1.5rem;
                font-weight: 600;
                color: #273880;
-               margin: 0px 0 10px 0;
+               margin: 1rem 0 .5rem 0;
           }
 
           .description-cyber {
-               font-size: 1vw;
+               font-size: 1rem;
                font-weight: 600;
                color: #000000;
                overflow: overlay;
                white-space: break-spaces;
-               width: 80%;
+               width: 20rem;
           }
 
           .iconCyber {
-               font-size: 1.5vw;
+               font-size: 2rem;
                font-weight: 600;
                color: #ff5a01;
                margin: 0;
@@ -119,303 +119,97 @@
      }
 }
 
-@media screen and (min-width: 318px) and (max-width: 575px) {
-     // .scrollContainer {
-     //      background-color: #fff;
-     //      display: flex;
-     //      overflow-x: auto;
-     //      overflow: hidden;
-     //      height: 35vh;
-     //      width: 100vw;
-     // }
+@media screen and (min-width: 961px) and (max-width: 1350px) {
+     .scrollContainer {
+          background-color: #fff;
+          display: flex;
+          overflow-x: auto;
+          overflow: hidden;
+          height: 25rem;
+          width: 100vw;
 
-     // .content {
-     //      top: 30% !important;
+          .content {
+               display: flex;
+               flex-direction: column;
+               align-items: flex-start;
+               margin: 0 2rem 0 0;
 
-     //      .text-main,
-     //      .text-second,
-     //      .text-third {
-     //           letter-spacing: 0.5px;
-     //      }
+               .text-main,
+               .text-second,
+               .text-third {
+                    letter-spacing: 0.5px;
+               }
 
-     //      .text-main {
-     //           font-size: 2vw !important;
-     //           letter-spacing: 1px !important;
-     //      }
+               .text-main {
+                    font-size: 1.5rem;
+                    font-weight: 600;
+                    color: #ff5a01;
+                    margin: 0;
+               }
 
-     //      .text-second {
-     //           font-size: 3.5vw !important;
-     //           letter-spacing: 1px !important;
-     //      }
+               .text-second {
+                    font-size: 2rem;
+                    font-weight: 700;
+                    color: #273880;
+                    margin: 0;
+               }
 
-     //      .text-third {
-     //           font-size: 1.5vw !important;
-     //           letter-spacing: 1px !important;
-     //           white-space: break-spaces !important;
-     //           width: 35vw !important;
-     //      }
-     // }
+               .text-third {
+                    font-size: 1rem;
+                    font-weight: 600;
+                    color: #000000;
+                    margin: 0;
+                    white-space: break-spaces;
+                    width: 25rem;
+               }
+          }
 
+          .protected-cyber {
+               margin: 1rem 3rem 1rem .5rem;
 
-     // .protected-cyber {
-     //      position: relative;
-     //      top: 0vw;
-     //      left: 40vw;
+               img {
+                    width: 15rem;
+                    height: 10rem;
+                    border-radius: 16px;
+                    object-fit: fill;
+               }
 
-     //      img {
-     //           width: 25vw !important;
-     //           height: 25vw !important;
-     //           object-fit: contain;
-     //      }
+               .odd-number {
+                    display: flex;
+                    flex-direction: column;
+                    position: relative;
+                    bottom: 0rem;
+                    width: 15rem;
+               }
 
-     //      .odd-number,
-     //      .even-number {
-     //           display: flex;
-     //           flex-direction: column;
-     //           margin: 0vw;
-     //           width: 25vw;
-     //      }
+               .even-number {
+                    display: flex;
+                    flex-direction: column;
+               }
 
-     //      .title-cyber {
-     //           font-size: 2.5vw !important;
-     //           font-weight: 600;
-     //           color: #273880;
-     //           margin: 0 0 3px 0 !important;
-     //      }
+               .title-cyber {
+                    font-size: 1.3rem;
+                    font-weight: 600;
+                    color: #273880;
+                    margin: .5rem 0 .3rem 0;
+               }
 
-     //      .description-cyber {
-     //           width: 25vw !important;
-     //           font-size: 1.5vw !important;
-     //      }
-     // }
-}
+               .description-cyber {
+                    font-size: 1rem;
+                    font-weight: 600;
+                    color: #000000;
+                    margin: 0;
+                    overflow: overlay;
+                    white-space: break-spaces;
+                    width: 15rem;
+               }
 
-@media screen and (min-width: 576px) and (max-width: 767px) {
-     // .scrollContainer {
-     //      background-color: #fff;
-     //      display: flex;
-     //      overflow-x: auto;
-     //      overflow: hidden;
-     //      height: 45vh;
-     //      width: 100vw;
-     // }
-
-     // .content {
-     //      top: 30% !important;
-
-     //      .text-main,
-     //      .text-second,
-     //      .text-third {
-     //           letter-spacing: 0.5px;
-     //      }
-
-     //      .text-main {
-     //           font-size: 2vw !important;
-     //           letter-spacing: 1px !important;
-     //      }
-
-     //      .text-second {
-     //           font-size: 3.5vw !important;
-     //           letter-spacing: 1px !important;
-     //      }
-
-     //      .text-third {
-     //           font-size: 1.5vw !important;
-     //           letter-spacing: 1px !important;
-     //           white-space: break-spaces !important;
-     //           width: 35vw !important;
-     //      }
-     // }
-
-
-     // .protected-cyber {
-     //      position: relative;
-     //      top: 0vw;
-     //      left: 40vw;
-
-     //      img {
-     //           width: 25vw !important;
-     //           height: 25vw !important;
-     //           object-fit: contain;
-     //      }
-
-     //      .odd-number,
-     //      .even-number {
-     //           display: flex;
-     //           flex-direction: column;
-     //           margin: 0vw;
-     //           width: 25vw;
-     //      }
-
-     //      .title-cyber {
-     //           font-size: 2.5vw !important;
-     //           font-weight: 600;
-     //           color: #273880;
-     //           margin: 0 0 3px 0 !important;
-     //      }
-
-     //      .description-cyber {
-     //           width: 25vw !important;
-     //           font-size: 1.5vw !important;
-     //      }
-     // }
-}
-
-@media screen and (min-width: 768px) and (max-width: 991px) {
-     // .scrollContainer {
-     //      background-color: #fff;
-     //      display: flex;
-     //      overflow-x: auto;
-     //      overflow: hidden;
-     //      height: 65vh;
-     //      width: 100vw;
-     // }
-
-     // .content {
-     //      top: 30% !important;
-
-     //      .text-main,
-     //      .text-second,
-     //      .text-third {
-     //           letter-spacing: 0.5px;
-     //      }
-
-     //      .text-main {
-     //           font-size: 2vw !important;
-     //           letter-spacing: 1px !important;
-     //      }
-
-     //      .text-second {
-     //           font-size: 3.5vw !important;
-     //           letter-spacing: 1px !important;
-     //      }
-
-     //      .text-third {
-     //           font-size: 1.5vw !important;
-     //           letter-spacing: 1px !important;
-     //           white-space: break-spaces !important;
-     //           width: 35vw !important;
-     //      }
-     // }
-
-
-     // .protected-cyber {
-     //      position: relative;
-     //      top: 0vw;
-     //      left: 40vw;
-
-     //      img {
-     //           width: 100% !important;
-     //           height: 25vw !important;
-     //           object-fit: contain;
-     //      }
-
-     //      .odd-number,
-     //      .even-number {
-     //           display: flex;
-     //           flex-direction: column;
-     //           margin: 0vw;
-     //           width: 25vw;
-     //      }
-
-     //      .title-cyber {
-     //           font-size: 2.5vw !important;
-     //           font-weight: 600;
-     //           color: #273880;
-     //           margin: 0 0 3px 0 !important;
-     //      }
-
-     //      .description-cyber {
-     //           width: 25vw !important;
-     //           font-size: 1.5vw !important;
-     //      }
-     // }
-}
-
-@media screen and (min-width: 992px) and (max-width: 1199px) {
-     // .scrollContainer {
-     //      background-color: #fff;
-     //      display: flex;
-     //      overflow-x: auto;
-     //      overflow: hidden;
-     //      height: 65vh;
-     //      width: 100vw;
-     // }
-
-     // .content {
-     //      top: 30% !important;
-
-     //      .text-main,
-     //      .text-second,
-     //      .text-third {
-     //           letter-spacing: 0.5px;
-     //      }
-
-     //      .text-main {
-     //           font-size: 2vw !important;
-     //           letter-spacing: 1px !important;
-     //      }
-
-     //      .text-second {
-     //           font-size: 3.5vw !important;
-     //           letter-spacing: 1px !important;
-     //      }
-
-     //      .text-third {
-     //           font-size: 1.5vw !important;
-     //           letter-spacing: 1px !important;
-     //           white-space: break-spaces !important;
-     //           width: 35vw !important;
-     //      }
-     // }
-
-
-     // .protected-cyber {
-     //      position: relative;
-     //      top: 0vw;
-     //      left: 40vw;
-
-     //      img {
-     //           width: 25vw !important;
-     //           height: 25vw !important;
-     //           object-fit: contain;
-     //      }
-
-     //      .odd-number,
-     //      .even-number {
-     //           display: flex;
-     //           flex-direction: column;
-     //           margin: 0vw;
-     //           width: 25vw;
-     //      }
-
-     //      .title-cyber {
-     //           font-size: 2.5vw !important;
-     //           font-weight: 600;
-     //           color: #273880;
-     //           margin: 0 0 3px 0 !important;
-     //      }
-
-     //      .description-cyber {
-     //           width: 25vw !important;
-     //           font-size: 1.5vw !important;
-     //      }
-     // }
-}
-
-.progress-bar-container {
-     position: fixed;
-     top: 0;
-     left: 0;
-     width: 100%;
-     height: 5px;
-     background-color: #ddd;
-     cursor: pointer;
-}
-
-.progress-bar {
-     height: 100%;
-     width: 0;
-     background-color: orange;
-     transition: width 1.5s ease-in-out;
+               .iconCyber {
+                    font-size: 1.5rem;
+                    font-weight: 600;
+                    color: #ff5a01;
+                    margin: 0 0 .5rem 0;
+               }
+          }
+     }
 }

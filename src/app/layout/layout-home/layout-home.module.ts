@@ -82,6 +82,8 @@ import { SecurityBoxComponent } from './components/re-design/components/security
 import { NewsBoxComponent } from './components/re-design/components/news-box/news-box.component';
 import { ServiceDetailComponent } from './components/re-design/service-detail/service-detail.component';
 import { TotopbtnComponent } from './components/re-design/components/totopbtn/totopbtn.component';
+import { ProtectCyberMobileComponent } from './components/re-design/protect-cyber/protect-cyber-mobile/protect-cyber-mobile.component';
+import { ProtectCyberTabletComponent } from './components/re-design/protect-cyber/protect-cyber-tablet/protect-cyber-tablet.component';
 const customNotifierOptions: NotifierOptions = {
     position: {
         horizontal: {
@@ -162,6 +164,8 @@ const customNotifierOptions: NotifierOptions = {
         BoxSeniorCyberComponent,
         ResponsiveHelperComponent,
         ProtectCyberComponent,
+        ProtectCyberMobileComponent,
+        ProtectCyberTabletComponent,
         SecurityServiceComponent,
         PageNewsComponent,
         DetailNewsComponent,
@@ -207,7 +211,7 @@ const customNotifierOptions: NotifierOptions = {
         NgxPaginationModule,
         LayoutDesktopModule,
         CountdownModule,
-        
+
 
     ], schemas: [CUSTOM_ELEMENTS_SCHEMA],
     exports: [ThaiDatePipe]
