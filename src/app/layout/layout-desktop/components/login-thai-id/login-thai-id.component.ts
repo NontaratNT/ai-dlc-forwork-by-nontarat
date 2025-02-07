@@ -105,7 +105,7 @@ export class LoginThaiIDComponent implements OnInit {
                         if (localStorage.getItem('icli') === 'al') {
                             localStorage.removeItem('icli');
                             this.userServ.getTokenCypherVac(User.Current.UserId).toPromise().then((res) => {
-                                window.location.href = `https://bt-cyber-vaccine.demotoday.net?redirecthas=${res}`;
+                                window.location.href = `https://cybervaccinated.thaipoliceonline.go.th?redirecthas=${res}`;
                             });
                             return;
                         } else if (localStorage.getItem('icli') === 'landing') {

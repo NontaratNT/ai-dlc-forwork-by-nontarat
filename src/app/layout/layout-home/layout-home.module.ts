@@ -90,6 +90,12 @@ import { NewsCyberMobileComponent } from './components/re-design/news-cyber/news
 import { NewsCyberTabletComponent } from './components/re-design/news-cyber/news-cyber-tablet/news-cyber-tablet.component';
 import { SecurityServiceMobileComponent } from './components/re-design/security-service/security-service-mobile/security-service-mobile.component';
 import { SecurityServiceTabletComponent } from './components/re-design/security-service/security-service-tablet/security-service-tablet.component';
+import { BoxFrameSecondMobileComponent } from './components/re-design/main-re-design/box-frame-second/box-frame-second-mobile/box-frame-second-mobile.component';
+import { BoxFrameSecondTabletComponent } from './components/re-design/main-re-design/box-frame-second/box-frame-second-tablet/box-frame-second-tablet.component';
+import { BoxFrameThridMobileComponent } from './components/re-design/main-re-design/box-frame-thrid/box-frame-thrid-mobile/box-frame-thrid-mobile.component';
+import { BoxFrameThridTabletComponent } from './components/re-design/main-re-design/box-frame-thrid/box-frame-thrid-tablet/box-frame-thrid-tablet.component';
+import { BoxFrameMobileComponent } from './components/re-design/main-re-design/box-frame/box-frame-mobile/box-frame-mobile.component';
+import { BoxFrameTabletComponent } from './components/re-design/main-re-design/box-frame/box-frame-tablet/box-frame-tablet.component';
 const customNotifierOptions: NotifierOptions = {
     position: {
         horizontal: {
@@ -165,8 +171,14 @@ const customNotifierOptions: NotifierOptions = {
         MainReDesignComponent,
         FaqComponent,
         BoxFrameComponent,
+        BoxFrameTabletComponent,
+        BoxFrameMobileComponent,
         BoxFrameSecondComponent,
+        BoxFrameSecondMobileComponent,
+        BoxFrameSecondTabletComponent,
         BoxFrameThridComponent,
+        BoxFrameThridMobileComponent,
+        BoxFrameThridTabletComponent,
         BoxSeniorCyberComponent,
         ResponsiveHelperComponent,
         ProtectCyberComponent,

@@ -150,7 +150,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                                 } as IAccessToken;
                                 if(params.icli === "al"){
                                     this.userServ.getTokenCypherVac(User.Current.UserId).toPromise().then((res) => {
-                                        window.location.href = `https://bt-cyber-vaccine.demotoday.net?redirecthas=${res}`;
+                                        window.location.href = `https://cybervaccinated.thaipoliceonline.go.th?redirecthas=${res}`;
                                     });
                                 }else if(params.icli === "landing"){
                                     if(User.Current.Age >= 60){

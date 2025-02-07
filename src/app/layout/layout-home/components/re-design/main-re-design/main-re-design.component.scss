@@ -12,7 +12,7 @@
 
      .slideDetail {
           min-width: 100%;
-          height: calc(100vh - 0px);
+          height: calc(100vh + 3rem);
           display: flex;
           justify-content: center;
           align-items: center;
@@ -21,7 +21,7 @@
           background-position: center;
           position: relative;
           transition: transform 1s ease-in-out;
-          padding: 40px 0 0 70px;
+          padding: 2rem 0 0 0rem;
      }
 
      .btn {
@@ -95,12 +95,13 @@
      .slideContainer {
 
           .slideDetail {
-               padding: 55px;
+               height: calc(100vh + 5rem);
+               padding: 1rem;
           }
 
           .btn {
                font-size: 1rem;
-               padding: 7px 10px;
+               padding: 4px 8px;
           }
 
           .dots {
@@ -113,6 +114,7 @@
      .slideContainer {
 
           .slideDetail {
+               height: calc(100vh + 10rem);
                padding: 55px;
           }
 
@@ -131,7 +133,8 @@
      .slideContainer {
 
           .slideDetail {
-               padding: 55px;
+               height: calc(100vh + 15rem);
+               padding: 0rem 4rem;
           }
 
           .btn {
@@ -145,4 +148,21 @@
      }
 }
 
-@media screen and (min-width: 992px) and (max-width: 1199px) {}
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+     .slideContainer {
+          .slideDetail {
+               min-width: 100%;
+               height: calc(100vh - 0rem);
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               background-color: #273880;
+               background-size: cover;
+               background-position: center;
+               position: relative;
+               transition: transform 1s ease-in-out;
+               padding: 40px 0 0 70px;
+          }
+     }
+
+}
