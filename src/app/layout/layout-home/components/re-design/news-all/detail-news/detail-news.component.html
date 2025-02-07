@@ -4,23 +4,44 @@
         <div class="news-container">
             <div class="newsHeader">
                 <div class="breadcrumbs" (click)="goBack()" style="cursor: pointer;">
-                    <img src="assets/icon/arrow-left.svg">ย้อนกลับไปหน้าข่าวสาร
+                    <img src="assets/icon/arrow-left.svg">ย้อนกลับ
                 </div>
             </div>
             <div class="news-content">
-                <div class="news-nav-list">
-                    <p>ข่าวสารที่น่าสนใจ</p>
-
-                    <p>บริการที่เกี่ยวข้อง</p>
-                    
-                </div>
                 <div class="news-content-main">
-                    ddsdsd
+                    <div class="news-header">
+                        <p class="news-category">{{newsDetail.CATEGORY_NAME}}</p>
+                        <h1 class="news-title">{{newsDetail.NEWS_TITLE}}</h1>
+                        <p class="news-author">{{newsDetail.AUTHOR_NAME}}</p>
+                        <p class="news-date">{{newsDetail.CREATE_DATE | thaiDate}}</p>
+                    </div>
+                    <div class="news-image">
+                        <img [src]="newsDetail.NEWS_IMAGE_URL" [alt]="newsDetail.NEWS_TITLE">
+                    </div>
+                    <div class="news-body" [innerHTML]="newsDetail.NEWS_CONTENT">
+                        {{newsDetail.NEWS_CONTENT}}
+                    </div>
+                    <hr>
+                    <div class="news-footer">
+                        <div class="sharebtncontrol">แชร์บทความนี้
+                            <div class="social-icons">
+                                <img src="assets/icon/facebook.svg">
+                                <img src="assets/icon/instagram.svg">
+                                <img src="assets/icon/twitter.svg">
+                                <img src="assets/icon/youtube.svg">
+                            </div>
+                        </div>
+                        <p class="view-count"><img src="assets/icon/view.svg">ครั้ง</p>
+                    </div>
                 </div>
-
+                <div class="news-nav-list">
+                    <app-news-box class="witget"></app-news-box>
+                    <!-- <app-security-box class="witget"></app-security-box> -->
+                     <app-security-service class="witget"  [types]="'witget'"></app-security-service>
+                </div>
             </div>
-
         </div>
+        <app-totopbtn></app-totopbtn>
     </div>
 </div>
 <footer-re-design></footer-re-design>

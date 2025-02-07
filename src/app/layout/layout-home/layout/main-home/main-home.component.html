@@ -3,16 +3,34 @@
     <div class="block-content">
         <dx-scroll-view [showScrollbar]="'always'">
             <responsive-helper></responsive-helper>
-            <app-main-re-design></app-main-re-design>
-            <div style="background-color: #fff;z-index: 1;"  (click)="openLink('/login')">
-                <img src="assets/image/img/senior/Banner.png" style="width: 100%; padding: 0px;" class="facebook" alt="">
-            </div>
-            <app-protect-cyber></app-protect-cyber>
-            <app-security-service></app-security-service>
-            <app-news-cyber></app-news-cyber>
-            <app-requestfreeze></app-requestfreeze>
-            <app-faq></app-faq>
+            <app-main-re-design data-section="home"></app-main-re-design>
+            <box-senior-cyber [types]="'seniorPages'"></box-senior-cyber>
+
+            <ng-container *ngIf="isMobile; else tabletOrDesktop">
+                <app-protect-cyber-mobile data-section="cyber-security"></app-protect-cyber-mobile>
+                <app-security-service-mobile></app-security-service-mobile>
+                <app-news-cyber-mobile data-section="news"></app-news-cyber-mobile>
+            </ng-container>
+
+            <ng-template #tabletOrDesktop>
+                <ng-container *ngIf="isTablet; else desktopView">
+                    <app-protect-cyber-tablet data-section="cyber-security"></app-protect-cyber-tablet>
+                    <app-security-service-tablet></app-security-service-tablet>
+                    <app-news-cyber-tablet data-section="news"></app-news-cyber-tablet>
+                </ng-container>
+            </ng-template>
+
+            <ng-template #desktopView>
+                <app-protect-cyber data-section="cyber-security"></app-protect-cyber>
+                <app-security-service [types]="'main'"></app-security-service>
+                <app-news-cyber data-section="news"></app-news-cyber>
+            </ng-template>
+
+            <app-requestfreeze data-section="freeze-account"></app-requestfreeze>
+            <app-phoneappcom></app-phoneappcom>
+            <app-faq data-section="faq"></app-faq>
         </dx-scroll-view>
     </div>
+    <!-- <app-totopbtn></app-totopbtn> -->
 </div>
 <footer-re-design></footer-re-design>

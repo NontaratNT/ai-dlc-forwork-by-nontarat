@@ -1,0 +1,38 @@
+// to-top-btn
+.to-top-btn {
+    position: fixed;
+    bottom: 5%;
+     right: 3%;
+    background-color: #ff5a01;
+    color: white;
+    border: none;
+    padding: 6px 18px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    display: none; /* ซ่อนปุ่มไว้ก่อน */
+}
+
+.to-top-btn.show {
+    display: block; /* แสดงปุ่มเมื่อมีการเลื่อนลง */
+    z-index: 9999;
+}
+
+
+@media (max-width: 991px) {
+    .to-top-btn{
+        right: 1%;
+        padding: 5px 15px; 
+    }
+}
+
+
+@media (max-width: 767px) {
+    .to-top-btn{
+        right: 6%;
+        bottom: 0.5%;
+        padding: 4px 12px; 
+        border-radius: 50%;
+    }
+}

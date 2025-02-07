@@ -1,0 +1,174 @@
+:host {
+    #police-index-page {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh; // ให้หน้าครอบคลุมความสูงเต็มหน้าจอ
+        flex: 1;
+
+        .block-content {
+            flex: 1; // ใช้พื้นที่ที่เหลือทั้งหมดระหว่าง header และ footer
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            background-color: #ffffff;
+        }
+
+        footer-re-design {
+            background-color: #0b2652;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px 0;
+            width: 100%;
+        }
+    }
+}
+
+body,
+html {
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    /* ทำให้ Footer อยู่ด้านล่างสุด */
+}
+
+// new detail css
+
+.service-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    padding: 120px 15px 15px 15px;
+}
+
+.serviceHeader {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 5px;
+}
+
+.serviceHeader .breadcrumb {
+    font-size: 14px;
+    align-self: center;
+}
+.titleNews {
+    color: #ff5a01;
+}
+.serviceHeader h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+//service content
+.service-content {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 2vw;
+}
+.service-nav-list {
+    flex: 1 1 20%;
+    min-width: 15vw;
+    display: flex;
+    flex-direction: column;
+    gap: 1vw;
+    color: #ff5a01;
+    font-weight: bold;
+}
+
+// service detail
+.service-content-main {
+    flex: 1 1 70%;
+    padding: 10px 50px 10px 50px;
+}
+.service-header {
+    text-align: start;
+    margin-bottom: 20px;
+}
+
+.service-category {
+    font-size: 16px;
+    color: #ff5a01;
+    font-weight: bold;
+}
+
+.service-title {
+    font-size: 32px;
+    color: #273880;
+    font-weight: 700;
+    margin: 10px 0;
+}
+
+.service-author,
+.service-date {
+    font-size: 14px;
+    color: #666666;
+}
+
+.service-image {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.service-image img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.service-body h2 {
+    font-size: 18px;
+    color: #273880;
+    margin: 15px 0 10px;
+}
+
+.service-body p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #000000;
+    margin-bottom: 15px;
+}
+
+.service-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+.view-count {
+    display: flex;
+    gap:10px;
+    font-size: 16px;
+    color: #000000;
+    margin-bottom: 0px;
+}
+.sharebtncontrol {
+    display: flex;
+    flex-direction: row;
+}
+.social-icons {
+    display: flex;
+    gap: 10px;
+    margin: 0px 0px 0px 10px;
+    align-items: center;
+}
+
+@media (max-width: 769px) {
+    .witget {
+        display: block;
+        margin-top: 20px;
+        flex: 1 1 100%;
+    }
+    .service-content-main {
+        flex: 1 1 100%;
+        padding: 10px 20px 10px 20px;
+    }
+    .service-content {
+        flex-direction: column;
+    }
+}
+
+

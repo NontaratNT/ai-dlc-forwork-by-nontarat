@@ -1,0 +1,38 @@
+.containerNews {
+    display: flex;
+    flex-direction: column;
+    .textNews {
+        font-size: 16px;
+        font-weight: 600;
+        color: #ff5a01;
+        margin: 10px 0;
+    }
+}
+.topnewsImage {
+    display: flex;
+    align-items: center;
+    height: 80px;
+    width: 120px;
+    border-radius: 8px;
+    justify-content: center;
+    margin-bottom: 5px;
+    img {
+        width: 120px;
+        height: 80px;
+        border-radius: 16px;
+    }
+}
+.descNews {
+    display: flex !important;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #273880;
+}
+.NewsWitget {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    cursor: pointer;
+}
+

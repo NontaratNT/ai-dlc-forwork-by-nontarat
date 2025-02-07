@@ -1,92 +1,195 @@
-.containerSecurity {
-     background-color: #f1f1f1;
+.scrollSecurity {
+     background-color: #F5F5F5;
+     height: 16rem;
+     padding: 0 50px 0 50px;
+
+     .boxSecurity {
+          display: flex;
+          flex-direction: column;
+
+          .headerBox {
+               display: flex;
+               align-items: center;
+               justify-content: space-between;
+
+               .header {
+                    font-size: 2rem;
+                    font-weight: 600;
+                    color: #273880;
+                    margin: 10px 0;
+               }
+
+               .scrollBtnContainer {
+                    display: flex;
+                    gap: 1rem;
+
+                    .left,
+                    .right {
+                         display: flex;
+                         justify-content: center;
+                         align-items: center;
+                         width: 40px;
+                         height: 40px;
+                         border: 1px solid #ff5a01;
+                         border-radius: 50%;
+                         color: #ff5a01;
+                         font-size: 1.5rem;
+                         cursor: pointer;
+                         transition: all 0.2s ease;
+                         /* เพิ่ม transition เพื่อให้เอฟเฟ็กต์ลื่นไหล */
+
+                         &:hover {
+                              color: #fff;
+                              background-color: #ff5a01;
+                         }
+
+                         &:active {
+                              color: #fff;
+                              background-color: #ff5a01;
+                              box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+                              /* เพิ่มเงาเมื่อกด */
+                              transform: scale(0.9);
+                              /* ปรับขนาดปุ่มเมื่อกดให้เล็กลง */
+                         }
+                    }
+               }
+          }
+
+          .contentSecurity {
+               display: flex;
+               flex-direction: row;
+               align-items: center;
+               gap: 1rem;
+               width: 100%;
+               overflow-x: auto;
+               overflow: hidden;
+               white-space: nowrap;
+               cursor: grab;
+               scroll-behavior: smooth; // ✅ เพิ่มให้เลื่อนนุ่มนวลขึ้น
+               user-select: none; // ✅ ป้องกันการ select text ระหว่างลาก
+
+               &:active {
+                    cursor: grabbing;
+               }
+
+
+               .boxContent {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: #273880;
+                    border-radius: 6px;
+                    padding: 1.5vw;
+                    height: 10rem;
+                    width: 20rem;
+                    white-space: break-spaces;
+                    cursor: pointer;
+
+                    .imageNews {
+                         width: 10rem;
+                    }
+
+                    .descSecurity {
+                         font-size: 1rem;
+                         font-weight: 500;
+                         text-align: center;
+                         color: #fff;
+                         margin: 0vw 1rem;
+                         text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+                    }
+               }
+
+               .boxContentRow {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: #273880;
+                    border-radius: 6px;
+                    padding: 1.5vw;
+                    height: 10vw;
+                    width: 20vw;
+                    white-space: break-spaces;
+                    cursor: pointer;
+
+                    .imageNews {
+                         width: 6rem;
+                    }
+
+                    .descSecurity {
+                         font-size: 1rem;
+                         font-weight: 500;
+                         text-align: center;
+                         color: #fff;
+                         margin: 0vw 1rem;
+                         text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+                    }
+               }
+          }
+     }
+
+     .progressContainer {
+          width: 100%;
+          height: 5px; // ✅ ความสูงของ progress bar
+          background: #e0e0e0;
+          border-radius: 3px;
+          overflow: hidden;
+          position: relative;
+          margin-top: 10px;
+     }
+
+     .progressBar {
+          height: 100%;
+          width: 0%;
+          background: #ff5a01; // ✅ สีของ progress bar
+          transition: width 0.2s ease-out;
+     }
+
+}
+
+//witget
+.containerSecuritywitget {
      display: flex;
      flex-direction: column;
-     // padding: 2vw 3vw;
-     padding: 35px 50px 50px 50px;
 
-     .textSecurity {
-          font-size: 2vw;
+     .textSecuritywitget {
+          font-size: 16px;
           font-weight: 600;
-          color: #273880;
+          color: #ff5a01;
           margin: 10px 0;
      }
 }
 
-.boxSecurity {
+.iconSecuritywitget {
      display: flex;
-     gap: 1.5vw;
-     overflow-x: auto;
-     overflow: hidden;
-     width: 100%;
-     max-width: 100vw;
-     white-space: nowrap;
-     cursor: grab;
-     scroll-behavior: smooth;
-     touch-action: pan-x;
-     -webkit-overflow-scrolling: touch;
+     align-items: center;
+     background-color: #273880;
+     height: 80px;
+     width: 124px;
+     border-radius: 8px;
+     justify-content: center;
+     padding: 15px;
+     margin-bottom: 5px;
 
-     &.active {
-          cursor: grabbing;
+     img {
+          width: 95px;
+          height: 50px;
+          object-fit: contain;
      }
+}
 
-     .iconSecurity,
-     .iconSecuritys {
-          flex: 0 0 18vw;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background-color: #273880;
-          border-radius: 6px;
-          padding: 1.5vw;
-          height: 10vw;
-          width: 20vw;
-          white-space: normal;
-          scroll-snap-align: center;
-          // backdrop-filter: blur(10px);
-     }
+.descSecuritywitget {
+     display: flex !important;
+     align-items: center;
+     font-size: 14px;
+     font-weight: 600;
+     color: #273880;
+}
 
-     .iconSecurity {
-          flex-direction: column;
-          text-align: center;
-
-          img {
-               width: 70%;
-               margin-bottom: 1vw;
-               filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.2));
-          }
-
-          .descSecurity {
-               font-size: 1vw;
-               font-weight: 600;
-               color: #fff;
-               text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-          }
-     }
-
-     .iconSecuritys {
-          flex-direction: row;
-          padding: 1.5vw;
-
-          img {
-               width: 3.5vw;
-               filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.2));
-          }
-
-          .titleSecurity {
-               font-size: 1vw;
-               font-weight: 700;
-               color: #fff;
-               margin: 0vw 1vw;
-               text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-          }
-
-          .descSecurity {
-               font-size: 1vw;
-               font-weight: 500;
-               color: #fff;
-               margin: 0vw 1vw;
-               text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-          }
-     }
+.securityWitget {
+     display: flex;
+     flex-direction: row;
+     gap: 10px;
+     cursor: pointer;
 }

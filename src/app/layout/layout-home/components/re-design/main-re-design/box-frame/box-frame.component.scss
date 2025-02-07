@@ -1,556 +1,777 @@
-.frameMain {
-     display: grid;
-     grid-template-columns: repeat(2, 1fr);
-     gap: 2vw;
+// .frameMain {
+//      display: grid;
+//      grid-template-columns: repeat(2, 1fr);
+//      gap: 2vw;
 
-     .boxLeft {
-          width: 40vw;
+//      .boxLeft {
+//           width: 40vw;
+//           height: 100%;
+//           max-width: 100%;
+//           background-color: rgba(0, 0, 0, 0.7);
+//           border-radius: 12px;
+//           padding: 15px;
+//           box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+//           position: relative;
+//           z-index: 1;
+
+//           .header {
+//                color: #FFD300;
+//                font-size: 1vw;
+//                font-weight: 600;
+//                letter-spacing: 1px;
+//                
+
+//                .boxMain {
+
+//                     padding: 1vw 0;
+//                     display: grid;
+//                     grid-template-columns: repeat(2, 1fr);
+//                     gap: 2vw;
+
+
+//                     .boxsLeft {
+//                          transform: translateX(-30px);
+//                          transition: opacity 1s ease-out, transform 1s ease-out;
+//                          opacity: 0;
+
+//                          &.slideLeft {
+//                               opacity: 1;
+//                               transform: translateX(0);
+//                               transition-delay: calc(0.2s * var(--i));
+//                          }
+
+//                          .textCaseOnline {
+//                               color: #ffffff;
+//                               font-size: 1vw;
+//                               font-weight: 600;
+//                               letter-spacing: 1px;
+//                               
+//                          }
+
+//                          .countCaseOnline {
+//                               color: #FFD300;
+//                               font-size: 3vw;
+//                               font-weight: 600;
+//                               letter-spacing: 1px;
+//                               
+//                          }
+
+//                          .unitCaseOnline {
+//                               color: #ffffff;
+//                               font-size: 1vw;
+//                               font-weight: 600;
+//                               letter-spacing: 1px;
+//                               
+//                          }
+//                     }
+
+//                     .boxsRight {
+//                          transform: translateX(30px);
+//                          transition: opacity 1s ease-out, transform 1s ease-out;
+//                          opacity: 0;
+
+//                          &.slideRight {
+//                               opacity: 1;
+//                               transform: translateX(0);
+//                               transition-delay: calc(0.2s * var(--i));
+//                          }
+
+//                          .textCaseOnline {
+//                               color: #ffffff;
+//                               font-size: 1vw;
+//                               font-weight: 600;
+//                               letter-spacing: 1px;
+//                               
+//                          }
+
+//                          .countCaseOnline {
+//                               color: #FFD300;
+//                               font-size: 3vw;
+//                               font-weight: 600;
+//                               letter-spacing: 1px;
+//                               
+//                          }
+
+//                          .unitCaseOnline {
+//                               color: #ffffff;
+//                               font-size: 1vw;
+//                               font-weight: 600;
+//                               letter-spacing: 1px;
+//                               
+//                          }
+//                     }
+//                }
+
+//                .boxSecond {
+//                     padding: 1vw 0;
+//                     display: grid;
+//                     grid-template-columns: repeat(3, 1fr);
+//                     gap: 1vw;
+
+//                     .boxsLeft {
+//                          transform: translateX(-30px);
+//                          transition: opacity 1s ease-out, transform 1s ease-out;
+//                          opacity: 0;
+
+//                          &.slideLeft {
+//                               opacity: 1;
+//                               transform: translateX(0);
+//                               transition-delay: calc(0.2s * var(--i));
+//                          }
+
+//                          .textWhite1 {
+//                               color: #ffffff;
+//                               font-size: 1vw;
+//                               font-weight: 600;
+//                               letter-spacing: 1px;
+//                               
+//                          }
+
+//                          .textWhite2 {
+//                               color: #ffffff;
+//                               font-size: 2vw;
+//                               font-weight: 600;
+//                               letter-spacing: 1px;
+//                               
+//                          }
+
+//                          .textWhite3 {
+//                               color: #ffffff;
+//                               font-size: 1vw;
+//                               font-weight: 600;
+//                               letter-spacing: 1px;
+//                               
+//                          }
+//                     }
+
+//                     .boxsCenter {
+//                          transform: translateY(30px);
+//                          transition: opacity 1s ease-out, transform 1s ease-out;
+//                          opacity: 0;
+
+//                          &.slideIn {
+//                               opacity: 1;
+//                               transform: translateY(0);
+//                               transition-delay: calc(0.2s * var(--i));
+//                          }
+
+//                          .textWhite1 {
+//                               color: #ffffff;
+//                               font-size: 1vw;
+//                               font-weight: 600;
+//                               letter-spacing: 1px;
+//                               
+//                          }
+
+//                          .textWhite2 {
+//                               color: #ffffff;
+//                               font-size: 2vw;
+//                               font-weight: 600;
+//                               letter-spacing: 1px;
+//                               
+//                          }
+
+//                          .textWhite3 {
+//                               color: #ffffff;
+//                               font-size: 1vw;
+//                               font-weight: 600;
+//                               letter-spacing: 1px;
+//                               
+//                          }
+//                     }
+
+//                     .boxsRight {
+//                          transform: translateX(30px);
+//                          transition: opacity 1s ease-out, transform 1s ease-out;
+//                          opacity: 0;
+
+//                          &.slideRight {
+//                               opacity: 1;
+//                               transform: translateX(0);
+//                               transition-delay: calc(0.2s * var(--i));
+//                          }
+
+//                          .textWhite1 {
+//                               color: #ffffff;
+//                               font-size: 1vw;
+//                               font-weight: 600;
+//                               letter-spacing: 1px;
+//                               
+//                          }
+
+//                          .textWhite2 {
+//                               color: #ffffff;
+//                               font-size: 2vw;
+//                               font-weight: 600;
+//                               letter-spacing: 1px;
+//                               
+//                          }
+
+//                          .textWhite3 {
+//                               color: #ffffff;
+//                               font-size: 1vw;
+//                               font-weight: 600;
+//                               letter-spacing: 1px;
+//                               
+//                          }
+//                     }
+//                }
+
+//                .boxThird {
+//                     padding: 1vw 0;
+//                     display: grid;
+//                     grid-template-columns: 32% 63%;
+//                     gap: 1vw;
+
+//                     .boxsLeft {
+//                          transform: translateX(-30px);
+//                          transition: opacity 1s ease-out, transform 1s ease-out;
+//                          opacity: 0;
+
+//                          &.slideLeft {
+//                               opacity: 1;
+//                               transform: translateX(0);
+//                               transition-delay: calc(0.2s * var(--i));
+//                          }
+
+//                          .textCaseOnline {
+//                               color: #ffffff;
+//                               font-size: 1vw;
+//                               font-weight: 600;
+//                               letter-spacing: 1px;
+//                               
+//                          }
+
+//                          .countCaseOnline {
+//                               color: #FFD300;
+//                               font-size: 3vw;
+//                               font-weight: 600;
+//                               letter-spacing: 1px;
+//                               
+//                          }
+
+//                          .unitCaseOnline {
+//                               color: #ffffff;
+//                               font-size: 1vw;
+//                               font-weight: 600;
+//                               letter-spacing: 1px;
+//                               
+//                          }
+
+//                          .textYellow1 {
+//                               color: #FFD300;
+//                               font-size: 1.5vw;
+//                               font-weight: 600;
+//                               letter-spacing: 1px;
+//                               
+//                          }
+
+//                          .textWhite1 {
+//                               color: #ffffff;
+//                               font-size: 1vw;
+//                               font-weight: 500;
+//                               letter-spacing: 1px;
+//                               
+//                          }
+
+//                          .mostCases {
+//                               display: flex;
+//                               flex-direction: row;
+//                               justify-content: space-between;
+//                          }
+
+//                     }
+
+//                     .boxsRight {
+
+//                          transform: translateX(30px);
+//                          transition: opacity 1s ease-out, transform 1s ease-out;
+//                          opacity: 0;
+
+//                          &.slideRight {
+//                               opacity: 1;
+//                               transform: translateX(0);
+//                               transition-delay: calc(0.2s * var(--i));
+//                          }
+
+//                          .textCaseOnline {
+//                               color: #ffffff;
+//                               font-size: 1vw;
+//                               font-weight: 600;
+//                               letter-spacing: 1px;
+//                               
+//                          }
+
+//                          .countCaseOnline {
+//                               color: #FFD300;
+//                               font-size: 3vw;
+//                               font-weight: 600;
+//                               letter-spacing: 1px;
+//                               
+//                          }
+
+//                          .unitCaseOnline {
+//                               color: #ffffff;
+//                               font-size: 1vw;
+//                               font-weight: 600;
+//                               letter-spacing: 1px;
+//                               
+//                          }
+
+//                          .textYellow1 {
+//                               color: #FFD300;
+//                               font-size: 1.5vw;
+//                               font-weight: 600;
+//                               letter-spacing: 1px;
+//                               
+//                          }
+
+//                          .textWhite1 {
+//                               color: #ffffff;
+//                               font-size: 1vw;
+//                               font-weight: 500;
+//                               letter-spacing: 1px;
+//                               
+
+//                               .case01 {
+//                                    display: flex;
+//                                    align-items: center;
+//                                    justify-content: space-between;
+
+//                                    .case011 {
+//                                         overflow: hidden;
+//                                         white-space: nowrap;
+//                                         width: 15vw;
+//                                         text-overflow: ellipsis;
+//                                    }
+//                               }
+//                          }
+
+//                          .mostCases {
+//                               display: flex;
+//                               flex-direction: column;
+//                               justify-content: space-between;
+//                          }
+//                     }
+//                }
+
+//           }
+//      }
+
+//      .boxCenter {
+//           display: flex;
+//           flex-direction: column;
+//           padding: 2vw 0 0 0;
+//           transform: translateY(30px);
+//           transition: opacity 1s ease-out, transform 1s ease-out;
+//           opacity: 0;
+
+//           &.slideIn {
+//                opacity: 1;
+//                transform: translateY(0);
+//                transition-delay: calc(0.2s * var(--i));
+//           }
+
+//           .caseOnline {
+//                color: #FFFFFF;
+//                font-size: 4.5vw;
+//                font-weight: 600;
+//                letter-spacing: 1px;
+//           }
+
+//           .caseTechnolody {
+//                color: #FFFFFF;
+//                font-size: 2vw;
+//                font-weight: 600;
+//                letter-spacing: 1px;
+//           }
+//      }
+// }
+
+.boxFrame {
+     display: flex;
+     flex-direction: row;
+     justify-content: space-between;
+     align-items: center;
+
+     .boxFrameLeft {
+          width: 50%;
           height: 100%;
           max-width: 100%;
           background-color: rgba(0, 0, 0, 0.7);
           border-radius: 12px;
           padding: 15px;
           box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-          position: relative;
-          z-index: 1;
 
-          .header {
+          .textHeader {
                color: #FFD300;
                font-size: 1vw;
                font-weight: 600;
                letter-spacing: 1px;
-               margin-top: 2px;
+               margin: 0px 0px 15px 2px;
+          }
 
-               .boxMain {
+          .dataYellow {
+               color: #FFD300;
+               font-size: 3vw;
+               font-weight: 600;
+               letter-spacing: 1px;
 
-                    padding: 1vw 0;
-                    display: grid;
-                    grid-template-columns: repeat(2, 1fr);
-                    gap: 2vw;
+          }
 
+          .titleWhite {
+               color: #ffffff;
+               font-size: 1vw;
+               font-weight: 600;
+               letter-spacing: 1px;
 
-                    .boxsLeft {
-                         transform: translateX(-30px);
-                         transition: opacity 1s ease-out, transform 1s ease-out;
-                         opacity: 0;
+          }
 
-                         &.slideLeft {
-                              opacity: 1;
-                              transform: translateX(0);
-                              transition-delay: calc(0.2s * var(--i));
-                         }
+          .titleYellow {
+               color: #FFD300;
+               font-size: 1vw;
+               font-weight: 600;
+               letter-spacing: 1px;
 
-                         .textCaseOnline {
-                              color: #ffffff;
-                              font-size: 1vw;
+          }
+
+          .subTitleWhite {
+               color: #ffffff;
+               font-size: 1vw;
+               font-weight: 600;
+               letter-spacing: 1px;
+
+          }
+
+          .boxFirst {
+               display: grid;
+               grid-template-columns: 1.2fr 2fr;
+               gap: 15px;
+               padding: 0px 0px 15px 0px;
+
+               .boxLeft {
+                    display: flex;
+                    flex-direction: column;
+                    border-right: 1px solid#FFD300;
+               }
+
+               .boxRight {
+                    display: flex;
+                    flex-direction: column;
+               }
+          }
+
+          .boxSecond {
+               display: grid;
+               grid-template-columns: 2fr 2fr 2fr;
+               gap: 15px;
+               border-top: 1px solid#FFD300;
+               padding: 15px 0px 15px 0px;
+
+               .boxLeft {
+                    display: flex;
+                    flex-direction: column;
+                    border-right: 1px solid#FFD300;
+               }
+
+               .boxCenter {
+                    display: flex;
+                    flex-direction: column;
+                    border-right: 1px solid#FFD300;
+               }
+
+               .boxRight {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+               }
+          }
+
+          .boxThird {
+               display: grid;
+               grid-template-columns: 1.2fr 2fr;
+               gap: 15px;
+               padding: 15px 0px 15px 0px;
+               border-top: 1px solid#FFD300;
+
+               .boxLeft {
+                    display: flex;
+                    flex-direction: column;
+                    border-right: 1px solid#FFD300;
+               }
+
+               .boxRight {
+                    display: flex;
+                    flex-direction: column;
+
+                    .boxCase {
+                         display: grid;
+                         grid-template-columns: auto auto;
+                         justify-content: space-between;
+                         gap: 20px;
+
+                         span {
+                              color: #FFFFFF;
+                              font-size: .9vw;
                               font-weight: 600;
                               letter-spacing: 1px;
-                              margin-top: 2px;
+
                          }
 
-                         .countCaseOnline {
-                              color: #FFD300;
-                              font-size: 3vw;
-                              font-weight: 600;
-                              letter-spacing: 1px;
-                              margin-top: 2px;
-                         }
-
-                         .unitCaseOnline {
-                              color: #ffffff;
-                              font-size: 1vw;
-                              font-weight: 600;
-                              letter-spacing: 1px;
-                              margin-top: 2px;
-                         }
-                    }
-
-                    .boxsRight {
-                         transform: translateX(30px);
-                         transition: opacity 1s ease-out, transform 1s ease-out;
-                         opacity: 0;
-
-                         &.slideRight {
-                              opacity: 1;
-                              transform: translateX(0);
-                              transition-delay: calc(0.2s * var(--i));
-                         }
-
-                         .textCaseOnline {
-                              color: #ffffff;
-                              font-size: 1vw;
-                              font-weight: 600;
-                              letter-spacing: 1px;
-                              margin-top: 2px;
-                         }
-
-                         .countCaseOnline {
-                              color: #FFD300;
-                              font-size: 3vw;
-                              font-weight: 600;
-                              letter-spacing: 1px;
-                              margin-top: 2px;
-                         }
-
-                         .unitCaseOnline {
-                              color: #ffffff;
-                              font-size: 1vw;
-                              font-weight: 600;
-                              letter-spacing: 1px;
-                              margin-top: 2px;
+                         .titleCase {
+                              white-space: nowrap;
+                              overflow: hidden;
+                              text-overflow: ellipsis;
+                              max-width: 485px;
                          }
                     }
                }
-
-               .boxSecond {
-                    padding: 1vw 0;
-                    display: grid;
-                    grid-template-columns: repeat(3, 1fr);
-                    gap: 1vw;
-
-                    .boxsLeft {
-                         transform: translateX(-30px);
-                         transition: opacity 1s ease-out, transform 1s ease-out;
-                         opacity: 0;
-
-                         &.slideLeft {
-                              opacity: 1;
-                              transform: translateX(0);
-                              transition-delay: calc(0.2s * var(--i));
-                         }
-
-                         .textWhite1 {
-                              color: #ffffff;
-                              font-size: 1vw;
-                              font-weight: 600;
-                              letter-spacing: 1px;
-                              margin-top: 2px;
-                         }
-
-                         .textWhite2 {
-                              color: #ffffff;
-                              font-size: 2vw;
-                              font-weight: 600;
-                              letter-spacing: 1px;
-                              margin-top: 2px;
-                         }
-
-                         .textWhite3 {
-                              color: #ffffff;
-                              font-size: 1vw;
-                              font-weight: 600;
-                              letter-spacing: 1px;
-                              margin-top: 2px;
-                         }
-                    }
-
-                    .boxsCenter {
-                         transform: translateY(30px);
-                         transition: opacity 1s ease-out, transform 1s ease-out;
-                         opacity: 0;
-
-                         &.slideIn {
-                              opacity: 1;
-                              transform: translateY(0);
-                              transition-delay: calc(0.2s * var(--i));
-                         }
-
-                         .textWhite1 {
-                              color: #ffffff;
-                              font-size: 1vw;
-                              font-weight: 600;
-                              letter-spacing: 1px;
-                              margin-top: 2px;
-                         }
-
-                         .textWhite2 {
-                              color: #ffffff;
-                              font-size: 2vw;
-                              font-weight: 600;
-                              letter-spacing: 1px;
-                              margin-top: 2px;
-                         }
-
-                         .textWhite3 {
-                              color: #ffffff;
-                              font-size: 1vw;
-                              font-weight: 600;
-                              letter-spacing: 1px;
-                              margin-top: 2px;
-                         }
-                    }
-
-                    .boxsRight {
-                         transform: translateX(30px);
-                         transition: opacity 1s ease-out, transform 1s ease-out;
-                         opacity: 0;
-
-                         &.slideRight {
-                              opacity: 1;
-                              transform: translateX(0);
-                              transition-delay: calc(0.2s * var(--i));
-                         }
-
-                         .textWhite1 {
-                              color: #ffffff;
-                              font-size: 1vw;
-                              font-weight: 600;
-                              letter-spacing: 1px;
-                              margin-top: 2px;
-                         }
-
-                         .textWhite2 {
-                              color: #ffffff;
-                              font-size: 2vw;
-                              font-weight: 600;
-                              letter-spacing: 1px;
-                              margin-top: 2px;
-                         }
-
-                         .textWhite3 {
-                              color: #ffffff;
-                              font-size: 1vw;
-                              font-weight: 600;
-                              letter-spacing: 1px;
-                              margin-top: 2px;
-                         }
-                    }
-               }
-
-               .boxThird {
-                    padding: 1vw 0;
-                    display: grid;
-                    grid-template-columns: 32% 63%;
-                    gap: 1vw;
-
-                    .boxsLeft {
-                         transform: translateX(-30px);
-                         transition: opacity 1s ease-out, transform 1s ease-out;
-                         opacity: 0;
-
-                         &.slideLeft {
-                              opacity: 1;
-                              transform: translateX(0);
-                              transition-delay: calc(0.2s * var(--i));
-                         }
-
-                         .textCaseOnline {
-                              color: #ffffff;
-                              font-size: 1vw;
-                              font-weight: 600;
-                              letter-spacing: 1px;
-                              margin-top: 2px;
-                         }
-
-                         .countCaseOnline {
-                              color: #FFD300;
-                              font-size: 3vw;
-                              font-weight: 600;
-                              letter-spacing: 1px;
-                              margin-top: 2px;
-                         }
-
-                         .unitCaseOnline {
-                              color: #ffffff;
-                              font-size: 1vw;
-                              font-weight: 600;
-                              letter-spacing: 1px;
-                              margin-top: 2px;
-                         }
-
-                         .textYellow1 {
-                              color: #FFD300;
-                              font-size: 1.5vw;
-                              font-weight: 600;
-                              letter-spacing: 1px;
-                              margin-top: 2px;
-                         }
-
-                         .textWhite1 {
-                              color: #ffffff;
-                              font-size: 1vw;
-                              font-weight: 500;
-                              letter-spacing: 1px;
-                              margin-top: 2px;
-                         }
-
-                         .mostCases {
-                              display: flex;
-                              flex-direction: row;
-                              justify-content: space-between;
-                         }
-
-                    }
-
-                    .boxsRight {
-
-                         transform: translateX(30px);
-                         transition: opacity 1s ease-out, transform 1s ease-out;
-                         opacity: 0;
-
-                         &.slideRight {
-                              opacity: 1;
-                              transform: translateX(0);
-                              transition-delay: calc(0.2s * var(--i));
-                         }
-
-                         .textCaseOnline {
-                              color: #ffffff;
-                              font-size: 1vw;
-                              font-weight: 600;
-                              letter-spacing: 1px;
-                              margin-top: 2px;
-                         }
-
-                         .countCaseOnline {
-                              color: #FFD300;
-                              font-size: 3vw;
-                              font-weight: 600;
-                              letter-spacing: 1px;
-                              margin-top: 2px;
-                         }
-
-                         .unitCaseOnline {
-                              color: #ffffff;
-                              font-size: 1vw;
-                              font-weight: 600;
-                              letter-spacing: 1px;
-                              margin-top: 2px;
-                         }
-
-                         .textYellow1 {
-                              color: #FFD300;
-                              font-size: 1.5vw;
-                              font-weight: 600;
-                              letter-spacing: 1px;
-                              margin-top: 2px;
-                         }
-
-                         .textWhite1 {
-                              color: #ffffff;
-                              font-size: 1vw;
-                              font-weight: 500;
-                              letter-spacing: 1px;
-                              margin-top: 2px;
-
-                              .case01 {
-                                   display: flex;
-                                   align-items: center;
-                                   justify-content: space-between;
-
-                                   .case011 {
-                                        overflow: hidden;
-                                        white-space: nowrap;
-                                        width: 15vw;
-                                        text-overflow: ellipsis;
-                                   }
-                              }
-                         }
-
-                         .mostCases {
-                              display: flex;
-                              flex-direction: column;
-                              justify-content: space-between;
-                         }
-                    }
-               }
-
           }
      }
 
-     .boxCenter {
-          display: flex;
-          flex-direction: column;
-          padding: 2vw 0 0 0;
-          transform: translateY(30px);
-          transition: opacity 1s ease-out, transform 1s ease-out;
-          opacity: 0;
+     .boxFrameRight {
+          color: #FFFFFF;
+          margin: 0 50px;
 
-          &.slideIn {
-               opacity: 1;
-               transform: translateY(0);
-               transition-delay: calc(0.2s * var(--i));
-          }
-
-          .caseOnline {
-               color: #FFFFFF;
+          .textOnline {
                font-size: 4.5vw;
                font-weight: 600;
                letter-spacing: 1px;
+               margin: 0;
           }
 
-          .caseTechnolody {
-               color: #FFFFFF;
+          .textCase {
                font-size: 2vw;
                font-weight: 600;
                letter-spacing: 1px;
+               margin: 0;
           }
      }
 }
 
 @media screen and (min-width: 318px) and (max-width: 575px) {
+     .boxFrame {
+          display: flex;
+          flex-direction: column;
 
-     .frameMain {
-          display: grid;
-          grid-template-columns: repeat(1, 1fr);
+          .boxFrameLeft {
+               width: 100%;
 
-          .boxLeft {
-               width: 65vw;
-               height: 70vw;
-               max-width: 100%;
-               background-color: rgba(0, 0, 0, 0.7);
-               /* พื้นหลังกล่องที่โปร่งใส */
-               border-radius: 12px;
-               padding: 15px;
-               box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-               position: relative;
-               z-index: 1;
-
-               .header {
+               .textHeader {
                     color: #FFD300;
                     font-size: 2vw;
                     font-weight: 600;
                     letter-spacing: 1px;
-                    margin-top: 2px;
+                    margin: 0px 0px 15px 2px;
+               }
 
-                    .box-main {
+               .dataYellow {
+                    font-size: 4.5vw;
+               }
 
-                         padding: 1vw 0;
-                         display: grid;
-                         grid-template-columns: repeat(2, 1fr);
-                         gap: 2vw;
-                         margin-bottom: 10px;
+               .titleWhite {
+                    font-size: 2vw;
+               }
 
-                         .boxs {
+               .titleYellow {
+                    font-size: 2vw;
+               }
 
-                              .textCaseOnline {
-                                   color: #ffffff;
+               .subTitleWhite {
+                    font-size: 2vw;
+               }
+
+               .boxThird {
+
+                    .boxRight {
+
+                         .boxCase {
+
+                              span {
+                                   color: #FFFFFF;
                                    font-size: 2vw;
                                    font-weight: 600;
                                    letter-spacing: 1px;
-                                   margin-top: 2px;
+
                               }
 
-                              .countCaseOnline {
-                                   color: #FFD300;
-                                   font-size: 4vw;
-                                   font-weight: 600;
-                                   letter-spacing: 1px;
-                                   margin-top: 2px;
-                              }
-
-                              .unitCaseOnline {
-                                   color: #ffffff;
-                                   font-size: 2vw;
-                                   font-weight: 600;
-                                   letter-spacing: 1px;
-                                   margin-top: 2px;
+                              .titleCase {
+                                   white-space: nowrap;
+                                   overflow: hidden;
+                                   text-overflow: ellipsis;
+                                   max-width: 485px;
                               }
                          }
                     }
-
-                    .box-second {
-                         padding: 1vw 0;
-                         display: grid;
-                         grid-template-columns: repeat(3, 1fr);
-                         gap: 1vw;
-                         margin-bottom: 10px;
-
-                         .boxs {
-
-                              .textWhite1 {
-                                   color: #ffffff;
-                                   font-size: 1.2vw;
-                                   font-weight: 600;
-                                   letter-spacing: 1px;
-                                   margin-top: 2px;
-                              }
-
-                              .textWhite2 {
-                                   color: #ffffff;
-                                   font-size: 3vw;
-                                   font-weight: 600;
-                                   letter-spacing: 1px;
-                                   margin-top: 2px;
-                              }
-
-                              .textWhite3 {
-                                   color: #ffffff;
-                                   font-size: 1.2vw;
-                                   font-weight: 600;
-                                   letter-spacing: 1px;
-                                   margin-top: 2px;
-                              }
-                         }
-                    }
-
-                    .box-third {
-                         padding: 1vw 0;
-                         display: grid;
-                         grid-template-columns: repeat(2, 1fr);
-                         gap: 1vw;
-                         margin-bottom: 10px;
-
-                         .boxs {
-                              .textCaseOnline {
-                                   color: #ffffff;
-                                   font-size: 2vw;
-                                   font-weight: 600;
-                                   letter-spacing: 1px;
-                                   margin-top: 2px;
-                              }
-
-                              .countCaseOnline {
-                                   color: #FFD300;
-                                   font-size: 4vw;
-                                   font-weight: 600;
-                                   letter-spacing: 1px;
-                                   margin-top: 2px;
-                              }
-
-                              .unitCaseOnline {
-                                   color: #ffffff;
-                                   font-size: 1.2vw;
-                                   font-weight: 600;
-                                   letter-spacing: 1px;
-                                   margin-top: 2px;
-                              }
-
-                              .textYellow1 {
-                                   color: #FFD300;
-                                   font-size: 1.5vw;
-                                   font-weight: 600;
-                                   letter-spacing: 1px;
-                                   margin-top: 2px;
-                              }
-
-                              .textWhite1 {
-                                   color: #ffffff;
-                                   font-size: 1.2vw;
-                                   font-weight: 500;
-                                   letter-spacing: 1px;
-                                   margin-top: 2px;
-                              }
-
-                              .mostCases {
-                                   display: flex;
-                                   flex-direction: row;
-                                   justify-content: space-between;
-                              }
-                         }
-                    }
-
                }
           }
 
-          .boxCenter {
-               display: none;
+          .boxFrameRight {
+               color: #FFFFFF;
+               display: flex;
+               margin: 20px 0 !important;
+               flex-direction: column;
+               align-items: center;
+
+               .textOnline {
+                    font-size: 7vw;
+               }
+
+               .textCase {
+                    font-size: 3.5vw;
+               }
           }
      }
 }
 
-@media screen and (min-width: 576px) and (max-width: 767px) {}
+@media screen and (min-width: 576px) and (max-width: 767px) {
+     .boxFrame {
+          display: flex;
+          flex-direction: column;
 
-@media screen and (min-width: 768px) and (max-width: 991px) {}
+          .boxFrameLeft {
+               width: 100%;
+
+               .textHeader {
+                    color: #FFD300;
+                    font-size: 2vw;
+                    font-weight: 600;
+                    letter-spacing: 1px;
+                    margin: 0px 0px 15px 2px;
+               }
+
+               .dataYellow {
+                    font-size: 4.5vw;
+               }
+
+               .titleWhite {
+                    font-size: 2vw;
+               }
+
+               .titleYellow {
+                    font-size: 2vw;
+               }
+
+               .subTitleWhite {
+                    font-size: 2vw;
+               }
+
+               .boxThird {
+
+                    .boxRight {
+
+                         .boxCase {
+
+                              span {
+                                   color: #FFFFFF;
+                                   font-size: 2vw;
+                                   font-weight: 600;
+                                   letter-spacing: 1px;
+
+                              }
+
+                              .titleCase {
+                                   white-space: nowrap;
+                                   overflow: hidden;
+                                   text-overflow: ellipsis;
+                                   max-width: 485px;
+                              }
+                         }
+                    }
+               }
+          }
+
+          .boxFrameRight {
+               color: #FFFFFF;
+               display: flex;
+               margin: 20px 0 !important;
+               flex-direction: column;
+               align-items: center;
+
+               .textOnline {
+                    font-size: 7vw;
+               }
+
+               .textCase {
+                    font-size: 3.5vw;
+               }
+          }
+     }
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+     .boxFrame {
+          display: flex;
+          flex-direction: column;
+
+          .boxFrameLeft {
+               width: 100%;
+
+               .textHeader {
+                    color: #FFD300;
+                    font-size: 2vw;
+                    font-weight: 600;
+                    letter-spacing: 1px;
+                    margin: 0px 0px 15px 2px;
+               }
+
+               .dataYellow {
+                    font-size: 4.5vw;
+               }
+
+               .titleWhite {
+                    font-size: 2vw;
+               }
+
+               .titleYellow {
+                    font-size: 2vw;
+               }
+
+               .subTitleWhite {
+                    font-size: 2vw;
+               }
+
+               .boxThird {
+
+                    .boxRight {
+
+                         .boxCase {
+
+                              span {
+                                   color: #FFFFFF;
+                                   font-size: 2vw;
+                                   font-weight: 600;
+                                   letter-spacing: 1px;
+
+                              }
+
+                              .titleCase {
+                                   white-space: nowrap;
+                                   overflow: hidden;
+                                   text-overflow: ellipsis;
+                                   max-width: 485px;
+                              }
+                         }
+                    }
+               }
+          }
+
+          .boxFrameRight {
+               color: #FFFFFF;
+               display: flex;
+               margin: 20px 0 !important;
+               flex-direction: column;
+               align-items: center;
+
+               .textOnline {
+                    font-size: 7vw;
+               }
+
+               .textCase {
+                    font-size: 3.5vw;
+               }
+          }
+     }
+}
 
 @media screen and (min-width: 992px) and (max-width: 1199px) {}

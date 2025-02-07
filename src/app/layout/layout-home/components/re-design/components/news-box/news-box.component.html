@@ -1,0 +1,16 @@
+<div class="containerNews">
+    <div class="textNews">ข่าวสารที่น่าสนใจ</div>
+    <div class="boxSecurity">
+        <ng-container *ngFor="let item of topnews">
+            <label class="NewsWitget" (click)="navigateToDetail(item.NewsId)">
+                <div class="topnewsImage">
+                    <img [src]="item.ImageUrl" class="imageNews">
+                </div>
+                <div>
+                    <label class="descNews">{{ item.NewsTitle }}</label>
+                    <label class="descNews">{{ item.CreateDate | thaiDate }}</label>
+                </div>
+            </label>
+        </ng-container>
+    </div>
+</div>

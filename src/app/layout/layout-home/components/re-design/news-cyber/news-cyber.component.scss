@@ -18,7 +18,7 @@
           justify-content: space-between;
           align-items: center;
 
-          .titleNews {
+          .titleNews,.subtitleNews {
                font-size: 1.8vw;
                font-weight: bold;
                color: #273880;
@@ -74,7 +74,7 @@
                transition: opacity 1s ease-out, transform 1s ease-out;
                opacity: 0;
                /* ตั้งค่าเริ่มต้นให้ไม่เห็น */
-
+               cursor: pointer;
                /* เพิ่ม transition-delay */
                &.slide-in {
                     opacity: 1;
@@ -173,6 +173,7 @@
                display: flex;
                gap: 0.8vw;
                cursor: pointer;
+
                button {
                     width: 35px;
                     height: 35px;
@@ -206,141 +207,147 @@
 
 @media screen and (min-width: 318px) and (max-width: 575px) {
      .containerNews {
-       padding: 4vw 6vw;
-       gap: 3vw;
+          padding: 4vw 6vw;
+          gap: 3vw;
      }
-   
-     .containerNews .headerNews .titleNews {
-       font-size: 6vw; 
-     }
-   
-     .containerNews .headerNews .buttonNews {
-       font-size: 4vw; 
-       padding: 2.5vw 5vw; 
-     }
-   
-     .containerNews .cardNews .boxNews .imageNews {
-       height: 40vw; 
-     }
-   
-     .containerNews .cardNews .boxNews .detailNews .categoryNews {
-       font-size: 3vw; 
-       font-weight: bold;
-     }
-     .containerNews .cardNews .boxNews .detailNews .titleNews {
-       font-size: 4vw; 
-       font-weight: bold;
-     }
-   
-     .containerNews .cardNews .boxNews .detailNews .desNews {
-       font-size: 3vw;
-     }
-     .containerNews .cardNews .boxNews .detailNews .dateNews {
-       font-size: 3vw;
-     }
-   }
-   
-   
-   @media screen and (min-width: 576px) and (max-width: 767px) {
-     .containerNews {
-       padding: 3vw 5vw; 
-       gap: 2vw;
-     }
-   
-     .containerNews .headerNews .titleNews {
-       font-size: 3vw; 
-     }
-   
-     .containerNews .headerNews .buttonNews {
-       font-size: 2vw; 
-       padding: 1.5vw 3vw;
-     }
-   
-     .containerNews .cardNews .boxNews .imageNews {
-       height: 25vw; 
-     }
-   
-     .containerNews .cardNews .boxNews .detailNews .categoryNews {
-          font-size: 2vw; 
-          font-weight: bold;
-        }
-        .containerNews .cardNews .boxNews .detailNews .titleNews {
-          font-size: 3vw; 
-          font-weight: bold;
-        }
-      
-        .containerNews .cardNews .boxNews .detailNews .desNews {
-          font-size: 2vw;
-        }
-        .containerNews .cardNews .boxNews .detailNews .dateNews {
-          font-size:2vw;
-        }
-   
 
-   }
-   
-   @media screen and (min-width: 768px) and (max-width: 991px) {
-     .containerNews {
-       padding: 2vw 4vw;
-       gap: 1.5vw;
-     }
-   
      .containerNews .headerNews .titleNews {
-       font-size: 2.5vw;
+          font-size: 7vw;
      }
-   
+
      .containerNews .headerNews .buttonNews {
-       font-size: 1.8vw;
-       padding: 1vw 2.5vw;
+          font-size: 16px;
+          padding: 1.5vw 3vw;
+          text-align: center;
      }
-   
+
      .containerNews .cardNews .boxNews .imageNews {
-       height: 20vw; 
+          height: 40vw;
      }
-   
+
      .containerNews .cardNews .boxNews .detailNews .categoryNews {
-          font-size: 1.5vw; 
+          font-size: 3vw;
           font-weight: bold;
-        }
-        .containerNews .cardNews .boxNews .detailNews .titleNews {
-          font-size: 2vw; 
+     }
+
+     .containerNews .cardNews .boxNews .detailNews .subtitleNews {
+          font-size: 4vw;
           font-weight: bold;
-        }
-      
-        .containerNews .cardNews .boxNews .detailNews .desNews {
+     }
+
+     .containerNews .cardNews .boxNews .detailNews .desNews {
+          font-size: 3vw;
+     }
+
+     .containerNews .cardNews .boxNews .detailNews .dateNews {
+          font-size: 3vw;
+     }
+}
+
+
+@media screen and (min-width: 576px) and (max-width: 767px) {
+     .containerNews {
+          padding: 3vw 5vw;
+          gap: 2vw;
+     }
+
+     .containerNews .headerNews .titleNews {
+          font-size: 3vw;
+     }
+
+     .containerNews .headerNews .buttonNews {
+          font-size: 2vw;
+          padding: 1.5vw 3vw;
+     }
+
+     .containerNews .cardNews .boxNews .imageNews {
+          height: 25vw;
+     }
+
+     .containerNews .cardNews .boxNews .detailNews .categoryNews {
+          font-size: 2vw;
+          font-weight: bold;
+     }
+
+     .containerNews .cardNews .boxNews .detailNews .titleNews {
+          font-size: 3vw;
+          font-weight: bold;
+     }
+
+     .containerNews .cardNews .boxNews .detailNews .desNews {
+          font-size: 2vw;
+     }
+
+     .containerNews .cardNews .boxNews .detailNews .dateNews {
+          font-size: 2vw;
+     }
+
+
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+     .containerNews {
+          padding: 2vw 4vw;
+          gap: 1.5vw;
+     }
+
+     .containerNews .headerNews .titleNews {
+          font-size: 2.5vw;
+     }
+
+     .containerNews .headerNews .buttonNews {
+          font-size: 1.8vw;
+          padding: 1vw 2.5vw;
+     }
+
+     .containerNews .cardNews .boxNews .imageNews {
+          height: 20vw;
+     }
+
+     .containerNews .cardNews .boxNews .detailNews .categoryNews {
+          font-size: 1.5vw;
+          font-weight: bold;
+     }
+
+     .containerNews .cardNews .boxNews .detailNews .titleNews {
+          font-size: 2vw;
+          font-weight: bold;
+     }
+
+     .containerNews .cardNews .boxNews .detailNews .desNews {
           font-size: 1.4vw;
-        }
-        .containerNews .cardNews .boxNews .detailNews .dateNews {
-          font-size:1.5vw;
-        }
-   }
-   
+     }
+
+     .containerNews .cardNews .boxNews .detailNews .dateNews {
+          font-size: 1.5vw;
+     }
+}
+
 //    @media screen and (min-width: 992px) and (max-width: 1199px) {
 //      .containerNews {
 //        padding: 1.5vw 3vw; 
 //        gap: 1.2vw;
 //      }
-   
+
 //      .containerNews .headerNews .titleNews {
 //        font-size: 2vw; 
 //      }
-   
+
 //      .containerNews .headerNews .buttonNews {
 //        font-size: 1.5vw;
 //        padding: 0.8vw 2vw;
 //      }
-   
+
 //      .containerNews .cardNews .boxNews .imageNews {
 //        height: 15vw; 
 //      }
-   
+
 //      .containerNews .cardNews .boxNews .detailNews .titleNews {
 //        font-size: 1.2vw;
 //      }
-   
+
 //      .containerNews .paginationNews .dotNews .dot {
 //        width: 16px;
 //        height: 16px;
 //      }
 //    }
-   

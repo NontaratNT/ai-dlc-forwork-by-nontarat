@@ -8,29 +8,30 @@ import { NewsService } from 'src/app/services/re-design/news/news.service';
 })
 export class BoxFrameComponent implements OnInit, AfterViewInit {
 
-  @Input() boxes: any[] = []; // ใช้เพื่อส่งข้อมูลเกี่ยวกับ box ที่จะแสดง
+  @ViewChild('boxLeft', { static: false }) boxLeft!: ElementRef;
 
-  @ViewChild('boxsLeft') boxsLeft!: ElementRef;
-  @ViewChild('boxsCenter') boxsCenter!: ElementRef;
-  @ViewChild('boxsRight') boxsRight!: ElementRef;
+  @ViewChild('boxCenter') boxCenter!: ElementRef;
+  @ViewChild('boxRight') boxRight!: ElementRef;
 
   isVisible = false;
 
   dataStatic: any;
 
+  index: any;
+
   constructor(private service: NewsService) { }
 
   ngOnInit(): void {
     this.service.getStatic().subscribe((res) => {
-      this.dataStatic = res.Value;
-      // console.log(this.dataStatic);
+      this.dataStatic = [res.Value];
     });
   }
 
   ngAfterViewInit() {
-    if (this.boxsLeft && this.boxsRight && this.boxsCenter) {
+    if (this.boxLeft && this.boxRight && this.boxCenter) {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
+          console.log('Element:', entry.target, 'isIntersecting:', entry.isIntersecting);
           if (entry.isIntersecting) {
             this.isVisible = true;
           } else {
@@ -39,9 +40,9 @@ export class BoxFrameComponent implements OnInit, AfterViewInit {
         });
       }, { threshold: 0.2 });
 
-      observer.observe(this.boxsLeft.nativeElement);
-      observer.observe(this.boxsCenter.nativeElement);
-      observer.observe(this.boxsRight.nativeElement);
+      observer.observe(this.boxLeft.nativeElement);
+      observer.observe(this.boxCenter.nativeElement);
+      observer.observe(this.boxRight.nativeElement);
     } else {
       console.warn('One or more elements are not available yet.');
     }

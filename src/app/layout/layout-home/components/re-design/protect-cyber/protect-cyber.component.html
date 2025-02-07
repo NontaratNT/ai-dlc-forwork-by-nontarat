@@ -1,7 +1,10 @@
-<div class="scroll-container">
+<div class="progressBar">
+     <div class="progress" [style.width.%]="scrollProgress"></div>
+</div>
+<div class="scrollContainer">
      <div class="background-container" *ngFor="let slide of slides"
           [ngStyle]="{ 'background-image': 'url(' + slide.images + ')' }">
-          <!-- Content ของคุณ -->
+
           <div class="box">
                <div class="content">
                     <label class="text-main">ห่างกลโกงมิจฉาชีพ</label>
@@ -12,21 +15,20 @@
                          ทั้งทางข้อความ โทรศัพท์ Call center หลอกหลวงต่างๆ ทั้งในและต่างประเทศ
                     </label>
                </div>
-               <div *ngFor="let item of protectedCyber">
-                    <div class="protected-cyber">
-                         <!-- สำหรับเลขคี่ -->
-                         <div *ngIf="item.CyberId % 2 !== 0" class="odd-number">
-                              <img [src]="item.ImageUrl" alt="icon">
-                              <label class="title-cyber">{{ item.CyberTitle }}</label>
-                              <label class="description-cyber">{{ item.CyberDescription }}</label>
-                         </div>
 
-                         <!-- สำหรับเลขคู่ -->
-                         <div *ngIf="item.CyberId % 2 === 0" class="even-number">
-                              <label class="title-cyber">{{ item.CyberTitle }}</label>
-                              <label class="description-cyber">{{ item.CyberDescription }}</label>
-                              <img [src]="item.ImageUrl" alt="icon">
-                         </div>
+               <div class="protected-cyber" *ngFor="let item of protectedCyber">
+                    <div *ngIf="item.CyberSeq % 2 !== 0" class="odd-number">
+                         <img [src]="item.ImageUrl" alt="icon">
+                         <label class="title-cyber">{{ item.CyberTitle }}</label>
+                         <label class="description-cyber">{{ item.CyberDescription }}</label>
+                         <label for="" class="iconCyber">&#8594;</label>
+                    </div>
+
+                    <div *ngIf="item.CyberSeq % 2 === 0" class="even-number">
+                         <label class="title-cyber">{{ item.CyberTitle }}</label>
+                         <label class="description-cyber">{{ item.CyberDescription }}</label>
+                         <label for="" class="iconCyber">&#8594;</label>
+                         <img [src]="item.ImageUrl" alt="icon">
                     </div>
                </div>
           </div>

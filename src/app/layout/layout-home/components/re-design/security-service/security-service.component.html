@@ -1,24 +1,54 @@
-<div class="containerSecurity">
-     <div class="textSecurity">บริการเสริมความปลอดภัย</div>
-     <div class="boxSecurity">
+<div *ngIf="types === 'main'">
+     <div class="scrollSecurity">
+          <div class="boxSecurity">
+
+               <div class="headerBox">
+                    <label class="header" for="">บริการเสริมความปลอดภัย</label>
+                    <div class="scrollBtnContainer">
+                         <div class="left" (mousedown)="onMouseDown($event, 'left')" (click)="scrollLeftSmoothly()">
+                              &#8592;
+                         </div>
+
+                         <div class="right" (mousedown)="onMouseDown($event, 'right')" (click)="scrollRight()">
+                              &#8594;
+                         </div>
+                    </div>
+               </div>
+
+
+               <div class="contentSecurity" #contentSecurity (scroll)="onScroll($event)">
+                    <div *ngFor="let item of detailSecurity">
+                         <div class="boxContent" (click)="onSwitchService(item.ServiceId)" *ngIf="item.ServiceSeq < 4">
+                              <img [src]="item.ImageUrl" class="imageNews">
+                              <label class="descSecurity">{{ item.ServiceDescription }}</label>
+                         </div>
+
+                         <div class="boxContentRow" (click)="onSwitchService(item.ServiceId)"
+                              *ngIf="item.ServiceSeq >= 4">
+                              <img [src]="item.ImageUrl" class="imageNews">
+                              <label class="descSecurity">{{ item.ServiceDescription }}</label>
+                         </div>
+                    </div>
+               </div>
+
+               <div class="progressContainer">
+                    <div class="progressBar" [style.width.%]="scrollProgress"></div>
+               </div>
+          </div>
+     </div>
+</div>
+
+
+<div class="containerSecuritywitget" *ngIf="types === 'witget'">
+     <div class="textSecuritywitget">บริการเสริมความปลอดภัย</div>
+     <div class="boxSecuritywitget">
           <ng-container *ngFor="let item of detailSecurity">
-               <div class="iconSecurity" (click)="onSwitchService(item.ServiceId)" *ngIf="item.ServiceSeq < 4">
-                    <img [src]="item.ImageUrl" class="imageNews">
-                    <label class="descSecurity">{{ item.ServiceDescription }}</label>
-               </div>
-               <div class="iconSecuritys" (click)="onSwitchService(item.ServiceId)" *ngIf="item.ServiceSeq >= 4">
-                    <div>
-                         <img [src]="item.ImageUrl" alt="icon">
+               <label class="securityWitget" (click)="onSwitchService(item.ServiceId) " tabindex="0">
+                    <div class="iconSecuritywitget">
+                         <img [src]="item.ImageUrl" class="imageNewswitget">
                     </div>
-                    <div *ngIf="item.ServiceSeq === 4">
-                         <label class="titleSecurity">Line Chat</label>
-                         <label class="descSecurity">{{ item.ServiceDescription }}</label>
-                    </div>
-                    <div *ngIf="item.ServiceSeq === 5">
-                         <label class="titleSecurity">Chat Bot</label>
-                         <label class="descSecurity">{{ item.ServiceDescription }}</label>
-                    </div>
-               </div>
+                    <label class="descSecuritywitget">{{ item.ServiceDescription }}</label>
+               </label>
           </ng-container>
      </div>
 </div>

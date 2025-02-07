@@ -1,0 +1,17 @@
+<div class="phone-mockup-banner" *ngFor="let group of appInfo | keyvalue; trackBy: trackByGroup">
+    <div class="containerbanner">
+        <div class="content">
+            <h1>{{ group.key }}</h1>
+            <p [innerHTML]="group.value.AppDescription"></p>
+            <p [ngClass]="{'d-none': group.value.Apps?.length == 0}">{{ group.value.Apps?.length >= 2 ? 'สามารถดาวน์โหลด Mobile Application ได้ทั้งสองระบบ' : 'สามารถดาวน์โหลด Mobile Application' }}</p>
+            <div class="app-btn">
+            <div class="apps" *ngFor="let app of group.value.Apps; trackBy: trackByApp">
+                <img [src]="app.ImageUrl" [alt]="app.AppType" (click)="openApp(app.AppLink)">
+            </div>
+            </div>
+        </div>
+        <div class="mockup">
+            <img src="assets/image/img/phone2.png" alt="Phone Mockup">
+        </div>
+    </div>
+</div>

@@ -1,7 +1,6 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NewsService } from 'src/app/services/re-design/news/news.service';
-import { User } from 'src/app/services/user';
 
 @Component({
   selector: 'app-security-service',
@@ -9,85 +8,81 @@ import { User } from 'src/app/services/user';
   styleUrls: ['./security-service.component.scss']
 })
 export class SecurityServiceComponent implements OnInit {
+  @Input() types: 'main' | 'witget' = 'main';
 
+  detailSecurity: any[] = [];
   isDragging = false;
   startX = 0;
   scrollLeft = 0;
 
-  detailSecurity: any[] = [];
+  @ViewChild('contentSecurity', { static: false }) contentSecurity!: ElementRef;
+  scrollProgress: number = 0; // ✅ ค่า Progress ของ Scroll
 
   constructor(
-    private el: ElementRef,
     private service: NewsService,
     private router: Router,
   ) { }
 
   ngOnInit(): void {
-    const container = this.el.nativeElement.querySelector('.boxSecurity');
-    if (container) {
-      container.addEventListener('mousedown', this.onMouseDown.bind(this));
-      container.addEventListener('mousemove', this.onMouseMove.bind(this));
-      container.addEventListener('mouseup', this.onMouseUp.bind(this));
-      container.addEventListener('mouseleave', this.onMouseUp.bind(this));
-      container.addEventListener('touchstart', this.onTouchStart.bind(this), { passive: true });
-      container.addEventListener('touchmove', this.onTouchMove.bind(this), { passive: true });
-      container.addEventListener('touchend', this.onTouchEnd.bind(this));
-    }
-
     this.service.getBanner().subscribe((res: any) => {
-      console.log(res.Value);
       this.detailSecurity = res.Value;
-      console.log(this.detailSecurity);
-      
     });
   }
 
-  onMouseDown(event: MouseEvent): void {
-    this.startDragging(event.pageX);
+  // ✅ คำนวณ Progress Bar
+  onScroll(event: any): void {
+    const target = event.target;
+    const scrollLeft = target.scrollLeft;
+    const scrollWidth = target.scrollWidth - target.clientWidth;
+    this.scrollProgress = (scrollLeft / scrollWidth) * 100;
   }
 
-  onMouseMove(event: MouseEvent): void {
-    this.drag(event.pageX);
+  // ✅ เลื่อนซ้าย
+  scrollLeftSmoothly(): void {
+    this.contentSecurity.nativeElement.scrollBy({
+      left: -200, // ปรับค่าความเร็วในการเลื่อน
+      behavior: 'smooth'
+    });
   }
 
-  onMouseUp(): void {
-    this.stopDragging();
+  // ✅ เลื่อนขวา
+  scrollRight(): void {
+    this.contentSecurity.nativeElement.scrollBy({
+      left: 200, // ปรับค่าความเร็วในการเลื่อน
+      behavior: 'smooth'
+    });
   }
 
-  onTouchStart(event: TouchEvent): void {
-    this.startDragging(event.touches[0].pageX);
-  }
-
-  onTouchMove(event: TouchEvent): void {
-    this.drag(event.touches[0].pageX);
-  }
-
-  onTouchEnd(): void {
-    this.stopDragging();
-  }
-
-  private startDragging(positionX: number): void {
-    const container = this.el.nativeElement.querySelector('.boxSecurity');
-    if (!container) return;
+  // ✅ กดแช่เพื่อเลื่อน
+  onMouseDown(event: MouseEvent, direction: 'left' | 'right'): void {
     this.isDragging = true;
-    this.startX = positionX - container.offsetLeft;
-    this.scrollLeft = container.scrollLeft;
-    container.classList.add('active');
+    this.startX = event.clientX;
+    this.scrollLeft = this.contentSecurity.nativeElement.scrollLeft;
+
+    // ใช้การเคลื่อนไหวของเมาส์
+    const moveHandler = (e: MouseEvent) => this.onMouseMove(e, direction);
+    const stopHandler = () => {
+      this.isDragging = false;
+      window.removeEventListener('mousemove', moveHandler);
+      window.removeEventListener('mouseup', stopHandler);
+    };
+
+    window.addEventListener('mousemove', moveHandler);
+    window.addEventListener('mouseup', stopHandler);
   }
 
-  private drag(positionX: number): void {
+  // ✅ เลื่อนขณะกดแช่
+  onMouseMove(event: MouseEvent, direction: 'left' | 'right'): void {
     if (!this.isDragging) return;
-    const container = this.el.nativeElement.querySelector('.boxSecurity');
-    if (!container) return;
-    const walk = (positionX - this.startX) * 1.5;
-    container.scrollLeft = this.scrollLeft - walk;
-  }
 
-  private stopDragging(): void {
-    const container = this.el.nativeElement.querySelector('.boxSecurity');
-    if (!container) return;
-    this.isDragging = false;
-    container.classList.remove('active');
+    const moveDistance = event.clientX - this.startX;
+    if (direction === 'left') {
+      // ปรับตำแหน่งการเลื่อนให้มากขึ้นตามระยะทางที่เคลื่อนไหว
+      this.contentSecurity.nativeElement.scrollLeft = this.scrollLeft - moveDistance;
+    } else if (direction === 'right') {
+      // ปรับตำแหน่งการเลื่อนให้มากขึ้นตามระยะทางที่เคลื่อนไหว
+      this.contentSecurity.nativeElement.scrollLeft = this.scrollLeft + moveDistance;
+    }
   }
 
   onSwitchService(id: number): void {
@@ -98,21 +93,17 @@ export class SecurityServiceComponent implements OnInit {
       case 2:
         window.location.href = 'https://www.chaladohn.com/';
         break;
-
       case 3:
         this.router.navigate(['/login'], { queryParams: { icli: 'al' } });
         break;
-        
       case 4:
         const downloadLink = document.createElement("a");
         downloadLink.href = 'tel:081-866-3000';
         downloadLink.click();
         break;
-        
       case 5:
         window.location.href = 'https://m.me/mysisbot';
         break;
-
       case 6:
         this.router.navigate(['/login'], { queryParams: { icli: 'landing' } });
         break;
@@ -120,12 +111,4 @@ export class SecurityServiceComponent implements OnInit {
         break;
     }
   }
-
-  // detailSecurity = [
-  //   { id: 1, title: 'เช็กก่อน', description: 'เว็บไซต์ที่ใช้สำหรับช่วยเหลือ ตรวจสอบและเช็กรายชื่อคนโกง', image: 'assets/image/img/security/checkgon.png' },
-  //   { id: 2, title: 'ฉลาดโอน', description: 'เช็กก่อนเชื่อบริการช่วยตรวจสอบ บัญชีปลายทางก่อนโอนเงิน', image: 'assets/image/img/security/check.png' },
-  //   { id: 3, title: 'ไซเบอร์วัคซีน', description: 'ช่วยสร้างภูมิคุ้มกันภัยทางเทคโนโลยี เพื่อเตือนและรู้ทันกลโกง', image: 'assets/image/img/security/vacc.png' },
-  //   { id: 4, title: 'Line Chat', description: '@police1441 ให้คำปรึกษาทางด้าคดี', image: 'assets/image/img/security/line.png' },
-  //   { id: 5, title: 'Chat Bot', description: 'ให้คำปรึกษาความรุนแรง ในครอบครัว', image: 'assets/image/img/security/chat.png' },
-  // ];
 }

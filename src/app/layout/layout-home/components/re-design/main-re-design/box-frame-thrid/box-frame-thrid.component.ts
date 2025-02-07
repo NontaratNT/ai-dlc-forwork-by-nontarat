@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NewsService } from 'src/app/services/re-design/news/news.service';
 
 @Component({
-  selector: 'app-box-frame-thrid',
+  selector: 'box-frame-thrid',
   templateUrl: './box-frame-thrid.component.html',
   styleUrls: ['./box-frame-thrid.component.scss']
 })

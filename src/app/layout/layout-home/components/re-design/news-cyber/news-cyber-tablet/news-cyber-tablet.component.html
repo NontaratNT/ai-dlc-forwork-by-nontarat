@@ -1,0 +1,34 @@
+<div class="containerNews">
+     <div class="headerNews">
+          <h2 class="titleNews" #titleNews [ngClass]="{'slide-in': isVisible}">ข่าวประชาสัมพันธ์ / เตือนภัยไซเบอร์</h2>
+          <div class="buttonNews" #buttonNews [ngClass]="{'slide-in': isVisible}" (click)="RedirectUrl('/news')">
+               ดูข่าวสารทั้งหมด</div>
+     </div>
+     <div class="cardNews">
+          <ng-container *ngFor="let news of paginatedNews[currentPage]">
+               <div class="boxNews" (click)="navigateToDetail(news.NewsId)">
+                    <img [src]="news.ImageUrl" [alt]="news.NewsTitle" class="imageNews">
+                    <div class="detailNews">
+                         <span class="categoryNews">{{ news.CategoryName }}</span>
+                         <h4 class="subtitleNews">{{ news.NewsTitle }}</h4>
+                         <p class="desNews">{{ news.NewsDescription }}</p>
+                         <div class="dateNews">
+                              <img src="assets/icon/calendar.png" alt="calendar" width="25" class="calendar-icon">
+                              <span>{{ news.CreateDate | thaiDate}}</span>
+                         </div>
+                    </div>
+               </div>
+          </ng-container>
+     </div>
+     <div class="paginationNews">
+          <div class="dotNews">
+               <span *ngFor="let page of paginatedNews; let i = index" class="dot" [class.active]="i === currentPage"
+                    (click)="navigateToPage(i)"></span>
+          </div>
+          <div class="buttonsNews">
+               <button class="prevButton" (click)="prevPage()" [disabled]="currentPage === 0">&larr;</button>
+               <button class="nextButton" (click)="nextPage()"
+                    [disabled]="currentPage === paginatedNews.length - 1">&rarr;</button>
+          </div>
+     </div>
+</div>

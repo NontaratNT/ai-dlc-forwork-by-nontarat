@@ -13,12 +13,13 @@ export class PageNewsComponent implements OnInit {
     news2: any[] = [];
     news3: any[] = [];
 
+
     constructor(private service: NewsService, private router: Router) {}
 
     ngOnInit(): void {
         this.service.getNewsAll().subscribe((res) => {
             this.newsData = res.Value.Data;
-            console.log(this.newsData);
+            // console.log(this.newsData);
         });
     }
 
@@ -72,7 +73,7 @@ export class PageNewsComponent implements OnInit {
     selectTab(tab: any) {
         this.activeTab = tab;
 
-        console.log(this.activeTab == "all");
+        // console.log(this.activeTab == "all");
         if (this.activeTab === "all") {
             this.service.getNewsAll().subscribe((res) => {
                 this.newsData = res.Value.Data;
@@ -92,23 +93,19 @@ export class PageNewsComponent implements OnInit {
         }
     }
 
-    scrollToTop(): void {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-    ngAfterViewInit(): void {
-        window.addEventListener("scroll", () => {
-            const button = document.querySelector(".to-top-btn");
-            if (button) {
-                if (window.scrollY > 300) {
-                    button.classList.add("show");
-                } else {
-                    button.classList.remove("show");
-                }
-            }
-        });
-    }
-
     ToMain() {
         this.router.navigate(["/"]);
     }
+
+    navigateToDetail(newsId: number | null | undefined): void {
+        if (!newsId) {
+            console.error('Invalid newsId:', newsId);
+            return;
+        }
+    
+        this.router.navigate([`news/detail/${newsId}`]).catch((error) => {
+            console.error('Navigation error:', error);
+        });
+    }
+    
 }

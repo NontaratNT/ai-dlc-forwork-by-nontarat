@@ -41,7 +41,7 @@ p {
     font-weight: 600;
 }
 .qa-container {
-    padding: 4vw;
+    padding: 130px 15px 15px 15px;
 }
 
 .breadcrumbs {
@@ -256,8 +256,7 @@ label.active {
 
 @media (max-width: 768px) {
     .qa-container {
-        padding: 3vw;
-        padding-top: inherit;
+        padding: 120px 15px 15px 15px;
     }
     .qa-nav-list {
         border-right: none;
@@ -274,8 +273,7 @@ label.active {
 
 @media (max-width: 576px) {
     .qa-container {
-        padding: 3vw;
-        padding-top: inherit;
+        padding: 120px 15px 15px 15px;
     }
     .qa-nav-list {
         flex: 1 1 100%;
@@ -305,23 +303,4 @@ label.active {
     }
 }
 
-// to-top-btn
-.to-top-btn {
-    position: fixed;
-    bottom: 40px;
-    right: 40px;
-    background-color: #ff5a01;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    display: none; /* ซ่อนปุ่มไว้ก่อน */
-}
 
-.to-top-btn.show {
-    display: block; /* แสดงปุ่มเมื่อมีการเลื่อนลง */
-    z-index: 9999;
-}

@@ -25,7 +25,7 @@
 
 body,
 html {
-     font-weight: 600;
+    font-weight: 600;
     margin: 0;
     padding: 0;
     min-height: 100%;
@@ -34,39 +34,38 @@ html {
     /* ทำให้ Footer อยู่ด้านล่างสุด */
 }
 
-
 // new detail css
 
 .news-container {
-     display: flex;
-     flex-direction: column;
-     background-color: #ffffff;
-     padding: 55px 15px 15px 15px;
- }
- 
- .newsHeader {
-     display: flex;
-     flex-direction: row;
-     margin-bottom: 20px;
- }
- 
- .newsHeader .breadcrumb {
-     font-size: 14px;
-     align-self: center;
- }
- .titleNews {
-     color: #ff5a01;
- }
- .newsHeader h1 {
-     font-size: 24px;
-     color: #333;
- }
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    padding: 120px 15px 15px 15px;
+}
 
- //news content
- .news-content {
+.newsHeader {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 5px;
+}
+
+.newsHeader .breadcrumb {
+    font-size: 14px;
+    align-self: center;
+}
+.titleNews {
+    color: #ff5a01;
+}
+.newsHeader h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+//news content
+.news-content {
     display: flex;
     flex-wrap: wrap;
-    flex-direction: row-reverse;
+    flex-direction: row;
     gap: 2vw;
 }
 .news-nav-list {
@@ -78,7 +77,98 @@ html {
     color: #ff5a01;
     font-weight: bold;
 }
-.news-content-main{
+
+// news detail
+.news-content-main {
     flex: 1 1 70%;
-    min-width: 20vw;
+    padding: 10px 50px 10px 50px;
 }
+.news-header {
+    text-align: start;
+    margin-bottom: 20px;
+}
+
+.news-category {
+    font-size: 16px;
+    color: #ff5a01;
+    font-weight: bold;
+}
+
+.news-title {
+    font-size: 32px;
+    color: #273880;
+    font-weight: 700;
+    margin: 10px 0;
+}
+
+.news-author,
+.news-date {
+    font-size: 14px;
+    color: #666666;
+}
+
+.news-image {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.news-image img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.news-body h2 {
+    font-size: 18px;
+    color: #273880;
+    margin: 15px 0 10px;
+}
+
+.news-body p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #000000;
+    margin-bottom: 15px;
+}
+
+.news-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+.view-count {
+    display: flex;
+    gap:10px;
+    font-size: 16px;
+    color: #000000;
+    margin-bottom: 0px;
+}
+.sharebtncontrol {
+    display: flex;
+    flex-direction: row;
+}
+.social-icons {
+    display: flex;
+    gap: 10px;
+    margin: 0px 0px 0px 10px;
+    align-items: center;
+}
+
+@media (max-width: 769px) {
+    .witget {
+        display: block;
+        margin-top: 20px;
+        flex: 1 1 100%;
+    }
+    .news-content-main {
+        flex: 1 1 100%;
+        padding: 10px 20px 10px 20px;
+    }
+    .news-content {
+        flex-direction: column;
+    }
+}
+
+
