@@ -12,15 +12,18 @@
           opacity: 1;
           transform: translateY(0);
      }
-
+     .subtitleNews{
+          color: #273880;
+          font-size: 1.3rem !important;
+     }
      .headerNews {
           display: flex;
           justify-content: space-between;
           align-items: center;
 
           .titleNews,.subtitleNews {
-               font-size: 1.8vw;
-               font-weight: bold;
+               font-size: 1.3rem !important;
+               font-weight: bold; 
                color: #273880;
                margin: 0;
                transform: translateX(-100%);
@@ -98,7 +101,7 @@
                     gap: 0.4vw;
 
                     .categoryNews {
-                         font-size: 0.9vw;
+                         font-size: 0.7rem;
                          font-weight: bold;
                          color: #FF5A01;
                          text-transform: uppercase;
@@ -113,7 +116,7 @@
                     }
 
                     .desNews {
-                         font-size: 0.9vw;
+                         font-size: 1rem;
                          color: #666;
                          line-height: 1.4;
                          max-height: 3.5vw;
@@ -124,15 +127,15 @@
                          -webkit-box-orient: vertical;
                     }
 
-                    .dateNews {
+                    .dateNews{
                          display: flex;
                          align-items: center;
                          gap: 0.4vw;
-                         font-size: 0.9vw;
+                         font-size: 1rem !important;
                          color: #555;
 
                          .calendar-icon {
-                              width: 2vw;
+                              width: 1rem !important;
                          }
                     }
                }

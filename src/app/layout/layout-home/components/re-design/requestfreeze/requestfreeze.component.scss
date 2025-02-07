@@ -13,7 +13,7 @@
 
 .freeze-title {
   color: #1e3a8a;
-  font-size: 2.5vw;
+  font-size: 1.7rem;
   font-weight: bold;
 }
 
@@ -27,7 +27,7 @@
   color: #fff;
   border: none;
   border-radius: 8px;
-  padding: 10px 12px;
+  padding: 8px 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -201,7 +201,6 @@
   }
 
   .freeze-title {
-    color: #1e3a8a;
     font-size: 6vw;
     font-weight: 700;
     margin-bottom: 20px;
@@ -235,12 +234,13 @@
     min-height: 640px !important;
     gap: 10px !important;
     grid-template-columns: repeat(2,minmax(10px, 1fr));
-    max-height: 730px !important;
+    max-height: 770px !important;
+    max-width: 345px!important;
   }
 
   .bank-item {
     width: 100%;
-    height: 170px;
+    height: 180px;
     padding: 10px;
     display: flex;
     flex-direction: column;
@@ -255,7 +255,7 @@
 
   .bank-details h4,
   .bank-details p {
-    font-size: 1rem;
+    font-size: 0.8rem;
     text-align: center;
   }
 

@@ -137,10 +137,11 @@ html {
     justify-content: space-between;
     align-items: center;
     margin-top: 20px;
+    gap: 5px;
 }
 .view-count {
     display: flex;
-    gap:10px;
+    gap: 10px;
     font-size: 16px;
     color: #000000;
     margin-bottom: 0px;
@@ -156,7 +157,7 @@ html {
     align-items: center;
 }
 
-@media (max-width: 769px) {
+@media (max-width: 1199px) {
     .witget {
         display: block;
         margin-top: 20px;
@@ -171,4 +172,21 @@ html {
     }
 }
 
+@media screen and (min-width: 318px) and (max-width: 575px) {
+    .news-content-main {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+}
 
+.news-body {
+    display: inline-block;
+    max-width: 100%;
+    // word-wrap: break-word;
+    overflow-wrap: anywhere;
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    color: var(--s-accent);
+    text-decoration: none;
+}
