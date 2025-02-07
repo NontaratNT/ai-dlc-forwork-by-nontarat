@@ -118,6 +118,9 @@
   transform: translateY(-5px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
+.bank-item:hover .call-icon {
+  animation: rotateShake 0.4s ease-in-out infinite;
+}
 
 .bank-logo {
   width: 60px;
@@ -160,6 +163,7 @@
   transition: background 0.3s;
   margin-left: auto;
 }
+
 
 /* === Pagination === */
 .pagination-controls {
@@ -227,10 +231,16 @@
     padding: 10px;
     width: 90vw;
   }
+  .bank-list {
+    min-height: 640px !important;
+    gap: 10px !important;
+    grid-template-columns: repeat(2,minmax(10px, 1fr));
+    max-height: 730px !important;
+  }
 
   .bank-item {
     width: 100%;
-    height: auto;
+    height: 170px;
     padding: 10px;
     display: flex;
     flex-direction: column;
@@ -245,7 +255,7 @@
 
   .bank-details h4,
   .bank-details p {
-    font-size: 3.5vw;
+    font-size: 1rem;
     text-align: center;
   }
 
@@ -278,7 +288,12 @@
 }
 
 @media screen and (min-width: 576px) and (max-width: 767px) {
+  .bank-list {
+    min-height: 450px !important;
+    max-height: auto;
+    grid-template-columns: repeat(2, minmax(230px, 1fr));
 
+  }
   .bank-item {
     height: auto;
     padding: 15px;
@@ -313,6 +328,10 @@
 }
 
 @media screen and (min-width: 768px) and (max-width: 991px) {
+  .bank-list {
+    min-height: 450px !important;
+    max-height: auto;
+  }
 
   .bank-item {
     padding: 20px;
@@ -341,6 +360,10 @@
   .freeze-container {
     padding: 3vw;
   }
+  .bank-list {
+    min-height: 370px !important;
+    max-height: auto !important;
+  }
 }
 
 
@@ -367,17 +390,18 @@
   gap: 10px;
 }
 
-@keyframes slideIn {
-  0% {
-    opacity: 0;
-    transform: translateX(20px);
-  }
 
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
+// @keyframes slideIn {
+//   0% {
+//     opacity: 0;
+//     transform: translateX(20px);
+//   }
+
+//   100% {
+//     opacity: 1;
+//     transform: translateX(0);
+//   }
+// }
 
 // @media screen and (min-width: 318px) and (max-width: 575px) {}
 
@@ -386,3 +410,69 @@
 // @media screen and (min-width: 768px) and (max-width: 991px) {}
 
 // @media screen and (min-width: 992px) and (max-width: 1199px) {}
+
+// animation
+@keyframes rotateShake {
+  0% { transform: rotate(0); }
+  20% { transform: rotate(-10deg); }
+  40% { transform: rotate(10deg); }
+  60% { transform: rotate(-10deg); }
+  80% { transform: rotate(10deg); }
+  100% { transform: rotate(0); }
+}
+
+// animation
+/* ออกไปทางซ้าย (next) */
+@keyframes slideOutLeft {
+  0% { transform: translateX(0); opacity: 1; }
+  // 50% { transform: translateX(-50%); opacity: 0.5; }
+  100% { transform: translateX(-100%); opacity: 0; }
+}
+
+/* ออกไปทางขวา (prev) */
+@keyframes slideOutRight {
+  0% { transform: translateX(0); opacity: 1; }
+  // 50% { transform: translateX(50%); opacity: 0.5; }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+
+/* เข้าใหม่จากขวา (next) */
+@keyframes slideInRight {
+  0% { transform: translateX(100%); opacity: 0; }
+  // 50% { transform: translateX(50%); opacity: 0.5; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+/* เข้าใหม่จากซ้าย (prev) */
+@keyframes slideInLeft {
+  0% { transform: translateX(-100%); opacity: 0; }
+  // 50% { transform: translateX(-50%); opacity: 0.5; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+/* กำหนด class ให้ใช้ animation */
+.slide-out-left { animation: slideOutLeft 0.9s cubic-bezier(0.77, 0, 0.18, 1) }
+.slide-out-right { animation: slideOutRight 0.9s cubic-bezier(0.77, 0, 0.18, 1)  }
+.slide-in-right { animation: slideInRight 0.9s cubic-bezier(0.77, 0, 0.18, 1) }
+.slide-in-left { animation: slideInLeft 0.9s cubic-bezier(0.77, 0, 0.18, 1) }
+
+/* ปรับ container */
+.bank-list {
+  position: relative;
+  overflow: hidden;
+  min-height: 260px;
+  max-height: 330px;
+  padding: 10px;
+  scroll-behavior: smooth;
+  // will-change: transform, opacity;
+}
+
+.bank-item {
+  animation: slideInRight 0.9s cubic-bezier(0.77, 0, 0.18, 1)
+}
+
+.slide-out {
+  animation: slideOutLeft 0.9s cubic-bezier(0.77, 0, 0.18, 1)
+}
+
+
