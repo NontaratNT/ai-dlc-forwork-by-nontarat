@@ -23,7 +23,7 @@ export class LoginGuard implements CanActivate {
         if ( accessToken && !this.jwt.isTokenExpired(accessToken.Token)) {
             if(state.url === "/login?icli=al"){
                 this.userServ.getTokenCypherVac(User.Current.UserId).toPromise().then((res) => {
-                    window.location.href = `https://bt-cyber-vaccine.demotoday.net?redirecthas=${res}`;
+                    window.location.href = `https://cybervaccinated.thaipoliceonline.go.th?redirecthas=${res}`;
                 });
                 return false;
             }else if(state.url === "/login?icli=landing"){

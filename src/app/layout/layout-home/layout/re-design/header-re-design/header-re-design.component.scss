@@ -3,7 +3,7 @@
      position: fixed;
      width: 100%;
      top: 0;
-     padding: 1vw 2vw;
+     padding: 1.5rem 2rem;
      background: #FFFFFF;
      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
      display: flex;
@@ -19,7 +19,7 @@
           margin: 0;
 
           img {
-               height: 50px;
+               height: 3rem;
                cursor: pointer;
                transition: transform 0.3s ease-in-out;
 
@@ -35,14 +35,14 @@
                margin: 0 10px;
 
                .mainTitle {
-                    font-size: 1.2vw;
+                    font-size: 1.3rem;
                     color: #273880;
                     font-weight: 600;
                     margin: 0;
                }
 
                .subTitle {
-                    font-size: 1vw;
+                    font-size: .8rem;
                     color: #343434;
                     font-weight: 500;
                     margin: 0;
@@ -59,7 +59,7 @@
           gap: 1vw;
 
           .textRight {
-               font-size: 16px;
+               font-size: 1rem;
                font-weight: 600;
                color: #000000;
                margin: 0;
@@ -71,6 +71,7 @@
                display: flex;
                align-items: center;
                justify-content: center;
+               gap: .2rem;
                color: #ffffff;
                padding: 8px 20px;
                background: #273880;
@@ -84,7 +85,7 @@
 
                .textSignin,
                .textLogout {
-                    font-size: 16px;
+                    font-size: 1rem;
                     font-weight: 600;
                     margin: 0;
                }
@@ -109,27 +110,27 @@
 /* 📌 หน้าจอเล็กมาก (มือถือขนาดเล็ก) */
 @media screen and (min-width: 318px) and (max-width: 575px) {
      .menuHeader {
-          padding: 3vw 2vw;
+          padding: .5rem;
 
           .menuHeaderLeft {
 
                .boxLogo {
-                    width: 20vw;
+                    width: 5rem;
                }
 
                img {
-                    height: 8vw;
+                    height: 1.5rem;
                }
 
                .boxCyberCrime {
                     margin: 0;
 
                     .mainTitle {
-                         font-size: 3vw;
+                         font-size: .8rem;
                     }
 
                     .subTitle {
-                         font-size: 2.5vw;
+                         font-size: .7rem;
                     }
                }
           }
@@ -286,27 +287,27 @@
 @media screen and (min-width: 576px) and (max-width: 767px) {
 
      .menuHeader {
-          padding: 3vw 2vw;
+          padding: .8rem;
 
           .menuHeaderLeft {
 
                .boxLogo {
-                    width: 20vw;
+                    width: 8rem;
                }
 
                img {
-                    height: 8vw;
+                    height: 3rem;
                }
 
                .boxCyberCrime {
                     margin: 0;
 
                     .mainTitle {
-                         font-size: 3vw;
+                         font-size: 1.2rem
                     }
 
                     .subTitle {
-                         font-size: 2.5vw;
+                         font-size: .9rem;
                     }
                }
           }
@@ -463,27 +464,27 @@
 @media screen and (min-width: 768px) and (max-width: 991px) {
 
      .menuHeader {
-          padding: 3vw 2vw;
+          padding: 1rem;
 
           .menuHeaderLeft {
 
                .boxLogo {
-                    width: 20vw;
+                    width: 10rem;
                }
 
                img {
-                    height: 8vw;
+                    height: 3.8rem;
                }
 
                .boxCyberCrime {
                     margin: 0;
 
                     .mainTitle {
-                         font-size: 3vw;
+                         font-size: 1.6rem;
                     }
 
                     .subTitle {
-                         font-size: 2.5vw;
+                         font-size: 1.4rem;
                     }
                }
           }
@@ -639,27 +640,27 @@
 /* 📌 หน้าจอเดสก์ท็อปขนาดกลาง */
 @media screen and (min-width: 992px) and (max-width: 1199px) {
      .menuHeader {
-          padding: 3vw 2vw;
+          padding: 1rem 2rem;
 
           .menuHeaderLeft {
 
                .boxLogo {
-                    width: 15vw;
+                    width: 7rem;
                }
 
                img {
-                    height: 6vw;
+                    height: 3rem;
                }
 
                .boxCyberCrime {
                     margin: 0;
 
                     .mainTitle {
-                         font-size: 2vw;
+                         font-size: 1.4rem;
                     }
 
                     .subTitle {
-                         font-size: 1vw;
+                         font-size: 1rem;
                     }
                }
           }
@@ -668,7 +669,7 @@
      .menuHeaderRight {
           display: none !important;
      }
-  
+
 
      .hamburger-menu {
           display: flex !important;
