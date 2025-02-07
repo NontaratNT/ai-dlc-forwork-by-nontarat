@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import { NewsService } from "src/app/services/re-design/news/news.service";
 @Component({
   selector: 'app-phoneappcom',
@@ -6,6 +6,7 @@ import { NewsService } from "src/app/services/re-design/news/news.service";
   styleUrls: ['./phoneappcom.component.scss']
 })
 export class PhoneappcomComponent implements OnInit {
+    @Input() bgColor: string = 'white';
   appInfo: Record<string, { AppDescription: string; Apps: any[] }> = {};
   constructor(private service: NewsService,) { }
 

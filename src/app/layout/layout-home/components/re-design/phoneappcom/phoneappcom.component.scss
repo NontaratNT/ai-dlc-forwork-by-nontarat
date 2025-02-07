@@ -4,7 +4,7 @@ body {
     background-color: #f8f9fa;
 }
 .phone-mockup-banner {
-    background-color: #fff;
+    // background-color: #fff;
     display: grid;
     height: 600px;
     align-items: center;
@@ -27,6 +27,7 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-top: 120px;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5);
 }
 
 .content {

@@ -4,7 +4,7 @@
                [ngStyle]="{'background-image': 'url(' + slide.images + ')'}">
                <box-frame *ngIf="slide.id === 1"></box-frame>
                <box-frame-second *ngIf="slide.id === 2"></box-frame-second>
-               <box-frame-thrid *ngIf="slide.id === 3"></box-frame-thrid>
+               <app-phoneappcom *ngIf="slide.id === 3" bgColor="transparent"></app-phoneappcom>
           </div>
      </div>
 
