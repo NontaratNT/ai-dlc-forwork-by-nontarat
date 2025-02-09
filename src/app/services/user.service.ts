@@ -141,6 +141,14 @@ export class UserService {
             .disableCriticalDialogError().post();
     }
 
+
+    public loginZoom(userId: number): Observable<string> {
+        return this._req<string>('VacchineCyber/EndcryptData').host(environment.config.baseConfig.urlgdcceform)
+            .body({ Data: userId })
+            .disableCriticalDialogError()
+            .post();
+    }
+
 }
 
 export interface IForgetPassword {

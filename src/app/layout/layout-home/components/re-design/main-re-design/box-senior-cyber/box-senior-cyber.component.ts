@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 import { User } from 'src/app/services/user';
+import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -19,7 +21,9 @@ export class BoxSeniorCyberComponent implements OnInit {
     },
   ];
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+    private userServ: UserService,
+  ) { }
 
   ngOnInit(): void {
     if (!User.Current) {
@@ -41,6 +45,16 @@ export class BoxSeniorCyberComponent implements OnInit {
 
   openLink(link: string) {
     window.open(link, '_blank');
+  }
+
+  linktoZoom(link: string) {
+    this.userServ.loginZoom(User.Current.PersonalId)
+      .pipe(finalize(() => window.open(link, '_blank')))
+      .subscribe(_ => { });
+  }
+
+  clickZoom() {
+    this.router.navigate(['/login'], { queryParams: { icli: 'landing' } });
   }
 
   openLinkPage(link: string) {
