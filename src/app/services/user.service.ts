@@ -143,8 +143,7 @@ export class UserService {
 
 
     public loginZoom(userId: number): Observable<string> {
-        return this._req<string>('VacchineCyber/EndcryptData').host(environment.config.baseConfig.urlgdcceform)
-            .body({ Data: userId })
+        return this._req<string>(`User/check-senior-cyber/${userId}`)
             .disableCriticalDialogError()
             .post();
     }
