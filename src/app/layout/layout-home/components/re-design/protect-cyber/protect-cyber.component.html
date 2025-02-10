@@ -1,36 +1,38 @@
-<div class="progressBar">
-     <div class="progress" [style.width.%]="scrollProgress"></div>
-</div>
-<div class="scrollContainer">
-     <div class="background-container" *ngFor="let slide of slides"
-          [ngStyle]="{ 'background-image': 'url(' + slide.images + ')' }">
+<div class="protect-cyber">
+     <div class="scrollContainer">
+          <div class="background-container" *ngFor="let slide of slides"
+               [ngStyle]="{ 'background-image': 'url(' + slide.images + ')' }">
 
-          <div class="box">
-               <div class="content">
-                    <label class="text-main">ห่างกลโกงมิจฉาชีพ</label>
-                    <label class="text-second">ป้องกันภัยร้ายจาก</label>
-                    <label class="text-second">อาชญากรไซเบอร์</label>
-                    <label class="text-third">
-                         เพื่อเป็นหนึ่งในช่องทางการป้องกันประชาชนที่ได้รับผลกระทบจากมิจฉาชีพ
-                         ทั้งทางข้อความ โทรศัพท์ Call center หลอกหลวงต่างๆ ทั้งในและต่างประเทศ
-                    </label>
-               </div>
-
-               <div class="protected-cyber" *ngFor="let item of protectedCyber">
-                    <div *ngIf="item.CyberSeq % 2 !== 0" class="odd-number">
-                         <img [src]="item.ImageUrl" alt="icon">
-                         <label class="title-cyber">{{ item.CyberTitle }}</label>
-                         <label class="description-cyber">{{ item.CyberDescription }}</label>
-                         <label for="" class="iconCyber">&#8594;</label>
+               <div class="box">
+                    <div class="content">
+                         <label class="text-main">ห่างกลโกงมิจฉาชีพ</label>
+                         <label class="text-second">ป้องกันภัยร้ายจาก</label>
+                         <label class="text-second">อาชญากรไซเบอร์</label>
+                         <label class="text-third">
+                              เพื่อเป็นหนึ่งในช่องทางการป้องกันประชาชนที่ได้รับผลกระทบจากมิจฉาชีพ
+                              ทั้งทางข้อความ โทรศัพท์ Call center หลอกหลวงต่างๆ ทั้งในและต่างประเทศ
+                         </label>
                     </div>
 
-                    <div *ngIf="item.CyberSeq % 2 === 0" class="even-number">
-                         <label class="title-cyber">{{ item.CyberTitle }}</label>
-                         <label class="description-cyber">{{ item.CyberDescription }}</label>
-                         <label for="" class="iconCyber">&#8594;</label>
-                         <img [src]="item.ImageUrl" alt="icon">
+                    <div class="protected-cyber" *ngFor="let item of protectedCyber">
+                         <div *ngIf="item.CyberSeq % 2 !== 0" class="odd-number">
+                              <img [src]="item.ImageUrl" alt="icon">
+                              <label class="title-cyber">{{ item.CyberTitle }}</label>
+                              <label class="description-cyber">{{ item.CyberDescription }}</label>
+                              <label for="" class="iconCyber">&#8594;</label>
+                         </div>
+
+                         <div *ngIf="item.CyberSeq % 2 === 0" class="even-number">
+                              <label class="title-cyber">{{ item.CyberTitle }}</label>
+                              <label class="description-cyber">{{ item.CyberDescription }}</label>
+                              <label for="" class="iconCyber">&#8594;</label>
+                              <img [src]="item.ImageUrl" alt="icon">
+                         </div>
                     </div>
                </div>
           </div>
+     </div>
+     <div class="progressBar">
+          <div class="progress" [style.width.%]="scrollProgress"></div>
      </div>
 </div>
