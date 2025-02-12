@@ -110,7 +110,7 @@
 /* 📌 หน้าจอเล็กมาก (มือถือขนาดเล็ก) */
 @media screen and (min-width: 318px) and (max-width: 575px) {
      .menuHeader {
-          padding: .5rem;
+          padding: .8rem;
 
           .menuHeaderLeft {
 
@@ -119,14 +119,14 @@
                }
 
                img {
-                    height: 1.5rem;
+                    height: 2rem;
                }
 
                .boxCyberCrime {
                     margin: 0;
 
                     .mainTitle {
-                         font-size: .8rem;
+                         font-size: .9rem;
                     }
 
                     .subTitle {
@@ -292,11 +292,11 @@
           .menuHeaderLeft {
 
                .boxLogo {
-                    width: 8rem;
+                    width: 7rem;
                }
 
                img {
-                    height: 3rem;
+                    height: 2.5rem;
                }
 
                .boxCyberCrime {
@@ -469,22 +469,22 @@
           .menuHeaderLeft {
 
                .boxLogo {
-                    width: 10rem;
+                    width: 9rem;
                }
 
                img {
-                    height: 3.8rem;
+                    height: 3.5rem;
                }
 
                .boxCyberCrime {
                     margin: 0;
 
                     .mainTitle {
-                         font-size: 1.6rem;
+                         font-size: 1.3rem;
                     }
 
                     .subTitle {
-                         font-size: 1.4rem;
+                         font-size: 1.1rem;
                     }
                }
           }

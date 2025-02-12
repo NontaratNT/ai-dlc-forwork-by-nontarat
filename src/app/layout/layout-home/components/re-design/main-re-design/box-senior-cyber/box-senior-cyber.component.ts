@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { User } from 'src/app/services/user';
@@ -12,6 +13,8 @@ import Swal from 'sweetalert2';
 })
 export class BoxSeniorCyberComponent implements OnInit {
 
+  pdfUrl: SafeResourceUrl;
+
   @Input() types: 'senior' | 'seniorPages' = 'senior';
 
   slides = [
@@ -23,24 +26,28 @@ export class BoxSeniorCyberComponent implements OnInit {
 
   constructor(private router: Router,
     private userServ: UserService,
-  ) { }
+    private sanitizer: DomSanitizer,
+  ) {
+    const pdfPath = '/assets/image/what.pdf'; // ระบุไฟล์ PDF
+    this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfPath);
+  }
 
   ngOnInit(): void {
     if (!User.Current) {
       this.router.navigate(["/"]);
     }
-    if (User.Current.Age < 60) {
-      Swal.fire({
-        title: "ขออภัย!",
-        text: "อายุของท่านยังไม่ถึงเกณฑ์ที่กำหนด",
-        icon: "warning",
-        confirmButtonText: "ตกลง",
-      }).then((_) => {
-        if (_.isConfirmed) {
-          this.router.navigate(["/"]);
-        }
-      });
-    }
+    // if (User.Current.Age < 60) {
+    //   Swal.fire({
+    //     title: "ขออภัย!",
+    //     text: "อายุของท่านยังไม่ถึงเกณฑ์ที่กำหนด",
+    //     icon: "warning",
+    //     confirmButtonText: "ตกลง",
+    //   }).then((_) => {
+    //     if (_.isConfirmed) {
+    //       this.router.navigate(["/"]);
+    //     }
+    //   });
+    // }
   }
 
   openLink(link: string) {

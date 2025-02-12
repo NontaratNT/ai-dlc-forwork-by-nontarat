@@ -1,42 +1,115 @@
-<div *ngIf="types === 'senior'">
-     <div class="slide" *ngFor="let slide of slides" [ngStyle]="{'background-image': 'url(' + slide.images + ')'}">
-          <img src="assets/image/img/senior/logo-police.png" class="logoPolice" alt="" (click)="openLinkPage('/')">
-          <div class="box">
-               <img src="assets/image/img/senior/group-ll.png" class="groupLL" alt="">
-               <img src="assets/image/img/senior/text.png" class="imgText" alt="">
-               <div class="boxFacebook">
-                    <div class="buttonSenior"
-                         (click)="linktoZoom('https://zoom.us/j/6851337889?pwd=62eb9neuysbW7n9RGoOzwyEotvnJR1.1')">
-                         <img src="assets/image/img/senior/camera.png" class="camera" alt="">
-                         <label for="" class="textZoom1">Join Zoom Meeting</label>
+<!-- <div *ngIf="types === 'senior'">
+     <div class="slides" *ngFor="let slide of slides" [ngStyle]="{'background-image': 'url(' + slide.images + ')'}">
+          <div class="slide">
+               <img src="assets/image/img/senior/logo-police.png" class="logoPolice" alt="" (click)="openLinkPage('/')">
+               <div class="box">
+                    <img src="assets/image/img/senior/group-ll.png" class="groupLL" alt="">
+                    <img src="assets/image/img/senior/text.png" class="imgText" alt="">
+                    <div class="boxFacebook">
+                         <div class="buttonSenior"
+                              (click)="linktoZoom('https://zoom.us/j/6851337889?pwd=62eb9neuysbW7n9RGoOzwyEotvnJR1.1')">
+                              <img src="assets/image/img/senior/camera.png" class="camera" alt="">
+                              <label for="" class="textZoom1">Join Zoom Meeting</label>
+                         </div>
+                         <div>
+                              <img src="assets/image/img/senior/day.png" class="day" alt="">
+                         </div>
+                    </div>
+                    <div class="boxMask">
+                         <div (click)="openLink('https://www.facebook.com/share/g/1BCP6Nu1Vf/')"
+                              style="cursor: pointer;">
+                              <img src="assets/image/img/senior/facebook.png" class="facebook" alt="">
+                         </div>
+                         <div class="textMask"
+                              (click)="openLink('https://thaipolicestorageapublic.blob.core.windows.net/attachmentweb/resource/police/คู่มือ/คู่มือใช้งานZoom.pdf')"
+                              style="cursor: pointer;">
+                              <img src="assets/image/img/senior/Mask.png" class="Mask" width="50" alt="">
+                              <label for="" class="textZoom">คู่การใช้งาน Zoom</label>
+
+                         </div>
                     </div>
                     <div>
-                         <img src="assets/image/img/senior/day.png" class="day" alt="">
+                         <img src="assets/image/img/senior/info.png" class="info" alt="">
                     </div>
-               </div>
-               <div class="boxMask">
-                    <div (click)="openLink('https://www.facebook.com/share/g/1BCP6Nu1Vf/')" style="cursor: pointer;">
-                         <img src="assets/image/img/senior/facebook.png" class="facebook" alt="">
+                    <div>
+                         <img src="assets/image/img/senior/re.png" class="result" alt="">
                     </div>
-                    <div class="textMask"
-                         (click)="openLink('https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0061316')"
-                         style="cursor: pointer;">
-                         <img src="assets/image/img/senior/Mask.png" class="Mask" width="50" alt="">
-                         <label for="" class="textZoom">คู่การใช้งาน Zoom</label>
-                    </div>
-               </div>
-               <div>
-                    <img src="assets/image/img/senior/info.png" class="info" alt="">
-               </div>
-               <div>
-                    <img src="assets/image/img/senior/re.png" class="result" alt="">
-               </div>
 
+               </div>
+               <img src="assets/image/img/senior/senior60.png" class="senior60" alt="">
           </div>
-          <img src="assets/image/img/senior/senior60.png" class="senior60" alt="">
+          <div class="boxClip">
+               <iframe width="560" height="315" src="https://www.youtube.com/embed/n4xUYBnphuo?si=1HBPkT4z74XGk0G-"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+               <iframe width="560" height="315" src="https://www.youtube.com/embed/5rlH1hzEF7g?si=Zx90Fd9Vs_p4Kwcd"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+     </div>
+</div> -->
+
+<div *ngIf="types === 'senior'">
+     <div class="bgImage" *ngFor="let slide of slides" [ngStyle]="{'background-image': 'url(' + slide.images + ')'}">
+          <div class="bixMainSenior">
+               <div class="boxLeft">
+                    <img class="logoPoliceSenior" src="assets/image/img/senior/logo-police.png" alt=""
+                         (click)="openLinkPage('/')">
+                    <img src="assets/image/img/senior/group-ll.png" class="groupLL" alt="">
+                    <img src="assets/image/img/senior/text.png" class="imgText" alt="">
+                    <div class="boxFacebook">
+                         <div class="buttonSenior"
+                              (click)="linktoZoom('https://zoom.us/j/6851337889?pwd=62eb9neuysbW7n9RGoOzwyEotvnJR1.1')">
+                              <img src="assets/image/img/senior/camera.png" class="camera" alt="">
+                              <label for="" class="textZoom1">Join Zoom Meeting</label>
+                         </div>
+                         <div>
+                              <img src="assets/image/img/senior/day.png" class="day" alt="">
+                         </div>
+                    </div>
+                    <label for="" class="textFacebook">
+                         "สามารถรับข่าวสารเพิ่มเติมได้ที่นี่ กดเพื่อเข้ากลุ่ม"
+                    </label>
+                    <div class="boxMask">
+                         <div (click)="openLink('https://www.facebook.com/share/g/1BCP6Nu1Vf/')"
+                              style="cursor: pointer;">
+                              <img src="assets/image/img/senior/facebook.png" class="facebook" alt="">
+                         </div>
+                         <div class="textMask"
+                              (click)="openLink('https://thaipolicestorageapublic.blob.core.windows.net/attachmentweb/resource/police/คู่มือ/คู่มือใช้งานZoom.pdf')"
+                              style="cursor: pointer;">
+                              <img src="assets/image/img/senior/Mask.png" class="Mask" width="50" alt="">
+                              <label for="" class="textZoom">คู่การใช้งาน Zoom</label>
+
+                         </div>
+                    </div>
+                    <div>
+                         <img src="assets/image/img/senior/info.png" class="info" alt="">
+                    </div>
+                    <div>
+                         <img src="assets/image/img/senior/re.png" class="result" alt="">
+                    </div>
+               </div>
+               <div class="boxRight">
+                    <img src="assets/image/img/senior/senior60.png" class="senior60" alt="">
+               </div>
+          </div>
+          <div class="boxClip">
+               <iframe width="520" height="315" src="https://www.youtube.com/embed/n4xUYBnphuo?si=1HBPkT4z74XGk0G-"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+               <iframe width="520" height="315" src="https://www.youtube.com/embed/5rlH1hzEF7g?si=Zx90Fd9Vs_p4Kwcd"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
      </div>
 </div>
-
 <div *ngIf="types === 'seniorPages'">
      <div class="slidePages" *ngFor="let slide of slides" [ngStyle]="{'background-image': 'url(' + slide.images + ')'}">
           <div class="boxMain">
@@ -45,8 +118,7 @@
                          (click)="openLinkPage('/')">
                     <img class="logoSenior" src="assets/image/img/senior/group-ll.png" alt="">
                     <img class="logoTextTalk" src="assets/image/img/senior/text.png" alt="">
-                    <div class="buttonSenior"
-                         (click)="clickZoom()">
+                    <div class="buttonSenior" (click)="clickZoom()">
                          <img src="assets/image/img/senior/camera.png" class="camera" alt="">
                          <label for="" class="textZoom1">Join Zoom Meeting</label>
                     </div>
