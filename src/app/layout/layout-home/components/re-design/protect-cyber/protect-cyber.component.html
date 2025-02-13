@@ -19,13 +19,13 @@
                               <img [src]="item.ImageUrl" alt="icon">
                               <label class="title-cyber">{{ item.CyberTitle }}</label>
                               <label class="description-cyber">{{ item.CyberDescription }}</label>
-                              <label for="" class="iconCyber">&#8594;</label>
+                              <label for="" class="iconCyber" (click)="onClick(item.CyberId)">&#8594;</label>
                          </div>
 
                          <div *ngIf="item.CyberSeq % 2 === 0" class="even-number">
                               <label class="title-cyber">{{ item.CyberTitle }}</label>
                               <label class="description-cyber">{{ item.CyberDescription }}</label>
-                              <label for="" class="iconCyber">&#8594;</label>
+                              <label for="" class="iconCyber" (click)="onClick(item.CyberId)">&#8594;</label>
                               <img [src]="item.ImageUrl" alt="icon">
                          </div>
                     </div>

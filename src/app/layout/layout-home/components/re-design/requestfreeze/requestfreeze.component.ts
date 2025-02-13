@@ -6,7 +6,7 @@ import { NewsService } from "src/app/services/re-design/news/news.service";
     styleUrls: ["./requestfreeze.component.scss"],
 })
 export class RequestfreezeComponent implements OnInit {
-    constructor(private service: NewsService) {}
+    constructor(private service: NewsService) { }
 
     paginatedBanks: any[] = [];
     currentPage = 0;
@@ -25,13 +25,20 @@ export class RequestfreezeComponent implements OnInit {
     }
 
     setupPagination(): void {
+        // จำกัดจำนวน itemsPerPage สูงสุดที่ 8
+        this.itemsPerPage = Math.min(8, this.bankContacts.length);
+
+        console.log("Items Per Page:", this.itemsPerPage);
+        console.log("Total Items:", this.bankContacts.length);
+
         this.paginatedBanks = [];
         for (let i = 0; i < this.bankContacts.length; i += this.itemsPerPage) {
-            this.paginatedBanks.push(
-                this.bankContacts.slice(i, i + this.itemsPerPage)
-            );
+            this.paginatedBanks.push(this.bankContacts.slice(i, i + this.itemsPerPage));
         }
+
+        console.log("Total Pages:", this.paginatedBanks.length);
     }
+
 
     // ปรับให้ใช้งานได้กับ next และ prev
     nextPage(): void {

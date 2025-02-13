@@ -86,29 +86,19 @@ export class SecurityServiceComponent implements OnInit {
   }
 
   onSwitchService(id: number): void {
-    switch (id) {
-      case 1:
-        window.location.href = 'https://www.checkgon.com/';
-        break;
-      case 2:
-        window.location.href = 'https://www.chaladohn.com/';
-        break;
-      case 3:
-        this.router.navigate(['/login'], { queryParams: { icli: 'al' } });
-        break;
-      case 4:
+    const serviceActions: { [key: number]: () => void } = {
+      1: () => window.location.href = 'https://www.checkgon.com/',
+      2: () => window.location.href = 'https://www.chaladohn.com/',
+      3: () => this.router.navigate(['/login'], { queryParams: { icli: 'al' } }),
+      4: () => {
         const downloadLink = document.createElement("a");
         downloadLink.href = 'tel:081-866-3000';
         downloadLink.click();
-        break;
-      case 5:
-        window.location.href = 'https://m.me/mysisbot';
-        break;
-      case 6:
-        this.router.navigate(['/login'], { queryParams: { icli: 'landing' } });
-        break;
-      default:
-        break;
-    }
+      },
+      5: () => window.location.href = 'https://m.me/mysisbot',
+      6: () => this.router.navigate(['/login'], { queryParams: { icli: 'landing' } })
+    };
+    // ตรวจสอบว่า id มีอยู่ใน object หรือไม่ ถ้ามีให้เรียกฟังก์ชันนั้น
+    serviceActions[id]?.();
   }
 }

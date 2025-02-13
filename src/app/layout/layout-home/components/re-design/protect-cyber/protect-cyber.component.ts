@@ -76,6 +76,20 @@ export class ProtectCyberComponent implements OnInit {
     this.stopDragging();
   }
 
+  onClick(id: any): void {
+    switch (id) {
+      case 1:
+        window.location.href = 'https://www.checkgon.com/';
+        break;
+      case 3:
+        window.location.href = 'https://www.chaladohn.com/';
+        break;
+      default:
+        break;
+    }
+  }
+
+
   // เริ่มการลาก
   private startDragging(positionX: number): void {
     const container = this.el.nativeElement.querySelector('.scrollContainer');

@@ -2,10 +2,11 @@
     <header class="freeze-header">
         <h2 class="freeze-title">แจ้งอายัดบัญชีด้วยตัวเอง</h2>
         <div class="freeze-controls">
-            <button class="sort-button" (click)="sortBanksList()">เรียงจาก <span><img src="assets/icon/arrowupdown.svg" alt="arrowupdown"
-                        class="sorticon"></span></button>
+            <button class="sort-button" (click)="sortBanksList()">เรียงจาก <span><img src="assets/icon/arrowupdown.svg"
+                        alt="arrowupdown" class="sorticon"></span></button>
             <div class="input-container">
-                <input type="text" placeholder="ค้นหารายการที่ต้องการ" class="search-input" (input)="searchBanksList($event)">
+                <input type="text" placeholder="ค้นหารายการที่ต้องการ" class="search-input"
+                    (input)="searchBanksList($event)">
                 <img src="assets/icon/search.svg" alt="search" class="icon-search">
             </div>
         </div>
@@ -13,46 +14,34 @@
 
     <div class="freeze-form">
         <div class="freeze-content">
-            <!-- <section class="freeze-cards">
-                <div class="highlight-card">
-                    <div class="highlight-item">
-                        <img src="assets/icon/checkgon.png" alt="เช็คก่อน" class="highlight-img">
-                        <h3>เช็คก่อน</h3>
-                        <p>เว็บไซต์ที่ใช้สำหรับช่วยเหลือตรวจสอบ และเช็กรายชื่อคนโกง</p>
+            <div class="bank-list">
+                <div class="bank-item fade-animation" *ngFor="let bank of paginatedBanks[currentPage]">
+                    <img [src]="bank.ImageUrl" [alt]="bank.ContactBankName" class="bank-logo">
+                    <div class="bank-details">
+                        <h4>{{ bank.ContactBankName }}</h4>
+                        <p>{{ bank.ContactDescription }}</p>
                     </div>
-                    <div class="highlight-item">
-                        <img src="assets/icon/logo_CHO1.png" alt="ฉลาดโอน" class="highlight-img">
-                        <h3>ฉลาดโอน</h3>
-                        <p>เช็กก่อนเชื่อบริการช่วยตรวจสอบบัญชีปลายทางก่อนโอนเงิน</p>
-                    </div>
+                    <a [href]="'tel:' + bank.ContactBankPhone" class="call-button">
+                        <img src="assets/icon/callringing.svg" alt="call" class="call-icon">
+                    </a>
                 </div>
-            </section> -->
-            <div>
-                <div class="bank-list">
-                    <div class="bank-item fade-animation " *ngFor="let bank of paginatedBanks[currentPage]">
-                        <img [src]="bank.ImageUrl" [alt]="bank.ContactBankName" class="bank-logo">
-                        <div class="bank-details">
-                            <h4>{{ bank.ContactBankName }}</h4>
-                            <p>{{ bank.ContactDescription }}</p>
-                        </div>
-                        <a [href]="'tel:' + bank.ContactBankPhone" class="call-button">
-                            <img src="assets/icon/callringing.svg" alt="call" class="call-icon">
-                        </a>
-                    </div>
-
-                </div>
-                <footer class="pagination-controls">
-                    <div class="dot-controls">
-                        <span *ngFor="let page of paginatedBanks; let i = index" class="dot"
-                            [class.active]="i === currentPage" (click)="navigateToPage(i)"></span>
-                    </div>
-                    <div class="button-controls">
-                        <button class="prev-button" (click)="prevPage()" [disabled]="currentPage === 0">&larr;</button>
-                        <button class="next-button" (click)="nextPage()"
-                            [disabled]="currentPage === paginatedBanks.length - 1">&rarr;</button>
-                    </div>
-                </footer>
             </div>
+
+            <!-- แสดง Pagination เฉพาะเมื่อมีมากกว่า 1 หน้า -->
+            <footer class="pagination-controls" *ngIf="paginatedBanks.length > 1">
+                <div class="dot-controls">
+                    <span *ngFor="let page of paginatedBanks; let i = index" class="dot"
+                        [class.active]="i === currentPage" (click)="navigateToPage(i)">
+                    </span>
+                </div>
+                <div class="button-controls">
+                    <button class="prev-button" (click)="prevPage()" [disabled]="currentPage === 0">&larr;</button>
+                    <button class="next-button" (click)="nextPage()"
+                        [disabled]="currentPage === paginatedBanks.length - 1">
+                        &rarr;
+                    </button>
+                </div>
+            </footer>
         </div>
     </div>
 </div>

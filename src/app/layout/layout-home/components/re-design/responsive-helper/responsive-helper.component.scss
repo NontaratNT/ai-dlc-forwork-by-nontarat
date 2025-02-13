@@ -1,13 +1,13 @@
 .box-tasktop {
      z-index: 999;
      position: fixed;
-     bottom: 5%;
-     right: 7%;
+     bottom: 2rem;
+     right: 1rem;
      display: flex;
      align-items: center;
 
      img {
-          width: 2vw;
+          width: 2rem;
           margin-right: 0vw;
      }
 
@@ -15,42 +15,54 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 11vw;
-          height: 3vw;
-          font-size: 1vw;
+          width: 11rem;
+          height: 3rem;
+          font-size: 1rem;
           font-weight: 600;
           color: #ffffff;
           background-color: #FF5A01;
           border-radius: 8px;
           cursor: pointer;
+
+          img {
+               margin-right: 0.2rem;
+          }
      }
 
      .tel1441 {
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 11vw;
-          height: 3vw;
-          font-size: 1vw;
+          width: 11rem;
+          height: 3rem;
+          font-size: 1rem;
           font-weight: 600;
           color: #ffffff;
           background-color: #273880;
           border-radius: 8px;
           cursor: pointer;
+
+          img {
+               margin-right: 0.2rem;
+          }
      }
 
      .facebook {
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 11vw;
-          height: 3vw;
-          font-size: 0.9vw;
+          width: 13rem;
+          height: 3rem;
+          font-size: 1rem;
           font-weight: 600;
           color: #ffffff;
           background-color: #273880;
           border-radius: 8px;
           cursor: pointer;
+
+          img {
+               margin-right: 0.2rem;
+          }
      }
 }
 
@@ -85,13 +97,13 @@
      .box-moblie {
           z-index: 11;
           position: fixed;
-          bottom: 10vw;
-          right: 5vw;
+          bottom: 1rem;
+          right: 1rem;
           display: flex;
           flex-direction: column;
 
           img {
-               width: 5vw;
+               width: 1rem;
                margin-right: 0vw;
           }
 
@@ -99,9 +111,8 @@
                display: flex;
                align-items: center;
                justify-content: center;
-               width: 8vw;
-               height: 8vw;
-               font-size: 1vw;
+               width: 2rem;
+               height: 2rem;
                font-weight: 600;
                color: #ffffff;
                background-color: #FF5A01;
@@ -114,9 +125,8 @@
                display: flex;
                align-items: center;
                justify-content: center;
-               width: 8vw;
-               height: 8vw;
-               font-size: 1vw;
+               width: 2rem;
+               height: 2rem;
                font-weight: 600;
                color: #ffffff;
                background-color: #273880;
@@ -129,9 +139,8 @@
                display: flex;
                align-items: center;
                justify-content: center;
-               width: 8vw;
-               height: 8vw;
-               font-size: 0.9vw;
+               width: 2rem;
+               height: 2rem;
                font-weight: 600;
                color: #ffffff;
                background-color: #273880;
@@ -150,7 +159,6 @@
           right: 5vw;
           display: flex;
           flex-direction: column;
-          z-index: 999;
 
           img {
                width: 3vw;
