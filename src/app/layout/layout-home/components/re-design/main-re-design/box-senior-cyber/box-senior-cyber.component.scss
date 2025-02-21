@@ -243,7 +243,7 @@
                }
 
                .textZoom {
-                    font-size:1rem;
+                    font-size: 1rem;
                     font-weight: 600;
                     color: #1976D2;
                     padding: 0;
@@ -648,3 +648,34 @@
           }
      }
 }
+
+::ng-deep .popup.channel .dx-form .dx-field-item-label-text {
+     font-size: 1.5rem;
+     font-weight: bold;
+     color: #fff;
+     text-align: center;
+}
+
+::ng-deep .popup.channel .dx-form .dx-radiobutton {
+     color: #fff;
+     text-align: center;
+     font-size: 1.4rem;
+     line-height: 3rem;
+}
+@media screen and (min-width: 1300px){
+     ::ng-deep .popup.channel .dx-form .custom-radio.dx-show-invalid-badge.dx-radiogroup.dx-radiogroup-vertical.dx-widget.dx-validator.dx-visibility-change-handler {
+          padding-left: 35%
+     }
+}
+@media screen and (max-width: 1300px){
+     ::ng-deep .popup.channel .dx-form .custom-radio.dx-show-invalid-badge.dx-radiogroup.dx-radiogroup-vertical.dx-widget.dx-validator.dx-visibility-change-handler {
+          padding-left: 24%;
+     }
+}
+@media screen and (max-width: 800px){
+     ::ng-deep .popup.channel .dx-form .custom-radio.dx-show-invalid-badge.dx-radiogroup.dx-radiogroup-vertical.dx-widget.dx-validator.dx-visibility-change-handler {
+          padding-left: 5%;
+     }
+}
+
+

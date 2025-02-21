@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { JwtHelperService } from "@auth0/angular-jwt";
-import { finalize } from "rxjs/operators";
+import { finalize, switchMap } from "rxjs/operators";
 import { ThaiIDService } from "src/app/services/thai-id.service";
 import { CookieStorage } from "src/app/common/cookie";
 import { IAccessToken, UserService } from "src/app/services/user.service";
@@ -112,25 +112,37 @@ export class LoginThaiIDComponent implements OnInit {
                             localStorage.removeItem('icli');
                             if (User.Current.Age >= 60) {
                                 this._isLoading = false;
-                                this.router.navigate(["/senior-cyber-police"]);
-                            } else {
-                                Swal.fire({
-                                    title: "ขออภัย!",
-                                    text: "อายุของท่านยังไม่ถึงกำหนดเข้าใช้งาน",
-                                    icon: "warning",
-                                    confirmButtonText: "ตกลง",
-                                }).then((_) => {
-                                    if (_.isConfirmed) {
-                                        this._isLoading = false;
-                                        this.router.navigate(["/"]);
-                                    }
-                                });
+                                // get localStorage name 'questionnaireForm'
+                                const questionnaireForm = JSON.parse(localStorage.getItem('questionnaireForm'));
+                                this.userServ.SaveQuestion(questionnaireForm).subscribe(_ => { });
+                                if (User.Current.SeniorStatus === "Y") {
+                                    this.router.navigate(["/senior-cyber-police"]);
+                                } else {
+                                    Swal.fire({
+                                        title: "แจ้งเตือน!",
+                                        text: "ท่านต้องการเข้าร่วมประชุมผ่านระบบ ZOOM ใช่หรือไม่",
+                                        icon: "warning",
+                                        confirmButtonText: "ตกลง",
+                                    }).then((_) => {
+                                        if (_.isConfirmed) {
+                                            this.userServ.UpdateSeniorFlag(User.Current.UserId).pipe(
+                                                switchMap(() => this.userServ.UpdateSeniorFlagAzure(User.Current.UserId))
+                                            ).subscribe({
+                                                next: () => this.router.navigate(["/senior-cyber-police"]),
+                                                error: err => this.router.navigate(["/senior-cyber-police"])
+                                            });
+                                        } else {
+                                            this.router.navigate(["/"]);
+                                        }
+
+                                    });
+                                }
                             }
-                        }else{
+                        } else {
                             this.CheckDeviceMode();
                         }
                         // this.router.navigate([this.loginServ._successLoginRedirectTo]);
-                        
+
                     } else {
                         Swal.fire({
                             title: "ผิดพลาด!",

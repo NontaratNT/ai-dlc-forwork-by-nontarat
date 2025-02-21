@@ -574,4 +574,8 @@ export class RegisterPeopleComponent implements OnInit {
         this.formRegister.CYBER_STATUS = event.value ? "Y" : "N";
     }
 
+    checkTypeSenior(event) {
+        this.formRegister.SENIOR_STATUS = event.value ? "Y" : "N";
+    }
+
 }

@@ -148,6 +148,31 @@ export class UserService {
             .post();
     }
 
+    public getListQuestion(): Observable<string> {
+        return this._req<string>('SeniorCyber/GetseniorChannel').host(environment.config.baseConfig.urlgdcceform)
+            .disableCriticalDialogError()
+            .get();
+    }
+
+    public SaveQuestion(param: any): Observable<string> {
+        return this._req<string>(`SeniorCyber`).host(environment.config.baseConfig.urlgdcceform)
+            .body(param)
+            .disableCriticalDialogError()
+            .post();
+    }
+
+    public UpdateSeniorFlag(userId: any): Observable<string> {
+        return this._req<string>(`SeniorCyber/updateFlag/${userId}`).host(environment.config.baseConfig.urlgdcceform)
+            .disableCriticalDialogError()
+            .put();
+    }
+
+    public UpdateSeniorFlagAzure(userId: any): Observable<string> {
+        return this._req<string>(`CmsPersonal/updateFlag/${userId}`)
+            .disableCriticalDialogError()
+            .put();
+    }
+
 }
 
 export interface IForgetPassword {
@@ -192,6 +217,7 @@ export interface IUserProfile {
     PersonalType: number;
     UserIal: number;
     Age: number;
+    SeniorStatus: string;
 }
 
 export interface IAccessToken {

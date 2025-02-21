@@ -3,7 +3,7 @@ import { ForgetPasswordComponent } from "../forget-password/forget-password.comp
 import { DxMultiViewComponent } from "devextreme-angular";
 import { IAccessToken, UserService } from "src/app/services/user.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import { finalize } from "rxjs/operators";
+import { finalize, switchMap } from "rxjs/operators";
 import { Dialog } from "share-ui";
 import { SocialAuthService } from "angularx-social-login";
 import {
@@ -155,7 +155,33 @@ export class LoginComponent implements OnInit, OnDestroy {
                                 }else if(params.icli === "landing"){
                                     if(User.Current.Age >= 60){
                                         this._isLoading = false;
-                                        this.router.navigate(["/senior-cyber-police"]);
+                                        // get localStorage name 'questionnaireForm'
+                                        const questionnaireForm = JSON.parse(localStorage.getItem('questionnaireForm'));
+                                        this.userServ.SaveQuestion(questionnaireForm).subscribe(_ => {});
+                                        if(User.Current.SeniorStatus === "Y"){
+                                            this.router.navigate(["/senior-cyber-police"]);
+                                        }else{
+                                            Swal.fire({
+                                                title: "แจ้งเตือน!",
+                                                text: "ท่านต้องการเข้าร่วม Senior Cyber Club ใช่หรือไม่",
+                                                icon: "warning",
+                                                confirmButtonText: "ตกลง",
+                                                cancelButtonText: "ยกเลิก",
+                                                showCancelButton: true,
+                                            }).then((_) => {
+                                                if (_.isConfirmed) {
+                                                    this.userServ.UpdateSeniorFlag(User.Current.UserId).pipe(
+                                                        switchMap(() => this.userServ.UpdateSeniorFlagAzure(User.Current.UserId))
+                                                    ).subscribe({
+                                                        next: () => this.router.navigate(["/senior-cyber-police"]),
+                                                        error: err => this.router.navigate(["/senior-cyber-police"])
+                                                    });
+                                                } else {
+                                                    this.router.navigate(["/"]);
+                                                }
+                                                
+                                            });
+                                        }
                                     }else{
                                         Swal.fire({
                                             title: "ขออภัย!",
