@@ -34,8 +34,6 @@ export class BoxSeniorCyberComponent implements OnInit {
 
   ngOnInit(): void {
 
-    console.log('User.Current', User.Current);
-
     if (!User.Current) {
       this.router.navigate(["/"]);
     }

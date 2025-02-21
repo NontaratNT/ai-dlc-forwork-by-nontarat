@@ -111,7 +111,6 @@ export class IssueOnlineAgreeComponent implements OnInit {
     }
 
     onWaysValueChanged(event: any) {
-        console.log(event);
         let val = event.value;
         switch (val) {
             case 1:
