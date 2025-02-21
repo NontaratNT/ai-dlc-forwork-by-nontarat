@@ -33,21 +33,24 @@ export class BoxSeniorCyberComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    console.log('User.Current', User.Current);
+
     if (!User.Current) {
       this.router.navigate(["/"]);
     }
-    // if (User.Current.Age < 60) {
-    //   Swal.fire({
-    //     title: "ขออภัย!",
-    //     text: "อายุของท่านยังไม่ถึงเกณฑ์ที่กำหนด",
-    //     icon: "warning",
-    //     confirmButtonText: "ตกลง",
-    //   }).then((_) => {
-    //     if (_.isConfirmed) {
-    //       this.router.navigate(["/"]);
-    //     }
-    //   });
-    // }
+    if (User.Current.Age < 60) {
+      Swal.fire({
+        title: "ขออภัย!",
+        text: "อายุของท่านยังไม่ถึงเกณฑ์ที่กำหนด",
+        icon: "warning",
+        confirmButtonText: "ตกลง",
+      }).then((_) => {
+        if (_.isConfirmed) {
+          this.router.navigate(["/"]);
+        }
+      });
+    }
   }
 
   openLink(link: string) {
