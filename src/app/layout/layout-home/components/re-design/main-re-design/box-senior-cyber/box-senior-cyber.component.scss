@@ -12,7 +12,6 @@
 //           justify-content: center;
 //           align-items: center;
 
-
 //           .slide img {
 //                width: 100%;
 //                max-width: 1200px;
@@ -34,8 +33,6 @@
 //                width: 50rem;
 //                margin: 0px 30px;
 //           }
-
-
 
 //           .camera {
 //                width: 3vw;
@@ -133,186 +130,367 @@
 // }
 
 .bgImage {
-     min-width: 100%;
-     height: 100vh;
-     background-color: #273880;
-     background-size: cover;
-     background-position: center;
-     overflow: auto;
+    min-width: 100%;
+    height: 100vh;
+    background-color: #273880;
+    background-size: cover;
+    background-position: center;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 0;
+
+    .bixMainSenior {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        .logoPoliceSenior {
+            width: 45rem;
+        }
+
+        .boxLeft {
+            display: flex;
+            flex-direction: column;
+
+            .camera {
+                width: 3vw;
+            }
+
+            .groupLL {
+                width: 40rem;
+            }
+
+            .imgText {
+                padding: 15px 20px;
+                width: 40rem;
+            }
+
+            .buttonSenior {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #ff5a01;
+                padding: 9px 0px;
+                border-radius: 10px;
+                cursor: pointer;
+                z-index: 99;
+            }
+
+            .textFacebook {
+                margin: 0;
+                font-size: 1rem;
+                padding: 0px 20px;
+                color: #273880;
+                font-weight: 600;
+            }
+
+            .boxFacebook {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                padding: 15px 20px;
+            }
+
+            .boxMask {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                padding: 15px 20px;
+            }
+
+            .textMask {
+                display: flex;
+                align-items: center;
+            }
+
+            .Mask {
+                width: 25px;
+                height: 25px;
+                margin-left: 5px;
+            }
+
+            .day {
+                width: 15rem;
+                margin: 0px 0px 5px 5px;
+            }
+
+            .info {
+                width: 35vw;
+                margin: 0px 25px;
+            }
+
+            .facebook {
+                width: 18vw;
+            }
+
+            .textZoom1 {
+                font-size: 1.2vw;
+                color: #fff;
+                margin: 0 5px;
+            }
+
+            .result {
+                margin-top: 10px;
+                width: 15vw;
+                margin: 0px 25px;
+            }
+
+            .textZoom {
+                font-size: 1rem;
+                font-weight: 600;
+                color: #1976d2;
+                padding: 0;
+                margin: 0 5px;
+            }
+        }
+
+        .boxRight {
+            .senior60 {
+                width: 40rem;
+            }
+        }
+    }
+
+    .boxClip {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 2rem;
+    }
+
+    .iframe-box {
+        width: 520px;
+        height: 315px;
+    }
+}
+// schedule-box
+.schedule-box {
+     display: flex;
+     flex-wrap: wrap;
+     gap: 20px;
+     width: 80%;
+     margin: 1.5rem auto 0 auto;
+     justify-content: center;
+ }
+ 
+ .column {
      display: flex;
      flex-direction: column;
-     padding: 2rem 0;
+     align-items: center;
+     background-color: #fff;
+     border-radius: 8px;
+     padding: 20px;
+     flex: 1;
+     min-width: 280px;
+ }
+ .headerSchedule{
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     background-color: #ff5a01;
+     border-radius: 8px;
+     padding: 20px;
+     flex: 1;
+     width: 90%;
+     margin: auto;
+ }
+ 
+ h1 {
+     color: white;
+     padding: 10px 40px;
+     border-radius: 8px;
+     text-align: center;
+     font-size: 1.8rem;
+     font-weight: bold;
+     width: 100%;
+ }
+ .Z-header{
+ background-color:  #0B5CFF;
+ }
+ .Y-header{
+ background-color: #FF0000;
+ }
+ 
+ .event-container {
+     display: flex;
+     flex-direction: row;
+     align-items: center;
+     background: white;
+     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+     border-radius: 8px;
+     margin-top: 20px;
+     padding: 15px;
+     gap: 5px;
+     width: 100%;
+ }
+ 
+ .event-date {
+     background: #e0e0e0;
+     color: black;
+     text-align: center;
+     padding: 10px;
+     border-radius: 8px;
+     font-weight: bold;
+     min-width: 90px;
+ }
+ 
+ .event-date strong {
+     font-size: 2.5rem;
+     display: block;
+ }
+ 
+ .event-details {
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: flex-start;
+     width: 100%;
+ }
+ 
+ .event-item {
+     font-size: .875rem;
+     font-weight: bold;
+     line-height: 1.6;
+     color: black;
+     word-wrap: break-word;
+     overflow-wrap: break-word;
+     white-space: normal;
+     display: block; 
+     max-width: 100%;
+ }
+ 
+ .event-time {
+     font-size: 1rem;
+     color: #555;
+     margin-top: 5px;
+ }
+ 
+ .line {
+     margin-top: 1rem;
+     margin-bottom: 1rem;
+     border: 3px solid;
+     height: 90%;
+     border-radius: 8px;
+ }
 
-     .bixMainSenior {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: center;
+//Pages
+.slidePages {
+    min-width: 100%;
+    height: 100%;
+    background-color: #273880;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    padding: 35px 50px 50px 50px;
 
-          .logoPoliceSenior {
-               width: 45rem;
-          }
+    .slidePages img {
+        width: 100%;
+        max-width: 1200px;
+        height: auto;
+        object-fit: contain;
+    }
 
-          .boxLeft {
-               display: flex;
-               flex-direction: column;
+    .boxMain {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
 
-               .camera {
+        .boxLeft {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+
+            .logoPolicePages {
+                width: 35vw;
+            }
+
+            .logoSenior {
+                width: 35vw;
+            }
+
+            .logoTextTalk {
+                width: 35vw;
+                padding: 15px 0;
+            }
+
+            .buttonSenior {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #ff5a01;
+                padding: 9px 0px;
+                border-radius: 10px;
+                width: 100%;
+                margin: 0;
+                cursor: pointer;
+                z-index: 99;
+
+                .camera {
                     width: 3vw;
-               }
-
-               .groupLL {
-                    width: 40rem;
-               }
-
-
-               .imgText {
-                    padding: 15px 20px;
-                    width: 40rem;
-               }
-
-               .buttonSenior {
-                    width: 100%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    background-color: #FF5A01;
-                    padding: 9px 0px;
-                    border-radius: 10px;
                     cursor: pointer;
-                    z-index: 99;
-               }
+                }
 
-               .textFacebook {
-                    margin: 0;
-                    font-size: 1rem;
-                    padding: 0px 20px;
-                    color: #273880;
-                    font-weight: 600;
-               }
-
-               .boxFacebook {
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    padding: 15px 20px;
-               }
-
-               .boxMask {
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    padding: 15px 20px;
-               }
-
-               .textMask {
-                    display: flex;
-                    align-items: center;
-               }
-
-               .Mask {
-                    width: 25px;
-                    height: 25px;
-                    margin-left: 5px;
-               }
-
-               .day {
-                    width: 15rem;
-                    margin: 0px 0px 5px 5px;
-               }
-
-               .info {
-                    width: 35vw;
-                    margin: 0px 25px;
-               }
-
-               .facebook {
-                    width: 18vw;
-               }
-
-               .textZoom1 {
+                .textZoom1 {
                     font-size: 1.2vw;
                     color: #fff;
                     margin: 0 5px;
-               }
+                    cursor: pointer;
+                }
+            }
 
-               .result {
-                    margin-top: 10px;
-                    width: 15vw;
-                    margin: 0px 25px;
-               }
+            .logoInfo {
+                width: 36vw;
+                padding: 0.8rem 0px;
+            }
 
-               .textZoom {
-                    font-size:1rem;
-                    font-weight: 600;
-                    color: #1976D2;
-                    padding: 0;
-                    margin: 0 5px;
-               }
+            .logoResult {
+                width: 15vw;
+                padding: 0;
+            }
+        }
 
-          }
-
-          .boxRight {
-               .senior60 {
-                    width: 40rem;
-               }
-          }
-     }
-
-     .boxClip {
-          display: flex;
-          align-items: center;
-          justify-content: space-around;
-          margin: 1rem 0 0 0;
-     }
+        .boxRight {
+            .senior60 {
+                width: 35vw;
+            }
+        }
+    }
 }
 
-//Pages 
-.slidePages {
-     min-width: 100%;
-     height: 100%;
-     background-color: #273880;
-     background-size: cover;
-     background-position: center;
-     position: relative;
-     padding: 35px 50px 50px 50px;
+@media screen and (min-width: 318px) and (max-width: 575px) {
+    .slidePages {
+        padding: 0;
 
-     .slidePages img {
-          width: 100%;
-          max-width: 1200px;
-          height: auto;
-          object-fit: contain;
-     }
+        .boxMain {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0px;
 
-     .boxMain {
-          display: flex;
-          align-items: center;
-          justify-content: space-evenly;
+            .boxLeft {
+                .logoPolicePages {
+                    width: 75vw;
+                }
 
-          .boxLeft {
-               display: flex;
-               flex-direction: column;
-               align-items: flex-start;
+                .logoSenior {
+                    width: 75vw;
+                }
 
-               .logoPolicePages {
-                    width: 35vw;
-               }
-
-               .logoSenior {
-                    width: 35vw;
-               }
-
-               .logoTextTalk {
-                    width: 35vw;
+                .logoTextTalk {
+                    width: 75vw;
                     padding: 15px 0;
-               }
+                }
 
-               .buttonSenior {
+                .buttonSenior {
                     width: 100%;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    background-color: #FF5A01;
+                    background-color: #ff5a01;
                     padding: 9px 0px;
                     border-radius: 10px;
                     width: 100%;
@@ -321,330 +499,754 @@
                     z-index: 99;
 
                     .camera {
-                         width: 3vw;
-                         cursor: pointer;
+                        width: 3vw;
+                        cursor: pointer;
                     }
 
                     .textZoom1 {
-                         font-size: 1.2vw;
-                         color: #fff;
-                         margin: 0 5px;
-                         cursor: pointer;
+                        font-size: 1.2vw;
+                        color: #fff;
+                        margin: 0 5px;
+                        cursor: pointer;
                     }
-               }
+                }
 
-               .logoInfo {
-                    width: 36vw;
-                    padding: .8rem 0px;
-               }
+                .logoInfo {
+                    width: 80vw;
+                    padding: 10px 0px;
+                }
 
-               .logoResult {
-                    width: 15vw;
+                .logoResult {
+                    width: 40vw;
                     padding: 0;
-               }
-          }
+                }
+            }
 
-          .boxRight {
+            .boxRight {
+                .senior60 {
+                    width: 40vw;
+                    margin: 30px 0 10px 0;
+                }
+            }
+        }
+    }
 
-               .senior60 {
-                    width: 35vw;
-               }
-          }
-     }
-}
+    // bixMain senior
+    .bixMainSenior {
+        display: flex;
+        flex-direction: column !important;
+        align-items: center;
+        justify-content: center;
 
-@media screen and (min-width: 318px) and (max-width: 575px) {
-     .slidePages {
-          padding: 0;
+        .logoPoliceSenior {
+            width: 18.5rem !important;
+            align-self: center;
+        }
 
-          .boxMain {
-               display: flex;
-               flex-direction: column;
-               align-items: center;
-               padding: 20px 0px;
+        .boxLeft {
+            display: flex;
+            flex-direction: column;
 
-               .boxLeft {
+            .camera {
+                width: 3rem !important;
+            }
 
-                    .logoPolicePages {
-                         width: 75vw;
-                    }
+            .groupLL {
+                width: 18.5rem !important;
+                align-self: center;
+            }
 
-                    .logoSenior {
-                         width: 75vw;
-                    }
+            .imgText {
+                padding: 15px 20px;
+                width: 20rem !important;
+                align-self: center;
+            }
 
-                    .logoTextTalk {
-                         width: 75vw;
-                         padding: 15px 0;
-                    }
+            .buttonSenior {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #ff5a01;
+                padding: 9px 0px;
+                border-radius: 10px;
+                cursor: pointer;
+                z-index: 99;
+            }
 
-                    .buttonSenior {
-                         width: 100%;
-                         display: flex;
-                         align-items: center;
-                         justify-content: center;
-                         background-color: #FF5A01;
-                         padding: 9px 0px;
-                         border-radius: 10px;
-                         width: 100%;
-                         margin: 0;
-                         cursor: pointer;
-                         z-index: 99;
+            .textFacebook {
+                font-size: 0.875rem !important;
+                align-self: center;
+            }
 
-                         .camera {
-                              width: 3vw;
-                              cursor: pointer;
-                         }
+            .boxFacebook {
+                display: flex;
+                flex-direction: column !important;
+                align-items: center;
+                padding: 15px 20px;
+            }
 
-                         .textZoom1 {
-                              font-size: 1.2vw;
-                              color: #fff;
-                              margin: 0 5px;
-                              cursor: pointer;
-                         }
-                    }
+            .boxMask {
+                display: flex;
+                flex-direction: column !important;
+                align-items: center;
+                padding: 15px 20px;
+            }
 
-                    .logoInfo {
-                         width: 80vw;
-                         padding: 10px 0px;
+            .textMask {
+                margin: 10px 0px;
+                display: flex;
+                align-items: center;
+            }
 
-                    }
+            .Mask {
+                width: 25px;
+                height: 25px;
+                margin-left: 5px;
+            }
 
-                    .logoResult {
-                         width: 40vw;
-                         padding: 0;
-                    }
-               }
+            .day {
+                width: 15rem;
+                margin: 15px 5px !important;
+            }
 
-               .boxRight {
+            .info {
+                width: 18.5rem !important;
+                align-self: center;
+            }
 
-                    .senior60 {
-                         width: 40vw;
-                         margin: 30px 0 10px 0;
-                    }
-               }
+            .facebook {
+                width: 18.5rem !important;
+            }
 
-          }
-     }
+            .textZoom1 {
+                font-size: 1.5rem !important;
+                color: #fff;
+                margin: 0 5px;
+            }
+
+            .result {
+                margin-top: 10px;
+                width: 18rem !important;
+                margin: 0px 25px;
+            }
+
+            .textZoom {
+                font-size: 1rem;
+                font-weight: 600;
+                color: #1976d2;
+                padding: 0;
+                margin: 0 5px;
+            }
+        }
+
+        .boxRight {
+            .senior60 {
+                width: 18rem !important;
+                margin-top: 10px;
+            }
+        }
+    }
+    .boxClip {
+        flex-direction: column !important;
+    }
+
+    .iframe-box {
+        width: 100%;
+        max-width: 280px;
+        margin-bottom: 20px;
+    }
 }
 
 @media screen and (min-width: 576px) and (max-width: 767px) {
-     .slidePages {
-          padding: 0;
+    .slidePages {
+        padding: 0;
 
-          .boxMain {
-               display: flex;
-               flex-direction: column;
-               align-items: center;
-               padding: 20px 0px;
+        .boxMain {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0px;
 
-               .boxLeft {
+            .boxLeft {
+                .logoPolicePages {
+                    width: 75vw;
+                }
 
-                    .logoPolicePages {
-                         width: 75vw;
+                .logoSenior {
+                    width: 75vw;
+                }
+
+                .logoTextTalk {
+                    width: 75vw;
+                    padding: 15px 0;
+                }
+
+                .buttonSenior {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: #ff5a01;
+                    padding: 9px 0px;
+                    border-radius: 10px;
+                    width: 100%;
+                    margin: 0;
+                    cursor: pointer;
+                    z-index: 99;
+
+                    .camera {
+                        width: 3vw;
+                        cursor: pointer;
                     }
 
-                    .logoSenior {
-                         width: 75vw;
+                    .textZoom1 {
+                        font-size: 1.2vw;
+                        color: #fff;
+                        margin: 0 5px;
+                        cursor: pointer;
                     }
+                }
 
-                    .logoTextTalk {
-                         width: 75vw;
-                         padding: 15px 0;
-                    }
+                .logoInfo {
+                    width: 80vw;
+                    padding: 10px 0px;
+                }
 
-                    .buttonSenior {
-                         width: 100%;
-                         display: flex;
-                         align-items: center;
-                         justify-content: center;
-                         background-color: #FF5A01;
-                         padding: 9px 0px;
-                         border-radius: 10px;
-                         width: 100%;
-                         margin: 0;
-                         cursor: pointer;
-                         z-index: 99;
+                .logoResult {
+                    width: 40vw;
+                    padding: 0;
+                }
+            }
 
-                         .camera {
-                              width: 3vw;
-                              cursor: pointer;
-                         }
+            .boxRight {
+                .senior60 {
+                    width: 40vw;
+                    margin: 30px 0 10px 0;
+                }
+            }
+        }
+    }
 
-                         .textZoom1 {
-                              font-size: 1.2vw;
-                              color: #fff;
-                              margin: 0 5px;
-                              cursor: pointer;
-                         }
-                    }
+    // bixMain senior
+    .bixMainSenior {
+        display: flex;
+        flex-direction: column !important;
+        align-items: center;
+        justify-content: center;
 
-                    .logoInfo {
-                         width: 80vw;
-                         padding: 10px 0px;
+        .logoPoliceSenior {
+            width: 35rem !important;
+            align-self: center;
+        }
 
-                    }
+        .boxLeft {
+            display: flex;
+            flex-direction: column;
 
-                    .logoResult {
-                         width: 40vw;
-                         padding: 0;
-                    }
-               }
+            .camera {
+                width: 3rem !important;
+            }
 
-               .boxRight {
+            .groupLL {
+                width: 35rem !important;
+                align-self: center;
+            }
 
-                    .senior60 {
-                         width: 40vw;
-                         margin: 30px 0 10px 0;
-                    }
-               }
+            .imgText {
+                padding: 15px 20px;
+                width: 35rem !important;
+                align-self: center;
+            }
 
-          }
-     }
+            .buttonSenior {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #ff5a01;
+                padding: 9px 0px;
+                border-radius: 10px;
+                cursor: pointer;
+                z-index: 99;
+            }
+
+            .textFacebook {
+                font-size: 1.7rem !important;
+                align-self: center;
+            }
+
+            .boxFacebook {
+                display: flex;
+                flex-direction: column !important;
+                align-items: center;
+                padding: 15px 20px;
+            }
+
+            .boxMask {
+                display: flex;
+                flex-direction: column !important;
+                align-items: center;
+                padding: 15px 20px;
+            }
+
+            .textMask {
+                margin: 10px 0px;
+                display: flex;
+                align-items: center;
+            }
+
+            .Mask {
+                width: 25px;
+                height: 25px;
+                margin-left: 5px;
+            }
+
+            .day {
+                width: 20rem;
+                margin: 15px 5px !important;
+            }
+
+            .info {
+                width: 35rem !important;
+                align-self: center;
+            }
+
+            .facebook {
+                width: 25rem !important;
+            }
+
+            .textZoom1 {
+                font-size: 1.5rem !important;
+                color: #fff;
+                margin: 0 138px !important;
+            }
+
+            .result {
+                margin-top: 10px;
+                width: 20rem !important;
+                margin: 0px 25px;
+            }
+
+            .textZoom {
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: #1976d2;
+                padding: 0;
+                margin: 0 5px;
+            }
+        }
+
+        .boxRight {
+            .senior60 {
+                width: 30rem !important;
+                margin-top: 10px;
+            }
+        }
+    }
+    .boxClip {
+        flex-direction: column !important;
+    }
+
+    .iframe-box {
+        width: 100%;
+        max-width: 520px;
+        margin-bottom: 20px;
+    }
 }
 
 @media screen and (min-width: 768px) and (max-width: 991px) {
-     .slidePages {
-          padding: 0;
+    .slidePages {
+        padding: 0;
 
-          .boxMain {
-               padding: 20px 15px;
+        .boxMain {
+            padding: 20px 15px;
 
-               .boxLeft {
+            .boxLeft {
+                .logoPolicePages {
+                    width: 45vw;
+                }
 
-                    .logoPolicePages {
-                         width: 45vw;
+                .logoSenior {
+                    width: 50vw;
+                }
+
+                .logoTextTalk {
+                    width: 50vw;
+                    padding: 15px 0;
+                }
+
+                .buttonSenior {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: #ff5a01;
+                    padding: 9px 0px;
+                    border-radius: 10px;
+                    width: 100%;
+                    margin: 0;
+                    cursor: pointer;
+                    z-index: 99;
+
+                    .camera {
+                        width: 3vw;
+                        cursor: pointer;
                     }
 
-                    .logoSenior {
-                         width: 50vw;
+                    .textZoom1 {
+                        font-size: 2vw;
+                        font-weight: 600;
+                        color: #fff;
+                        margin: 0 5px;
+                        cursor: pointer;
                     }
+                }
 
-                    .logoTextTalk {
-                         width: 50vw;
-                         padding: 15px 0;
-                    }
+                .logoInfo {
+                    width: 55vw;
+                    padding: 10px 0px;
+                }
 
-                    .buttonSenior {
-                         width: 100%;
-                         display: flex;
-                         align-items: center;
-                         justify-content: center;
-                         background-color: #FF5A01;
-                         padding: 9px 0px;
-                         border-radius: 10px;
-                         width: 100%;
-                         margin: 0;
-                         cursor: pointer;
-                         z-index: 99;
+                .logoResult {
+                    width: 20vw;
+                    padding: 0;
+                }
+            }
 
-                         .camera {
-                              width: 3vw;
-                              cursor: pointer;
-                         }
+            .boxRight {
+                .senior60 {
+                    width: 40vw;
+                    margin: 0;
+                }
+            }
+        }
+    }
 
-                         .textZoom1 {
-                              font-size: 2vw;
-                              font-weight: 600;
-                              color: #fff;
-                              margin: 0 5px;
-                              cursor: pointer;
-                         }
-                    }
+    // bixMain senior
+    .bixMainSenior {
+        display: flex;
+        flex-direction: column !important;
+        align-items: center;
+        justify-content: center;
 
-                    .logoInfo {
-                         width: 55vw;
-                         padding: 10px 0px;
+        .logoPoliceSenior {
+            width: 45rem !important;
+            align-self: center;
+        }
 
-                    }
+        .boxLeft {
+            display: flex;
+            flex-direction: column;
 
-                    .logoResult {
-                         width: 20vw;
-                         padding: 0;
-                    }
-               }
+            .camera {
+                width: 3rem !important;
+            }
 
-               .boxRight {
+            .groupLL {
+                width: 35rem !important;
+                align-self: center;
+            }
 
-                    .senior60 {
-                         width: 40vw;
-                         margin: 0;
-                    }
-               }
+            .imgText {
+                padding: 15px 20px;
+                width: 40rem !important;
+                align-self: center;
+            }
 
-          }
-     }
+            .buttonSenior {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #ff5a01;
+                padding: 9px 0px;
+                border-radius: 10px;
+                cursor: pointer;
+                z-index: 99;
+            }
+
+            .textFacebook {
+                font-size: 1.7rem !important;
+                align-self: center;
+            }
+
+            .boxFacebook {
+                display: flex;
+                flex-direction: row !important;
+                align-items: center;
+                padding: 15px 20px;
+            }
+
+            .boxMask {
+                display: flex;
+                flex-direction: row !important;
+                align-items: center;
+                padding: 15px 20px;
+                margin: auto;
+            }
+
+            .textMask {
+                margin: 10px 0px;
+                display: flex;
+                align-items: center;
+            }
+
+            .Mask {
+                width: 25px;
+                height: 25px;
+                margin-left: 5px;
+            }
+
+            .day {
+                width: 15rem;
+                margin: 15px 15px !important;
+            }
+
+            .info {
+                width: 40rem !important;
+                align-self: center;
+                margin: 0px 40px !important;
+            }
+
+            .facebook {
+                width: 18.5rem !important;
+            }
+
+            .textZoom1 {
+                font-size: 1.5rem !important;
+                color: #fff;
+                margin: 0 5px;
+            }
+
+            .result {
+                margin-top: 10px;
+                width: 20rem !important;
+                margin: 0px 200px !important;
+            }
+
+            .textZoom {
+                font-size: 1rem;
+                font-weight: 600;
+                color: #1976d2;
+                padding: 0;
+                margin: 0 5px;
+            }
+        }
+
+        .boxRight {
+            .senior60 {
+                width: 35rem !important;
+                margin-top: 10px;
+            }
+        }
+    }
+    .boxClip {
+        flex-direction: column !important;
+    }
+
+    .iframe-box {
+        width: 100%;
+        max-width: 520px;
+        margin-bottom: 20px;
+    }
 }
 
 @media screen and (min-width: 992px) and (max-width: 1199px) {
-     .slidePages {
-          padding: 0;
+    .slidePages {
+        padding: 0;
 
-          .boxMain {
-               padding: 20px 15px;
+        .boxMain {
+            padding: 20px 15px;
 
-               .boxLeft {
+            .boxLeft {
+                .logoPolicePages {
+                    width: 45vw;
+                }
 
-                    .logoPolicePages {
-                         width: 45vw;
+                .logoSenior {
+                    width: 50vw;
+                }
+
+                .logoTextTalk {
+                    width: 50vw;
+                    padding: 15px 0;
+                }
+
+                .buttonSenior {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: #ff5a01;
+                    padding: 9px 0px;
+                    border-radius: 10px;
+                    width: 100%;
+                    margin: 0;
+                    cursor: pointer;
+                    z-index: 99;
+
+                    .camera {
+                        width: 3vw;
+                        cursor: pointer;
                     }
 
-                    .logoSenior {
-                         width: 50vw;
+                    .textZoom1 {
+                        font-size: 2vw;
+                        font-weight: 600;
+                        color: #fff;
+                        margin: 0 5px;
+                        cursor: pointer;
                     }
+                }
 
-                    .logoTextTalk {
-                         width: 50vw;
-                         padding: 15px 0;
-                    }
+                .logoInfo {
+                    width: 55vw;
+                    padding: 10px 0px;
+                }
 
-                    .buttonSenior {
-                         width: 100%;
-                         display: flex;
-                         align-items: center;
-                         justify-content: center;
-                         background-color: #FF5A01;
-                         padding: 9px 0px;
-                         border-radius: 10px;
-                         width: 100%;
-                         margin: 0;
-                         cursor: pointer;
-                         z-index: 99;
+                .logoResult {
+                    width: 20vw;
+                    padding: 0;
+                }
+            }
 
-                         .camera {
-                              width: 3vw;
-                              cursor: pointer;
-                         }
+            .boxRight {
+                .senior60 {
+                    width: 40vw;
+                    margin: 0;
+                }
+            }
+        }
+    }
 
-                         .textZoom1 {
-                              font-size: 2vw;
-                              font-weight: 600;
-                              color: #fff;
-                              margin: 0 5px;
-                              cursor: pointer;
-                         }
-                    }
 
-                    .logoInfo {
-                         width: 55vw;
-                         padding: 10px 0px;
 
-                    }
+    //bixMain senior
+    .bixMainSenior {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
 
-                    .logoResult {
-                         width: 20vw;
-                         padding: 0;
-                    }
-               }
+        .logoPoliceSenior {
+            width: 30rem !important;
+        }
 
-               .boxRight {
+        .boxLeft {
+            display: flex;
+            flex-direction: column;
 
-                    .senior60 {
-                         width: 40vw;
-                         margin: 0;
-                    }
-               }
+            .camera {
+                width: 3vw;
+            }
 
-          }
-     }
+            .groupLL {
+                width: 30rem !important;
+            }
+
+            .imgText {
+                padding: 15px 20px;
+                width: 30rem !important;
+            }
+
+            .buttonSenior {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #ff5a01;
+                padding: 9px 0px;
+                border-radius: 10px;
+                cursor: pointer;
+                z-index: 99;
+            }
+
+            .textFacebook {
+                margin: 0;
+                font-size: 1rem;
+                padding: 0px 20px;
+                color: #273880;
+                font-weight: 600;
+            }
+
+            .boxFacebook {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                padding: 15px 20px;
+            }
+
+            .boxMask {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                padding: 15px 20px;
+            }
+
+            .textMask {
+                display: flex;
+                align-items: center;
+            }
+
+            .Mask {
+                width: 25px;
+                height: 25px;
+                margin-left: 5px;
+            }
+
+            .day {
+                width: 10rem !important;
+                margin: 0px 0px 5px 5px;
+            }
+
+            .info {
+                width: 30rem !important;
+                margin: 0px 25px;
+            }
+
+            .facebook {
+                width: 20rem !important;
+            }
+
+            .textZoom1 {
+                font-size: 1.5rem !important;
+                color: #fff;
+                margin: 0 5px;
+            }
+
+            .result {
+                margin-top: 10px;
+                width: 20rem !important;
+                margin: 0px 25px;
+            }
+
+            .textZoom {
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: #1976d2;
+                padding: 0;
+                margin: 0 5px;
+            }
+        }
+
+        .boxRight {
+            .senior60 {
+                width: 30rem !important;
+            }
+        }
+    }
+
+    .boxClip {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 2rem;
+        gap: 10px !important;
+    }
+
+    .iframe-box {
+        width: 520px;
+        height: 315px;
+    }
 }

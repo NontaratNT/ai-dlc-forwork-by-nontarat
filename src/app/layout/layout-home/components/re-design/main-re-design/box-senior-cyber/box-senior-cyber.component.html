@@ -98,18 +98,59 @@
                </div>
           </div>
           <div class="boxClip">
-               <iframe width="520" height="315" src="https://www.youtube.com/embed/n4xUYBnphuo?si=1HBPkT4z74XGk0G-"
+               <iframe class="iframe-box" src="https://www.youtube.com/embed/n4xUYBnphuo?si=1HBPkT4z74XGk0G-"
                     title="YouTube video player" frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-               <iframe width="520" height="315" src="https://www.youtube.com/embed/5rlH1hzEF7g?si=Zx90Fd9Vs_p4Kwcd"
+               <iframe class="iframe-box" src="https://www.youtube.com/embed/5rlH1hzEF7g?si=Zx90Fd9Vs_p4Kwcd"
                     title="YouTube video player" frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
           </div>
+          <div class="headerSchedule">
+               <h1>ตารางการออกอากาศ</h1>
+          </div>
+          
+          <div class="schedule-box">
+               <div class="column">
+                         <h1 class="Z-header">ZOOM</h1>
+                         <div class="event-container" *ngFor="let event of scheduleZoom">
+                              <div class="event-date">
+                                   <strong>{{event.date}}</strong>
+                                   <span>{{event.month}}</span>
+                              </div>
+                              <hr class="line">
+                              <div class="event-details">
+                                   <div class="event-item">{{event.title}}</div>
+                                   <div class="event-item ">{{event.time}}</div>
+                              </div>
+                         </div>
+
+               </div>
+
+               <div class="column">
+                    <h1 class="Y-header">YOUTUBE</h1>
+                    <div class="event-container" *ngFor="let event of scheduleZoom">
+                         <div class="event-date">
+                              <strong>{{event.date}}</strong>
+                              <span>{{event.month}}</span>
+                         </div>
+                         <hr class="line">
+                         <div class="event-details">
+                              <div class="event-item">{{event.title}}</div>
+                              <div class="event-item ">{{event.time}}</div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+
      </div>
 </div>
+
+
+
+
 <div *ngIf="types === 'seniorPages'">
      <div class="slidePages" *ngFor="let slide of slides" [ngStyle]="{'background-image': 'url(' + slide.images + ')'}">
           <div class="boxMain">

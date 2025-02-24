@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { time } from 'console';
 import { finalize } from 'rxjs/operators';
 import { User } from 'src/app/services/user';
 import { UserService } from 'src/app/services/user.service';
@@ -23,6 +24,50 @@ export class BoxSeniorCyberComponent implements OnInit {
       images: 'assets/image/img/senior/bg-senior-white.png'
     },
   ];
+
+  scheduleZoom = [
+    {
+      date: "5",
+      month: "กุมภาพันธ์",
+      time: "9:30 น.",
+      title: "รู้ทันมิจฉาชีพออนไลน์ ภัยร้ายหลายรูปแบบใกล้ตัวสูงวัยกว่าที่คิด",
+    },
+    {
+      date: "7",
+      month: "กุมภาพันธ์",
+      time: "14:00 น.",
+      title: "การป้องกันและคุ้มครองสิทธิ์ผู้สูงอายุด้านทรัพย์สิน",
+    },
+    {
+      date: "8",
+      month: "กุมภาพันธ์",
+      time: "12:30 น.",
+      title: "ปัจจัยที่มีผลต่อการตกเป็นเหยื่ออาชญากรรมที่เกิดขึ้นกับผู้สูงอายุ",
+    },
+  ];
+
+  scheduleYoutube = [
+   {
+    date: "5",
+    month: "กุมภาพันธ์",
+    time: "9:30 น.",
+    title: "รู้ทันมิจฉาชีพออนไลน์ ภัยร้ายหลายรูปแบบใกล้ตัวสูงวัยกว่าที่คิด",
+  },
+  {
+    date: "7",
+    month: "กุมภาพันธ์",
+    time: "14:00 น.",
+    title: "การป้องกันและคุ้มครองสิทธิ์ผู้สูงอายุด้านทรัพย์สิน",
+  },
+  {
+    date: "8",
+    month: "กุมภาพันธ์",
+    time: "12:30 น.",
+    title: "ปัจจัยที่มีผลต่อการตกเป็นเหยื่ออาชญากรรมที่เกิดขึ้นกับผู้สูงอายุ",
+  },
+  ];
+
+
 
   constructor(private router: Router,
     private userServ: UserService,
