@@ -328,8 +328,8 @@
  }
  
  .event-date {
-     background: #e0e0e0;
-     color: black;
+     background: #ff5a01;
+     color: white;
      text-align: center;
      padding: 10px;
      border-radius: 8px;
@@ -452,6 +452,14 @@
                 padding: 0;
             }
         }
+
+               .textZoom {
+                    font-size: 1rem;
+                    font-weight: 600;
+                    color: #1976D2;
+                    padding: 0;
+                    margin: 0 5px;
+               }
 
         .boxRight {
             .senior60 {
@@ -1141,6 +1149,7 @@
                 width: 3vw;
             }
 
+
             .groupLL {
                 width: 30rem !important;
             }
@@ -1250,3 +1259,35 @@
         height: 315px;
     }
 }
+
+::ng-deep .popup.channel .dx-form .dx-field-item-label-text {
+     font-size: 1.5rem;
+     font-weight: bold;
+     color: #fff;
+     text-align: center;
+}
+
+::ng-deep .popup.channel .dx-form .dx-radiobutton {
+     color: #fff;
+     text-align: center;
+     font-size: 1.4rem;
+     line-height: 3rem;
+}
+@media screen and (min-width: 1300px){
+     ::ng-deep .popup.channel .dx-form .custom-radio.dx-show-invalid-badge.dx-radiogroup.dx-radiogroup-vertical.dx-widget.dx-validator.dx-visibility-change-handler {
+          padding-left: 35%
+     }
+}
+@media screen and (max-width: 1300px){
+     ::ng-deep .popup.channel .dx-form .custom-radio.dx-show-invalid-badge.dx-radiogroup.dx-radiogroup-vertical.dx-widget.dx-validator.dx-visibility-change-handler {
+          padding-left: 24%;
+     }
+}
+@media screen and (max-width: 800px){
+     ::ng-deep .popup.channel .dx-form .custom-radio.dx-show-invalid-badge.dx-radiogroup.dx-radiogroup-vertical.dx-widget.dx-validator.dx-visibility-change-handler {
+          padding-left: 5%;
+     }
+}
+
+
+

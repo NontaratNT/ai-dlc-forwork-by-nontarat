@@ -15,6 +15,9 @@ import Swal from 'sweetalert2';
 export class BoxSeniorCyberComponent implements OnInit {
 
   pdfUrl: SafeResourceUrl;
+  popupVisible = false;
+  questionnaireForm = {} as any;
+  radioGroupItems : any = [];
 
   @Input() types: 'senior' | 'seniorPages' = 'senior';
 
@@ -78,7 +81,10 @@ export class BoxSeniorCyberComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.userServ.getListQuestion()
+      .subscribe(_ => { 
+        this.radioGroupItems = _ ?? [];
+      });
     if (!User.Current) {
       this.router.navigate(["/"]);
     }
@@ -90,7 +96,7 @@ export class BoxSeniorCyberComponent implements OnInit {
         confirmButtonText: "ตกลง",
       }).then((_) => {
         if (_.isConfirmed) {
-          this.router.navigate(["/"]);
+          // this.router.navigate(["/"]);
         }
       });
     }
@@ -107,11 +113,30 @@ export class BoxSeniorCyberComponent implements OnInit {
   }
 
   clickZoom() {
+    localStorage.setItem('questionnaireForm', JSON.stringify(this.questionnaireForm));
     this.router.navigate(['/login'], { queryParams: { icli: 'landing' } });
+  }
+
+  clickPopup() {
+    this.questionnaireForm = {} as any;
+    this.popupVisible = true;
+  }
+
+  closePopup() {
+    //delete localStorage name 'questionnaireForm'
+    localStorage.removeItem('questionnaireForm');
+    this.popupVisible = false;
   }
 
   openLinkPage(link: string) {
     this.router.navigate(["/"]);
+  }
+
+  ChangeRadioChannel(e: any) {
+    this.questionnaireForm.SENIOR_CHANNEL_ID = e.value;
+    if (e.value !== 6) {
+      this.questionnaireForm.OTHER_TEXT = null;
+    }
   }
 
 

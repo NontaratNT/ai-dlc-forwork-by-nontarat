@@ -159,7 +159,7 @@
                          (click)="openLinkPage('/')">
                     <img class="logoSenior" src="assets/image/img/senior/group-ll.png" alt="">
                     <img class="logoTextTalk" src="assets/image/img/senior/text.png" alt="">
-                    <div class="buttonSenior" (click)="clickZoom()">
+                    <div class="buttonSenior" (click)="clickPopup()">
                          <img src="assets/image/img/senior/camera.png" class="camera" alt="">
                          <label for="" class="textZoom1">คลิกเพื่อเข้าร่วม</label>
                     </div>
@@ -191,3 +191,32 @@
           <img src="assets/image/img/senior/senior60.png" class="senior60" alt=""> -->
      </div>
 </div>
+
+<dx-popup class="popup channel" [showTitle]="true" title="ช่องทางที่ทำให้รู้จักกับโครงการ"
+    [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="popupVisible" [showCloseButton]="true">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view [showScrollbar]="'always'" style="height: calc(100% - 100px);background-color: #2D437C;">
+            <div class="mt-5" style="text-align: center;margin: 20px;">
+                <h1 style="color: #fff;">แบบสอบถามช่องทางที่ทำให้รู้จักกับโครงการ</h1>
+            </div>
+
+            <div style=" text-align: center; background-color: #2D437C; padding: 2%;">
+                <dx-form #formChannel [formData]="questionnaireForm"  [showColonAfterLabel]="false" labelLocation="top" [colCount]="1">
+                    <dxi-item template="temptitle" [colSpan]="1">
+                         <dxo-label text="ท่านรู้จักโครงการ Senior Cyber Club จากช่องทางใด" [showColon]="false"></dxo-label>
+                         <dxi-validation-rule type="required" message="กรุณาเลือกช่องทาง">
+                         </dxi-validation-rule>
+                     </dxi-item>
+                     <div *dxTemplate="let data of 'temptitle'">
+                         <dx-radio-group class="custom-radio" [dataSource]="radioGroupItems" layout="vertical" valueExpr="SENIOR_CHANNEL_ID" displayExpr="SENIOR_CHANNEL_NAME" [(value)]="questionnaireForm.SENIOR_CHANNEL_ID" (onValueChanged)="ChangeRadioChannel($event)"></dx-radio-group>
+                         <dx-text-box *ngIf="questionnaireForm?.SENIOR_CHANNEL_ID == 6"  [(value)]="questionnaireForm.OTHER_TEXT" [placeholder]="'ระบุช่องทาง'"></dx-text-box>
+                     </div>
+                </dx-form>
+            </div>
+        </dx-scroll-view>
+        <div class="text-center btn-dx mb-3">
+          <dx-button [width]="120" [height]="50" type="danger" (onClick)="popupVisible = false">ยกเลิก</dx-button>&nbsp;
+          <dx-button [width]="120"  [height]="50" type="success" (onClick)="clickZoom()">บันทึก</dx-button>
+      </div>
+    </div>
+</dx-popup>
