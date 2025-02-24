@@ -96,7 +96,7 @@ export class BoxSeniorCyberComponent implements OnInit {
         confirmButtonText: "ตกลง",
       }).then((_) => {
         if (_.isConfirmed) {
-          // this.router.navigate(["/"]);
+          this.router.navigate(["/"]);
         }
       });
     }
