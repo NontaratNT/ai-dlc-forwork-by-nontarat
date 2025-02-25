@@ -153,48 +153,8 @@ export class LoginComponent implements OnInit, OnDestroy {
                                         window.location.href = `https://cybervaccinated.thaipoliceonline.go.th?redirecthas=${res}`;
                                     });
                                 }else if(params.icli === "landing"){
-                                    if(User.Current.Age >= 60){
-                                        this._isLoading = false;
-                                        // get localStorage name 'questionnaireForm'
-                                        const questionnaireForm = JSON.parse(localStorage.getItem('questionnaireForm'));
-                                        this.userServ.SaveQuestion(questionnaireForm).subscribe(_ => {});
-                                        if(User.Current.SeniorStatus === "Y"){
-                                            this.router.navigate(["/senior-cyber-police"]);
-                                        }else{
-                                            Swal.fire({
-                                                title: "แจ้งเตือน!",
-                                                text: "ท่านต้องการเข้าร่วม Senior Cyber Club ใช่หรือไม่",
-                                                icon: "warning",
-                                                confirmButtonText: "ตกลง",
-                                                cancelButtonText: "ยกเลิก",
-                                                showCancelButton: true,
-                                            }).then((_) => {
-                                                if (_.isConfirmed) {
-                                                    this.userServ.UpdateSeniorFlag(User.Current.UserId).pipe(
-                                                        switchMap(() => this.userServ.UpdateSeniorFlagAzure(User.Current.UserId))
-                                                    ).subscribe({
-                                                        next: () => this.router.navigate(["/senior-cyber-police"]),
-                                                        error: err => this.router.navigate(["/senior-cyber-police"])
-                                                    });
-                                                } else {
-                                                    this.router.navigate(["/"]);
-                                                }
-                                                
-                                            });
-                                        }
-                                    }else{
-                                        Swal.fire({
-                                            title: "ขออภัย!",
-                                            text: "อายุของท่านยังไม่ถึงเกณฑ์ที่กำหนด",
-                                            icon: "warning",
-                                            confirmButtonText: "ตกลง",
-                                        }).then(() => {
-                                            this._isLoading = false;
-                                            this.router.navigate(["/"]);
-                                        });
-                                    }
+                                    this.router.navigate(["/"]);
                                 }
-                                
                                 return;
                             }
                             if (this.isRemember) {
@@ -207,9 +167,8 @@ export class LoginComponent implements OnInit, OnDestroy {
                                 Token: u.Token,
                                 RefreshToken: u.RefreshToken,
                             } as IAccessToken;
-
-                            // this.router.navigate([this.loginServ._successLoginRedirectTo]);
-                            this.CheckDeviceMode();
+                            
+                            this.router.navigate(["/"]);
                         });
                     }
                 });

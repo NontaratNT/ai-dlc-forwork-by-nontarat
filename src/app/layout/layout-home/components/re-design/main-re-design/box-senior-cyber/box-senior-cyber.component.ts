@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { time } from 'console';
-import { finalize } from 'rxjs/operators';
+import { DxFormComponent } from 'devextreme-angular';
+import { finalize, switchMap } from 'rxjs/operators';
 import { User } from 'src/app/services/user';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
@@ -13,11 +14,12 @@ import Swal from 'sweetalert2';
   styleUrls: ['./box-senior-cyber.component.scss']
 })
 export class BoxSeniorCyberComponent implements OnInit {
-
+  @ViewChild("formChannel", { static: false }) formChannel: DxFormComponent;
   pdfUrl: SafeResourceUrl;
   popupVisible = false;
   questionnaireForm = {} as any;
-  radioGroupItems : any = [];
+  radioGroupItems: any = [];
+  _isLoading = false;
 
   @Input() types: 'senior' | 'seniorPages' = 'senior';
 
@@ -50,24 +52,24 @@ export class BoxSeniorCyberComponent implements OnInit {
   ];
 
   scheduleYoutube = [
-   {
-    date: "5",
-    month: "กุมภาพันธ์",
-    time: "9:30 น.",
-    title: "รู้ทันมิจฉาชีพออนไลน์ ภัยร้ายหลายรูปแบบใกล้ตัวสูงวัยกว่าที่คิด",
-  },
-  {
-    date: "7",
-    month: "กุมภาพันธ์",
-    time: "14:00 น.",
-    title: "การป้องกันและคุ้มครองสิทธิ์ผู้สูงอายุด้านทรัพย์สิน",
-  },
-  {
-    date: "8",
-    month: "กุมภาพันธ์",
-    time: "12:30 น.",
-    title: "ปัจจัยที่มีผลต่อการตกเป็นเหยื่ออาชญากรรมที่เกิดขึ้นกับผู้สูงอายุ",
-  },
+    {
+      date: "5",
+      month: "กุมภาพันธ์",
+      time: "9:30 น.",
+      title: "รู้ทันมิจฉาชีพออนไลน์ ภัยร้ายหลายรูปแบบใกล้ตัวสูงวัยกว่าที่คิด",
+    },
+    {
+      date: "7",
+      month: "กุมภาพันธ์",
+      time: "14:00 น.",
+      title: "การป้องกันและคุ้มครองสิทธิ์ผู้สูงอายุด้านทรัพย์สิน",
+    },
+    {
+      date: "8",
+      month: "กุมภาพันธ์",
+      time: "12:30 น.",
+      title: "ปัจจัยที่มีผลต่อการตกเป็นเหยื่ออาชญากรรมที่เกิดขึ้นกับผู้สูงอายุ",
+    },
   ];
 
 
@@ -82,7 +84,7 @@ export class BoxSeniorCyberComponent implements OnInit {
 
   ngOnInit(): void {
     this.userServ.getListQuestion()
-      .subscribe(_ => { 
+      .subscribe(_ => {
         this.radioGroupItems = _ ?? [];
       });
     if (!User.Current) {
@@ -113,18 +115,71 @@ export class BoxSeniorCyberComponent implements OnInit {
   }
 
   clickZoom() {
-    localStorage.setItem('questionnaireForm', JSON.stringify(this.questionnaireForm));
-    this.router.navigate(['/login'], { queryParams: { icli: 'landing' } });
+    if (!this.formChannel.instance.validate().isValid) {
+      Swal.fire({
+        title: 'ผิดพลาด!',
+        text: 'กรุณาเลือกช่องทาง',
+        icon: 'warning',
+        confirmButtonText: 'Ok'
+      });
+      return;
+    }
+  
+    this._isLoading = true; // Set loading only after validation passes
+  
+    this.userServ.SaveQuestion(this.questionnaireForm).pipe(
+      switchMap(() => this.userServ.UpdateSeniorFlag(User.Current.UserId)),
+      switchMap(() => this.userServ.UpdateSeniorFlagAzure(User.Current.UserId))
+    ).subscribe({
+      next: () => {
+        this._isLoading = false;
+        User.Current.SeniorStatus = "Y";
+        this.router.navigate(["/senior-cyber-police"]);
+      },
+      error: () => {
+        this._isLoading = false;
+        this.router.navigate(["/senior-cyber-police"]);
+      }
+    });
   }
+  
 
   clickPopup() {
-    this.questionnaireForm = {} as any;
-    this.popupVisible = true;
+    if (!User?.Current) {
+      this.router.navigate(['/login'], { queryParams: { icli: 'landing' } });
+    } else {
+      if (User.Current.Age >= 60) {
+        this.questionnaireForm = {} as any;
+        if (User.Current.SeniorStatus === "Y") {
+          this.router.navigate(["/senior-cyber-police"]);
+        } else {
+          Swal.fire({
+            title: "แจ้งเตือน!",
+            text: "ท่านต้องการเข้าร่วม Senior Cyber Club ใช่หรือไม่",
+            icon: "warning",
+            confirmButtonText: "ตกลง",
+            cancelButtonText: "ยกเลิก",
+            showCancelButton: true,
+          }).then((_) => {
+            if (_.isConfirmed) {
+              this.popupVisible = true;
+            } else {
+              this.router.navigate(["/"]);
+            }
+          });
+        }
+      } else {
+        Swal.fire({
+          title: "ขออภัย!",
+          text: "อายุของท่านยังไม่ถึงเกณฑ์ที่กำหนด",
+          icon: "warning",
+          confirmButtonText: "ตกลง",
+        })
+      }
+    }
   }
 
   closePopup() {
-    //delete localStorage name 'questionnaireForm'
-    localStorage.removeItem('questionnaireForm');
     this.popupVisible = false;
   }
 
