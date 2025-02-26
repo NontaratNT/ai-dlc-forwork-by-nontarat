@@ -376,6 +376,22 @@
      border-radius: 8px;
  }
 
+ .backbtn{
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #ff5a01;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        margin-bottom: 20px;
+        left: 40px;
+        width: 250px;
+ }
 //Pages
 .slidePages {
     min-width: 100%;
@@ -507,12 +523,12 @@
                     z-index: 99;
 
                     .camera {
-                        width: 3vw;
+                        width: 1.5rem !important;
                         cursor: pointer;
                     }
 
                     .textZoom1 {
-                        font-size: 1.2vw;
+                        font-size: 1rem !important;
                         color: #fff;
                         margin: 0 5px;
                         cursor: pointer;
@@ -664,6 +680,11 @@
         max-width: 280px;
         margin-bottom: 20px;
     }
+
+    .backbtn{
+        left: 7px !important;
+        width: 160px !important;
+ }
 }
 
 @media screen and (min-width: 576px) and (max-width: 767px) {

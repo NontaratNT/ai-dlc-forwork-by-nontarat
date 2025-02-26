@@ -195,4 +195,8 @@ export class BoxSeniorCyberComponent implements OnInit {
   }
 
 
+  navigateBack(){
+    this.router.navigate(['/']);
+  }
+
 }
