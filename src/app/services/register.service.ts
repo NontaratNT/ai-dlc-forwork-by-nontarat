@@ -129,6 +129,7 @@ export interface IRegister {
     NEW_PASSWORD?: string;
     FRONT_PPD_PICTURE: any;
     TYPE_CYBER: any;
+    TYPE_SENIOR: any;
     CYBER_STATUS: any;
     SENIOR_STATUS: any;
 }

@@ -5,7 +5,7 @@ import { SocialAuthService } from "angularx-social-login";
 import { SocialUser } from "angularx-social-login";
 
 import { DxFormComponent, DxMultiViewComponent } from 'devextreme-angular';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { ITitleInfo, TitleService } from 'src/app/services/title.service';
@@ -53,12 +53,14 @@ export class RegisterPeopleComponent implements OnInit {
         { id: 2, txt: "อีเมล" }
     ];
     choiceSelect: number;
+    regissenior = false;
     constructor(
         private ServiceRegister: RegisterService,
         private _date: ConvertDateService,
         private router: Router,
         private _datepipe: DatePipe,
-        private serviceTitle: TitleService) {
+        private serviceTitle: TitleService,
+        private routerAc: ActivatedRoute) {
         this.formRegister = {} as any;
     }
 
@@ -75,6 +77,11 @@ export class RegisterPeopleComponent implements OnInit {
         this.maxBirthDate = this._date.SetDateDefault(0);
         this.formRegister.TYPE_CYBER = false;
         this.formRegister.CYBER_STATUS = "N";
+        this.formRegister.TYPE_SENIOR = false;
+        this.formRegister.SENIOR_STATUS = "N";
+        this.routerAc.queryParams.subscribe((params) => {
+            this.regissenior = params.icli === "landing";
+        });
         // this.formRegister.PERSONAL_BIRTH_DATE = this._date.SetDateDefault(0);
         this.loadDateBox = true;
 
