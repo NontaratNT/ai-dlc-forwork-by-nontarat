@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { time } from 'console';
 import { DxFormComponent } from 'devextreme-angular';
 import { finalize, switchMap } from 'rxjs/operators';
+import { IDistrictInfo } from 'src/app/services/district.service';
+import { IProvinceinfo, ProvinceService } from 'src/app/services/province.service';
 import { User } from 'src/app/services/user';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
@@ -15,11 +17,16 @@ import Swal from 'sweetalert2';
 })
 export class BoxSeniorCyberComponent implements OnInit {
   @ViewChild("formChannel", { static: false }) formChannel: DxFormComponent;
+  @ViewChild("formAddress", { static: false }) formAddress: DxFormComponent;
   pdfUrl: SafeResourceUrl;
   popupVisible = false;
   questionnaireForm = {} as any;
   radioGroupItems: any = [];
   _isLoading = false;
+  indexTab = 0;
+  province: IProvinceinfo[];
+  district: IDistrictInfo[];
+  disableDistrict = true;
 
   @Input() types: 'senior' | 'seniorPages' = 'senior';
 
@@ -77,6 +84,7 @@ export class BoxSeniorCyberComponent implements OnInit {
   constructor(private router: Router,
     private userServ: UserService,
     private sanitizer: DomSanitizer,
+    private serviceProvince: ProvinceService,
   ) {
     const pdfPath = '/assets/image/what.pdf'; // ระบุไฟล์ PDF
     this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(pdfPath);
@@ -87,10 +95,11 @@ export class BoxSeniorCyberComponent implements OnInit {
       .subscribe(_ => {
         this.radioGroupItems = _ ?? [];
       });
-    if (!User.Current) {
+    this.serviceProvince.GetProvince().subscribe(_ => this.province = _);
+    if (!User.Current && window.location.pathname === "/senior-cyber-police") {
       this.router.navigate(["/"]);
     }
-    if (User.Current.Age < 60) {
+    if (User.Current.Age < 60 && window.location.pathname === "/senior-cyber-police") {
       Swal.fire({
         title: "ขออภัย!",
         text: "อายุของท่านยังไม่ถึงเกณฑ์ที่กำหนด",
@@ -142,6 +151,23 @@ export class BoxSeniorCyberComponent implements OnInit {
       }
     });
   }
+
+  nextPage(){
+    if (!this.formChannel.instance.validate().isValid) {
+      Swal.fire({
+        title: 'ผิดพลาด!',
+        text: 'กรุณาเลือกช่องทาง',
+        icon: 'warning',
+        confirmButtonText: 'Ok'
+      });
+      return;
+    }
+    this.indexTab = 1;
+  }
+  back() {
+    this.indexTab === 1 ? this.indexTab = 0 : this.popupVisible = false;
+  }
+
   
 
   clickPopup() {
@@ -178,6 +204,16 @@ export class BoxSeniorCyberComponent implements OnInit {
       }
     }
   }
+
+  OnSelectProvice(e) {
+    this.district = [];
+
+    if (e.value) {
+        this.disableDistrict = false;
+        this.serviceProvince.GetDistrictofProvince(e.value).subscribe(_ => this.district = _);
+    }
+
+}
 
   closePopup() {
     this.popupVisible = false;
