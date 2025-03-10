@@ -157,3 +157,31 @@
         </dx-scroll-view>
     </div>
 </dx-popup>
+
+<dx-popup [fullScreen]="isfullScreen" class="popup attactment" [width]="1000" [height]="700" [showTitle]="false" title="แจ้งเตือน" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="showpopupweb" [showCloseButton]="true">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view [showScrollbar]="'always'" style="height: calc(100% - 45px);background-color: #2D437C;">
+            <div class="mt-5" style="display: flex;justify-content: center">
+                <img src="assets/icon/warning-home.png" style="width:100px;height: 100px;" alt="warning-home" class="img-fluid">
+            </div>
+            <div style="text-align: center;margin: 20px;">
+                <h3 style="color: #fff;">ระบบบริหารจัดการคดีอาชญากรรมทางเทคโนโลยี</h3>
+                <h1 class="mt-1" style="color: #fff;"><b style="background: linear-gradient(to right, red 0%, red 100%);
+                    background-size: 100% 5px;
+                    background-repeat: no-repeat;
+                    background-position: bottom;
+                    padding-bottom: 20px;
+                ">แจ้งปิดปรับปรุงระบบ</b></h1>
+            </div>
+            <div style=" text-align: center; margin-top: 1%; background-color: #2D437C;  padding: 1% 2% 1% 2%;">
+                <h4 class="mt-1" style="color: #fff;line-height: 40px;">
+                    เนื่องจากระบบอยู่ระหว่างการปรับปรุง จึงขออภัยในความไม่สะดวก <br>
+                    <!-- ขอให้เจ้าหน้าที่ทุกท่านรอสักครู่ และขอบคุณที่ให้ความร่วมมือ -->
+                </h4>
+            </div>
+        </dx-scroll-view>
+        <div class="text-right btn-dx">
+            <!-- <button class="btn btn-cancle" (click)="closepopup()">ปิด</button>&nbsp; -->
+        </div>
+    </div>
+</dx-popup>

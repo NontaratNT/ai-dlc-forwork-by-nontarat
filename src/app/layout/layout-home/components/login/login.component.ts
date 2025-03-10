@@ -40,6 +40,14 @@ export class LoginComponent implements OnInit, OnDestroy {
         { id: 1, text: "ดำเนินการแล้ว" },
         { id: 2, text: "ยังไม่ได้ดำเนินการ" },
     ];
+    showpopupweb = false;
+    showpopupmail = false;
+    isfullScreen = false;
+    isfullScreen_1 = false;
+    width = 0;
+    heigth = 0;
+    isHelping = false;
+
     scopeWays1: boolean;
     scopeWays2: boolean;
     _isShow = false;
@@ -72,6 +80,26 @@ export class LoginComponent implements OnInit, OnDestroy {
         if (this.isUrl) {
             window.location.href = "https://thaipoliceonline.go.th/login";
         }
+        this.width = window.innerWidth;
+        this.heigth = window.innerHeight;
+        if (this.width < 1000 || this.heigth < 700) {
+            this.isfullScreen = true;
+        } else {
+            this.isfullScreen = false;
+        }
+        (window as any).addEventListener('resize', () => {
+            this.width = window.innerWidth;
+            this.heigth = window.innerHeight;
+            if (this.width < 1000 || this.heigth < 700) {
+                this.isfullScreen = true;
+            } else if (this.width < 1400 || this.heigth < 850) {
+                this.isfullScreen = true;
+            }else{
+                this.isfullScreen = false;
+            }
+
+
+        });
         this.getIPAddress();
         // const nodesjs = new NodesJs({
         //     id: 'nodes',
@@ -115,8 +143,21 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
     SelectRegister() {
         // this.multiView.selectedIndex = 1;
-        this.router.navigate(["register"]);
-        document.body.scrollTop = document.documentElement.scrollTop = 0;
+        this.routerAc.queryParams.subscribe((params) => {
+            const scrollToTop = () => {
+                document.body.scrollTop = document.documentElement.scrollTop = 0;
+            };
+        
+            if (params.icli === "landing") {
+                this.router.navigate(["register"], { queryParams: { icli: 'landing' } });
+            } else {
+                this.router.navigate(["register"]);
+            }
+        
+            scrollToTop();
+        });
+        
+        
         // this.onSkip(event);
         // this.popupConsentVisible = true;
     }

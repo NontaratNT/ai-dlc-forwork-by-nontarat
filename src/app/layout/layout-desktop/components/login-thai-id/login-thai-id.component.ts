@@ -110,34 +110,7 @@ export class LoginThaiIDComponent implements OnInit {
                             return;
                         } else if (localStorage.getItem('icli') === 'landing') {
                             localStorage.removeItem('icli');
-                            if (User.Current.Age >= 60) {
-                                this._isLoading = false;
-                                // get localStorage name 'questionnaireForm'
-                                const questionnaireForm = JSON.parse(localStorage.getItem('questionnaireForm'));
-                                this.userServ.SaveQuestion(questionnaireForm).subscribe(_ => { });
-                                if (User.Current.SeniorStatus === "Y") {
-                                    this.router.navigate(["/senior-cyber-police"]);
-                                } else {
-                                    Swal.fire({
-                                        title: "แจ้งเตือน!",
-                                        text: "ท่านต้องการเข้าร่วมประชุมผ่านระบบ ZOOM ใช่หรือไม่",
-                                        icon: "warning",
-                                        confirmButtonText: "ตกลง",
-                                    }).then((_) => {
-                                        if (_.isConfirmed) {
-                                            this.userServ.UpdateSeniorFlag(User.Current.UserId).pipe(
-                                                switchMap(() => this.userServ.UpdateSeniorFlagAzure(User.Current.UserId))
-                                            ).subscribe({
-                                                next: () => this.router.navigate(["/senior-cyber-police"]),
-                                                error: err => this.router.navigate(["/senior-cyber-police"])
-                                            });
-                                        } else {
-                                            this.router.navigate(["/"]);
-                                        }
-
-                                    });
-                                }
-                            }
+                            this.router.navigate(["/"]);
                         } else {
                             this.CheckDeviceMode();
                         }
