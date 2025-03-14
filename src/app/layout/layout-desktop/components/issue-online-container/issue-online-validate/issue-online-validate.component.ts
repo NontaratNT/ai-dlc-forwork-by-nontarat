@@ -893,7 +893,6 @@ export class IssueOnlineValidateComponent implements OnInit {
         for (let i = 0; i < requiredItems.length; i++) {
             console.log(requiredItems[i]);
             if (!localStorage.getItem(requiredItems[i]) && requiredItems[i] != "form-damage") {
-                console.log(requiredItems[i]);
                 Swal.fire({
                     title: "ผิดพลาด!",
                     html: "คุณกรอกข้อมูลไม่สมบูรณ์ ระบบจะพาคุณไปยังหน้าที่ยังกรอกไม่สมบูรณ์",

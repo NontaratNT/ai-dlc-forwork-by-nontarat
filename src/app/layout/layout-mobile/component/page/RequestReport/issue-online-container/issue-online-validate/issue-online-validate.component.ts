@@ -356,6 +356,10 @@ export class IssueOnlineValidateComponent implements OnInit {
 
     formReport: any;
 
+    sessionDamage: any;
+    sessionVillian: any;
+    sessionCriminal: any;
+
     constructor(
         private servicePersonal: PersonalService,
         private _onlineCaseServ: OnlineCaseService,
@@ -412,6 +416,15 @@ export class IssueOnlineValidateComponent implements OnInit {
         this.reload = false;
         this.formLocationLoad = false;
         this.formData = {};
+        this.sessionDamage = await this._onlineCaseServ
+            .SessionDamage({}, User.Current.PersonalId, 'get')
+            .toPromise();
+        this.sessionVillian = await this._onlineCaseServ
+            .SessionVillain({}, User.Current.PersonalId, 'get')
+            .toPromise();
+        this.sessionCriminal = await this._onlineCaseServ
+            .SessionCriminal({}, User.Current.PersonalId, 'get')
+            .toPromise();
         setTimeout(() => {
             this.checkEmtrySession();
             if (!localStorage.getItem("form-config")) {
@@ -432,9 +445,12 @@ export class IssueOnlineValidateComponent implements OnInit {
                 JSON.parse(localStorage.getItem("form-blessing")),
                 JSON.parse(localStorage.getItem("form-informer")),
                 JSON.parse(localStorage.getItem("form-event")),
-                JSON.parse(localStorage.getItem("form-villain")),
-                JSON.parse(localStorage.getItem("form-damage")),
-                JSON.parse(localStorage.getItem("form-criminal-contact"))
+                // JSON.parse(localStorage.getItem("form-villain")),
+                // JSON.parse(localStorage.getItem("form-damage")),
+                // JSON.parse(localStorage.getItem("form-criminal-contact"))
+                this.sessionDamage,
+                this.sessionVillian,
+                this.sessionCriminal
             );
             this.userType = this.mainConponent.userType;
             this.formData = this.mergedFrom;
@@ -775,19 +791,30 @@ export class IssueOnlineValidateComponent implements OnInit {
                                 icon: "success",
                                 confirmButtonText: "ตกลง",
                             }).then(() => {
-                                localStorage.removeItem("form-blessing");
-                                localStorage.removeItem("form-informer");
-                                localStorage.removeItem("form-event");
-                                localStorage.removeItem("form-damage");
-                                localStorage.removeItem("form-villain");
-                                localStorage.removeItem("form-index");
-                                localStorage.removeItem("form-config");
-                                localStorage.removeItem(
-                                    "form-criminal-contact"
-                                );
-                                this._router.navigate([
-                                    "/track-status%3FopenExternalBrowser%3D1",
-                                ]);
+                                // localStorage.removeItem("form-blessing");
+                                // localStorage.removeItem("form-informer");
+                                // localStorage.removeItem("form-event");
+                                // localStorage.removeItem("form-damage");
+                                // localStorage.removeItem("form-villain");
+                                // localStorage.removeItem("form-index");
+                                // localStorage.removeItem("form-config");
+                                // localStorage.removeItem(
+                                //     "form-criminal-contact"
+                                // );
+                                // this._router.navigate([
+                                //     "/track-status%3FopenExternalBrowser%3D1",
+                                // ]);
+                                this._onlineCaseServ.SessionClear(User.Current.PersonalId).subscribe(() => {
+                                    localStorage.removeItem("form-blessing");
+                                    localStorage.removeItem("form-informer");
+                                    localStorage.removeItem("form-event");
+                                    localStorage.removeItem("form-damage");
+                                    localStorage.removeItem("form-villain");
+                                    localStorage.removeItem("form-index");
+                                    localStorage.removeItem("form-config");
+                                    localStorage.removeItem("form-criminal-contact");
+                                    this._router.navigate([ "/track-status%3FopenExternalBrowser%3D1"]);
+                                });
                             });
                         });
                     // setTimeout(() => {
@@ -828,18 +855,17 @@ export class IssueOnlineValidateComponent implements OnInit {
                                 icon: "success",
                                 confirmButtonText: "ตกลง",
                             }).then(() => {
-                                localStorage.removeItem("form-blessing");
-                                localStorage.removeItem("form-informer");
-                                localStorage.removeItem("form-event");
-                                localStorage.removeItem("form-damage");
-                                localStorage.removeItem("form-villain");
-                                localStorage.removeItem("form-villain");
-                                localStorage.removeItem("form-index");
-                                localStorage.removeItem("form-config");
-                                localStorage.removeItem(
-                                    "form-criminal-contact"
-                                );
-                                this._router.navigate(["//track-status%3FopenExternalBrowser%3D1"]);
+                                this._onlineCaseServ.SessionClear(User.Current.PersonalId).subscribe(() => {
+                                    localStorage.removeItem("form-blessing");
+                                    localStorage.removeItem("form-informer");
+                                    localStorage.removeItem("form-event");
+                                    localStorage.removeItem("form-damage");
+                                    localStorage.removeItem("form-villain");
+                                    localStorage.removeItem("form-index");
+                                    localStorage.removeItem("form-config");
+                                    localStorage.removeItem("form-criminal-contact");
+                                    this._router.navigate([ "/track-status%3FopenExternalBrowser%3D1"]);
+                                });
                             });
                         });
                 } else {
@@ -876,7 +902,7 @@ export class IssueOnlineValidateComponent implements OnInit {
         ];
 
         for (let i = 0; i < requiredItems.length; i++) {
-            if (!localStorage.getItem(requiredItems[i])) {
+            if (!localStorage.getItem(requiredItems[i]) && requiredItems[i] != "form-damage") {
                 Swal.fire({
                     title: "ผิดพลาด!",
                     html: "คุณกรอกข้อมูลไม่สมบูรณ์ ระบบจะพาคุณไปยังหน้าที่ยังกรอกไม่สมบูรณ์",

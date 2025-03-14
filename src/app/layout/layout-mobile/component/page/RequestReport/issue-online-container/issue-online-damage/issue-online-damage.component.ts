@@ -1700,12 +1700,17 @@ export class IssueOnlineDamageComponent implements OnInit {
             this.mainConponent.formDataAll.formDamage.listDamageBankOther = this.listDamageBankOther;
             this.mainConponent.formDataAll.formDamage.listDamageOther = this.listDamageOther;
             this.mainConponent.formDataAll.formDamage.listDamageCrytro = this.listDamageCrytro;
-            localStorage.setItem("form-damage",JSON.stringify(this.formData));
+            // localStorage.setItem("form-damage",JSON.stringify(this.formData));
             // console.log(this.formData);
         }
-        if (e != 'tab') {
-            this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
-        }
+         this.isLoading = true;
+         this._OnlineCaseService.SessionDamage(this.formData, User.Current.PersonalId, "create")
+         .subscribe(_ => {
+             this.isLoading = false;
+             if (e != 'tab') {
+                 this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
+             }
+         });
     }
 
     InputConidtions(event) {

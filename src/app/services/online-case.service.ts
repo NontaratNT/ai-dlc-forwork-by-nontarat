@@ -101,6 +101,12 @@ export class OnlineCaseService {
             .body({data: data, personal_id: personal_id, type: type})
             .disableCriticalDialogError().post();
     }
+
+    public SessionCriminal(data: any,personal_id: number,type: string): Observable<any> {
+        return req<any>("CmsOnlineCaseInfo/session-criminal")
+            .body({data: data, personal_id: personal_id, type: type})
+            .disableCriticalDialogError().post();
+    }
     public SessionAttachment(data: any,personal_id: number,type: string): Observable<any> {
         return req<any>("CmsOnlineCaseInfo/session-attachment")
             .body({data: data, personal_id: personal_id, type: type})

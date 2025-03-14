@@ -7,6 +7,9 @@ import { FormValidatorService } from 'src/app/services/form-validator.service';
 import { DatePipe } from '@angular/common';
 import { IssueOnlineService } from 'src/app/services/issue-online.service';
 import { IssueOnlineFileUploadService } from 'src/app/services/issue-online-file-upload.service';
+import { OnlineCaseService } from 'src/app/services/online-case.service';
+import { User } from 'src/app/services/user';
+import { finalize, switchMap } from 'rxjs/operators';
 
 @Component({
     selector: 'app-issue-online-criminal-contact-info-event',
@@ -97,7 +100,8 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         private _formValidate: FormValidatorService,
         private _issueFile: IssueOnlineFileUploadService,
         private datePipe: DatePipe,
-        private issueOnlineService: IssueOnlineService
+        private issueOnlineService: IssueOnlineService,
+        private _OnlineCaseService: OnlineCaseService,
     ) { }
 
     ngOnInit(): void {
@@ -275,22 +279,38 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         this.mainConponent.formDataAll.formCaseChannelCriminalContact = {};
         this.mainConponent.formDataAll.formCriminalContact = this.formData;
         this.mainConponent.formDataAll.formCaseChannelCriminalContact = formCaseChannel;
-        if(localStorage.getItem("form-villain")){
-            const villain = JSON.parse(localStorage.getItem("form-villain"));
-            if(!this.formData.CRIMINAL_TEL && !this.formData.CRIMINAL_SMS && !this.formData.CRIMINAL_OTHER){
-                localStorage.setItem("form-villain",JSON.stringify(Object.assign(villain,{CASE_CHANNEL:[]})));
-            }else{
-                localStorage.setItem("form-villain",JSON.stringify(Object.assign(villain,{CASE_CHANNEL:[formCaseChannel]})));
+
+        const storedVillain = localStorage.getItem("form-villain");
+        const villain = storedVillain ? JSON.parse(storedVillain) : {};
+
+        const CASE_CHANNEL = (!this.formData.CRIMINAL_TEL && !this.formData.CRIMINAL_SMS && !this.formData.CRIMINAL_OTHER) 
+            ? [] 
+            : [formCaseChannel];
+
+        localStorage.setItem("form-villain", JSON.stringify({ ...villain, CASE_CHANNEL }));
+        localStorage.setItem("form-criminal-contact", JSON.stringify({ CASE_REPORT: [this.formData] }) );
+
+        this.isLoading = true;
+        this._OnlineCaseService.SessionVillain({ ...villain, CASE_CHANNEL }, 
+            User.Current.PersonalId, 
+            "create"
+        ).pipe(
+            switchMap(() => 
+                this._OnlineCaseService.SessionCriminal({CASE_REPORT: [this.formData] }, 
+                    User.Current.PersonalId, 
+                    "create"
+                )
+            ),
+            finalize(() => { this.isLoading = false; }) // ลดการซ้ำซ้อนของ this.isLoading = false;
+        ).subscribe(() => {
+            if (e !== 'tab') {
+                this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
             }
-        }else{
-            if(!this.formData.CRIMINAL_TEL && !this.formData.CRIMINAL_SMS && !this.formData.CRIMINAL_OTHER){
-                localStorage.setItem("form-villain",JSON.stringify(Object.assign({},{CASE_CHANNEL:[]})));
-            }else{
-                localStorage.setItem("form-villain",JSON.stringify(Object.assign({},{CASE_CHANNEL:[formCaseChannel]})));
-            }
-        }
-        localStorage.setItem("form-criminal-contact",JSON.stringify(Object.assign({CASE_REPORT:[this.formData]})));
-        this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
+        });
+        
+        
+        
+        // this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
     }
 
     Back(e) {
