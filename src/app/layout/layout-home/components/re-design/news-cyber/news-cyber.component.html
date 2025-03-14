@@ -1,11 +1,11 @@
 <div class="containerNews">
      <div class="headerNews">
-          <h2 class="titleNews" #titleNews [ngClass]="{'slide-in': isVisible}">ข่าวประชาสัมพันธ์ / เตือนภัยไซเบอร์</h2>
-          <div class="buttonNews" #buttonNews [ngClass]="{'slide-in': isVisible}" (click)="RedirectUrl('/news')">ดูข่าวสารทั้งหมด</div>
+          <h2 class="titleNews">ข่าวประชาสัมพันธ์ / เตือนภัยไซเบอร์</h2>
+          <div class="buttonNews" (click)="RedirectUrl('/news')">ดูข่าวสารทั้งหมด</div>
      </div>
      <div class="cardNews">
           <ng-container *ngFor="let news of paginatedNews[currentPage]">
-               <div class="boxNews" #boxNews [ngClass]="{'slide-in': isVisible}" (click)="navigateToDetail(news.NewsId)">
+               <div class="boxNews" (click)="navigateToDetail(news.NewsId)">
                     <img [src]="news.ImageUrl" [alt]="news.NewsTitle" class="imageNews">
                     <div class="detailNews">
                          <span class="categoryNews">{{ news.CategoryName }}</span>

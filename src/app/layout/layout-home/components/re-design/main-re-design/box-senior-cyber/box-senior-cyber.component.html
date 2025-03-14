@@ -53,9 +53,9 @@
 </div> -->
 
 <div *ngIf="types === 'senior'">
-     
+
      <div class="bgImage" *ngFor="let slide of slides" [ngStyle]="{'background-image': 'url(' + slide.images + ')'}">
-          <button class="backbtn"  (click)="navigateBack()">กลับไปหน้าแรก</button>
+          <button class="backbtn" (click)="navigateBack()">กลับไปหน้าแรก</button>
           <div class="bixMainSenior">
                <div class="boxLeft">
                     <img class="logoPoliceSenior" src="assets/image/img/senior/logo-police.png" alt=""
@@ -113,21 +113,21 @@
           <div class="headerSchedule">
                <h1>ตารางการออกอากาศ</h1>
           </div>
-          
+
           <div class="schedule-box">
                <div class="column">
-                         <h1 class="Z-header">ZOOM</h1>
-                         <div class="event-container" *ngFor="let event of scheduleZoom">
-                              <div class="event-date">
-                                   <strong>{{event.date}}</strong>
-                                   <span>{{event.month}}</span>
-                              </div>
-                              <hr class="line">
-                              <div class="event-details">
-                                   <div class="event-item">{{event.title}}</div>
-                                   <div class="event-item ">{{event.time}}</div>
-                              </div>
+                    <h1 class="Z-header">ZOOM</h1>
+                    <div class="event-container" *ngFor="let event of scheduleZoom">
+                         <div class="event-date">
+                              <strong>{{event.date}}</strong>
+                              <span>{{event.month}}</span>
                          </div>
+                         <hr class="line">
+                         <div class="event-details">
+                              <div class="event-item">{{event.title}}</div>
+                              <div class="event-item ">{{event.time}}</div>
+                         </div>
+                    </div>
 
                </div>
 
@@ -146,7 +146,7 @@
                     </div>
                </div>
           </div>
-          
+
      </div>
 </div>
 
@@ -167,90 +167,98 @@
                     </div>
                     <img src="assets/image/img/senior/info.png" class="logoInfo" alt="">
                     <img src="assets/image/img/senior/re.png" class="logoResult" alt="">
+                    <div class="d-flex flex-column my-2">
+                         <span class="textSocial">ติดตามโซเชียลมิเดีย</span>
+                         <div class="d-flex flex-row">
+                              <img src="assets/icon/youtube-red.png" alt="logo" class="" width="30" (click)="openLinkYouTube()">
+                         </div>
+                    </div>
                </div>
                <div class="boxRight">
                     <img src="assets/image/img/senior/senior60.png" class="senior60" alt="">
                </div>
           </div>
-
-          <!-- <div class="boxPages">
-               <img src="assets/image/img/senior/group-ll.png" class="groupLL" alt="">
-               <img src="assets/image/img/senior/text.png" class="imgText" alt="">
-               <div class="boxFacebook">
-                    <div class="buttonSenior"
-                         (click)="openLink('https://zoom.us/j/2712957022?pwd=V0hRMkhkUDhuY2t3eldXT2plbDVDUT09')">
-                         <img src="assets/image/img/senior/camera.png" class="camera" alt="">
-                         <label for="" class="textZoom1">Join Zoom Meeting</label>
-                    </div>
-               </div>
-               <div>
-                    <img src="assets/image/img/senior/info.png" class="info" alt="">
-               </div>
-               <div>
-                    <img src="assets/image/img/senior/re.png" class="result" alt="">
-               </div>
-          </div>
-          <img src="assets/image/img/senior/senior60.png" class="senior60" alt=""> -->
      </div>
 </div>
 
-<dx-popup class="popup channel" [showTitle]="true" title="ช่องทางที่ทำให้รู้จักกับโครงการ"
-    [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="popupVisible" [showCloseButton]="true">
-    <div *dxTemplate="let data of 'content'">
-        <dx-scroll-view [showScrollbar]="'always'" style="height: calc(100% - 100px);background-color: #2D437C;">
-            <div class="mt-5" style="text-align: center;margin: 20px;">
-                <h1 style="color: #fff;">แบบสอบถามช่องทางที่ทำให้รู้จักกับโครงการ</h1>
-            </div>
-            <div style=" text-align: center; background-color: #2D437C; padding: 2%;">
-               <dx-multi-view height="100%" [selectedIndex]="indexTab"  [animationEnabled]="false" [swipeEnabled]="false">
-                    <dxi-item>
-                         <dx-form #formChannel [formData]="questionnaireForm"  [showColonAfterLabel]="false" labelLocation="top" [colCount]="1">
-                              <dxi-item template="temptitle" [colSpan]="1">
-                                   <dxo-label text="ท่านรู้จักโครงการ Senior Cyber Club จากช่องทางใด" [showColon]="false"></dxo-label>
-                                   <dxi-validation-rule type="required" message="กรุณาเลือกช่องทาง">
-                                   </dxi-validation-rule>
-                               </dxi-item>
-                               <div *dxTemplate="let data of 'temptitle'">
-                                   <dx-radio-group class="custom-radio" [dataSource]="radioGroupItems" layout="vertical" valueExpr="SENIOR_CHANNEL_ID" displayExpr="SENIOR_CHANNEL_NAME" [(value)]="questionnaireForm.SENIOR_CHANNEL_ID" (onValueChanged)="ChangeRadioChannel($event)"></dx-radio-group>
-                                   <dx-text-box *ngIf="questionnaireForm?.SENIOR_CHANNEL_ID == 6"  [(value)]="questionnaireForm.OTHER_TEXT" [placeholder]="'ระบุช่องทาง'"></dx-text-box>
-                               </div>
-                          </dx-form>
-                    </dxi-item>
-                    <dxi-item>
-                         <h1 style="color: #fff;">ที่อยู่ปัจจุบันของท่าน</h1>
-                         <dx-form #formAddress [formData]="questionnaireForm"  [showColonAfterLabel]="false" labelLocation="top" [colCount]="1">
-                              <dxi-item template="tempProvince" [colSpan]="1">
-                                   <dxo-label text="จังหวัด" [showColon]="false"></dxo-label>
-                                   <dxi-validation-rule type="required" message="กรุณาเลือกจังหวัด">
-                                   </dxi-validation-rule>
-                               </dxi-item>
-                               <div *dxTemplate="let data of 'tempProvince'">
-                                   <dx-select-box [dataSource]="province" displayExpr="PROVINCE_NAME_THA" valueExpr="PROVINCE_ID" [(value)]="questionnaireForm.PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true" placeholder="จังหวัด" [showClearButton]="true" (onValueChanged)="OnSelectProvice($event)">
-                                   </dx-select-box>
-                               </div>
-                              <dxi-item template="tempDistrict" [colSpan]="1">
-                                   <dxo-label text="อำเภอ/เขต" [showColon]="false"></dxo-label>
-                                   <dxi-validation-rule type="required" message="กรุณาเลือกอำเภอ">
-                                   </dxi-validation-rule>
-                               </dxi-item>
-                               <div *dxTemplate="let data of 'tempDistrict'">
-                                   <dx-select-box [dataSource]="district" displayExpr="DISTRICT_NAME_THA" valueExpr="DISTRICT_ID" [(value)]="questionnaireForm.DISTICT_ID" searchExpr="DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="อำเภอ/เขต" [disabled]="disableDistrict"
-                                   [showClearButton]="true">
-                               </dx-select-box>
-                               </div>
-                          </dx-form>
-                    </dxi-item>
-               </dx-multi-view>
-            </div>
-        </dx-scroll-view>
-        <div class="text-center btn-dx mb-3">
-          <dx-button *ngIf="indexTab == 0" [width]="120" [height]="50" type="danger" (onClick)="back()">ยกเลิก</dx-button>
-          <dx-button *ngIf="indexTab == 1" [width]="120" [height]="50" type="danger" (onClick)="back()">ย้อนกลับ</dx-button>&nbsp;
-          <dx-button *ngIf="indexTab == 0" [width]="120"  [height]="50" type="success" (onClick)="nextPage()">ถัดไป</dx-button>
-          <dx-button *ngIf="indexTab == 1" [width]="120"  [height]="50" type="success" (onClick)="clickZoom()">บันทึก</dx-button>
-      </div>
-    </div>
+<dx-popup class="popup channel" [showTitle]="true" title="ช่องทางที่ทำให้รู้จักกับโครงการ" [dragEnabled]="false"
+     [closeOnOutsideClick]="false" [(visible)]="popupVisible" [showCloseButton]="true">
+     <div *dxTemplate="let data of 'content'">
+          <dx-scroll-view [showScrollbar]="'always'" style="height: calc(100% - 100px);background-color: #2D437C;">
+               <div class="mt-5" style="text-align: center;margin: 20px;">
+                    <h1 style="color: #fff;">แบบสอบถามช่องทางที่ทำให้รู้จักกับโครงการ</h1>
+               </div>
+               <div style=" text-align: center; background-color: #2D437C; padding: 2%;">
+                    <dx-multi-view height="100%" [selectedIndex]="indexTab" [animationEnabled]="false"
+                         [swipeEnabled]="false">
+                         <dxi-item>
+                              <dx-form #formChannel [formData]="questionnaireForm" [showColonAfterLabel]="false"
+                                   labelLocation="top" [colCount]="1">
+                                   <dxi-item template="temptitle" [colSpan]="1">
+                                        <dxo-label text="ท่านรู้จักโครงการ Senior Cyber Club จากช่องทางใด"
+                                             [showColon]="false"></dxo-label>
+                                        <dxi-validation-rule type="required" message="กรุณาเลือกช่องทาง">
+                                        </dxi-validation-rule>
+                                   </dxi-item>
+                                   <div *dxTemplate="let data of 'temptitle'">
+                                        <dx-radio-group class="custom-radio" [dataSource]="radioGroupItems"
+                                             layout="vertical" valueExpr="SENIOR_CHANNEL_ID"
+                                             displayExpr="SENIOR_CHANNEL_NAME"
+                                             [(value)]="questionnaireForm.SENIOR_CHANNEL_ID"
+                                             (onValueChanged)="ChangeRadioChannel($event)"></dx-radio-group>
+                                        <dx-text-box *ngIf="questionnaireForm?.SENIOR_CHANNEL_ID == 6"
+                                             [(value)]="questionnaireForm.OTHER_TEXT"
+                                             [placeholder]="'ระบุช่องทาง'"></dx-text-box>
+                                   </div>
+                              </dx-form>
+                         </dxi-item>
+                         <dxi-item>
+                              <h1 style="color: #fff;">ที่อยู่ปัจจุบันของท่าน</h1>
+                              <dx-form #formAddress [formData]="questionnaireForm" [showColonAfterLabel]="false"
+                                   labelLocation="top" [colCount]="1">
+                                   <dxi-item template="tempProvince" [colSpan]="1">
+                                        <dxo-label text="จังหวัด" [showColon]="false"></dxo-label>
+                                        <dxi-validation-rule type="required" message="กรุณาเลือกจังหวัด">
+                                        </dxi-validation-rule>
+                                   </dxi-item>
+                                   <div *dxTemplate="let data of 'tempProvince'">
+                                        <dx-select-box [dataSource]="province" displayExpr="PROVINCE_NAME_THA"
+                                             valueExpr="PROVINCE_ID" [(value)]="questionnaireForm.PROVINCE_ID"
+                                             searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true" placeholder="จังหวัด"
+                                             [showClearButton]="true" (onValueChanged)="OnSelectProvice($event)">
+                                        </dx-select-box>
+                                   </div>
+                                   <dxi-item template="tempDistrict" [colSpan]="1">
+                                        <dxo-label text="อำเภอ/เขต" [showColon]="false"></dxo-label>
+                                        <dxi-validation-rule type="required" message="กรุณาเลือกอำเภอ">
+                                        </dxi-validation-rule>
+                                   </dxi-item>
+                                   <div *dxTemplate="let data of 'tempDistrict'">
+                                        <dx-select-box [dataSource]="district" displayExpr="DISTRICT_NAME_THA"
+                                             valueExpr="DISTRICT_ID" [(value)]="questionnaireForm.DISTICT_ID"
+                                             searchExpr="DISTRICT_NAME_THA" [searchEnabled]="true"
+                                             placeholder="อำเภอ/เขต" [disabled]="disableDistrict"
+                                             [showClearButton]="true">
+                                        </dx-select-box>
+                                   </div>
+                              </dx-form>
+                         </dxi-item>
+                    </dx-multi-view>
+               </div>
+          </dx-scroll-view>
+          <div class="text-center btn-dx mb-3">
+               <dx-button *ngIf="indexTab == 0" [width]="120" [height]="50" type="danger"
+                    (onClick)="back()">ยกเลิก</dx-button>
+               <dx-button *ngIf="indexTab == 1" [width]="120" [height]="50" type="danger"
+                    (onClick)="back()">ย้อนกลับ</dx-button>&nbsp;
+               <dx-button *ngIf="indexTab == 0" [width]="120" [height]="50" type="success"
+                    (onClick)="nextPage()">ถัดไป</dx-button>
+               <dx-button *ngIf="indexTab == 1" [width]="120" [height]="50" type="success"
+                    (onClick)="clickZoom()">บันทึก</dx-button>
+          </div>
+     </div>
 </dx-popup>
 
-<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="_isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="_isLoading" [showIndicator]="true" [showPane]="true"
+     [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
 </dx-load-panel>

@@ -25,23 +25,23 @@ export class NewsCyberComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngAfterViewInit() {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        this.isVisible = entry.isIntersecting;
-      });
-    }, { threshold: 0.2 });
+    // const observer = new IntersectionObserver((entries) => {
+    //   entries.forEach(entry => {
+    //     this.isVisible = entry.isIntersecting;
+    //   });
+    // }, { threshold: 0.2 });
 
-    if (this.boxNews && this.boxNews.nativeElement) {
-      observer.observe(this.boxNews.nativeElement);
-    }
+    // if (this.boxNews && this.boxNews.nativeElement) {
+    //   observer.observe(this.boxNews.nativeElement);
+    // }
 
-    if (this.titleNews && this.titleNews.nativeElement) {
-      observer.observe(this.titleNews.nativeElement);
-    }
+    // if (this.titleNews && this.titleNews.nativeElement) {
+    //   observer.observe(this.titleNews.nativeElement);
+    // }
 
-    if (this.buttonNews && this.buttonNews.nativeElement) {
-      observer.observe(this.buttonNews.nativeElement);
-    }
+    // if (this.buttonNews && this.buttonNews.nativeElement) {
+    //   observer.observe(this.buttonNews.nativeElement);
+    // }
   }
 
   ngOnInit(): void {
