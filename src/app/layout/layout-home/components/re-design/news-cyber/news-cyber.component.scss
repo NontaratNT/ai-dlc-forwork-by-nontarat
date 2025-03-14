@@ -6,36 +6,24 @@
      flex-direction: column;
      gap: 1.5vw;
 
-     transition: opacity 5s ease-out, transform 5s ease-out;
-
-     &.slide-in {
-          opacity: 1;
-          transform: translateY(0);
-     }
-     .subtitleNews{
+     .subtitleNews {
           color: #273880;
           font-size: 1.3rem !important;
      }
+
      .headerNews {
           display: flex;
           justify-content: space-between;
           align-items: center;
 
-          .titleNews,.subtitleNews {
+          .titleNews,
+          .subtitleNews {
                font-size: 1.3rem !important;
-               font-weight: bold; 
+               font-weight: bold;
                color: #273880;
                margin: 0;
-               transform: translateX(-100%);
-               transition: opacity 1s ease-out, transform 1s ease-out;
-               opacity: 0;
           }
 
-          .titleNews.slide-in {
-               opacity: 1;
-               transform: translateX(0);
-               transition-delay: calc(0.2s * var(--i));
-          }
 
           .buttonNews {
                font-size: 1vw;
@@ -44,16 +32,6 @@
                border: 2px solid #FF5A01;
                border-radius: 6px;
                padding: 0.6vw 1.2vw;
-               transition: 0.3s;
-               transform: translateX(100%);
-               transition: opacity 1s ease-out, transform 1s ease-out;
-               opacity: 0;
-          }
-
-          .buttonNews.slide-in {
-               opacity: 1;
-               transform: translateX(0);
-               transition-delay: calc(0.2s * var(--i));
           }
 
           .buttonNews:hover {
@@ -73,19 +51,8 @@
                flex-direction: column;
                width: 100%;
                padding: 0;
-               transform: translateY(30px);
-               transition: opacity 1s ease-out, transform 1s ease-out;
-               opacity: 0;
-               /* ตั้งค่าเริ่มต้นให้ไม่เห็น */
                cursor: pointer;
-               /* เพิ่ม transition-delay */
-               &.slide-in {
-                    opacity: 1;
-                    transform: translateY(0);
-                    transition-delay: calc(0.2s * var(--i));
-                    /* ใช้ค่าของ i ที่กำหนดเพื่อหน่วงเวลา */
-               }
-
+             
                .imageNews {
                     width: 100%;
                     height: 20vw;
@@ -127,7 +94,7 @@
                          -webkit-box-orient: vertical;
                     }
 
-                    .dateNews{
+                    .dateNews {
                          display: flex;
                          align-items: center;
                          gap: 0.4vw;

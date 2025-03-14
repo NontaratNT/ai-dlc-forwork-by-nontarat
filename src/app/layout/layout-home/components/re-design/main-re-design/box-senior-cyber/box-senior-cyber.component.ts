@@ -133,9 +133,9 @@ export class BoxSeniorCyberComponent implements OnInit {
       });
       return;
     }
-  
+
     this._isLoading = true; // Set loading only after validation passes
-  
+
     this.userServ.SaveQuestion(this.questionnaireForm).pipe(
       switchMap(() => this.userServ.UpdateSeniorFlag(User.Current.UserId)),
       switchMap(() => this.userServ.UpdateSeniorFlagAzure(User.Current.UserId))
@@ -152,7 +152,7 @@ export class BoxSeniorCyberComponent implements OnInit {
     });
   }
 
-  nextPage(){
+  nextPage() {
     if (!this.formChannel.instance.validate().isValid) {
       Swal.fire({
         title: 'ผิดพลาด!',
@@ -168,7 +168,7 @@ export class BoxSeniorCyberComponent implements OnInit {
     this.indexTab === 1 ? this.indexTab = 0 : this.popupVisible = false;
   }
 
-  
+
 
   clickPopup() {
     if (!User?.Current) {
@@ -209,11 +209,11 @@ export class BoxSeniorCyberComponent implements OnInit {
     this.district = [];
 
     if (e.value) {
-        this.disableDistrict = false;
-        this.serviceProvince.GetDistrictofProvince(e.value).subscribe(_ => this.district = _);
+      this.disableDistrict = false;
+      this.serviceProvince.GetDistrictofProvince(e.value).subscribe(_ => this.district = _);
     }
 
-}
+  }
 
   closePopup() {
     this.popupVisible = false;
@@ -223,6 +223,12 @@ export class BoxSeniorCyberComponent implements OnInit {
     this.router.navigate(["/"]);
   }
 
+  openLinkYouTube() {
+    window.open("https://www.youtube.com/channel/UC8P6PJszHnKbvd1vjbt0Y2Q", "_blank");
+  }
+
+
+
   ChangeRadioChannel(e: any) {
     this.questionnaireForm.SENIOR_CHANNEL_ID = e.value;
     if (e.value !== 6) {
@@ -231,7 +237,7 @@ export class BoxSeniorCyberComponent implements OnInit {
   }
 
 
-  navigateBack(){
+  navigateBack() {
     this.router.navigate(['/']);
   }
 
