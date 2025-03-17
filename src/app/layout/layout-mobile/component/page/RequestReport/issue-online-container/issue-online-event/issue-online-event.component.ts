@@ -106,6 +106,47 @@ export class IssueOnlineEventComponent implements OnInit {
         { org_id: 2605, org_name: "กองบังคับการปราบปรามการกระทำความเกี่ยวกับการค้ามนุษย์                                      (บก.ปคม.)" },
         { org_id: 2387, org_name: 'กองบังคับการปราบปราม                                                                 (บก.ป.)'}
     ];
+    orgUnits = [
+        {
+            org_id: 3536,
+            org_name: "บก.สอท.1",
+            org_locations: ["ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ"],
+            location_detail: "รับผิดชอบพื้นที่ของ กองบัญชาการตำรวจนครบาล (บช.น.)<br>• พื้นที่: กรุงเทพมหานคร"
+        },
+        {
+            org_id: 3548,
+            org_name: "บก.สอท.2",
+            org_locations: ["เมืองทองธานี จ.นนทบุรี"],
+            location_detail: "รับผิดชอบพื้นที่ของ ตำรวจภูธรภาค 1, ภาค 2 และ ภาค 7 <br> "
+                + "• <b>ตำรวจภูธรภาค 1:</b> นนทบุรี, ปทุมธานี, สมุทรปราการ, พระนครศรีอยุธยา, อ่างทอง, สิงห์บุรี, ลพบุรี, ชัยนาท, สระบุรี <br> "
+                + "• <b>ตำรวจภูธรภาค 2:</b> ชลบุรี, ระยอง, จันทบุรี, ตราด, ฉะเชิงเทรา, ปราจีนบุรี, สระแก้ว, นครนายก <br> "
+                + "• <b>ตำรวจภูธรภาค 7:</b> นครปฐม, ราชบุรี, สุพรรณบุรี, กาญจนบุรี, สมุทรสาคร, สมุทรสงคราม, เพชรบุรี, ประจวบคีรีขันธ์"
+        },
+        {
+            org_id: 3559,
+            org_name: "บก.สอท.3",
+            org_locations: ["1.ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ", "2.ถ.มิตรภาพ ต.ในเมือง อ.เมือง จ.ขอนแก่น"],
+            location_detail: "รับผิดชอบพื้นที่ของ ตำรวจภูธรภาค 3 และ ภาค 4 <br> "
+                + "• <b>ตำรวจภูธรภาค 3:</b> นครราชสีมา, บุรีรัมย์, สุรินทร์, ศรีสะเกษ, ชัยภูมิ <br> "
+                + "• <b>ตำรวจภูธรภาค 4:</b> ขอนแก่น, มหาสารคาม, กาฬสินธุ์, ร้อยเอ็ด, อุดรธานี, หนองบัวลำภู, หนองคาย, เลย, สกลนคร, นครพนม, บึงกาฬ, มุกดาหาร"
+        },
+        {
+            org_id: 3567,
+            org_name: "บก.สอท.4",
+            org_locations: ["1.ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ", "2.ต.ป่าแดด อ.เมืองเชียงใหม่ จ.เชียงใหม่"],
+            location_detail: "รับผิดชอบพื้นที่ของ ตำรวจภูธรภาค 5 และ ภาค 6 <br> "
+                + "• <b>ตำรวจภูธรภาค 5:</b> เชียงใหม่, เชียงราย, ลำพูน, ลำปาง, แม่ฮ่องสอน, พะเยา, แพร่, น่าน <br> "
+                + "• <b>ตำรวจภูธรภาค 6:</b> พิษณุโลก, เพชรบูรณ์, พิจิตร, อุตรดิตถ์, กำแพงเพชร, สุโขทัย, ตาก, นครสวรรค์, อุทัยธานี"
+        },
+        {
+            org_id: 3578,
+            org_name: "บก.สอท.5",
+            org_locations: ["1.ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ", "2.ต.บางกุ้ง อ.เมืองสุราษฎร์ธานี จ.สุราษฎร์ธานี"],
+            location_detail: "รับผิดชอบพื้นที่ของ ตำรวจภูธรภาค 8 และ ภาค 9 <br> "
+                + "• <b>ตำรวจภูธรภาค 8:</b> ชุมพร, สุราษฎร์ธานี, นครศรีธรรมราช, พังงา, ภูเก็ต, ระนอง, กระบี่ <br> "
+                + "• <b>ตำรวจภูธรภาค 9:</b> ตรัง, พัทลุง, สงขลา, สตูล, ปัตตานี, ยะลา, นราธิวาส"
+        }
+    ];
     formdataOrgsendcase: any = {
         ORG_LOCATION_TYPE: null,
         ORG_LOCATION_ID: null,
@@ -363,99 +404,29 @@ export class IssueOnlineEventComponent implements OnInit {
         }
     }
 
-    onvaluechangeorgmainwalkin(e, type) {
+    onvaluechangeorgmainwalkin(e) {
         this.formData.ORG_PROVINCE_MAP_AREA_ID = null;
         this.formData.ORG_PROVINCE_MAP_AREA_NAME = null;
-
-        if (e.value) {
-            if (type === 1) {
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID2 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID3 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID4 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID5 = null;
-                const data: any = this.orgtype2_1.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID1 = data[0].org_id;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_NAME1 =
-                    data[0].org_name;
-
-                // * parame insert
-                this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formData.WALKIN_POLICE_STATION_ID = data[0].org_id;
-                this.formData.WALKIN_POLICE_STATION = data[0].org_name;
-            }
-            if (type === 2) {
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID1 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID3 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID4 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID5 = null;
-                const data: any = this.orgtype2_2.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID2 = data[0].org_id;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_NAME2 =
-                    data[0].org_name;
-
-                // * parame insert
-                this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formData.WALKIN_POLICE_STATION_ID = data[0].org_id;
-                this.formData.WALKIN_POLICE_STATION = data[0].org_name;
-            } else if (type === 3) {
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID1 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID2 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID4 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID5 = null;
-                const data: any = this.orgtype2_3.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID3 = data[0].org_id;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_NAME3 =
-                    data[0].org_name;
-
-                // * parame insert
-                this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formData.WALKIN_POLICE_STATION_ID = data[0].org_id;
-                this.formData.WALKIN_POLICE_STATION = data[0].org_name;
-            } else if (type === 4) {
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID1 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID2 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID3 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID5 = null;
-                const data: any = this.orgtype2_4.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID4 = data[0].org_id;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_NAME4 =
-                    data[0].org_name;
-
-                // * parame insert
-                this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formData.WALKIN_POLICE_STATION_ID = data[0].org_id;
-                this.formData.WALKIN_POLICE_STATION = data[0].org_name;
-            } else if (type === 5) {
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID1 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID2 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID3 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID4 = null;
-                const data: any = this.orgtype2_5.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID5 = data[0].org_id;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_NAME5 =
-                    data[0].org_name;
-
-                // * parame insert
-                this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formData.WALKIN_POLICE_STATION_ID = data[0].org_id;
-                this.formData.WALKIN_POLICE_STATION = data[0].org_name;
-            }
-        }
+    
+        if (!e.value) return;
+    
+        // Reset all ORG_LOCATION_MAIN_WALKIN_ID fields
+        this.formdataOrgsendcasewalkin[`ORG_LOCATION_MAIN_WALKIN_ID`] = null;
+        this.formdataOrgsendcasewalkin[`ORG_LOCATION_MAIN_WALKIN_NAME`] = null;
+    
+        // Filter the selected organization
+        const selectedData = this.orgUnits.find((r) => r.org_id === e.value);
+        if (!selectedData) return;
+    
+        // Set selected values
+        this.formdataOrgsendcasewalkin.ORG_LOCATION_WALKIN_TYPE = 2;
+        this.formdataOrgsendcasewalkin[`ORG_LOCATION_MAIN_WALKIN_ID`] = selectedData.org_id;
+        this.formdataOrgsendcasewalkin[`ORG_LOCATION_MAIN_WALKIN_NAME`] = selectedData.org_name;
+    
+        // Assign values to formData for insertion
+        this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
+        this.formData.WALKIN_POLICE_STATION_ID = selectedData.org_id;
+        this.formData.WALKIN_POLICE_STATION = selectedData.org_name;
     }
 
     onvaluechangeorgcenterwalkin(e) {
@@ -550,99 +521,31 @@ export class IssueOnlineEventComponent implements OnInit {
         }
     }
 
-    onvaluechangeorgmain(e, type) {
+    onvaluechangeorgmain(e) {
         this.formData.ORG_PROVINCE_MAP_AREA_ID = null;
         this.formData.ORG_PROVINCE_MAP_AREA_NAME = null;
-
-        if (e.value) {
-            if (type == 1) {
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = null;
-                const data: any = this.orgtype2_1.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = data[0].org_id;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME1 =
-                    data[0].org_name;
-
-                //parame insert
-                this.formData.ORG_LOCATION_TYPE = 2;
-                this.formData.ORG_LOCATION_ID = data[0].org_id;
-                this.formData.ORG_LOCATION_NAME = data[0].org_name;
-            }
-            if (type == 2) {
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = null;
-                const data: any = this.orgtype2_2.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = data[0].org_id;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME2 =
-                    data[0].org_name;
-
-                //parame insert
-                this.formData.ORG_LOCATION_TYPE = 2;
-                this.formData.ORG_LOCATION_ID = data[0].org_id;
-                this.formData.ORG_LOCATION_NAME = data[0].org_name;
-            } else if (type == 3) {
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = null;
-                const data: any = this.orgtype2_3.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = data[0].org_id;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME3 =
-                    data[0].org_name;
-
-                //parame insert
-                this.formData.ORG_LOCATION_TYPE = 2;
-                this.formData.ORG_LOCATION_ID = data[0].org_id;
-                this.formData.ORG_LOCATION_NAME = data[0].org_name;
-            } else if (type == 4) {
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = null;
-                const data: any = this.orgtype2_4.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = data[0].org_id;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME4 =
-                    data[0].org_name;
-
-                //parame insert
-                this.formData.ORG_LOCATION_TYPE = 2;
-                this.formData.ORG_LOCATION_ID = data[0].org_id;
-                this.formData.ORG_LOCATION_NAME = data[0].org_name;
-            } else if (type == 5) {
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = null;
-                const data: any = this.orgtype2_5.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = data[0].org_id;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME5 =
-                    data[0].org_name;
-
-                //parame insert
-                this.formData.ORG_LOCATION_TYPE = 2;
-                this.formData.ORG_LOCATION_ID = data[0].org_id;
-                this.formData.ORG_LOCATION_NAME = data[0].org_name;
-            }
+    
+        if (!e.value) return;
+    
+        // Reset all ORG_LOCATION_MAIN_ID fields dynamically
+        for (let i = 1; i <= 5; i++) {
+            this.formdataOrgsendcase[`ORG_LOCATION_MAIN_ID`] = null;
+            this.formdataOrgsendcase[`ORG_LOCATION_MAIN_NAME`] = null;
         }
+    
+        // Get the correct dataset dynamically
+        const selectedData = this.orgUnits.find((r) => r.org_id === e.value);
+        if (!selectedData) return;
+    
+        // Assign values
+        this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
+        this.formdataOrgsendcase[`ORG_LOCATION_MAIN_ID`] = selectedData.org_id;
+        this.formdataOrgsendcase[`ORG_LOCATION_MAIN_NAME`] = selectedData.org_name;
+    
+        // Insert parameters
+        this.formData.ORG_LOCATION_TYPE = 2;
+        this.formData.ORG_LOCATION_ID = selectedData.org_id;
+        this.formData.ORG_LOCATION_NAME = selectedData.org_name;
     }
 
     onvaluechangeorgcenter(e) {

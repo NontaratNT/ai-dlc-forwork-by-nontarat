@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { DxFormComponent, DxSelectBoxComponent } from "devextreme-angular";
 import Swal from "sweetalert2";
-import {  CmsOccupationsService } from "src/app/services/cms-occupations.service";
+import { CmsOccupationsService } from "src/app/services/cms-occupations.service";
 import { PersonalService } from "src/app/services/personal.service";
 import { ProvinceService } from "src/app/services/province.service";
 import { DistrictService } from "src/app/services/district.service";
@@ -35,7 +35,7 @@ export class IssueOnlineEventComponent implements OnInit {
     @ViewChild('formChannel', { static: false }) formChannel: DxFormComponent;
     @ViewChild("selectCaseType", { static: false }) selectCaseType: DxSelectBoxComponent;
     @ViewChild("selectPresentProvicelocationwalkin", { static: false }) selectPresentProvicelocationWalkin: DxSelectBoxComponent;;
-    @ViewChild("selectorgwalkin", { static: false })  selectorgwalkin: DxSelectBoxComponent;
+    @ViewChild("selectorgwalkin", { static: false }) selectorgwalkin: DxSelectBoxComponent;
     @ViewChild("selectPresentProvicelocation", { static: false }) selectPresentProvicelocation: DxSelectBoxComponent;
     @ViewChild("selectorg", { static: false }) selectorg: DxSelectBoxComponent;
     @ViewChild("formInformer3", { static: false }) formInformer3: DxFormComponent;
@@ -73,7 +73,7 @@ export class IssueOnlineEventComponent implements OnInit {
     recovery = false;
     edit = false;
 
-    maxDateValue:Date = new Date();
+    maxDateValue: Date = new Date();
 
     checkboxLocationwalkin: any = {};
     formdataOrgsendcasewalkin: any = {};
@@ -83,7 +83,7 @@ export class IssueOnlineEventComponent implements OnInit {
 
     channel_tel = false;
     indexEdit = 0;
-    channel_data : any = [];
+    channel_data: any = [];
 
     walkInType = [
         { ID: 1, TEXT: "ยังไม่เคยพบ" },
@@ -92,17 +92,54 @@ export class IssueOnlineEventComponent implements OnInit {
     radiocheckorganize1 = [{ id: 1, text: "สถานีตำรวจ" }];
     radiocheckorganize2 = [{ id: 2, text: "กองบัญชาการตำรวจสืบสวนสอบสวนอาชญากรรมทางเทคโนโลยี" }];
     radiocheckorganize3 = [{ id: 3, text: "กองบัญชาการตำรวจสอบสวนกลาง (ลาดพร้าว)" }];
-    orgtype2_1 = [ { org_id: 3536, org_name: "บก.สอท.1",org_location1:"ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ"}];
-    orgtype2_2 = [{ org_id: 3548, org_name: "บก.สอท.2",org_location1:"เมืองทองธานี จ.นนทบุรี"}];
-    orgtype2_3 = [{ org_id: 3559, org_name: "บก.สอท.3",org_location1:"1.ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ",org_location2:"2.ถ.มิตรภาพ ต.ในเมือง อ.เมือง จ.ขอนแก่น"}];
-    orgtype2_4 = [{ org_id: 3567, org_name: "บก.สอท.4",org_location1:"1.ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ",org_location2:"2.ต.ป่าแดด อ.เมืองเชียงใหม่ จ.เชียงใหม่"}];
-    orgtype2_5 = [{ org_id: 3578, org_name: "บก.สอท.5",org_location1:"1.ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ",org_location2:"2.ต.บางกุ้ง อ.เมืองสุราษฎร์ธานี จ.สุราษฏร์ธานี"}];
+    orgUnits = [
+        {
+            org_id: 3536,
+            org_name: "บก.สอท.1",
+            org_locations: ["ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ"],
+            location_detail: "รับผิดชอบพื้นที่ของ กองบัญชาการตำรวจนครบาล (บช.น.)<br>• พื้นที่: กรุงเทพมหานคร"
+        },
+        {
+            org_id: 3548,
+            org_name: "บก.สอท.2",
+            org_locations: ["เมืองทองธานี จ.นนทบุรี"],
+            location_detail: "รับผิดชอบพื้นที่ของ ตำรวจภูธรภาค 1, ภาค 2 และ ภาค 7 <br> "
+                + "• <b>ตำรวจภูธรภาค 1:</b> นนทบุรี, ปทุมธานี, สมุทรปราการ, พระนครศรีอยุธยา, อ่างทอง, สิงห์บุรี, ลพบุรี, ชัยนาท, สระบุรี <br> "
+                + "• <b>ตำรวจภูธรภาค 2:</b> ชลบุรี, ระยอง, จันทบุรี, ตราด, ฉะเชิงเทรา, ปราจีนบุรี, สระแก้ว, นครนายก <br> "
+                + "• <b>ตำรวจภูธรภาค 7:</b> นครปฐม, ราชบุรี, สุพรรณบุรี, กาญจนบุรี, สมุทรสาคร, สมุทรสงคราม, เพชรบุรี, ประจวบคีรีขันธ์"
+        },
+        {
+            org_id: 3559,
+            org_name: "บก.สอท.3",
+            org_locations: ["1.ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ", "2.ถ.มิตรภาพ ต.ในเมือง อ.เมือง จ.ขอนแก่น"],
+            location_detail: "รับผิดชอบพื้นที่ของ ตำรวจภูธรภาค 3 และ ภาค 4 <br> "
+                + "• <b>ตำรวจภูธรภาค 3:</b> นครราชสีมา, บุรีรัมย์, สุรินทร์, ศรีสะเกษ, ชัยภูมิ <br> "
+                + "• <b>ตำรวจภูธรภาค 4:</b> ขอนแก่น, มหาสารคาม, กาฬสินธุ์, ร้อยเอ็ด, อุดรธานี, หนองบัวลำภู, หนองคาย, เลย, สกลนคร, นครพนม, บึงกาฬ, มุกดาหาร"
+        },
+        {
+            org_id: 3567,
+            org_name: "บก.สอท.4",
+            org_locations: ["1.ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ", "2.ต.ป่าแดด อ.เมืองเชียงใหม่ จ.เชียงใหม่"],
+            location_detail: "รับผิดชอบพื้นที่ของ ตำรวจภูธรภาค 5 และ ภาค 6 <br> "
+                + "• <b>ตำรวจภูธรภาค 5:</b> เชียงใหม่, เชียงราย, ลำพูน, ลำปาง, แม่ฮ่องสอน, พะเยา, แพร่, น่าน <br> "
+                + "• <b>ตำรวจภูธรภาค 6:</b> พิษณุโลก, เพชรบูรณ์, พิจิตร, อุตรดิตถ์, กำแพงเพชร, สุโขทัย, ตาก, นครสวรรค์, อุทัยธานี"
+        },
+        {
+            org_id: 3578,
+            org_name: "บก.สอท.5",
+            org_locations: ["1.ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ", "2.ต.บางกุ้ง อ.เมืองสุราษฎร์ธานี จ.สุราษฎร์ธานี"],
+            location_detail: "รับผิดชอบพื้นที่ของ ตำรวจภูธรภาค 8 และ ภาค 9 <br> "
+                + "• <b>ตำรวจภูธรภาค 8:</b> ชุมพร, สุราษฎร์ธานี, นครศรีธรรมราช, พังงา, ภูเก็ต, ระนอง, กระบี่ <br> "
+                + "• <b>ตำรวจภูธรภาค 9:</b> ตรัง, พัทลุง, สงขลา, สตูล, ปัตตานี, ยะลา, นราธิวาส"
+        }
+    ];
+    
     orgtype3 = [
         { org_id: 2541, org_name: "กองบังคับการปราบปรามการกระทำความผิดเกี่ยวกับอาชญากรรมทางเศรษฐกิจ                          (บก.ปอศ.)" },
         { org_id: 2397, org_name: "กองบังคับการปราบปรามการกระทำความผิดเกี่ยวกับการคุ้มครองผู้บริโภค                              (บก.ปคบ.)" },
         { org_id: 2614, org_name: "กองบังคับการปราบปรามการกระทำผิดเกี่ยวกับอาชญากรรมทางเทคโนโลยี กองบัญชาการตำรวจสอบสวนกลาง  (บก.ปอท.)" },
         { org_id: 2605, org_name: "กองบังคับการปราบปรามการกระทำความเกี่ยวกับการค้ามนุษย์                                      (บก.ปคม.)" },
-        { org_id: 2387, org_name: 'กองบังคับการปราบปราม                                                                 (บก.ป.)'}
+        { org_id: 2387, org_name: 'กองบังคับการปราบปราม                                                                 (บก.ป.)' }
     ];
     formdataOrgsendcase: any = {
         ORG_LOCATION_TYPE: null,
@@ -147,15 +184,15 @@ export class IssueOnlineEventComponent implements OnInit {
                 this.listCaseType = _;
                 return this._OrgService.getorgwalkinall();
             })
-          ).subscribe(dsorgbyarialocation => {
+        ).subscribe(dsorgbyarialocation => {
             this.dsorgbyarialocation = dsorgbyarialocation;
             this.dswalkinstatuspolice = dsorgbyarialocation;
             this.SetDefaultData();
-          }, error => {
+        }, error => {
             if (error.status === 500 || error.status === 524) {
-              this.mainConponent.checkReload(2);
+                this.mainConponent.checkReload(2);
             }
-          });
+        });
         this.presentAddress.disableDistrict = true;
         this.presentAddress.disableSubDistrict = true;
         this.presentAddress.disablepostcode = true;
@@ -174,41 +211,41 @@ export class IssueOnlineEventComponent implements OnInit {
             }
         }
     }
-    ShowInvalidDialog(){
+    ShowInvalidDialog() {
         Swal.fire({
             title: "ผิดพลาด!",
             text: "กรุณากรอกข้อมูลให้ครบ",
             icon: "warning",
             confirmButtonText: "Ok",
-        }).then(() => {});
+        }).then(() => { });
     }
-    async SetDefaultData(){
-        try{
+    async SetDefaultData() {
+        try {
             this.userType = this.mainConponent.userType;
             this.province = this.mainConponent.province;
             this.formData.CASE_TYPE_SUB_ID = undefined;
             if (this.mainConponent.formType === 'add') {
-                localStorage.setItem("form-index","3");
+                localStorage.setItem("form-index", "3");
                 this.locationRender = 'add';
                 this.formType = "add";
                 this.showSelectORG = true;
                 this.formReadOnly = false;
                 this.formValidate = true;
-                if(localStorage.getItem("form-event")){
+                if (localStorage.getItem("form-event")) {
                     this.formData = JSON.parse(localStorage.getItem("form-event"));
                     this.recovery = true;
                     this.channel_tel = this.formData.CASE_TYPE_ID == 66 || this.formData.CASE_TYPE_ID == 67 ? true : false;
-                    if(this.channel_tel){
-                        if(localStorage.getItem("form-villain")){
+                    if (this.channel_tel) {
+                        if (localStorage.getItem("form-villain")) {
                             this.channel_data = JSON.parse(localStorage.getItem("form-villain")).CASE_CHANNEL;
                         }
                     }
                 }
 
-            }else{
+            } else {
                 const _case_id = Number(sessionStorage.getItem("case_id"));
                 const dataForm = await this._OnlineCaseService.getbycaseId(_case_id).toPromise();
-                var _gettype  =   this.listCaseType.find(x=>x.CASE_TYPE_ID == dataForm.CASE_TYPE_ID);
+                var _gettype = this.listCaseType.find(x => x.CASE_TYPE_ID == dataForm.CASE_TYPE_ID);
                 this.showSelectORG = false;
                 this.formType = "edit";
                 this.formReadOnly = true;
@@ -218,7 +255,7 @@ export class IssueOnlineEventComponent implements OnInit {
                 this.formData.CASE_TYPE_NAME = _gettype.CASE_TYPE_NAME;
             }
             this.isLoading = false;
-        }catch (error){
+        } catch (error) {
             // console.log(error);
             this.SetDefaultData();
         }
@@ -226,14 +263,14 @@ export class IssueOnlineEventComponent implements OnInit {
 
     }
 
-    Back(e){
-        this.mainConponent.NextIndex(this.mainConponent.indexTab -1);
+    Back(e) {
+        this.mainConponent.NextIndex(this.mainConponent.indexTab - 1);
     }
 
     async SubmitForm(e) {
         if (this.mainConponent.formType === 'add') {
             this.formEvent1.instance.validate();
-            if (!this.formEvent1.instance.validate().isValid){
+            if (!this.formEvent1.instance.validate().isValid) {
                 this._formValidate.ValidateForm(this.formEvent1.instance.validate().brokenRules);
                 this.mainConponent.checkValidate = true;
                 return;
@@ -254,7 +291,7 @@ export class IssueOnlineEventComponent implements OnInit {
                     this.alertmessagecustom("กรุณาเลือกสถานี");
                     return;
                 }
-            } else if(!this.formData.ORG_LOCATION_TYPE){
+            } else if (!this.formData.ORG_LOCATION_TYPE) {
                 this.alertmessagecustom("กรุณาเลือกสถานี");
                 return;
             } else {
@@ -264,7 +301,7 @@ export class IssueOnlineEventComponent implements OnInit {
                 }
             }
             // console.log(this.formData);
-            if(this.formData.CASE_TYPE_ID === null || this.formData.CASE_TYPE_ID === 7){
+            if (this.formData.CASE_TYPE_ID === null || this.formData.CASE_TYPE_ID === 7) {
                 Swal.fire({
                     title: "ผิดพลาด!",
                     text: "กรุณาเลือกประเภทคดี",
@@ -283,16 +320,16 @@ export class IssueOnlineEventComponent implements OnInit {
                 }
             }
 
-            this.mainConponent.formDataAll.formVaillain = Object.assign({},{CASE_CHANNEL:this.channel_data});
-            localStorage.setItem("form-villain",JSON.stringify(Object.assign({},{CASE_CHANNEL:this.channel_data})));
+            this.mainConponent.formDataAll.formVaillain = Object.assign({}, { CASE_CHANNEL: this.channel_data });
+            localStorage.setItem("form-villain", JSON.stringify(Object.assign({}, { CASE_CHANNEL: this.channel_data })));
 
-            const setDataFormAll = Object.assign({},setData);
+            const setDataFormAll = Object.assign({}, setData);
             this.mainConponent.formDataAll.formEvent = setDataFormAll;
             // console.log(setDataFormAll);
-            localStorage.setItem("form-event",JSON.stringify(setDataFormAll));
+            localStorage.setItem("form-event", JSON.stringify(setDataFormAll));
 
         }
-        if(e != 'tab'){
+        if (e != 'tab') {
             this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
         }
     }
@@ -304,7 +341,7 @@ export class IssueOnlineEventComponent implements OnInit {
         }
     }
 
-    onvaluecheckboxlocationchangewalkin(e,type_location){
+    onvaluecheckboxlocationchangewalkin(e, type_location) {
         this.formdataOrgsendcasewalkin = {};
         if (type_location === 1) {
             this.checkboxLocationwalkin.location_type1 = e.value;
@@ -337,7 +374,7 @@ export class IssueOnlineEventComponent implements OnInit {
         }
     }
 
-    OnSelectProvicePresentlocationWalkin(e){
+    OnSelectProvicePresentlocationWalkin(e) {
         if (e.value) {
             const data =
                 this.selectPresentProvicelocationWalkin.instance.option(
@@ -355,7 +392,7 @@ export class IssueOnlineEventComponent implements OnInit {
         }
     }
 
-    Onorglocationwalkin(e){
+    Onorglocationwalkin(e) {
         const data = this.selectorgwalkin.instance.option("selectedItem");
         if (data) {
             this.formData.ORG_LOCATION_WALKIN_TYPE = 1;
@@ -366,100 +403,31 @@ export class IssueOnlineEventComponent implements OnInit {
         }
     }
 
-    onvaluechangeorgmainwalkin(e, type) {
+    onvaluechangeorgmainwalkin(e) {
         this.formData.ORG_PROVINCE_MAP_AREA_ID = null;
         this.formData.ORG_PROVINCE_MAP_AREA_NAME = null;
-
-        if (e.value) {
-            if (type === 1) {
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID2 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID3 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID4 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID5 = null;
-                const data: any = this.orgtype2_1.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID1 = data[0].org_id;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_NAME1 =
-                    data[0].org_name;
-
-                // * parame insert
-                this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formData.WALKIN_POLICE_STATION_ID = data[0].org_id;
-                this.formData.WALKIN_POLICE_STATION = data[0].org_name;
-            }
-            if (type === 2) {
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID1 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID3 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID4 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID5 = null;
-                const data: any = this.orgtype2_2.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID2 = data[0].org_id;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_NAME2 =
-                    data[0].org_name;
-
-                // * parame insert
-                this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formData.WALKIN_POLICE_STATION_ID = data[0].org_id;
-                this.formData.WALKIN_POLICE_STATION = data[0].org_name;
-            } else if (type === 3) {
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID1 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID2 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID4 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID5 = null;
-                const data: any = this.orgtype2_3.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID3 = data[0].org_id;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_NAME3 =
-                    data[0].org_name;
-
-                // * parame insert
-                this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formData.WALKIN_POLICE_STATION_ID = data[0].org_id;
-                this.formData.WALKIN_POLICE_STATION = data[0].org_name;
-            } else if (type === 4) {
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID1 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID2 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID3 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID5 = null;
-                const data: any = this.orgtype2_4.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID4 = data[0].org_id;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_NAME4 =
-                    data[0].org_name;
-
-                // * parame insert
-                this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formData.WALKIN_POLICE_STATION_ID = data[0].org_id;
-                this.formData.WALKIN_POLICE_STATION = data[0].org_name;
-            } else if (type === 5) {
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID1 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID2 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID3 = null;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID4 = null;
-                const data: any = this.orgtype2_5.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID5 = data[0].org_id;
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_NAME5 =
-                    data[0].org_name;
-
-                // * parame insert
-                this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
-                this.formData.WALKIN_POLICE_STATION_ID = data[0].org_id;
-                this.formData.WALKIN_POLICE_STATION = data[0].org_name;
-            }
-        }
+    
+        if (!e.value) return;
+    
+        // Reset all ORG_LOCATION_MAIN_WALKIN_ID fields
+        this.formdataOrgsendcasewalkin[`ORG_LOCATION_MAIN_WALKIN_ID`] = null;
+        this.formdataOrgsendcasewalkin[`ORG_LOCATION_MAIN_WALKIN_NAME`] = null;
+    
+        // Filter the selected organization
+        const selectedData = this.orgUnits.find((r) => r.org_id === e.value);
+        if (!selectedData) return;
+    
+        // Set selected values
+        this.formdataOrgsendcasewalkin.ORG_LOCATION_WALKIN_TYPE = 2;
+        this.formdataOrgsendcasewalkin[`ORG_LOCATION_MAIN_WALKIN_ID`] = selectedData.org_id;
+        this.formdataOrgsendcasewalkin[`ORG_LOCATION_MAIN_WALKIN_NAME`] = selectedData.org_name;
+    
+        // Assign values to formData for insertion
+        this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
+        this.formData.WALKIN_POLICE_STATION_ID = selectedData.org_id;
+        this.formData.WALKIN_POLICE_STATION = selectedData.org_name;
     }
+    
 
     onvaluechangeorgcenterwalkin(e) {
         if (e.value) {
@@ -553,100 +521,33 @@ export class IssueOnlineEventComponent implements OnInit {
         }
     }
 
-    onvaluechangeorgmain(e, type) {
+    onvaluechangeorgmain(e) {
         this.formData.ORG_PROVINCE_MAP_AREA_ID = null;
         this.formData.ORG_PROVINCE_MAP_AREA_NAME = null;
-
-        if (e.value) {
-            if (type == 1) {
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = null;
-                const data: any = this.orgtype2_1.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = data[0].org_id;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME1 =
-                    data[0].org_name;
-
-                //parame insert
-                this.formData.ORG_LOCATION_TYPE = 2;
-                this.formData.ORG_LOCATION_ID = data[0].org_id;
-                this.formData.ORG_LOCATION_NAME = data[0].org_name;
-            }
-            if (type == 2) {
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = null;
-                const data: any = this.orgtype2_2.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = data[0].org_id;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME2 =
-                    data[0].org_name;
-
-                //parame insert
-                this.formData.ORG_LOCATION_TYPE = 2;
-                this.formData.ORG_LOCATION_ID = data[0].org_id;
-                this.formData.ORG_LOCATION_NAME = data[0].org_name;
-            } else if (type == 3) {
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = null;
-                const data: any = this.orgtype2_3.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = data[0].org_id;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME3 =
-                    data[0].org_name;
-
-                //parame insert
-                this.formData.ORG_LOCATION_TYPE = 2;
-                this.formData.ORG_LOCATION_ID = data[0].org_id;
-                this.formData.ORG_LOCATION_NAME = data[0].org_name;
-            } else if (type == 4) {
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = null;
-                const data: any = this.orgtype2_4.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = data[0].org_id;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME4 =
-                    data[0].org_name;
-
-                //parame insert
-                this.formData.ORG_LOCATION_TYPE = 2;
-                this.formData.ORG_LOCATION_ID = data[0].org_id;
-                this.formData.ORG_LOCATION_NAME = data[0].org_name;
-            } else if (type == 5) {
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID1 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID2 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID3 = null;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID4 = null;
-                const data: any = this.orgtype2_5.filter(
-                    (r) => r.org_id === e.value
-                );
-                this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_ID5 = data[0].org_id;
-                this.formdataOrgsendcase.ORG_LOCATION_MAIN_NAME5 =
-                    data[0].org_name;
-
-                //parame insert
-                this.formData.ORG_LOCATION_TYPE = 2;
-                this.formData.ORG_LOCATION_ID = data[0].org_id;
-                this.formData.ORG_LOCATION_NAME = data[0].org_name;
-            }
+    
+        if (!e.value) return;
+    
+        // Reset all ORG_LOCATION_MAIN_ID fields dynamically
+        for (let i = 1; i <= 5; i++) {
+            this.formdataOrgsendcase[`ORG_LOCATION_MAIN_ID`] = null;
+            this.formdataOrgsendcase[`ORG_LOCATION_MAIN_NAME`] = null;
         }
+    
+        // Get the correct dataset dynamically
+        const selectedData = this.orgUnits.find((r) => r.org_id === e.value);
+        if (!selectedData) return;
+    
+        // Assign values
+        this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
+        this.formdataOrgsendcase[`ORG_LOCATION_MAIN_ID`] = selectedData.org_id;
+        this.formdataOrgsendcase[`ORG_LOCATION_MAIN_NAME`] = selectedData.org_name;
+    
+        // Insert parameters
+        this.formData.ORG_LOCATION_TYPE = 2;
+        this.formData.ORG_LOCATION_ID = selectedData.org_id;
+        this.formData.ORG_LOCATION_NAME = selectedData.org_name;
     }
+    
 
     onvaluechangeorgcenter(e) {
         if (e.value) {
@@ -684,8 +585,8 @@ export class IssueOnlineEventComponent implements OnInit {
     CheckNumber(event) {
         // const seperator  = '^[ก-๏\\s]+$';
         const seperator = '^([0-9])';
-        const maskSeperator =  new RegExp(seperator , 'g');
-        const result =maskSeperator.test(event.key);
+        const maskSeperator = new RegExp(seperator, 'g');
+        const result = maskSeperator.test(event.key);
         return result;
     }
     PasteCheckNumber(event) {
@@ -693,13 +594,13 @@ export class IssueOnlineEventComponent implements OnInit {
         const pastedText = clipboardData.getData('text');
         // const seperator  = '^[ก-๏\\s]+$';
         const seperator = '^([0-9])';
-        const maskSeperator =  new RegExp(seperator , 'g');
-        const result =maskSeperator.test(pastedText);
+        const maskSeperator = new RegExp(seperator, 'g');
+        const result = maskSeperator.test(pastedText);
         return result;
     }
 
-    OnSelectDate(e){
-        if(e.value){
+    OnSelectDate(e) {
+        if (e.value) {
             const mydate = this.datePipe.transform(e.value, 'yyyy-MM-dd');
             const mytime = this.datePipe.transform(e.value, 'HH:mm:ss');
             this.formDataChannel.CASE_CHANNEL_PHONE_TIME = mytime;
@@ -707,7 +608,7 @@ export class IssueOnlineEventComponent implements OnInit {
         }
     }
 
-    cancel(){
+    cancel() {
         this.formDataChannel = {};
         this.datePhone = null;
         this.indexEdit = 0;
@@ -715,37 +616,37 @@ export class IssueOnlineEventComponent implements OnInit {
     }
 
     addDataChannel() {
-        if (!this.formChannel.instance.validate().isValid){
+        if (!this.formChannel.instance.validate().isValid) {
             this._formValidate.ValidateForm(this.formChannel.instance.validate().brokenRules);
             return;
-        }else{
-            if(!this.edit){
-                if(this.formDataChannel.CASE_CHANNEL_PHONE_DATE != null){
-                    const dateStart = this.convertDate(this.formDataChannel.CASE_CHANNEL_PHONE_DATE,this.formDataChannel.CASE_CHANNEL_PHONE_TIME);
-                    this.datePhone = new Date(dateStart[0],dateStart[1],dateStart[2],dateStart[3],dateStart[4],dateStart[5]);
+        } else {
+            if (!this.edit) {
+                if (this.formDataChannel.CASE_CHANNEL_PHONE_DATE != null) {
+                    const dateStart = this.convertDate(this.formDataChannel.CASE_CHANNEL_PHONE_DATE, this.formDataChannel.CASE_CHANNEL_PHONE_TIME);
+                    this.datePhone = new Date(dateStart[0], dateStart[1], dateStart[2], dateStart[3], dateStart[4], dateStart[5]);
                 }
                 this.channel_data.push(
                     {
-                        CASE_CHANNEL_PHONE_DESTINATION : this.formDataChannel.CASE_CHANNEL_PHONE_DESTINATION,
-                        CASE_CHANNEL_PHONE_DATE : this.formDataChannel.CASE_CHANNEL_PHONE_DATE,
+                        CASE_CHANNEL_PHONE_DESTINATION: this.formDataChannel.CASE_CHANNEL_PHONE_DESTINATION,
+                        CASE_CHANNEL_PHONE_DATE: this.formDataChannel.CASE_CHANNEL_PHONE_DATE,
                         CASE_CHANNEL_PHONE_TIME: this.formDataChannel.CASE_CHANNEL_PHONE_TIME,
-                        CHANEL_PHONE : true,
-                        DATE_PHONE : this.datePhone,
-                        CHANNEL_PHONE_DOC : []
+                        CHANEL_PHONE: true,
+                        DATE_PHONE: this.datePhone,
+                        CHANNEL_PHONE_DOC: []
                     }
                 );
-            }else{
-                if(this.formDataChannel.CASE_CHANNEL_PHONE_DATE != null){
-                    const dateStart = this.convertDate(this.formDataChannel.CASE_CHANNEL_PHONE_DATE,this.formDataChannel.CASE_CHANNEL_PHONE_TIME);
-                    this.datePhone = new Date(dateStart[0],dateStart[1],dateStart[2],dateStart[3],dateStart[4],dateStart[5]);
+            } else {
+                if (this.formDataChannel.CASE_CHANNEL_PHONE_DATE != null) {
+                    const dateStart = this.convertDate(this.formDataChannel.CASE_CHANNEL_PHONE_DATE, this.formDataChannel.CASE_CHANNEL_PHONE_TIME);
+                    this.datePhone = new Date(dateStart[0], dateStart[1], dateStart[2], dateStart[3], dateStart[4], dateStart[5]);
                 }
                 this.channel_data[this.indexEdit] = {
-                    CASE_CHANNEL_PHONE_DESTINATION : this.formDataChannel.CASE_CHANNEL_PHONE_DESTINATION,
-                    CASE_CHANNEL_PHONE_DATE : this.formDataChannel.CASE_CHANNEL_PHONE_DATE,
+                    CASE_CHANNEL_PHONE_DESTINATION: this.formDataChannel.CASE_CHANNEL_PHONE_DESTINATION,
+                    CASE_CHANNEL_PHONE_DATE: this.formDataChannel.CASE_CHANNEL_PHONE_DATE,
                     CASE_CHANNEL_PHONE_TIME: this.formDataChannel.CASE_CHANNEL_PHONE_TIME,
-                    CHANEL_PHONE : true,
-                    DATE_PHONE : this.datePhone,
-                    CHANNEL_PHONE_DOC : []
+                    CHANEL_PHONE: true,
+                    DATE_PHONE: this.datePhone,
+                    CHANNEL_PHONE_DOC: []
                 }
             }
             this.formDataChannel = {};
@@ -757,12 +658,12 @@ export class IssueOnlineEventComponent implements OnInit {
 
     }
 
-    convertDate(date,time){
-        const dateIN = String(date+" "+time);
+    convertDate(date, time) {
+        const dateIN = String(date + " " + time);
         const [datePart, timePart] = dateIN.split(" ");
         const [year, month, day] = datePart.split("-");
         const [hours, minutes, seconds] = timePart.split(":");
-        return [Number(year),Number(month)-1,Number(day),Number(hours),Number(minutes),Number(seconds)]
+        return [Number(year), Number(month) - 1, Number(day), Number(hours), Number(minutes), Number(seconds)]
     }
 
     onEditItem(event: any, index = null) {
@@ -778,9 +679,9 @@ export class IssueOnlineEventComponent implements OnInit {
                 DATE_PHONE: data.DATE_PHONE,
                 CHANNEL_PHONE_DOC: data.CHANNEL_PHONE_DOC
             }
-            if(this.formDataChannel.CHANEL_PHONE && this.formDataChannel.CASE_CHANNEL_PHONE_DATE != null){
-                const dateStart = this.convertDate(this.formDataChannel.CASE_CHANNEL_PHONE_DATE,this.formDataChannel.CASE_CHANNEL_PHONE_TIME);
-                this.datePhone = new Date(dateStart[0],dateStart[1],dateStart[2],dateStart[3],dateStart[4],dateStart[5]);
+            if (this.formDataChannel.CHANEL_PHONE && this.formDataChannel.CASE_CHANNEL_PHONE_DATE != null) {
+                const dateStart = this.convertDate(this.formDataChannel.CASE_CHANNEL_PHONE_DATE, this.formDataChannel.CASE_CHANNEL_PHONE_TIME);
+                this.datePhone = new Date(dateStart[0], dateStart[1], dateStart[2], dateStart[3], dateStart[4], dateStart[5]);
             }
         }, 200)
     }

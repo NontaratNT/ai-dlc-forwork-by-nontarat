@@ -143,19 +143,29 @@ button:before {
     font-weight: bold;
 }
 
-.custom-ratio {
-     ::ng-deep .dx-widget.dx-collection>.dx-item.dx-radiobutton {
-        width: 500px;
-         ::ng-deep .dx-radio-value-container {
-            width: 40px;
-            vertical-align: top
-        }
-        .sub-content {
-            padding-top: 10px;
-        }
-        .sub-content>.location {
-            padding-left: 28px;
-            padding-right: 0px;
-        }
-    }
+:host ::ng-deep .custom-ratio .dx-widget.dx-collection > .dx-item.dx-radiobutton {
+    width: 700px; /* Default width for larger screens */
+    max-width: 100%; /* Ensure it doesn’t overflow */
+}
+
+:host ::ng-deep .custom-ratiow .dx-widget.dx-collection > .dx-item.dx-radiobutton {
+    width: 730px; /* Default width for larger screens */
+    max-width: 100%; /* Ensure it doesn’t overflow */
+}
+
+:host ::ng-deep .custom-ratio .dx-widget.dx-collection > .dx-item.dx-radiobutton .dx-radio-value-container,
+:host ::ng-deep .custom-ratiow .dx-widget.dx-collection > .dx-item.dx-radiobutton .dx-radio-value-container {
+    width: 40px;
+    vertical-align: top;
+}
+
+:host ::ng-deep .custom-ratio .dx-widget.dx-collection > .dx-item.dx-radiobutton .sub-content,
+:host ::ng-deep .custom-ratiow .dx-widget.dx-collection > .dx-item.dx-radiobutton .sub-content {
+    padding-top: 10px;
+}
+
+:host ::ng-deep .custom-ratio .dx-widget.dx-collection > .dx-item.dx-radiobutton .sub-content > .location,
+:host ::ng-deep .custom-ratiow .dx-widget.dx-collection > .dx-item.dx-radiobutton .sub-content > .location {
+    padding-left: 15px;
+    padding-right: 0px;
 }

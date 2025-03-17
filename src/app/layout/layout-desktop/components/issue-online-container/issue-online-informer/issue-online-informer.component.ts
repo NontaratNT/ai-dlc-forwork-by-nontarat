@@ -190,7 +190,7 @@ export class IssueOnlineInformerComponent implements OnInit {
         { org_id: 2605, org_name: "กองบังคับการปราบปรามการกระทำความเกี่ยวกับการค้ามนุษย์                                      (บก.ปคม.)" },
         { org_id: 2387, org_name: 'กองบังคับการปราบปราม                                                                 (บก.ป.)'},
     ];
-      aria1and2 = [
+    aria1and2 = [
         "ตำรวจภูธรภาค 1 (ชัยนาท,นนทบุรี,ปทุมธานี,พระนครศรีอยุธยา,ลพบุรี,สมุทรปราการ,สระบุรี,สิงห์บุรี,อ่างทอง)",
         "ตำรวจภูธรภาค 2 (จันทบุรี,ฉะเชิงเทรา,ชลบุรี,ตราด,นครนายก,ปราจีนบุรี,ระยอง,สระแก้ว)",
         "ตำรวจภูธรภาค 7 (กาญจนบุรี,นครปฐม,ประจวบคีรีขันธ์,เพชรบุรี,ราชบุรี,สมุทรสงคราม,สมุทรสาคร,สุพรรณบุรี)",
@@ -385,7 +385,7 @@ export class IssueOnlineInformerComponent implements OnInit {
                     this.formData.CASE_INFORMER_LASTNAME =  this.dataForms.CASE_INFORMER_LASTNAME ?? p.PERSONAL_LNAME_THA ?? null;
                     this.formData.INFORMER_EMAIL =  this.dataForms.INFORMER_EMAIL ?? p.PERSONAL_EMAIL ?? null;
                     this.formData.INFORMER_TEL =  this.dataForms.INFORMER_TEL ?? p.PERSONAL_TEL_NO ?? null;
-                    this.checkedRadioGender = this.dataForms.INFORMER_GENDER ?? p.PERSONAL_GENDER === 1 ? "M" : "F" ?? null;
+                    this.checkedRadioGender = this.dataForms.INFORMER_GENDER ?? (p.PERSONAL_GENDER === 1 ? "M" : "F");
                     this.formData.INFORMER_GENDER_DETAIL = this.dataForms.INFORMER_GENDER_DETAIL ?? null;
                     this.formData.CASE_INFORMER_CITIZEN_NUMBER = this.dataForms.CASE_INFORMER_CITIZEN_NUMBER ?? p.PERSONAL_CITIZEN_NUMBER ?? null;
 

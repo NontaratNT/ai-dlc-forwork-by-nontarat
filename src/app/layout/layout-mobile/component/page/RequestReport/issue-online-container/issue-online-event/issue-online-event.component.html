@@ -50,81 +50,38 @@
                             <dx-radio-group [readOnly]="formReadOnly" [items]="radiocheckorganize2" valueExpr="id" displayExpr="text" layout="horizontal" [(value)]="checkboxLocationwalkin.location_type1" (onValueChanged)="onvaluecheckboxlocationchangewalkin($event,2)"></dx-radio-group>
                             <br *ngIf="checkboxLocationwalkin.location_type1  === 2">
                             <dx-form #formInformertype2 [colCount]="3" labelLocation="top" *ngIf="checkboxLocationwalkin.location_type1 === 2">
-                                <dxi-item template="selectorgmain" [colSpan]="2"></dxi-item>
-                                <div *dxTemplate="let data of 'selectorgmain'" style="margin-left:10%;" class="custom-ratio">
-
-                                    <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_1" layout="horizontal" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID1" (onValueChanged)="onvaluechangeorgmainwalkin($event,1)"
-                                        itemTemplate="radio">
-                                        <div class="radio" *dxTemplate="let data of 'radio'">
+                                <dxi-item template="selectorgmainw" [colSpan]="2"></dxi-item>
+                                <div *dxTemplate="let data of 'selectorgmainw'" style="margin-left:10%;" class="custom-ratiow">
+                                    <dx-radio-group 
+                                        #selectorgmain 
+                                        [readOnly]="formReadOnly" 
+                                        [dataSource]="orgUnits" 
+                                        layout="horizontal" 
+                                        valueExpr="org_id" 
+                                        displayExpr="org_name" 
+                                        [value]="formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID" 
+                                        (onValueChanged)="onvaluechangeorgmainwalkin($event)">
+                                        
+                                        <div *dxTemplate="let data of 'item'">
                                             <div class="row main-content">
-                                                <div class="col-md-4">{{data.org_name}}</div>
+                                                <div class="col-md-4"><b>{{ data.org_name }}</b></div>
                                             </div>
-                                            <div class="row sub-content">
-                                                <div class="col-md-2 offset-md-1 location">ที่ตั้ง</div>
-                                                <div class="col-md-9">{{data.org_location1}}</div>
+            
+                                            <div *ngFor="let location of data.org_locations; let i = index" class="row sub-content">
+                                                <div class="col-md-2 offset-md-1 location" *ngIf="i === 0"><b>ที่ตั้ง</b></div>
+                                                <div class="col-md-2 offset-md-1" *ngIf="i > 0"></div>
+                                                <div class="col-md-9">{{ location }}</div>
                                             </div>
-                                        </div>
-                                    </dx-radio-group>
-                                    <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_2" layout="horizontal" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID2" (onValueChanged)="onvaluechangeorgmainwalkin($event,2)"
-                                        itemTemplate="radio">
-                                        <div class="radio" *dxTemplate="let data of 'radio'">
-                                            <div class="row" main-content>
-                                                <div class="col-md-4">{{data.org_name}}</div>
-                                            </div>
-                                            <div class="row sub-content">
-                                                <div class="col-md-2 offset-md-1 location">ที่ตั้ง</div>
-                                                <div class="col-md-9">{{data.org_location1}}</div>
+            
+                                            <div class="row location-detail mt-2">
+                                                <div class="col-md-2 offset-md-1"><b>รายละเอียด</b></div>
+                                                <div class="col-md-9">
+                                                    <span [innerHTML]="data.location_detail"></span>
+                                                </div>
                                             </div>
                                         </div>
                                     </dx-radio-group>
-                                    <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_3" layout="horizontal" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID3" (onValueChanged)="onvaluechangeorgmainwalkin($event,3)"
-                                        itemTemplate="radio">
-                                        <div class="radio" *dxTemplate="let data of 'radio'">
-                                            <div class="row main-content">
-                                                <div class="col-md-4">{{data.org_name}}</div>
-                                            </div>
-                                            <div class="row  sub-content">
-                                                <div class="col-md-2 offset-md-1 location">ที่ตั้ง</div>
-                                                <div class="col-md-9">{{data.org_location1}}</div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-2 offset-md-1"></div>
-                                                <div class="col-md-9">{{data.org_location2}}</div>
-                                            </div>
-                                        </div>
-                                    </dx-radio-group>
-                                    <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_4" layout="horizontal" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID4" (onValueChanged)="onvaluechangeorgmainwalkin($event,4)"
-                                        itemTemplate="radio">
-                                        <div class="radio" *dxTemplate="let data of 'radio'">
-                                            <div class="row main-content">
-                                                <div class="col-md-4">{{data.org_name}}</div>
-                                            </div>
-                                            <div class="row  sub-content">
-                                                <div class="col-md-2 offset-md-1 location">ที่ตั้ง</div>
-                                                <div class="col-md-9">{{data.org_location1}}</div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-2 offset-md-1"></div>
-                                                <div class="col-md-9">{{data.org_location2}}</div>
-                                            </div>
-                                        </div>
-                                    </dx-radio-group>
-                                    <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_5" layout="horizontal" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID5" (onValueChanged)="onvaluechangeorgmainwalkin($event,5)"
-                                        itemTemplate="radio">
-                                        <div class="radio" *dxTemplate="let data of 'radio'">
-                                            <div class="row main-content">
-                                                <div class="col-md-4">{{data.org_name}}</div>
-                                            </div>
-                                            <div class="row sub-content">
-                                                <div class="col-md-2 offset-md-1 location">ที่ตั้ง</div>
-                                                <div class="col-md-9">{{data.org_location1}}</div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-2 offset-md-1"></div>
-                                                <div class="col-md-9">{{data.org_location2}}</div>
-                                            </div>
-                                        </div>
-                                    </dx-radio-group>
+                                
                                     <dxi-validation-rule type="required" message="กรุณาเลือกข้อมูล หน่วยงานที่สะดวกไปพบเจ้าหน้าที่">
                                     </dxi-validation-rule>
                                 </div>
@@ -187,75 +144,37 @@
                 <dx-form #formInformertype2 [colCount]="3" labelLocation="top" *ngIf="checkboxLocation.location_type1 === 2">
                     <dxi-item template="selectorgmain" [colSpan]="2"></dxi-item>
                     <div *dxTemplate="let data of 'selectorgmain'" style="margin-left:10%;" class="custom-ratio">
-
-                        <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_1" layout="horizontal" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcase.ORG_LOCATION_MAIN_ID1" (onValueChanged)="onvaluechangeorgmain($event,1)" itemTemplate="radio">
-                            <div class="radio" *dxTemplate="let data of 'radio'">
-                                <div class="row main-content">
-                                    <div class="col-md-4">{{data.org_name}}</div>
+                        <dx-radio-group
+                                #selectorgmain 
+                                [readOnly]="formReadOnly" 
+                                [dataSource]="orgUnits" 
+                                layout="horizontal" 
+                                valueExpr="org_id" 
+                                displayExpr="org_name" 
+                                [value]="formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_ID" 
+                                (onValueChanged)="onvaluechangeorgmain($event)">
+                                
+                                <div *dxTemplate="let data of 'item'">
+                                    <div class="row main-content">
+                                        <div class="col-md-4"><b>{{ data.org_name }}</b></div>
+                                    </div>
+    
+                                    <div *ngFor="let location of data.org_locations; let i = index" class="row sub-content">
+                                        <div class="col-md-2 offset-md-1 location" *ngIf="i === 0"><b>ที่ตั้ง</b></div>
+                                        <div class="col-md-2 offset-md-1" *ngIf="i > 0"></div>
+                                        <div class="col-md-9">{{ location }}</div>
+                                    </div>
+    
+                                    <div class="row location-detail mt-2">
+                                        <div class="col-md-2 offset-md-1"><b>รายละเอียด</b></div>
+                                        <div class="col-md-9">
+                                            <span [innerHTML]="data.location_detail"></span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="row sub-content">
-                                    <div class="col-md-2 offset-md-1 location">ที่ตั้ง</div>
-                                    <div class="col-md-9">{{data.org_location1}}</div>
-                                </div>
-                            </div>
+    
                         </dx-radio-group>
-                        <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_2" layout="horizontal" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcase.ORG_LOCATION_MAIN_ID2" (onValueChanged)="onvaluechangeorgmain($event,2)" itemTemplate="radio">
-                            <div class="radio" *dxTemplate="let data of 'radio'">
-                                <div class="row" main-content>
-                                    <div class="col-md-4">{{data.org_name}}</div>
-                                </div>
-                                <div class="row sub-content">
-                                    <div class="col-md-2 offset-md-1 location">ที่ตั้ง</div>
-                                    <div class="col-md-9">{{data.org_location1}}</div>
-                                </div>
-                            </div>
-                        </dx-radio-group>
-                        <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_3" layout="horizontal" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcase.ORG_LOCATION_MAIN_ID3" (onValueChanged)="onvaluechangeorgmain($event,3)" itemTemplate="radio">
-                            <div class="radio" *dxTemplate="let data of 'radio'">
-                                <div class="row main-content">
-                                    <div class="col-md-4">{{data.org_name}}</div>
-                                </div>
-                                <div class="row  sub-content">
-                                    <div class="col-md-2 offset-md-1 location">ที่ตั้ง</div>
-                                    <div class="col-md-9">{{data.org_location1}}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-2 offset-md-1"></div>
-                                    <div class="col-md-9">{{data.org_location2}}</div>
-                                </div>
-                            </div>
-                        </dx-radio-group>
-                        <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_4" layout="horizontal" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcase.ORG_LOCATION_MAIN_ID4" (onValueChanged)="onvaluechangeorgmain($event,4)" itemTemplate="radio">
-                            <div class="radio" *dxTemplate="let data of 'radio'">
-                                <div class="row main-content">
-                                    <div class="col-md-4">{{data.org_name}}</div>
-                                </div>
-                                <div class="row  sub-content">
-                                    <div class="col-md-2 offset-md-1 location">ที่ตั้ง</div>
-                                    <div class="col-md-9">{{data.org_location1}}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-2 offset-md-1"></div>
-                                    <div class="col-md-9">{{data.org_location2}}</div>
-                                </div>
-                            </div>
-                        </dx-radio-group>
-                        <dx-radio-group #selectorgmain [readOnly]="formReadOnly" [dataSource]="orgtype2_5" layout="horizontal" valueExpr="org_id" displayExpr="org_name" [value]="formdataOrgsendcase.ORG_LOCATION_MAIN_ID5" (onValueChanged)="onvaluechangeorgmain($event,5)" itemTemplate="radio">
-                            <div class="radio" *dxTemplate="let data of 'radio'">
-                                <div class="row main-content">
-                                    <div class="col-md-4">{{data.org_name}}</div>
-                                </div>
-                                <div class="row sub-content">
-                                    <div class="col-md-2 offset-md-1 location">ที่ตั้ง</div>
-                                    <div class="col-md-9">{{data.org_location1}}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-2 offset-md-1"></div>
-                                    <div class="col-md-9">{{data.org_location2}}</div>
-                                </div>
-                            </div>
-                        </dx-radio-group>
-
+    
                         <dxi-validation-rule type="required" message="กรุณาเลือกข้อมูล หน่วยงานที่สะดวกไปพบเจ้าหน้าที่">
                         </dxi-validation-rule>
                     </div>
