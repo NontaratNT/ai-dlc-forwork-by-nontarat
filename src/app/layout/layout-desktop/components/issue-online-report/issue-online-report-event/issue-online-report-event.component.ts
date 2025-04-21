@@ -147,6 +147,15 @@ export class IssueOnlineReportEventComponent implements OnInit, DoCheck {
             );
             return;
         }
+        if(!this.formData?.BEHAVEOR || this.formData?.BEHAVEOR == ''){
+                    Swal.fire({
+                        title: "ผิดพลาด!",
+                        text: "กรุณากรอกรายละเอียดที่ต้องการแจ้งเบาะแส",
+                        icon: "warning",
+                        confirmButtonText: "Ok",
+                    }).then(() => { });
+                    return;
+                }
         if(this.formData.CRIMINAL_TEL){
             if (!this.formPhone.instance.validate().isValid) {
                 this._formValidate.ValidateForm(

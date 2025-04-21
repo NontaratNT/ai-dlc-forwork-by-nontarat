@@ -115,15 +115,15 @@ export class IssueOnlineReportEventComponent implements OnInit, DoCheck {
     }
 
     ngDoCheck(): void {
-        this.appState.checkOtherTel = this.formData.CRIMINAL_TEL_PROVIDER === 'อื่น ๆ' ?? false;
+        this.appState.checkOtherTel = (this.formData.CRIMINAL_TEL_PROVIDER === 'อื่น ๆ') ? true : false;
         if (!this.appState.checkOtherTel) {
             this.formData.CRIMINAL_TEL_PROVIDER_DETAIL = '';
         }
-        this.appState.checkOtherSms = this.formData.CRIMINAL_SMS_PROVIDER === 'อื่น ๆ' ?? false;
+        this.appState.checkOtherSms = (this.formData.CRIMINAL_SMS_PROVIDER === 'อื่น ๆ') ? true : false;
         if (!this.appState.checkOtherSms) {
             this.formData.CRIMINAL_SMS_PROVIDER_DETAIL = '';
         }
-        this.appState.checkOtherSocial = this.formData.CRIMINAL_TYPE_SOCIAL === 'อื่นๆ' ?? false;
+        this.appState.checkOtherSocial = this.formData.CRIMINAL_TYPE_SOCIAL === 'อื่นๆ' ? true : false;
 
         if(this.formData.CRIMINAL_SMS_DATE_FULL){
             this.formData.CRIMINAL_SMS_DATE = this.datePipe.transform(this.formData.CRIMINAL_SMS_DATE_FULL, 'yyyy-MM-dd');
@@ -158,6 +158,15 @@ export class IssueOnlineReportEventComponent implements OnInit, DoCheck {
             );
             return;
         }
+       if(!this.formData?.BEHAVEOR || this.formData?.BEHAVEOR == ''){
+                           Swal.fire({
+                               title: "ผิดพลาด!",
+                               text: "กรุณากรอกรายละเอียดที่ต้องการแจ้งเบาะแส",
+                               icon: "warning",
+                               confirmButtonText: "Ok",
+                           }).then(() => { });
+                           return;
+                       }
         if (this.formData.CRIMINAL_TEL) {
             if (!this.formPhone.instance.validate().isValid) {
                 this._formValidate.ValidateForm(

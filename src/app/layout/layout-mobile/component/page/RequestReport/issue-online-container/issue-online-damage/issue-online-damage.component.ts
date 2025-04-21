@@ -2535,6 +2535,7 @@ export class IssueOnlineDamageComponent implements OnInit {
                     this.formmoney.SHOW_NAME_END = data.SHOW_NAME;
                     this.formmoney.WAYS_DESTINATION = data.ways;
                     this.formmoney.BANK_MONEY_REMARK = data.BANK_MONEY_REMARK;
+                    this.formmoney.TYPE_DESTINATION_BANK_ID = data.TYPE_BANK_ID;
 
                     const dataorigin = this.selectBankInfoOriginlist.instance.option("selectedItem");
 
