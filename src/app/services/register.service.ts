@@ -130,8 +130,10 @@ export interface IRegister {
     FRONT_PPD_PICTURE: any;
     TYPE_CYBER: any;
     TYPE_SENIOR: any;
+    TYPE_CYBER_EYE: any;
     CYBER_STATUS: any;
     SENIOR_STATUS: any;
+    CYBER_EYE_STATUS: any;
 }
 export interface IActive {
     EMAIL?: string;

@@ -4,6 +4,7 @@
         <dx-scroll-view [showScrollbar]="'always'">
             <responsive-helper></responsive-helper>
             <app-main-re-design data-section="home"></app-main-re-design>
+            <img style="width: 100%;height: auto;" class="logoCyberEyePages" src="assets/icon/bg/pages-4.png" alt="" (click)="LinkCyberEye()">
             <box-senior-cyber [types]="'seniorPages'"></box-senior-cyber>
 
             <ng-container *ngIf="isMobile; else tabletOrDesktop">

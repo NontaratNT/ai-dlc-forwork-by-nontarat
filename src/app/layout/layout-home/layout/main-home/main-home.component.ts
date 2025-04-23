@@ -1,7 +1,9 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { User } from 'src/app/services/user';
 
 @Component({
     selector: 'app-main-home',
@@ -13,8 +15,10 @@ export class MainHomeComponent implements OnInit {
     isMobile = false;
     isTablet = false;
     isDesktop = false;
+    deviceInfo: any = null;
 
-    constructor(private router: Router, private breakpointObserver: BreakpointObserver) {
+    constructor(private router: Router, private breakpointObserver: BreakpointObserver,
+        private deviceService: DeviceDetectorService) {
         this.breakpointObserver.observe([
             '(max-width: 599.98px)',  // Mobile
             '(min-width: 600px) and (max-width: 959.98px)', // Tablet (Custom)
@@ -36,6 +40,28 @@ export class MainHomeComponent implements OnInit {
 
     ngOnInit(): void {
     }
+
+    LinkCyberEye() {
+        if (!User?.Current) {
+              this.router.navigate(['/login'], { queryParams: { icli: 'cyber-eye' } });
+        }else{
+            this.CheckDeviceMode(2);
+        }
+    }
+
+    CheckDeviceMode(type = 1) {
+        this.deviceInfo = this.deviceService.getDeviceInfo();
+        const isMobile = this.deviceService.isMobile();
+        const routes = {
+          1: isMobile ? "/mobile/issue-online?openExternalBrowser=1" : "/main/issue-online/1",
+          2: isMobile ? "/mobile/issue-online-report" : "/main/issue-online-report"
+        };
+        
+        const targetRoute = routes[type];
+        if (targetRoute) {
+          this.router.navigate([targetRoute]);
+        }
+      }
 
     openLink(link: string) {
         this.router.navigate([link], { queryParams: { icli: 'landing' } });

@@ -54,6 +54,7 @@ export class RegisterPeopleComponent implements OnInit {
     ];
     choiceSelect: number;
     regissenior = false;
+    regiscybereye = false;
     constructor(
         private ServiceRegister: RegisterService,
         private _date: ConvertDateService,
@@ -79,8 +80,11 @@ export class RegisterPeopleComponent implements OnInit {
         this.formRegister.CYBER_STATUS = "N";
         this.formRegister.TYPE_SENIOR = false;
         this.formRegister.SENIOR_STATUS = "N";
+        this.formRegister.TYPE_CYBER_EYE = false;
+        this.formRegister.CYBER_EYE_STATUS = "N";
         this.routerAc.queryParams.subscribe((params) => {
             this.regissenior = params.icli === "landing";
+            this.regiscybereye = params.icli === "cyber-eye";
         });
         // this.formRegister.PERSONAL_BIRTH_DATE = this._date.SetDateDefault(0);
         this.loadDateBox = true;
@@ -583,6 +587,10 @@ export class RegisterPeopleComponent implements OnInit {
 
     checkTypeSenior(event) {
         this.formRegister.SENIOR_STATUS = event.value ? "Y" : "N";
+    }
+
+    checkTypeCyberEye(event) {
+        this.formRegister.CYBER_STATUS = event.value ? "Y" : "N";
     }
 
 }

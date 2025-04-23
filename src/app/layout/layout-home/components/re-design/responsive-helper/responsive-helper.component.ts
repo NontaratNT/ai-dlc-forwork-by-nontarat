@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { User } from 'src/app/services/user';
 
 @Component({
   selector: 'responsive-helper',
@@ -24,20 +25,30 @@ export class ResponsiveHelperComponent implements OnInit {
     downloadLink.click();
   }
 
-  CheckDeviceMode() {
+  CheckDeviceMode(type = 1) {
     this.deviceInfo = this.deviceService.getDeviceInfo();
     const isMobile = this.deviceService.isMobile();
-    if (isMobile) {
-      this.router.navigate(["/mobile/track-status?openExternalBrowser=1"]);
-    } else {
-      this.router.navigate(["/main/issue-online/1"]);
+    const routes = {
+      1: isMobile ? "/mobile/issue-online?openExternalBrowser=1" : "/main/issue-online/1",
+      2: isMobile ? "/mobile/issue-online-report" : "/main/issue-online-report"
+    };
+    
+    const targetRoute = routes[type];
+    if (targetRoute) {
+      this.router.navigate([targetRoute]);
     }
   }
 
   OnIssueOnline() {
-    console.log("OnIssueOnline");
-    // this.popupVisible = true;
-    this.CheckDeviceMode();
+    this.CheckDeviceMode(1);
+  }
+
+  OnIssueReport() {
+    if(!User?.Current){
+      this.router.navigate(['/login', { queryParams: { icli: "cyber-eye" }}]);
+      return;
+    }
+    this.CheckDeviceMode(2);
   }
 
   openLink(link: string) {

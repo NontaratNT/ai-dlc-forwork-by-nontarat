@@ -158,6 +158,7 @@
                                                 <!-- <dx-check-box [readOnly]="false" [(value)]="formRegister.TYPE_CYBER" text="ลงทะเบียนเพื่อเข้าใช้งานเป็นอาสาสมัครไซเบอร์"  (onValueChanged)="checkTypeCyber($event)"></dx-check-box> -->
                                                 <!-- <div class="mt-1"></div> -->
                                                 <dx-check-box *ngIf="regissenior" [readOnly]="false" [(value)]="formRegister.TYPE_SENIOR" text="ลงทะเบียนเพื่อเข้าใช้งาน Senior Cyber Club"  (onValueChanged)="checkTypeSenior($event)"></dx-check-box>
+                                                <dx-check-box *ngIf="regiscybereye" [readOnly]="false" [(value)]="formRegister.TYPE_CYBER_EYE" text="ลงทะเบียนเพื่อเข้าใช้งานเป็นอาสาสมัครสายตรวจไซเบอร์" (onValueChanged)="checkTypeCyberEye($event)"></dx-check-box>
                                             </div>
                                             <dxi-item [colSpan]="1" template="templateimage1"></dxi-item>
                                             <div *dxTemplate="let data of 'templateimage1'">

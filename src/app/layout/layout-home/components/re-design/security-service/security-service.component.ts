@@ -96,7 +96,8 @@ export class SecurityServiceComponent implements OnInit {
         downloadLink.click();
       },
       5: () => window.location.href = 'https://m.me/mysisbot',
-      6: () => this.router.navigate(['/login'], { queryParams: { icli: 'landing' } })
+      6: () => this.router.navigate(['/login'], { queryParams: { icli: 'landing' } }),
+      7: () => this.router.navigate(['/login'], { queryParams: { icli: 'cyber-eye' } })
     };
     // ตรวจสอบว่า id มีอยู่ใน object หรือไม่ ถ้ามีให้เรียกฟังก์ชันนั้น
     serviceActions[id]?.();

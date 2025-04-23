@@ -150,7 +150,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         
             if (params.icli === "landing") {
                 this.router.navigate(["register"], { queryParams: { icli: 'landing' } });
-            } else {
+            } else if (params.icli === "cyber-eye") {
+                this.router.navigate(["register"], { queryParams: { icli: 'cyber-eye' } });
+            }else {
                 this.router.navigate(["register"]);
             }
         
