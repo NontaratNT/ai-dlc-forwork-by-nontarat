@@ -192,28 +192,28 @@ export class IssueOnlineInformerComponent implements OnInit {
     //   ];
 
     orgtype2_1 = [
-        { org_id: 3536, org_name: "บก.สอท.1",org_location1:"ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ"},
+        { org_id: 3536, org_name: "บก.สอท.1", org_location1: "ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ" },
     ];
     orgtype2_2 = [
-            { org_id: 3548, org_name: "บก.สอท.2",org_location1:"เมืองทองธานี จ.นนทบุรี"},
+        { org_id: 3548, org_name: "บก.สอท.2", org_location1: "เมืองทองธานี จ.นนทบุรี" },
     ];
     orgtype2_3 = [
-            { org_id: 3559, org_name: "บก.สอท.3",org_location1:"1.ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ",org_location2:"2.ถ.มิตรภาพ ต.ในเมือง อ.เมือง จ.ขอนแก่น"},
+        { org_id: 3559, org_name: "บก.สอท.3", org_location1: "1.ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ", org_location2: "2.ถ.มิตรภาพ ต.ในเมือง อ.เมือง จ.ขอนแก่น" },
     ];
     orgtype2_4 = [
-            { org_id: 3567, org_name: "บก.สอท.4",org_location1:"1.ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ",org_location2:"2.ต.ป่าแดด อ.เมืองเชียงใหม่ จ.เชียงใหม่"},
+        { org_id: 3567, org_name: "บก.สอท.4", org_location1: "1.ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ", org_location2: "2.ต.ป่าแดด อ.เมืองเชียงใหม่ จ.เชียงใหม่" },
     ];
     orgtype2_5 = [
-            { org_id: 3578, org_name: "บก.สอท.5",org_location1:"1.ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ",org_location2:"2.ต.บางกุ้ง อ.เมืองสุราษฎร์ธานี จ.สุราษฏร์ธานี"},
+        { org_id: 3578, org_name: "บก.สอท.5", org_location1: "1.ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ", org_location2: "2.ต.บางกุ้ง อ.เมืองสุราษฎร์ธานี จ.สุราษฏร์ธานี" },
     ];
     orgtype3 = [
         { org_id: 2541, org_name: "กองบังคับการปราบปรามการกระทำความผิดเกี่ยวกับอาชญากรรมทางเศรษฐกิจ                          (บก.ปอศ.)" },
         { org_id: 2397, org_name: "กองบังคับการปราบปรามการกระทำความผิดเกี่ยวกับการคุ้มครองผู้บริโภค                              (บก.ปคบ.)" },
         { org_id: 2614, org_name: "กองบังคับการปราบปรามการกระทำผิดเกี่ยวกับอาชญากรรมทางเทคโนโลยี กองบัญชาการตำรวจสอบสวนกลาง  (บก.ปอท.)" },
         { org_id: 2605, org_name: "กองบังคับการปราบปรามการกระทำความเกี่ยวกับการค้ามนุษย์                                      (บก.ปคม.)" },
-        { org_id: 2387, org_name: 'กองบังคับการปราบปราม                                                                 (บก.ป.)'},
+        { org_id: 2387, org_name: 'กองบังคับการปราบปราม                                                                 (บก.ป.)' },
     ];
-      aria1and2 = [
+    aria1and2 = [
         "ตำรวจภูธรภาค 1 (ชัยนาท,นนทบุรี,ปทุมธานี,พระนครศรีอยุธยา,ลพบุรี,สมุทรปราการ,สระบุรี,สิงห์บุรี,อ่างทอง)",
         "ตำรวจภูธรภาค 2 (จันทบุรี,ฉะเชิงเทรา,ชลบุรี,ตราด,นครนายก,ปราจีนบุรี,ระยอง,สระแก้ว)",
         "ตำรวจภูธรภาค 7 (กาญจนบุรี,นครปฐม,ประจวบคีรีขันธ์,เพชรบุรี,ราชบุรี,สมุทรสงคราม,สมุทรสาคร,สุพรรณบุรี)",
@@ -318,13 +318,13 @@ export class IssueOnlineInformerComponent implements OnInit {
         this.isLoading = true;
         this.servicePersonal.GetPersonalById(userId)
             .subscribe(personalInfo => {
-            this.personalInfo = personalInfo;
-            this.setPersonalData();
-          }, error => {
-            if (error.status === 500 || error.status === 524) {
-              this.mainConponent.checkReload(2);
-            }
-          });
+                this.personalInfo = personalInfo;
+                this.setPersonalData();
+            }, error => {
+                if (error.status === 500 || error.status === 524) {
+                    this.mainConponent.checkReload(2);
+                }
+            });
 
         this.DefaultCheckbox();
 
@@ -380,7 +380,7 @@ export class IssueOnlineInformerComponent implements OnInit {
             }, 500);
         }
     }
-    onvaluecheckboxlocationchangewalkin(e,type_location){
+    onvaluecheckboxlocationchangewalkin(e, type_location) {
         this.formdataOrgsendcasewalkin = {};
         // this.formData.WALKIN_POLICE_STATION = data.ORGANIZE_NAME_THA;
         // this.formData.ORG_PROVINCE_OFFICER_ID = Number(data.ORGANIZE_ARIA_CODE);
@@ -498,22 +498,22 @@ export class IssueOnlineInformerComponent implements OnInit {
     }
 
     async setPersonalData() {
-        try{
+        try {
             this.isLoading = true;
             this.userType = this.mainConponent.userType;
             this.province = this.mainConponent.province;
             this.formData = {};
             if (this.mainConponent.formType === "add") {
-                if(localStorage.getItem("form-blessing")){
+                if (localStorage.getItem("form-blessing")) {
                     this.datacheck = JSON.parse(localStorage.getItem("form-blessing"));
-                }else if(this.mainConponent.formDataAll.formBlessing){
+                } else if (this.mainConponent.formDataAll.formBlessing) {
                     this.datacheck = this.mainConponent.formDataAll.formBlessing;
                 }
-                localStorage.setItem("form-index","2");
-                if(localStorage.getItem("form-informer")){
+                localStorage.setItem("form-index", "2");
+                if (localStorage.getItem("form-informer")) {
                     this.dataForms = JSON.parse(localStorage.getItem("form-informer"));
                     this.formData = this.dataForms;
-                }else{
+                } else {
                     this.dataForms = this.mainConponent.formDataAll.formInformer;
                 }
                 this.checkblessings = this.datacheck.CHECK_BLESSING;
@@ -527,62 +527,62 @@ export class IssueOnlineInformerComponent implements OnInit {
                 this.checkedRadioGender = null;
                 if (this.userType === "mySelf") {
                     this.formData.CASE_INFORMER_FIRSTNAME = this.dataForms.CASE_INFORMER_FIRSTNAME ?? p.PERSONAL_FNAME_THA ?? null;
-                    this.formData.CASE_INFORMER_LASTNAME =  this.dataForms.CASE_INFORMER_LASTNAME ?? p.PERSONAL_LNAME_THA ?? null;
-                    this.formData.INFORMER_EMAIL =  this.dataForms.INFORMER_EMAIL ?? p.PERSONAL_EMAIL ?? null;
+                    this.formData.CASE_INFORMER_LASTNAME = this.dataForms.CASE_INFORMER_LASTNAME ?? p.PERSONAL_LNAME_THA ?? null;
+                    this.formData.INFORMER_EMAIL = this.dataForms.INFORMER_EMAIL ?? p.PERSONAL_EMAIL ?? null;
                     this.formData.INFORMER_TEL = this.dataForms.INFORMER_TEL ?? p.PERSONAL_TEL_NO ?? null;
-                    this.checkedRadioGender = this.dataForms.INFORMER_GENDER ?? p.PERSONAL_GENDER === 1 ? "M" : "F" ?? null;
+                    this.checkedRadioGender = this.dataForms.INFORMER_GENDER ?? (p.PERSONAL_GENDER === 1 ? "M" : "F");
                     this.formData.INFORMER_GENDER_DETAIL = this.dataForms.INFORMER_GENDER_DETAIL ?? null;
                     this.formData.CASE_INFORMER_CITIZEN_NUMBER = this.dataForms.CASE_INFORMER_CITIZEN_NUMBER ?? p.PERSONAL_CITIZEN_NUMBER ?? null;
 
-                    if(this.dataForms.TITLE_ID){
+                    if (this.dataForms.TITLE_ID) {
                         this.formData.TITLE_ID = this.dataForms.TITLE_ID;
                         this.formData.TITLE_NAME = this.dataForms.TITLE_NAME ?? null;
-                    }else{
-                        if(this.personalInfo.TITLE_NAME == "นาย"){
+                    } else {
+                        if (this.personalInfo.TITLE_NAME == "นาย") {
                             this.formData.TITLE_ID = this.personalInfo.TITLE_NAME;
-                        }else if(this.personalInfo.TITLE_NAME == "นาง"){
+                        } else if (this.personalInfo.TITLE_NAME == "นาง") {
                             this.formData.TITLE_ID = this.personalInfo.TITLE_NAME;
-                        }else if(this.personalInfo.TITLE_NAME == "นางสาว"){
+                        } else if (this.personalInfo.TITLE_NAME == "นางสาว") {
                             this.formData.TITLE_ID = this.personalInfo.TITLE_NAME;
-                        }else{
+                        } else {
                             this.formData.TITLE_ID = "อื่นๆ";
                             this.formData.TITLE_NAME = this.personalInfo.TITLE_NAME;
                         }
                     }
                     this.formData.CASE_INFORMER_CARD_ADDRESS_NO = this.dataForms.CASE_INFORMER_CARD_ADDRESS_NO ? this.dataForms.CASE_INFORMER_CARD_ADDRESS_NO : p.HOME_REGISTER_ADDRESS;
-                    if(this.dataForms.INFORMER_CARD_PROVINCE){
+                    if (this.dataForms.INFORMER_CARD_PROVINCE) {
                         this.formData.INFORMER_CARD_PROVINCE = this.dataForms.INFORMER_CARD_PROVINCE;
                         this.formData.INFORMER_CARD_PROVINCE_NAME_THA = this.dataForms.INFORMER_CARD_PROVINCE_NAME_THA;
                         this.cardAddress.district = await this.serviceProvince
                             .GetDistrictofProvince(this.formData.INFORMER_CARD_PROVINCE)
                             .toPromise();
                         this.cardAddress.disableDistrict = false;
-                    }else if (p.HOME_REGISTER_PROVINCE_ID) {
+                    } else if (p.HOME_REGISTER_PROVINCE_ID) {
                         this.formData.INFORMER_CARD_PROVINCE = p.HOME_REGISTER_PROVINCE_ID;
                         this.cardAddress.district = await this.serviceProvince
                             .GetDistrictofProvince(p.HOME_REGISTER_PROVINCE_ID)
                             .toPromise();
                         this.cardAddress.disableDistrict = false;
                     }
-                    if(this.dataForms.INFORMER_CARD_DISTRICT_ID){
+                    if (this.dataForms.INFORMER_CARD_DISTRICT_ID) {
                         this.formData.INFORMER_CARD_DISTRICT_ID = this.dataForms.INFORMER_CARD_DISTRICT_ID;
                         this.formData.INFORMER_CARD_DISTRICT_NAME_THA = this.dataForms.INFORMER_CARD_DISTRICT_NAME_THA;
                         this.cardAddress.subDistrict = await this.serviceDistrict
                             .GetSubDistrictOfDistrict(this.formData.INFORMER_CARD_DISTRICT_ID)
                             .toPromise();
                         this.cardAddress.disableSubDistrict = false;
-                    }else if (p.HOME_REGISTER_DISTICT_ID) {
+                    } else if (p.HOME_REGISTER_DISTICT_ID) {
                         this.formData.INFORMER_CARD_DISTRICT_ID = p.HOME_REGISTER_DISTICT_ID;
                         this.cardAddress.subDistrict = await this.serviceDistrict
                             .GetSubDistrictOfDistrict(p.HOME_REGISTER_DISTICT_ID)
                             .toPromise();
                         this.cardAddress.disableSubDistrict = false;
                     }
-                    if(this.dataForms.INFORMER_CARD_SUB_DISTRICT_ID){
+                    if (this.dataForms.INFORMER_CARD_SUB_DISTRICT_ID) {
                         this.formData.INFORMER_CARD_SUB_DISTRICT_ID = this.dataForms.INFORMER_CARD_SUB_DISTRICT_ID;
                         this.formData.INFORMER_CARD_SUB_DISTRICT_NAME_THA = this.dataForms.INFORMER_CARD_SUB_DISTRICT_NAME_THA;
                         this.cardAddress.disablepostcode = false;
-                    }else if (p.HOME_REGISTER_SUB_DISTICT_ID) {
+                    } else if (p.HOME_REGISTER_SUB_DISTICT_ID) {
                         this.formData.INFORMER_CARD_SUB_DISTRICT_ID = p.HOME_REGISTER_SUB_DISTICT_ID;
                         this.formData.INFORMER_CARD_POSTCODE_ID = p.HOME_REGISTER_POST_CODE;
                         // this.cardAddress.postcode = await this.serviceSubDistrict
@@ -592,39 +592,39 @@ export class IssueOnlineInformerComponent implements OnInit {
                     }
                     this.formData.CASE_INFORMER_ADDRESS_NO = this.dataForms.CASE_INFORMER_ADDRESS_NO ? this.dataForms.CASE_INFORMER_ADDRESS_NO : p.PERSONAL_ADDRESS;
 
-                    if(this.dataForms.INFORMER_PROVINCE){
+                    if (this.dataForms.INFORMER_PROVINCE) {
                         this.formData.INFORMER_PROVINCE = this.dataForms.INFORMER_PROVINCE;
                         this.formData.INFORMER_PROVINCE_NAME_THA = this.dataForms.INFORMER_PROVINCE_NAME_THA;
                         this.presentAddress.district = await this.serviceProvince
                             .GetDistrictofProvince(this.formData.INFORMER_PROVINCE)
                             .toPromise();
                         this.presentAddress.disableDistrict = false;
-                    }else if (p.PROVINCE_ID) {
+                    } else if (p.PROVINCE_ID) {
                         this.formData.INFORMER_PROVINCE = p.PROVINCE_ID;
                         this.presentAddress.district = await this.serviceProvince
                             .GetDistrictofProvince(p.PROVINCE_ID)
                             .toPromise();
                         this.presentAddress.disableDistrict = false;
                     }
-                    if(this.dataForms.INFORMER_DISTRICT_ID){
+                    if (this.dataForms.INFORMER_DISTRICT_ID) {
                         this.formData.INFORMER_DISTRICT_ID = this.dataForms.INFORMER_DISTRICT_ID;
                         this.formData.INFORMER_DISTRICT_NAME_THA = this.dataForms.INFORMER_DISTRICT_NAME_THA;
                         this.presentAddress.subDistrict = await this.serviceDistrict
                             .GetSubDistrictOfDistrict(this.formData.INFORMER_DISTRICT_ID)
                             .toPromise();
                         this.presentAddress.disableSubDistrict = false;
-                    }else if (p.DISTICT_ID) {
+                    } else if (p.DISTICT_ID) {
                         this.formData.INFORMER_DISTRICT_ID = p.DISTICT_ID;
                         this.presentAddress.subDistrict = await this.serviceDistrict
                             .GetSubDistrictOfDistrict(p.DISTICT_ID)
                             .toPromise();
                         this.presentAddress.disableSubDistrict = false;
                     }
-                    if(this.dataForms.INFORMER_SUB_DISTRICT_ID){
+                    if (this.dataForms.INFORMER_SUB_DISTRICT_ID) {
                         this.formData.INFORMER_SUB_DISTRICT_ID = this.dataForms.INFORMER_SUB_DISTRICT_ID;
                         this.formData.INFORMER_SUB_DISTRICT_NAME_THA = this.dataForms.INFORMER_SUB_DISTRICT_NAME_THA;
                         this.presentAddress.disablepostcode = false;
-                    }else if (p.SUB_DISTICT_ID) {
+                    } else if (p.SUB_DISTICT_ID) {
                         this.formData.INFORMER_SUB_DISTRICT_ID = p.SUB_DISTICT_ID;
                         this.formData.INFORMER_POSTCODE_ID = p.POST_CODE;
                         // this.presentAddress.postcode = await this.serviceSubDistrict
@@ -648,10 +648,10 @@ export class IssueOnlineInformerComponent implements OnInit {
                     this.formData.CASE_INFORMER_DATE = this._date.SetDateDefault();
                 }
             } else {
-                if(!localStorage.getItem("case_id")){
+                if (!localStorage.getItem("case_id")) {
                     const _inst_id = Number(localStorage.getItem("inst_id"));
                     const procinstdata = await this._BpmProcinstService.getByInstId(_inst_id).toPromise();
-                    sessionStorage.setItem("case_id",procinstdata.Value.DATA_ID);
+                    sessionStorage.setItem("case_id", procinstdata.Value.DATA_ID);
                 }
                 const _case_id = Number(sessionStorage.getItem("case_id"));
                 const dataForm = await this._OnlineCaseService.getbycaseId(_case_id).toPromise();
@@ -720,14 +720,14 @@ export class IssueOnlineInformerComponent implements OnInit {
             this.loadDateBox = true;
             this.isLoading = false;
             // console.log("formdata", this.formData);
-        }catch (error){
-            setTimeout(()=>{
-                this.checkerror = this.checkerror+1;
-                if(this.checkerror > 3){
+        } catch (error) {
+            setTimeout(() => {
+                this.checkerror = this.checkerror + 1;
+                if (this.checkerror > 3) {
                     this.router.navigate([`/mobile/issue`]).then(() => {
                         window.location.reload();
-                      });
-                }else{
+                    });
+                } else {
                     this.setPersonalData();
                 }
             }, 2000);
@@ -743,10 +743,10 @@ export class IssueOnlineInformerComponent implements OnInit {
 
     ChangeRadioTitle(e) {
         if (e.value) {
-            setTimeout(()=>{
+            setTimeout(() => {
                 if (e.value == "อื่นๆ") {
                     this.checkothertitle = true;
-                    if(!this.formData.TITLE_NAME){
+                    if (!this.formData.TITLE_NAME) {
                         this.formData.TITLE_NAME = "";
                     }
                 } else {
@@ -786,7 +786,7 @@ export class IssueOnlineInformerComponent implements OnInit {
                 }, 200);
                 this.formData.OCCUPATIONS_ID = e.value;
                 this.formData.OCCUPATIONS_NAME = data.OCCUPATIONS_NAME;
-                if(this.formData.OCCUPATIONS_ID != 10){
+                if (this.formData.OCCUPATIONS_ID != 10) {
                     this.formData.OCCUPATIONS_OTHER_NAME = null;
                 }
             } else {
@@ -860,7 +860,7 @@ export class IssueOnlineInformerComponent implements OnInit {
                 });
         }
     }
-    OnSelectProvicePresentlocationWalkin(e){
+    OnSelectProvicePresentlocationWalkin(e) {
         if (e.value) {
             const data =
                 this.selectPresentProvicelocationWalkin.instance.option(
@@ -1101,6 +1101,31 @@ export class IssueOnlineInformerComponent implements OnInit {
                 return;
             }
 
+            const isEmpty = (value: any): boolean =>
+                value === null || value === undefined || value === '';
+
+            const requiredFields = [
+                { key: 'CASE_INFORMER_CARD_ADDRESS_NO', message: 'กรุณากรอกที่อยู่ตามบัตรประชาชน' },
+                { key: 'CASE_INFORMER_ADDRESS_NO', message: 'กรุณากรอกที่อยู่ปัจจุบัน' },
+                { key: 'CASE_INFORMER_FIRSTNAME', message: 'กรุณากรอกชื่อผู้แจ้งเหตุ' },
+                { key: 'CASE_INFORMER_LASTNAME', message: 'กรุณากรอกนามสกุลผู้แจ้งเหตุ' },
+                { key: 'INFORMER_TEL', message: 'กรุณากรอกเบอร์โทรศัพท์ผู้แจ้งเหตุ' },
+                { key: 'INFORMER_CARD_PROVINCE', message: 'กรุณากรอกที่อยู่ตามบัตรประชาชน' },
+                { key: 'INFORMER_CARD_DISTRICT_ID', message: 'กรุณากรอกที่อยู่ตามบัตรประชาชน' },
+                { key: 'INFORMER_CARD_SUB_DISTRICT_ID', message: 'กรุณากรอกที่อยู่ตามบัตรประชาชน' },
+                { key: 'INFORMER_PROVINCE', message: 'กรุณากรอกที่อยู่ตามบัตรประชาชน' },
+                { key: 'INFORMER_DISTRICT_ID', message: 'กรุณากรอกที่อยู่ตามบัตรประชาชน' },
+                { key: 'INFORMER_SUB_DISTRICT_ID', message: 'กรุณากรอกที่อยู่ตามบัตรประชาชน' },
+              ] as const;
+              
+              for (const field of requiredFields) {
+                if (isEmpty((this.formData as any)[field.key])) {
+                  this.alertmessagecustom(field.message);
+                  return;
+                }
+              }
+
+
             this.formData.CASE_INFORMER_FIRSTNAME = this.NameSanitize(
                 this.formData.CASE_INFORMER_FIRSTNAME
             );
@@ -1117,7 +1142,7 @@ export class IssueOnlineInformerComponent implements OnInit {
             this.formData.CASE_INFORMER_DATE = this._date.ConvertToDateFormat(
                 this.formData.CASE_INFORMER_DATE
             );
-            if(this.formData.CASE_INFORMER_DATE == "Invalid date" || undefined || null){
+            if (this.formData.CASE_INFORMER_DATE == "Invalid date" || this.formData.CASE_INFORMER_DATE == undefined || this.formData.CASE_INFORMER_DATE == null) {
                 this.alertmessagecustom('กรุณาเลือกวันเดือนปีเกิด');
                 return
             }
@@ -1129,9 +1154,9 @@ export class IssueOnlineInformerComponent implements OnInit {
                 }
             }
             this.mainConponent.formDataAll.formInformer = setData;
-            localStorage.setItem("form-informer",JSON.stringify(setData));
+            localStorage.setItem("form-informer", JSON.stringify(setData));
         }
-        if(e != 'tab'){
+        if (e != 'tab') {
             this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
         }
     }

@@ -19,6 +19,7 @@ import {
 import { ProvinceService } from "src/app/services/province.service";
 import { environment } from "src/environments/environment";
 import { formatDate } from "devextreme/localization";
+import { DEVICES } from "ngx-device-detector";
 
 @Component({
     selector: "app-issue-online-validate",
@@ -433,6 +434,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                     env: environment.config.baseConfig,
                     CASE_FLAG: "O",
                     CASE_SELF_TYPE: "Y",
+                    DEVICE: "MOBILE",
                 };
                 localStorage.setItem(
                     "form-config",
