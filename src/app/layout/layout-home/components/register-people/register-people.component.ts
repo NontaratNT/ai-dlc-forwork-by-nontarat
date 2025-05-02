@@ -590,7 +590,7 @@ export class RegisterPeopleComponent implements OnInit {
     }
 
     checkTypeCyberEye(event) {
-        this.formRegister.CYBER_STATUS = event.value ? "Y" : "N";
+        this.formRegister.CYBER_EYE_STATUS = event.value ? "Y" : "N";
     }
 
 }

@@ -29,7 +29,7 @@ export class ResponsiveHelperComponent implements OnInit {
     this.deviceInfo = this.deviceService.getDeviceInfo();
     const isMobile = this.deviceService.isMobile();
     const routes = {
-      1: isMobile ? "/mobile/issue-online?openExternalBrowser=1" : "/main/issue-online/1",
+      1: isMobile ? "/mobile/issue-online/1" : "/main/issue-online/1",
       2: isMobile ? "/mobile/issue-online-report" : "/main/issue-online-report"
     };
     
