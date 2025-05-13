@@ -168,6 +168,89 @@ export class IssueOnlineEventComponent implements OnInit {
     };
     showSelectORG = false;
 
+    provinceResponsibility = [
+        { province: "กรุงเทพมหานคร", org_name: "บก.สอท.1", org_id: 3536, province_id: 10 },
+        { province: "นนทบุรี", org_name: "บก.สอท.2", org_id: 3548, province_id: 12 },
+        { province: "ปทุมธานี", org_name: "บก.สอท.2", org_id: 3548, province_id: 13 },
+        { province: "สมุทรปราการ", org_name: "บก.สอท.2", org_id: 3548, province_id: 11 },
+        { province: "พระนครศรีอยุธยา", org_name: "บก.สอท.2", org_id: 3548, province_id: 14 },
+        { province: "อ่างทอง", org_name: "บก.สอท.2", org_id: 3548, province_id: 15 },
+        { province: "สิงห์บุรี", org_name: "บก.สอท.2", org_id: 3548, province_id: 17 },
+        { province: "ลพบุรี", org_name: "บก.สอท.2", org_id: 3548, province_id: 16 },
+        { province: "ชัยนาท", org_name: "บก.สอท.2", org_id: 3548, province_id: 18 },
+        { province: "สระบุรี", org_name: "บก.สอท.2", org_id: 3548, province_id: 19 },
+        { province: "ชลบุรี", org_name: "บก.สอท.2", org_id: 3548, province_id: 20 },
+        { province: "ระยอง", org_name: "บก.สอท.2", org_id: 3548, province_id: 21 },
+        { province: "จันทบุรี", org_name: "บก.สอท.2", org_id: 3548, province_id: 22 },
+        { province: "ตราด", org_name: "บก.สอท.2", org_id: 3548, province_id: 23 },
+        { province: "ฉะเชิงเทรา", org_name: "บก.สอท.2", org_id: 3548, province_id: 24 },
+        { province: "ปราจีนบุรี", org_name: "บก.สอท.2", org_id: 3548, province_id: 25 },
+        { province: "สระแก้ว", org_name: "บก.สอท.2", org_id: 3548, province_id: 27 },
+        { province: "นครนายก", org_name: "บก.สอท.2", org_id: 3548, province_id: 26 },
+        { province: "นครปฐม", org_name: "บก.สอท.2", org_id: 3548, province_id: 73 },
+        { province: "ราชบุรี", org_name: "บก.สอท.2", org_id: 3548, province_id: 70 },
+        { province: "สุพรรณบุรี", org_name: "บก.สอท.2", org_id: 3548, province_id: 72 },
+        { province: "กาญจนบุรี", org_name: "บก.สอท.2", org_id: 3548, province_id: 71 },
+        { province: "สมุทรสาคร", org_name: "บก.สอท.2", org_id: 3548, province_id: 74 },
+        { province: "สมุทรสงคราม", org_name: "บก.สอท.2", org_id: 3548, province_id: 75 },
+        { province: "เพชรบุรี", org_name: "บก.สอท.2", org_id: 3548, province_id: 76 },
+        { province: "ประจวบคีรีขันธ์", org_name: "บก.สอท.2", org_id: 3548, province_id: 77 },
+        { province: "นครราชสีมา", org_name: "บก.สอท.3", org_id: 3559, province_id: 30 },
+        { province: "บุรีรัมย์", org_name: "บก.สอท.3", org_id: 3559, province_id: 31 },
+        { province: "สุรินทร์", org_name: "บก.สอท.3", org_id: 3559, province_id: 32 },
+        { province: "ศรีสะเกษ", org_name: "บก.สอท.3", org_id: 3559, province_id: 33 },
+        { province: "ชัยภูมิ", org_name: "บก.สอท.3", org_id: 3559, province_id: 36 },
+        { province: "ขอนแก่น", org_name: "บก.สอท.3", org_id: 3559, province_id: 40 },
+        { province: "มหาสารคาม", org_name: "บก.สอท.3", org_id: 3559, province_id: 44 },
+        { province: "กาฬสินธุ์", org_name: "บก.สอท.3", org_id: 3559, province_id: 46 },
+        { province: "ร้อยเอ็ด", org_name: "บก.สอท.3", org_id: 3559, province_id: 45 },
+        { province: "อุดรธานี", org_name: "บก.สอท.3", org_id: 3559, province_id: 41 },
+        { province: "หนองบัวลำภู", org_name: "บก.สอท.3", org_id: 3559, province_id: 39 },
+        { province: "หนองคาย", org_name: "บก.สอท.3", org_id: 3559, province_id: 43 },
+        { province: "เลย", org_name: "บก.สอท.3", org_id: 3559, province_id: 42 },
+        { province: "สกลนคร", org_name: "บก.สอท.3", org_id: 3559, province_id: 47 },
+        { province: "นครพนม", org_name: "บก.สอท.3", org_id: 3559, province_id: 48 },
+        { province: "บึงกาฬ", org_name: "บก.สอท.3", org_id: 3559, province_id: 38 },
+        { province: "มุกดาหาร", org_name: "บก.สอท.3", org_id: 3559, province_id: 49 },
+        { province: "อุบลราชธานี", org_name: "บก.สอท.3", org_id: 3559, province_id: 34 },
+        { province: "ยโสธร", org_name: "บก.สอท.3", org_id: 3559, province_id: 35 },
+        { province: "อำนาจเจริญ", org_name: "บก.สอท.3", org_id: 3559, province_id: 37 },
+        { province: "เชียงใหม่", org_name: "บก.สอท.4", org_id: 3567, province_id: 50 },
+        { province: "เชียงราย", org_name: "บก.สอท.4", org_id: 3567, province_id: 57 },
+        { province: "ลำพูน", org_name: "บก.สอท.4", org_id: 3567, province_id: 51 },
+        { province: "ลำปาง", org_name: "บก.สอท.4", org_id: 3567, province_id: 52 },
+        { province: "แม่ฮ่องสอน", org_name: "บก.สอท.4", org_id: 3567, province_id: 58 },
+        { province: "พะเยา", org_name: "บก.สอท.4", org_id: 3567, province_id: 56 },
+        { province: "แพร่", org_name: "บก.สอท.4", org_id: 3567, province_id: 54 },
+        { province: "น่าน", org_name: "บก.สอท.4", org_id: 3567, province_id: 55 },
+        { province: "พิษณุโลก", org_name: "บก.สอท.4", org_id: 3567, province_id: 65 },
+        { province: "เพชรบูรณ์", org_name: "บก.สอท.4", org_id: 3567, province_id: 67 },
+        { province: "พิจิตร", org_name: "บก.สอท.4", org_id: 3567, province_id: 66 },
+        { province: "อุตรดิตถ์", org_name: "บก.สอท.4", org_id: 3567, province_id: 53 },
+        { province: "กำแพงเพชร", org_name: "บก.สอท.4", org_id: 3567, province_id: 62 },
+        { province: "สุโขทัย", org_name: "บก.สอท.4", org_id: 3567, province_id: 64 },
+        { province: "ตาก", org_name: "บก.สอท.4", org_id: 3567, province_id: 63 },
+        { province: "นครสวรรค์", org_name: "บก.สอท.4", org_id: 3567, province_id: 60 },
+        { province: "อุทัยธานี", org_name: "บก.สอท.4", org_id: 3567, province_id: 61 },
+        { province: "ชุมพร", org_name: "บก.สอท.5", org_id: 3578, province_id: 86 },
+        { province: "สุราษฎร์ธานี", org_name: "บก.สอท.5", org_id: 3578, province_id: 84 },
+        { province: "นครศรีธรรมราช", org_name: "บก.สอท.5", org_id: 3578, province_id: 80 },
+        { province: "พังงา", org_name: "บก.สอท.5", org_id: 3578, province_id: 82 },
+        { province: "ภูเก็ต", org_name: "บก.สอท.5", org_id: 3578, province_id: 83 },
+        { province: "ระนอง", org_name: "บก.สอท.5", org_id: 3578, province_id: 85 },
+        { province: "กระบี่", org_name: "บก.สอท.5", org_id: 3578, province_id: 81 },
+        { province: "ตรัง", org_name: "บก.สอท.5", org_id: 3578, province_id: 92 },
+        { province: "พัทลุง", org_name: "บก.สอท.5", org_id: 3578, province_id: 93 },
+        { province: "สงขลา", org_name: "บก.สอท.5", org_id: 3578, province_id: 90 },
+        { province: "สตูล", org_name: "บก.สอท.5", org_id: 3578, province_id: 91 },
+        { province: "ปัตตานี", org_name: "บก.สอท.5", org_id: 3578, province_id: 94 },
+        { province: "ยะลา", org_name: "บก.สอท.5", org_id: 3578, province_id: 95 },
+        { province: "นราธิวาส", org_name: "บก.สอท.5", org_id: 3578, province_id: 96 }
+    ];
+
+    orgUnitsNew:any;
+    orgUnitsNewWalkin:any;
+
     constructor(
         private servBankInfo: BankInfoService,
         private _caseTypeSub: CmsCaseTypeSubService,
@@ -503,6 +586,36 @@ export class IssueOnlineEventComponent implements OnInit {
             this._OrgService.getorgProvince(e.value).subscribe((_) => {
                 this.dsorgbyarialocation = _;
             });
+        }
+    }
+
+    OnSelectProviceCCIBWalkin(e,tag:DxSelectBoxComponent) {
+        if (e.value) {
+            const data = tag.instance.option("selectedItem" );
+            if (data) {
+                this.formData.ORG_PROVINCE_ID_CCIB_WALKIN_ID = data.PROVINCE_ID;
+                this.formData.ORG_PROVINCE_CCIB_WALKIN_NAME = data.PROVINCE_NAME_THA;
+                const orgValue = this.provinceResponsibility.filter((r) => r.province_id === data.PROVINCE_ID);
+                this.orgUnitsNewWalkin = this.orgUnits.filter((r) => r.org_id === orgValue[0].org_id);
+                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID = orgValue[0].org_id;
+            } else {
+                this.formData.ORG_PROVINCE_ID_CCIB_WALKIN_ID = e.value;
+            }
+        }
+    }
+
+    OnSelectProviceCCIB(e,tag:DxSelectBoxComponent) {
+        if (e.value) {
+            const data = tag.instance.option("selectedItem" );
+            if (data) {
+                this.formData.ORG_PROVINCE_ID_CCIB_ID = data.PROVINCE_ID;
+                this.formData.ORG_PROVINCE_CCIB_NAME = data.PROVINCE_NAME_THA;
+                const orgValue = this.provinceResponsibility.filter((r) => r.province_id === data.PROVINCE_ID);
+                this.orgUnitsNew = this.orgUnits.filter((r) => r.org_id === orgValue[0].org_id);
+                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_ID = orgValue[0].org_id;
+            } else {
+                this.formData.ORG_PROVINCE_ID_CCIB_ID = e.value;
+            }
         }
     }
 

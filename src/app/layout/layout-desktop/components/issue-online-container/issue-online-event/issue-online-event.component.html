@@ -49,29 +49,37 @@
                         <dx-radio-group [readOnly]="formReadOnly" [items]="radiocheckorganize2" valueExpr="id" displayExpr="text" layout="horizontal" [(value)]="checkboxLocationwalkin.location_type1" (onValueChanged)="onvaluecheckboxlocationchangewalkin($event,2)"></dx-radio-group>
                         <br *ngIf="checkboxLocationwalkin.location_type1  === 2">
                         <dx-form #formInformertype2 [colCount]="2" labelLocation="top" *ngIf="checkboxLocationwalkin.location_type1 === 2">
-                            <dxi-item template="selectorgmainw" [colSpan]="2"></dxi-item>
+                            <dxi-item template="temp2" [colSpan]="2" [isRequired]="checkboxLocation.location_type1  ===  2">
+                                <dxo-label text="จังหวัด" [showColon]="false">
+                                </dxo-label>
+                                <dxi-validation-rule type="required" message="กรุณาเลือกจังหวัด">
+                                </dxi-validation-rule>
+                            </dxi-item>
+                            <div *dxTemplate="let data of 'temp2'">
+                                <dx-select-box #selectWalkinProvince [dataSource]="province" displayExpr="PROVINCE_NAME_THA" valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true" placeholder="จังหวัด" [showClearButton]="true" (onValueChanged)="OnSelectProviceCCIBWalkin($event,selectWalkinProvince)"
+                                    [readOnly]="formReadOnly" [(value)]="formData.ORG_PROVINCE_ID_CCIB_WALKIN_ID">
+                                </dx-select-box>
+                            </div>
+                            <dxi-item template="selectorgmainw" [colSpan]="2" *ngIf="formData?.ORG_PROVINCE_ID_CCIB_WALKIN_ID"></dxi-item>
                             <div *dxTemplate="let data of 'selectorgmainw'" style="margin-left:10%;" class="custom-ratiow">
                                 <dx-radio-group 
-                                    #selectorgmain 
+                                    #selectorgmainw 
                                     [readOnly]="formReadOnly" 
-                                    [dataSource]="orgUnits" 
+                                    [dataSource]="orgUnitsNewWalkin" 
                                     layout="horizontal" 
                                     valueExpr="org_id" 
-                                    displayExpr="org_name" 
+                                    displayExpr="org_name"
                                     [value]="formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID" 
                                     (onValueChanged)="onvaluechangeorgmainwalkin($event)">
-                                    
                                     <div *dxTemplate="let data of 'item'">
                                         <div class="row main-content">
                                             <div class="col-md-4"><b>{{ data.org_name }}</b></div>
                                         </div>
-        
                                         <div *ngFor="let location of data.org_locations; let i = index" class="row sub-content">
                                             <div class="col-md-2 offset-md-1 location" *ngIf="i === 0"><b>ที่ตั้ง</b></div>
                                             <div class="col-md-2 offset-md-1" *ngIf="i > 0"></div>
                                             <div class="col-md-9">{{ location }}</div>
                                         </div>
-        
                                         <div class="row location-detail mt-2">
                                             <div class="col-md-2 offset-md-1"><b>รายละเอียด</b></div>
                                             <div class="col-md-9">
@@ -141,15 +149,27 @@
             <dx-radio-group [items]="radiocheckorganize2" valueExpr="id" displayExpr="text" layout="horizontal" [(value)]="checkboxLocation.location_type1" (onValueChanged)="onvaluecheckboxlocationchange($event,2)"></dx-radio-group>
             <br *ngIf="checkboxLocation.location_type1  === 2">
             <dx-form #formInformertype2 [colCount]="3" labelLocation="top" *ngIf="checkboxLocation.location_type1 === 2">
-                <dxi-item template="selectorgmain" [colSpan]="3"></dxi-item>
+                <dxi-item template="temp2" [colSpan]="3" [isRequired]="checkboxLocation.location_type1  ===  2">
+                    <dxo-label text="จังหวัด" [showColon]="false">
+                    </dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกจังหวัด">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp2'">
+                    <dx-select-box #selectProvince [dataSource]="province" displayExpr="PROVINCE_NAME_THA" valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true" placeholder="จังหวัด" [showClearButton]="true" (onValueChanged)="OnSelectProviceCCIB($event,selectProvince)"
+                        [readOnly]="formReadOnly" [(value)]="formData.ORG_PROVINCE_ID_CCIB_ID">
+                    </dx-select-box>
+                </div>
+                
+                <dxi-item template="selectorgmain" [colSpan]="3" *ngIf="formData?.ORG_PROVINCE_ID_CCIB_ID"></dxi-item>
                 <div *dxTemplate="let data of 'selectorgmain'" style="margin-left:10%;" class="custom-ratio">
                     <dx-radio-group
                             #selectorgmain 
                             [readOnly]="formReadOnly" 
-                            [dataSource]="orgUnits" 
+                            [dataSource]="orgUnitsNew" 
                             layout="horizontal" 
                             valueExpr="org_id" 
-                            displayExpr="org_name" 
+                            displayExpr="org_name"
                             [value]="formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_ID" 
                             (onValueChanged)="onvaluechangeorgmain($event)">
                             
