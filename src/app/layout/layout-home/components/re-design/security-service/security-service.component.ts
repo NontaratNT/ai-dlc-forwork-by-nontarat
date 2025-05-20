@@ -1,6 +1,10 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { NewsService } from 'src/app/services/re-design/news/news.service';
+import { User } from 'src/app/services/user';
+import { UserService } from 'src/app/services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-security-service',
@@ -15,12 +19,16 @@ export class SecurityServiceComponent implements OnInit {
   startX = 0;
   scrollLeft = 0;
 
+  deviceInfo: any = null;
+
   @ViewChild('contentSecurity', { static: false }) contentSecurity!: ElementRef;
   scrollProgress: number = 0; // ✅ ค่า Progress ของ Scroll
 
   constructor(
     private service: NewsService,
     private router: Router,
+    private deviceService: DeviceDetectorService,
+    private userServ: UserService,
   ) { }
 
   ngOnInit(): void {
@@ -97,9 +105,57 @@ export class SecurityServiceComponent implements OnInit {
       },
       5: () => window.location.href = 'https://m.me/mysisbot',
       6: () => this.router.navigate(['/login'], { queryParams: { icli: 'landing' } }),
-      7: () => this.router.navigate(['/login'], { queryParams: { icli: 'cyber-eye' } })
+      7: () => this.LinkCyberEye(),
     };
     // ตรวจสอบว่า id มีอยู่ใน object หรือไม่ ถ้ามีให้เรียกฟังก์ชันนั้น
     serviceActions[id]?.();
   }
+
+  LinkCyberEye() {
+          if (!User?.Current) {
+              Swal.fire({
+                  title: 'Cyber Eye',
+                  text: 'คุณต้องการเข้าใช้งาน Cyber Eye หรือไม่?',
+                  icon: 'warning',
+                  showCancelButton: true,
+                  confirmButtonText: 'ตกลง',
+                  cancelButtonText: 'ยกเลิก',
+                  customClass: {
+                      confirmButton: 'btn btn-success',
+                      cancelButton: 'btn btn-secondary'
+                  }
+              }).then((result) => {
+                  if (result.isConfirmed) {
+                          this.router.navigate(['/login'], { queryParams: { icli: 'cyber-eye' } });
+                      }
+                  } 
+              );
+          }else{
+            if (User.Current.CyberEyeStatus !== "Y") {
+              this.userServ.UpdateSeniorFlag(User.Current.UserId,"Cyber").subscribe(() => {
+                  this.userServ.UpdateSeniorFlagAzure(User.Current.UserId,"Cyber").subscribe(() => {
+                      User.Current.CyberEyeStatus = "Y";
+                      this.CheckDeviceMode(2);
+                      return;
+                  });
+              });
+            }
+            this.CheckDeviceMode(2);
+          }
+      }
+
+
+      CheckDeviceMode(type = 1) {
+        this.deviceInfo = this.deviceService.getDeviceInfo();
+        const isMobile = this.deviceService.isMobile();
+        const routes = {
+          1: isMobile ? "/mobile/issue-online?openExternalBrowser=1" : "/main/issue-online/1",
+          2: isMobile ? "/mobile/issue-online-report" : "/main/issue-online-report"
+        };
+        
+        const targetRoute = routes[type];
+        if (targetRoute) {
+          this.router.navigate([targetRoute]);
+        }
+      }
 }

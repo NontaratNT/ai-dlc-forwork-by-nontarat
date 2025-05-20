@@ -45,7 +45,7 @@ export class ResponsiveHelperComponent implements OnInit {
 
   OnIssueReport() {
     if(!User?.Current){
-      this.router.navigate(['/login', { queryParams: { icli: "cyber-eye" }}]);
+      this.router.navigate(['/login']);
       return;
     }
     this.CheckDeviceMode(2);

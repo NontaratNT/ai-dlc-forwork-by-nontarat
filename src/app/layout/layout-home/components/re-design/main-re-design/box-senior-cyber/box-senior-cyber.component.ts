@@ -99,7 +99,7 @@ export class BoxSeniorCyberComponent implements OnInit {
     if (!User.Current && window.location.pathname === "/senior-cyber-police") {
       this.router.navigate(["/"]);
     }
-    if (User.Current.Age < 60 && window.location.pathname === "/senior-cyber-police") {
+    if (User?.Current?.Age < 60 && window.location.pathname === "/senior-cyber-police") {
       Swal.fire({
         title: "ขออภัย!",
         text: "อายุของท่านยังไม่ถึงเกณฑ์ที่กำหนด",
@@ -137,8 +137,8 @@ export class BoxSeniorCyberComponent implements OnInit {
     this._isLoading = true; // Set loading only after validation passes
 
     this.userServ.SaveQuestion(this.questionnaireForm).pipe(
-      switchMap(() => this.userServ.UpdateSeniorFlag(User.Current.UserId)),
-      switchMap(() => this.userServ.UpdateSeniorFlagAzure(User.Current.UserId))
+      switchMap(() => this.userServ.UpdateSeniorFlag(User.Current.UserId,"Senior")),
+      switchMap(() => this.userServ.UpdateSeniorFlagAzure(User.Current.UserId,"Senior"))
     ).subscribe({
       next: () => {
         this._isLoading = false;
@@ -174,7 +174,7 @@ export class BoxSeniorCyberComponent implements OnInit {
     if (!User?.Current) {
       this.router.navigate(['/login'], { queryParams: { icli: 'landing' } });
     } else {
-      if (User.Current.Age >= 60) {
+      if (User?.Current?.Age >= 60) {
         this.questionnaireForm = {} as any;
         if (User.Current.SeniorStatus === "Y") {
           this.router.navigate(["/senior-cyber-police"]);

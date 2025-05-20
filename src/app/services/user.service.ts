@@ -161,14 +161,14 @@ export class UserService {
             .post();
     }
 
-    public UpdateSeniorFlag(userId: any): Observable<string> {
-        return this._req<string>(`SeniorCyber/updateFlag/${userId}`).host(environment.config.baseConfig.urlgdcceform)
+    public UpdateSeniorFlag(userId: any,type: any): Observable<string> {
+        return this._req<string>(`SeniorCyber/updateFlag/${type}/${userId}`).host(environment.config.baseConfig.urlgdcceform)
             .disableCriticalDialogError()
             .put();
     }
 
-    public UpdateSeniorFlagAzure(userId: any): Observable<string> {
-        return this._req<string>(`CmsPersonal/updateFlag/${userId}`)
+    public UpdateSeniorFlagAzure(userId: any,type: any): Observable<string> {
+        return this._req<string>(`CmsPersonal/updateFlag/${type}/${userId}`)
             .disableCriticalDialogError()
             .put();
     }
@@ -218,6 +218,7 @@ export interface IUserProfile {
     UserIal: number;
     Age: number;
     SeniorStatus: string;
+    CyberEyeStatus: string;
 }
 
 export interface IAccessToken {

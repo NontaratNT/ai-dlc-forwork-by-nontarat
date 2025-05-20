@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { User } from 'src/app/services/user';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-main-home',
@@ -43,7 +44,23 @@ export class MainHomeComponent implements OnInit {
 
     LinkCyberEye() {
         if (!User?.Current) {
-              this.router.navigate(['/login'], { queryParams: { icli: 'cyber-eye' } });
+            Swal.fire({
+                title: 'Cyber Eye',
+                text: 'คุณต้องการเข้าใช้งาน Cyber Eye หรือไม่?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'ตกลง',
+                cancelButtonText: 'ยกเลิก',
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-secondary'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                        this.router.navigate(['/login'], { queryParams: { icli: 'cyber-eye' } });
+                    }
+                } 
+            );
         }else{
             this.CheckDeviceMode(2);
         }

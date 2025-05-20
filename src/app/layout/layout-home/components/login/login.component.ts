@@ -180,38 +180,57 @@ export class LoginComponent implements OnInit, OnDestroy {
                 .subscribe((u) => {
                     if (u) {
                         this.routerAc.queryParams.subscribe((params) => {
-                            if (params.icli) {
-                                if (this.isRemember) {
-                                    CookieStorage.assignSetting({
-                                        RememberLogin: true,
-                                    });
-                                }
-    
-                                CookieStorage.accessToken = {
-                                    Token: u.Token,
-                                    RefreshToken: u.RefreshToken,
-                                } as IAccessToken;
-                                if(params.icli === "al"){
-                                    this.userServ.getTokenCypherVac(User.Current.UserId).toPromise().then((res) => {
-                                        window.location.href = `https://cybervaccinated.thaipoliceonline.go.th?redirecthas=${res}`;
-                                    });
-                                }else if(params.icli === "landing"){
-                                    this.router.navigate(["/"]);
-                                }
-                                return;
-                            }
                             if (this.isRemember) {
                                 CookieStorage.assignSetting({
                                     RememberLogin: true,
                                 });
                             }
-
                             CookieStorage.accessToken = {
                                 Token: u.Token,
                                 RefreshToken: u.RefreshToken,
                             } as IAccessToken;
-                            
-                            this.router.navigate(["/"]);
+                            if (params.icli) {
+                                if(params.icli === "al"){
+                                    this.userServ.getTokenCypherVac(User.Current.UserId).toPromise().then((res) => {
+                                        window.location.href = `https://cybervaccinated.thaipoliceonline.go.th?redirecthas=${res}`;
+                                    });
+                                    return;
+                                }else if(params.icli === "landing"){
+                                    this.router.navigate(["/"]);
+                                    return;
+                                }else if (params.icli === "cyber-eye") {
+                                    Swal.fire({
+                                        title: 'Cyber Eye',
+                                        text: 'คุณต้องการเข้าใช้งาน Cyber Eye หรือไม่?',
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonText: 'ตกลง',
+                                        cancelButtonText: 'ยกเลิก',
+                                        customClass: {
+                                            confirmButton: 'btn btn-success',
+                                            cancelButton: 'btn btn-secondary'
+                                        }
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            if (User.Current?.CyberEyeStatus !== "Y") {
+                                                this.userServ.UpdateSeniorFlag(User.Current.UserId, "Cyber").pipe(
+                                                    switchMap(() => this.userServ.UpdateSeniorFlagAzure(User.Current.UserId, "Cyber"))
+                                                ).subscribe(() => {
+                                                    User.Current.CyberEyeStatus = "Y";
+                                                    this.router.navigate(['/']);
+                                                });
+                                            } else {
+                                                this.router.navigate(['/']);
+                                            }
+                                        } else {
+                                            this.router.navigate(['/']);
+                                        }
+                                    });
+                                    return;
+                                }
+                            }else{
+                                this.router.navigate(["/"]);
+                            }
                         });
                     }
                 });
@@ -406,7 +425,28 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.routerAc.queryParams.subscribe((params) => {
             if(params.icli){
                 localStorage.setItem('icli', params.icli);
-                this.router.navigate(["login/thaiD"], { queryParams: { icli: params.icli } });
+                if(params.icli === "cyber-eye"){
+                    Swal.fire({
+                        title: 'Cyber Eye',
+                        text: 'คุณต้องการเข้าใช้งาน Cyber Eye หรือไม่?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'ตกลง',
+                        cancelButtonText: 'ยกเลิก',
+                        customClass: {
+                            confirmButton: 'btn btn-success',
+                            cancelButton: 'btn btn-secondary'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.router.navigate(["login/thaiD"], { queryParams: { icli: params.icli } });
+                        }else{
+                            this.router.navigate(["login/thaiD"]);
+                        }
+                    });
+                }else{
+                    this.router.navigate(["login/thaiD"], { queryParams: { icli: params.icli } });
+                }
             }else{
                 this.router.navigate(["login/thaiD"]);
             }

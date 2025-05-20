@@ -111,7 +111,20 @@ export class LoginThaiIDComponent implements OnInit {
                         } else if (localStorage.getItem('icli') === 'landing') {
                             localStorage.removeItem('icli');
                             this.router.navigate(["/"]);
-                        } else {
+                        } else if (localStorage.getItem('icli') === 'cyber-eye') {
+                            localStorage.removeItem('icli');
+                            if(User?.Current?.CyberEyeStatus != "Y"){
+                                this.userServ.UpdateSeniorFlag(User.Current.UserId,"Cyber").subscribe(() => {
+                                this.userServ.UpdateSeniorFlagAzure(User.Current.UserId,"Cyber").subscribe(() => {
+                                    User.Current.CyberEyeStatus = "Y";
+                                    this.router.navigate(['/']);
+                                    return;
+                                });
+                            });
+                            }
+                             
+                            this.router.navigate(["/"]);
+                        }else {
                             this.CheckDeviceMode();
                         }
                         // this.router.navigate([this.loginServ._successLoginRedirectTo]);

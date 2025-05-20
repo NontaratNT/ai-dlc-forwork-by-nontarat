@@ -84,7 +84,8 @@ export class RegisterPeopleComponent implements OnInit {
         this.formRegister.CYBER_EYE_STATUS = "N";
         this.routerAc.queryParams.subscribe((params) => {
             this.regissenior = params.icli === "landing";
-            this.regiscybereye = params.icli === "cyber-eye";
+            this.formRegister.TYPE_CYBER_EYE = params.icli === "cyber-eye";
+            this.formRegister.CYBER_EYE_STATUS = params.icli === "cyber-eye" ? "Y" : "N";
         });
         // this.formRegister.PERSONAL_BIRTH_DATE = this._date.SetDateDefault(0);
         this.loadDateBox = true;
