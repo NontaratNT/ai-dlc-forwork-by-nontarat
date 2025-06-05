@@ -520,8 +520,11 @@ export class IssueOnlineEventComponent implements OnInit {
                 this.formData.ORG_PROVINCE_ID_CCIB_WALKIN_ID = data.PROVINCE_ID;
                 this.formData.ORG_PROVINCE_CCIB_WALKIN_NAME = data.PROVINCE_NAME_THA;
                 const orgValue = this.provinceResponsibility.filter((r) => r.province_id === data.PROVINCE_ID);
-                this.orgUnitsNewWalkin = this.orgUnits.filter((r) => r.org_id === orgValue[0].org_id);
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID = orgValue[0].org_id;
+                this.orgUnitsNewWalkin = this.orgUnits.filter((r) => r.org_id === orgValue[0]?.org_id);
+                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID = orgValue[0]?.org_id;
+                this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
+                this.formData.WALKIN_POLICE_STATION_ID = orgValue[0]?.org_id;
+                this.formData.WALKIN_POLICE_STATION = orgValue[0]?.org_name;
             } else {
                 this.formData.ORG_PROVINCE_ID_CCIB_WALKIN_ID = e.value;
             }
@@ -535,8 +538,11 @@ export class IssueOnlineEventComponent implements OnInit {
                 this.formData.ORG_PROVINCE_ID_CCIB_ID = data.PROVINCE_ID;
                 this.formData.ORG_PROVINCE_CCIB_NAME = data.PROVINCE_NAME_THA;
                 const orgValue = this.provinceResponsibility.filter((r) => r.province_id === data.PROVINCE_ID);
-                this.orgUnitsNew = this.orgUnits.filter((r) => r.org_id === orgValue[0].org_id);
-                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_ID = orgValue[0].org_id;
+                this.orgUnitsNew = this.orgUnits.filter((r) => r.org_id === orgValue[0]?.org_id);
+                this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_ID = orgValue[0]?.org_id;
+                 this.formData.ORG_LOCATION_TYPE = 2;
+                this.formData.ORG_LOCATION_ID = orgValue[0]?.org_id;
+                this.formData.ORG_LOCATION_NAME = orgValue[0]?.org_name;
             } else {
                 this.formData.ORG_PROVINCE_ID_CCIB_ID = e.value;
             }
