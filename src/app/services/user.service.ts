@@ -173,6 +173,12 @@ export class UserService {
             .put();
     }
 
+    public getKey(username : string): Observable<any> {
+        return   this._req<any>("user/challenge")
+        .body({ UserName: username })
+        .post()
+    }
+
 }
 
 export interface IForgetPassword {

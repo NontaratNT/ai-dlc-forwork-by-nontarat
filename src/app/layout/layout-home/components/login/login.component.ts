@@ -20,6 +20,7 @@ import { DeviceDetectorService } from "ngx-device-detector";
 import { UserSettingService } from "src/app/services/user-setting.service";
 import { FreezeAccountService } from "src/app/services/bpm-freeze-account.service";
 import { User } from '../../../../services/user';
+import * as crypto from 'crypto-js';
 
 declare let $: any;
 @Component({
@@ -169,13 +170,20 @@ export class LoginComponent implements OnInit, OnDestroy {
         document.body.scrollTop = document.documentElement.scrollTop = 0;
     }
 
-    Login(usename, password) {
+    async Login(usename, password) {
         if (usename && password) {
             this._isLoading = true;
+            const nonce = await this.userServ.getKey(usename).toPromise();
+
+            // hash password ครั้งแรก
+            const passwordHash = crypto.SHA256(password).toString();
+
+            // รวม hash password + nonce แล้ว hash อีกครั้ง
+            const finalHash = crypto.SHA256(passwordHash + nonce?.Nonce).toString();
             this.userSetting.userSetting.location_name = undefined;
             // this.userSetting.Save();
             this.userServ
-                .authenticate(usename, password, 1.1)
+                .authenticate(usename, finalHash, 1.1)
                 .pipe(finalize(() => (this._isLoading = false)))
                 .subscribe((u) => {
                     if (u) {
