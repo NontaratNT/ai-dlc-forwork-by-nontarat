@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { formatDate } from 'devextreme/localization';
 import { finalize } from 'rxjs/operators';
 import { ChatService, IChat } from 'src/app/services/chat.service';
@@ -50,6 +50,11 @@ export class ChatComponent implements OnInit {
         this.SetChat();
 
     }
+
+    setDefaultPic(item) {
+        item.PERSONAL_PICTURE = "assets/icon/user.png";
+    }
+
     sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
@@ -57,6 +62,7 @@ export class ChatComponent implements OnInit {
         this._isLoading = true;
 
         const chatlist = await this.serviceChat.getChat(this._instId).toPromise();
+        this.serviceChat.getCountReadChat(this._instId).subscribe(_ => {});
         const setChatList = [];
         let dateLastChat;
         for (const item of chatlist) {
@@ -69,9 +75,9 @@ export class ChatComponent implements OnInit {
                 dateLastChat = this._date.ConvertToDateFormat(item.CREATE_DATE);
             }
             setChatList.push(item);
-
         }
         this.formData = setChatList;
+        console.log(this.formData );
         await this.sleep(500);
         // const hightScroll = this.chatScrollView.instance.scrollHeight() ?? 0;
         // console.log('hightScroll',hightScroll);

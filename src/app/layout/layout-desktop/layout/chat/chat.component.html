@@ -1,0 +1,92 @@
+<div class="chatbox-wrapper animate-tailwind">
+    <div  class="chatbox-toggle" (click)="toggleChat($event)">
+        <div class="chat-count" *ngIf="numCount > 0">{{numCount}}</div>
+        <img src="assets/icon/chat.png" class="button-chat">
+    </div>
+    <div class="cmg-wrapper" [ngClass]="{'show': isChatOpen}">
+        <div class="cmg-header">
+            <div class="cmg-profile">
+                <img src="https://thaipoliceonline.com/assets/icon/logo-title.png" alt="" class="cmg-image">
+                <div>
+                    <h4 class="cmg-name">{{chatName}}</h4>
+
+                    <p class="cmg-status">
+                        <span class="relative flex h-3 w-3">
+                            <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-emeral-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-emeral-500"></span>
+                        </span>
+                        <span>{{chatStatusName}}</span>
+                    </p>
+                </div>
+            </div>
+            <div class="cmg-dropdown">
+                <button type="button" class="close-chat" (click)="toggleChat($event, false)">
+                    <i class="fa fa-times f-icon" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        <div class="cmg-content" #chatboxContentWrapper>
+            <div class="loading" *ngIf="_isLoading; else chatContent">
+                <div class="loading-container">
+                    <!-- Spinning circle -->
+                    <div class="spinner"></div>
+                    <!-- "กำลังโหลดข้อมูล" text with pulsing animation -->
+                    <span class="loading-text-pulse">กำลังโหลดข้อมูล</span>
+                </div>
+            </div>
+            <ng-template #chatContent>
+                <dx-multi-view #multiView [swipeEnabled]="false" [(selectedIndex)]="selectedIndex">
+                    <dxi-item>
+                        <div class="cmg-item received" *ngIf="_dataSource.length > 0; else noData">
+                            <span class="cmg-item-text choice-title">ท่านต้องการติดต่อสอบถามข้อมูลของเคสใด?</span>
+                            <ul class="cmg-item-text">
+                                <ng-container *ngFor="let item of _dataSource">
+                                    <li class="choice" (click)="FormatData(item)">{{item.TRACKING_CODE}}</li>
+                                </ng-container>
+                            </ul>
+                        </div>
+                        <ng-template #noData>
+                            <div class="cmg-item received">
+                            <span class="cmg-item-text choice-title">ยังไม่มีข้อมูลคดีที่รับแจ้ง</span>
+                            <ul class="cmg-item-text">
+                                    <li class="choice" (click)="openNewCase('/main/issue-online/1')">แจ้งเรื่องใหม่</li>
+                            </ul>
+                        </div>
+                        </ng-template>
+                    </dxi-item>
+                    <dxi-item>
+                         <div class="chat-header mb-1">
+                            <button class="btn btn-light" (click)="backToList()">
+                                <i class="fa fa-arrow-left"></i> กลับไปยังรายการ
+                            </button>
+                        </div>
+                        <div class="chat-messages-container">
+                            <div *ngFor="let message of displaymessage" [ngClass]="['cmg-item', message.type]">
+                                <ng-container *ngIf="message?.dateTimeChat">
+                                    <div class="datetime-chat">{{message.dateTimeChat}}</div>
+                                </ng-container>
+                                <ng-container *ngIf="!message?.dateTimeChat">
+                                    <span class="cmg-item-text" [innerHTML]="message.content.replace('\n', '<br>').replace(' ', '&nbsp;')"></span>
+                                    <span class="cmg-item-time">
+                                        <i *ngIf="message.type == 'sent'" class="fa fa-check icons-check" aria-hidden="true"></i>
+                                        {{ message.time }}
+                                    </span>
+                                </ng-container>
+                                
+                            </div>
+                        </div>
+                        
+                    </dxi-item>
+                </dx-multi-view>
+            </ng-template>
+        </div>
+        <div class="cmg-bottom chatbox-form-control" *ngIf="_isGetMessage">
+            <form #chatForm="ngForm" (ngSubmit)="submitMessage(chatForm)" class="cmg-form">
+                <textarea rows="1" placeholder="พิมพ์ข้อความ..." class="cmg-input" type="text" id="message" name="message" #message ngModel (keyup.enter)="submitMessage(chatForm)"></textarea>
+                <button type="submit" class="cmg-submit rotate">
+                    <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -81,6 +81,9 @@ import { IssueOnlineReportInformerComponent } from './components/issue-online-re
 import { IssueOnlineReportEventComponent } from './components/issue-online-report/issue-online-report-event/issue-online-report-event.component';
 import { IssueOnlineReportValidateComponent } from './components/issue-online-report/issue-online-report-validate/issue-online-report-validate.component';
 import { IssueOnlineCriminalContatInfoComponent } from "./components/issue-online-container/issue-online-criminal-contact-info/issue-online-criminal-contact-info.component";
+import { ChatOfficerComponent } from './components/chat-officer/chat-officer.component';
+import { ChatOfficerDetailComponent } from './components/chat-officer/chat-officer-detail/chat-officer-detail.component';
+import { ChatBoxComponent } from "./layout/chat/chat.component";
 
 
 const customNotifierOptions: NotifierOptions = {
@@ -171,7 +174,10 @@ const customNotifierOptions: NotifierOptions = {
         IssueOnlineReportInformerComponent,
         IssueOnlineReportEventComponent,
         IssueOnlineReportValidateComponent,
-        IssueOnlineCriminalContatInfoComponent
+        IssueOnlineCriminalContatInfoComponent,
+        ChatOfficerComponent,
+        ChatOfficerDetailComponent,
+        ChatBoxComponent
     ],
     exports: [DateComboPickerComponent, DateComboRegisterComponent],
     imports: [

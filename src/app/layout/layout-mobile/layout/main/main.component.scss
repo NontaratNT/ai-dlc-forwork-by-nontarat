@@ -6,3 +6,94 @@
     width: 100%;
     height: 30px;
 }
+
+.chatbox-toggle {
+    width: 100%;
+    height: 100%;
+    // border: 3px solid #0b2652;
+    color: var(--white);
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.2s;
+    padding-bottom: 10px;
+    padding-right: 2px;
+    box-shadow:
+        0 20px 25px -5px rgb(0 0 0 / 0.1),
+        0 8px 10px -6px rgb(0 0 0 / 0.1);
+    img,
+    picture {
+    width: 17vw;
+    display: block;
+    }
+    .chat-count {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin-top: -8px; /* Equivalent to -mt-2 */
+        margin-right: -8px; /* Equivalent to -mr-2 */
+        background-color: #ff0000; /* Equivalent to bg-white */
+        color: #ffffff; /* Equivalent to text-blue-800 */
+        font-size: 12px; /* Default for text-xs */
+        font-weight: bold;
+        border-radius: 50%;
+        padding: 4px 8px; /* Equivalent to px-2 py-1 */
+        min-width: 24px; /* Equivalent to min-w-6 */
+        min-height: 24px; /* Equivalent to min-h-6 */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06); /* Equivalent to shadow-md */
+    }
+}
+
+.chatbox-wrapper {
+  position: fixed;
+  bottom: 6rem;
+  right: 2rem;
+  width: 3.25rem;
+  height: 3.25rem;
+  z-index: 999999;
+
+  /* เพิ่มให้ลากได้ */
+  cursor: move;
+  transition: none; /* ลื่นขึ้นตอนลาก */
+}
+
+.animate-tailwind {
+    .relative {
+        position: relative;
+    }
+
+    .flex {
+        display: flex;
+    }
+
+    .h-3 {
+        height: 0.75rem; // Tailwind's spacing scale defines '3' as 0.75rem
+    }
+
+    .w-3 {
+        width: 0.75rem;
+    }
+
+    .animate-ping {
+        animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes ping {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        75%,
+        100% {
+            transform: scale(2);
+            opacity: 0;
+        }
+    }
+}

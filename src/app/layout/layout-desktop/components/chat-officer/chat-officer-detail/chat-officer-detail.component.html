@@ -1,0 +1,17 @@
+<div class="container">
+     <div class="d-flex align-items-center justify-content-between p-3 bg-primary text-white shadow-sm">
+        <!-- Back Button: ปุ่มย้อนกลับ (สามารถใช้เป็นไอคอนเมนูถ้าเป็นหน้าหลัก) -->
+        <button class="btn btn-primary rounded-circle p-2 d-flex align-items-center justify-content-center"  (click)="goBack()">
+            <i class="fa fa-arrow-left"></i>
+        </button>
+        <!-- Header Label: หัวข้อหลัก "ข้อมูลการสนทนากับเจ้าหน้าที่" -->
+        <div class="flex-grow text-center mx-3">
+            <h2 class="h5 font-weight-bold mb-0">ข้อมูลการสนทนากับเจ้าหน้าที่</h2>
+        </div>
+        <div style="width: 48px;"></div> 
+    </div>
+    <div class="flex-1 p-5 overflow-y-auto chat-box mb-5" *ngIf="loadData">
+        <app-chat></app-chat>
+    </div>
+</div>
+

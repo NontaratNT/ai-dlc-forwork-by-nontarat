@@ -20,6 +20,7 @@ export class SidebarComponent implements OnInit,OnDestroy {
         { id: 17, text: 'ประวัติการนัดหมาย', icon: 'fas fa-history',link:"/main/appointment-history" },
         { id: 18, text: 'แจ้งปัญหา', icon: 'fas fa-folder',link:"/main/problem-online" },
         { id: 19, text: 'แจ้งเบาะแส', icon: 'fas fa-folder-plus',link:"/main/issue-online-report" },
+        { id: 20, text: 'แชทกับเจ้าหน้าที่', icon: 'fas fa-folder-plus',link:"/main/chat-list" },
         // { id: 10, text: 'dashboard', icon: 'product',link:"/main/dashboard" },
         // { id: 11, text: 'page2', icon: 'money',link:"/main/page2" },
         // { id: 12, text: 'personal', icon: 'group',link:"/main/personal" },

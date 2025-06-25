@@ -13,6 +13,7 @@ import { Page2mComponent } from "./component/page2m/page2m.component";
 import { MainComponent } from "./layout/main/main.component";
 import { SelectIssueComponent } from "./component/page/select-issue/select-issue.component";
 import { IssueOnlineReportComponent } from "./component/page/issue-online-report/issue-online-report.component";
+import { ChatOfficerComponent } from "./component/page/chat-officer/chat-officer.component";
 
 const routes: Routes = [
     {
@@ -56,6 +57,10 @@ const routes: Routes = [
             {
                 path: "select-issue",
                 component: SelectIssueComponent,
+            },
+            {
+                path: 'chat-list',
+                component: ChatOfficerComponent,
             },
         ],
     },

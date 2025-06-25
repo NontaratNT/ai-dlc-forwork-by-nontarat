@@ -30,7 +30,8 @@ export class ResponsiveHelperComponent implements OnInit {
     const isMobile = this.deviceService.isMobile();
     const routes = {
       1: isMobile ? "/mobile/issue-online/1" : "/main/issue-online/1",
-      2: isMobile ? "/mobile/issue-online-report" : "/main/issue-online-report"
+      2: isMobile ? "/mobile/issue-online-report" : "/main/issue-online-report",
+      3: isMobile ? "/mobile/chat-list" : "/main/chat-list",
     };
     
     const targetRoute = routes[type];
@@ -49,6 +50,14 @@ export class ResponsiveHelperComponent implements OnInit {
       return;
     }
     this.CheckDeviceMode(2);
+  }
+
+  OnClickButton(number) {
+    if(!User?.Current){
+      this.router.navigate(['/login']);
+      return;
+    }
+    this.CheckDeviceMode(number);
   }
 
   openLink(link: string) {

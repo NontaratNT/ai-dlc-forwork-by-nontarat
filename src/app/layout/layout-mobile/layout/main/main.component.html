@@ -1,4 +1,11 @@
 <div>
+    <div class="chatbox-wrapper animate-tailwind" id="chatboxWrapper">
+        <div  class="chatbox-toggle" (click)="openNewCase('/mobile/chat-list')">
+            <div class="chat-count" *ngIf="numCount > 0">{{numCount}}</div>
+            <img src="assets/icon/chat.png" class="button-chat">
+        </div>
+    </div>
+    
     <app-navbar></app-navbar>
     <!-- <div class="cSts">
     </div> -->

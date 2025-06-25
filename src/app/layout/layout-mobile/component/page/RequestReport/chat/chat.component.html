@@ -1,17 +1,14 @@
-<div style="padding: 3px; padding-bottom: 200px;">
-    <div class="messaging" style="border: 1px solid #cacaca;
-padding: 10px; box-shadow: 0px 5px 5px #aaaaaa8c; margin-top: 130px;
-border-radius: 10px; height: 650px;
-    background-color: #fff;">
-        <div class="header-title">
+<div [ngClass]="{ 'box-content-chat': checkChat, 'box-content': !checkChat }">
+    <div [ngClass]="{ 'messaging-chat': checkChat, 'messaging': !checkChat }">
+        <div class="header-title" *ngIf="!checkChat">
             <div style="text-align: right; font-weight: bold; margin-top: 12px; font-size: 20px;">
                 ติดต่อสอบถามเจ้าหน้าที่
             </div>
             <h6 style="font-size: 14px; text-align: right;">สำหรับการสนทนาติดต่อสอบถามข้อมูลกับเจ้าหน้าที่
             </h6>
         </div>
-        <dx-scroll-view #chatScrollView [showScrollbar]="'always'" style="    height: 550px;">
-            <div class="mesgs" #scrollMe (scroll)="onScroll()" >
+        <dx-scroll-view #chatScrollView [showScrollbar]="'always'" style="height: 550px;">
+            <div class="mesgs" #scrollMe (scroll)="onScroll()">
                 <div class="msg_history">
                     <div *ngFor="let item of formData">
                         <ng-container *ngIf="CheckEmptyText(item.dateTimeChat)">
@@ -22,11 +19,10 @@ border-radius: 10px; height: 650px;
                                 <div class="incoming_msg">
                                     <div class="received_msg">
                                         <div class="incoming_msg_img">
-                                            <img class="user-img" [src]="item.PERSONAL_PICTURE" alt="user" [title]="item.PERSONAL_FULL_NAME">
+                                            <img class="user-img" [src]="item.PERSONAL_PICTURE" alt="user" (error)="setDefaultPic(item)"
+                                                [title]="item.PERSONAL_FULL_NAME">
                                         </div>
                                         <div class="received_withd_msg">
-                                            <!-- <div class="received-name">{{item.PERSONAL_FULL_NAME}}
-                                            </div><br> -->
                                             <div class="received-msg">
                                                 {{item.INST_CHAT_MASSAGE}}
                                             </div>
@@ -41,9 +37,6 @@ border-radius: 10px; height: 650px;
                                 <div class="outgoing_msg">
                                     <div class="received_sent_msg">
                                         <div class="sent_msg">
-                                            <!-- <div class="sent-msg-name">
-                                                {{item.PERSONAL_FULL_NAME}}
-                                            </div><br> -->
                                             <div class="sent-msg-msg">
                                                 {{item.INST_CHAT_MASSAGE}}
                                             </div>
@@ -52,7 +45,8 @@ border-radius: 10px; height: 650px;
                                             </div>
                                         </div>
                                         <div class="sent_msg_img">
-                                            <img class="user-img" [src]="item.PERSONAL_PICTURE" alt="user" [title]="item.PERSONAL_FULL_NAME">
+                                            <img class="user-img" [src]="item.PERSONAL_PICTURE" alt="user" (error)="setDefaultPic(item)"
+                                                [title]="item.PERSONAL_FULL_NAME">
                                         </div>
                                     </div>
                                 </div>
@@ -64,26 +58,16 @@ border-radius: 10px; height: 650px;
                 </div>
             </div>
         </dx-scroll-view>
-        <div class="input_msg_write d-flex  w-100 text-center justify-content-center" style="
-    margin-bottom: 25px;">
-
-            <!-- <dx-form [formData]="formChat" class="w-100">
-                <dxi-item dataField="INST_CHAT_MASSAGE" editorType="dxTextArea" [editorOptions]="{ placeholder:'ระบุข้อความ',showClearButton:true}">
-                    <dxo-label [showColon]="false" text=" "></dxo-label>
-                </dxi-item>
-            </dx-form> -->
+        <div class="input_msg_write d-flex  w-100 text-center justify-content-center" style="margin-bottom: 25px;" *ngIf="caseWorking">
             <dx-text-area class="w-100 ml-1 mr-1" style="max-width: 100%; height: 40px;"
                 [(value)]="formChat.INST_CHAT_MASSAGE" placeholder="ระบุข้อความ"></dx-text-area>
             <div class="my-btn ml-1" style="
             margin-left: 10px !important;">
                 <img src="assets/icon/plan.png" style="width: 40px; padding-top: 6px;" (click)="sendMessage()">
-                <!-- <dx-button [width]="90" icon="fa fa-paper-plane" (onClick)="sendMessage()">
-                </dx-button> -->
             </div>
-
         </div>
     </div>
-    <div class="text-center btn-dx">
+    <div class="text-center btn-dx" *ngIf="!checkChat">
         <button class="btn btn-cancle" (click)="onBack()">ย้อนกลับ</button>&nbsp;
     </div>
 </div>

@@ -1,0 +1,65 @@
+<div class="block-contentw-100 aas" style="margin-top: 80px;margin-bottom: 100px;">
+    <div class="title text-center mb-3">
+        <h2>การสนทนากับเจ้าหน้าที่</h2>
+    </div>
+    <div class="block-main">
+        <div class="container-fluid">
+            <dx-multi-view [focusStateEnabled]="false" [animationEnabled]="true" [swipeEnabled]="false" [selectedIndex]="selectedIndex">
+                <dxi-item>
+                    <div class="block-table">
+                         <dx-data-grid  style="max-width: 100%!important;" #grid [dataSource]="_dataSource" [showColumnLines]="true" [wordWrapEnabled]="true" [showRowLines]="true" [columnAutoWidth]="true" 
+                            [columnHidingEnabled]="false" [showBorders]="false" [rowAlternationEnabled]="true" [showColumnLines]="true"
+                            [hoverStateEnabled]="true" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล" [remoteOperations]="true">
+                            <dxo-paging [pageSize]="10"></dxo-paging>
+                            <dxo-load-panel text="กำลังโหลดข้อมูล..."></dxo-load-panel>
+                            <dxo-search-panel [visible]="true" [width]="200" placeholder="ค้นหา..."></dxo-search-panel>
+                            <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
+                            </dxo-editing>
+                            <dxo-selection mode="single"></dxo-selection>
+                            <dxo-pager [visible]="true" [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20, 50]" [showInfo]="true">
+                            </dxo-pager>
+                            <dxi-column dataField="" caption="ดู" [width]="80" alignment="center"
+                            [allowSorting]="false" cellTemplate="cellTemplateReport"></dxi-column>
+                            <div *dxTemplate="let cellValue of 'cellTemplateReport'">
+                                <div class="icon-view" (click)="view(cellValue.data)">
+                                    <img src="assets/icon/icon-report.png" alt="Report" width="25px" height="25px">
+                                </div>
+                            </div>
+                            <dxi-column  [allowSearch]="false"  dataField="" [width]="80" caption="ลำดับ" alignment="center" cellTemplate="cellTemplate"></dxi-column>
+                            <dxi-column  [allowSearch]="true"  dataField="TRACKING_CODE" [width]="130" caption="เลขรับแจ้งความ" alignment="center"></dxi-column>
+                            <dxi-column  [allowSearch]="true"  dataField="INST_CHAT_MASSAGE" caption="ข้อความล่าสุด" alignment="center" cellTemplate="displayFormatMessage"></dxi-column>
+                            <dxi-column  [allowSearch]="true"  dataField="OFFICER_NAME" [width]="200" caption="ชื่อพนักงานสอบสวน" alignment="center"></dxi-column>
+                            <dxi-column  [allowSearch]="true"  dataField="OFFICER_PHONE" [width]="150" caption="เบอร์ติดต่อเจ้าหน้าที่" alignment="center"></dxi-column>
+                            <dxi-column  [allowSearch]="true"  dataField="CHAT_DATE" [width]="150" caption="วันที่รับ/ส่งข้อความ" alignment="center" cellTemplate="displayFormatDate"></dxi-column>
+                            <dxi-column  [allowSearch]="true"  dataField="READ_FLAG" [width]="150" caption="สถานะการอ่านข้อความ" alignment="center" cellTemplate="displayFormatStatus"></dxi-column>
+                            <div *dxTemplate="let cell of 'cellTemplate'">
+                                {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                            </div>
+                            <div *dxTemplate="let celldata of 'displayFormatDate'">
+                                {{displayFormatDateTime(celldata.data.CHAT_DATE)}}
+                            </div>
+                            <div *dxTemplate="let celldata of 'displayFormatStatus'">
+                                {{celldata.data.READ_FLAG === 'Y' ? 'อ่านแล้ว' : 'ยังไม่อ่าน'}}
+                            </div>
+                            <div *dxTemplate="let celldata of 'displayFormatMessage'">
+                                <ng-container *ngIf="celldata.data.INST_CHAT_MASSAGE !== null; else noMessage">
+                                    {{ celldata.data.INST_CHAT_MASSAGE }}
+                                </ng-container>
+                                <ng-template #noMessage>
+                                    <span class="text-muted">ยังไม่มีข้อความ เริ่มการสนทนาใหม่ได้เลย...</span>
+                                </ng-template>
+                            </div>
+                        </dx-data-grid>
+                    </div>
+                </dxi-item>
+                <dxi-item>
+                    <div class="block-chat">
+                        <app-chat-officer-detail></app-chat-officer-detail>
+                    </div>
+                </dxi-item>
+            </dx-multi-view>
+        </div>
+    </div>
+</div>
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="_isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กำลังโหลดข้อมูล..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

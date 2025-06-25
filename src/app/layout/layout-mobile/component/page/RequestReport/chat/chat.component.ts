@@ -1,5 +1,5 @@
 
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { formatDate } from 'devextreme/localization';
 import { finalize } from 'rxjs/operators';
 import { ChatService, IChat } from 'src/app/services/chat.service';
@@ -14,6 +14,7 @@ import { DxScrollViewComponent } from 'devextreme-angular';
 import { IssueOnlineContainerComponent } from '../issue-online-container/issue-online-container.component';
 import { UserSettingService } from 'src/app/services/user-setting.service';
 import { IssueOnlineEditComponent } from '../issue-online-edit/issue-online-edit.component';
+import { BpmDataShareService } from 'src/app/layout/layout-desktop/components/issue-online-edit/bpm-data-share.service';
 
 @Component({
     selector: 'app-chat',
@@ -24,6 +25,7 @@ export class ChatComponent implements OnInit {
     @ViewChild('scrollMe') private myScrollContainer: ElementRef;
     // eslint-disable-next-line @typescript-eslint/member-ordering
     @ViewChild('chatScrollView', { static: false }) chatScrollView: DxScrollViewComponent;
+    @Input() checkChat : false;
     public mainConponent: IssueOnlineEditComponent;
     formData: any = [];
     formChat: IChat;
@@ -34,11 +36,13 @@ export class ChatComponent implements OnInit {
     userId: number;
     numCount = 0;
     userImagePath: string | ArrayBuffer;
+    caseWorking = true;
     constructor(private serviceChat: ChatService,
         private router: Router,
         private userSetting: UserSettingService,
         private activeRoute: ActivatedRoute,
         private _date: ConvertDateService,
+        private shareBpmData: BpmDataShareService,
         private dialog: Dialog) {
         this.formData = [];
         this.formChat = {} as any;
@@ -47,17 +51,15 @@ export class ChatComponent implements OnInit {
     ngOnInit(): void {
         this.userId = User.Current.PersonalId;
         this._instId = this.activeRoute.snapshot.params.instId;
+        if( this._instId === undefined || this._instId === null) {
+            const bpmData = this.shareBpmData.GetData();
+            this._instId = bpmData.INST_ID;
+            this.caseWorking = this.shareBpmData.GetDataCaseWorking();
+        }
         this.SetChat();
 
     }
     onBack() {
-        // if (this.userSetting.userSetting.tabIndex) {
-        //     this.mainConponent.NextIndex(this.mainConponent.numCount - 1);
-        // } else {
-        //     this.mainConponent.NextIndex(0);
-
-        // }
-        // console.log(this.mainConponent.numCount);
         this.serviceChat.getCountReadChat(this._instId).subscribe(_ => {
             this.numCount = _;
         });
@@ -66,8 +68,6 @@ export class ChatComponent implements OnInit {
         this.userSetting.userSetting.iconVisible = false;
         this.mainConponent.visible_chat = false;
         document.body.scrollTop = document.documentElement.scrollTop = 0;
-        // console.log(this.userSetting.userSetting);
-        // console.log(this.userSetting.userSetting); document.body.scrollTop = document.documentElement.scrollTop = 0;
     }
     sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -76,6 +76,7 @@ export class ChatComponent implements OnInit {
         this._isLoading = true;
 
         const chatlist = await this.serviceChat.getChat(this._instId).toPromise();
+        this.serviceChat.getCountReadChat(this._instId).subscribe(_ => {});
         const setChatList = [];
         let dateLastChat;
         for (const item of chatlist) {
@@ -180,6 +181,10 @@ export class ChatComponent implements OnInit {
         try {
             this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
         } catch (err) { }
+    }
+
+    setDefaultPic(item) {
+        item.PERSONAL_PICTURE = "assets/icon/user.png";
     }
 
 

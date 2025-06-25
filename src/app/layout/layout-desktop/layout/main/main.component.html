@@ -32,6 +32,7 @@
         <div id="desktop-header">
             <app-navbar [isDrawerOpen]="isDrawerOpen"></app-navbar>
         </div>
+        <app-chat-box></app-chat-box>
         <div id="desktop-content" [ngClass]="ContentSize()">
             <dx-scroll-view [showScrollbar]="'always'" style="height: 100vh;">
                 <router-outlet></router-outlet>

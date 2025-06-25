@@ -11,7 +11,7 @@
                             <div class="incoming_msg">
                                 <div class="received_msg">
                                     <div class="incoming_msg_img">
-                                        <img class="user-img" [src]="item.PERSONAL_PICTURE" alt="user" [title]="item.PERSONAL_FULL_NAME">
+                                        <img class="user-img" [src]="item.PERSONAL_PICTURE" alt="user" [title]="item.PERSONAL_FULL_NAME" (error)="setDefaultPic(item)">
                                     </div>
                                     <div class="received_withd_msg">
                                         <!-- <div class="received-name">{{item.PERSONAL_FULL_NAME}}
@@ -41,14 +41,12 @@
                                         </div>
                                     </div>
                                     <div class="sent_msg_img">
-                                        <img class="user-img" [src]="item.PERSONAL_PICTURE" alt="user" [title]="item.PERSONAL_FULL_NAME">
+                                        <img class="user-img" [src]="item.PERSONAL_PICTURE" alt="user" [title]="item.PERSONAL_FULL_NAME" (error)="setDefaultPic(item)">
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </ng-container>
-
-
                 </div>
             </div>
         </div>

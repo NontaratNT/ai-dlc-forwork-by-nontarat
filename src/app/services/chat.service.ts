@@ -53,6 +53,20 @@ export class ChatService {
             .queryString({ BpmInstanceId: id })
             .disableCriticalDialogError().get();
     }
+
+    public getChatList(id: number): Observable<IChat[]> {
+        return this._req<IChat[]>()
+            .api("BpmProcInstChat/chatlist")
+            .body({ PersonalId: id })
+            .disableCriticalDialogError().post();
+    }
+
+    public getCountAllUnread(id: number): Observable<any> {
+        return this._req<any>()
+            .api("BpmProcInstChat/count/all/un-read")
+            .queryString({ PersonalId: id })
+            .disableCriticalDialogError().get();
+    }
 }
 
 export interface IChat {
