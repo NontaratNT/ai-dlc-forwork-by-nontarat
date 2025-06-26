@@ -122,13 +122,31 @@ export class LoginThaiIDComponent implements OnInit {
                                 });
                             });
                             }
-                             
+                            this.router.navigate(["/"]);
+                        }else if (localStorage.getItem('icli') === 'cyber-cat') {
+                            localStorage.removeItem('icli');
+                            if(User?.Current?.Age > 18 || User?.Current?.Age == null){
+                                Swal.fire({
+                                    title: 'อายุของท่านไม่ตรงเกณฑ์ที่กำหนด',
+                                    text: 'ท่านต้องมีอายุไม่เกิน 18 ปี เพื่อเข้าใช้งาน Cyber Cat',
+                                    icon: 'error',
+                                    confirmButtonText: 'ตกลง'
+                                });
+                                this.router.navigate(['/']);
+                                 return;
+                            }else if(User?.Current?.CyberCatStatus != "Y"){
+                                this.userServ.UpdateSeniorFlag(User.Current.UserId,"CyberCat").subscribe(() => {
+                                this.userServ.UpdateSeniorFlagAzure(User.Current.UserId,"CyberCat").subscribe(() => {
+                                    User.Current.CyberCatStatus = "Y";
+                                    this.router.navigate(['/']);
+                                    return;
+                                });
+                            });
+                            }
                             this.router.navigate(["/"]);
                         }else {
                             this.CheckDeviceMode();
                         }
-                        // this.router.navigate([this.loginServ._successLoginRedirectTo]);
-
                     } else {
                         Swal.fire({
                             title: "ผิดพลาด!",

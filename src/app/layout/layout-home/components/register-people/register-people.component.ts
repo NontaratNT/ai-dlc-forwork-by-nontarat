@@ -86,6 +86,8 @@ export class RegisterPeopleComponent implements OnInit {
             this.regissenior = params.icli === "landing";
             this.formRegister.TYPE_CYBER_EYE = params.icli === "cyber-eye";
             this.formRegister.CYBER_EYE_STATUS = params.icli === "cyber-eye" ? "Y" : "N";
+            this.formRegister.TYPE_CYBER_CAT = params.icli === "cyber-cat";
+            this.formRegister.CYBER_CAT_STATUS = params.icli === "cyber-cat" ? "Y" : "N";
         });
         // this.formRegister.PERSONAL_BIRTH_DATE = this._date.SetDateDefault(0);
         this.loadDateBox = true;
@@ -213,20 +215,42 @@ export class RegisterPeopleComponent implements OnInit {
     AddStringDate(text) {
         return text.length > 1 ? text : `0${text}`;
     }
+    calculateAgeFromCompleteDate(date): number {
+        const completeDateStr = date; // เช่น "2000-06-19"
+        const birthDate = new Date(completeDateStr);
+        const today = new Date();
+
+        let age = today.getFullYear() - birthDate.getFullYear();
+
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        const dayDiff = today.getDate() - birthDate.getDate();
+
+        if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+            age--;
+        }
+        return age;
+    }
     SaveRegister() {
+        const dateConverts = this.ConvertBirthDate(this.birthDateValue);
         this._isLoading = true;
-        // this.formRegister.PERSONAL_BIRTH_DATE = this._date.ConvertToDateFormat(this.formRegister.PERSONAL_BIRTH_DATE);
-        const dateConvert = this.ConvertBirthDate(this.birthDateValue);
-        if (dateConvert) {
-            this.formRegister.PERSONAL_BIRTH_DATE = dateConvert.completeDate;
-            this.formRegister.PERSONAL_BIRTH_DATE_CHECK_API = dateConvert.checkApi;
+        if (dateConverts) {
+            this.formRegister.PERSONAL_BIRTH_DATE = dateConverts.completeDate;
+            this.formRegister.PERSONAL_BIRTH_DATE_CHECK_API = dateConverts.checkApi;
         } else {
             this.formRegister.PERSONAL_BIRTH_DATE = undefined;
             this.formRegister.PERSONAL_BIRTH_DATE_CHECK_API = undefined;
         }
-        // console.log(this.formRegister.PERSONAL_BIRTH_DATE);
+        if(this.calculateAgeFromCompleteDate(dateConverts?.completeDate) > 18 && this.formRegister.TYPE_CYBER_CAT){
+            Swal.fire({
+                title: 'อายุของท่านไม่ตรงเกณฑ์ที่กำหนด',
+                text: 'ท่านต้องมีอายุไม่เกิน 18 ปี เพื่อเข้าใช้งาน Cyber Cat',
+                icon: 'error',
+                confirmButtonText: 'ตกลง'
+            });
+            this._isLoading = false;
+            return;
+        }
         if (
-            // !this.imageFile
             !this.formRegister.TITLE_ID
             && !this.formRegister.PERSONAL_FNAME_THA
             && !this.formRegister.PERSONAL_LNAME_THA
@@ -325,18 +349,6 @@ export class RegisterPeopleComponent implements OnInit {
             this._isLoading = false;
             return;
         }
-        // else if (!this.formRegister.PERSONAL_EMAIL) {
-        //     Swal.fire({
-        //         title: 'แจ้งเตือน!',
-        //         text: 'กรุณากรอกอีเมล',
-        //         icon: 'warning',
-        //         confirmButtonText: 'ตกลง'
-        //     }).then(() => {
-        //         this._isLoading = false;
-        //     });
-        //     this._isLoading = false;
-        //     return;
-        // }
         else if (!this.password) {
             Swal.fire({
                 title: 'แจ้งเตือน!',
@@ -360,19 +372,6 @@ export class RegisterPeopleComponent implements OnInit {
             this._isLoading = false;
             return;
         }
-        // if (!this.validateEmail(this.formRegister.PERSONAL_EMAIL)) {
-        //     Swal.fire({
-        //         title: 'แจ้งเตือน!',
-        //         text: 'กรุณากรอกอีเมลให้ถูกต้อง !!!',
-        //         icon: 'warning',
-        //         confirmButtonText: 'ตกลง'
-        //     }).then(() => {
-        //         this._isLoading = false;
-        //     });
-        //     this._isLoading = false;
-        //     return;
-        // }
-
         if (this.password !== this.formRegister.NEW_PASSWORD) {
             Swal.fire({
                 title: 'แจ้งเตือน!',

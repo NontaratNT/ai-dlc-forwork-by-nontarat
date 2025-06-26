@@ -225,6 +225,7 @@ export interface IUserProfile {
     Age: number;
     SeniorStatus: string;
     CyberEyeStatus: string;
+    CyberCatStatus: string;
 }
 
 export interface IAccessToken {

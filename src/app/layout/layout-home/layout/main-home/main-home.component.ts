@@ -66,6 +66,59 @@ export class MainHomeComponent implements OnInit {
         }
     }
 
+    LinkCyberCat() {
+        if (!User?.Current) {
+            Swal.fire({
+                title: 'Cyber Eye',
+                html: 'คุณต้องการเข้าใช้งาน Cyber Cat หรือไม่? <br> <span class="text-danger">*หมายเหตุ: ท่านต้องอายุ ไม่เกิน 18 ปีเท่านั้น</span>',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'ตกลง',
+                cancelButtonText: 'ยกเลิก',
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-secondary'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                        this.router.navigate(['/login'], { queryParams: { icli: 'cyber-cat' } });
+                    }
+                } 
+            );
+        }else{
+            if(User?.Current?.CyberCatStatus === "Y"){
+                this.CheckDeviceMode(2);
+            }else{
+                Swal.fire({
+                    title: 'Cyber Cat',
+                    html: 'คุณต้องการเข้าใช้งาน Cyber Cat หรือไม่? <br> <span class="text-danger">*หมายเหตุ: ท่านต้องอายุ ไม่เกิน 18 ปีเท่านั้น</span>',
+                    icon: 'info',
+                    confirmButtonText: 'ตกลง',
+                    cancelButtonText: 'ยกเลิก',
+                    showCancelButton: true,
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-secondary'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        if(User?.Current?.Age <= 18){
+                            this.CheckDeviceMode(2);
+                        }else{
+                            Swal.fire({
+                                title: 'อายุของท่านไม่ตรงเกณฑ์ที่กำหนด',
+                                text: 'ท่านต้องมีอายุไม่เกิน 18 ปี เพื่อเข้าใช้งาน Cyber Cat',
+                                icon: 'error',
+                                confirmButtonText: 'ตกลง'
+                            });
+                            return;
+                        }
+                    } 
+                });
+            }
+        }
+    }
+
     CheckDeviceMode(type = 1) {
         this.deviceInfo = this.deviceService.getDeviceInfo();
         const isMobile = this.deviceService.isMobile();

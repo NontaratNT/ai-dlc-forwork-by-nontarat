@@ -144,6 +144,41 @@ export class SecurityServiceComponent implements OnInit {
           }
       }
 
+      LinkCyberCat() {
+          if (!User?.Current) {
+            Swal.fire({
+              title: 'Cyber Cat',
+              text: 'คุณต้องการเข้าใช้งาน Cyber Cat หรือไม่?',
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonText: 'ตกลง',
+              cancelButtonText: 'ยกเลิก',
+              customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-secondary'
+              }
+            }).then((result) => {
+              if (result.isConfirmed) {
+                this.router.navigate(['/login'], { queryParams: { icli: 'cyber-cat' } });
+              }
+            }
+            );
+          } else {
+            if (User.Current.CyberCatStatus !== "Y") {
+              this.userServ.UpdateSeniorFlag(User.Current.UserId, "CyberCat").subscribe(() => {
+                this.userServ.UpdateSeniorFlagAzure(User.Current.UserId, "CyberCat").subscribe(() => {
+                  User.Current.CyberCatStatus = "Y";
+                  this.CheckDeviceMode(2);
+                  return;
+                });
+              });
+            }
+            this.CheckDeviceMode(2);
+          }
+        }
+
+      
+
 
       CheckDeviceMode(type = 1) {
         this.deviceInfo = this.deviceService.getDeviceInfo();

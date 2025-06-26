@@ -134,6 +134,8 @@ export interface IRegister {
     CYBER_STATUS: any;
     SENIOR_STATUS: any;
     CYBER_EYE_STATUS: any;
+    TYPE_CYBER_CAT: any;
+    CYBER_CAT_STATUS: any;
 }
 export interface IActive {
     EMAIL?: string;

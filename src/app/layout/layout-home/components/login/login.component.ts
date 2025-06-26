@@ -153,6 +153,8 @@ export class LoginComponent implements OnInit, OnDestroy {
                 this.router.navigate(["register"], { queryParams: { icli: 'landing' } });
             } else if (params.icli === "cyber-eye") {
                 this.router.navigate(["register"], { queryParams: { icli: 'cyber-eye' } });
+            } else if (params.icli === "cyber-cat") {
+                this.router.navigate(["register"], { queryParams: { icli: 'cyber-cat' } });
             }else {
                 this.router.navigate(["register"]);
             }
@@ -225,6 +227,44 @@ export class LoginComponent implements OnInit, OnDestroy {
                                                     switchMap(() => this.userServ.UpdateSeniorFlagAzure(User.Current.UserId, "Cyber"))
                                                 ).subscribe(() => {
                                                     User.Current.CyberEyeStatus = "Y";
+                                                    this.router.navigate(['/']);
+                                                });
+                                            } else {
+                                                this.router.navigate(['/']);
+                                            }
+                                        } else {
+                                            this.router.navigate(['/']);
+                                        }
+                                    });
+                                    return;
+                                }else if (params.icli === "cyber-cat") {
+                                    Swal.fire({
+                                        title: 'Cyber Eye',
+                                        text: 'คุณต้องการเข้าใช้งาน Cyber Cat หรือไม่?',
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonText: 'ตกลง',
+                                        cancelButtonText: 'ยกเลิก',
+                                        customClass: {
+                                            confirmButton: 'btn btn-success',
+                                            cancelButton: 'btn btn-secondary'
+                                        }
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            if(!(User.Current?.Age <= 18)) {
+                                                Swal.fire({
+                                                    title: 'อายุของท่านไม่ตรงเกณฑ์ที่กำหนด',
+                                                    text: 'ท่านต้องมีอายุไม่เกิน 18 ปี เพื่อเข้าใช้งาน Cyber Cat',
+                                                    icon: 'error',
+                                                    confirmButtonText: 'ตกลง'
+                                                });
+                                                 this.router.navigate(['/']);
+                                            }
+                                            if (User.Current?.CyberCatStatus !== "Y") {
+                                                this.userServ.UpdateSeniorFlag(User.Current.UserId, "CyberCat").pipe(
+                                                    switchMap(() => this.userServ.UpdateSeniorFlagAzure(User.Current.UserId, "CyberCat"))
+                                                ).subscribe(() => {
+                                                    User.Current.CyberCatStatus = "Y";
                                                     this.router.navigate(['/']);
                                                 });
                                             } else {
@@ -452,7 +492,28 @@ export class LoginComponent implements OnInit, OnDestroy {
                             this.router.navigate(["login/thaiD"]);
                         }
                     });
-                }else{
+                }
+                if(params.icli === "cyber-cat"){
+                    Swal.fire({
+                        title: 'Cyber Cat',
+                        text: 'คุณต้องการเข้าใช้งาน Cyber Cat หรือไม่?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'ตกลง',
+                        cancelButtonText: 'ยกเลิก',
+                        customClass: {
+                            confirmButton: 'btn btn-success',
+                            cancelButton: 'btn btn-secondary'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.router.navigate(["login/thaiD"], { queryParams: { icli: params.icli } });
+                        }else{
+                            this.router.navigate(["login/thaiD"]);
+                        }
+                    });
+                }
+                else{
                     this.router.navigate(["login/thaiD"], { queryParams: { icli: params.icli } });
                 }
             }else{
