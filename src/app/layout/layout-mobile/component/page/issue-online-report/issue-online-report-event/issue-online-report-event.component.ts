@@ -50,7 +50,7 @@ export class IssueOnlineReportEventComponent implements OnInit, DoCheck {
     socialType = [
         'LINE',
         'FACEBOOK',
-        'MESSENGER',
+        // 'MESSENGER',
         'INSTAGRAM',
         'WEBSITE',
         'EMAIL',
