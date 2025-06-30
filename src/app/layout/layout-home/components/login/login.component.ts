@@ -492,8 +492,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                             this.router.navigate(["login/thaiD"]);
                         }
                     });
-                }
-                if(params.icli === "cyber-cat"){
+                }else if(params.icli === "cyber-cat"){
                     Swal.fire({
                         title: 'Cyber Cat',
                         text: 'คุณต้องการเข้าใช้งาน Cyber Cat หรือไม่?',
