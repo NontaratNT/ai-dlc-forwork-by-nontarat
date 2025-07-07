@@ -4,10 +4,18 @@
         <dx-scroll-view [showScrollbar]="'always'">
             <responsive-helper></responsive-helper>
             <app-main-re-design data-section="home"></app-main-re-design>
-            <img style="width: 100%;height: auto;" class="logoCyberEyePages" src="assets/icon/bg/Banner_Big_0.png" alt="" (click)="LinkCyberEye()">
-            <img style="width: 100%;height: auto;" class="logoCyberEyePages" src="assets/icon/bg/Banner_CAT.png" alt="" (click)="LinkCyberCat()">
-            <box-senior-cyber [types]="'seniorPages'"></box-senior-cyber>
-
+            <div class="row" style="padding: 10px 10px 10px 10px;background-color: white;">
+                <div class="col-md-4 col-sm-12 p-0">
+                    <img style="width: 100%; height: auto;cursor: pointer;" class="logoCyberCatPages" src="assets/icon/bg/Artboard 7.png" alt="" (click)="LinkCyberCat()">
+                </div>
+                <div class="col-md-4 col-sm-12 p-0">
+                     <img style="width: 100%; height: auto;cursor: pointer;" class="logoCyberEyePages" src="assets/icon/bg/Artboard 7 copy.png" alt="" (click)="LinkCyberEye()">
+                </div>
+                <div class="col-md-4 col-sm-12 p-0">
+                    <box-senior-cyber [types]="'seniorPages'"></box-senior-cyber>
+                </div>
+            </div>
+            
             <ng-container *ngIf="isMobile; else tabletOrDesktop">
                 <app-protect-cyber-mobile data-section="cyber-security"></app-protect-cyber-mobile>
                 <app-security-service-mobile></app-security-service-mobile>

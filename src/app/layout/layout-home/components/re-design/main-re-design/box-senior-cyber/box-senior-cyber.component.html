@@ -154,7 +154,8 @@
 
 
 <div *ngIf="types === 'seniorPages'">
-     <div class="slidePages" *ngFor="let slide of slides" [ngStyle]="{'background-image': 'url(' + slide.images + ')'}">
+     <img style="width: 100%; height: auto;cursor: pointer;" class="logoCyberSeniorPages" src="assets/icon/bg/Artboard 7 copy 2.png" alt="" (click)="clickPopup()">
+     <!-- <div class="slidePages" *ngFor="let slide of slides" [ngStyle]="{'background-image': 'url(' + slide.images + ')'}">
           <div class="boxMain">
                <div class="boxLeft">
                     <img class="logoPolicePages" src="assets/image/img/senior/logo-police.png" alt=""
@@ -178,7 +179,7 @@
                     <img src="assets/image/img/senior/senior60.png" class="senior60" alt="">
                </div>
           </div>
-     </div>
+     </div> -->
 </div>
 
 <dx-popup class="popup channel" [showTitle]="true" title="ช่องทางที่ทำให้รู้จักกับโครงการ" [dragEnabled]="false"
