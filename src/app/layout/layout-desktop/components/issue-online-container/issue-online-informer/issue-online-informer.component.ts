@@ -27,6 +27,7 @@ import { IssueOnlineService } from "src/app/services/issue-online.service";
 import { OnlineCaseService } from "src/app/services/online-case.service";
 import { switchMap } from "rxjs/operators";
 import { BpmProcinstService } from "src/app/services/bpm-procinst.service";
+import { AIService } from "src/app/services/ai.service";
 
 @Component({
     selector: "app-issue-online-informer",
@@ -169,26 +170,26 @@ export class IssueOnlineInformerComponent implements OnInit {
         { ID: 4, TEXT: "อื่นๆ" },
     ];
     orgtype2_1 = [
-        { org_id: 3536, org_name: "บก.สอท.1",org_location1:"ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ"},
+        { org_id: 3536, org_name: "บก.สอท.1", org_location1: "ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ" },
     ];
     orgtype2_2 = [
-            { org_id: 3548, org_name: "บก.สอท.2",org_location1:"เมืองทองธานี จ.นนทบุรี"},
+        { org_id: 3548, org_name: "บก.สอท.2", org_location1: "เมืองทองธานี จ.นนทบุรี" },
     ];
     orgtype2_3 = [
-            { org_id: 3559, org_name: "บก.สอท.3",org_location1:"1.ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ",org_location2:"2.ถ.มิตรภาพ ต.ในเมือง อ.เมือง จ.ขอนแก่น"},
+        { org_id: 3559, org_name: "บก.สอท.3", org_location1: "1.ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ", org_location2: "2.ถ.มิตรภาพ ต.ในเมือง อ.เมือง จ.ขอนแก่น" },
     ];
     orgtype2_4 = [
-            { org_id: 3567, org_name: "บก.สอท.4",org_location1:"1.ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ",org_location2:"2.ต.ป่าแดด อ.เมืองเชียงใหม่ จ.เชียงใหม่"},
+        { org_id: 3567, org_name: "บก.สอท.4", org_location1: "1.ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ", org_location2: "2.ต.ป่าแดด อ.เมืองเชียงใหม่ จ.เชียงใหม่" },
     ];
     orgtype2_5 = [
-            { org_id: 3578, org_name: "บก.สอท.5",org_location1:"1.ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ",org_location2:"2.ต.บางกุ้ง อ.เมืองสุราษฎร์ธานี จ.สุราษฏร์ธานี"},
+        { org_id: 3578, org_name: "บก.สอท.5", org_location1: "1.ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ", org_location2: "2.ต.บางกุ้ง อ.เมืองสุราษฎร์ธานี จ.สุราษฏร์ธานี" },
     ];
     orgtype3 = [
         { org_id: 2541, org_name: "กองบังคับการปราบปรามการกระทำความผิดเกี่ยวกับอาชญากรรมทางเศรษฐกิจ                          (บก.ปอศ.)" },
         { org_id: 2397, org_name: "กองบังคับการปราบปรามการกระทำความผิดเกี่ยวกับการคุ้มครองผู้บริโภค                              (บก.ปคบ.)" },
         { org_id: 2614, org_name: "กองบังคับการปราบปรามการกระทำผิดเกี่ยวกับอาชญากรรมทางเทคโนโลยี กองบัญชาการตำรวจสอบสวนกลาง  (บก.ปอท.)" },
         { org_id: 2605, org_name: "กองบังคับการปราบปรามการกระทำความเกี่ยวกับการค้ามนุษย์                                      (บก.ปคม.)" },
-        { org_id: 2387, org_name: 'กองบังคับการปราบปราม                                                                 (บก.ป.)'},
+        { org_id: 2387, org_name: 'กองบังคับการปราบปราม                                                                 (บก.ป.)' },
     ];
     aria1and2 = [
         "ตำรวจภูธรภาค 1 (ชัยนาท,นนทบุรี,ปทุมธานี,พระนครศรีอยุธยา,ลพบุรี,สมุทรปราการ,สระบุรี,สิงห์บุรี,อ่างทอง)",
@@ -260,6 +261,8 @@ export class IssueOnlineInformerComponent implements OnInit {
         { ID: 5, TEXT: "อื่น ๆ" }
     ];
 
+    imageFile: File;
+
     constructor(
         private router: Router,
         private servicePersonal: PersonalService,
@@ -276,6 +279,7 @@ export class IssueOnlineInformerComponent implements OnInit {
         private _issueOnlineService: IssueOnlineService,
         private _OnlineCaseService: OnlineCaseService,
         private _BpmProcinstService: BpmProcinstService,
+        private _aiService: AIService
 
     ) {
         this.dsorgbyaria = {} as any;
@@ -296,13 +300,13 @@ export class IssueOnlineInformerComponent implements OnInit {
         this.isLoading = true;
         this.servicePersonal.GetPersonalById(userId)
             .subscribe(personalInfo => {
-            this.personalInfo = personalInfo;
-            this.setPersonalData();
-          }, error => {
-            if (error.status === 500 || error.status === 524) {
-              this.mainConponent.checkReload(2);
-            }
-          });
+                this.personalInfo = personalInfo;
+                this.setPersonalData();
+            }, error => {
+                if (error.status === 500 || error.status === 524) {
+                    this.mainConponent.checkReload(2);
+                }
+            });
 
         this.DefaultCheckbox();
 
@@ -355,22 +359,22 @@ export class IssueOnlineInformerComponent implements OnInit {
     }
 
     async setPersonalData() {
-        try{
+        try {
             this.isLoading = true;
             this.userType = this.mainConponent.userType;
             this.province = this.mainConponent.province;
             this.formData = {};
             if (this.mainConponent.formType === "add") {
-                if(localStorage.getItem("form-blessing")){
+                if (localStorage.getItem("form-blessing")) {
                     this.datacheck = JSON.parse(localStorage.getItem("form-blessing"));
-                }else if(this.mainConponent.formDataAll.formBlessing){
+                } else if (this.mainConponent.formDataAll.formBlessing) {
                     this.datacheck = this.mainConponent.formDataAll.formBlessing;
                 }
-                localStorage.setItem("form-index","2");
-                if(localStorage.getItem("form-informer")){
+                localStorage.setItem("form-index", "2");
+                if (localStorage.getItem("form-informer")) {
                     this.dataForms = JSON.parse(localStorage.getItem("form-informer"));
                     // this.formData = this.dataForms;
-                }else{
+                } else {
                     this.dataForms = this.mainConponent.formDataAll.formInformer;
                 }
                 this.checkblessings = this.datacheck.CHECK_BLESSING;
@@ -382,68 +386,68 @@ export class IssueOnlineInformerComponent implements OnInit {
                 if (this.userType === "mySelf") {
 
                     this.formData.CASE_INFORMER_FIRSTNAME = this.dataForms.CASE_INFORMER_FIRSTNAME ?? p.PERSONAL_FNAME_THA ?? null;
-                    this.formData.CASE_INFORMER_LASTNAME =  this.dataForms.CASE_INFORMER_LASTNAME ?? p.PERSONAL_LNAME_THA ?? null;
-                    this.formData.INFORMER_EMAIL =  this.dataForms.INFORMER_EMAIL ?? p.PERSONAL_EMAIL ?? null;
-                    this.formData.INFORMER_TEL =  this.dataForms.INFORMER_TEL ?? p.PERSONAL_TEL_NO ?? null;
+                    this.formData.CASE_INFORMER_LASTNAME = this.dataForms.CASE_INFORMER_LASTNAME ?? p.PERSONAL_LNAME_THA ?? null;
+                    this.formData.INFORMER_EMAIL = this.dataForms.INFORMER_EMAIL ?? p.PERSONAL_EMAIL ?? null;
+                    this.formData.INFORMER_TEL = this.dataForms.INFORMER_TEL ?? p.PERSONAL_TEL_NO ?? null;
                     this.checkedRadioGender = this.dataForms.INFORMER_GENDER ?? (p.PERSONAL_GENDER === 1 ? "M" : "F");
                     this.formData.INFORMER_GENDER_DETAIL = this.dataForms.INFORMER_GENDER_DETAIL ?? null;
                     this.formData.CASE_INFORMER_CITIZEN_NUMBER = this.dataForms.CASE_INFORMER_CITIZEN_NUMBER ?? p.PERSONAL_CITIZEN_NUMBER ?? null;
 
-                    if(this.dataForms.TITLE_ID){
+                    if (this.dataForms.TITLE_ID) {
                         this.formData.TITLE_ID = this.dataForms.TITLE_ID;
                         this.formData.TITLE_NAME = this.dataForms.TITLE_NAME ?? null;
-                    }else{
-                        if(this.personalInfo.TITLE_NAME == "นาย"){
+                    } else {
+                        if (this.personalInfo.TITLE_NAME == "นาย") {
                             this.formData.TITLE_ID = this.personalInfo.TITLE_NAME;
-                        }else if(this.personalInfo.TITLE_NAME == "นาง"){
+                        } else if (this.personalInfo.TITLE_NAME == "นาง") {
                             this.formData.TITLE_ID = this.personalInfo.TITLE_NAME;
-                        }else if(this.personalInfo.TITLE_NAME == "นางสาว"){
+                        } else if (this.personalInfo.TITLE_NAME == "นางสาว") {
                             this.formData.TITLE_ID = this.personalInfo.TITLE_NAME;
-                        }else{
+                        } else {
                             this.formData.TITLE_ID = "อื่นๆ";
                             this.formData.TITLE_NAME = this.personalInfo.TITLE_NAME;
                         }
                     }
 
-                    if(this.dataForms.CASE_INFORMER_DATE){
+                    if (this.dataForms.CASE_INFORMER_DATE) {
                         this.formData.CASE_INFORMER_DATE = this._date.ConvertToDate(this.dataForms.CASE_INFORMER_DATE);
-                    }else{
-                        this.formData.CASE_INFORMER_DATE = this._date.ConvertToDate(p.PERSONAL_BIRTH_DATE ) ?? null;
+                    } else {
+                        this.formData.CASE_INFORMER_DATE = this._date.ConvertToDate(p.PERSONAL_BIRTH_DATE) ?? null;
                     }
                     this.formData.CASE_INFORMER_CARD_ADDRESS_NO = this.dataForms.CASE_INFORMER_CARD_ADDRESS_NO ? this.dataForms.CASE_INFORMER_CARD_ADDRESS_NO : p.HOME_REGISTER_ADDRESS;
-                    if(this.dataForms.INFORMER_CARD_PROVINCE){
+                    if (this.dataForms.INFORMER_CARD_PROVINCE) {
                         this.formData.INFORMER_CARD_PROVINCE = this.dataForms.INFORMER_CARD_PROVINCE;
                         this.formData.INFORMER_CARD_PROVINCE_NAME_THA = this.dataForms.INFORMER_CARD_PROVINCE_NAME_THA;
                         this.cardAddress.district = await this.serviceProvince
                             .GetDistrictofProvince(this.formData.INFORMER_CARD_PROVINCE)
                             .toPromise();
                         this.cardAddress.disableDistrict = false;
-                    }else if (p.HOME_REGISTER_PROVINCE_ID) {
+                    } else if (p.HOME_REGISTER_PROVINCE_ID) {
                         this.formData.INFORMER_CARD_PROVINCE = p.HOME_REGISTER_PROVINCE_ID;
                         this.cardAddress.district = await this.serviceProvince
                             .GetDistrictofProvince(p.HOME_REGISTER_PROVINCE_ID)
                             .toPromise();
                         this.cardAddress.disableDistrict = false;
                     }
-                    if(this.dataForms.INFORMER_CARD_DISTRICT_ID){
+                    if (this.dataForms.INFORMER_CARD_DISTRICT_ID) {
                         this.formData.INFORMER_CARD_DISTRICT_ID = this.dataForms.INFORMER_CARD_DISTRICT_ID;
                         this.formData.INFORMER_CARD_DISTRICT_NAME_THA = this.dataForms.INFORMER_CARD_DISTRICT_NAME_THA;
                         this.cardAddress.subDistrict = await this.serviceDistrict
                             .GetSubDistrictOfDistrict(this.formData.INFORMER_CARD_DISTRICT_ID)
                             .toPromise();
                         this.cardAddress.disableSubDistrict = false;
-                    }else if (p.HOME_REGISTER_DISTICT_ID) {
+                    } else if (p.HOME_REGISTER_DISTICT_ID) {
                         this.formData.INFORMER_CARD_DISTRICT_ID = p.HOME_REGISTER_DISTICT_ID;
                         this.cardAddress.subDistrict = await this.serviceDistrict
                             .GetSubDistrictOfDistrict(p.HOME_REGISTER_DISTICT_ID)
                             .toPromise();
                         this.cardAddress.disableSubDistrict = false;
                     }
-                    if(this.dataForms.INFORMER_CARD_SUB_DISTRICT_ID){
+                    if (this.dataForms.INFORMER_CARD_SUB_DISTRICT_ID) {
                         this.formData.INFORMER_CARD_SUB_DISTRICT_ID = this.dataForms.INFORMER_CARD_SUB_DISTRICT_ID;
                         this.formData.INFORMER_CARD_SUB_DISTRICT_NAME_THA = this.dataForms.INFORMER_CARD_SUB_DISTRICT_NAME_THA;
                         this.cardAddress.disablepostcode = false;
-                    }else if (p.HOME_REGISTER_SUB_DISTICT_ID) {
+                    } else if (p.HOME_REGISTER_SUB_DISTICT_ID) {
                         this.formData.INFORMER_CARD_SUB_DISTRICT_ID = p.HOME_REGISTER_SUB_DISTICT_ID;
                         this.formData.INFORMER_CARD_POSTCODE_ID = p.HOME_REGISTER_POST_CODE;
                         // this.cardAddress.postcode = await this.serviceSubDistrict
@@ -453,39 +457,39 @@ export class IssueOnlineInformerComponent implements OnInit {
                     }
                     this.formData.CASE_INFORMER_ADDRESS_NO = this.dataForms.CASE_INFORMER_ADDRESS_NO ? this.dataForms.CASE_INFORMER_ADDRESS_NO : p.PERSONAL_ADDRESS;
 
-                    if(this.dataForms.INFORMER_PROVINCE){
+                    if (this.dataForms.INFORMER_PROVINCE) {
                         this.formData.INFORMER_PROVINCE = this.dataForms.INFORMER_PROVINCE;
                         this.formData.INFORMER_PROVINCE_NAME_THA = this.dataForms.INFORMER_PROVINCE_NAME_THA;
                         this.presentAddress.district = await this.serviceProvince
                             .GetDistrictofProvince(this.formData.INFORMER_PROVINCE)
                             .toPromise();
                         this.presentAddress.disableDistrict = false;
-                    }else if (p.PROVINCE_ID) {
+                    } else if (p.PROVINCE_ID) {
                         this.formData.INFORMER_PROVINCE = p.PROVINCE_ID;
                         this.presentAddress.district = await this.serviceProvince
                             .GetDistrictofProvince(p.PROVINCE_ID)
                             .toPromise();
                         this.presentAddress.disableDistrict = false;
                     }
-                    if(this.dataForms.INFORMER_DISTRICT_ID){
+                    if (this.dataForms.INFORMER_DISTRICT_ID) {
                         this.formData.INFORMER_DISTRICT_ID = this.dataForms.INFORMER_DISTRICT_ID;
                         this.formData.INFORMER_DISTRICT_NAME_THA = this.dataForms.INFORMER_DISTRICT_NAME_THA;
                         this.presentAddress.subDistrict = await this.serviceDistrict
                             .GetSubDistrictOfDistrict(this.formData.INFORMER_DISTRICT_ID)
                             .toPromise();
                         this.presentAddress.disableSubDistrict = false;
-                    }else if (p.DISTICT_ID) {
+                    } else if (p.DISTICT_ID) {
                         this.formData.INFORMER_DISTRICT_ID = p.DISTICT_ID;
                         this.presentAddress.subDistrict = await this.serviceDistrict
                             .GetSubDistrictOfDistrict(p.DISTICT_ID)
                             .toPromise();
                         this.presentAddress.disableSubDistrict = false;
                     }
-                    if(this.dataForms.INFORMER_SUB_DISTRICT_ID){
+                    if (this.dataForms.INFORMER_SUB_DISTRICT_ID) {
                         this.formData.INFORMER_SUB_DISTRICT_ID = this.dataForms.INFORMER_SUB_DISTRICT_ID;
                         this.formData.INFORMER_SUB_DISTRICT_NAME_THA = this.dataForms.INFORMER_SUB_DISTRICT_NAME_THA;
                         this.presentAddress.disablepostcode = false;
-                    }else if (p.SUB_DISTICT_ID) {
+                    } else if (p.SUB_DISTICT_ID) {
                         this.formData.INFORMER_SUB_DISTRICT_ID = p.SUB_DISTICT_ID;
                         this.formData.INFORMER_POSTCODE_ID = p.POST_CODE;
                         // this.presentAddress.postcode = await this.serviceSubDistrict
@@ -501,10 +505,10 @@ export class IssueOnlineInformerComponent implements OnInit {
                     this.formData.CASE_INFORMER_DATE = this._date.SetDateDefault();
                 }
             } else {
-                if(!localStorage.getItem("case_id")){
+                if (!localStorage.getItem("case_id")) {
                     const _inst_id = Number(localStorage.getItem("inst_id"));
                     const procinstdata = await this._BpmProcinstService.getByInstId(_inst_id).toPromise();
-                    sessionStorage.setItem("case_id",procinstdata.Value.DATA_ID);
+                    sessionStorage.setItem("case_id", procinstdata.Value.DATA_ID);
                 }
                 const _case_id = Number(sessionStorage.getItem("case_id"));
                 const dataForm = await this._OnlineCaseService.getbycaseId(_case_id).toPromise();
@@ -571,14 +575,14 @@ export class IssueOnlineInformerComponent implements OnInit {
             this.maxBirthDate = this._date.SetDateDefault(0);
             this.loadDateBox = true;
             this.isLoading = false;
-        }catch (error){
-            setTimeout(()=>{
-                this.checkerror = this.checkerror+1;
-                if(this.checkerror > 3){
+        } catch (error) {
+            setTimeout(() => {
+                this.checkerror = this.checkerror + 1;
+                if (this.checkerror > 3) {
                     this.router.navigate([`/main/task-list`]).then(() => {
                         window.location.reload();
-                      });
-                }else{
+                    });
+                } else {
                     this.setPersonalData();
                 }
             }, 2000);
@@ -594,10 +598,10 @@ export class IssueOnlineInformerComponent implements OnInit {
 
     ChangeRadioTitle(e) {
         if (e.value) {
-            setTimeout(()=>{
+            setTimeout(() => {
                 if (e.value == "อื่นๆ") {
                     this.checkothertitle = true;
-                    if(!this.formData.TITLE_NAME){
+                    if (!this.formData.TITLE_NAME) {
                         this.formData.TITLE_NAME = "";
                     }
                 } else {
@@ -637,7 +641,7 @@ export class IssueOnlineInformerComponent implements OnInit {
                 }, 200);
                 this.formData.OCCUPATIONS_ID = e.value;
                 this.formData.OCCUPATIONS_NAME = data.OCCUPATIONS_NAME;
-                if(this.formData.OCCUPATIONS_ID != 10){
+                if (this.formData.OCCUPATIONS_ID != 10) {
                     this.formData.OCCUPATIONS_OTHER_NAME = null;
                 }
             } else {
@@ -729,11 +733,11 @@ export class IssueOnlineInformerComponent implements OnInit {
             this.formData.CASE_INFORMER_DATE = this._date.ConvertToDateFormat(
                 this.formData.CASE_INFORMER_DATE
             );
-            if(this.formData.CASE_INFORMER_DATE == "Invalid date" || undefined || null){
+            if (this.formData.CASE_INFORMER_DATE == "Invalid date" || undefined || null) {
                 this.alertmessagecustom('กรุณาเลือกวันเดือนปีเกิด');
                 return
             }
-            if(this.formData.INFORMER_TEL_PROVIDER === 'อื่น ๆ'){
+            if (this.formData.INFORMER_TEL_PROVIDER === 'อื่น ๆ') {
                 this.formData.INFORMER_TEL_PROVIDER = this.formData.INFORMER_TEL_PROVIDER_DETAIL;
             }
             this.formData.NEXT = true;
@@ -744,9 +748,9 @@ export class IssueOnlineInformerComponent implements OnInit {
                 }
             }
             this.mainConponent.formDataAll.formInformer = setData;
-            localStorage.setItem("form-informer",JSON.stringify(setData));
+            localStorage.setItem("form-informer", JSON.stringify(setData));
         }
-        if(e != 'tab'){
+        if (e != 'tab') {
             this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
         }
     }
@@ -836,7 +840,7 @@ export class IssueOnlineInformerComponent implements OnInit {
             // console.log(this.formData.INVITE_OFFICER_ORG);
         }
     }
-    Onorglocationwalkin(e){
+    Onorglocationwalkin(e) {
         const data = this.selectorgwalkin.instance.option("selectedItem");
         if (data) {
             this.formData.ORG_LOCATION_WALKIN_TYPE = 1;
@@ -1011,7 +1015,7 @@ export class IssueOnlineInformerComponent implements OnInit {
                 });
         }
     }
-    OnSelectProvicePresentlocationWalkin(e){
+    OnSelectProvicePresentlocationWalkin(e) {
         if (e.value) {
             const data =
                 this.selectPresentProvicelocationWalkin.instance.option(
@@ -1214,5 +1218,73 @@ export class IssueOnlineInformerComponent implements OnInit {
                     });
             }, 500);
         }
+    }
+    ScanOcr(e, uploadTag) {
+        e.event.stopPropagation();
+        uploadTag.click();
+    }
+    OnImageAdd(uploadTag) {
+        const files: FileList = uploadTag.files;
+        let fileReader: FileReader;
+        if (files.length > 0) {
+            this.isLoading = true;
+            this.imageFile = files.item(0);
+            fileReader = new FileReader();
+            fileReader.readAsDataURL(this.imageFile);
+            console.log(this.imageFile);
+            var data = new FormData();
+            data.append("file", this.imageFile);
+            this._aiService.ScanOcr(data).subscribe({
+                next: (res) => {
+                    if (res) {
+                        this.formData.CASE_INFORMER_FIRSTNAME = res.fname;
+                        this.formData.CASE_INFORMER_LASTNAME = res.lname;
+                        this.formData.CASE_INFORMER_DATE = this.convertThaiDateToJsDate(res?.birtDate);
+                        if(this.formData.CASE_INFORMER_DATE){
+                            this.formData.CASE_INFORMER_DATE = this._date.ConvertToDateFormat(this.formData.CASE_INFORMER_DATE);
+                        }
+                        this.formData.CASE_INFORMER_CITIZEN_NUMBER = res?.CitizentNumber;
+                        console.log(this.formData.CASE_INFORMER_DATE);
+                    } else {
+                        this.alertmessagecustom("ไม่พบข้อมูลจากการสแกน");
+                    }
+                    this.imageFile = null;
+                    this.isLoading = false;
+                },
+                error: (err) => {
+                    this.imageFile = null;
+                    this.isLoading = false;
+                    this.alertmessagecustom("ไม่พบข้อมูลจากการสแกน");
+                },
+            });
+        }
+    }
+
+    convertThaiDateToJsDate(thaiDateString: string): Date | null {
+        const monthMap: { [key: string]: number } = {
+            'ม.ค.': 0, 'ก.พ.': 1, 'มี.ค.': 2, 'เม.ย.': 3, 'พ.ค.': 4, 'มิ.ย.': 5,
+            'ก.ค.': 6, 'ส.ค.': 7, 'ก.ย.': 8, 'ต.ค.': 9, 'พ.ย.': 10, 'ธ.ค.': 11
+        };
+
+        if(thaiDateString === null || thaiDateString === undefined || thaiDateString.trim() === '') {
+            return null;
+        }
+        const parts = thaiDateString.split(' ');
+        if (parts.length !== 3) {
+            return null;
+        }
+
+        const day = parseInt(parts[0], 10);
+        const monthAbbr = parts[1];
+        const buddhistYear = parseInt(parts[2], 10);
+
+        const monthIndex = monthMap[monthAbbr];
+        const gregorianYear = buddhistYear - 543;
+
+        if (!isNaN(day) && monthIndex !== undefined && !isNaN(gregorianYear)) {
+            return new Date(gregorianYear, monthIndex, day);
+        }
+
+        return null;
     }
 }

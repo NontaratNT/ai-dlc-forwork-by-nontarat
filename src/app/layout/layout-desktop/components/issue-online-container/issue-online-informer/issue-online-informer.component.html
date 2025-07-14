@@ -1,6 +1,12 @@
 <div class="conten-block">
     <div class="content-title">ข้อมูลผู้เสียหาย</div>
     <div class="content-form">
+        <!-- <div class="btn-ocr-scan text-center mt-3 mb-3" *ngIf="!formReadOnly">
+            <dx-button class="btn btn-ocr-scan" [width]="'50vw'" icon="fas fa-image" text="สแกนข้อมูลผู้เสียหาย" (onClick)="ScanOcr($event, upload)" type="primary"></dx-button>
+            <div class="dx-fileuploader-input-container d-none">
+                <input #upload type="file" accept="image/jpeg" tabindex="-1" class="dx-fileuploader-input" (change)="OnImageAdd(upload)">
+            </div>
+        </div> -->
         <dx-form #formInformer1 [colCount]="2" labelLocation="top">
             <dxi-item template="temptitle" [colSpan]="1" [isRequired]="formValidate">
                 <dxo-label text="คำนำหน้า" [showColon]="false"></dxo-label>
