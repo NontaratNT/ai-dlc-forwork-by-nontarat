@@ -10,6 +10,7 @@ import { IssueOnlineFileUploadService } from 'src/app/services/issue-online-file
 import { OnlineCaseService } from 'src/app/services/online-case.service';
 import { User } from 'src/app/services/user';
 import { finalize, switchMap } from 'rxjs/operators';
+import { ValidateUrl } from 'src/app/common/helper';
 
 @Component({
     selector: 'app-issue-online-criminal-contact-info-event',
@@ -262,6 +263,21 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
             this.formData.CRIMINAL_TYPE_SOCIAL = null;
             this.formData.CRIMINAL_SOCIAL_TYPE_DETAIL = null;
             this.formData.CRIMINAL_SOCIAL_DETAIL = null;
+        }
+        if( this.formData.CRIMINAL_SOCIAL_DETAIL){
+            if(ValidateUrl(this.formData.CRIMINAL_SOCIAL_DETAIL)){
+                Swal.fire({
+                    title: "แจ้งเตือน!",
+                    html: `ท่านกรอกข้อมูล URL ไม่ถูกต้อง 
+                    <br>เนื่องจาก URL ของท่านไม่สามารถนำไปตรวจสอบได้
+                    <br>กรุณาตรวจสอบอีกครั้ง`,
+                    icon: "warning",
+                    confirmButtonText: "Ok",
+                }).then(() => {
+                    this.formData.CRIMINAL_SOCIAL_DETAIL = null;
+                });
+                return;
+            }
         }
         // formatDate
         this.formData.ATTACHMENT = this.dataAttachment ?? [];

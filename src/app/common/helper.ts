@@ -62,3 +62,8 @@ export function trimObject(obj: any): void {
         Object.keys(obj).forEach((k) => (obj[k] == null || obj[k] === undefined) && delete obj[k]);
     }
 }
+
+export function ValidateUrl(url: string): boolean {
+    const popularUrlRegex = /^(https?:\/\/)?(www\.)?(facebook\.com|google\.com|instagram\.com|youtube\.com|twitter\.com|x\.com|tiktok\.com|linkedin\.com|pantip\.com|lazada\.co\.th|shopee\.co\.th)\/?$/;
+    return popularUrlRegex.test(url);
+}
