@@ -41,6 +41,17 @@ export class IssueOnlineCheckComponent implements OnInit {
         { id: 1, text: "ติดต่อธนาคาร และได้รับเลขอ้างอิง (Bank Case ID) แล้ว" },
     ];
     showMoneyWay = false;
+    waysOCPB1 = [
+        { id: 1, text: "ไม่ได้รับสินค้าหรือบริการ" },
+        { id: 2, text: "ได้รับสินค้าหรือบริการ" }
+    ]
+    waysOCPB2 = [
+        { id: 1, text: "ได้รับสินค้าเป็นของอย่างอื่น เช่น สั่งโทรศัพท์ได้สบู่ สั่งรองเท้าได้กล่องทิชชู่" },
+        { id: 2, text: "ได้รับสินค้าปลอม เช่น สั่งกระเป๋าแบรนด์เนม แล้วได้ของเลียนแบบ" },
+        { id: 3, text: "ได้รับสินค้าหรือบริการไม่ตรงปก โฆษณาเกินจริง" }
+    ];
+
+    isOCPB:boolean = false;
 
     constructor(
         private _bankInfoService: BankInfoService,
@@ -66,6 +77,9 @@ export class IssueOnlineCheckComponent implements OnInit {
                 this.formData = JSON.parse(localStorage.getItem("form-blessing"));
                 this.submission.ways = this.formData.WAY ?? '';
                 this.submission.moneyWay = this.formData.MoneyWAY ?? '';
+                this.submission.SCREENING_ANSWERS_OCPB_1 = this.formData.SCREENING_ANSWERS_OCPB_1 ?? '';
+                this.submission.SCREENING_ANSWERS_OCPB_2 = this.formData.SCREENING_ANSWERS_OCPB_2 ?? '';
+                this.isOCPB = this.formData.isOCPB ?? false;
                 this._dataSourcebankref = this.formData.BANK_REF ?? [];
                 if(this._dataSourcebankref){
                     if(this._dataSourcebankref.length > 0){
@@ -128,6 +142,16 @@ export class IssueOnlineCheckComponent implements OnInit {
                 this.checkcase = true;
             }
         }
+    }
+
+    onWaysValueChangedOCPB() {
+        if(this.submission?.SCREENING_ANSWERS_OCPB_1 == 2 && (this.submission?.SCREENING_ANSWERS_OCPB_2 == 2 || this.submission?.SCREENING_ANSWERS_OCPB_2 == 3)) 
+        {
+            this.isOCPB = true;
+        }else{
+            this.isOCPB = false;
+        }
+        console.log(this.isOCPB);
     }
 
     onWaysValueChanged(event: any) {
@@ -368,7 +392,16 @@ export class IssueOnlineCheckComponent implements OnInit {
 
     SubmitForm(e) {
         if(this.mainConponent.formType === "add"){
-            if(this._dataSourcebankref.length <= 0 && this._isShow){
+            if(this.submission?.moneyWay == null){
+                Swal.fire({
+                    title: "ผิดพลาด!",
+                    text: "กรุณาเลือกประเภทความเสียหาย",
+                    icon: "warning",
+                    confirmButtonText: "Ok",
+                })
+                return;
+            }
+            if((this._dataSourcebankref.length <= 0 && this._isShow) && !this.isOCPB){
                 Swal.fire({
                     title: "ผิดพลาด!",
                     text: "กรุณาเพิ่มเลขอ้างอิงธนาคาร",
@@ -377,15 +410,48 @@ export class IssueOnlineCheckComponent implements OnInit {
                 }).then(() => {});
                 return;
             } else {
-                this.formData.MoneyWAY = this.submission.moneyWay;
-                this.formData.BLESSING_STATUS = "Y";
-                this.formData.CHECK_BLESSING = true;
-                this.formData.WAY = this.submission.ways;
-                this.formData.BANK_REF = this._dataSourcebankref;
-                // console.log(this.formData);
-                localStorage.setItem("form-blessing",JSON.stringify(this.formData));
-                if(e != 'tab'){
-                    this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
+                if(this.isOCPB){
+                    Swal.fire({
+                        title: "แจ้งเตือน!",
+                        html: "จากคำตอบคัดกรองกลุ่มคดีของท่าน<br>เรื่องของท่านจะถูกส่งต่อไปยัง<br> <b>สำนักงานคณะกรรมการคุ้มครองผู้บริโภค (สคบ.)</b>",
+                        icon: "warning",
+                        confirmButtonText: "ยอมรับ",
+                        showCancelButton: true,
+                        cancelButtonText: "ยกเลิก"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.formData.MoneyWAY = this.submission.moneyWay;
+                            this.formData.BLESSING_STATUS = "Y";
+                            this.formData.CHECK_BLESSING = true;
+                            this.formData.WAY = this.submission.ways;
+                            this.formData.BANK_REF = this._dataSourcebankref;
+                            this.formData.IsOCPB = this.isOCPB;
+                            this.formData.SCREENING_ANSWERS_OCPB_1 = this.submission?.SCREENING_ANSWERS_OCPB_1;
+                            this.formData.SCREENING_ANSWERS_OCPB_2 = this.submission?.SCREENING_ANSWERS_OCPB_2;
+                            // console.log(this.formData);
+                            localStorage.setItem("form-blessing",JSON.stringify(this.formData));
+                            if(e != 'tab'){
+                                this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
+                            }
+                        } else {
+                            return;
+                        }
+                    });
+                    return;
+                }else{
+                    this.formData.MoneyWAY = this.submission.moneyWay;
+                    this.formData.BLESSING_STATUS = "Y";
+                    this.formData.CHECK_BLESSING = true;
+                    this.formData.WAY = this.submission.ways;
+                    this.formData.BANK_REF = this._dataSourcebankref;
+                    this.formData.IsOCPB = this.isOCPB;
+                    this.formData.SCREENING_ANSWERS_OCPB_1 = this.submission?.SCREENING_ANSWERS_OCPB_1;
+                    this.formData.SCREENING_ANSWERS_OCPB_2 = this.submission?.SCREENING_ANSWERS_OCPB_2;
+                    // console.log(this.formData);
+                    localStorage.setItem("form-blessing",JSON.stringify(this.formData));
+                    if(e != 'tab'){
+                        this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
+                    }
                 }
             }
         }else{

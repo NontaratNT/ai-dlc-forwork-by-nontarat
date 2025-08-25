@@ -134,9 +134,9 @@ export class IssueOnlineEventComponent implements OnInit {
         }
     ];
 
-    orgUnitsNew:any;
-    orgUnitsNewWalkin:any;
-    
+    orgUnitsNew: any;
+    orgUnitsNewWalkin: any;
+
     orgtype3 = [
         { org_id: 2541, org_name: "กองบังคับการปราบปรามการกระทำความผิดเกี่ยวกับอาชญากรรมทางเศรษฐกิจ                          (บก.ปอศ.)" },
         { org_id: 2397, org_name: "กองบังคับการปราบปรามการกระทำความผิดเกี่ยวกับการคุ้มครองผู้บริโภค                              (บก.ปคบ.)" },
@@ -225,7 +225,7 @@ export class IssueOnlineEventComponent implements OnInit {
         { province: "ยะลา", org_name: "บก.สอท.5", org_id: 3578, province_id: 95 },
         { province: "นราธิวาส", org_name: "บก.สอท.5", org_id: 3578, province_id: 96 }
     ];
-      
+
     formdataOrgsendcase: any = {
         ORG_LOCATION_TYPE: null,
         ORG_LOCATION_ID: null,
@@ -246,6 +246,7 @@ export class IssueOnlineEventComponent implements OnInit {
         ORG_LOCATION_CENTER_NAME: "",
     };
     showSelectORG = false;
+    isOCPB = false;
 
     constructor(
         private servBankInfo: BankInfoService,
@@ -326,7 +327,32 @@ export class IssueOnlineEventComponent implements OnInit {
                         }
                     }
                 }
-
+                if (localStorage.getItem("form-blessing")) {
+                    const dataCheck = JSON.parse(localStorage.getItem("form-blessing"));
+                    console.log(dataCheck);
+                    if (dataCheck?.IsOCPB) {
+                        this.isOCPB = true;
+                        this.formData.ORG_LOCATION_ID = 1;
+                        this.listCaseType = [
+                            {
+                                "CASE_TYPE_ID": 60,
+                                "CASE_TYPE_NAME": "หลอกลวงซื้อขายสินค้าหรือบริการ ที่ไม่มีลักษณะเป็นขบวนการ",
+                                "CASE_TYPE_DESC": "คดีหลอกลวงซื้อขายสินค้าหรือบริการ ที่ไม่มีลักษณะเป็นขบวนการ หมายความถึง\r\n\t\tคดีที่กระทำผิดโดยทุจริตหลอกลวงมาแต่ต้น ด้วยการประกาศ หรือโฆษณาขายสินค้าหรือบริการผ่านสื่อสังคมออนไลน์ เชิญชวนให้ผู้เสียหายเข้าซื้อสินค้าหรือใช้บริการ เมื่อผู้เสียหายชำระเงินแล้ว ปรากฏว่าไม่ได้รับสินค้าหรือบริการนั้น หรือส่งสินค้าหรือบริการให้ในลักษณะที่มีเจตนาฉ้อโกง หรือส่งสินค้าให้ไม่ตรงตามโฆษณา ทั้งในด้านแหล่งกำเนิด สภาพ คุณภาพ หรือปริมาณแห่งสินค้า หรือผลิตภัณฑ์นั้นอันเป็นเท็จ และรวมถึงการหลอกให้ผู้ขายสินค้าในระบบออนไลน์ส่งสินค้าให้ โดยมีเจตนาตั้งแต่ต้นที่จะไม่ชำระค่าสินค้านั้น",
+                                "CASE_TYPE_ABBR": "หลอกลวงซื้อขายสินค้าหรือบริการ ที่ไม่มีลักษณะเป็นขบวนการ",
+                                "CASE_TYPE_GROUP_ID": 1,
+                                "CASE_ORG_TYPE_ID": 1
+                            },
+                            {
+                                "CASE_TYPE_ID": 72,
+                                "CASE_TYPE_NAME": "หลอกลวงซื้อขายสินค้าหรือบริการ ที่มีลักษณะเป็นขบวนการ",
+                                "CASE_TYPE_DESC": "คดีหลอกลวงซื้อขายสินค้าหรือบริการ ที่มีลักษณะเป็นขบวนการ หมายความถึง\r\n\t\tคดีที่มีลักษณะการกระทำผิดตามลักษณะหลอกขายสินค้าหรือบริการ และพบความเชื่อมโยงของคนร้ายในลักษณะที่เป็นขบวนการ หรือมีผู้เสียหายเป็นจำนวนมากหลายพื้นที่ตั้งแต่ ๑๐ รายขึ้นไป",
+                                "CASE_TYPE_ABBR": "หลอกลวงซื้อขายสินค้าหรือบริการ ที่มีลักษณะเป็นขบวนการ",
+                                "CASE_TYPE_GROUP_ID": 13,
+                                "CASE_ORG_TYPE_ID": 2
+                            }
+                        ];
+                    }
+                }
             } else {
                 const _case_id = Number(sessionStorage.getItem("case_id"));
                 const dataForm = await this._OnlineCaseService.getbycaseId(_case_id).toPromise();
@@ -361,30 +387,38 @@ export class IssueOnlineEventComponent implements OnInit {
                 return;
             }
             // console.log(this.formData.ORG_LOCATION_TYPE , " ", this.formData.ORG_LOCATION_ID);
-            if (this.formData.ORG_LOCATION_TYPE == 1) {
-                if (!this.formData.ORG_LOCATION_ID) {
+            console.log(this.formData.ORG_LOCATION_ID);
+            console.log(this.formData.ORG_LOCATION_TYPE);
+
+            if (!this.isOCPB) {
+                if (this.formData.ORG_LOCATION_TYPE == 1) {
+                    if (!this.formData.ORG_LOCATION_ID) {
+                        this.alertmessagecustom("กรุณาเลือกสถานี");
+                        return;
+                    }
+                } else if (this.formData.ORG_LOCATION_TYPE == 2) {
+                    if (!this.formData.ORG_LOCATION_ID) {
+                        this.alertmessagecustom("กรุณาเลือกสถานี");
+                        return;
+                    }
+                } else if (this.formData.ORG_LOCATION_TYPE == 3) {
+                    if (!this.formData.ORG_LOCATION_ID) {
+                        this.alertmessagecustom("กรุณาเลือกสถานี");
+                        return;
+                    }
+                } else if (!this.formData.ORG_LOCATION_TYPE) {
                     this.alertmessagecustom("กรุณาเลือกสถานี");
                     return;
+                } else {
+                    if (!this.formData.ORG_LOCATION_ID) {
+                        this.alertmessagecustom("กรุณาเลือกสถานี");
+                        return;
+                    }
                 }
-            } else if (this.formData.ORG_LOCATION_TYPE == 2) {
-                if (!this.formData.ORG_LOCATION_ID) {
-                    this.alertmessagecustom("กรุณาเลือกสถานี");
-                    return;
-                }
-            } else if (this.formData.ORG_LOCATION_TYPE == 3) {
-                if (!this.formData.ORG_LOCATION_ID) {
-                    this.alertmessagecustom("กรุณาเลือกสถานี");
-                    return;
-                }
-            } else if (!this.formData.ORG_LOCATION_TYPE) {
-                this.alertmessagecustom("กรุณาเลือกสถานี");
-                return;
-            } else {
-                if (!this.formData.ORG_LOCATION_ID) {
-                    this.alertmessagecustom("กรุณาเลือกสถานี");
-                    return;
-                }
+            }else{
+                this.formData.ORG_LOCATION_ID = 1;
             }
+
             // console.log(this.formData);
             if (this.formData.CASE_TYPE_ID === null || this.formData.CASE_TYPE_ID === 7) {
                 Swal.fire({
@@ -491,31 +525,31 @@ export class IssueOnlineEventComponent implements OnInit {
     onvaluechangeorgmainwalkin(e) {
         this.formData.ORG_PROVINCE_MAP_AREA_ID = null;
         this.formData.ORG_PROVINCE_MAP_AREA_NAME = null;
-    
+
         if (!e.value) return;
-    
+
         // Reset all ORG_LOCATION_MAIN_WALKIN_ID fields
         this.formdataOrgsendcasewalkin[`ORG_LOCATION_MAIN_WALKIN_ID`] = null;
         this.formdataOrgsendcasewalkin[`ORG_LOCATION_MAIN_WALKIN_NAME`] = null;
-    
+
         // Filter the selected organization
         const selectedData = this.orgUnits.find((r) => r.org_id === e.value);
         if (!selectedData) return;
-    
+
         // Set selected values
         this.formdataOrgsendcasewalkin.ORG_LOCATION_WALKIN_TYPE = 2;
         this.formdataOrgsendcasewalkin[`ORG_LOCATION_MAIN_WALKIN_ID`] = selectedData.org_id;
         this.formdataOrgsendcasewalkin[`ORG_LOCATION_MAIN_WALKIN_NAME`] = selectedData.org_name;
-    
+
         // Assign values to formData for insertion
         this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
         this.formData.WALKIN_POLICE_STATION_ID = selectedData.org_id;
         this.formData.WALKIN_POLICE_STATION = selectedData.org_name;
     }
-    
-    OnSelectProviceCCIBWalkin(e,tag:DxSelectBoxComponent) {
+
+    OnSelectProviceCCIBWalkin(e, tag: DxSelectBoxComponent) {
         if (e.value) {
-            const data = tag.instance.option("selectedItem" );
+            const data = tag.instance.option("selectedItem");
             if (data) {
                 this.formData.ORG_PROVINCE_ID_CCIB_WALKIN_ID = data.PROVINCE_ID;
                 this.formData.ORG_PROVINCE_CCIB_WALKIN_NAME = data.PROVINCE_NAME_THA;
@@ -531,16 +565,16 @@ export class IssueOnlineEventComponent implements OnInit {
         }
     }
 
-    OnSelectProviceCCIB(e,tag:DxSelectBoxComponent) {
+    OnSelectProviceCCIB(e, tag: DxSelectBoxComponent) {
         if (e.value) {
-            const data = tag.instance.option("selectedItem" );
+            const data = tag.instance.option("selectedItem");
             if (data) {
                 this.formData.ORG_PROVINCE_ID_CCIB_ID = data.PROVINCE_ID;
                 this.formData.ORG_PROVINCE_CCIB_NAME = data.PROVINCE_NAME_THA;
                 const orgValue = this.provinceResponsibility.filter((r) => r.province_id === data.PROVINCE_ID);
                 this.orgUnitsNew = this.orgUnits.filter((r) => r.org_id === orgValue[0]?.org_id);
                 this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_ID = orgValue[0]?.org_id;
-                 this.formData.ORG_LOCATION_TYPE = 2;
+                this.formData.ORG_LOCATION_TYPE = 2;
                 this.formData.ORG_LOCATION_ID = orgValue[0]?.org_id;
                 this.formData.ORG_LOCATION_NAME = orgValue[0]?.org_name;
             } else {
@@ -644,30 +678,30 @@ export class IssueOnlineEventComponent implements OnInit {
     onvaluechangeorgmain(e) {
         this.formData.ORG_PROVINCE_MAP_AREA_ID = null;
         this.formData.ORG_PROVINCE_MAP_AREA_NAME = null;
-    
+
         if (!e.value) return;
-    
+
         // Reset all ORG_LOCATION_MAIN_ID fields dynamically
         for (let i = 1; i <= 5; i++) {
             this.formdataOrgsendcase[`ORG_LOCATION_MAIN_ID`] = null;
             this.formdataOrgsendcase[`ORG_LOCATION_MAIN_NAME`] = null;
         }
-    
+
         // Get the correct dataset dynamically
         const selectedData = this.orgUnits.find((r) => r.org_id === e.value);
         if (!selectedData) return;
-    
+
         // Assign values
         this.formdataOrgsendcase.ORG_LOCATION_TYPE = 2;
         this.formdataOrgsendcase[`ORG_LOCATION_MAIN_ID`] = selectedData.org_id;
         this.formdataOrgsendcase[`ORG_LOCATION_MAIN_NAME`] = selectedData.org_name;
-    
+
         // Insert parameters
         this.formData.ORG_LOCATION_TYPE = 2;
         this.formData.ORG_LOCATION_ID = selectedData.org_id;
         this.formData.ORG_LOCATION_NAME = selectedData.org_name;
     }
-    
+
 
     onvaluechangeorgcenter(e) {
         if (e.value) {

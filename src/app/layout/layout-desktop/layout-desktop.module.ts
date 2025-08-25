@@ -84,6 +84,10 @@ import { IssueOnlineCriminalContatInfoComponent } from "./components/issue-onlin
 import { ChatOfficerComponent } from './components/chat-officer/chat-officer.component';
 import { ChatOfficerDetailComponent } from './components/chat-officer/chat-officer-detail/chat-officer-detail.component';
 import { ChatBoxComponent } from "./layout/chat/chat.component";
+import { OcpbOnlineComplainDamageComponent } from "./components/issue-online-container/ocpb-online-complain-damage/ocpb-online-complain-damage.component";
+import { OcpbOnlineComplainDetailComponent } from "./components/issue-online-container/ocpb-online-complain-detail/ocpb-online-complain-detail.component";
+import { OcpbOnlineComplainInformerComponent } from "./components/issue-online-container/ocpb-online-complain-informer/ocpb-online-complain-informer.component";
+import { OcpbOnlineComplainValidateComponent } from "./components/issue-online-container/ocpb-online-complain-validate/ocpb-online-complain-validate.component";
 
 
 const customNotifierOptions: NotifierOptions = {
@@ -177,7 +181,11 @@ const customNotifierOptions: NotifierOptions = {
         IssueOnlineCriminalContatInfoComponent,
         ChatOfficerComponent,
         ChatOfficerDetailComponent,
-        ChatBoxComponent
+        ChatBoxComponent,
+        OcpbOnlineComplainDamageComponent,
+        OcpbOnlineComplainDetailComponent,
+        OcpbOnlineComplainInformerComponent,
+        OcpbOnlineComplainValidateComponent
     ],
     exports: [DateComboPickerComponent, DateComboRegisterComponent],
     imports: [

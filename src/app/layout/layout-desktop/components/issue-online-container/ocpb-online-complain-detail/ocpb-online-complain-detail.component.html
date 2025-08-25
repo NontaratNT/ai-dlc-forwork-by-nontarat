@@ -1,0 +1,106 @@
+<div class="conten-block">
+    <div class="content-block">
+        <div class="content-title">ข้อมูลเรื่องร้องทุกข์</div>
+        <div class="content-form mt-2">
+            <dx-form #formDetail [colCount]="4" labelLocation="top" [showColonAfterLabel]="false">
+                <dxi-item [colSpan]="3" template="COMPLAINTDETAIL">
+                    <dxo-label text="รายละเอียดเรื่องร้องทุกข์"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกรายละเอียดเรื่องร้องทุกข์">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'COMPLAINTDETAIL'">
+                    <dx-text-area [height]="130" [readOnly]="false" [readOnly]="isView"
+                        [(value)]="formData.COMPLAINTDETAIL"></dx-text-area>
+                </div>
+                <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
+                <dxi-item template="temp1" [colSpan]="2">
+                    <dxo-label text="ประเภทของเรื่อง" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกประเภทของเรื่อง">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp1'">
+                    <dx-select-box #selectCaseType [dataSource]="listCaseType" displayExpr="CASE_TYPE_NAME" [readOnly]="isView"
+                        valueExpr="CASE_TYPE_ID" placeholder="ประเภทของเรื่อง" [(value)]="formData.CASE_TYPE_ID">
+                    </dx-select-box>
+                </div>
+                <dxi-item itemType="empty" [colSpan]="2"></dxi-item>
+                <dxi-item template="COMPANYNAME" [colSpan]="2">
+                    <dxo-label text="ชื่อผู้ถูกร้องทุกข์"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกชื่อผู้ถูกร้องทุกข์">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'COMPANYNAME'">
+                    <dx-text-box [(value)]="formData.COMPANYNAME" [readOnly]="isView"></dx-text-box>
+                </div>
+                <dxi-item itemType="empty" [colSpan]="2"></dxi-item>
+                <dxi-item template="COMPANYDETAIL" [colSpan]="3">
+                    <dxo-label text="รายละเอียดผู้ถูกร้องทุกข์"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกรายละเอียดผู้ถูกร้องทุกข์">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'COMPANYDETAIL'">
+                    <dx-text-area [(value)]="formData.COMPANYDETAIL" [readOnly]="isView"></dx-text-area>
+                </div>
+                <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
+                <dxi-item template="COMPANYADDRESS" [colSpan]="2">
+                    <dxo-label text="ที่อยู่ผู้ถูกร้องทุกข์"></dxo-label>
+                </dxi-item>
+                <div *dxTemplate="let data of 'COMPANYADDRESS'">
+                    <dx-text-area [(value)]="formData.COMPANYADDRESS" [readOnly]="isView"></dx-text-area>
+                </div>
+                <dxi-item itemType="empty" [colSpan]="2"></dxi-item>
+                <dxi-item template="COMPANYPROVINCE_CODE">
+                    <dxo-label text="จังหวัด" [showColon]="false">
+                    </dxo-label>
+                </dxi-item>
+                <div *dxTemplate="let data of 'COMPANYPROVINCE_CODE'">
+                    <dx-select-box #selectProviceCompany [dataSource]="province" displayExpr="PROVINCE_NAME_THA"
+                        valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true"
+                        placeholder="จังหวัด" [showClearButton]="true" [readOnly]="isView"
+                        (onValueChanged)="OnSelectProviceCompany($event,selectProviceCompany)"
+                        [(value)]="formData.COMPANYPROVINCE_CODE">
+                    </dx-select-box>
+                </div>
+                <dxi-item [colSpan]="1" template="COMPANYAMPHUR_CODE">
+                    <dxo-label text="อำเภอ/เขต" [showColon]="false"></dxo-label>
+                </dxi-item>
+                <div *dxTemplate="let data of 'COMPANYAMPHUR_CODE'">
+                    <dx-select-box #selectDistrictCompany [dataSource]="companyAddress.district"
+                        displayExpr="DISTRICT_NAME_THA" valueExpr="DISTRICT_ID" searchExpr="DISTRICT_NAME_THA"
+                        [searchEnabled]="true" placeholder="อำเภอ/เขต" [disabled]="companyAddress.disableDistrict"
+                        (onValueChanged)="OnSelectDistrictCompany($event,selectDistrictCompany)" [readOnly]="isView"
+                        [(value)]="formData.COMPANYAMPHUR_CODE" [showClearButton]="true">
+                    </dx-select-box>
+                </div>
+                <dxi-item [colSpan]="1" template="COMPANYTUMBON_CODE">
+                    <dxo-label text="ตำบล/แขวง" [showColon]="false"></dxo-label>
+                </dxi-item>
+                <div *dxTemplate="let data of 'COMPANYTUMBON_CODE'">
+                    <dx-select-box #selectPresentSubCompany [dataSource]="companyAddress.subDistrict"
+                        displayExpr="SUB_DISTRICT_NAME_THA" valueExpr="SUB_DISTRICT_ID"
+                        searchExpr="SUB_DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="ตำบล"
+                        [disabled]="companyAddress.disableSubDistrict" [readOnly]="isView"
+                        (onValueChanged)="OnSelectSubDistrictCompany($event,selectPresentSubCompany)"
+                        [(value)]="formData.COMPANYTUMBON_CODE" [showClearButton]="true">
+                    </dx-select-box>
+                </div>
+                <dxi-item template="COMPANYZIPCODE" [colSpan]="1">
+                    <dxo-label text="รหัสไปรษณีย์"></dxo-label>
+                </dxi-item>
+                <div *dxTemplate="let data of 'COMPANYZIPCODE'">
+                    <dx-text-box [(value)]="formData.COMPANYZIPCODE" [readOnly]="true"></dx-text-box>
+                </div>
+            </dx-form>
+        </div>
+    </div>
+</div>
+
+<div class="text-right btn-footer mt-3" *ngIf="!isView">
+    <dx-button class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)"></dx-button>
+    &nbsp;
+    <dx-button class="btn btn-submit" text="ถัดไป" (onClick)="SubmitForm($event,formDetail)"></dx-button>
+</div>
+
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true"
+    [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

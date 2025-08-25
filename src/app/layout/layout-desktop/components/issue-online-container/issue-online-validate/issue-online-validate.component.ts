@@ -352,6 +352,7 @@ export class IssueOnlineValidateComponent implements OnInit {
         "อื่นๆ",
     ];
     sessionDamage: any;
+    dataOCPB:any = {};
 
     constructor(
         private servicePersonal: PersonalService,
@@ -361,7 +362,7 @@ export class IssueOnlineValidateComponent implements OnInit {
         private servBankInfo: BankInfoService,
         private _OrgService: OrgService,
         private serviceProvince: ProvinceService
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         // const userId = User.Current.PersonalId;
@@ -449,13 +450,20 @@ export class IssueOnlineValidateComponent implements OnInit {
                 this.sessionDamage,
                 JSON.parse(localStorage.getItem("form-criminal-contact"))
             );
+
             this.userType = this.mainConponent.userType;
             this.formData = this.mergedFrom;
+            if(this.formData?.IsOCPB){
+                this.dataOCPB = this.convertDataToOCPB(this.formData);
+                this.formData.OCPB_DATA = this.dataOCPB;
+            }
+            
             // console.log(this.formData);
             if (this.formData.CASE_REPORT) {
                 if (this.formData.CASE_REPORT.length > 0) {
-                    this.formReport = this.formData.CASE_REPORT[0];
+                    this.formReport = this.formData?.CASE_REPORT[0];
                     this.formData.CASE_CRIMINAL_CLUE_IN = this.formReport.CASE_BEHAVIOR;
+                    this.formData.CRIMINAL_NAME = this.formReport.CRIMINAL_NAME;
                 }
             }
             if (this.formData.BANK_REF) {
@@ -463,7 +471,7 @@ export class IssueOnlineValidateComponent implements OnInit {
             }
             this.channel_tel =
                 this.formData.CASE_TYPE_ID == 66 ||
-                this.formData.CASE_TYPE_ID == 67
+                    this.formData.CASE_TYPE_ID == 67
                     ? true
                     : false;
             if (this.channel_tel) {
@@ -546,9 +554,9 @@ export class IssueOnlineValidateComponent implements OnInit {
         }
         return "";
     }
-    CheckSammaryValue(num) {
+    CheckSammaryValue(num):number {
         if (num) {
-            return parseFloat(num).toFixed(2);
+            return Number(parseFloat(num).toFixed(2));
         }
         return 0;
     }
@@ -674,7 +682,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                 html: "กรุณากรอกช่องทางใด",
                 icon: "warning",
                 confirmButtonText: "Ok",
-            }).then(() => {});
+            }).then(() => { });
             return;
         }
         this.popupCaseChannel2 = false;
@@ -690,7 +698,7 @@ export class IssueOnlineValidateComponent implements OnInit {
             text: msg ?? "กรุณากรอกข้อมูล",
             icon: "warning",
             confirmButtonText: "Ok",
-        }).then(() => {});
+        }).then(() => { });
         return;
     }
 
@@ -713,6 +721,8 @@ export class IssueOnlineValidateComponent implements OnInit {
             this.formData.CHECK_BLESSING === undefined ||
             this.formData.BLESSING_STATUS === undefined
         ) {
+            this.formData.BLESSING_STATUS = "Y";
+            this.formData.CHECK_BLESSING = true;
         }
         if (
             this.formData.CASE_INFORMER_FIRSTNAME === undefined &&
@@ -723,7 +733,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                 html: "คุณกรอกข้อมูลไม่สมบูรณ์ ระบบจะพาคุณไปยังหน้าที่ยังกรอกไม่สมบูรณ์",
                 icon: "warning",
                 confirmButtonText: "Ok",
-            }).then(() => {});
+            }).then(() => { });
             this.isLoading = false;
             this.mainConponent.SelectTabIndex(2);
             return;
@@ -733,15 +743,16 @@ export class IssueOnlineValidateComponent implements OnInit {
             this.formData.BLESSING_STATUS === "Y"
         ) {
             if (
-                this.formData.ORG_LOCATION_ID == 0 ||
-                this.formData.ORG_LOCATION_ID == 1
+                (this.formData.ORG_LOCATION_ID == 0 ||
+                    this.formData.ORG_LOCATION_ID == 1)
+                && !this.formData.IsOCPB
             ) {
                 Swal.fire({
                     title: "ผิดพลาด!",
                     html: "กรุณาเลือกสถานีที่คุณต้องการไปพบ",
                     icon: "warning",
                     confirmButtonText: "Ok",
-                }).then(() => {});
+                }).then(() => { });
                 this.isLoading = false;
                 this.mainConponent.SelectTabIndex(2);
                 return;
@@ -756,7 +767,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                     text: "กรุณาเลือกประเภทคดี",
                     icon: "warning",
                     confirmButtonText: "Ok",
-                }).then(() => {});
+                }).then(() => { });
                 this.isLoading = false;
                 this.mainConponent.SelectTabIndex(3);
                 return;
@@ -764,8 +775,11 @@ export class IssueOnlineValidateComponent implements OnInit {
             var text = "";
             if (this.formData?.ORG_PROVINCE_ID === 12) {
                 text = "เพื่อความสะดวกในการติดตามและประสานงานคดี แม้ว่าท่านได้แจ้งความไว้ที่สถานีตำรวจในพื้นที่ (สภ.อ) แล้ว แต่คดีอาชญากรรมทางเทคโนโลยีทั้งหมดถูกรวบรวมและจะดำเนินการที่ **ศูนย์บริหารคดีอาชญากรรมทางเทคโนโลยี ตำรวจภูธรจังหวัดนนทบุรี (ข้างสำนักงานสลากกินแบ่งรัฐบาล)** ท่านสามารถเข้าพบหรือสอบถามความคืบหน้าคดีได้โดยตรงกับเจ้าหน้าที่ ณ ศูนย์บริหารคดีฯ ซึ่งมีทีมงานผู้เชี่ยวชาญพร้อมให้คำแนะนำและอำนวยความสะดวก" +
-                " กรุณาตรวจสอบข้อมูลก่อนกดยืนยัน";
-            }else{
+                    " กรุณาตรวจสอบข้อมูลก่อนกดยืนยัน";
+            } else if (this.formData?.IsOCPB) {
+                text = "การแจ้งความออนไลน์เป็นการอำนวยความสะดวกแก่ท่านในการร้องทุกข์และแจ้งความประสงค์" +
+                    "ระบบจะส่งเรื่องไปที่หน่วยงาน <b>สำนักงานคณะกรรมการคุ้มครองผู้บริโภค (สคบ.) </b> กรุณาตรวจสอบข้อมูลก่อนกดยืนยัน";
+            } else {
                 text =
                     "การแจ้งความออนไลน์เป็นการอำนวยความสะดวกแก่ท่านในการร้องทุกข์และแจ้งความประสงค์" +
                     "ให้อายัดเงินที่โอนเข้าไปในบัญชีคนร้ายและผู้เกี่ยวข้องโดยเร็ว " +
@@ -845,7 +859,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                 html: "คุณกรอกข้อมูลไม่สมบูรณ์ กรุณาตรวจสอบข้อมูลที่ท่านกรอกอีกครั้ง",
                 icon: "warning",
                 confirmButtonText: "Ok",
-            }).then(() => {});
+            }).then(() => { });
             this.isLoading = false;
             this.mainConponent.SelectTabIndex(1);
             return;
@@ -881,7 +895,7 @@ export class IssueOnlineValidateComponent implements OnInit {
                 html: 'คุณกรอกข้อมูลไม่สมบูรณ์ ระบบจะพาคุณไปยังหน้าที่ยังกรอกไม่สมบูรณ์',
                 icon: 'warning',
                 confirmButtonText: 'Ok',
-            }).then(() => {});
+            }).then(() => { });
             console.log("ความเสียหาย");
             this.isLoading = false;
             if (!this.sessionDamage) {
@@ -905,13 +919,13 @@ export class IssueOnlineValidateComponent implements OnInit {
                     html: "คุณกรอกข้อมูลไม่สมบูรณ์ ระบบจะพาคุณไปยังหน้าที่ยังกรอกไม่สมบูรณ์",
                     icon: "warning",
                     confirmButtonText: "Ok",
-                }).then(() => {});
+                }).then(() => { });
                 this.isLoading = false;
                 if (requiredItems[i] == "form-blessing") {
                     this.mainConponent.SelectTabIndex(0);
-                } else if(requiredItems[i] == "form-damage"){
+                } else if (requiredItems[i] == "form-damage") {
 
-                }else {
+                } else {
                     this.mainConponent.SelectTabIndex(i + 2);
                 }
                 return;
@@ -932,5 +946,82 @@ export class IssueOnlineValidateComponent implements OnInit {
         );
         const fileUrl = URL.createObjectURL(blob);
         window.open(fileUrl, "_blank");
+    }
+
+    convertDataToOCPB(data) {
+        console.log(data);
+        let contactCriminal = [];
+        if(data?.CASE_REPORT.length > 0){
+            const channel = data.CASE_REPORT[0];
+            if(channel?.CRIMINAL_TEL_DESTINATION){
+                contactCriminal.push({
+                    type: 'เบอร์โทรศัพท์มือถือ',
+                    description: channel.CRIMINAL_TEL_DESTINATION
+                });
+            }
+            if(channel?.CRIMINAL_SOCIAL_DETAIL){
+                contactCriminal.push({
+                    type: channel.CRIMINAL_SOCIAL_TYPE_DETAIL ? channel.CRIMINAL_SOCIAL_TYPE_DETAIL : channel.CRIMINAL_TYPE_SOCIAL ?? 'Website',
+                    description: channel.CRIMINAL_SOCIAL_DETAIL
+                });
+            }
+        }
+        const payload = {
+            complaintDetail: data.CASE_BEHAVIOR ?? '',
+            companyName: data.CRIMINAL_NAME ?? '',
+            companyDetail: data.CASE_CRIMINAL_CLUE_IN ?? '',
+            companyLatitude: '',
+            companyLongitude: '',
+            companyAddress: data.COMPANYADDRESS ?? '',
+            companyTumbonCode: data.COMPANYTUMBON_CODE ?? '',
+            companyTumbon: data.COMPANYTUMBON ?? '',
+            companyAmpherCode: data.COMPANYAMPHUR_CODE ?? '',
+            companyAmpher: data.COMPANYAMPHUR ?? '',
+            companyProvinceCode: data.COMPANYPROVINCE_CODE ?? '',
+            companyProvince: data.COMPANYPROVINCE ?? '',
+            companyZipcode: data.COMPANYZIPCODE ?? '',
+            companyMapAddress: '',
+            personal: {
+                identityId: data.CASE_INFORMER_CITIZEN_NUMBER ?? '',
+                titleDesc: data.TITLE_NAME ?? '',
+                fName: data.CASE_INFORMER_FIRSTNAME ?? '',
+                mName: data.CASE_INFORMER_MIDDLENAME ?? '',
+                lName: data.CASE_INFORMER_LASTNAME ?? '',
+                sex: data?.INFORMER_GENDER == "M" ? "m" : "f",
+                birthDate: data.CASE_INFORMER_DATE ?? '',
+                isOversea: true,
+                email: data.INFORMER_EMAIL ?? '',
+                tel: data.INFORMER_TEL ?? '',
+                address1: data.CASE_INFORMER_ADDRESS_NO ?? '',
+                tumbonCode: data.INFORMER_SUB_DISTRICT_ID ?? '',
+                tumbon: data.INFORMER_SUB_DISTRICT_NAME_THA ?? '',
+                ampherCode: data.INFORMER_DISTRICT_ID,
+                ampher: data.INFORMER_DISTRICT_NAME_THA ?? '',
+                provinceCode: data.INFORMER_PROVINCE ?? '',
+                province: data.INFORMER_PROVINCE_NAME_THA ?? '',
+                zipcode: data.INFORMER_POSTCODE_CODE ?? '',
+                cardAddress1: data.CASE_INFORMER_CARD_ADDRESS_NO ?? '',
+                cardTumbonCode: data.INFORMER_CARD_SUB_DISTRICT_ID ?? '',
+                cardTumbon: data.INFORMER_CARD_SUB_DISTRICT_NAME_THA ?? '',
+                cardAmpherCode: data.INFORMER_CARD_DISTRICT_ID ?? '',
+                cardAmpher: data.INFORMER_CARD_DISTRICT_NAME_THA ?? '',
+                cardProvinceCode: data.INFORMER_CARD_PROVINCE ?? '',
+                cardProvince: data.INFORMER_CARD_PROVINCE_NAME_THA ?? '',
+                cardZipcode: data.INFORMER_CARD_POSTCODE_CODE ?? '',
+                contactList: [],
+                birthDateStr: '',
+            },
+            companyContacts: contactCriminal || [],
+            paymentMethod: '',
+            placePurchase: '',
+            purpose: '',
+            fileAttachList: [],
+            complaintCode: '',
+            departmentToID: null,
+            provinceCode: null,
+            case_no: data.case_no ?? '',
+            case_id: data.case_id ?? 0,
+        };
+        return payload;
     }
 }

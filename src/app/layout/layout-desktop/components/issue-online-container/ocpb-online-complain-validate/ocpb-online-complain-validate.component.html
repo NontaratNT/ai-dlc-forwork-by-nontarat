@@ -1,0 +1,14 @@
+
+<app-ocpb-online-complain-detail [isView]="true" [ShowData]="dataDetail" [province]="province"></app-ocpb-online-complain-detail>
+<app-ocpb-online-complain-damage [isView]="true" [ShowData]="dataDamage" ></app-ocpb-online-complain-damage>
+<app-ocpb-online-complain-informer [isView]="true" [ShowData]="dataInformer" [province]="province"></app-ocpb-online-complain-informer>
+
+<div class="text-right btn-footer mt-3">
+    <dx-button class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)"></dx-button>
+    &nbsp;
+    <dx-button class="btn btn-submit" text="ถัดไป" (onClick)="SubmitForm($event)"></dx-button>
+</div>
+
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true"
+    [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>

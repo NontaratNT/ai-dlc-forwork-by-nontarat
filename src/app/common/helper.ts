@@ -64,6 +64,7 @@ export function trimObject(obj: any): void {
 }
 
 export function ValidateUrl(url: string): boolean {
-    const popularUrlRegex = /^(https?:\/\/)?(www\.)?(facebook\.com|google\.com|instagram\.com|youtube\.com|twitter\.com|x\.com|tiktok\.com|linkedin\.com|pantip\.com|lazada\.co\.th|shopee\.co\.th)\/?$/;
+    url = url?.trim()?.toLocaleLowerCase();
+    const popularUrlRegex = /^(https?:\/\/)?(www\.)?(facebook\.com|google\.com|instagram\.com|youtube\.com|twitter\.com|messenger\.com|x\.com|tiktok\.com|linkedin\.com|pantip\.com|lazada\.co\.th|shopee\.co\.th|line\.com|line\.me|line\.me\/th|www|facebook|line|messenger|x|instagram)\/?$/;
     return popularUrlRegex.test(url);
 }

@@ -1,0 +1,270 @@
+<div class="conten-block">
+    <div class="content-block">
+        <div class="content-title">ข้อมูลเรื่องร้องทุกข์</div>
+        <div class="content-form mt-2">
+            <dx-form #formInformer [colCount]="4" labelLocation="top" [showColonAfterLabel]="false">
+
+                <dxi-item template="ISOVERSEA" [colSpan]="1">
+                    <dxo-label text="ประเภทผู้ร้อง"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกประเภทผู้ร้อง">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'ISOVERSEA'">
+                    <dx-radio-group [items]="_ISOVERSEA" valueExpr="value" displayExpr="text" [readOnly]="isView"
+                        [(value)]="formData.ISOVERSEA" layout="horizontal">
+                    </dx-radio-group>
+                </div>
+
+                <dxi-item *ngIf="formData.ISOVERSEA" template="tempcitizen" [colSpan]="1">
+                    <dxo-label text="เลขบัตรประจำตัวประชาชน" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกเลขบัตรประจำตัวประชาชน">
+                    </dxi-validation-rule>
+                    <dxi-validation-rule type="stringLength" [min]="13" message="กรุณากรอกครบ 13 หลัก">
+                    </dxi-validation-rule>
+                    <dxi-validation-rule type="custom" message="เลขบัตรประจำตัวประชาชนไม่ถูกต้อง"
+                        [validationCallback]="citizenPattern">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'tempcitizen'">
+                    <dx-text-box id="ctllcitizen" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)"
+                        [maxLength]="13" [(value)]="formData.IDENTITYID"></dx-text-box>
+                    <dx-tooltip target="#ctllcitizen" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top" [readOnly]="isView"
+                        [hideOnOutsideClick]="false">
+                        <div *dxTemplate="let data of 'content'">
+                            <p>หมายเหตุ: ระบุเลขบัตรประชาชน 13 หลัก</p>
+                        </div>
+                    </dx-tooltip>
+                </div>
+
+                <dxi-item *ngIf="!formData.ISOVERSEA" template="tempcitizenpass" [colSpan]="1">
+                    <dxo-label text="เลขหนังสือเดินทาง" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกเลขหนังสือเดินทาง">
+                    </dxi-validation-rule>
+                    <dxi-validation-rule type="custom" message="รูปเลขหนังสือเดินทางไม่ถูกต้อง"
+                        [validationCallback]="passeportPattern">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'tempcitizenpass'">
+                    <dx-text-box id="ctllcitizen" (keypress)="CheckPassportNumber($event)" [readOnly]="isView"
+                        (onPaste)="PasteCheckPassportNumber($event)" [(value)]="formData.IDENTITYID"></dx-text-box>
+                </div>
+
+                <dxi-item itemType="empty" [colSpan]="2"></dxi-item>
+                <dxi-item template="TITLE" [colSpan]="1">
+                    <dxo-label text="คำนำหน้า"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกคำนำหน้า">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'TITLE'" style="display: flex;">
+                    <dx-select-box [items]="_title" valueExpr="text" placeholder="เลือกคำนำหน้า" displayExpr="value" [readOnly]="isView"
+                        [(value)]="formData.TITLE" layout="horizontal">
+                    </dx-select-box> &nbsp;
+                    <dx-text-box *ngIf="formData.TITLE === 'อื่นๆ'" [(value)]="formData.TITLEDESC" [readOnly]="isView"></dx-text-box>
+                </div>
+
+                <dxi-item template="FNAME" [colSpan]="1" re>
+                    <dxo-label text="ชื่อ"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกชื่อ">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'FNAME'">
+                    <dx-text-box [(value)]="formData.FNAME" [readOnly]="isView"></dx-text-box>
+                </div>
+
+                <dxi-item template="MNAME" [colSpan]="1">
+                    <dxo-label text="ชื่อกลาง"></dxo-label>
+                </dxi-item>
+                <div *dxTemplate="let data of 'MNAME'">
+                    <dx-text-box [(value)]="formData.MNAME" [readOnly]="isView"></dx-text-box>
+                </div>
+
+                <dxi-item template="LNAME" [colSpan]="1">
+                    <dxo-label text="นามสกุล"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกนามสกุล">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'LNAME'">
+                    <dx-text-box [(value)]="formData.LNAME" [readOnly]="isView"></dx-text-box>
+                </div>
+
+                <dxi-item template="SEX" [colSpan]="1">
+                    <dxo-label text="เพศ"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกเพศ">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'SEX'">
+                    <dx-radio-group [items]="_sex" valueExpr="value" displayExpr="text" [(value)]="formData.SEX" [readOnly]="isView"
+                        layout="horizontal">
+                    </dx-radio-group>
+                </div>
+                <dxi-item template="BIRTHDATE" [colSpan]="1">
+                    <dxo-label text="วันเกิด"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกวันเกิด">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'BIRTHDATE'">
+                    <dx-date-box [colSpan]="1" applyValueMode="useButtons" [max]="maxDateValue" [readOnly]="isView"
+                        [(value)]="formData.BIRTHDATE">
+                    </dx-date-box>
+                </div>
+
+                <dxi-item template="TEL" [colSpan]="1">
+                    <dxo-label text="หมายเลขโทรศัพท์" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกหมายเลขโทรศัพท์">
+                    </dxi-validation-rule>
+                    <dxi-validation-rule type="stringLength" [min]="10" message="กรุณากรอกครบ 10 หลัก">
+                    </dxi-validation-rule>
+                    <dxi-validation-rule type="custom" message="หมายเลขโทรศัพท์ไม่ถูกต้อง"
+                        [validationCallback]="telPattern">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'TEL'">
+                    <dx-text-box id="ctltel" (keypress)="CheckNumber($event)" (paste)="PasteCheckNumber($event)" [readOnly]="isView"
+                        [maxLength]="10" [(value)]="formData.TEL"></dx-text-box>
+                    <dx-tooltip target="#ctltel" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top"
+                        [hideOnOutsideClick]="false">
+                        <div *dxTemplate="let data of 'content'">
+                            <p>หมายเหตุ: ระบุหมายเลขโทรศัพท์ 10 หลัก</p>
+                        </div>
+                    </dx-tooltip>
+                </div>
+
+                <dxi-item template="EMAIL" [colSpan]="1">
+                    <dxo-label text="อีเมล"></dxo-label>
+                </dxi-item>
+                <div *dxTemplate="let data of 'EMAIL'">
+                    <dx-text-box [(value)]="formData.EMAIL" [readOnly]="isView"></dx-text-box>
+                </div>
+
+                <dxi-item template="ADDRESS1" [colSpan]="2">
+                    <dxo-label text="รายละเอียดที่อยู่"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกรายละเอียดที่อยู่">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'ADDRESS1'">
+                    <dx-text-area [(value)]="formData.ADDRESS1" [readOnly]="isView"></dx-text-area>
+                </div>
+
+                <dxi-item itemType="empty" [colSpan]="2"></dxi-item>
+                <dxi-item template="PROVINCE">
+                    <dxo-label text="จังหวัด" [showColon]="false">
+                    </dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกจังหวัด">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'PROVINCE'">
+                    <dx-select-box #selectProvice [dataSource]="province" displayExpr="PROVINCE_NAME_THA"
+                        valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true"
+                        placeholder="จังหวัด" [showClearButton]="true" [readOnly]="isView"
+                        (onValueChanged)="OnSelectProvice($event,selectProvice)" [(value)]="formData.PROVINCE_CODE">
+                    </dx-select-box>
+                </div>
+                <dxi-item [colSpan]="1" template="AMPHER">
+                    <dxo-label text="อำเภอ/เขต" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกอำเภอ/เขต">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'AMPHER'">
+                    <dx-select-box #selectDistrict [dataSource]="Address.district" displayExpr="DISTRICT_NAME_THA"
+                        valueExpr="DISTRICT_ID" searchExpr="DISTRICT_NAME_THA" [searchEnabled]="true"
+                        placeholder="อำเภอ/เขต" [disabled]="Address.disableDistrict" [readOnly]="isView"
+                        (onValueChanged)="OnSelectDistrict($event,selectDistrict)" [(value)]="formData.AMPHER_CODE"
+                        [showClearButton]="true">
+                    </dx-select-box>
+                </div>
+                <dxi-item [colSpan]="1" template="TUMBON">
+                    <dxo-label text="ตำบล/แขวง" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกตำบล/แขวง">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'TUMBON'">
+                    <dx-select-box #selectPresentSub [dataSource]="Address.subDistrict"
+                        displayExpr="SUB_DISTRICT_NAME_THA" valueExpr="SUB_DISTRICT_ID"
+                        searchExpr="SUB_DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="ตำบล"
+                        [disabled]="Address.disableSubDistrict" [readOnly]="isView"
+                        (onValueChanged)="OnSelectSubDistrict($event,selectPresentSub)" [(value)]="formData.TUMBON_CODE"
+                        [showClearButton]="true">
+                    </dx-select-box>
+                </div>
+
+                <dxi-item template="ZIPCODE" [colSpan]="1">
+                    <dxo-label text="รหัสไปรษณีย์"></dxo-label>
+                </dxi-item>
+                <div *dxTemplate="let data of 'ZIPCODE'">
+                    <dx-text-box [(value)]="formData.ZIPCODE" [readOnly]="true"></dx-text-box>
+                </div>
+
+                <dxi-item template="CARDADDRESS1" [colSpan]="2">
+                    <dxo-label text="รายละเอียดที่อยู่ตามบัตร"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกรายละเอียดที่อยู่ตามบัตร">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'CARDADDRESS1'" class="">
+                    <dx-text-area [(value)]="formData.CARDADDRESS1" [readOnly]="isView"></dx-text-area>
+
+                </div>
+
+                <dxi-item itemType="empty" [colSpan]="2"></dxi-item>
+                <dxi-item template="CARDPROVINCE_CODE">
+                    <dxo-label text="จังหวัด" [showColon]="false">
+                    </dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกจังหวัด">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'CARDPROVINCE_CODE'">
+                    <dx-select-box #selectComplainantProvice [dataSource]="province" displayExpr="PROVINCE_NAME_THA"
+                        valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true"
+                        placeholder="จังหวัด" [showClearButton]="true" [readOnly]="isView"
+                        (onValueChanged)="OnSelectProviceCard($event,selectComplainantProvice)"
+                        [(value)]="formData.CARDPROVINCE_CODE">
+                    </dx-select-box>
+                </div>
+                <dxi-item [colSpan]="1" template="CARDAMPHER_CODE">
+                    <dxo-label text="อำเภอ/เขต" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกอำเภอ/เขต">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'CARDAMPHER_CODE'">
+                    <dx-select-box #selectComplainantDistrict [dataSource]="complainantAddress.district"
+                        displayExpr="DISTRICT_NAME_THA" valueExpr="DISTRICT_ID" searchExpr="DISTRICT_NAME_THA"
+                        [searchEnabled]="true" placeholder="อำเภอ/เขต" [disabled]="complainantAddress.disableDistrict"
+                        (onValueChanged)="OnSelectDistrictCard($event,selectComplainantDistrict)" [readOnly]="isView"
+                        [(value)]="formData.CARDAMPHER_CODE" [showClearButton]="true">
+                    </dx-select-box>
+                </div>
+                <dxi-item [colSpan]="1" template="CARDTUMBON_CODE">
+                    <dxo-label text="ตำบล/แขวง" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกตำบล/แขวง">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'CARDTUMBON_CODE'">
+                    <dx-select-box #selectPresentSubComplainant [dataSource]="complainantAddress.subDistrict"
+                        displayExpr="SUB_DISTRICT_NAME_THA" valueExpr="SUB_DISTRICT_ID"
+                        searchExpr="SUB_DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="ตำบล"
+                        [disabled]="complainantAddress.disableSubDistrict" [readOnly]="isView"
+                        (onValueChanged)="OnSelectSubDistrictCard($event,selectPresentSubComplainant)"
+                        [(value)]="formData.CARDTUMBON_CODE" [showClearButton]="true">
+                    </dx-select-box>
+                </div>
+
+                <dxi-item template="CARDZIPCODE" [colSpan]="1">
+                    <dxo-label text="รหัสไปรษณีย์"></dxo-label>
+                </dxi-item>
+                <div class="" *dxTemplate="let data of 'CARDZIPCODE'"> <dx-text-box [(value)]="formData.CARDZIPCODE"
+                        [readOnly]="true"></dx-text-box>
+                </div>
+
+            </dx-form>
+        </div>
+    </div>
+</div>
+
+<div class="text-right btn-footer mt-3" *ngIf="!isView">
+    <dx-button class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)"></dx-button>
+    &nbsp;
+    <dx-button class="btn btn-submit" text="ถัดไป" (onClick)="SubmitForm($event, formInformer)"></dx-button>
+</div>
+
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true"
+    [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+</dx-load-panel>
