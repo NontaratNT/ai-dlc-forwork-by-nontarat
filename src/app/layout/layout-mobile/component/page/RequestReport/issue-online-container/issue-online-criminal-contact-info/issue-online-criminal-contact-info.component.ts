@@ -96,6 +96,8 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         checkOtherSocial: false
     };
 
+    isOCPB = false;
+
     constructor(
         private servBankInfo: BankInfoService,
         private _formValidate: FormValidatorService,
@@ -112,6 +114,13 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         this.formData.CRIMINAL_SMS = false;
         this.formData.CRIMINAL_OTHER = false;
         this.formData.CASE_TYPE_ID = null;
+        if (localStorage.getItem("form-blessing")) {
+            const dataCheck = JSON.parse(localStorage.getItem("form-blessing"));
+            console.log(dataCheck);
+            if (dataCheck?.IsOCPB) {
+                this.isOCPB = true;
+            }
+        }
         // this.formData.CRIMINAL_SMS_DESTINATION_TYPE = "หมายเลขโทรศัพท์";
         // this.servBankInfo.GetCaseType().subscribe((_) => {
         // this.listCaseType = _;

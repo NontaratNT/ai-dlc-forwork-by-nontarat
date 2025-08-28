@@ -1,5 +1,5 @@
 <div style="padding: 10px;">
-    <div class="conten-block" *ngIf="showSelectORG">
+    <div class="conten-block" *ngIf="showSelectORG && !isOCPB">
         <div class="content-title">ท่านเคยไปพบพนักงานสอบสวนในคดีนี้มาแล้วหรือไม่ เลือกหน่วยงาน</div>
         <div class="content-form">
             <dx-form #formInformer3 [colCount]="3" labelLocation="top">
@@ -106,7 +106,7 @@
             </dx-form>
         </div>
     </div>
-    <div class="conten-block" *ngIf="showSelectORG">
+    <div class="conten-block" *ngIf="showSelectORG && !isOCPB">
         <dx-form [colCount]="2" labelLocation="top">
             <dxi-item [colSpan]="2" style="margin-top:15px;">
                 <div class="content-title">กรุณาระบุหน่วยงานตำรวจที่ท่านสะดวกไปพบ
@@ -213,7 +213,9 @@
     </div>
     <div class="content-title" *ngIf="!showSelectORG">
         <span style="font-weight: bold;"> หน่วยงานที่สะดวกไปพบเจ้าหน้าที่ : </span><span>{{formData.ORG_LOCATION_NAME}}</span>
+        <span style="font-weight: bold;" *ngIf="!isOCPB"> หน่วยงานที่สะดวกไปพบเจ้าหน้าที่ : </span><span>{{formData.ORG_LOCATION_NAME}}</span>
     </div>
+    <span style="font-weight: bold;" class="mt-2" *ngIf="isOCPB"> หน่วยงานที่ไปพบเจ้าหน้าที่ : สำนักงานคณะกรรมการคุ้มครองผู้บริโภค (สคบ.)</span>
     <div class="conten-block">
         <div class="content-form" style="padding: 20px;">
             <dx-form #formEvent1 [colCount]="3" labelLocation="top">

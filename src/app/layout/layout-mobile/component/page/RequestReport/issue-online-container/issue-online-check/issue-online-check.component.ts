@@ -18,14 +18,14 @@ export class IssueOnlineCheckComponent implements OnInit {
     showBank: boolean = false;
     checknullBankref: boolean = false;
     blockSave = true;
-    checkcase : boolean = false;
+    checkcase: boolean = false;
     popupConsentVisible: boolean = false;
     popupType = 'add';
     formType = "add";
     popupIndex = 0;
     maxSizeBuffer = 0;
     limitCaseChanelSize = 0;
-    maxDateValue:Date = new Date();
+    maxDateValue: Date = new Date();
     now: any;
     _dataSourcebankref: any = [];
     submission = {} as any;
@@ -42,18 +42,30 @@ export class IssueOnlineCheckComponent implements OnInit {
     ];
     showMoneyWay = false;
 
+    waysOCPB1 = [
+        { id: 1, text: "ไม่ได้รับสินค้าหรือบริการ" },
+        { id: 2, text: "ได้รับสินค้าหรือบริการ" }
+    ]
+    waysOCPB2 = [
+        { id: 1, text: "ได้รับสินค้าเป็นของอย่างอื่น เช่น สั่งโทรศัพท์ได้สบู่ สั่งรองเท้าได้กล่องทิชชู่" },
+        { id: 2, text: "ได้รับสินค้าปลอม เช่น สั่งกระเป๋าแบรนด์เนม แล้วได้ของเลียนแบบ" },
+        { id: 3, text: "ได้รับสินค้าหรือบริการไม่ตรงปก โฆษณาเกินจริง" }
+    ];
+
+    isOCPB: boolean = false;
+
     constructor(
         private _bankInfoService: BankInfoService,
         private datePipe: DatePipe,
         private _BpmProcinstService: BpmProcinstService,
         private _OnlineCaseService: OnlineCaseService
-        ) { }
+    ) { }
 
     ngOnInit(): void {
         this.maxDateValue.setHours(this.maxDateValue.getHours() + 1);
-        setTimeout(()=>{
+        setTimeout(() => {
             this.setDefaultData();
-        },200);
+        }, 200);
     }
 
     async setDefaultData() {
@@ -62,36 +74,39 @@ export class IssueOnlineCheckComponent implements OnInit {
             this.formType = "add";
             this.showMoneyWay = true;
             this.checknullBankref = false;
-            if(localStorage.getItem("form-blessing")){
+            if (localStorage.getItem("form-blessing")) {
                 this.formData = JSON.parse(localStorage.getItem("form-blessing"));
                 this.submission.ways = this.formData.WAY ?? '';
+                this.submission.SCREENING_ANSWERS_OCPB_1 = this.formData.SCREENING_ANSWERS_OCPB_1 ?? '';
+                this.submission.SCREENING_ANSWERS_OCPB_2 = this.formData.SCREENING_ANSWERS_OCPB_2 ?? '';
+                this.isOCPB = this.formData.isOCPB ?? false;
                 this.submission.moneyWay = this.formData.MoneyWAY ?? '';
                 this._dataSourcebankref = this.formData.BANK_REF ?? [];
-                if(this._dataSourcebankref){
-                    if(this._dataSourcebankref.length > 0){
+                if (this._dataSourcebankref) {
+                    if (this._dataSourcebankref.length > 0) {
                         this._isShow = true;
                     }
                 }
             }
-        }else{
+        } else {
             const _inst_id = Number(localStorage.getItem("inst_id"));
             const procinstdata = await this._BpmProcinstService.getByInstId(_inst_id).toPromise();
-            sessionStorage.setItem("case_id",procinstdata.Value.DATA_ID);
+            sessionStorage.setItem("case_id", procinstdata.Value.DATA_ID);
             const _case_id = Number(sessionStorage.getItem("case_id"));
             this.formType = "edit";
             const bankRef = await this._OnlineCaseService.getBankRef(_case_id).toPromise();
             this.showMoneyWay = false;
             this._dataSourcebankref = bankRef;
             // console.log(this._dataSourcebankref);
-            if(this._dataSourcebankref){
-                if(this._dataSourcebankref.length > 0){
+            if (this._dataSourcebankref) {
+                if (this._dataSourcebankref.length > 0) {
                     this.checknullBankref = false;
                     this.showBank = true;
                     this._isShow = true;
-                }else{
+                } else {
                     this.checknullBankref = true;
                 }
-            }else{
+            } else {
                 this.checknullBankref = true;
             }
         }
@@ -100,15 +115,15 @@ export class IssueOnlineCheckComponent implements OnInit {
         // console.log(this._dataSourcebankref);
         let val = event.value;
         this.submission.moneyWay = val;
-        if(val){
-            if(val==1){
+        if (val) {
+            if (val == 1) {
                 this.showBank = true
-                    if(this.submission.ways == 1 && this._dataSourcebankref.lenght > 0){
-                        this.checkcase = true;
-                    }else{
-                        this.checkcase = false;
-                    }
-            }else{
+                if (this.submission.ways == 1 && this._dataSourcebankref.lenght > 0) {
+                    this.checkcase = true;
+                } else {
+                    this.checkcase = false;
+                }
+            } else {
                 this.showBank = false;
                 this.checkcase = true;
             }
@@ -140,7 +155,7 @@ export class IssueOnlineCheckComponent implements OnInit {
         this.popupType = "add";
     }
 
-    async onEdit(type, data = {} as any, index = null){
+    async onEdit(type, data = {} as any, index = null) {
         this.popupConsentVisible = true
         this.popupType = 'edit';
         this.submission = {};
@@ -150,12 +165,12 @@ export class IssueOnlineCheckComponent implements OnInit {
         const d = data;
         for (const key in d) {
             if (d[key] !== null && d[key] !== undefined) {
-                    setData[key] = d[key];
+                setData[key] = d[key];
             }
         }
         this.submission = setData;
-        const date = this.convertDate(this.submission.FREEZE_ACT_DATE,this.submission.FREEZE_ACT_TIME);
-        this.now = new Date(date[0],date[1],date[2],date[3],date[4],date[5]);
+        const date = this.convertDate(this.submission.FREEZE_ACT_DATE, this.submission.FREEZE_ACT_TIME);
+        this.now = new Date(date[0], date[1], date[2], date[3], date[4], date[5]);
         this.maxSizeBuffer = this.limitCaseChanelSize ?? 0;
     }
 
@@ -187,7 +202,7 @@ export class IssueOnlineCheckComponent implements OnInit {
     }
 
     OnSelectDate(e) {
-        if(e.value){
+        if (e.value) {
             const mydate = this.datePipe.transform(e.value, 'yyyy-MM-dd');
             const mytime = this.datePipe.transform(e.value, 'HH:mm:ss');
             this.submission.FREEZE_ACT_TIME = mytime;
@@ -196,35 +211,35 @@ export class IssueOnlineCheckComponent implements OnInit {
     }
 
     onsave(e) {
-        if(!this.submission.FREEZE_ACT_DATE && !this.submission.FREEZE_ACT_TIME){
+        if (!this.submission.FREEZE_ACT_DATE && !this.submission.FREEZE_ACT_TIME) {
             Swal.fire({
                 title: 'ผิดพลาด!',
                 text: 'กรุณาเลือกกรอกวันและเวลา',
                 icon: 'warning',
                 confirmButtonText: 'Ok',
-            }).then(() => {});
+            }).then(() => { });
             return;
         }
-        if(!this.isBankID(this.submission.FREEZE_ACT_BANK_TRACK_NO)){
+        if (!this.isBankID(this.submission.FREEZE_ACT_BANK_TRACK_NO)) {
             Swal.fire({
                 title: 'ผิดพลาด!',
                 html: 'กรุณาเลขอ้างอิงให้ถูกต้อง<br><b>ตัวอย่าง</b> 25550115KTB06111',
                 icon: 'warning',
                 confirmButtonText: 'Ok',
-            }).then(() => {});
+            }).then(() => { });
             return;
         }
         this.submission.FREEZE_ACT_BANK_TRACK_NO = this.submission.FREEZE_ACT_BANK_TRACK_NO.toUpperCase();
         if (this.popupType === 'add') {
             this._dataSourcebankref.push(this.submission);
-        }else{
+        } else {
             this._dataSourcebankref[this.popupIndex] = this.submission;
         }
         this.submission = {};
         this.submission.ways = 1;
         this.submission.moneyWay = 1;
         this.now = null;
-        this.blockSave=true;
+        this.blockSave = true;
         this.popupConsentVisible = false;
     }
 
@@ -236,10 +251,10 @@ export class IssueOnlineCheckComponent implements OnInit {
         this.popupConsentVisible = false;
     }
 
-    async checkBank(e){
+    async checkBank(e) {
         if (!e.event || e.event.type === "change") {
-            if(e.value){
-                if(e.value.length >= 15){
+            if (e.value) {
+                if (e.value.length >= 15) {
                     const pattern = /^\d{8}/g;
                     const match = e.value.match(pattern);
                     if (!match) {
@@ -296,38 +311,38 @@ export class IssueOnlineCheckComponent implements OnInit {
                     }
                     const value = e.value;
                     const regex = /^.{8}[A-Z]{3,}/;
-                    if(regex.test(value)){
+                    if (regex.test(value)) {
                         const bank_name = value.replace(/\d+/g, '');
                         const upperString = bank_name.toUpperCase();
                         var haveBank = await this._bankInfoService.GetBankTrackNo(value.toUpperCase()).toPromise();
-                        if(haveBank.Value){
+                        if (haveBank.Value) {
                             Swal.fire({
                                 title: 'ผิดพลาด!',
                                 html: 'เลขอ้างอิงนี้มีการแจ้งแล้ว</br>รบกวนตรวจสอบคดีที่เคยบันทึกมาแล้ว',
                                 icon: 'warning',
                                 confirmButtonText: 'Ok',
-                            }).then(() => {this.submission.FREEZE_ACT_BANK_NAME = "";this.blockSave=true;});
+                            }).then(() => { this.submission.FREEZE_ACT_BANK_NAME = ""; this.blockSave = true; });
                             return;
                         }
-                        if(upperString == "TMN"){
+                        if (upperString == "TMN") {
                             this.submission.FREEZE_ACT_BANK_NAME = "TrueMoney Wallet";
                             this.blockSave = false;
-                        }else{
-                            await this._bankInfoService.GetBankInfoByName(upperString).subscribe((_) =>{
-                                if(_ != null){
+                        } else {
+                            await this._bankInfoService.GetBankInfoByName(upperString).subscribe((_) => {
+                                if (_ != null) {
                                     this.submission.FREEZE_ACT_BANK_NAME = _[0].BANK_NAME;
-                                    this.blockSave=false;
-                                }else{
+                                    this.blockSave = false;
+                                } else {
                                     Swal.fire({
                                         title: "ผิดพลาด!",
                                         text: "กรอกเลขอ้างอิงไม่ถูกต้อง",
                                         icon: "warning",
                                         confirmButtonText: "Ok",
-                                        }).then(() => {this.submission.FREEZE_ACT_BANK_NAME = "";this.blockSave=true;});
-                                    }
+                                    }).then(() => { this.submission.FREEZE_ACT_BANK_NAME = ""; this.blockSave = true; });
+                                }
                             });
                         }
-                    }else{
+                    } else {
                         Swal.fire({
                             title: 'ผิดพลาด!',
                             text: 'กรอกเลขอ้างอิงไม่ถูกต้อง',
@@ -338,42 +353,85 @@ export class IssueOnlineCheckComponent implements OnInit {
                             this.blockSave = true;
                         });
                     }
-                }else{
+                } else {
                     Swal.fire({
                         title: "ผิดพลาด!",
                         text: "กรอกเลขอ้างอิงอย่างน้อย 15 หลัก",
                         icon: "warning",
                         confirmButtonText: "Ok",
-                    }).then(() => {this.blockSave=true;});
+                    }).then(() => { this.blockSave = true; });
                 }
             }
         }
     }
 
     SubmitForm(e) {
-        if(this.mainConponent.formType === "add"){
-            if(this._dataSourcebankref.length <= 0 && this._isShow){
+        if (this.mainConponent.formType === "add") {
+            if (this.submission?.moneyWay == null) {
+                Swal.fire({
+                    title: "ผิดพลาด!",
+                    text: "กรุณาเลือกประเภทความเสียหาย",
+                    icon: "warning",
+                    confirmButtonText: "Ok",
+                })
+                return;
+            }
+            if ((this._dataSourcebankref.length <= 0 && this._isShow) && !this.isOCPB) {
                 Swal.fire({
                     title: "ผิดพลาด!",
                     text: "กรุณาเพิ่มเลขอ้างอิงธนาคาร",
                     icon: "warning",
                     confirmButtonText: "Ok",
-                }).then(() => {});
+                }).then(() => { });
                 return;
             } else {
-                this.formData.MoneyWAY = this.submission.moneyWay;
-                this.formData.BLESSING_STATUS = "Y";
-                this.formData.CHECK_BLESSING = true;
-                this.formData.WAY = this.submission.ways;
-                this.formData.BANK_REF = this._dataSourcebankref;
-                // console.log(this.formData);
-                localStorage.setItem("form-blessing",JSON.stringify(this.formData));
-                if(e != 'tab'){
-                    this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
+                if (this.isOCPB) {
+                    Swal.fire({
+                        title: "แจ้งเตือน!",
+                        html: "จากคำตอบคัดกรองกลุ่มคดีของท่าน<br>เรื่องของท่านจะถูกส่งต่อไปยัง<br> <b>สำนักงานคณะกรรมการคุ้มครองผู้บริโภค (สคบ.)</b>",
+                        icon: "warning",
+                        confirmButtonText: "ยอมรับ",
+                        showCancelButton: true,
+                        cancelButtonText: "ยกเลิก"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.formData.MoneyWAY = this.submission.moneyWay;
+                            this.formData.BLESSING_STATUS = "Y";
+                            this.formData.CHECK_BLESSING = true;
+                            this.formData.WAY = this.submission.ways;
+                            this.formData.BANK_REF = this._dataSourcebankref;
+                            this.formData.IsOCPB = this.isOCPB;
+                            this.formData.SCREENING_ANSWERS_OCPB_1 = this.submission?.SCREENING_ANSWERS_OCPB_1;
+                            this.formData.SCREENING_ANSWERS_OCPB_2 = this.submission?.SCREENING_ANSWERS_OCPB_2;
+                            // console.log(this.formData);
+                            localStorage.setItem("form-blessing", JSON.stringify(this.formData));
+                            if (e != 'tab') {
+                                this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
+                            }
+                        } else {
+                            return;
+                        }
+                    });
+                    return;
+                } else {
+                    this.formData.MoneyWAY = this.submission.moneyWay;
+                    this.formData.BLESSING_STATUS = "Y";
+                    this.formData.CHECK_BLESSING = true;
+                    this.formData.WAY = this.submission.ways;
+                    this.formData.BANK_REF = this._dataSourcebankref;
+                    this.formData.IsOCPB = this.isOCPB;
+                    // this.formData.SCREENING_ANSWERS_OCPB_1 = this.submission?.SCREENING_ANSWERS_OCPB_1;
+                    // this.formData.SCREENING_ANSWERS_OCPB_2 = this.submission?.SCREENING_ANSWERS_OCPB_2;
+                    // console.log(this.formData);
+                    localStorage.setItem("form-blessing", JSON.stringify(this.formData));
+                    if (e != 'tab') {
+                        this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
+                    }
                 }
+
             }
-        }else{
-            if(e != 'tab'){
+        } else {
+            if (e != 'tab') {
                 this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
             }
         }
@@ -402,12 +460,21 @@ export class IssueOnlineCheckComponent implements OnInit {
         return pattern.test(bankid);
     }
 
-    convertDate(date,time){
-        const dateIN = String(date+" "+time);
+    convertDate(date, time) {
+        const dateIN = String(date + " " + time);
         const [datePart, timePart] = dateIN.split(" ");
         const [year, month, day] = datePart.split("-");
         const [hours, minutes, seconds] = timePart.split(":");
-        return [Number(year),Number(month)-1,Number(day),Number(hours),Number(minutes),Number(seconds)]
+        return [Number(year), Number(month) - 1, Number(day), Number(hours), Number(minutes), Number(seconds)]
+    }
+
+    onWaysValueChangedOCPB() {
+        if (this.submission?.SCREENING_ANSWERS_OCPB_1 == 2 && (this.submission?.SCREENING_ANSWERS_OCPB_2 == 2 || this.submission?.SCREENING_ANSWERS_OCPB_2 == 3)) {
+            this.isOCPB = true;
+        } else {
+            this.isOCPB = false;
+        }
+        console.log(this.isOCPB);
     }
 
 }

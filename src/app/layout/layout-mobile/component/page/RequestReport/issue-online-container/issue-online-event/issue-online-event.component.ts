@@ -251,6 +251,8 @@ export class IssueOnlineEventComponent implements OnInit {
     orgUnitsNew:any;
     orgUnitsNewWalkin:any;
 
+    isOCPB = false;
+
     constructor(
         private servBankInfo: BankInfoService,
         private _caseTypeSub: CmsCaseTypeSubService,
@@ -330,7 +332,32 @@ export class IssueOnlineEventComponent implements OnInit {
                         }
                     }
                 }
-
+                if (localStorage.getItem("form-blessing")) {
+                    const dataCheck = JSON.parse(localStorage.getItem("form-blessing"));
+                    console.log(dataCheck);
+                    if (dataCheck?.IsOCPB) {
+                        this.isOCPB = true;
+                        this.formData.ORG_LOCATION_ID = 1;
+                        this.listCaseType = [
+                            {
+                                "CASE_TYPE_ID": 60,
+                                "CASE_TYPE_NAME": "หลอกลวงซื้อขายสินค้าหรือบริการ ที่ไม่มีลักษณะเป็นขบวนการ",
+                                "CASE_TYPE_DESC": "คดีหลอกลวงซื้อขายสินค้าหรือบริการ ที่ไม่มีลักษณะเป็นขบวนการ หมายความถึง\r\n\t\tคดีที่กระทำผิดโดยทุจริตหลอกลวงมาแต่ต้น ด้วยการประกาศ หรือโฆษณาขายสินค้าหรือบริการผ่านสื่อสังคมออนไลน์ เชิญชวนให้ผู้เสียหายเข้าซื้อสินค้าหรือใช้บริการ เมื่อผู้เสียหายชำระเงินแล้ว ปรากฏว่าไม่ได้รับสินค้าหรือบริการนั้น หรือส่งสินค้าหรือบริการให้ในลักษณะที่มีเจตนาฉ้อโกง หรือส่งสินค้าให้ไม่ตรงตามโฆษณา ทั้งในด้านแหล่งกำเนิด สภาพ คุณภาพ หรือปริมาณแห่งสินค้า หรือผลิตภัณฑ์นั้นอันเป็นเท็จ และรวมถึงการหลอกให้ผู้ขายสินค้าในระบบออนไลน์ส่งสินค้าให้ โดยมีเจตนาตั้งแต่ต้นที่จะไม่ชำระค่าสินค้านั้น",
+                                "CASE_TYPE_ABBR": "หลอกลวงซื้อขายสินค้าหรือบริการ ที่ไม่มีลักษณะเป็นขบวนการ",
+                                "CASE_TYPE_GROUP_ID": 1,
+                                "CASE_ORG_TYPE_ID": 1
+                            },
+                            {
+                                "CASE_TYPE_ID": 72,
+                                "CASE_TYPE_NAME": "หลอกลวงซื้อขายสินค้าหรือบริการ ที่มีลักษณะเป็นขบวนการ",
+                                "CASE_TYPE_DESC": "คดีหลอกลวงซื้อขายสินค้าหรือบริการ ที่มีลักษณะเป็นขบวนการ หมายความถึง\r\n\t\tคดีที่มีลักษณะการกระทำผิดตามลักษณะหลอกขายสินค้าหรือบริการ และพบความเชื่อมโยงของคนร้ายในลักษณะที่เป็นขบวนการ หรือมีผู้เสียหายเป็นจำนวนมากหลายพื้นที่ตั้งแต่ ๑๐ รายขึ้นไป",
+                                "CASE_TYPE_ABBR": "หลอกลวงซื้อขายสินค้าหรือบริการ ที่มีลักษณะเป็นขบวนการ",
+                                "CASE_TYPE_GROUP_ID": 13,
+                                "CASE_ORG_TYPE_ID": 2
+                            }
+                        ];
+                    }
+                }
             }else{
                 const _case_id = Number(sessionStorage.getItem("case_id"));
                 const dataForm = await this._OnlineCaseService.getbycaseId(_case_id).toPromise();
@@ -363,29 +390,33 @@ export class IssueOnlineEventComponent implements OnInit {
                 this._formValidate.ValidateForm(this.formEvent1.instance.validate().brokenRules);
                 return;
             }
-            if (this.formData.ORG_LOCATION_TYPE == 1) {
-                if (!this.formData.ORG_LOCATION_ID) {
+           if (!this.isOCPB) {
+                if (this.formData.ORG_LOCATION_TYPE == 1) {
+                    if (!this.formData.ORG_LOCATION_ID) {
+                        this.alertmessagecustom("กรุณาเลือกสถานี");
+                        return;
+                    }
+                } else if (this.formData.ORG_LOCATION_TYPE == 2) {
+                    if (!this.formData.ORG_LOCATION_ID) {
+                        this.alertmessagecustom("กรุณาเลือกสถานี");
+                        return;
+                    }
+                } else if (this.formData.ORG_LOCATION_TYPE == 3) {
+                    if (!this.formData.ORG_LOCATION_ID) {
+                        this.alertmessagecustom("กรุณาเลือกสถานี");
+                        return;
+                    }
+                } else if (!this.formData.ORG_LOCATION_TYPE) {
                     this.alertmessagecustom("กรุณาเลือกสถานี");
                     return;
+                } else {
+                    if (!this.formData.ORG_LOCATION_ID) {
+                        this.alertmessagecustom("กรุณาเลือกสถานี");
+                        return;
+                    }
                 }
-            } else if (this.formData.ORG_LOCATION_TYPE == 2) {
-                if (!this.formData.ORG_LOCATION_ID) {
-                    this.alertmessagecustom("กรุณาเลือกสถานี");
-                    return;
-                }
-            } else if (this.formData.ORG_LOCATION_TYPE == 3) {
-                if (!this.formData.ORG_LOCATION_ID) {
-                    this.alertmessagecustom("กรุณาเลือกสถานี");
-                    return;
-                }
-            } else if(!this.formData.ORG_LOCATION_TYPE){
-                this.alertmessagecustom("กรุณาเลือกสถานี");
-                return;
-            } else {
-                if (!this.formData.ORG_LOCATION_ID) {
-                    this.alertmessagecustom("กรุณาเลือกสถานี");
-                    return;
-                }
+            }else{
+                this.formData.ORG_LOCATION_ID = 1;
             }
             if(this.formData.CASE_TYPE_ID === null || this.formData.CASE_TYPE_ID === 7){
                 Swal.fire({

@@ -1,6 +1,19 @@
 <div class="conten-block">
+    <div class="row">
+        <div style="display:inline-block;margin: 1%;">
+            <div style="font-size: 30px;"><b>คำถามคัดกรองกลุ่มคดี</b></div>
+            <div style="font-size: 30px;"><b>1.ท่านได้รับสินค้าหรือบริการที่สั่งซื้อหรือไม่</b></div>
+            <dx-radio-group class="d-flex justify-content-start" [items]="waysOCPB1" valueExpr="id" displayExpr="text" [(value)]="submission.SCREENING_ANSWERS_OCPB_1"
+                layout="vertical" (onValueChanged)="onWaysValueChangedOCPB()">
+            </dx-radio-group>
+            <div *ngIf="submission?.SCREENING_ANSWERS_OCPB_1 == 2" style="font-size: 30px;"><b>2.ลักษณะสินค้าหรือบริการที่ได้รับ</b></div>
+            <dx-radio-group *ngIf="submission?.SCREENING_ANSWERS_OCPB_1 == 2" [items]="waysOCPB2" valueExpr="id" displayExpr="text" [(value)]="submission.SCREENING_ANSWERS_OCPB_2"
+                layout="vertical" (onValueChanged)="onWaysValueChangedOCPB()">
+            </dx-radio-group>
+        </div>
+    </div>
     <div class="row" *ngIf="showMoneyWay">
-        <div style="display:inline-block;margin: 5%;">
+        <div style="display:inline-block;margin: 2% 5% 5% 5%;">
             <div class="text-center" style="font-size: 30px;"><b>กรุณาเลือกประเภทความเสียหายที่เกิดขึ้น</b></div>
             <dx-radio-group [items]="waysMoney" valueExpr="id" displayExpr="text" [value]="submission.moneyWay"
                 layout="horizontal" (onValueChanged)="onWaysValueChangedMoney($event)">
@@ -65,7 +78,7 @@
         </div>
     </div>
     <div class="text-right btn-footer">
-        <dx-button *ngIf="checkcase" class="btn btn-submit" text="ถัดไป" (onClick)="SubmitForm($event)"></dx-button>
+        <dx-button *ngIf="checkcase || isOCPB" class="btn btn-submit" text="ถัดไป" (onClick)="SubmitForm($event)"></dx-button>
     </div>
 </div>
 

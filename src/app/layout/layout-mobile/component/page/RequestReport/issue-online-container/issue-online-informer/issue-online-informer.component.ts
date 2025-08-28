@@ -1004,6 +1004,7 @@ export class IssueOnlineInformerComponent implements OnInit {
             this.serviceSubDistrict.GetPostCode(e.value).subscribe((_) => {
                 this.presentAddress.postcode = _;
                 this.presentAddress.disablepostcode = false;
+                this.formData.INFORMER_POSTCODE_CODE = _[0].POSTCODE_CODE;
             });
         }
     }
@@ -1027,6 +1028,7 @@ export class IssueOnlineInformerComponent implements OnInit {
             this.serviceSubDistrict.GetPostCode(e.value).subscribe((_) => {
                 this.cardAddress.postcode = _;
                 this.cardAddress.disablepostcode = false;
+                this.formData.INFORMER_CARD_POSTCODE_CODE = _[0].POSTCODE_CODE;
             });
         }
     }

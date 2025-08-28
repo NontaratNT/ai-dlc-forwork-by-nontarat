@@ -186,6 +186,13 @@ export class IssueOnlineContainerComponent implements OnInit {
         { text: "ช่องทางติดต่อคนร้าย", textClass: "arrow-div arrow-center"},
         { text: "ยืนยันความถูกต้อง", textClass: "arrow-div arrow-end" }
     ];
+    stepNavigationOcpb = [
+        {text:"ข้อความยินยอม",textClass:"arrow-div arrow-first"},
+        {text:"ข้อมูลเรื่องร้องทุกข์",textClass:"arrow-div arrow-center"},
+        {text:"ข้อมูลความเสียหาย",textClass:"arrow-div arrow-center"},
+        {text:"ข้อมูลผู้ร้องทุกข์",textClass:"arrow-div arrow-center"},
+        {text:"ยืนยันความถูกต้อง",textClass:"arrow-div arrow-end"}
+    ];
     stepNavigationZindex = 100;
     public formDataAll: any = {};
     formDataBankref: any = {};
@@ -193,6 +200,7 @@ export class IssueOnlineContainerComponent implements OnInit {
     dsorgbyarialocation: IOrganizeInfo[];
     formData: any = {};
     orgShow = false;
+    public isOCPB = false;
 
     checkboxLocation: any = {};
     radiocheckorganize1 = [{ id: 1, text: "สถานีตำรวจ" }];

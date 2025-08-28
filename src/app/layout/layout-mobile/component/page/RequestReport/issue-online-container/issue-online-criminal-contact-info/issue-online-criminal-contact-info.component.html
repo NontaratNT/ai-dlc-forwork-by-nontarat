@@ -4,6 +4,13 @@
         <div class="conten-block">
             <div class="content-form">
                 <dx-form #formEvent1 [colCount]="3" labelLocation="top">
+                    <dxi-item *ngIf="this.isOCPB" template="temp2" [colSpan]="3" [isRequired]="true">
+                        <dxo-label text="ชื่อผู้ที่ต้องการร้องเรียน" [showColon]="false"></dxo-label>
+                        <dxi-validation-rule type="required" message="กรุณากรอกชื่อผู้ที่ต้องการร้องเรียน"></dxi-validation-rule>
+                        <div *dxTemplate="let data of 'temp2'">
+                            <dx-text-box [readOnly]="formReadOnly" [(value)]="formData.CRIMINAL_NAME"></dx-text-box>
+                        </div>
+                    </dxi-item>
                     <dxi-item template="temp2" [colSpan]="3" [isRequired]="true">
                         <dxo-label text="รายละเอียดคนร้าย" [showColon]="false"></dxo-label>
                         <dxi-validation-rule type="required" message="กรุณากรอกรายละเอียดคนร้าย"></dxi-validation-rule>
