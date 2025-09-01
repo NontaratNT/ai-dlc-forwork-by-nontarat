@@ -16,6 +16,7 @@ import { CmsOccupationsService, IOcupationsInfo } from 'src/app/services/cms-occ
 import { User } from 'src/app/services/user';
 import { PersonalService,IPersonal } from 'src/app/services/personal.service';
 import { ConvertDateService } from 'src/app/services/convert-date.service';
+import { DownloadFileService } from 'src/app/services/download-file.service';
 
 @Component({
     selector: 'app-personal',
@@ -77,6 +78,7 @@ export class PersonalComponent implements OnInit {
         private serviceDistrict: DistrictService,
         private router: Router,
         private serviceSubDistrict: SubdistrictService,
+        private fileService: DownloadFileService,
         private serviceTitle: TitleService,
         private _date: ConvertDateService,
         private servOccupations: CmsOccupationsService) {
@@ -220,14 +222,27 @@ export class PersonalComponent implements OnInit {
         e.event.stopPropagation();
         uploadTag.click();
     }
-    OnImageAdd(uploadTag, imageTag) {
+    async OnImageAdd(uploadTag, imageTag) {
         const files: FileList = uploadTag.files;
-        let fileReader: FileReader;
-        if (files.length > 0) {
-            this.imageFile = files.item(0);
-            fileReader = new FileReader();
-            fileReader.readAsDataURL(this.imageFile);
-            fileReader.onloadend = () => this.userImagePath = fileReader.result;
+        const checkedFile = await this.fileService.checkImageFile(files[0]);
+        if (checkedFile.isPass === false) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'เกิดข้อผิดพลาดการอัปโหลดไฟล์!',
+                html: checkedFile.message,
+                confirmButtonText: 'ตกลง'
+            }).then(() => {
+                return
+            })
+            return
+        }else{
+            let fileReader: FileReader;
+            if (files.length > 0) {
+                this.imageFile = files.item(0);
+                fileReader = new FileReader();
+                fileReader.readAsDataURL(this.imageFile);
+                fileReader.onloadend = () => this.userImagePath = fileReader.result;
+            }
         }
     }
 
