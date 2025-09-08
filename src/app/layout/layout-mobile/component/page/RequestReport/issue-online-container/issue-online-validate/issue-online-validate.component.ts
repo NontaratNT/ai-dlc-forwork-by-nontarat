@@ -458,16 +458,16 @@ export class IssueOnlineValidateComponent implements OnInit {
             );
             this.userType = this.mainConponent.userType;
             this.formData = this.mergedFrom;
-            if(this.formData?.IsOCPB){
-                this.dataOCPB = this.convertDataToOCPB(this.formData);
-                this.formData.OCPB_DATA = this.dataOCPB;
-            }
             if (this.formData.CASE_REPORT) {
                 if (this.formData.CASE_REPORT.length > 0) {
                     this.formReport = this.formData.CASE_REPORT[0];
                     this.formData.CASE_CRIMINAL_CLUE_IN = this.formReport.CASE_BEHAVIOR;
                     this.formData.CRIMINAL_NAME = this.formReport.CRIMINAL_NAME;
                 }
+            }
+            if(this.formData?.IsOCPB){
+                this.dataOCPB = this.convertDataToOCPB(this.formData);
+                this.formData.OCPB_DATA = this.dataOCPB;
             }
             // console.log( this.formData);
             if (this.formData.BANK_REF) {
