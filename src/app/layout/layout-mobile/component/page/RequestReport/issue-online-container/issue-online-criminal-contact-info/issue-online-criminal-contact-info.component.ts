@@ -98,6 +98,9 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
 
     isOCPB = false;
 
+    today = new Date();
+    minDateValue: Date = new Date(this.today.getFullYear() - 2, this.today.getMonth(), this.today.getDate());
+
     constructor(
         private servBankInfo: BankInfoService,
         private _formValidate: FormValidatorService,

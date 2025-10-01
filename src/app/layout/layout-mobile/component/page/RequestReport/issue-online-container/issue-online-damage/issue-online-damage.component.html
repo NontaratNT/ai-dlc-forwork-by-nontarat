@@ -55,7 +55,7 @@
                                 </dxi-validation-rule>
                             </dxi-item>
                             <div *dxTemplate="let data of 'datetime'">
-                                <dx-date-box id="default" (onValueChanged)="OnSelectDate($event)" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="วันและเวลา" type="datetime" [max]="maxDateValue" [value]="now" displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false"
+                                <dx-date-box id="default" (onValueChanged)="OnSelectDate($event)" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="วันและเวลา" type="datetime" [max]="maxDateValue" [value]="now" displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [min]="minDateValue"
                                     [useMaskBehavior]="true">
                                 </dx-date-box>
                             </div>
@@ -231,7 +231,7 @@
                                 </dxi-validation-rule>
                             </dxi-item>
                             <div *dxTemplate="let data of 'datetime'">
-                                <dx-date-box id="default" (onValueChanged)="OnSelectDate($event)" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="วันและเวลา" type="datetime" [max]="maxDateValue" [value]="now" displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false"
+                                <dx-date-box id="default" (onValueChanged)="OnSelectDate($event)" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="วันและเวลา" type="datetime" [max]="maxDateValue" [value]="now" displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [min]="minDateValue"
                                     [useMaskBehavior]="true">
                                 </dx-date-box>
                             </div>
@@ -779,7 +779,7 @@
                                 <dxi-validation-rule type="required" message="กรุณากรอกเวลาที่มอบทรัพย์สินให้คนร้าย">
                                 </dxi-validation-rule>
                                 <div *dxTemplate="let data of 'temp6'">
-                                    <dx-date-box type="time" dateSerializationFormat="HH:mm" [openOnFieldClick]="true" [useMaskBehavior]="true" displayFormat="HH:mm" [(value)]="popupFormData.BANK_TRANSFER_TIME"></dx-date-box>
+                                    <dx-date-box type="time" dateSerializationFormat="HH:mm" [openOnFieldClick]="true" [useMaskBehavior]="true" displayFormat="HH:mm" [(value)]="popupFormData.BANK_TRANSFER_TIME" [min]="minDateValue"></dx-date-box>
                                 </div>
                             </dxi-item>
                         </dx-form>
@@ -862,7 +862,7 @@
                                 </div>
                             </div>
                             <div *dxTemplate="let cell of 'EditTemplateDate'">
-                                <dx-date-box dateSerializationFormat="yyyy-MM-dd" [openOnFieldClick]="true" [acceptCustomValue]="false" [(value)]="cell.data.BANK_TRANSFER_DATE"></dx-date-box>
+                                <dx-date-box dateSerializationFormat="yyyy-MM-dd" [openOnFieldClick]="true" [acceptCustomValue]="false" [(value)]="cell.data.BANK_TRANSFER_DATE" [min]="minDateValue"></dx-date-box>
                             </div>
                             <dxi-column dataField="BANK_TRANSFER_TIME" caption="เวลาที่โอน" alignment="center" [width]="150" cellTemplate="cellTemplateTime" editCellTemplate="EditTemplateTime"></dxi-column>
                             <div *dxTemplate="let cell of 'cellTemplateTime'">
@@ -871,7 +871,7 @@
                                 </div>
                             </div>
                             <div *dxTemplate="let cell of 'EditTemplateTime'">
-                                <dx-date-box type="time" dateSerializationFormat="HH:mm" [openOnFieldClick]="true" [useMaskBehavior]="true" displayFormat="HH:mm" [(value)]="cell.data.BANK_TRANSFER_TIME"></dx-date-box>
+                                <dx-date-box type="time" dateSerializationFormat="HH:mm" [openOnFieldClick]="true" [useMaskBehavior]="true" displayFormat="HH:mm" [(value)]="cell.data.BANK_TRANSFER_TIME" [min]="minDateValue"></dx-date-box>
                             </div>
                             <dxi-column dataField="BANK_DAMAGE_VALUE" caption="จำนวนเงิน" alignment="center" cellTemplate="cellTemplateDamage" [allowEditing]="false"></dxi-column>
                             <div *dxTemplate="let cell of 'cellTemplateDamage'">

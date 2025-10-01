@@ -236,6 +236,10 @@ export class IssueOnlineDamageComponent implements OnInit {
     sumvillan: any = 0.0;
     sumpersonal: any = 0.0;
     sumothermoney: any = 0.0;
+
+    today = new Date();
+    minDateValue: Date = new Date(this.today.getFullYear() - 2, this.today.getMonth(), this.today.getDate());
+    
     constructor(
         private router: Router,
         private servicePersonal: PersonalService,

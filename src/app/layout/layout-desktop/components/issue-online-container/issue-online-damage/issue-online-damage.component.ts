@@ -332,6 +332,9 @@ export class IssueOnlineDamageComponent implements OnInit {
     BankOriginNumberPattern = /^([0-9]{10,15})/;
     _BankNumberPattern = /^([0-9Xx]{10,15})/;
 
+    today = new Date();
+    minDateValue: Date = new Date(this.today.getFullYear() - 2, this.today.getMonth(), this.today.getDate());
+
     constructor(
         private servBankInfo: BankInfoService,
         private _date: ConvertDateService,
