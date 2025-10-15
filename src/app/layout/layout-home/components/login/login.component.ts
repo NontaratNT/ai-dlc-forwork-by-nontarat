@@ -5,11 +5,11 @@ import { IAccessToken, UserService } from "src/app/services/user.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { finalize, switchMap } from "rxjs/operators";
 import { Dialog } from "share-ui";
-import { SocialAuthService } from "angularx-social-login";
-import {
-    FacebookLoginProvider,
-    GoogleLoginProvider,
-} from "angularx-social-login";
+// import { SocialAuthService } from "angularx-social-login";
+// import {
+//     FacebookLoginProvider,
+//     GoogleLoginProvider,
+// } from "angularx-social-login";
 import { SocialUser } from "angularx-social-login";
 import { LoginService } from "src/app/services/login.service";
 import { CookieStorage } from "src/app/common/cookie";
@@ -61,11 +61,12 @@ export class LoginComponent implements OnInit, OnDestroy {
         private router: Router,
         private routerAc: ActivatedRoute,
         private userSetting: UserSettingService,
-        private authService: SocialAuthService,
+        // private authService: SocialAuthService,
         private loginServ: LoginService,
         private appServ: AppService,
         private deviceService: DeviceDetectorService,
-        private freezeAccountService: FreezeAccountService
+        private freezeAccountService: FreezeAccountService,
+        private _loginServ: LoginService,
     ) {
         appServ.hideHeader = true;
         appServ.hideFooter = true;
@@ -189,7 +190,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                 .pipe(finalize(() => (this._isLoading = false)))
                 .subscribe((u) => {
                     if (u) {
-                        this.routerAc.queryParams.subscribe((params) => {
+                        this.routerAc.queryParams.subscribe(async (params) => {
                             if (this.isRemember) {
                                 CookieStorage.assignSetting({
                                     RememberLogin: true,
@@ -199,6 +200,48 @@ export class LoginComponent implements OnInit, OnDestroy {
                                 Token: u.Token,
                                 RefreshToken: u.RefreshToken,
                             } as IAccessToken;
+                            if (User?.Current) {
+                                let needChange = false;
+                    
+                                if (User.Current.LatestUpdatePassword) {
+                                    const currentDate = new Date();
+                                    const latestUpdate = new Date(User.Current.LatestUpdatePassword);
+                    
+                                    // วันที่ 1 เดือนก่อนหน้า
+                                    const oneMonthAgo = new Date();
+                                    oneMonthAgo.setMonth(currentDate.getMonth() - 1);
+                    
+                                    if (latestUpdate < oneMonthAgo) {
+                                        needChange = true;
+                                    }
+                                } else {
+                                    // ถ้าไม่มีค่า LatestUpdatePassword
+                                    needChange = true;
+                                }
+                    
+                                if (needChange) {
+                                    const check_password = await Swal.fire({
+                                        title: 'แจ้งเตือน',
+                                        html: 'กรุณาอัปเดตรหัสผ่านของท่านใหม่ <br> เพื่อความปลอดภัยของบัญชีผู้ใช้',
+                                        icon: 'warning',
+                                        confirmButtonText: 'ตกลง',
+                                        allowOutsideClick: false,
+                                        allowEscapeKey: false,
+                                        showCancelButton: true,
+                                        cancelButtonText: 'ออกจากระบบ',
+                                        cancelButtonColor: '#d33'
+                                    });
+                    
+                                    if (check_password.isConfirmed) {
+                                        console.log('ต้องเปลี่ยนรหัสผ่าน');
+                                        this.router.navigate(['/reset-password-force']);
+                                    } else {
+                                        this._loginServ.logout();
+                                        this.router.navigate(['/login']);
+                                    }
+                                    return;
+                                }
+                            }
                             if (params.icli) {
                                 if(params.icli === "al"){
                                     this.userServ.getTokenCypherVac(User.Current.UserId).toPromise().then((res) => {
@@ -295,111 +338,111 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
     }
 
-    LogInWithGoogle() {
-        this.type_register = "Google";
-        this._isLoading = true;
-        this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
-        this.authService.authState.subscribe((user) => {
-            this.usersocial = user;
-            this.loggedIn = user != null;
-            if (this.usersocial) {
-                let name = this.usersocial.email.substring(
-                    0,
-                    this.usersocial.email.lastIndexOf("@")
-                );
-                if (name.indexOf(".") !== -1) {
-                    name = this.usersocial.email.substring(
-                        0,
-                        name.indexOf(".")
-                    );
-                }
-                this.userServ
-                    .authenticate(name, "1234", 1.1)
-                    .pipe(finalize(() => (this._isLoading = false)))
-                    .subscribe((r) => {
-                        if (r) {
-                            window.location.reload();
-                        } else {
-                            // this._dialog.info("แจ้งเตือน", "กรุณาลงทะเบียนด้วย Google ก่อน !!!").then(() => window.location.reload());
-                            Swal.fire({
-                                title: "แจ้งเตือน!",
-                                text: "กรุณาลงทะเบียนด้วย Google ก่อน !!!",
-                                icon: "warning",
-                                confirmButtonText: "ตกลง",
-                            }).then(() => {
-                                window.location.reload();
-                            });
-                        }
-                    });
-                this._isLoading = false;
-            } else {
-                // this._dialog.info("แจ้งเตือน", "อีเมล หรือ รหัสผ่านไม่ถูกต้อง กรุณาใส่ใหม่อีกครั้งหรือกดลืมรหัสผ่าน  !!!!")
-                //     .then(() => this._isLoading = false);
-                Swal.fire({
-                    title: "แจ้งเตือน!",
-                    text: "อีเมล หรือ รหัสผ่านไม่ถูกต้อง กรุณาใส่ใหม่อีกครั้งหรือกดลืมรหัสผ่าน !!!",
-                    icon: "warning",
-                    confirmButtonText: "ตกลง",
-                }).then(() => {
-                    this._isLoading = false;
-                });
-            }
-        });
-    }
+    // LogInWithGoogle() {
+    //     this.type_register = "Google";
+    //     this._isLoading = true;
+    //     // this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+    //     this.authService.authState.subscribe((user) => {
+    //         this.usersocial = user;
+    //         this.loggedIn = user != null;
+    //         if (this.usersocial) {
+    //             let name = this.usersocial.email.substring(
+    //                 0,
+    //                 this.usersocial.email.lastIndexOf("@")
+    //             );
+    //             if (name.indexOf(".") !== -1) {
+    //                 name = this.usersocial.email.substring(
+    //                     0,
+    //                     name.indexOf(".")
+    //                 );
+    //             }
+    //             this.userServ
+    //                 .authenticate(name, "1234", 1.1)
+    //                 .pipe(finalize(() => (this._isLoading = false)))
+    //                 .subscribe((r) => {
+    //                     if (r) {
+    //                         window.location.reload();
+    //                     } else {
+    //                         // this._dialog.info("แจ้งเตือน", "กรุณาลงทะเบียนด้วย Google ก่อน !!!").then(() => window.location.reload());
+    //                         Swal.fire({
+    //                             title: "แจ้งเตือน!",
+    //                             text: "กรุณาลงทะเบียนด้วย Google ก่อน !!!",
+    //                             icon: "warning",
+    //                             confirmButtonText: "ตกลง",
+    //                         }).then(() => {
+    //                             window.location.reload();
+    //                         });
+    //                     }
+    //                 });
+    //             this._isLoading = false;
+    //         } else {
+    //             // this._dialog.info("แจ้งเตือน", "อีเมล หรือ รหัสผ่านไม่ถูกต้อง กรุณาใส่ใหม่อีกครั้งหรือกดลืมรหัสผ่าน  !!!!")
+    //             //     .then(() => this._isLoading = false);
+    //             Swal.fire({
+    //                 title: "แจ้งเตือน!",
+    //                 text: "อีเมล หรือ รหัสผ่านไม่ถูกต้อง กรุณาใส่ใหม่อีกครั้งหรือกดลืมรหัสผ่าน !!!",
+    //                 icon: "warning",
+    //                 confirmButtonText: "ตกลง",
+    //             }).then(() => {
+    //                 this._isLoading = false;
+    //             });
+    //         }
+    //     });
+    // }
     relode() {
         window.location.reload();
     }
-    LogInWithFB() {
-        this.type_register = "Facebook";
-        this._isLoading = true;
-        this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
-        this.authService.authState.subscribe((user) => {
-            this.usersocial = user;
-            this.loggedIn = user != null;
-            if (this.usersocial) {
-                let name = this.usersocial.email.substring(
-                    0,
-                    this.usersocial.email.lastIndexOf("@")
-                );
-                if (name.indexOf(".") !== -1) {
-                    name = this.usersocial.email.substring(
-                        0,
-                        name.indexOf(".")
-                    );
-                }
-                this.userServ
-                    .authenticate(name, "1234", 1.1)
-                    .pipe(finalize(() => (this._isLoading = false)))
-                    .subscribe((r) => {
-                        if (r) {
-                            window.location.reload();
-                        } else {
-                            // this._dialog.info("แจ้งเตือน", "กรุณาลงทะเบียนด้วย Facebook ก่อน !!!").then(() => window.location.reload());
-                            Swal.fire({
-                                title: "แจ้งเตือน!",
-                                text: "กรุณาลงทะเบียนด้วย Facebook ก่อน !!!",
-                                icon: "warning",
-                                confirmButtonText: "ตกลง",
-                            }).then(() => {
-                                window.location.reload();
-                            });
-                        }
-                    });
-                this._isLoading = false;
-            } else {
-                // this._dialog.info("แจ้งเตือน", "อีเมล หรือ รหัสผ่านไม่ถูกต้อง กรุณาใส่ใหม่อีกครั้งหรือกดลืมรหัสผ่าน  !!!!")
-                //     .then(() => this._isLoading = false);
-                Swal.fire({
-                    title: "แจ้งเตือน!",
-                    text: "อีเมล หรือ รหัสผ่านไม่ถูกต้อง กรุณาใส่ใหม่อีกครั้งหรือกดลืมรหัสผ่าน !!!",
-                    icon: "warning",
-                    confirmButtonText: "ตกลง",
-                }).then(() => {
-                    this._isLoading = false;
-                });
-            }
-        });
-    }
+    // LogInWithFB() {
+    //     this.type_register = "Facebook";
+    //     this._isLoading = true;
+    //     // this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+    //     this.authService.authState.subscribe((user) => {
+    //         this.usersocial = user;
+    //         this.loggedIn = user != null;
+    //         if (this.usersocial) {
+    //             let name = this.usersocial.email.substring(
+    //                 0,
+    //                 this.usersocial.email.lastIndexOf("@")
+    //             );
+    //             if (name.indexOf(".") !== -1) {
+    //                 name = this.usersocial.email.substring(
+    //                     0,
+    //                     name.indexOf(".")
+    //                 );
+    //             }
+    //             this.userServ
+    //                 .authenticate(name, "1234", 1.1)
+    //                 .pipe(finalize(() => (this._isLoading = false)))
+    //                 .subscribe((r) => {
+    //                     if (r) {
+    //                         window.location.reload();
+    //                     } else {
+    //                         // this._dialog.info("แจ้งเตือน", "กรุณาลงทะเบียนด้วย Facebook ก่อน !!!").then(() => window.location.reload());
+    //                         Swal.fire({
+    //                             title: "แจ้งเตือน!",
+    //                             text: "กรุณาลงทะเบียนด้วย Facebook ก่อน !!!",
+    //                             icon: "warning",
+    //                             confirmButtonText: "ตกลง",
+    //                         }).then(() => {
+    //                             window.location.reload();
+    //                         });
+    //                     }
+    //                 });
+    //             this._isLoading = false;
+    //         } else {
+    //             // this._dialog.info("แจ้งเตือน", "อีเมล หรือ รหัสผ่านไม่ถูกต้อง กรุณาใส่ใหม่อีกครั้งหรือกดลืมรหัสผ่าน  !!!!")
+    //             //     .then(() => this._isLoading = false);
+    //             Swal.fire({
+    //                 title: "แจ้งเตือน!",
+    //                 text: "อีเมล หรือ รหัสผ่านไม่ถูกต้อง กรุณาใส่ใหม่อีกครั้งหรือกดลืมรหัสผ่าน !!!",
+    //                 icon: "warning",
+    //                 confirmButtonText: "ตกลง",
+    //             }).then(() => {
+    //                 this._isLoading = false;
+    //             });
+    //         }
+    //     });
+    // }
 
     onRegister(event: any) {
         console.clear();

@@ -28,6 +28,7 @@ import { QapageComponent } from './components/re-design/qapage/qapage.component'
 import { BoxSeniorCyberComponent } from './components/re-design/main-re-design/box-senior-cyber/box-senior-cyber.component';
 import { SecurityBoxComponent } from './components/re-design/components/security-box/security-box.component';
 import { ServiceDetailComponent } from './components/re-design/service-detail/service-detail.component';
+import { ResetPasswordNewComponent } from './layout/reset-password/reset-password.component';
 
 const routes: Routes = [
     {
@@ -84,6 +85,10 @@ const routes: Routes = [
         children: [
             { path: 'register', component: RegisterPeopleComponent },
         ]
+    },
+    { 
+        path: 'reset-password-force', 
+        component: ResetPasswordNewComponent 
     },
 ];
 
