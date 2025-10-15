@@ -355,7 +355,7 @@
                             </dxi-item>
                             <div *dxTemplate="let data of 'datetime'">
                                 <dx-date-box id="default" (onValueChanged)="OnSelectDate($event, 'money')" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" type="datetime" [max]="maxDateValue" [(value)]="now" displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false"
-                                    [useMaskBehavior]="true">
+                                    [useMaskBehavior]="true" [min]="minDateValue">
                                 </dx-date-box>
                             </div>
                             <dxi-item *ngIf="show_value" template="tempbankmoney" [colSpan]="1" [isRequired]="true">
