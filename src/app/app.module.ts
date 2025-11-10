@@ -149,24 +149,24 @@ const customNotifierOptions: NotifierOptions = {
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: BetimesHttpInterceptor, multi: true, },
         { provide: HTTP_INTERCEPTORS, useClass: RefreshTokenInterceptor, multi: true },
-        {
-            provide: 'SocialAuthServiceConfig',
-            useValue: {
-                autoLogin: false,
-                providers: [
-                    {
-                        id: GoogleLoginProvider.PROVIDER_ID,
-                        provider: new GoogleLoginProvider(
-                            '485627165592-dbc9u83ooj4477b789k0gi306ps85g22.apps.googleusercontent.com'
-                        )
-                    },
-                    {
-                        id: FacebookLoginProvider.PROVIDER_ID,
-                        provider: new FacebookLoginProvider('2777914499189417')
-                    }
-                ]
-            } as SocialAuthServiceConfig,
-        },
+        // {
+        //     provide: 'SocialAuthServiceConfig',
+        //     useValue: {
+        //         autoLogin: false,
+        //         providers: [
+        //             {
+        //                 id: GoogleLoginProvider.PROVIDER_ID,
+        //                 provider: new GoogleLoginProvider(
+        //                     '485627165592-dbc9u83ooj4477b789k0gi306ps85g22.apps.googleusercontent.com'
+        //                 )
+        //             },
+        //             {
+        //                 id: FacebookLoginProvider.PROVIDER_ID,
+        //                 provider: new FacebookLoginProvider('2777914499189417')
+        //             }
+        //         ]
+        //     } as SocialAuthServiceConfig,
+        // },
         { provide: RECAPTCHA_V3_SITE_KEY, useValue: environment.config.recaptcha.siteKey },
         NgxImageCompressService,
         DatePipe,
