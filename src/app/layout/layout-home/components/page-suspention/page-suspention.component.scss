@@ -1,0 +1,51 @@
+:host {
+  --dark-bg: #1a0808;
+  --text-color: #ffffff;
+
+  /* ลดการใช้ ::ng-deep เหลือเฉพาะจุดจำเป็นจริง ๆ (DevExtreme label) */
+  ::ng-deep .dx-field-item-label-content {
+    width: 50% !important;
+  }
+
+  .page-suspention {
+    background: url('../assets/icon/pages-1.png') center/cover no-repeat;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+
+    .header-text {
+      color: var(--text-color);
+      text-shadow: 2px 3px 0px rgba(0,0,0,.7);
+    }
+
+    .main-container-suspention {
+      position: relative;
+      padding: 1.25rem;
+      max-width: 1600px;
+      width: 100%;
+    }
+  }
+
+  /* ThaiID button + logo */
+  .thaiid-btn {
+    background-color: #030751;
+    box-shadow: 0 10px 20px rgba(0,0,0,.3);
+    transition: box-shadow .3s ease-in-out;
+    &:hover {
+      box-shadow: 0 15px 30px rgba(255,165,0,.35);
+    }
+  }
+
+  .thaiid-logo {
+    max-height: 40px;       /* ควบคุมความสูงให้พอดีบรรทัด */
+    width: auto;            /* ให้สัดส่วนถูกต้อง */
+  }
+
+  /* Responsive tweaks */
+  @media (max-width: 576px) {
+    .header-text .h2 { font-size: 1.375rem; } /* ~22px */
+    .thaiid-logo { max-height: 32px; }
+    ::ng-deep .dx-datagrid .dx-datagrid-headers .dx-header-row > td { padding: 8px; }
+    ::ng-deep .dx-datagrid-rowsview .dx-row > td { padding: 8px; }
+  }
+}

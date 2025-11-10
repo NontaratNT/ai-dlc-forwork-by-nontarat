@@ -29,6 +29,8 @@ import { BoxSeniorCyberComponent } from './components/re-design/main-re-design/b
 import { SecurityBoxComponent } from './components/re-design/components/security-box/security-box.component';
 import { ServiceDetailComponent } from './components/re-design/service-detail/service-detail.component';
 import { ResetPasswordNewComponent } from './layout/reset-password/reset-password.component';
+import { PageSuspentionComponent } from './components/page-suspention/page-suspention.component';
+import { ConfirmLeaveGuard } from 'src/app/services/confirm-leave.guard';
 
 const routes: Routes = [
     {
@@ -90,6 +92,7 @@ const routes: Routes = [
         path: 'reset-password-force', 
         component: ResetPasswordNewComponent 
     },
+    { path: 'page-suspention', component: PageSuspentionComponent ,canDeactivate: [ConfirmLeaveGuard]}
 ];
 
 @NgModule({

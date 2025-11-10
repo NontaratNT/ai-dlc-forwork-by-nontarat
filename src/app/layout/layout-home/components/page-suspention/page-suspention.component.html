@@ -1,0 +1,74 @@
+<div id="police-index-page" class="police-index-page d-flex flex-column min-vh-100">
+  <header-re-design></header-re-design>
+
+  <div class="block-content flex-grow-1 page-suspention">
+    <div class="container-xl main-container-suspention">
+
+      <!-- Header -->
+      <div class="text-center header-text mb-4">
+        <h1 class="h2 h1-md fw-bold mb-2">ตรวจสอบสถานะบัญชีม้า</h1>
+        <p class="lead mb-0">กรุณายืนยันตัวตนผ่าน ThaiD ก่อนทำการตรวจสอบ</p>
+      </div>
+
+      <!-- Grid -->
+      <div *ngIf="showDisplay; else loginTemplate" class="row justify-content-center">
+        <div class="col-12 col-xl-11">
+          <div class="card shadow-sm">
+            <div class="card-body p-2 p-sm-3">
+              <dx-data-grid
+                #grid
+                class="w-100"
+                [dataSource]="accountData"
+                [wordWrapEnabled]="true"
+                [hoverStateEnabled]="true"
+                [remoteOperations]="false"
+                [columnAutoWidth]="true"
+                [rowAlternationEnabled]="true"
+                [showBorders]="false"
+                [columnHidingEnabled]="true"
+                [allowColumnResizing]="true"
+                columnResizingMode="widget"
+                noDataText="ไม่มีข้อมูล">
+
+                <dxo-adaptivity [enabled]="true"></dxo-adaptivity>
+                <dxo-paging [pageSize]="pageSize"></dxo-paging>
+                <dxo-pager [visible]="true" [showPageSizeSelector]="true" [allowedPageSizes]="allowedPageSizes" [showInfo]="true"></dxo-pager>
+                <dxo-load-panel text="กำลังโหลดข้อมูล..."></dxo-load-panel>
+                <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false"></dxo-editing>
+                <dxo-selection mode="single"></dxo-selection>
+
+                <!-- กำหนด hidingPriority ให้ซ่อนคอลัมน์ที่ไม่สำคัญก่อนเมื่อจอเล็ก -->
+                <dxi-column caption="ลำดับ" alignment="center" [width]="80" cellTemplate="rowIndexTpl" [fixed]="true" [hidingPriority]="8"></dxi-column>
+                <dxi-column dataField="caseNo" caption="Case ID" alignment="center" [minWidth]="140" [hidingPriority]="1"></dxi-column>
+                <dxi-column dataField="accountNumber" caption="หมายเลขบัญชีธนาคาร" alignment="center" [minWidth]="180" [hidingPriority]="2"></dxi-column>
+                <dxi-column dataField="referenceNumber" caption="เลขอ้างอิงจากธนาคาร" alignment="center" [minWidth]="200" [hidingPriority]="5"></dxi-column>
+                <dxi-column dataField="level" caption="สถานะบัญชี" alignment="center" [minWidth]="140" [hidingPriority]="3"></dxi-column>
+                <dxi-column dataField="orgName" caption="หน่วยงานสำหรับติดต่อขอปลดระงับ" alignment="center" [minWidth]="220" [hidingPriority]="6"></dxi-column>
+                <dxi-column dataField="investigator" caption="ชื่อ-สกุล พนักงานสอบสวน" alignment="center" [minWidth]="200" [hidingPriority]="7"></dxi-column>
+                <dxi-column dataField="contact" caption="เบอร์ติดต่อ" alignment="center" [minWidth]="140" [hidingPriority]="4"></dxi-column>
+
+                <div *dxTemplate="let cell of 'rowIndexTpl'">
+                  {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
+                </div>
+              </dx-data-grid>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Login -->
+      <ng-template #loginTemplate>
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-8 col-lg-6 text-center">
+            <button type="button" (click)="loginThaiID()"
+              class="btn btn-primary btn-lg w-100 d-flex align-items-center justify-content-center gap-2 thaiid-btn">
+              <span class="fs-4">เข้าสู่ระบบด้วย</span>
+              <img class="thaiid-logo img-fluid" src="assets/icon/ThaID.png" alt="ThaiID" />
+            </button>
+          </div>
+        </div>
+      </ng-template>
+
+    </div>
+  </div>
+</div>
