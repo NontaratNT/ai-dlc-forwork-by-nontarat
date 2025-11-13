@@ -64,6 +64,23 @@
                margin-right: 0.2rem;
           }
      }
+
+     .uploadDoc {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 18rem;
+          height: 3rem;
+          font-size: 1rem;
+          font-weight: 600;
+          color: #ffffff;
+          background-color: #273880;
+          border-radius: 8px;
+          cursor: pointer;
+          img {
+               margin-right: 0.2rem;
+          }
+     }
 }
 
 .box-moblie {
@@ -76,6 +93,7 @@
      color: white;
      border: none;
      font-size: 1.2rem;
+     width: 2rem;
      border-radius: 50%;
      cursor: pointer;
      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
@@ -101,6 +119,7 @@
           right: 1rem;
           display: flex;
           flex-direction: column;
+          align-items: flex-end;
 
           img {
                width: 1rem;
@@ -147,6 +166,21 @@
                border-radius: 50%;
                cursor: pointer;
                margin: 3px 0;
+          }
+
+          .uploadDoc {
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               width: 15rem;
+               height: 2rem;
+               font-weight: 600;
+               color: #ffffff;
+               background-color: #FF5A01;
+               border-radius: 10px;
+               cursor: pointer;
+               margin: 3px 0;
+               padding: 1rem 0.5rem;
           }
      }
 }
@@ -209,6 +243,21 @@
                cursor: pointer;
                margin: 3px 0;
           }
+
+          .uploadDoc {
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               width: 21vw;
+               height: 5vw;
+               font-size: 1.5vw;
+               font-weight: 600;
+               color: #ffffff;
+               background-color: #273880;
+               border-radius: 8px;
+               cursor: pointer;
+               margin: 3px 0;
+          }
      }
 }
 
@@ -226,6 +275,12 @@
      }
 
      .facebook {
+          width: 15vw !important;
+          height: 4vw !important;
+          font-size: 1.4vw !important;
+     }
+
+     .uploadDoc {
           width: 15vw !important;
           height: 4vw !important;
           font-size: 1.4vw !important;

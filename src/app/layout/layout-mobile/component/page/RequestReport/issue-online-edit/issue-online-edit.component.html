@@ -1,7 +1,6 @@
 <div>
     <div *ngIf="loadTab" class="block-main">
-        <div style="background: #374784;
-        ">
+        <div style="background: #374784;">
             <div class="chatCount" *ngIf="numCount > 0">{{numCount}}</div>
             <img src="assets/icon/chat.png" (click)="openChat(2)" *ngIf="visible_chat === false" class="button-chat">
         </div>

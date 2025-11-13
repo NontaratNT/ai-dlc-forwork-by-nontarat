@@ -35,6 +35,7 @@ export class ResponsiveHelperComponent implements OnInit {
       1: isMobile ? "/mobile/issue-online/1" : "/main/issue-online/1",
       2: isMobile ? "/mobile/issue-online-report" : "/main/issue-online-report",
       3: isMobile ? "/mobile/chat-list" : "/main/chat-list",
+      4: isMobile ? "/mobile/track-status?openExternalBrowser=1" : "/main/task-list",
     };
 
     const targetRoute = routes[type];

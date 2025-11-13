@@ -12,7 +12,7 @@ border-radius: 10px;">
 
         <div style="margin-top: 20px;" class="damage">
             <div class="content-titles">ไฟล์หลักฐาน</div>
-            <div class="text-right">
+            <div class="text-right" *ngIf="caseWorking === true">
                 <dx-button [width]="140" icon="fas fa-file" class="btn-upload" type="success" text="อัพโหลดไฟล์"
                     (onClick)="OpenFileDialog($event, upload)"></dx-button>
                 <div class="dx-fileuploader-input-container d-none">
@@ -140,7 +140,7 @@ border-radius: 10px;">
 
                                     <div style="padding-left: 10px;" class="text-download"
                                         (click)="previewButtonClicked(cell)">
-                                        {{cell.data.INST_ATTACHMENT_NAME}}
+                                        {{cell.data.originalName}}
                                     </div>
 
 
@@ -150,7 +150,7 @@ border-radius: 10px;">
                                 </dxi-item>
                                 <div *dxTemplate="let data of 'temp12'">
                                     <div style="padding-left: 10px;">
-                                        {{ConvertDateFullMonth(cell.data.INST_ATTACHMENT_DATE)}}
+                                        {{ConvertDateFullMonth(cell.data.DateNow)}}
                                     </div>
 
 
@@ -161,7 +161,7 @@ border-radius: 10px;">
                                 </dxi-item>
                                 <div *dxTemplate="let data of 'temp13'">
                                     <div style="padding-left: 10px;">
-                                        {{ConvertDateToMomentTime(cell.data.INST_ATTACHMENT_DATE)}} น.
+                                        {{ConvertDateToMomentTime(cell.data.DateNow)}} น.
                                     </div>
 
 

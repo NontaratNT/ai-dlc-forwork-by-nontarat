@@ -125,7 +125,7 @@
             <div class="d-flex" *ngIf="edit === true" style="box-shadow: 0px 5px 5px #aaaaaa8c; border-bottom: 1px solid #ddd; padding-bottom: 10px;z-index: 999; position: fixed;background-color: #fff;
             width: 100%;
             height: 110px;">
-                <div class="progress yellow" *ngIf="indexTab+1 === 1">
+                <!-- <div class="progress yellow" *ngIf="indexTab+1 === 1">
                     <span class="progress-left">
                         <span class="progress-bar"></span>
                     </span>
@@ -151,17 +151,16 @@
                         <h6 style="margin-top: -12px;
                         font-size: 25px;">2/2</h6>
                     </div>
-                </div>
+                </div> -->
 
                 <div style="right: 0; margin-right: 20px;  position: fixed;" *ngIf="indexTab !== 4">
                     <div style="text-align: right; font-weight: bold; margin-top: 12px; font-size: 20px; margin-bottom: 12px;" *ngIf="indexTab+1 === 1">รายละเอียดคดี
                     </div>
                     <div style="text-align: right; font-weight: bold; margin-top: 12px; font-size: 20px; margin-bottom: 12px;" *ngIf="indexTab+1 === 3">นัดหมายเข้าพบพนักงานสอบสวน
                     </div>
+                    <dx-button class="btn-upload" icon="fa fa-file" text="แนบไฟล์เพิ่มเติม" type="default" (onClick)="openAttach()"></dx-button>
                     <dx-button class="btn-appoi" icon="fa fa-archive" text="ดูนัดหมาย" type="default" (onClick)="openAppoi()"></dx-button>
-
                 </div>
-
                 <div class="col-12 tab-status-succ" *ngIf="bpmData['REJECT_FLAG'] === 'Y'">
                     <div class="row block-reject d-flex">
                         <div class="block-reject-icon" style="height: 32px;

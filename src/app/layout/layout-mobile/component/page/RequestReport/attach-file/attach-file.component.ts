@@ -51,6 +51,9 @@ export class AttachFileComponent implements OnInit {
     urlSafe: SafeResourceUrl;
     type: number;
     typeAttachment: IBPMAttachmentType[];
+
+    caseWorking = false;
+
     constructor(private serviceAttachment: BpmAttachmentService,
         private workflowServ: WorkflowService,
         private router: Router,
@@ -101,7 +104,11 @@ export class AttachFileComponent implements OnInit {
     loaddata(id) {
         if (id) {
             this.bpmProcinstServ.getByInstId(id).subscribe(res => {
-                this.wfinsId = res.WF_INSTANCE_ID;
+                const data = res?.Value ?? {} as any;
+                this.wfinsId = data?.WF_INSTANCE_ID;
+                console.log(data);
+                this.caseWorking = (data?.GROUP_STATUS_CODE === 'C07' || data?.REJECT_FLAG === 'Y' || data?.STATUS_CODE === 'COM') ? false : true ;
+                console.log(this.caseWorking);
             });
         }
     }
@@ -133,6 +140,7 @@ export class AttachFileComponent implements OnInit {
         if (this.fileToUpload !== null) {
             const check = await this._issueFile.CheckFileUploadAllowSize(this.fileToUpload);
             if (check.status){
+                await this.serviceAttachment.creategdcc(this.formatData()).toPromise();
                 await this.serviceAttachment.create(this.formatData()).toPromise();
                 this.formAttach = await  this.serviceAttachment.get(this._instId).toPromise();
                 Swal.fire({
@@ -140,7 +148,9 @@ export class AttachFileComponent implements OnInit {
                     text: 'บันทึกเรียบร้อย',
                     icon: 'success',
                     confirmButtonText: 'ตกลง'
-                }).then(() => {});
+                }).then(async () => {
+                     
+                });
             }
 
         }

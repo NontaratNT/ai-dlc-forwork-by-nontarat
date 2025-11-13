@@ -129,8 +129,8 @@ export class AttachFileComponent implements OnInit {
         if (this.fileToUpload !== null) {
             const check = await this._issueFile.CheckFileUploadAllowSize(this.fileToUpload);
             if (check.status){
+                await this.serviceAttachment.creategdcc(this.formatData()).toPromise();
                 await this.serviceAttachment.create(this.formatData()).toPromise();
-
                 this.formAttach = await  this.serviceAttachment.get(this._instId).toPromise();
                 Swal.fire({
                     title: 'สำเร็จ!',
@@ -138,12 +138,6 @@ export class AttachFileComponent implements OnInit {
                     icon: 'success',
                     confirmButtonText: 'ตกลง'
                 }).then(() => {});
-                try{
-                    await this.serviceAttachment.creategdcc(this.formatData()).toPromise();
-                 }
-                 catch (error){
-
-                 }
             }
 
         }
