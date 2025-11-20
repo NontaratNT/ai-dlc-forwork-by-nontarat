@@ -422,10 +422,7 @@ div.btn-dx {
         opacity: 0.75;
     }
 
-    .required:after {
-        content: " *";
-        color: red;
-    }
+
 
     .text-link {
         cursor: pointer;
@@ -588,8 +585,10 @@ div.btn-dx {
         opacity: 0.75;
     }
 
+  
+    .required::before {
+    }
     .required:after {
-        content: " *";
         color: red;
     }
 
@@ -741,5 +740,40 @@ form {
                 background-size: cover;
             }
         }
+    }
+}
+
+
+// .dx-button-mode-contained .dx-icon:not(.dx-icon-hierarchy,.dx-icon-edit-button-addrow,.dx-icon-edit-button-save,.dx-icon-edit-button-cancel) {
+//     color: #fff !important;
+// }
+
+.btn-secondary {
+    color: #fff;
+    background-color: red ;
+    border-color: red;
+}
+.fa, .fas{
+    font-family: unset;
+    font:normal normal normal 14px/1 FontAwesome;
+}
+
+.form-io-cyber-issue {
+    .formio-form .list-inline {
+        text-align: center;
+    }
+    .btn-secondary {
+        background-color: #ff0000;
+        border-color: #ff0000;
+    }
+    .btn-secondary:hover {
+        background-color: #cd0000;
+        border-color: #ff0000;
+    }
+    .btn-secondary:not(:disabled):not(.disabled):active,
+    .btn-secondary:not(:disabled):not(.disabled).active,
+    .show>.btn-secondary.dropdown-toggle {
+        background-color: #cd0000;
+        border-color: #ff0000;
     }
 }

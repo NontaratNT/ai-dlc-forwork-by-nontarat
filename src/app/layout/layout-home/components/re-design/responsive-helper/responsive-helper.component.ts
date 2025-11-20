@@ -60,6 +60,14 @@ export class ResponsiveHelperComponent implements OnInit {
     this.CheckDeviceMode(number);
   }
 
+    OnClickButtonprototype(number) {
+    if(!User?.Current){
+      this.router.navigate(['/case-type-new']);
+      return;
+    }
+    this.CheckDeviceMode(number);
+  }
+
   openLink(link: string) {
     window.open(link, '_blank');
   }

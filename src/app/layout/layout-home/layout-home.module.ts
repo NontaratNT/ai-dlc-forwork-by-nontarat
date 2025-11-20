@@ -96,6 +96,7 @@ import { BoxFrameThridMobileComponent } from './components/re-design/main-re-des
 import { BoxFrameThridTabletComponent } from './components/re-design/main-re-design/box-frame-thrid/box-frame-thrid-tablet/box-frame-thrid-tablet.component';
 import { BoxFrameMobileComponent } from './components/re-design/main-re-design/box-frame/box-frame-mobile/box-frame-mobile.component';
 import { BoxFrameTabletComponent } from './components/re-design/main-re-design/box-frame/box-frame-tablet/box-frame-tablet.component';
+import { FormioModule } from '@formio/angular';
 const customNotifierOptions: NotifierOptions = {
     position: {
         horizontal: {
@@ -234,6 +235,7 @@ const customNotifierOptions: NotifierOptions = {
         NgxPaginationModule,
         LayoutDesktopModule,
         CountdownModule,
+        FormioModule
 
 
     ], schemas: [CUSTOM_ELEMENTS_SCHEMA],

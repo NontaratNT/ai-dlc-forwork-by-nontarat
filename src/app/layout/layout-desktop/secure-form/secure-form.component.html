@@ -1,0 +1,10 @@
+    <div class="container">
+           <h2>ส่งข้อมูลที่เข้ารหัส</h2>
+    <p>Status: {{ statusMessage }}</p>
+    <input type="file" (change)="onFileSelected($event)" />
+
+<br /><br />
+
+    <button (click)="onSubmit()">Submit Encrypted Data</button>
+    </div>
+ 

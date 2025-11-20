@@ -23,6 +23,7 @@ import { Observable } from "rxjs";
 import { IssueOnlineCriminalContatInfoComponent } from "./issue-online-criminal-contact-info/issue-online-criminal-contact-info.component";
 import { OnlineCaseService } from "src/app/services/online-case.service";
 import { User } from "src/app/services/user";
+import { CaseTypeNewContainerComponent } from "./case-type-new-container/case-type-new-container.component";
 @Component({
     selector: "app-issue-online-container",
     templateUrl: "./issue-online-container.component.html",
@@ -130,6 +131,16 @@ export class IssueOnlineContainerComponent implements OnInit {
             this.indexLocker.pagefirstConponent = true;
         }
     }
+
+     @ViewChild(CaseTypeNewContainerComponent) set contentcasetypenew(
+        contentcasetypenew: CaseTypeNewContainerComponent
+    ) {
+        if (contentcasetypenew) {
+             this.casetypenewConponent = contentcasetypenew;
+            this.casetypenewConponent.mainConponent = this;
+            this.indexLocker.casetypenewConponent = true;
+        }
+    }
     @Input() dataForm: any;
     @Input() public userType = "mySelf";
 
@@ -152,6 +163,7 @@ export class IssueOnlineContainerComponent implements OnInit {
     public validateConponent: IssueOnlineValidateComponent;
     public criminalContactInfo: IssueOnlineCriminalContatInfoComponent;
     public pagefirstConponent: IssueOnlineCheckComponent;
+    public casetypenewConponent: CaseTypeNewContainerComponent;
     public caseId: number;
     public InstId: string;
     public ProcessInstanceId: string;
@@ -164,8 +176,9 @@ export class IssueOnlineContainerComponent implements OnInit {
     dataTest: any = {};
     _ip: any;
     stepNavigation = [
-        { text: "คัดกรองความเสียหาย", textClass: "arrow-div arrow-first" },
-        { text: "ข้อความยินยอม", textClass: "arrow-div arrow-center" },
+        { text: "ข้อความยินยอม", textClass: "arrow-div arrow-first" },
+        { text: "เกิดอะไรขึ้นกับคุณ", textClass: "arrow-div arrow-center" },
+        { text: "คัดกรองความเสียหาย", textClass: "arrow-div arrow-center" },
         { text: "ข้อมูลผู้เสียหาย", textClass: "arrow-div arrow-center" },
         { text: "เรื่องที่เกิดขึ้น", textClass: "arrow-div arrow-center" },
         { text: "ความเสียหาย", textClass: "arrow-div arrow-center" },

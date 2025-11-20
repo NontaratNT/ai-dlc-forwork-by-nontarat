@@ -39,6 +39,7 @@ import { LayoutMobileModule } from './layout/layout-mobile/layout-mobile.module'
 import { LayoutHomeModule } from './layout/layout-home/layout-home.module';
 import { CountdownModule } from "ngx-countdown";
 import { NgxImageCompressService } from "ngx-image-compress";
+import { EncryptInterceptor } from "./interceptor/EncryptInterceptor-interceptor";
 // eslint-disable-next-line prefer-arrow/./la./layout/layout-home/components/re-design/protect-cyber/protect-cyber-tablet/protect-cyber-tablet.componentbox-senior-cyber/box-senior-cyber.component
 export function rootLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -149,6 +150,7 @@ const customNotifierOptions: NotifierOptions = {
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: BetimesHttpInterceptor, multi: true, },
         { provide: HTTP_INTERCEPTORS, useClass: RefreshTokenInterceptor, multi: true },
+        //  { provide: HTTP_INTERCEPTORS, useClass: EncryptInterceptor, multi: true },
         {
             provide: 'SocialAuthServiceConfig',
             useValue: {

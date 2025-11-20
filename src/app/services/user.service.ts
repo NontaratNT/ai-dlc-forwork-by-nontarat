@@ -9,6 +9,7 @@ import { EformRequestFactory, EFORM_REQUEST } from 'eform-share';
 import { CookieStorage } from '../common/cookie';
 import Swal from 'sweetalert2';
 import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable({
@@ -18,7 +19,7 @@ export class UserService {
     private _userInfo: IUserProfile;
     constructor(
         private jwtHelper: JwtHelperService,
-        @Inject(EFORM_REQUEST) private _req: EformRequestFactory,
+        @Inject(EFORM_REQUEST) private _req: EformRequestFactory,private http: HttpClient,
         private _dialog: Dialog) { }
 
     public authenticate(username: string, password: string, aal: number): Observable<IAccessToken> {
@@ -178,6 +179,12 @@ export class UserService {
         .body({ UserName: username })
         .post()
     }
+    //     public getKey(username: string): Observable<any> {
+    //     return this.http.post<any>(
+    //         environment.config.eFormHost + "/user/challenge",
+    //         { UserName: username }
+    //     );
+    // }
 
 }
 

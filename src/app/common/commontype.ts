@@ -1,3 +1,5 @@
+import { FilterParam } from "share-ui";
+
 export interface OdooResponsValue<T>{
     IsSuccess: boolean;
     StatusCode: number;
@@ -74,4 +76,54 @@ export interface IPersonal {
 
 export interface SubmissionMongo {
     backendId: number;
+}
+
+export interface IMenu {
+    code?: string;
+    notiCount?: number;
+    MODULE_ID: number;
+    MODULE_SEQ: string;
+    MODULE_CODE: string;
+    MODULE_NAME: string;
+    MODULE_URL: string;
+    MODULE_ICON: string;
+    MODULE_NEW_WINDOW_FLAG: string;
+    MODULE_PARENT_ID?: number;
+    MODULE_LEVEL: number;
+    PERMISSION: IMenuPermission;
+    selected: boolean; 
+    badgeColor?: string;
+}
+
+export interface IMenuPermission {
+    ADD: boolean;
+    EDIT: boolean;
+    DELETE: boolean;
+    VIEW: boolean;
+    UPLOAD: boolean;
+    DOWNLOAD: boolean;
+}
+
+export interface OffsetFilterParam extends FilterParam {
+    offset?: number;
+    length?: number;
+    requireTotalCount?: boolean;
+}
+export interface HttpStatusResult {
+    Message: string;
+    StatusCode: number;
+    IsSuccess: boolean;
+}
+
+export interface HttpStatusResultValue<T> extends HttpStatusResult {
+    Value: T;
+}
+
+export interface IPagingResult<T> {
+    TotalCount: number;
+    Data: T[];
+}
+
+export interface HttpStatusResultValue<T> extends HttpStatusResult {
+    Value: T;
 }

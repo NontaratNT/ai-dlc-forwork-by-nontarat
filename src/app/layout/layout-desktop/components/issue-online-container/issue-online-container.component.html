@@ -19,16 +19,23 @@
             </div>
         </dx-scroll-view>
         <dx-multi-view [focusStateEnabled]="false" [animationEnabled]="false" [swipeEnabled]="false" [selectedIndex]="indexTab">
+              <dxi-item *ngIf="this.formType === 'add'">
+                <ng-container>
+                    <app-issue-online-agree></app-issue-online-agree>
+                </ng-container>
+            </dxi-item>
+            <dxi-item>
+                <ng-container>
+                     <app-case-type-new-container></app-case-type-new-container>
+                </ng-container>
+            </dxi-item>
             <dxi-item>
                 <ng-container>
                     <app-issue-online-check></app-issue-online-check>
                 </ng-container>
             </dxi-item>
-            <dxi-item *ngIf="this.formType === 'add'">
-                <ng-container>
-                    <app-issue-online-agree></app-issue-online-agree>
-                </ng-container>
-            </dxi-item>
+   
+                 
             <dxi-item>
                 <ng-container *dxTemplate>
                     <app-issue-online-informer></app-issue-online-informer>

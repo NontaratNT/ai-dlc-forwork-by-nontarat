@@ -1,0 +1,19 @@
+<section class="ftco-section" style="height: 100vh;background: #f5fdff;overflow: scroll;border-radius: 10px;margin-bottom: 2%;width: 100%;">
+          <div class="card-body container" style="min-width: 90%;" >
+    <div class="col-12">
+      <formio #formioPreview [form]="_formBuilded" (submit)="onSave($event)" [submission]="this._formData"  ></formio>
+
+    </div>
+</div>
+
+     
+<div class="text-right btn-footer">
+    <dx-button *ngIf="formType==='add'" class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)">
+    </dx-button>
+    <dx-button *ngIf="formType==='edit'" class="btn btn-back" text="ย้อนกลับ" (onClick)="BackToList($event)">
+    </dx-button>
+    &nbsp;
+    <dx-button class="btn btn-submit" text="ถัดไป" (onClick)="SubmitForm($event)"></dx-button>
+</div>
+  
+</section>

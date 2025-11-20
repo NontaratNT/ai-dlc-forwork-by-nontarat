@@ -14,9 +14,14 @@ import { MainComponent } from "./layout/main/main.component";
 import { LoginThaiIDComponent } from "./components/login-thai-id/login-thai-id.component";
 import { IssueOnlineReportComponent } from "./components/issue-online-report/issue-online-report.component";
 import { ChatOfficerComponent } from "./components/chat-officer/chat-officer.component";
+import { SecureFormComponent } from "./secure-form/secure-form.component";
 
 
 const routes: Routes = [
+    {
+                path:'secure-form',
+                component: SecureFormComponent,
+            },
     {
         path: '',
         component: MainComponent,
@@ -60,7 +65,6 @@ const routes: Routes = [
                 path: 'problem-online',
                 component: ProblemOnlineComponent,
             },
-            
             {
                 path: 'issue-online-report',
                 component: IssueOnlineReportComponent,
@@ -68,7 +72,8 @@ const routes: Routes = [
             {
                 path: 'chat-list',
                 component: ChatOfficerComponent,
-            },
+            }
+            
         ]
     },
 ];

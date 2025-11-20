@@ -88,6 +88,9 @@ import { OcpbOnlineComplainDamageComponent } from "./components/issue-online-con
 import { OcpbOnlineComplainDetailComponent } from "./components/issue-online-container/ocpb-online-complain-detail/ocpb-online-complain-detail.component";
 import { OcpbOnlineComplainInformerComponent } from "./components/issue-online-container/ocpb-online-complain-informer/ocpb-online-complain-informer.component";
 import { OcpbOnlineComplainValidateComponent } from "./components/issue-online-container/ocpb-online-complain-validate/ocpb-online-complain-validate.component";
+import { SecureFormComponent } from "./secure-form/secure-form.component";
+import { CaseTypeNewContainerComponent } from "src/app/layout/layout-desktop/components/issue-online-container/case-type-new-container/case-type-new-container.component";
+import { FormioModule } from "@formio/angular";
 
 
 const customNotifierOptions: NotifierOptions = {
@@ -185,7 +188,9 @@ const customNotifierOptions: NotifierOptions = {
         OcpbOnlineComplainDamageComponent,
         OcpbOnlineComplainDetailComponent,
         OcpbOnlineComplainInformerComponent,
-        OcpbOnlineComplainValidateComponent
+        OcpbOnlineComplainValidateComponent,
+        SecureFormComponent,
+        CaseTypeNewContainerComponent
     ],
     exports: [DateComboPickerComponent, DateComboRegisterComponent],
     imports: [
@@ -220,7 +225,7 @@ const customNotifierOptions: NotifierOptions = {
         FormsModule,
         NgxExtendedPdfViewerModule,
         NotifierModule.withConfig(customNotifierOptions),
-
+FormioModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

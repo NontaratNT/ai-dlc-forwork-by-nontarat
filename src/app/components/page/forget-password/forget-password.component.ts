@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { LoginComponent } from '../login/login.component';
 import { ReCaptchaV3Service } from 'ng-recaptcha';
 import { RecaptchaService } from 'src/app/services/recaptcha.service';
+import { DataService } from 'src/app/services/HybridCrypto/Data.service';
 
 @Component({
     selector: 'app-forget-password',
@@ -21,7 +22,10 @@ export class ForgetPasswordComponent implements OnInit {
     constructor(private userServ: UserService,
                 private recaptchaV3Service: ReCaptchaV3Service,
                 private responsre: RecaptchaService,
-                private route: Router) { }
+                private route: Router,
+            private dataService: DataService) { }
+
+                
 
     ngOnInit(): void {
     }

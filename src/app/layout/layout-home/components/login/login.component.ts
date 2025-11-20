@@ -180,9 +180,13 @@ export class LoginComponent implements OnInit, OnDestroy {
             // hash password ครั้งแรก
             const passwordHash = crypto.SHA256(password).toString();
 
+            console.log('passwordhash',passwordHash);
             // รวม hash password + nonce แล้ว hash อีกครั้ง
+            
             const finalHash = crypto.SHA256(passwordHash + nonce?.Nonce).toString();
             this.userSetting.userSetting.location_name = undefined;
+
+            console.log('finalhash',finalHash);
             // this.userSetting.Save();
             this.userServ
                 .authenticate(usename, finalHash, 1.1)
