@@ -60,7 +60,8 @@ export const environment = {
             siteKey: "6LeV1vQcAAAAAAUKdpLxVXjB9OLYR7ddI3sDmP0P",
             secretKey: "6LeV1vQcAAAAAJzMmWwJqq76i_fQuflBIF5upGbB"
         },
-        versionControl: "1.6802.12.1"
+        versionControl: "1.6808.25.1",
+        generateKey: "2P%fLStKBCkxG24#qU67HGDpwL2n2mHb"
     }
 };
 

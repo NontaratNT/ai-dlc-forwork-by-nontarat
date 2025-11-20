@@ -28,7 +28,10 @@ export const environment = {
             resourceUrlAzure: "https://api.thaipoliceonline.com/eformazure/api/resource/download?filePath=",
             hubUrl: "http://localhost:5244/hub",
             urlgdcc:"http://localhost:14121/api",
-            urlgdcceform:"https://officer.thaipoliceonline.com/api/e-form/v1.0"
+            // urlgdcceform:"https://officer.thaipoliceonline.com/api/e-form/v1.0",
+            urlgdcceform:"http://localhost:52169/api/",
+            aiUrl:"https://officeruat.thaipoliceonline.com/api",
+            // urlgdcceform:"http://localhost:52169/api"
         },
         apieCCib: "https://officeruat.thaipoliceonline.go.th/api/ccib/v1.0",
         eFormHost: "http://localhost:5243/api",
@@ -36,6 +39,7 @@ export const environment = {
             siteKey: "6LfYkEkaAAAAAMGpXixKjWVrYpWDP8AeDMu_dijr",
             secretKey: "6LeV1vQcAAAAAJzMmWwJqq76i_fQuflBIF5upGbB"
         },
-        versionControl: "1.6802.12.1"
+        versionControl: "1.6808.25.1",
+        generateKey: "2P%fLStKBCkxG24#qU67HGDpwL2n2mHb"
     }
 };

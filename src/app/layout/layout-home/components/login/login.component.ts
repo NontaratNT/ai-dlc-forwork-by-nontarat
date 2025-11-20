@@ -29,6 +29,9 @@ declare let $: any;
     styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent implements OnInit, OnDestroy {
+    username: string = '';
+    password: string = '';
+
     usersocial!: SocialUser;
     loggedIn!: boolean;
     _isLoading = false;
@@ -55,6 +58,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     _isShow2 = false;
     isUrl = false;
     popupConsentVisible = false;
+
+    flagUsePasswpord = false;
+
     constructor(
         private userServ: UserService,
         private _dialog: Dialog,
@@ -570,5 +576,9 @@ export class LoginComponent implements OnInit, OnDestroy {
                 sessionStorage.setItem("ip_address", data.ip);
             });
         } catch {}
+    }
+
+    usePassword() {
+        this.flagUsePasswpord = true;
     }
 }
