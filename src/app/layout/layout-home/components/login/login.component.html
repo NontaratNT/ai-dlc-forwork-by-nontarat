@@ -10,42 +10,79 @@
             </div>
             <div class="col-12">
                 <div class="block-while-box">
-                    <form action="#" method="post">
-                        <div class="form-group">
-                            <label for="username">เบอร์โทรศัพท์หรืออีเมล</label>
-                            <input #username type="text" class="form-control" placeholder="กรุณากรอกเบอร์โทรศัพท์หรืออีเมลของท่าน" id="username" (keyup.enter)="Login(username.value,password.value)">
+                    <form (ngSubmit)="Login(username, password)" autocomplete="off" novalidate>
+                        <!-- Login with ThaiID -->
+                        <div class="col-sm-12 text-center mb-3" *ngIf="!flagUsePasswpord">
+                            <div class="block-login">
+                                <dx-button class="btns-login-thaid" (onClick)="loginThaiID()" style="background-color: #030751;">
+                                    เข้าสู่ระบบด้วย
+                                    <img src="assets/icon/ThaID.png" alt="ThaiID"  style="height: 55px;" />
+                                </dx-button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="password">รหัสผ่าน</label>
-                            <input #password type="password" class="form-control" placeholder="กรุณากรอกรหัสผ่าน" id="password" (keyup.enter)="Login(username.value,password.value)">
+
+                        <!-- Toggle to username/password -->
+                        <div class="col-sm-12 text-center mb-3" *ngIf="!flagUsePasswpord">
+                            <div class="block-login">
+                                <dx-button class="btns-login-user-pwd" (onClick)="usePassword()" stylingMode="outlined" type="default">
+                                    เข้าสู่ระบบด้วย Username &amp; Password
+                                </dx-button>
+                            </div>
                         </div>
-                        <div class="block-forget-password text-right">
+
+                        <div class="block-forget-password text-right mb-3" *ngIf="!flagUsePasswpord">
                             <span class="text-link" (click)="SelectForget()">ลืมรหัสผ่าน?</span>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="block-login">
-                                    <dx-button class="btns-login" icon="assets/image/police/desktop/logout.png" text="เข้าสู่ระบบ" (onClick)="Login(username.value,password.value)"></dx-button>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="block-login">
-                                    <dx-button class="btns-login"   (onClick)="loginThaiID()" style="background-color: #030751;">เข้าสู่ระบบด้วย <img class="img-thaId" src="assets/icon/ThaID.png"/></dx-button>
-                                </div>
-                            </div>
-                        </div>
-                      
-                   
 
-                        <div class="block-line">
+                        <!-- Username / Password mode -->
+                        <ng-container *ngIf="flagUsePasswpord">
+                            <div class="form-group">
+                                <label for="username">เบอร์โทรศัพท์หรืออีเมล</label>
+                                <input id="username" type="text" class="form-control" name="username"
+                                    [(ngModel)]="username" placeholder="กรุณากรอกเบอร์โทรศัพท์หรืออีเมลของท่าน"
+                                    (keyup.enter)="Login(username, password)" />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password">รหัสผ่าน</label>
+                                <input id="password" type="password" class="form-control" name="password"
+                                    [(ngModel)]="password" placeholder="กรุณากรอกรหัสผ่าน" (keyup.enter)="Login(username, password)" />
+                            </div>
+
+                            <div class="block-forget-password text-right">
+                                <span class="text-link" (click)="SelectForget()">ลืมรหัสผ่าน?</span>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="block-login">
+                                        <dx-button class="btns-login" icon="assets/image/police/desktop/logout.png"
+                                            text="เข้าสู่ระบบ" type="success" stylingMode="contained"
+                                            (onClick)="Login(username, password)">
+                                        </dx-button>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="block-login">
+                                        <dx-button class="btns-login"   (onClick)="loginThaiID()" style="background-color: #030751;">เข้าสู่ระบบด้วย <img class="img-thaId" src="assets/icon/ThaID.png"/></dx-button>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <!-- Divider -->
+                        <div class="block-line my-3">
                             <div class="draw-line">
                                 <span class="text-line">หรือ</span>
                             </div>
                         </div>
+
+                        <!-- Register -->
                         <div class="block-register">
-                            <dx-button class="btns-register" text="คลิกเพื่อลงทะเบียน" (onClick)="SelectRegister()"></dx-button>
+                            <dx-button class="btns-register" text="คลิกเพื่อลงทะเบียน" stylingMode="outlined"
+                                type="default" (onClick)="SelectRegister()">
+                            </dx-button>
                         </div>
-                        
                     </form>
                 </div>
             </div>
@@ -56,7 +93,8 @@
                         <div class="bank-details">
                             <h4>ยืนยันตัวตนปลอดภัย ด้วย ThaID ลงทะเบียนได้ทุกที่ ไม่ต้องเดินทาง<br>
                                 เข้าถึงบริการออนไลน์ของตำรวจได้สะดวก</h4>
-                            <p>สำนักงานตำรวจแห่งชาติ ขอเชิญประชาชนลงทะเบียนใช้งาน Thai Police Online (www.thaipoliceonline.go.th) <br>
+                            <p>สำนักงานตำรวจแห่งชาติ ขอเชิญประชาชนลงทะเบียนใช้งาน Thai Police Online
+                                (www.thaipoliceonline.go.th) <br>
                                 ผ่านแอป ThaID เพื่อเข้าถึงบริการออนไลน์ของตำรวจได้ง่ายขึ้น</p>
                         </div>
                     </div>
@@ -66,11 +104,13 @@
     </div>
 </div>
 
-<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="_isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="_isLoading" [showIndicator]="true" [showPane]="true"
+    [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
 </dx-load-panel>
 
 
-<dx-popup [width]="1200" [height]="600" [showTitle]="true" title="แจ้งเตือนจากระบบ" [closeOnOutsideClick]="true" [showCloseButton]="true" [visible]="true" [(visible)]="popupConsentVisible">
+<dx-popup [width]="1200" [height]="600" [showTitle]="true" title="แจ้งเตือนจากระบบ" [closeOnOutsideClick]="true"
+    [showCloseButton]="true" [visible]="true" [(visible)]="popupConsentVisible">
     <div *dxTemplate="let data of 'content'">
         <dx-scroll-view width="100%" height="100%">
             <div class="row">
@@ -146,10 +186,12 @@
                 <!-- <br> -->
                 <div class="col-sm-12 customtext text-center" style="margin-bottom:1rem;">
                     <dxi-item itemType="group" [colSpan]="3">
-                        <dx-button stylingMode="contained" text="ลงทะเบียน" type="default" [width]="120" (onClick)="onSkip($event)">
+                        <dx-button stylingMode="contained" text="ลงทะเบียน" type="default" [width]="120"
+                            (onClick)="onSkip($event)">
                         </dx-button>
                         &nbsp;&nbsp;
-                        <dx-button stylingMode="contained" text="ข้ามขั้นตอน" type="default" [width]="120" (onClick)="onSkip($event)">
+                        <dx-button stylingMode="contained" text="ข้ามขั้นตอน" type="default" [width]="120"
+                            (onClick)="onSkip($event)">
                         </dx-button>
                     </dxi-item>
                 </div>
@@ -158,11 +200,14 @@
     </div>
 </dx-popup>
 
-<dx-popup [fullScreen]="isfullScreen" class="popup attactment" [width]="1000" [height]="700" [showTitle]="false" title="แจ้งเตือน" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="showpopupweb" [showCloseButton]="true">
+<dx-popup [fullScreen]="isfullScreen" class="popup attactment" [width]="1000" [height]="700" [showTitle]="false"
+    title="แจ้งเตือน" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="showpopupweb"
+    [showCloseButton]="true">
     <div *dxTemplate="let data of 'content'">
         <dx-scroll-view [showScrollbar]="'always'" style="height: calc(100% - 45px);background-color: #2D437C;">
             <div class="mt-5" style="display: flex;justify-content: center">
-                <img src="assets/icon/warning-home.png" style="width:100px;height: 100px;" alt="warning-home" class="img-fluid">
+                <img src="assets/icon/warning-home.png" style="width:100px;height: 100px;" alt="warning-home"
+                    class="img-fluid">
             </div>
             <div style="text-align: center;margin: 20px;">
                 <h3 style="color: #fff;">ระบบรับแจ้งความออนไลน์</h3>
