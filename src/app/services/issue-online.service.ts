@@ -54,9 +54,11 @@ export class IssueOnlineService {
             CASE_CHANNEL_WHATSAPP_DETAIL_NAME: data.CRIMINAL_TYPE_SOCIAL === 'WHATSAPP' ? `${data.CRIMINAL_SOCIAL_DETAIL}` : '',
             CHANEL_TWITTER: data.CRIMINAL_TYPE_SOCIAL === 'TWITTER' ? true : false,
             CASE_CHANNEL_TWITTER_DETAIL_NAME: data.CRIMINAL_TYPE_SOCIAL === 'TWITTER' ? `${data.CRIMINAL_SOCIAL_DETAIL}` : '',
+            CHANEL_TIKTOK: data.CRIMINAL_TYPE_SOCIAL === 'TIKTOK'  && data.CRIMINAL_OTHER  ? true : false,
+            CASE_CHANNEL_TIKTOK_DETAIL_NAME: data.CRIMINAL_TYPE_SOCIAL === 'TIKTOK'  && data.CRIMINAL_OTHER  ? `${data.CRIMINAL_SOCIAL_DETAIL}` : '',
             CHANEL_OTHER: data.CRIMINAL_TYPE_SOCIAL === 'อื่นๆ' ? true : false,
             CASE_CHANNEL_OTHER_TYPE: data.CRIMINAL_TYPE_SOCIAL === 'อื่นๆ' ? `${data.CRIMINAL_SOCIAL_TYPE_DETAIL}` : '',
-            CASE_CHANNEL_OTHER_DETAIL: data.CRIMINAL_TYPE_SOCIAL === 'อื่นๆ' ? `${data.CRIMINAL_SOCIAL_DETAIL}` : ''
+            CASE_CHANNEL_OTHER_DETAIL: data.CRIMINAL_TYPE_SOCIAL === 'อื่นๆ' ? `${data.CRIMINAL_SOCIAL_DETAIL}` : '',
         };
         // checking form data
         if (formCaseChannel.CASE_CHANNEL_PHONE_SERVICE === "อื่น ๆ") {

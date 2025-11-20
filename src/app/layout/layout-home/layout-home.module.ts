@@ -1,4 +1,4 @@
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
@@ -97,6 +97,8 @@ import { BoxFrameThridTabletComponent } from './components/re-design/main-re-des
 import { BoxFrameMobileComponent } from './components/re-design/main-re-design/box-frame/box-frame-mobile/box-frame-mobile.component';
 import { BoxFrameTabletComponent } from './components/re-design/main-re-design/box-frame/box-frame-tablet/box-frame-tablet.component';
 import { FormioModule } from '@formio/angular';
+import { ResetPasswordNewComponent } from './layout/reset-password/reset-password.component';
+import { PageSuspentionComponent } from './components/page-suspention/page-suspention.component';
 const customNotifierOptions: NotifierOptions = {
     position: {
         horizontal: {
@@ -199,7 +201,9 @@ const customNotifierOptions: NotifierOptions = {
         NewsBoxComponent,
         ServiceDetailComponent,
         TotopbtnComponent,
-        PhoneappcomComponent
+        PhoneappcomComponent,
+        ResetPasswordNewComponent,
+        PageSuspentionComponent
     ],
     imports: [
         DxiItemModule,
@@ -230,12 +234,12 @@ const customNotifierOptions: NotifierOptions = {
         DxFileUploaderModule,
         DxGalleryModule,
         DxTemplateModule,
-        FormsModule,
         NotifierModule.withConfig(customNotifierOptions),
         NgxPaginationModule,
         LayoutDesktopModule,
         CountdownModule,
-        FormioModule
+        FormioModule,
+        ReactiveFormsModule   
 
 
     ], schemas: [CUSTOM_ELEMENTS_SCHEMA],

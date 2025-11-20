@@ -62,6 +62,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         // 'TELEGRAM',
         // 'WHATSAPP',
         'TWITTER',
+        'TIKTOK',
         'อื่นๆ',
     ];
 
@@ -77,6 +78,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         // 'TELEGRAM',
         // 'WHATSAPP',
         'TWITTER',
+        'TIKTOK',
         'อื่นๆ'
     ];
     typeSelected = [];
@@ -94,6 +96,14 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     };
     isOCPB = false;
 
+    popupForm: any = {};
+    limitAttachmentSize = 5 * 1024 * 1024; // 5 MB
+
+    listAttachment:any = [];
+    
+    today = new Date();
+    minDateValue: Date = new Date(this.today.getFullYear() - 2, this.today.getMonth(), this.today.getDate());
+
     constructor(
         private servBankInfo: BankInfoService,
         private _formValidate: FormValidatorService,
@@ -103,28 +113,39 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     ) { }
 
     ngOnInit(): void {
-        // this.isLoading = true;
-        this.maxDateValue.setHours(this.maxDateValue.getHours() + 1);
-        this.formData.CRIMINAL_TEL = false;
-        this.formData.CRIMINAL_SMS = false;
-        this.formData.CRIMINAL_OTHER = false;
-        this.formData.CASE_TYPE_ID = null;
-        this.formData.CRIMINAL_SMS_DESTINATION_TYPE = "หมายเลขโทรศัพท์";
-        if (localStorage.getItem("form-blessing")) {
-            const dataCheck = JSON.parse(localStorage.getItem("form-blessing"));
-            console.log(dataCheck);
-            if (dataCheck?.IsOCPB) {
-                this.isOCPB = true;
-            }
+        // ปรับ maxDateValue +1 ชั่วโมง แบบชัดเจน (ไม่พึ่ง timezone API พิเศษ)
+        this.maxDateValue = new Date((this.maxDateValue ?? new Date()).getTime() + 60 * 60 * 1000);
+
+        // ค่า default: ตั้งเฉพาะตอนยังไม่ถูกกำหนด (ไม่ไปทับค่าที่โหลดมา)
+        this.formData.CRIMINAL_TEL ??= false;
+        this.formData.CRIMINAL_SMS ??= false;
+        this.formData.CRIMINAL_OTHER ??= false;
+        this.formData.CASE_TYPE_ID ??= null;
+        this.formData.CRIMINAL_SMS_DESTINATION_TYPE ??= 'หมายเลขโทรศัพท์';
+
+        // อ่าน flag OCPB
+        const blessing = this.safeGet<{ IsOCPB?: boolean }>('form-blessing');
+        this.isOCPB = !!blessing?.IsOCPB;
+
+        // โหลดรายงานจาก localStorage แล้ว merge ทับเฉพาะฟิลด์ที่มีใน report
+        const contact = this.safeGet<{ CASE_REPORT?: any[] }>('form-criminal-contact');
+        const report = contact?.CASE_REPORT?.[0];
+        if (report && typeof report === 'object') {
+            this.formData = { ...this.formData, ...report };
         }
-        // this.servBankInfo.GetCaseType().subscribe((_) => {
-        // this.listCaseType = _;
-        // this.isLoading = false;
-        //   }, error => {
-        //     if (error.status === 500 || error.status === 524) {
-        //       this.mainConponent.checkReload(2);
-        //     }
-        //   });
+
+        // debug เฉพาะตอน dev
+        console.log('formData:', this.formData);
+    }
+
+    safeGet<T = any>(key: string): T | undefined {
+        const raw = localStorage.getItem(key);
+        if (!raw) return undefined;
+        try { return JSON.parse(raw) as T; }
+        catch (e) {
+            console.error(`Invalid JSON in localStorage for ${key}:`, e);
+            return undefined;
+        }
     }
 
     ngDoCheck(): void {
@@ -216,9 +237,6 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                     return;
                 }
             }
-            // else{
-            //     this.formData.CRIMINAL_TEL_PROVIDER_DETAIL = this.formData.CRIMINAL_TEL_PROVIDER;
-            // }
         } else {
             this.formData.CRIMINAL_TEL_ORIGIN = null;
             this.formData.CRIMINAL_TEL_PROVIDER = null;
@@ -245,9 +263,6 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                     return;
                 }
             }
-            // else{
-            //     this.formData.CRIMINAL_SMS_PROVIDER_DETAIL = this.formData.CRIMINAL_SMS_PROVIDER;
-            // }
         } else {
             this.formData.CRIMINAL_SMS_ORIGIN = null;
             this.formData.CRIMINAL_SMS_PROVIDER = null;
@@ -293,7 +308,6 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
             }
         }
         let formCaseChannel = this.issueOnlineService.craeteCaseChanel(this.formData);
-        // pack file's form
         formCaseChannel = this.formatFormSubmitFile(formCaseChannel);
         this.mainConponent.formDataAll.formCriminalContact = {};
         this.mainConponent.formDataAll.formCaseChannelCriminalContact = {};
@@ -307,6 +321,17 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                 localStorage.setItem("form-villain",JSON.stringify(Object.assign(villain,{CASE_CHANNEL:[formCaseChannel]})));
             }
         }else{
+            // console.log("work!");
+            // if(formCaseChannel?.ATTACHMENT_DOC.length > 0){
+            //     console.log(formCaseChannel?.ATTACHMENT_DOC);
+            //     const setData = {
+            //         CASE_ATTACHMENT:formCaseChannel?.ATTACHMENT_DOC ?? []
+            //     };
+            //     this.mainConponent.formDataAll.formAttachment = {};
+            //     this.mainConponent.formDataAll.formAttachment = setData;
+            //     localStorage.setItem("form-attachment",JSON.stringify(setData));
+            //     formCaseChannel.ATTACHMENT_DOC = []; // clear attachment in case channel
+            // }
             if(!this.formData.CRIMINAL_TEL && !this.formData.CRIMINAL_SMS && !this.formData.CRIMINAL_OTHER){
                 localStorage.setItem("form-villain",JSON.stringify(Object.assign({},{CASE_CHANNEL:[]})));
             }else{
@@ -331,6 +356,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     }
 
     OpenFileDialog() {
+        // this.typeSelected = ['เอกสารหลักฐานอื่นๆ'];
         this.typeSelected = [];
         if(this.formData.CRIMINAL_TEL){
             this.typeSelected.push('เบอร์โทรศัพท์');
@@ -514,61 +540,38 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         return makeScope.test(params.value);
     }
 
-    formatFormSubmitFile(formCaseChannel: any): any {
-        if (this.formData.ATTACHMENT.length !== 0) {
-            this.formData.ATTACHMENT.forEach(element => {
-                switch (element.formType) {
-                case "EMAIL":
-                    formCaseChannel.CHANNEL_EMAIL_DOC = [];
-                    formCaseChannel.CHANNEL_EMAIL_DOC.push(element);
-                    break;
-                case "FACEBOOK":
-                    formCaseChannel.CHANNEL_FACEBOOK_DOC = [];
-                    formCaseChannel.CHANNEL_FACEBOOK_DOC.push(element);
-                    break;
-                case "INSTAGRAM":
-                    formCaseChannel.CHANNEL_INSTARGRAM_DOC = [];
-                    formCaseChannel.CHANNEL_INSTARGRAM_DOC.push(element);
-                    break;
-                case "LINE":
-                    formCaseChannel.CHANNEL_LINE_DOC = [];
-                    formCaseChannel.CHANNEL_LINE_DOC.push(element);
-                    break;
-                case "MESSENGER":
-                    formCaseChannel.CHANNEL_MESSENGER_DOC = [];
-                    formCaseChannel.CHANNEL_MESSENGER_DOC.push(element);
-                    break;
-                case "อื่นๆ":
-                    formCaseChannel.CHANNEL_OTHERS_DOC = [];
-                    formCaseChannel.CHANNEL_OTHERS_DOC.push(element);
-                    break;
-                case "เบอร์โทรศัพท์":
-                    formCaseChannel.CHANNEL_PHONE_DOC = [];
-                    formCaseChannel.CHANNEL_PHONE_DOC.push(element);
-                    break;
-                case "SMS":
-                    formCaseChannel.CHANNEL_SMS_DOC = [];
-                    formCaseChannel.CHANNEL_SMS_DOC.push(element);
-                    break;
-                case "TELEGRAM":
-                    formCaseChannel.CHANNEL_TELEGRAM_DOC = [];
-                    formCaseChannel.CHANNEL_TELEGRAM_DOC.push(element);
-                    break;
-                case "TWITTER":
-                    formCaseChannel.CHANNEL_TWITTER_DOC = [];
-                    formCaseChannel.CHANNEL_TWITTER_DOC.push(element);
-                    break;
-                case "WEBSITE":
-                    formCaseChannel.CHANNEL_WEBSITE_DOC = [];
-                    formCaseChannel.CHANNEL_WEBSITE_DOC.push(element);
-                    break;
-                case "WHATSAPP":
-                    formCaseChannel.CHANNEL_WHATAPP_DOC = [];
-                    formCaseChannel.CHANNEL_WHATAPP_DOC.push(element);
-                    break;
-                }
-            });
+    formatFormSubmitFile(formCaseChannel: FormCaseChannel): FormCaseChannel {
+        // Map "formType" -> property name on formCaseChannel
+        const channelMap: Record<string, keyof FormCaseChannel> = {
+            EMAIL: 'CHANNEL_EMAIL_DOC',
+            FACEBOOK: 'CHANNEL_FACEBOOK_DOC',
+            INSTAGRAM: 'CHANNEL_INSTARGRAM_DOC',
+            LINE: 'CHANNEL_LINE_DOC',
+            MESSENGER: 'CHANNEL_MESSENGER_DOC',
+            'อื่นๆ': 'CHANNEL_OTHERS_DOC',
+            'เบอร์โทรศัพท์': 'CHANNEL_PHONE_DOC',
+            SMS: 'CHANNEL_SMS_DOC',
+            TELEGRAM: 'CHANNEL_TELEGRAM_DOC',
+            TWITTER: 'CHANNEL_TWITTER_DOC',
+            WEBSITE: 'CHANNEL_WEBSITE_DOC',
+            WHATSAPP: 'CHANNEL_WHATSAPP_DOC',
+            TIKTOK: 'CHANNEL_TIKTOK_DOC',
+            // 'เอกสารหลักฐานอื่นๆ': 'ATTACHMENT_DOC',
+        };
+
+        const items: any[] = this.formData?.ATTACHMENT ?? [];
+        if (items.length === 0) return formCaseChannel;
+
+        for (const el of items) {
+            const key = channelMap[el?.formType ?? ''];
+            if (key) {
+            (formCaseChannel[key] ??= []).push(el);
+            } else {
+            // keep unknowns (optional)
+            (formCaseChannel.ATTACHMENT_DOC ??= []).push(el);
+            }
         }
+
         return formCaseChannel;
     }
 
@@ -577,4 +580,24 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
             this.formData.CRIMINAL_SMS_DESTINATION = null;
         }
     }
+}
+
+
+interface FormCaseChannel {
+  CHANNEL_EMAIL_DOC?: any[];
+  CHANNEL_FACEBOOK_DOC?: any[];
+  CHANNEL_INSTARGRAM_DOC?: any[];
+  CHANNEL_LINE_DOC?: any[];
+  CHANNEL_MESSENGER_DOC?: any[];
+  CHANNEL_OTHERS_DOC?: any[];
+  CHANNEL_PHONE_DOC?: any[];
+  CHANNEL_SMS_DOC?: any[];
+  CHANNEL_TELEGRAM_DOC?: any[];
+  CHANNEL_TWITTER_DOC?: any[];
+  CHANNEL_WEBSITE_DOC?: any[];
+  CHANNEL_WHATSAPP_DOC?: any[];
+  CHANNEL_TIKTOK_DOC?: any[];
+  ATTACHMENT_DOC?: any[];
+  // Optional bucket for unexpected types
+  UNMAPPED_DOC?: any[];
 }

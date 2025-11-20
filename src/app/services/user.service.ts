@@ -10,6 +10,7 @@ import { CookieStorage } from '../common/cookie';
 import Swal from 'sweetalert2';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { encrypt } from '../common/helper';
 
 
 @Injectable({
@@ -115,6 +116,7 @@ export class UserService {
 
     private createProfile(accressToken: string): IUserProfile {
         const payload: IUserProfile = this.jwtHelper.decodeToken(accressToken);
+        console.log(payload);
         payload.UserId = +payload.UserId;
         payload.UserType = +payload.UserType;
         payload.UserIal = +payload.UserIal;
@@ -139,6 +141,13 @@ export class UserService {
     public postResetPassword(SessionId: string, UserPassword: string): Observable<IResetPassword> {
         return req<IResetPassword>('user/reset-password')
             .body({ Token: SessionId, Password: UserPassword })
+            .disableCriticalDialogError().post();
+    }
+
+     public postResetPasswordForce(UserPassword: string): Observable<IResetPassword> {
+        const encryptedPassword = encrypt(UserPassword);
+        return this._req<IResetPassword>('User/reset-password-force')
+            .body({ NewPassword: encryptedPassword })
             .disableCriticalDialogError().post();
     }
 
@@ -233,6 +242,7 @@ export interface IUserProfile {
     SeniorStatus: string;
     CyberEyeStatus: string;
     CyberCatStatus: string;
+    LatestUpdatePassword: string;
 }
 
 export interface IAccessToken {

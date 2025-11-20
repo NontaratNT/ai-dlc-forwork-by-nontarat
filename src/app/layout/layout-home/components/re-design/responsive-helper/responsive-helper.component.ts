@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { User } from 'src/app/services/user';
+import * as Cookies from 'js-cookie';
+import { environment } from 'src/environments/environment';
+import { createSessionCookie } from 'src/app/common/helper';
 
 @Component({
   selector: 'responsive-helper',
@@ -32,8 +35,9 @@ export class ResponsiveHelperComponent implements OnInit {
       1: isMobile ? "/mobile/issue-online/1" : "/main/issue-online/1",
       2: isMobile ? "/mobile/issue-online-report" : "/main/issue-online-report",
       3: isMobile ? "/mobile/chat-list" : "/main/chat-list",
+      4: isMobile ? "/mobile/track-status?openExternalBrowser=1" : "/main/task-list",
     };
-    
+
     const targetRoute = routes[type];
     if (targetRoute) {
       this.router.navigate([targetRoute]);
@@ -45,7 +49,7 @@ export class ResponsiveHelperComponent implements OnInit {
   }
 
   OnIssueReport() {
-    if(!User?.Current){
+    if (!User?.Current) {
       this.router.navigate(['/login']);
       return;
     }
@@ -53,7 +57,7 @@ export class ResponsiveHelperComponent implements OnInit {
   }
 
   OnClickButton(number) {
-    if(!User?.Current){
+    if (!User?.Current) {
       this.router.navigate(['/login']);
       return;
     }
@@ -74,7 +78,7 @@ export class ResponsiveHelperComponent implements OnInit {
 
   scrollToTop(): void {
     window.scrollTo({ top: 0, behavior: "smooth" });
-}
+  }
   ngAfterViewInit(): void {
     window.addEventListener("scroll", () => {
       const button = document.querySelector(".to-top-btn");
@@ -86,6 +90,10 @@ export class ResponsiveHelperComponent implements OnInit {
         }
       }
     });
+  }
+
+  openThaiD() {
+    this.router.navigate(["page-suspention"]);
   }
 
 

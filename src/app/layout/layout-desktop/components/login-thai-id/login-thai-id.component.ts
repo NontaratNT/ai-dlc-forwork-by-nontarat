@@ -9,6 +9,7 @@ import { UserSettingService } from "src/app/services/user-setting.service";
 import { DeviceDetectorService } from "ngx-device-detector";
 import Swal from "sweetalert2";
 import { User } from "src/app/services/user";
+import { getSessionCookie } from "src/app/common/helper";
 
 @Component({
     selector: "app-login-thai-id",
@@ -102,6 +103,11 @@ export class LoginThaiIDComponent implements OnInit {
                             Token: u.Token,
                             RefreshToken: u.RefreshToken,
                         } as IAccessToken;
+                        if(getSessionCookie()){
+                            console.log("to page-suspention");
+                            this.router.navigate(["page-suspention"]);
+                            return;
+                        }
                         if (localStorage.getItem('icli') === 'al') {
                             localStorage.removeItem('icli');
                             this.userServ.getTokenCypherVac(User.Current.UserId).toPromise().then((res) => {

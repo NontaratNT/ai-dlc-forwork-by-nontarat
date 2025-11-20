@@ -81,7 +81,7 @@
                     </dxi-validation-rule>
                 </dxi-item>
                 <div *dxTemplate="let data of 'CRIMINAL_TEL_DATE_FULL'">
-                    <dx-date-box id="default" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [max]="maxDateValue" [(value)]="formData.CRIMINAL_TEL_DATE_FULL" displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false"
+                    <dx-date-box id="default" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [max]="maxDateValue" [(value)]="formData.CRIMINAL_TEL_DATE_FULL" displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [min]="minDateValue"
                         [useMaskBehavior]="true">
                     </dx-date-box>
                 </div>
@@ -145,7 +145,7 @@
                     </dxi-validation-rule>
                 </dxi-item>
                 <div *dxTemplate="let data of 'CRIMINAL_SMS_DATE_FULL'">
-                    <dx-date-box id="default" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [max]="maxDateValue" [(value)]="formData.CRIMINAL_SMS_DATE_FULL" displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false"
+                    <dx-date-box id="default" dateSerializationFormat="yyyy-MM-dd HH:mm:ss" placeholder="เลือกวันเวลา" [readOnly]="formReadOnly" type="datetime" [max]="maxDateValue" [(value)]="formData.CRIMINAL_SMS_DATE_FULL" displayFormat="yyyy-MM-dd HH:mm:ss" [openOnFieldClick]="false" [min]="minDateValue"
                         [useMaskBehavior]="true">
                     </dx-date-box>
                 </div>
@@ -192,7 +192,8 @@
         </div>
         <div class="content-form"  *ngIf="formData.CRIMINAL_TEL || formData.CRIMINAL_SMS || formData.CRIMINAL_OTHER">
             <div class="content-block">
-                <div class="content-title">ข้อมูลไฟล์แนบ</div>
+                <!-- <div class="content-title">ข้อมูลไฟล์แนบข้อมูลคนร้าย และเอกสารหลักฐานอื่นๆ</div> -->
+               <div class="content-title">ข้อมูลไฟล์แนบ</div>
                 <div class="row" style="margin-bottom:10px;display:
                     flow-root;padding-right: 15px;">
                     <dx-button class="float-right" [width]="170" icon="fas fa-file" type="success" text="อัปโหลดเอกสาร" (onClick)="OpenFileDialog()"></dx-button>

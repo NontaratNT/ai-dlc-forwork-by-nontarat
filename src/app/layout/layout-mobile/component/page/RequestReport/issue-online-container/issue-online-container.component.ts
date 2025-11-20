@@ -259,9 +259,9 @@ export class IssueOnlineContainerComponent implements OnInit {
                 this.caseId = d.Submission.backendId;
                 this.LoadStatus(this.InstId);
                 this.getProvince();
-                if (this.dataForm.ORG_ID === null || this.dataForm.ORG_ID === 0) {
-                    this.indexTab = 4;
-                }
+                // if (this.dataForm.ORG_ID === null || this.dataForm.ORG_ID === 0) {
+                //     this.indexTab = 4;
+                // }
             } else {
                 this.SetFormInit();
                 this.getProvince();
@@ -390,6 +390,10 @@ export class IssueOnlineContainerComponent implements OnInit {
     }
     openAppoi() {
         this.indexTab = 2;
+        // console.log(this.indexTab);
+    }
+    openAttach() {
+        this.indexTab = 1;
         // console.log(this.indexTab);
     }
     openChat(e) {

@@ -2463,7 +2463,7 @@ export class IssueOnlineVillainComponent implements OnInit {
     OnSelectDate(e,type,when = null){
         if(e.value){
             const mydate = this.datePipe.transform(e.value, 'yyyy-MM-dd');
-            const mytime = this.datePipe.transform(e.value, 'HH:mm:ss');
+            const mytime = this.datePipe.transform(e.value, 'HH:mm:ss') ?? '00:00:00';
             if(this.formPopupvillain.CHANEL_LINE && type == "line"){
                 if(when=='start'){
                     this.formPopupvillain.CASE_CHANNEL_LINE_TIME_START = mytime;
