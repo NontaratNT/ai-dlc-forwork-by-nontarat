@@ -12,12 +12,20 @@
                 <div class="block-while-box">
                     <form (ngSubmit)="Login(username, password)" autocomplete="off" novalidate>
                         <!-- Login with ThaiID -->
-                        <div class="col-sm-12 text-center mb-3" *ngIf="!flagUsePasswpord">
-                            <div class="block-login">
-                                <dx-button class="btns-login-thaid" (onClick)="loginThaiID()" style="background-color: #030751;">
-                                    เข้าสู่ระบบด้วย
-                                    <img src="assets/icon/ThaID.png" alt="ThaiID"  style="height: 55px;" />
+                        <div class="col-sm-12 mb-3" *ngIf="!flagUsePasswpord">
+                            <div class="block-login d-flex justify-content-end align-items-center flex-wrap">
+
+                                <dx-button class="btns-login-thaid"
+                                        (onClick)="loginThaiID()"
+                                        style="background-color: #030751;">
+                                เข้าสู่ระบบด้วย
+                                <img src="assets/icon/ThaID.png" alt="ThaiID" style="height: 55px;" />
                                 </dx-button>
+
+                                <span class="text-danger" style="white-space: nowrap;font-weight: bold;">
+                                แนะนำให้เข้าสู่ระบบผ่าน ThaiD เพื่อความสะดวกรวดเร็ว
+                                </span>
+
                             </div>
                         </div>
 
