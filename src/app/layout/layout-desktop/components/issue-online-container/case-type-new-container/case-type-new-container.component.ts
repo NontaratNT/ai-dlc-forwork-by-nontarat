@@ -103,6 +103,9 @@ export class CaseTypeNewContainerComponent implements OnInit {
     }
 
     SubmitForm(e) {
+        console.log(this._formBuilded);
+        console.log(this._formData);
+        return;
         if (this.mainConponent.formType === "add") {
             this.formInformer1.instance.validate();
             if (!this.formInformer1.instance.validate().isValid) {

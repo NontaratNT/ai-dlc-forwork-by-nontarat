@@ -145,7 +145,7 @@ export class IssueOnlineContainerComponent implements OnInit {
     @Input() public userType = "mySelf";
 
     public max = Number.MIN_VALUE;
-    public indexTab = 0;
+    public indexTab = 3;
     public indexTabMain = 0;
     public formDataInsert: any = {};
     public formDataBankref: any = {};
@@ -178,12 +178,12 @@ export class IssueOnlineContainerComponent implements OnInit {
     stepNavigation = [
         { text: "ข้อความยินยอม", textClass: "arrow-div arrow-first" },
         { text: "เกิดอะไรขึ้นกับคุณ", textClass: "arrow-div arrow-center" },
-        { text: "คัดกรองความเสียหาย", textClass: "arrow-div arrow-center" },
-        { text: "ข้อมูลผู้เสียหาย", textClass: "arrow-div arrow-center" },
-        { text: "เรื่องที่เกิดขึ้น", textClass: "arrow-div arrow-center" },
-        { text: "ความเสียหาย", textClass: "arrow-div arrow-center" },
-        { text: "ช่องทางติดต่อคนร้าย", textClass: "arrow-div arrow-center"},
-        { text: "ยืนยันความถูกต้อง", textClass: "arrow-div arrow-end" }
+        { text: "ช่องทางและเครื่องมือของคนร้าย", textClass: "arrow-div arrow-center" },
+        { text: "รายละเอียดความเสียหาย", textClass: "arrow-div arrow-center" },
+        // { text: "เรื่องที่เกิดขึ้น", textClass: "arrow-div arrow-center" },
+        // { text: "ความเสียหาย", textClass: "arrow-div arrow-center" },
+        { text: "สรุปและส่งหลักฐาน", textClass: "arrow-div arrow-center"},
+        { text: "การรับแจ้งเหตุสำเร็จ", textClass: "arrow-div arrow-end" }
     ];
     stepNavigationOcpb = [
         {text:"ข้อความยินยอม",textClass:"arrow-div arrow-first"},
@@ -193,7 +193,7 @@ export class IssueOnlineContainerComponent implements OnInit {
         {text:"ยืนยันความถูกต้อง",textClass:"arrow-div arrow-end"}
     ];
     stepNavigationZindex = 100;
-    stepNavigationWidth = 2230;
+    stepNavigationWidth = 1985;
     public formDataAll: any = {};
     public nextPage = false;
     public isOCPB = false;
@@ -236,7 +236,7 @@ export class IssueOnlineContainerComponent implements OnInit {
             this.stepNavigationWidth = 305 * this.stepNavigation.length;
             this.getProvince();
         } else {
-            this.stepNavigationWidth = 305 * this.stepNavigation.length;
+            this.stepNavigationWidth = 335 * this.stepNavigation.length;
             this.SetFormInit();
             this.getProvince();
         }

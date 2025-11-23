@@ -1,0 +1,225 @@
+<div class="conten-block">
+    <div class="content-title"> คุณสูญเสียทรัพย์สินผ่านช่องทางใดบ้าง? (เลือกได้มากกว่า 1 ข้อ)?</div>
+    <div class="content-input">
+        <dx-check-box id="damage-type-checkbox" *ngFor="let damageType of listDamageType" [text]="damageType.name"
+            [(value)]="damageType.selected" (onValueChanged)="onDamageTypeChange(damageType, $event)">
+        </dx-check-box>
+        <!-- add selected box from option listDamageType -->
+        <div *ngFor="let damageType of listDamageType">
+            <div *ngIf="damageType.selected && damageType.id === 1" class="form-box p-5 mb-4">
+                <div class="form-box-title mb-3"> รายการโอนเงินธนาคาร </div>
+                <div class="form-box-title mb-3" style="color:red;font-weight: bold;"> ⚠️โปรดติดต่อธนาคารต้นทางของท่านเพื่อแจ้งอายัดบัญชีปลายทางโดยเร็วที่สุด! </div>
+                <div class="form-box-input">
+                    <dx-form #formboxDamageType1 [formData]="formDamageType1" [colCount]="2" [showColonAfterLabel]="true"
+                        labelLocation="top">
+                        <dxi-item dataField="BANK_ID_ORIGIN" [label]="bankOriginLabel" editorType="dxSelectBox" [isRequired]="true"
+                            [editorOptions]="bankOriginEditorOptions" [validatre]>
+                            <dxo-validation-rules>
+                                <dxi-validation-rule type="required"
+                                    message="กรุณาเลือกชื่อธนาคารต้นทาง"></dxi-validation-rule>
+                            </dxo-validation-rules>
+                        </dxi-item>
+                        <dxi-item dataField="BANK_ACCOUNT_ORIGIN" [label]="bankOriginLabel" editorType="dxTextBox"  [isRequired]="true"
+                            [editorOptions]="bankAccountOriginEditorOptions">
+                            <dxo-validation-rules>
+                                <dxi-validation-rule type="required"
+                                    message="กรุณาเลือกชื่อธนาคารต้นทาง"></dxi-validation-rule>
+                            </dxo-validation-rules>
+                        </dxi-item>
+                        <dxi-item dataField="BANK_ID" [label]="bankDestLabel" editorType="dxSelectBox"  [isRequired]="true"
+                            [editorOptions]="bankDestEditorOptions">
+                            <dxo-validation-rules>
+                                <dxi-validation-rule type="required"
+                                    message="กรุณาเลือกชื่อธนาคารปลายทาง"></dxi-validation-rule>
+                            </dxo-validation-rules>
+                        </dxi-item>
+                        <dxi-item dataField="BANK_ACCOUNT" [label]="bankAccountDestLabel" editorType="dxTextBox"  [isRequired]="true"
+                            [editorOptions]="bankAccountDestEditorOptions">
+                            <dxo-validation-rules>
+                                <dxi-validation-rule type="required"
+                                    message="กรุณาเลือกชื่อธนาคารปลายทาง"></dxi-validation-rule>
+                            </dxo-validation-rules>
+                        </dxi-item>
+                        <dxi-item dataField="BANK_DAMAGE_VALUE_BAHT" [label]="damageBankBathLabel" editorType="dxNumberBox"  [isRequired]="true"
+                            [editorOptions]="damageBankBathEditorOptions">
+                            <dxo-validation-rules>
+                                <dxi-validation-rule type="required"
+                                    message="กรุณากรอกจำนวนเงิน"></dxi-validation-rule>
+                            </dxo-validation-rules>
+                        </dxi-item>
+                        <dxi-item dataField="BANK_TRANSFER_DATETIME" [label]="dateTransferLabel" editorType="dxDateBox"  [isRequired]="true"
+                            [editorOptions]="dateTransferEditorOptions">
+                            <dxo-validation-rules>
+                                <dxi-validation-rule type="required"
+                                    message="กรุณาเลือกวันที่โอน"></dxi-validation-rule>
+                            </dxo-validation-rules>
+                        </dxi-item>
+                        <dxi-item dataField="BANK_TRANSFER_METHOD" [label]="transferMethodLabel" editorType="dxSelectBox"  [isRequired]="true"
+                            [editorOptions]="transferMethodEditorOptions">
+                            <dxo-validation-rules>
+                                <dxi-validation-rule type="required"
+                                    message="กรุณาเลือกวิธีการโอนเงิน"></dxi-validation-rule>
+                            </dxo-validation-rules>
+                        </dxi-item>
+                    </dx-form>
+                    <div class="box-submit my-3 text-center">
+                        <dx-button type="success" (onClick)="onDamageType1Submit(formboxDamageType1)" text="เพิ่มข้อมูล"></dx-button>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="damageType.selected && damageType.id === 2" class="form-box p-5 mb-4">
+                <div class="form-box-title mb-3"> รายการโอนสินทรัพย์ดิจิทัล </div>
+                <div class="form-box-input">
+                    <dx-form #formboxDamageType2 [formData]="formDamageType2" [colCount]="2" [showColonAfterLabel]="true"
+                        labelLocation="top">
+                        <dxi-item dataField="BANK_ID_ORIGIN" [label]="CryptoExchangeLabel" editorType="dxTextBox" [editorOptions]="bankOriginEditorOptions">
+                        </dxi-item>
+                        <dxi-item dataField="BANK_ACCOUNT_ORIGIN" [label]="CryptoUnitLabel" editorType="dxSelectBox"  [isRequired]="true"
+                            [editorOptions]="bankAccountOriginEditorOptions">
+                            <dxo-validation-rules>
+                                <dxi-validation-rule type="required"
+                                    message="กรุณาเลือกสกุลเงินดิจิทัลที่โอน"></dxi-validation-rule>
+                            </dxo-validation-rules>
+                        </dxi-item>
+                        <dxi-item dataField="BANK_ID" [label]="CryptoNetworkLabel" editorType="dxSelectBox"  [isRequired]="true"
+                            [editorOptions]="bankDestEditorOptions">
+                            <dxo-validation-rules>
+                                <dxi-validation-rule type="required"
+                                    message="กรุณาเลือกเครือข่าย (Blockchain Network) ที่ใช้โอน"></dxi-validation-rule>
+                            </dxo-validation-rules>
+                        </dxi-item>
+                        <dxi-item dataField="BANK_ACCOUNT" [label]="CryptoDestAddressLabel" editorType="dxTextArea"  [isRequired]="true"
+                            [editorOptions]="bankAccountDestEditorOptions">
+                            <dxo-validation-rules>
+                                <dxi-validation-rule type="required"
+                                    message="กรุณากรอกที่อยู่ Wallet ปลายทาง (Destination Address)"></dxi-validation-rule>
+                            </dxo-validation-rules>
+                        </dxi-item>
+                        <dxi-item dataField="BANK_DAMAGE_VALUE_BAHT" [label]="CryptoAmountLabel" editorType="dxNumberBox"  [isRequired]="true"
+                            [editorOptions]="damageBankBathEditorOptions">
+                            <dxo-validation-rules>
+                                <dxi-validation-rule type="required"
+                                    message="กรุณากรอกจำนวนเหรียญที่โอน:"></dxi-validation-rule>
+                            </dxo-validation-rules>
+                        </dxi-item>
+                        <dxi-item dataField="BANK_ACCOUNT" [label]="CryptoTransactionIdLabel" editorType="dxTextArea" 
+                            [editorOptions]="bankAccountDestEditorOptions">
+                        </dxi-item>
+                    </dx-form>
+                    <div class="box-submit my-3 text-center">
+                        <dx-button type="success" (onClick)="onDamageType2Submit(formboxDamageType2)" text="เพิ่มข้อมูล"></dx-button>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="damageType.selected && damageType.id === 3" class="form-box p-5 mb-4">
+                <div class="form-box-title mb-3"> รายการโอนเงินผ่าน e-Wallet </div>
+                <div class="form-box-input">
+                    <dx-form #formboxDamageType3 [formData]="formDamageType3" [colCount]="2" [showColonAfterLabel]="true"
+                        labelLocation="top">
+                        <dxi-item dataField="BANK_ACCOUNT_ORIGIN" [label]="EwalletServiceLabel" editorType="dxSelectBox"  [isRequired]="true"
+                            [editorOptions]="bankAccountOriginEditorOptions">
+                            <dxo-validation-rules>
+                                <dxi-validation-rule type="required"
+                                    message="กรุณาเลือกเบอร์โทรศัพท์หรือ ID ของบัญชีปลายทาง"></dxi-validation-rule>
+                            </dxo-validation-rules>
+                        </dxi-item>
+                        <dxi-item dataField="BANK_ID" [label]="EwalletAccountLabel" editorType="dxTextBox"  [isRequired]="true"
+                            [editorOptions]="bankDestEditorOptions">
+                            <dxo-validation-rules>
+                                <dxi-validation-rule type="required"
+                                    message="กรุณากรอกเบอร์โทรศัพท์หรือ ID ของบัญชีปลายทาง"></dxi-validation-rule>
+                            </dxo-validation-rules>
+                        </dxi-item>
+                        <dxi-item dataField="BANK_DAMAGE_VALUE_BAHT" [label]="EwalletNameLabel" editorType="dxTextBox"  [editorOptions]="damageBankBathEditorOptions">
+                        </dxi-item>
+                        <dxi-item dataField="BANK_TRANSFER_DATETIME" [label]="EwalletAmountLabel" editorType="dxNumberBox"  [isRequired]="true"
+                            [editorOptions]="dateTransferEditorOptions">
+                            <dxo-validation-rules>
+                                <dxi-validation-rule type="required"
+                                    message="กรุณาจำนวนเงิน"></dxi-validation-rule>
+                            </dxo-validation-rules>
+                        </dxi-item>
+                        <dxi-item dataField="BANK_TRANSFER_METHOD" [label]="EwalletDateTransferLabel" editorType="dxDateBox"  [isRequired]="true"
+                            [editorOptions]="transferMethodEditorOptions">
+                            <dxo-validation-rules>
+                                <dxi-validation-rule type="required"
+                                    message="กรุณาเลือกวันที่/เวลาที่โอน"></dxi-validation-rule>
+                            </dxo-validation-rules>
+                        </dxi-item>
+                    </dx-form>
+                    <div class="box-submit my-3 text-center">
+                        <dx-button type="success" (onClick)="onDamageType3Submit(formboxDamageType3)" text="เพิ่มข้อมูล"></dx-button>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="damageType.selected && damageType.id === 4" class="form-box p-5 mb-4">
+                <div class="form-box-title mb-3"> รายการบัตรเงินสด/บัตรของขวัญ </div>
+                <div class="form-box-input">
+                    <dx-form #formboxDamageType4 [formData]="formDamageType4" [colCount]="2" [showColonAfterLabel]="true"
+                        labelLocation="top">
+                        <dxi-item dataField="BANK_ACCOUNT_ORIGIN" [label]="GiftCardTypeLabel" editorType="dxSelectBox"  [isRequired]="true"
+                            [editorOptions]="bankAccountOriginEditorOptions">
+                            <dxo-validation-rules>
+                                <dxi-validation-rule type="required"
+                                    message="กรุณาเลือกประเภทของบัตร"></dxi-validation-rule>
+                            </dxo-validation-rules>
+                        </dxi-item>
+                        <dxi-item dataField="BANK_TRANSFER_DATETIME" [label]="GiftCardAmountLabel" editorType="dxNumberBox"  [isRequired]="true"
+                            [editorOptions]="dateTransferEditorOptions">
+                            <dxo-validation-rules>
+                                <dxi-validation-rule type="required"
+                                    message="กรุณาจำนวนเงิน"></dxi-validation-rule>
+                            </dxo-validation-rules>
+                        </dxi-item>
+                        <dxi-item dataField="BANK_TRANSFER_DATETIME" [label]="GiftCardCodeLabel" editorType="dxTextBox" 
+                            [editorOptions]="dateTransferEditorOptions">
+                        </dxi-item>
+                    </dx-form>
+                    <div class="box-submit my-3 text-center">
+                        <dx-button type="success" (onClick)="onDamageType4Submit(formboxDamageType4)" text="เพิ่มข้อมูล"></dx-button>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="damageType.selected && damageType.id === 5" class="form-box p-5 mb-4">
+                <div class="form-box-title mb-3"> รายการใช้บัตรโดยไม่ได้รับอนุญาต </div>
+                <div class="form-box-title mb-3" style="color:red;font-weight: bold;"> ⚠️ โปรดติดต่อธนาคารผู้ออกบัตรของท่านเพื่อแจ้งอายัดบัตรทันที! </div>
+                <div class="form-box-input">
+                    <dx-form #formboxDamageType5 [formData]="formDamageType5" [colCount]="2" [showColonAfterLabel]="true"
+                        labelLocation="top">
+                        <dxi-item dataField="BANK_ID_ORIGIN" [label]="CardBankLabel" editorType="dxSelectBox" [isRequired]="true"
+                            [editorOptions]="bankOriginEditorOptions" [validatre]>
+                            <dxo-validation-rules>
+                                <dxi-validation-rule type="required"
+                                    message="กรุณาเลือกชื่อธนาคารต้นทาง"></dxi-validation-rule>
+                            </dxo-validation-rules>
+                        </dxi-item>
+                        <dxi-item dataField="BANK_ID_ORIGIN" [label]="bankOriginLabel" editorType="dxSelectBox" [isRequired]="true"
+                            [editorOptions]="bankOriginEditorOptions" [validatre]>
+                            <dxo-validation-rules>
+                                <dxi-validation-rule type="required"
+                                    message="กรุณาเลือกชื่อธนาคารต้นทาง"></dxi-validation-rule>
+                            </dxo-validation-rules>
+                        </dxi-item>
+                        <dxi-item dataField="BANK_ID" [label]="CardTypeLabel" editorType="dxTextBox"  [isRequired]="true"
+                            [editorOptions]="bankDestEditorOptions">
+                            <dxo-validation-rules>
+                                <dxi-validation-rule type="required"
+                                    message="กรุณากรอกเบอร์โทรศัพท์หรือ ID ของบัญชีปลายทาง"></dxi-validation-rule>
+                            </dxo-validation-rules>
+                        </dxi-item>
+                        <dxi-item dataField="BANK_ID" [label]="CardNumberLabel" editorType="dxTextBox"  [isRequired]="true"
+                            [editorOptions]="bankDestEditorOptions">
+                            <dxo-validation-rules>
+                                <dxi-validation-rule type="required"
+                                    message="กรุณากรอกเบอร์โทรศัพท์หรือ ID ของบัญชีปลายทาง"></dxi-validation-rule>
+                            </dxo-validation-rules>
+                        </dxi-item>
+                    </dx-form>
+                    <div class="box-submit my-3 text-center">
+                        <dx-button type="success" (onClick)="onDamageType5Submit(formboxDamageType5)" text="เพิ่มข้อมูล"></dx-button>
+                    </div>
+                </div>
+            </div>
+       </div>
+    </div>
+</div>

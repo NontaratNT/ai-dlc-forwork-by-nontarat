@@ -1,4 +1,4 @@
-<div class="conten-block">
+<!-- <div class="conten-block">
     <div class="content-title">ช่องทางการติดต่อคนร้าย</div>
     <div class="content-form">
         <div class="conten-block">
@@ -192,7 +192,6 @@
         </div>
         <div class="content-form"  *ngIf="formData.CRIMINAL_TEL || formData.CRIMINAL_SMS || formData.CRIMINAL_OTHER">
             <div class="content-block">
-                <!-- <div class="content-title">ข้อมูลไฟล์แนบข้อมูลคนร้าย และเอกสารหลักฐานอื่นๆ</div> -->
                <div class="content-title">ข้อมูลไฟล์แนบ</div>
                 <div class="row" style="margin-bottom:10px;display:
                     flow-root;padding-right: 15px;">
@@ -233,6 +232,48 @@
     <div class="text-right btn-footer">
         <dx-button class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)"></dx-button>&nbsp;
         <dx-button class="btn btn-submit" text="ถัดไป" (onClick)="SubmitForm($event)"></dx-button>
+    </div>
+</div> -->
+
+<div class="conten-block">
+    <div class="content-title">คนร้ายติดต่อคุณครั้งแรกผ่านช่องทางใด?</div>
+    <div class="content-form">
+        <dx-form #formContactChannel [colCount]="2" labelLocation="top">
+            <dxi-item template="contactChannel" [isRequired]="true" [colSpan]="2">
+                <dxo-label text="ช่องทางที่คนร้ายติดต่อคุณ" [showColon]="false"></dxo-label>
+                <dxi-validation-rule type="required" message="กรุณาเลือกช่องทางที่คนร้ายติดต่อคุณ"></dxi-validation-rule>
+            </dxi-item>
+            <div *dxTemplate="let data of 'contactChannel'">
+                <!-- <dx-select-box [dataSource]="contactChannelList" displayExpr="TEXT" valueExpr="VALUE" searchExpr="TEXT" [searchEnabled]="true" placeholder="เลือกช่องทางที่คนร้ายติดต่อคุณ" [(value)]="formData.CONTACT_CHANNEL" [showClearButton]="true">
+                </dx-select-box> -->
+            </div>
+        </dx-form>
+    </div>
+    <div class="content-title">หลังจากติดต่อกันแล้ว การหลอกลวงส่วนใหญ่เกิดขึ้นที่ไหน?</div>
+    <div class="content-form">
+        <dx-form #formContactChannel [colCount]="2" labelLocation="top">
+            <dxi-item template="contactChannel" [isRequired]="true" [colSpan]="2">
+                <dxo-label text="ช่องทางที่คนร้ายติดต่อคุณ" [showColon]="false"></dxo-label>
+                <dxi-validation-rule type="required" message="กรุณาเลือกช่องทางที่คนร้ายติดต่อคุณ"></dxi-validation-rule>
+            </dxi-item>
+            <div *dxTemplate="let data of 'contactChannel'">
+                <!-- <dx-select-box [dataSource]="contactChannelList" displayExpr="TEXT" valueExpr="VALUE" searchExpr="TEXT" [searchEnabled]="true" placeholder="เลือกช่องทางที่คนร้ายติดต่อคุณ" [(value)]="formData.CONTACT_CHANNEL" [showClearButton]="true">
+                </dx-select-box> -->
+            </div>
+        </dx-form>
+    </div>
+    <div class="content-title">ในขั้นตอนที่ท่านสูญเสียเงิน/ทรัพย์สิน... เหตุการณ์ใดต่อไปนี้อธิบาย 'วิธีการ' ที่คนร้ายใช้ได้ใกล้เคียงที่สุด?</div>
+    <div class="content-form">
+        <dx-form #formContactChannel [colCount]="2" labelLocation="top">
+            <dxi-item template="contactChannel" [isRequired]="true" [colSpan]="2">
+                <dxo-label text="ช่องทางที่คนร้ายติดต่อคุณ" [showColon]="false"></dxo-label>
+                <dxi-validation-rule type="required" message="กรุณาเลือกช่องทางที่คนร้ายติดต่อคุณ"></dxi-validation-rule>
+            </dxi-item>
+            <div *dxTemplate="let data of 'contactChannel'">
+                <!-- <dx-select-box [dataSource]="contactChannelList" displayExpr="TEXT" valueExpr="VALUE" searchExpr="TEXT" [searchEnabled]="true" placeholder="เลือกช่องทางที่คนร้ายติดต่อคุณ" [(value)]="formData.CONTACT_CHANNEL" [showClearButton]="true">
+                </dx-select-box> -->
+            </div>
+        </dx-form>
     </div>
 </div>
 

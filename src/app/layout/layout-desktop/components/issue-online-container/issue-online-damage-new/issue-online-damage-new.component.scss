@@ -1,0 +1,31 @@
+:host {
+    .tab-title {
+        font-size: 18px;
+        color: #2f2b66;
+    }
+     ::ng-deep {
+        .dx-icon.fa.fa-plus {
+            color: #fff !important;
+        }
+        .conten-block {
+            margin-top: 20px;
+            .content-title {
+                text-align: left;
+                padding: 10px 0 20px 0;
+                font-size: 18px;
+                color: #2f2b66;
+                font-weight: bold;
+            }
+            .content-end-line {
+                margin: auto;
+                width: 100%;
+                border-bottom: 1px solid #dddddd;
+                margin-top: 40px;
+            }
+        }
+    }
+    #damage-type-checkbox.dx-checkbox {
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+}

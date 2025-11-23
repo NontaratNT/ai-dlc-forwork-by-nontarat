@@ -104,6 +104,261 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     today = new Date();
     minDateValue: Date = new Date(this.today.getFullYear() - 2, this.today.getMonth(), this.today.getDate());
 
+    //  Zone new Code
+    facebookList = [
+        { ID: 1, TEXT: "โฆษณา (Sponsored Ad)" },
+        { ID: 2, TEXT: "โพสต์ใน Marketplace" },
+        { ID: 3, TEXT: "โพสต์ในกลุ่ม (Group)" },
+        { ID: 4, TEXT: "เขาส่งข้อความหาฉันทาง Messenger ก่อน" },
+        { ID: 5, TEXT: "อื่นๆ" }
+    ];
+    datingAppList = [
+        { ID: 1, TEXT: "Tinder" },
+        { ID: 2, TEXT: "Bumble" },
+        { ID: 3, TEXT: "Omi" },
+        { ID: 4, TEXT: "Coffee Meets Bagel" },
+        { ID: 5, TEXT: "อื่นๆ" }
+    ];
+    otherList = [
+        { ID: "email", TEXT: "อีเมล" },
+        { ID: "website", TEXT: "เว็บไซต์หางาน" }
+    ];
+    websiteCharacter = [
+        { ID: 1, TEXT: "เว็บไซต์ลงทุนปลอม (แสดงกราฟ, ตัวเลขกำไร)" },
+        { ID: 2, TEXT: "เว็บไซต์ร้านค้าออนไลน์ปลอม (หลอกขายของ)" },
+        { ID: 3, TEXT: "เว็บไซต์ปลอมที่เลียนแบบหน้าล็อกอิน (เช่น ธนาคาร, Facebook)" },
+        { ID: 4, TEXT: "เว็บไซต์หน่วยงานราชการปลอม (เช่น กรมสรรพากร, กรมที่ดิน)" },
+        { ID: 5, TEXT: "อื่นๆ" }
+    ];
+    installAppMethod = [
+        { ID: 1, TEXT: "ติดตั้งผ่านลิงก์ที่คนร้ายส่งให้ (เป็นไฟล์ .apk นอก App Store/Play Store)" },
+        { ID: 2, TEXT: "ฉันดาวน์โหลดเองจาก \nApp Store หรือ Google Play Store" }
+    ];
+
+    installAppSubMethod = [
+        { ID: 1, TEXT: "อ้างว่าเป็นแอปฯ กรมสรรพากร (เพื่อรับเงินคืนภาษี)" },
+        { ID: 2, TEXT: "อ้างว่าเป็นแอปฯ การไฟฟ้า/การประปา (เพื่อรับเงินคืนค่าไฟ)" },
+        { ID: 3, TEXT: "อ้างว่าเป็นแอปฯ ของหน่วยงานจัดส่งพัสดุ" },
+        { ID: 4, TEXT: "อ้างว่าเป็นแอปฯ สำหรับทำงานออนไลน์" },
+        { ID: 5, TEXT: "อื่นๆ" },
+    ];
+
+    installAppAfterMethod = [
+        { ID: 1, TEXT: "หน้าจอดับไปเอง หรือค้าง" },
+        { ID: 2, TEXT: "มีการแจ้งเตือนแปลกๆ เด้งขึ้นมา" },
+        { ID: 3, TEXT: "โทรศัพท์ทำงานช้าลงอย่างเห็นได้ชัด" },
+        { ID: 4, TEXT: "ไม่สามารถควบคุมโทรศัพท์ได้" },
+        { ID: 5, TEXT: "เงินถูกโอนออกจากบัญชีโดยไม่รู้ตัว" },
+    ];
+
+    socialPlatformOption = [
+        { ID: 1, TEXT: "กลุ่ม LINE / LINE OA" },
+        { ID: 2, TEXT: "กลุ่ม Facebook (Private Group)" },
+        { ID: 3, TEXT: "เพจ Facebook (Facebook Page)" },
+        { ID: 4, TEXT: "กลุ่ม Telegram" },
+        { ID: 5, TEXT: "อื่นๆ" },
+    ];
+
+    telephoneCallOption = [
+        { ID: 1, TEXT: "สั่งให้ไปที่ตู้ ATM/CDM" },
+        { ID: 2, TEXT: "สั่งให้เปิดคอมพิวเตอร์และทำตาม" },
+        { ID: 3, TEXT: "ส่งลิงก์มาให้ทาง SMS หรือ LINE เพื่อให้กดเข้าไป" },
+        { ID: 4, TEXT: "ขอรีโมทหน้าจอ หรือขอให้แชร์หน้าจอผ่านแอปฯ" },
+        { ID: 5, TEXT: "ไม่ได้สั่งให้ทำอะไรเป็นพิเศษ แค่พูดคุยและข่มขู่เท่านั้น" },
+
+    ];
+
+    telephoneCall2Option = [
+        { ID: 1, TEXT: "มีการส่งภาพหมายจับ/เอกสารราชการปลอมมาให้" },
+        { ID: 2, TEXT: "มีการใช้เสียงประกอบที่เหมือนอยู่ในสถานีตำรวจ" },
+        { ID: 3, TEXT: "มีการโอนสายให้คุยกับคนที่อ้างว่าเป็นเจ้าหน้าที่หลายคน" },
+        { ID: 4, TEXT: "ไม่มีการใช้หลักฐานปลอม" },
+    ];
+
+    controlDeviceOption = [
+        { ID: 1, TEXT: "ใช่" },
+        { ID: 2, TEXT: "ไม่ใช่" }
+    ];
+
+    controlDeviceSubOption = [
+        { ID: 1, TEXT: "แอปการไฟฟ้า (PEA), การประปา" },
+        { ID: 2, TEXT: "แอปการไฟฟ้า (PEA), การประปา" },
+        { ID: 3, TEXT: "แอป DSI, ตำรวจ, หน่วยงานรัฐ" },
+        { ID: 4, TEXT: "แอปให้กู้เงิน" },
+        { ID: 5, TEXT: "แอปขนส่ง (Flash, ไปรษณีย์ไทย)" },
+        { ID: 6, TEXT: "อื่นๆ (เช่น แอปดูดวง, แอปหาคู่)" },
+    ];
+
+    transfersPlatformSubOption = [
+        { ID: 1, TEXT: "แพลตฟอร์ม \"ลงทุน/เทรด\" (เช่น หลอกเทรดหุ้น, ทอง, Crypto โดยเห็นกำไรปลอมในพอร์ต)" },
+        { ID: 2, TEXT: "แพลตฟอร์ม \"ทำงาน/ภารกิจ\" (เช่น หลอกให้กดไลก์, กดรับออเดอร์ Shopee, รีวิวสินค้า โดยต้อง 'สำรองเงิน' โอนเข้าไปก่อน)" },
+        { ID: 3, TEXT: "แพลตฟอร์ม \"แชร์ลูกโซ่\" (เข้า พ.ร.ก. กู้ยืมเงินฯ เช่น ออมเงิน/ออมทอง ชวนคนมาลงทุนต่อ)" },
+    ];
+
+    hackPasswordOption = [
+        { ID: 1, TEXT: "หลอกให้กรอก Username/Password ใน 'เว็บปลอม' (Phishing) (เช่น หน้าเว็บธนาคารปลอม) แล้วคนร้ายนำรหัสไปโอนเงินเอง" },
+        { ID: 2, TEXT: "ถูก 'แฮ็ก' บัญชีโซเชียล (Facebook, Line) หรืออีเมล โดยที่ท่านไม่ได้บอกรหัสผ่าน" },
+    ];
+
+    trickTransferMoneySubOption = [
+        { ID: 1, TEXT: "ซื้อสินค้า/บริการ (แต่ไม่ได้ของ, จองที่พักปลอม ฯลฯ)" },
+        { ID: 2, TEXT: "Call Center อ้างเป็นเจ้าหน้าที่รัฐ (ตำรวจ, DSI, ไปรษณีย์) ข่มขู่ (และท่าน \"กดโอนเอง\" เพื่อตรวจสอบ)" },
+        { ID: 3, TEXT: "สร้างความสัมพันธ์ (หลอกให้รัก (Romance Scam) หรือ ปลอมเป็นเพื่อน/ญาติ ยืมเงิน)" },
+        { ID: 4, TEXT: "เสนอผลประโยชน์ (หลอกให้กู้เงิน (ขอค่าธรรมเนียม) หรือ หลอกให้รับรางวัล)" },
+        { ID: 5, TEXT: "หลอกว่าจะช่วยเหลือ (อ้างเป็นทนาย/ตำรวจไซเบอร์ ช่วยคดีเก่า แต่ขอค่าดำเนินการ)" },
+    ];
+
+    configFormOption1 = [
+        { 
+            id: 'SMS', 
+            name: 'SMS' , 
+            formOption : [
+                { templateName: 'SMS_TEMP_1', caption: 'ชื่อผู้ส่ง หรือ เบอร์ที่ส่งมา', value : 'หมายเลขโทรศัพท์' , fieldType: 'textbox' , maxLength: 15 , validate: true},
+                { templateName: 'SMS_TEMP_2', caption: 'คัดลอกข้อความใน SMS มาวาง', value : 'ชื่อผู้ส่ง' , fieldType: 'textarea' , maxLength: 100 },
+                { templateName: 'SMS_TEMP_3', caption: 'ลิงก์ที่แนบมาใน SMS (ถ้ามี)', value : 'ชื่อผู้ส่ง' , fieldType: 'textbox' , maxLength: 100 },
+            ]
+        },
+        { 
+            id: 'PHONE', 
+            name: 'สายโทรศัพท์' ,
+            formOption : [
+                { templateName: 'PHONE_TEMP_1', caption: 'เบอร์โทรศัพท์ของคนร้าย', value : 'หมายเลขโทรศัพท์' , fieldType: 'textbox' , maxLength: 15 , validate: true, pattern: '^([0+][0-9+]{10,15})$' },
+                { templateName: 'PHONE_TEMP_2', caption: 'เครือข่าย (ถ้าทราบ)', value : 'ชื่อผู้ส่ง' , fieldType: 'selectbox' , maxLength: 100 ,option : this.serviceLabelID },
+                { templateName: 'PHONE_TEMP_3', caption: 'อ้างว่าเป็นเบอร์จากหน่วยงานใด (ถ้ามี)', value : 'ชื่อผู้ส่ง' , fieldType: 'textbox' , maxLength: 100 },
+            ]
+        },
+        { 
+            id: 'TIKTOK', 
+            name: 'TikTok' ,
+            formOption : [
+                { templateName: 'TIKTOK_TEMP_1', caption: 'ชื่อบัญชี / ลิงก์ (URL) ของบัญชี', value : 'หมายเลขโทรศัพท์' , fieldType: 'textbox' , maxLength: 15 , validate: true},
+            ]
+        },
+        { 
+            id: 'FACEBOOK', 
+            name: 'Facebook/Massenger' ,
+            formOption : [
+                { templateName: 'FACEBOOK_TEMP_1', caption: 'ชื่อโปรไฟล์ / ชื่อเพจ', value : 'หมายเลขโทรศัพท์' , fieldType: 'textbox' , maxLength: 15 , pattern : '^([0][0-9]{9})$' , validate: true},
+                { templateName: 'FACEBOOK_TEMP_2', caption: 'ลิงก์ (URL) ของโปรไฟล์ / เพจ', value : 'ชื่อผู้ส่ง' , fieldType: 'textbox' , maxLength: 100},
+                { templateName: 'FACEBOOK_TEMP_3', caption: 'คุณเห็นคนร้ายจากที่ใด?', value : 'ชื่อผู้ส่ง' , fieldType: 'selectbox' , maxLength: 100 , option : this.facebookList},
+            ]
+        },
+        { 
+            id: 'INSTAGRAM', 
+            name: 'Instagram' ,
+            formOption : [
+                { templateName: 'INSTAGRAM_TEMP_1', caption: 'ชื่อบัญชี (Username)', value : 'หมายเลขโทรศัพท์' , fieldType: 'textbox' , maxLength: 15 , pattern : '^([0][0-9]{9})$' , validate: true},
+                { templateName: 'INSTAGRAM_TEMP_2', caption: 'ชื่อบัญชี (Username)', value : 'ชื่อผู้ส่ง' , fieldType: 'textbox' , maxLength: 100}
+            ]
+        },
+        {
+            id: 'DATING_APP', 
+            name: 'แอปพลิเคชันหาคู่' ,
+            formOption : [
+                { templateName: 'DATING_APP_TEMP_1', caption: 'คุณใช้แอปพลิเคชันใด?', value : 'หมายเลขโทรศัพท์' , fieldType: 'selectbox' , validate: true , option : this.datingAppList},
+                { templateName: 'DATING_APP_TEMP_2', caption: 'ชื่อโปรไฟล์ของคนร้ายในแอปฯ', value : 'ชื่อผู้ส่ง' , fieldType: 'textbox' , maxLength: 100},
+            ]
+        },
+        {
+            id: 'LINE', 
+            name: 'LINE' ,
+            formOption : [
+                { templateName: 'LINE_TEMP_1', caption: 'ชื่อบัญชี (Username)', value : 'หมายเลขโทรศัพท์' , fieldType: 'textbox' , maxLength: 15 , pattern : '^([0][0-9]{9})$' , validate: true},
+                { templateName: 'LINE_TEMP_2', caption: 'ชื่อบัญชี (Username)', value : 'ชื่อผู้ส่ง' , fieldType: 'textbox' , maxLength: 100},
+                { templateName: 'LINE_TEMP_3', caption: 'เบอร์โทรศัพท์ที่ใช้เพิ่มเพื่อน (ถ้ามี)', value : 'ชื่อผู้ส่ง' , fieldType: 'textbox' , maxLength: 100},
+                { templateName: 'LINE_TEMP_4', caption: 'อัปโหลด QR Code สำหรับเพิ่มเพื่อน (ถ้ามี)', value : '' , fieldType: 'file'},
+            ]
+        },
+        {
+            id: 'TELEGRAM', 
+            name: 'Telegram' ,
+            formOption : [
+                 { templateName: 'TELEGRAM_TEMP_1', caption: 'ชื่อบัญชี / ลิงก์ (URL) ของบัญชี', value : 'หมายเลขโทรศัพท์' , fieldType: 'textbox' , maxLength: 15 , pattern : '^([0][0-9]{9})$' , validate: true},
+            ]
+        },
+        {
+            id: 'OTHER', 
+            name: 'ช่องทางอื่นๆ' ,
+            formOption : [
+                { templateName: 'OTHER_TEMP_1', caption: 'ช่องทาง', value : 'หมายเลขโทรศัพท์' , fieldType: 'selectbox' , validate: true , option : this.otherList },
+                { templateName: 'OTHER_TEMP_2', caption: 'อีเมลแอดเดรสของผู้ส่ง', value : 'ชื่อผู้ส่ง' , fieldType: 'textbox' , maxLength: 100 , type: 'email' , validate: true , subForm: true},
+                { templateName: 'OTHER_TEMP_3', caption: 'หัวข้ออีเมล', value : 'ชื่อผู้ส่ง' , fieldType: 'textbox' , maxLength: 100 , type: 'email' , validate: true , subForm: true},
+                { templateName: 'OTHER_TEMP_4', caption: 'ชื่อเว็บไซต์', value : 'ชื่อผู้ส่ง' , fieldType: 'textbox' , maxLength: 100 , type: 'website' , validate: true , subForm: true},
+                { templateName: 'OTHER_TEMP_5', caption: 'ลิงก์ (URL) ของประกาศงาน', value : 'ชื่อผู้ส่ง' , fieldType: 'textbox' , maxLength: 100 , type: 'website' , validate: true , subForm: true},
+            ]
+        },
+    ];
+    configFormOption2 = [
+        { 
+            id: 'WEBSITE', 
+            name: 'เว็บไซต์ (Website)' , 
+            formOption : [
+                { templateName: 'WEBSITE_TEMP_1', caption: 'เว็บไซต์นั้นมีลักษณะเป็นอย่างไร?', value : 'หมายเลขโทรศัพท์' , fieldType: 'selectbox' ,validate: true , option : this.websiteCharacter},
+                { templateName: 'WEBSITE_TEMP_2', caption: 'โปรดระบุที่อยู่ของเว็บไซต์ (URL) ให้ถูกต้องที่สุด', value : 'ชื่อผู้ส่ง' , fieldType: 'textbox' , maxLength: 100 , type: 'website' , validate: true },
+            ]
+        },
+        { 
+            id: 'MOBILE_APPLICATION', 
+            name: 'แอปพลิเคชันบนมือถือ (Mobile Application)' ,
+            formOption : [
+                { templateName: 'MOBILE_APPLICATION_TEMP_1', caption: 'คุณได้ติดตั้งแอปพลิเคชันนั้นอย่างไร?', value : 'หมายเลขโทรศัพท์' , fieldType: 'radiobox' ,validate: true, option : this.installAppMethod},
+                { templateName: 'MOBILE_APPLICATION_TEMP_2', caption: 'หลังจากติดตั้งแล้ว เกิดอะไรขึ้นกับโทรศัพท์ของคุณ?', value : 'หมายเลขโทรศัพท์' , fieldType: 'checkbox' ,validate: true, option : this.installAppAfterMethod},
+                { templateName: 'MOBILE_APPLICATION_TEMP_3', caption: 'คนร้ายใช้เรื่องอะไรหลอกให้คุณติดตั้งแอปฯ?', value : 'ชื่อผู้ส่ง' , fieldType: 'selectbox' , validate: true , option : this.installAppSubMethod, type: 'subForm' },
+            ]
+        },
+        { 
+            id: 'SOCIAL_MEDIA', 
+            name: 'โซเชียลมีเดีย / แอปฯ แชท (Social Media / Messaging App)' ,
+            formOption : [
+                { templateName: 'SOCIAL_MEDIA_TEMP_1', caption: 'การพูดคุยส่วนใหญ่เกิดขึ้นในแพลตฟอร์มใด?', value : 'หมายเลขโทรศัพท์' , fieldType: 'selectbox' , validate: true , option : this.socialPlatformOption},
+                { templateName: 'SOCIAL_MEDIA_TEMP_2', caption: 'โปรดระบุชื่อกลุ่ม/เพจ หรือลิงก์ (URL) ถ้ามี', value : 'หมายเลขโทรศัพท์' , fieldType: 'selectbox'},
+            ]
+        },
+        { 
+            id: 'TELEPHONE_CALL', 
+            name: 'การสนทนาทางโทรศัพท์ (Telephone Call)' ,
+            formOption : [
+                { templateName: 'TELEPHONE_CALL_TEMP_1', caption: 'นอกจากการพูดคุยแล้ว คนร้ายได้สั่งให้คุณทำสิ่งเหล่านี้หรือไม่?', value : 'หมายเลขโทรศัพท์' , fieldType: 'checkbox' , validate: true , option : this.telephoneCallOption},
+                { templateName: 'TELEPHONE_CALL_TEMP_2', caption: 'คนร้ายมีการใช้ "หลักฐานปลอม" เพื่อเพิ่มความน่าเชื่อถือหรือไม่?', value : 'ชื่อผู้ส่ง' , fieldType: 'checkbox' , option: this.telephoneCall2Option},
+            ]
+        }
+    ];
+    configFormOption3 = [
+        { 
+            id: 'CONTROL_DEVICE', 
+            name: 'การควบคุมอุปกรณ์ / ติดตั้งแอป' , 
+            formOption : [
+                { templateName: 'CONTROL_DEVICE_TEMP_1', caption: 'คนร้ายได้หลอกให้ท่าน ติดตั้งแอปพลิเคชัน ที่อยู่นอก App Store/Play Store (เช่น ไฟล์ .apk) หรือไม่? หรือมีการกดลิงก์แล้ว หน้าจอค้าง, จอดำ, หรือโทรศัพท์ถูกควบคุมระยะไกล หรือไม่?', value : 'หมายเลขโทรศัพท์' , fieldType: 'radiobox' , validate: true, option : this.controlDeviceOption},
+                { templateName: 'CONTROL_DEVICE_TEMP_2', caption: '', value : 'หมายเลขโทรศัพท์' , fieldType: 'selectbox' , validate: true, option : this.controlDeviceSubOption},
+
+            ]
+        },
+        { 
+            id: 'TRANSFER_PLATFORM', 
+            name: 'การโอนเข้าแพลตฟอร์ม' ,
+            formOption : [
+                { templateName: 'TRANSFER_PLATFORM_TEMP_1', caption: 'ท่านได้ โอนเงินเข้าไปใน \'ระบบ\' หรือ \'แพลตฟอร์ม\' (แอป/เว็บไซต์) เพื่อทำงานหรือลงทุน โดยเห็นตัวเลขกำไร/ผลตอบแทนในระบบนั้นหรือไม่?', value : 'หมายเลขโทรศัพท์' , fieldType: 'radiobox' , validate: true, option : this.controlDeviceOption},
+                { templateName: 'TRANSFER_PLATFORM_TEMP_2',  caption: '', value : 'หมายเลขโทรศัพท์' , fieldType: 'selectbox' , validate: true, option : this.transfersPlatformSubOption},
+            ]
+        },
+        { 
+            id: 'HACK_PASSWORD', 
+            name: 'การ "แฮ็ก" หรือ "ขโมยรหัสผ่าน"' ,
+            formOption : [
+                { templateName: 'HACK_PASSWORD_TEMP_1', caption: 'ท่าน ไม่ได้ติดตั้งแอป และ ไม่ได้โอนเงินเข้าแพลตฟอร์ม แต่ท่านถูก...', value : 'หมายเลขโทรศัพท์'  , validate: true, option: this.hackPasswordOption},
+            ]
+        },
+        { 
+            id: 'TRICK_TRANSFER_MONEY', 
+            name: 'การหลอกให้ "โอนเงินเอง" โดยตรง' ,
+            formOption : [
+               { templateName: 'TRICK_TRANSFER_MONEY_TEMP_1', caption: 'ท่าน \'สมัครใจกดโอนเงิน\' ไปยังบัญชีคนร้าย (บัญชีม้า) ด้วยตัวท่านเอง ใช่หรือไม่?', value : 'หมายเลขโทรศัพท์' , fieldType: 'radiobox' , validate: true, option : this.controlDeviceOption},
+                { templateName: 'TRICK_TRANSFER_MONEY_TEMP_2',  caption: '', value : 'หมายเลขโทรศัพท์' , fieldType: 'selectbox' , validate: true, option : this.trickTransferMoneySubOption},
+            ]
+        }
+    ];
+    //  End Zone new Code
+
     constructor(
         private servBankInfo: BankInfoService,
         private _formValidate: FormValidatorService,
