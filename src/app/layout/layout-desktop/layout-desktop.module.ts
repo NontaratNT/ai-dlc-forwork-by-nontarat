@@ -92,6 +92,7 @@ import { SecureFormComponent } from "./secure-form/secure-form.component";
 import { CaseTypeNewContainerComponent } from "src/app/layout/layout-desktop/components/issue-online-container/case-type-new-container/case-type-new-container.component";
 import { FormioModule } from "@formio/angular";
 import { IssueOnlineDamageNewComponent } from './components/issue-online-container/issue-online-damage-new/issue-online-damage-new.component';
+import { IssueOnlineValidateNewComponent } from './components/issue-online-container/issue-online-validate-new/issue-online-validate-new.component';
 
 
 const customNotifierOptions: NotifierOptions = {
@@ -192,7 +193,8 @@ const customNotifierOptions: NotifierOptions = {
         OcpbOnlineComplainValidateComponent,
         SecureFormComponent,
         CaseTypeNewContainerComponent,
-        IssueOnlineDamageNewComponent
+        IssueOnlineDamageNewComponent,
+        IssueOnlineValidateNewComponent
     ],
     exports: [DateComboPickerComponent, DateComboRegisterComponent],
     imports: [

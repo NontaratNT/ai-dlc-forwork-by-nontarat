@@ -24,6 +24,7 @@ import { IssueOnlineCriminalContatInfoComponent } from "./issue-online-criminal-
 import { OnlineCaseService } from "src/app/services/online-case.service";
 import { User } from "src/app/services/user";
 import { CaseTypeNewContainerComponent } from "./case-type-new-container/case-type-new-container.component";
+import { IssueOnlineDamageNewComponent } from "./issue-online-damage-new/issue-online-damage-new.component";
 @Component({
     selector: "app-issue-online-container",
     templateUrl: "./issue-online-container.component.html",
@@ -141,6 +142,15 @@ export class IssueOnlineContainerComponent implements OnInit {
             this.indexLocker.casetypenewConponent = true;
         }
     }
+    @ViewChild(IssueOnlineDamageNewComponent) set contentdamagenew(
+        contentdamagenew: IssueOnlineDamageNewComponent
+    ) {
+        if (contentdamagenew) {
+             this.damagenewConponent = contentdamagenew;
+            this.damagenewConponent.mainConponent = this;
+            this.indexLocker.damagenewConponent = true;
+        }
+    }
     @Input() dataForm: any;
     @Input() public userType = "mySelf";
 
@@ -164,6 +174,7 @@ export class IssueOnlineContainerComponent implements OnInit {
     public criminalContactInfo: IssueOnlineCriminalContatInfoComponent;
     public pagefirstConponent: IssueOnlineCheckComponent;
     public casetypenewConponent: CaseTypeNewContainerComponent;
+    public damagenewConponent: IssueOnlineDamageNewComponent;
     public caseId: number;
     public InstId: string;
     public ProcessInstanceId: string;
@@ -276,15 +287,6 @@ export class IssueOnlineContainerComponent implements OnInit {
                 if (result.isConfirmed) {
                     this.indexTab = Number(localStorage.getItem("form-index"));
                 } else {
-                    // localStorage.removeItem("form-blessing");
-                    // localStorage.removeItem("form-informer");
-                    // localStorage.removeItem("form-event");
-                    // localStorage.removeItem("form-damage");
-                    // localStorage.removeItem("form-villain");
-                    // localStorage.removeItem("form-attachment");
-                    // localStorage.removeItem("form-questionare");
-                    // localStorage.removeItem("form-index");
-                    // localStorage.removeItem("form-criminal-contact");
                     this.handleSuccessNavigation();
                 }
             });
