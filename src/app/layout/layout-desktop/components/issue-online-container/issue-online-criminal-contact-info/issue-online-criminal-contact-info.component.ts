@@ -1,4 +1,4 @@
-import { Component, DoCheck, OnInit, ViewChild } from '@angular/core';
+import { Component, DoCheck, Input, OnInit, ViewChild } from '@angular/core';
 import { BankInfoService } from 'src/app/services/bank-info.service';
 import { DxFormComponent, DxSelectBoxComponent } from 'devextreme-angular';
 import Swal from 'sweetalert2';
@@ -14,6 +14,7 @@ import { ValidateUrl } from 'src/app/common/helper';
     templateUrl: './issue-online-criminal-contact-info.component.html',
     styleUrls: ['./issue-online-criminal-contact-info.component.scss']
 })
+
 export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
 
     public mainConponent: IssueOnlineContainerComponent;
@@ -23,7 +24,11 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     @ViewChild("formSms", { static: false }) formSms: DxFormComponent;
     @ViewChild("formOther", { static: false }) formOther: DxFormComponent;
 
-    formReadOnly: false;
+    @Input() dataForm: any;
+
+    formType: string = "add"; // add , edit , view
+
+    formReadOnly = false;
     formData: any = {};
     listCaseType = [];
     caseType = "";
@@ -44,12 +49,12 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         { ID: 2, TEXT: "TRUE" },
         { ID: 3, TEXT: "DTAC" },
         { ID: 4, TEXT: "NT (CAT TOT)" },
-        { ID: 5, TEXT: "อื่น ๆ" }
+        { ID: 5, TEXT: "อื่นๆ" }
     ];
 
     destinationType = [
-        {ID: 1, TEXT: "หมายเลขโทรศัพท์"},
-        {ID: 2, TEXT: "ชื่อผู้ส่ง"}
+        { ID: 1, TEXT: "หมายเลขโทรศัพท์" },
+        { ID: 2, TEXT: "ชื่อผู้ส่ง" }
     ]
 
     socialType = [
@@ -90,17 +95,17 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         checkOtherSms: boolean;
         checkOtherSocial: boolean;
     } = {
-        checkOtherTel: false,
-        checkOtherSms: false,
-        checkOtherSocial: false
-    };
+            checkOtherTel: false,
+            checkOtherSms: false,
+            checkOtherSocial: false
+        };
     isOCPB = false;
 
     popupForm: any = {};
     limitAttachmentSize = 5 * 1024 * 1024; // 5 MB
 
-    listAttachment:any = [];
-    
+    listAttachment: any = [];
+
     today = new Date();
     minDateValue: Date = new Date(this.today.getFullYear() - 2, this.today.getMonth(), this.today.getDate());
 
@@ -208,155 +213,650 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         { ID: 5, TEXT: "หลอกว่าจะช่วยเหลือ (อ้างเป็นทนาย/ตำรวจไซเบอร์ ช่วยคดีเก่า แต่ขอค่าดำเนินการ)" },
     ];
 
-    configFormOption1 = [
-        { 
-            id: 'SMS', 
-            name: 'SMS' , 
-            formOption : [
-                { templateName: 'SMS_TEMP_1', caption: 'ชื่อผู้ส่ง หรือ เบอร์ที่ส่งมา', value : 'หมายเลขโทรศัพท์' , fieldType: 'textbox' , maxLength: 15 , validate: true},
-                { templateName: 'SMS_TEMP_2', caption: 'คัดลอกข้อความใน SMS มาวาง', value : 'ชื่อผู้ส่ง' , fieldType: 'textarea' , maxLength: 100 },
-                { templateName: 'SMS_TEMP_3', caption: 'ลิงก์ที่แนบมาใน SMS (ถ้ามี)', value : 'ชื่อผู้ส่ง' , fieldType: 'textbox' , maxLength: 100 },
-            ]
-        },
-        { 
-            id: 'PHONE', 
-            name: 'สายโทรศัพท์' ,
-            formOption : [
-                { templateName: 'PHONE_TEMP_1', caption: 'เบอร์โทรศัพท์ของคนร้าย', value : 'หมายเลขโทรศัพท์' , fieldType: 'textbox' , maxLength: 15 , validate: true, pattern: '^([0+][0-9+]{10,15})$' },
-                { templateName: 'PHONE_TEMP_2', caption: 'เครือข่าย (ถ้าทราบ)', value : 'ชื่อผู้ส่ง' , fieldType: 'selectbox' , maxLength: 100 ,option : this.serviceLabelID },
-                { templateName: 'PHONE_TEMP_3', caption: 'อ้างว่าเป็นเบอร์จากหน่วยงานใด (ถ้ามี)', value : 'ชื่อผู้ส่ง' , fieldType: 'textbox' , maxLength: 100 },
-            ]
-        },
-        { 
-            id: 'TIKTOK', 
-            name: 'TikTok' ,
-            formOption : [
-                { templateName: 'TIKTOK_TEMP_1', caption: 'ชื่อบัญชี / ลิงก์ (URL) ของบัญชี', value : 'หมายเลขโทรศัพท์' , fieldType: 'textbox' , maxLength: 15 , validate: true},
-            ]
-        },
-        { 
-            id: 'FACEBOOK', 
-            name: 'Facebook/Massenger' ,
-            formOption : [
-                { templateName: 'FACEBOOK_TEMP_1', caption: 'ชื่อโปรไฟล์ / ชื่อเพจ', value : 'หมายเลขโทรศัพท์' , fieldType: 'textbox' , maxLength: 15 , pattern : '^([0][0-9]{9})$' , validate: true},
-                { templateName: 'FACEBOOK_TEMP_2', caption: 'ลิงก์ (URL) ของโปรไฟล์ / เพจ', value : 'ชื่อผู้ส่ง' , fieldType: 'textbox' , maxLength: 100},
-                { templateName: 'FACEBOOK_TEMP_3', caption: 'คุณเห็นคนร้ายจากที่ใด?', value : 'ชื่อผู้ส่ง' , fieldType: 'selectbox' , maxLength: 100 , option : this.facebookList},
-            ]
-        },
-        { 
-            id: 'INSTAGRAM', 
-            name: 'Instagram' ,
-            formOption : [
-                { templateName: 'INSTAGRAM_TEMP_1', caption: 'ชื่อบัญชี (Username)', value : 'หมายเลขโทรศัพท์' , fieldType: 'textbox' , maxLength: 15 , pattern : '^([0][0-9]{9})$' , validate: true},
-                { templateName: 'INSTAGRAM_TEMP_2', caption: 'ชื่อบัญชี (Username)', value : 'ชื่อผู้ส่ง' , fieldType: 'textbox' , maxLength: 100}
-            ]
-        },
+    configFormOption1: ChannelFormConfig[] = [
         {
-            id: 'DATING_APP', 
-            name: 'แอปพลิเคชันหาคู่' ,
-            formOption : [
-                { templateName: 'DATING_APP_TEMP_1', caption: 'คุณใช้แอปพลิเคชันใด?', value : 'หมายเลขโทรศัพท์' , fieldType: 'selectbox' , validate: true , option : this.datingAppList},
-                { templateName: 'DATING_APP_TEMP_2', caption: 'ชื่อโปรไฟล์ของคนร้ายในแอปฯ', value : 'ชื่อผู้ส่ง' , fieldType: 'textbox' , maxLength: 100},
+            id: 'SMS',
+            name: 'SMS',
+            formOption: [
+                {
+                    templateName: 'SMS_TEMP_1',
+                    dataField: 'SMS_SENDER',
+                    caption: 'ชื่อผู้ส่ง หรือ เบอร์ที่ส่งมา',
+                    placeholder: 'หมายเลขโทรศัพท์',
+                    fieldType: 'textbox',
+                    maxLength: 15,
+                    required: true,
+                    type: 'phone'
+                },
+                {
+                    templateName: 'SMS_TEMP_2',
+                    dataField: 'SMS_MESSAGE',
+                    caption: 'คัดลอกข้อความใน SMS มาวาง',
+                    placeholder: 'ข้อความใน SMS',
+                    fieldType: 'textarea',
+                    maxLength: 100
+                },
+                {
+                    templateName: 'SMS_TEMP_3',
+                    dataField: 'SMS_LINK',
+                    caption: 'ลิงก์ที่แนบมาใน SMS (ถ้ามี)',
+                    placeholder: 'ลิงก์ (URL)',
+                    fieldType: 'textbox',
+                    maxLength: 100,
+                    type: 'url'
+                }
             ]
         },
-        {
-            id: 'LINE', 
-            name: 'LINE' ,
-            formOption : [
-                { templateName: 'LINE_TEMP_1', caption: 'ชื่อบัญชี (Username)', value : 'หมายเลขโทรศัพท์' , fieldType: 'textbox' , maxLength: 15 , pattern : '^([0][0-9]{9})$' , validate: true},
-                { templateName: 'LINE_TEMP_2', caption: 'ชื่อบัญชี (Username)', value : 'ชื่อผู้ส่ง' , fieldType: 'textbox' , maxLength: 100},
-                { templateName: 'LINE_TEMP_3', caption: 'เบอร์โทรศัพท์ที่ใช้เพิ่มเพื่อน (ถ้ามี)', value : 'ชื่อผู้ส่ง' , fieldType: 'textbox' , maxLength: 100},
-                { templateName: 'LINE_TEMP_4', caption: 'อัปโหลด QR Code สำหรับเพิ่มเพื่อน (ถ้ามี)', value : '' , fieldType: 'file'},
-            ]
-        },
-        {
-            id: 'TELEGRAM', 
-            name: 'Telegram' ,
-            formOption : [
-                 { templateName: 'TELEGRAM_TEMP_1', caption: 'ชื่อบัญชี / ลิงก์ (URL) ของบัญชี', value : 'หมายเลขโทรศัพท์' , fieldType: 'textbox' , maxLength: 15 , pattern : '^([0][0-9]{9})$' , validate: true},
-            ]
-        },
-        {
-            id: 'OTHER', 
-            name: 'ช่องทางอื่นๆ' ,
-            formOption : [
-                { templateName: 'OTHER_TEMP_1', caption: 'ช่องทาง', value : 'หมายเลขโทรศัพท์' , fieldType: 'selectbox' , validate: true , option : this.otherList },
-                { templateName: 'OTHER_TEMP_2', caption: 'อีเมลแอดเดรสของผู้ส่ง', value : 'ชื่อผู้ส่ง' , fieldType: 'textbox' , maxLength: 100 , type: 'email' , validate: true , subForm: true},
-                { templateName: 'OTHER_TEMP_3', caption: 'หัวข้ออีเมล', value : 'ชื่อผู้ส่ง' , fieldType: 'textbox' , maxLength: 100 , type: 'email' , validate: true , subForm: true},
-                { templateName: 'OTHER_TEMP_4', caption: 'ชื่อเว็บไซต์', value : 'ชื่อผู้ส่ง' , fieldType: 'textbox' , maxLength: 100 , type: 'website' , validate: true , subForm: true},
-                { templateName: 'OTHER_TEMP_5', caption: 'ลิงก์ (URL) ของประกาศงาน', value : 'ชื่อผู้ส่ง' , fieldType: 'textbox' , maxLength: 100 , type: 'website' , validate: true , subForm: true},
-            ]
-        },
-    ];
-    configFormOption2 = [
-        { 
-            id: 'WEBSITE', 
-            name: 'เว็บไซต์ (Website)' , 
-            formOption : [
-                { templateName: 'WEBSITE_TEMP_1', caption: 'เว็บไซต์นั้นมีลักษณะเป็นอย่างไร?', value : 'หมายเลขโทรศัพท์' , fieldType: 'selectbox' ,validate: true , option : this.websiteCharacter},
-                { templateName: 'WEBSITE_TEMP_2', caption: 'โปรดระบุที่อยู่ของเว็บไซต์ (URL) ให้ถูกต้องที่สุด', value : 'ชื่อผู้ส่ง' , fieldType: 'textbox' , maxLength: 100 , type: 'website' , validate: true },
-            ]
-        },
-        { 
-            id: 'MOBILE_APPLICATION', 
-            name: 'แอปพลิเคชันบนมือถือ (Mobile Application)' ,
-            formOption : [
-                { templateName: 'MOBILE_APPLICATION_TEMP_1', caption: 'คุณได้ติดตั้งแอปพลิเคชันนั้นอย่างไร?', value : 'หมายเลขโทรศัพท์' , fieldType: 'radiobox' ,validate: true, option : this.installAppMethod},
-                { templateName: 'MOBILE_APPLICATION_TEMP_2', caption: 'หลังจากติดตั้งแล้ว เกิดอะไรขึ้นกับโทรศัพท์ของคุณ?', value : 'หมายเลขโทรศัพท์' , fieldType: 'checkbox' ,validate: true, option : this.installAppAfterMethod},
-                { templateName: 'MOBILE_APPLICATION_TEMP_3', caption: 'คนร้ายใช้เรื่องอะไรหลอกให้คุณติดตั้งแอปฯ?', value : 'ชื่อผู้ส่ง' , fieldType: 'selectbox' , validate: true , option : this.installAppSubMethod, type: 'subForm' },
-            ]
-        },
-        { 
-            id: 'SOCIAL_MEDIA', 
-            name: 'โซเชียลมีเดีย / แอปฯ แชท (Social Media / Messaging App)' ,
-            formOption : [
-                { templateName: 'SOCIAL_MEDIA_TEMP_1', caption: 'การพูดคุยส่วนใหญ่เกิดขึ้นในแพลตฟอร์มใด?', value : 'หมายเลขโทรศัพท์' , fieldType: 'selectbox' , validate: true , option : this.socialPlatformOption},
-                { templateName: 'SOCIAL_MEDIA_TEMP_2', caption: 'โปรดระบุชื่อกลุ่ม/เพจ หรือลิงก์ (URL) ถ้ามี', value : 'หมายเลขโทรศัพท์' , fieldType: 'selectbox'},
-            ]
-        },
-        { 
-            id: 'TELEPHONE_CALL', 
-            name: 'การสนทนาทางโทรศัพท์ (Telephone Call)' ,
-            formOption : [
-                { templateName: 'TELEPHONE_CALL_TEMP_1', caption: 'นอกจากการพูดคุยแล้ว คนร้ายได้สั่งให้คุณทำสิ่งเหล่านี้หรือไม่?', value : 'หมายเลขโทรศัพท์' , fieldType: 'checkbox' , validate: true , option : this.telephoneCallOption},
-                { templateName: 'TELEPHONE_CALL_TEMP_2', caption: 'คนร้ายมีการใช้ "หลักฐานปลอม" เพื่อเพิ่มความน่าเชื่อถือหรือไม่?', value : 'ชื่อผู้ส่ง' , fieldType: 'checkbox' , option: this.telephoneCall2Option},
-            ]
-        }
-    ];
-    configFormOption3 = [
-        { 
-            id: 'CONTROL_DEVICE', 
-            name: 'การควบคุมอุปกรณ์ / ติดตั้งแอป' , 
-            formOption : [
-                { templateName: 'CONTROL_DEVICE_TEMP_1', caption: 'คนร้ายได้หลอกให้ท่าน ติดตั้งแอปพลิเคชัน ที่อยู่นอก App Store/Play Store (เช่น ไฟล์ .apk) หรือไม่? หรือมีการกดลิงก์แล้ว หน้าจอค้าง, จอดำ, หรือโทรศัพท์ถูกควบคุมระยะไกล หรือไม่?', value : 'หมายเลขโทรศัพท์' , fieldType: 'radiobox' , validate: true, option : this.controlDeviceOption},
-                { templateName: 'CONTROL_DEVICE_TEMP_2', caption: '', value : 'หมายเลขโทรศัพท์' , fieldType: 'selectbox' , validate: true, option : this.controlDeviceSubOption},
 
+        {
+            id: 'PHONE',
+            name: 'สายโทรศัพท์',
+            formOption: [
+                {
+                    templateName: 'PHONE_TEMP_1',
+                    dataField: 'PHONE_NUMBER',
+                    caption: 'เบอร์โทรศัพท์ของคนร้าย',
+                    placeholder: 'หมายเลขโทรศัพท์',
+                    fieldType: 'textbox',
+                    maxLength: 15,
+                    required: true,
+                    pattern: '^([0+][0-9+]{10,15})$',
+                    type: 'phone'
+                },
+                {
+                    templateName: 'PHONE_TEMP_2',
+                    dataField: 'PHONE_CARRIER',
+                    caption: 'เครือข่าย (ถ้าทราบ)',
+                    placeholder: 'เลือกเครือข่าย',
+                    fieldType: 'selectbox',
+                    options: this.serviceLabelID,
+                    displayExpr: 'TEXT',
+                    valueExpr: 'TEXT',
+                },
+                {
+                    templateName: 'PHONE_OTHER_TEMP',
+                    dataField: '',
+                    caption: 'รายละเอียดอื่นๆ',
+                    fieldType: 'group',
+                    visibleWhen: {
+                        dataField: 'PHONE_CARRIER',
+                        values: ['อื่นๆ']
+                    },
+                    children: [
+                        {
+                            templateName: 'PHONE_OTHER_TEMP_1',
+                            dataField: 'PHONE_CARRIER_OTHER',
+                            caption: 'รายละเอียดอื่นๆ',
+                            placeholder: 'ระบุรายละเอียดอื่นๆ',
+                            fieldType: 'textbox',
+                            maxLength: 100,
+                            required: true
+                        },
+                    ]
+                },
+                {
+                    templateName: 'PHONE_TEMP_3',
+                    dataField: 'PHONE_ORG',
+                    caption: 'อ้างว่าเป็นเบอร์จากหน่วยงานใด (ถ้ามี)',
+                    fieldType: 'textbox',
+                    maxLength: 100
+                }
             ]
         },
-        { 
-            id: 'TRANSFER_PLATFORM', 
-            name: 'การโอนเข้าแพลตฟอร์ม' ,
-            formOption : [
-                { templateName: 'TRANSFER_PLATFORM_TEMP_1', caption: 'ท่านได้ โอนเงินเข้าไปใน \'ระบบ\' หรือ \'แพลตฟอร์ม\' (แอป/เว็บไซต์) เพื่อทำงานหรือลงทุน โดยเห็นตัวเลขกำไร/ผลตอบแทนในระบบนั้นหรือไม่?', value : 'หมายเลขโทรศัพท์' , fieldType: 'radiobox' , validate: true, option : this.controlDeviceOption},
-                { templateName: 'TRANSFER_PLATFORM_TEMP_2',  caption: '', value : 'หมายเลขโทรศัพท์' , fieldType: 'selectbox' , validate: true, option : this.transfersPlatformSubOption},
+
+        {
+            id: 'TIKTOK',
+            name: 'TikTok',
+            formOption: [
+                {
+                    templateName: 'TIKTOK_TEMP_1',
+                    dataField: 'TIKTOK_ACCOUNT',
+                    caption: 'ชื่อบัญชี / ลิงก์ (URL) ของบัญชี',
+                    placeholder: 'ชื่อบัญชี หรือ URL',
+                    fieldType: 'textbox',
+                    maxLength: 100,
+                    required: true
+                }
             ]
         },
-        { 
-            id: 'HACK_PASSWORD', 
-            name: 'การ "แฮ็ก" หรือ "ขโมยรหัสผ่าน"' ,
-            formOption : [
-                { templateName: 'HACK_PASSWORD_TEMP_1', caption: 'ท่าน ไม่ได้ติดตั้งแอป และ ไม่ได้โอนเงินเข้าแพลตฟอร์ม แต่ท่านถูก...', value : 'หมายเลขโทรศัพท์'  , validate: true, option: this.hackPasswordOption},
+
+        {
+            id: 'FACEBOOK',
+            name: 'Facebook/Messenger',
+            formOption: [
+                {
+                    templateName: 'FACEBOOK_TEMP_1',
+                    dataField: 'FACEBOOK_PROFILE_NAME',
+                    caption: 'ชื่อโปรไฟล์ / ชื่อเพจ',
+                    placeholder: 'ชื่อโปรไฟล์ / ชื่อเพจ',
+                    fieldType: 'textbox',
+                    maxLength: 100,
+                    pattern: '^([0][0-9]{9})$', // ตามที่คุณกำหนดไว้เดิม
+                    required: true
+                },
+                {
+                    templateName: 'FACEBOOK_TEMP_2',
+                    dataField: 'FACEBOOK_PROFILE_URL',
+                    caption: 'ลิงก์ (URL) ของโปรไฟล์ / เพจ',
+                    placeholder: 'ลิงก์ (URL)',
+                    fieldType: 'textbox',
+                    maxLength: 100,
+                    type: 'url'
+                },
+                {
+                    templateName: 'FACEBOOK_TEMP_3',
+                    dataField: 'FACEBOOK_SEEN_FROM',
+                    caption: 'คุณเห็นคนร้ายจากที่ใด?',
+                    placeholder: 'เลือกคุณเห็นคนร้ายจากที่ใด',
+                    fieldType: 'selectbox',
+                    options: this.facebookList,
+                    displayExpr: 'TEXT',
+                    valueExpr: 'TEXT'
+                }
             ]
         },
-        { 
-            id: 'TRICK_TRANSFER_MONEY', 
-            name: 'การหลอกให้ "โอนเงินเอง" โดยตรง' ,
-            formOption : [
-               { templateName: 'TRICK_TRANSFER_MONEY_TEMP_1', caption: 'ท่าน \'สมัครใจกดโอนเงิน\' ไปยังบัญชีคนร้าย (บัญชีม้า) ด้วยตัวท่านเอง ใช่หรือไม่?', value : 'หมายเลขโทรศัพท์' , fieldType: 'radiobox' , validate: true, option : this.controlDeviceOption},
-                { templateName: 'TRICK_TRANSFER_MONEY_TEMP_2',  caption: '', value : 'หมายเลขโทรศัพท์' , fieldType: 'selectbox' , validate: true, option : this.trickTransferMoneySubOption},
+
+        {
+            id: 'INSTAGRAM',
+            name: 'Instagram',
+            formOption: [
+                {
+                    templateName: 'INSTAGRAM_TEMP_1',
+                    dataField: 'INSTAGRAM_USERNAME',
+                    caption: 'ชื่อบัญชี (Username)',
+                    placeholder: 'ชื่อบัญชี (Username)',
+                    fieldType: 'textbox',
+                    maxLength: 50,
+                    pattern: '^([0][0-9]{9})$', // ตามเดิม (แนะนำปรับทีหลัง)
+                    required: true
+                },
+                {
+                    templateName: 'INSTAGRAM_TEMP_2',
+                    dataField: 'INSTAGRAM_PROFILE_NAME',
+                    caption: 'ชื่อบัญชี (Username) (เพิ่มเติม)',
+                    placeholder: 'ชื่อบัญชี',
+                    fieldType: 'textbox',
+                    maxLength: 100
+                }
+            ]
+        },
+
+        {
+            id: 'DATING_APP',
+            name: 'แอปพลิเคชันหาคู่',
+            formOption: [
+                {
+                    templateName: 'DATING_APP_TEMP_1',
+                    dataField: 'DATING_APP_NAME',
+                    caption: 'คุณใช้แอปพลิเคชันใด?',
+                    fieldType: 'selectbox',
+                    required: true,
+                    options: this.datingAppList,
+                    placeholder: 'เลือกคุณใช้แอปพลิเคชันใด',
+                    displayExpr: 'TEXT',
+                    valueExpr: 'TEXT'
+                },
+                {
+                    templateName: 'DATING_APP_TEMP_2',
+                    dataField: 'DATING_APP_PROFILE_NAME',
+                    caption: 'ชื่อโปรไฟล์ของคนร้ายในแอปฯ',
+                    placeholder: 'ชื่อโปรไฟล์',
+                    fieldType: 'textbox',
+                    maxLength: 100
+                }
+            ]
+        },
+
+        {
+            id: 'LINE',
+            name: 'LINE',
+            formOption: [
+                {
+                    templateName: 'LINE_TEMP_1',
+                    dataField: 'LINE_USERNAME',
+                    caption: 'ชื่อบัญชี (Username)',
+                    placeholder: 'ชื่อบัญชี (Username)',
+                    fieldType: 'textbox',
+                    maxLength: 50,
+                    pattern: '^([0][0-9]{9})$', // ตามเดิม
+                    required: true
+                },
+                {
+                    templateName: 'LINE_TEMP_2',
+                    dataField: 'LINE_DISPLAY_NAME',
+                    caption: 'ชื่อบัญชี (Display Name)',
+                    placeholder: 'ชื่อบัญชี',
+                    fieldType: 'textbox',
+                    maxLength: 100
+                },
+                {
+                    templateName: 'LINE_TEMP_3',
+                    dataField: 'LINE_PHONE',
+                    caption: 'เบอร์โทรศัพท์ที่ใช้เพิ่มเพื่อน (ถ้ามี)',
+                    placeholder: 'หมายเลขโทรศัพท์',
+                    fieldType: 'textbox',
+                    maxLength: 20,
+                    type: 'phone'
+                },
+                {
+                    templateName: 'LINE_TEMP_4',
+                    dataField: 'LINE_QR_CODE',
+                    caption: 'อัปโหลด QR Code สำหรับเพิ่มเพื่อน (ถ้ามี)',
+                    fieldType: 'file'
+                }
+            ]
+        },
+
+        {
+            id: 'TELEGRAM',
+            name: 'Telegram',
+            formOption: [
+                {
+                    templateName: 'TELEGRAM_TEMP_1',
+                    dataField: 'TELEGRAM_ACCOUNT',
+                    caption: 'ชื่อบัญชี / ลิงก์ (URL) ของบัญชี',
+                    placeholder: 'ชื่อบัญชี หรือ URL',
+                    fieldType: 'textbox',
+                    maxLength: 100,
+                    pattern: '^([0][0-9]{9})$', // ตามเดิม
+                    required: true
+                }
+            ]
+        },
+
+        {
+            id: 'OTHER',
+            name: 'ช่องทางอื่นๆ',
+            formOption: [
+                {
+                    templateName: 'OTHER_TEMP_1',
+                    dataField: 'OTHER_CHANNEL',
+                    caption: 'ช่องทาง',
+                    fieldType: 'selectbox',
+                    required: true,
+                    options: this.otherList,
+                    placeholder: 'เลือกช่องทาง',
+                    displayExpr: 'TEXT',
+                    valueExpr: 'TEXT'
+                },
+
+                // กลุ่มข้อมูลอีเมล (แทน subForm: true + type: 'email')
+                {
+                    templateName: 'OTHER_EMAIL_GROUP',
+                    dataField: 'OTHER_EMAIL_GROUP',
+                    caption: 'ข้อมูลอีเมล',
+                    fieldType: 'group',
+                    visibleWhen: {
+                        dataField: 'OTHER_CHANNEL',
+                        values: ['อีเมล']
+                    },
+                    children: [
+                        {
+                            templateName: 'OTHER_TEMP_2',
+                            dataField: 'EMAIL_ADDRESS',
+                            caption: 'อีเมลแอดเดรสของผู้ส่ง',
+                            placeholder: 'example@mail.com',
+                            fieldType: 'textbox',
+                            maxLength: 100,
+                            type: 'email',
+                            required: true
+                        },
+                        {
+                            templateName: 'OTHER_TEMP_3',
+                            dataField: 'EMAIL_SUBJECT',
+                            caption: 'หัวข้ออีเมล',
+                            placeholder: 'หัวข้ออีเมล',
+                            fieldType: 'textbox',
+                            maxLength: 100,
+                            required: true
+                        }
+                    ]
+                },
+
+                // กลุ่มข้อมูลเว็บไซต์ (แทน subForm: true + type: 'website')
+                {
+                    templateName: 'OTHER_WEBSITE_GROUP',
+                    dataField: 'OTHER_WEBSITE_GROUP',
+                    caption: 'ข้อมูลเว็บไซต์',
+                    fieldType: 'group',
+                    visibleWhen: {
+                        dataField: 'OTHER_CHANNEL',
+                        values: ['เว็บไซต์หางาน']
+                    },
+                    children: [
+                        {
+                            templateName: 'OTHER_TEMP_4',
+                            dataField: 'WEBSITE_NAME',
+                            caption: 'ชื่อเว็บไซต์',
+                            placeholder: 'ชื่อเว็บไซต์',
+                            fieldType: 'textbox',
+                            maxLength: 100,
+                            required: true
+                        },
+                        {
+                            templateName: 'OTHER_TEMP_5',
+                            dataField: 'WEBSITE_URL',
+                            caption: 'ลิงก์ (URL) ของประกาศงาน',
+                            placeholder: 'ลิงก์ (URL)',
+                            fieldType: 'textbox',
+                            maxLength: 100,
+                            type: 'url',
+                            required: true
+                        }
+                    ]
+                }
             ]
         }
     ];
+    configFormOption2: ChannelFormConfig[] = [
+        {
+            id: 'WEBSITE',
+            name: 'เว็บไซต์ (Website)',
+            formOption: [
+                {
+                    templateName: 'WEBSITE_TEMP_1',
+                    dataField: 'WEBSITE_CHARACTER',
+                    caption: 'เว็บไซต์นั้นมีลักษณะเป็นอย่างไร?',
+                    placeholder: 'เลือกลักษณะของเว็บไซต์',
+                    fieldType: 'selectbox',
+                    required: true,
+                    options: this.websiteCharacter,
+                    displayExpr: 'TEXT',   // ปรับตามโครงจริงของ websiteCharacter
+                    valueExpr: 'TEXT'
+                },
+                {
+                    templateName: 'WEBSITE_OTHER_TEMP',
+                    dataField: '',
+                    caption: 'รายละเอียดอื่นๆ',
+                    fieldType: 'group',
+                    visibleWhen: {
+                        dataField: 'WEBSITE_CHARACTER',
+                        values: ['อื่นๆ']
+                    },
+                    children: [
+                        {
+                            templateName: 'WEBSITE_OTHER_TEMP_1',
+                            dataField: 'WEBSITE_CHARACTER_OTHER',
+                            caption: 'รายละเอียดอื่นๆ',
+                            placeholder: 'ระบุรายละเอียดอื่นๆ',
+                            fieldType: 'textbox',
+                            maxLength: 100,
+                            required: true
+                        },
+                    ]
+                },
+                {
+                    templateName: 'WEBSITE_TEMP_2',
+                    dataField: 'WEBSITE_URL',
+                    caption: 'โปรดระบุที่อยู่ของเว็บไซต์ (URL) ให้ถูกต้องที่สุด',
+                    placeholder: 'ระบุ URL ของเว็บไซต์',
+                    fieldType: 'textbox',
+                    maxLength: 100,
+                    required: true,
+                    type: 'url'
+                }
+            ]
+        },
+
+        {
+            id: 'MOBILE_APPLICATION',
+            name: 'แอปพลิเคชันบนมือถือ (Mobile Application)',
+            formOption: [
+                {
+                    templateName: 'MOBILE_APPLICATION_TEMP_1',
+                    dataField: 'MOBILE_APP_INSTALL_METHOD',
+                    caption: 'คุณได้ติดตั้งแอปพลิเคชันนั้นอย่างไร?',
+                    placeholder: 'เลือกรูปแบบการติดตั้ง',
+                    fieldType: 'radiobox',            // จะ map ไป dxRadioGroup
+                    required: true,
+                    options: this.installAppMethod,
+                    displayExpr: 'TEXT',
+                    valueExpr: 'TEXT'
+                },
+                {
+                    templateName: 'MOBILE_APPLICATION_TEMP_2',
+                    dataField: 'MOBILE_APP_AFTER_EFFECT',
+                    caption: 'หลังจากติดตั้งแล้ว เกิดอะไรขึ้นกับโทรศัพท์ของคุณ?',
+                    placeholder: 'เลือกเหตุการณ์ที่เกิดขึ้น',
+                    fieldType: 'checkbox',            // จะ map ไป dxTagBox / checklist ก็ได้
+                    required: true,
+                    options: this.installAppAfterMethod,
+                    displayExpr: 'TEXT',
+                    valueExpr: 'TEXT'
+                },
+                {
+                    templateName: 'MOBILE_APPLICATION_TEMP_3',
+                    dataField: 'MOBILE_APP_TRICK_TOPIC',
+                    caption: 'คนร้ายใช้เรื่องอะไรหลอกให้คุณติดตั้งแอปฯ?',
+                    placeholder: 'เลือกหัวข้อการหลอกลวง',
+                    fieldType: 'selectbox',
+                    required: true,
+                    options: this.installAppSubMethod,
+                    displayExpr: 'TEXT',
+                    valueExpr: 'TEXT',
+                    // ใช้ type เพื่อบอก logic ว่าอันนี้เปิด subForm ต่อได้
+                    type: 'subForm'
+                },
+                {
+                    templateName: 'MOBILE_APPLICATION_OTHER_TEMP',
+                    dataField: '',
+                    caption: 'รายละเอียดอื่นๆ',
+                    fieldType: 'group',
+                    visibleWhen: {
+                        dataField: 'MOBILE_APP_TRICK_TOPIC',
+                        values: ['อื่น ๆ']
+                    },
+                    children: [
+                        {
+                            templateName: 'MOBILE_APPLICATION_OTHER_TEMP_1',
+                            dataField: 'MOBILE_APP_TRICK_TOPIC_OTHER',
+                            caption: 'รายละเอียดอื่นๆ',
+                            placeholder: 'ระบุรายละเอียดอื่นๆ',
+                            fieldType: 'textbox',
+                            maxLength: 100,
+                            required: true
+                        },
+                    ]
+                },
+            ]
+        },
+
+        {
+            id: 'SOCIAL_MEDIA',
+            name: 'โซเชียลมีเดีย / แอปฯ แชท (Social Media / Messaging App)',
+            formOption: [
+                {
+                    templateName: 'SOCIAL_MEDIA_TEMP_1',
+                    dataField: 'SOCIAL_PRIMARY_PLATFORM',
+                    caption: 'การพูดคุยส่วนใหญ่เกิดขึ้นในแพลตฟอร์มใด?',
+                    placeholder: 'เลือกแพลตฟอร์มหลัก',
+                    fieldType: 'selectbox',
+                    required: true,
+                    options: this.socialPlatformOption,
+                    displayExpr: 'TEXT',
+                    valueExpr: 'TEXT'
+                },
+                {
+                    templateName: 'SOCIAL_MEDIA_TEMP',
+                    dataField: '',
+                    caption: 'รายละเอียดอื่นๆ',
+                    fieldType: 'group',
+                    visibleWhen: {
+                        dataField: 'SOCIAL_PRIMARY_PLATFORM',
+                        values: ['อื่น ๆ']
+                    },
+                    children: [
+                        {
+                            templateName: 'SOCIAL_MEDIA_TEMP_1',
+                            dataField: 'SOCIAL_PRIMARY_PLATFORM_OTHER',
+                            caption: 'รายละเอียดอื่นๆ',
+                            placeholder: 'ระบุรายละเอียดอื่นๆ',
+                            fieldType: 'textbox',
+                            maxLength: 100,
+                            required: true
+                        },
+                    ]
+                },
+                {
+                    templateName: 'SOCIAL_MEDIA_TEMP_2',
+                    dataField: 'SOCIAL_GROUP_OR_URL',
+                    caption: 'โปรดระบุชื่อกลุ่ม/เพจ หรือลิงก์ (URL) ถ้ามี',
+                    placeholder: 'ชื่อกลุ่ม/เพจ หรือ URL',
+                    // เดิมคุณกำหนดเป็น selectbox แต่ลักษณะคำถามเหมือน textbox มากกว่า
+                    // ถ้าอยากคงของเดิมไว้ก็เปลี่ยน fieldType กลับเป็น 'selectbox'
+                    fieldType: 'textbox',
+                    maxLength: 200
+                }
+            ]
+        },
+
+        {
+            id: 'TELEPHONE_CALL',
+            name: 'การสนทนาทางโทรศัพท์ (Telephone Call)',
+            formOption: [
+                {
+                    templateName: 'TELEPHONE_CALL_TEMP_1',
+                    dataField: 'CALL_ACTIONS',
+                    caption: 'นอกจากการพูดคุยแล้ว คนร้ายได้สั่งให้คุณทำสิ่งเหล่านี้หรือไม่?',
+                    placeholder: 'เลือกรายการที่ตรงกับเหตุการณ์',
+                    fieldType: 'checkbox',
+                    required: true,
+                    options: this.telephoneCallOption,
+                    displayExpr: 'TEXT',
+                    valueExpr: 'TEXT'
+                },
+                {
+                    templateName: 'TELEPHONE_CALL_TEMP_2',
+                    dataField: 'CALL_FAKE_EVIDENCE',
+                    caption: 'คนร้ายมีการใช้ "หลักฐานปลอม" เพื่อเพิ่มความน่าเชื่อถือหรือไม่?',
+                    placeholder: 'เลือกรูปแบบหลักฐานปลอม (ถ้ามี)',
+                    fieldType: 'checkbox',
+                    options: this.telephoneCall2Option,
+                    displayExpr: 'TEXT',
+                    valueExpr: 'TEXT'
+                }
+            ]
+        }
+    ];
+    configFormOption3: ChannelFormConfig[] = [
+        {
+            id: 'CONTROL_DEVICE',
+            name: 'การควบคุมอุปกรณ์ / ติดตั้งแอป',
+            formOption: [
+                {
+                    templateName: 'CONTROL_DEVICE_TEMP_1',
+                    dataField: 'CONTROL_DEVICE_MAIN',
+                    caption:
+                        'คนร้ายได้หลอกให้ท่าน ติดตั้งแอปพลิเคชัน ที่อยู่นอก App Store/Play Store (เช่น ไฟล์ .apk) หรือไม่? หรือมีการกดลิงก์แล้ว หน้าจอค้าง, จอดำ, หรือโทรศัพท์ถูกควบคุมระยะไกล หรือไม่?',
+                    placeholder: 'โปรดเลือกคำตอบ',
+                    fieldType: 'radiobox',                 // map เป็น dxRadioGroup
+                    required: true,
+                    options: this.controlDeviceOption,
+                    displayExpr: 'TEXT',                   // ปรับตามโครงจริงของ option
+                    valueExpr: 'TEXT'
+                },
+                {
+                    templateName: 'CONTROL_DEVICE_TEMP_2',
+                    dataField: 'CONTROL_DEVICE_DETAIL',
+                    caption: 'โปรดเลือกตัวเลือกที่ตรงกับเหตุการณ์ของท่านมากที่สุด',
+                    placeholder: 'โปรดเลือกตัวเลือก',
+                    fieldType: 'selectbox',
+                    required: true,
+                    options: this.controlDeviceSubOption,
+                    displayExpr: 'TEXT',
+                    valueExpr: 'TEXT'
+                }
+            ]
+        },
+
+        {
+            id: 'TRANSFER_PLATFORM',
+            name: 'การโอนเข้าแพลตฟอร์ม',
+            formOption: [
+                {
+                    templateName: 'TRANSFER_PLATFORM_TEMP_1',
+                    dataField: 'TRANSFER_PLATFORM_MAIN',
+                    caption:
+                        'ท่านได้ โอนเงินเข้าไปใน "ระบบ" หรือ "แพลตฟอร์ม" (แอป/เว็บไซต์) เพื่อทำงานหรือลงทุน โดยเห็นตัวเลขกำไร/ผลตอบแทนในระบบนั้นหรือไม่?',
+                    placeholder: 'โปรดเลือกคำตอบ',
+                    fieldType: 'radiobox',
+                    required: true,
+                    options: this.controlDeviceOption,
+                    displayExpr: 'TEXT',
+                    valueExpr: 'TEXT'
+                },
+                {
+                    templateName: 'TRANSFER_PLATFORM_TEMP_2',
+                    dataField: 'TRANSFER_PLATFORM_DETAIL',
+                    caption: 'โปรดเลือกตัวเลือกที่ตรงกับเหตุการณ์ของท่านมากที่สุด',
+                    placeholder: 'โปรดเลือกตัวเลือก',
+                    fieldType: 'selectbox',
+                    required: true,
+                    options: this.transfersPlatformSubOption,
+                    displayExpr: 'TEXT',
+                    valueExpr: 'TEXT'
+                }
+            ]
+        },
+
+        {
+            id: 'HACK_PASSWORD',
+            name: 'การ "แฮ็ก" หรือ "ขโมยรหัสผ่าน"',
+            formOption: [
+                {
+                    templateName: 'HACK_PASSWORD_TEMP_1',
+                    dataField: 'HACK_PASSWORD_MAIN',
+                    caption: 'ท่าน ไม่ได้ติดตั้งแอป และ ไม่ได้โอนเงินเข้าแพลตฟอร์ม แต่ท่านถูก...',
+                    placeholder: 'โปรดเลือกเหตุการณ์ที่ตรงกับท่าน',
+                    // เดิมไม่ระบุ fieldType: ผมตีความว่าเป็น single-choice → radiobox
+                    // ถ้าอยากให้เลือกได้หลายข้อ เปลี่ยน fieldType เป็น 'checkbox' ได้
+                    fieldType: 'radiobox',
+                    required: true,
+                    options: this.hackPasswordOption,
+                    displayExpr: 'TEXT',
+                    valueExpr: 'TEXT'
+                }
+            ]
+        },
+
+        {
+            id: 'TRICK_TRANSFER_MONEY',
+            name: 'การหลอกให้ "โอนเงินเอง" โดยตรง',
+            formOption: [
+                {
+                    templateName: 'TRICK_TRANSFER_MONEY_TEMP_1',
+                    dataField: 'TRICK_TRANSFER_MAIN',
+                    caption:
+                        'ท่าน "สมัครใจกดโอนเงิน" ไปยังบัญชีคนร้าย (บัญชีม้า) ด้วยตัวท่านเอง ใช่หรือไม่?',
+                    placeholder: 'โปรดเลือกคำตอบ',
+                    fieldType: 'radiobox',
+                    required: true,
+                    options: this.controlDeviceOption,
+                    displayExpr: 'TEXT',
+                    valueExpr: 'TEXT'
+                },
+                {
+                    templateName: 'TRICK_TRANSFER_MONEY_TEMP_2',
+                    dataField: 'TRICK_TRANSFER_DETAIL',
+                    caption: 'โปรดเลือกสาเหตุ/รูปแบบการหลอกลวงที่ตรงกับเหตุการณ์ของท่าน',
+                    placeholder: 'โปรดเลือกตัวเลือก',
+                    fieldType: 'selectbox',
+                    required: true,
+                    options: this.trickTransferMoneySubOption,
+                    displayExpr: 'TEXT',
+                    valueExpr: 'TEXT'
+                }
+            ]
+        }
+    ];
+    selectedChannel1: ChannelFormConfig | null = null;
+    selectedChannel2: ChannelFormConfig | null = null;
+    selectedChannel3: ChannelFormConfig | null = null;
+
+    formData1: any = {};
+    formData2: any = {};
+    formData3: any = {};
+
     //  End Zone new Code
 
     constructor(
@@ -368,29 +868,29 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     ) { }
 
     ngOnInit(): void {
+        if (this.dataForm) {
+            console.log(this.dataForm);
+            this.formType = 'edit';
+            this.formReadOnly = true;
+            this.loadDataForm();
+        }
         // ปรับ maxDateValue +1 ชั่วโมง แบบชัดเจน (ไม่พึ่ง timezone API พิเศษ)
         this.maxDateValue = new Date((this.maxDateValue ?? new Date()).getTime() + 60 * 60 * 1000);
 
-        // ค่า default: ตั้งเฉพาะตอนยังไม่ถูกกำหนด (ไม่ไปทับค่าที่โหลดมา)
-        this.formData.CRIMINAL_TEL ??= false;
-        this.formData.CRIMINAL_SMS ??= false;
-        this.formData.CRIMINAL_OTHER ??= false;
-        this.formData.CASE_TYPE_ID ??= null;
-        this.formData.CRIMINAL_SMS_DESTINATION_TYPE ??= 'หมายเลขโทรศัพท์';
-
-        // อ่าน flag OCPB
-        const blessing = this.safeGet<{ IsOCPB?: boolean }>('form-blessing');
-        this.isOCPB = !!blessing?.IsOCPB;
-
-        // โหลดรายงานจาก localStorage แล้ว merge ทับเฉพาะฟิลด์ที่มีใน report
-        const contact = this.safeGet<{ CASE_REPORT?: any[] }>('form-criminal-contact');
-        const report = contact?.CASE_REPORT?.[0];
-        if (report && typeof report === 'object') {
-            this.formData = { ...this.formData, ...report };
-        }
-
         // debug เฉพาะตอน dev
         console.log('formData:', this.formData);
+    }
+
+    loadDataForm() {
+        console.log(this.dataForm);
+        if (this.dataForm) {
+            this.formData1 = { ...this.dataForm?.formData1 };
+            this.formData2 = { ...this.dataForm?.formData2 };
+            this.formData3 = { ...this.dataForm?.formData3 };
+            this.selectedChannel1 = this.dataForm?.selectedChannel1 ?? null;
+            this.selectedChannel2 = this.dataForm?.selectedChannel2 ?? null;
+            this.selectedChannel3 = this.dataForm?.selectedChannel3 ?? null;
+        }
     }
 
     safeGet<T = any>(key: string): T | undefined {
@@ -404,47 +904,6 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     }
 
     ngDoCheck(): void {
-        // Update `checkOtherTel` based on `CRIMINAL_TEL_PROVIDER` and clear details if not 'อื่น ๆ'
-        this.appState.checkOtherTel = this.formData.CRIMINAL_TEL_PROVIDER === 'อื่น ๆ';
-        if (!this.appState.checkOtherTel) {
-            this.formData.CRIMINAL_TEL_PROVIDER_DETAIL = '';
-        }
-    
-        // Update `checkOtherSms` based on `CRIMINAL_SMS_PROVIDER` and clear details if not 'อื่น ๆ'
-        this.appState.checkOtherSms = this.formData.CRIMINAL_SMS_PROVIDER === 'อื่น ๆ';
-        if (!this.appState.checkOtherSms) {
-            this.formData.CRIMINAL_SMS_PROVIDER_DETAIL = '';
-        }
-    
-        // Update `checkOtherSocial` based on `CRIMINAL_TYPE_SOCIAL`
-        this.appState.checkOtherSocial = this.formData.CRIMINAL_TYPE_SOCIAL === 'อื่นๆ';
-    
-        // Update `fileTypeSelected` based on `fileTypeSelectedValue`
-        this.fileTypeSelected = this.fileTypeSelectedValue !== '';
-    
-        // Process SMS date and time if `CRIMINAL_SMS_DATE_FULL` exists
-        if (this.formData.CRIMINAL_SMS_DATE_FULL) {
-            this.formData.CRIMINAL_SMS_DATE = this.datePipe.transform(
-                this.formData.CRIMINAL_SMS_DATE_FULL,
-                'yyyy-MM-dd'
-            );
-            this.formData.CRIMINAL_SMS_TIME = this.datePipe.transform(
-                this.formData.CRIMINAL_SMS_DATE_FULL,
-                'HH:mm:ss'
-            );
-        }
-    
-        // Process TEL date and time if `CRIMINAL_TEL_DATE_FULL` exists
-        if (this.formData.CRIMINAL_TEL_DATE_FULL) {
-            this.formData.CRIMINAL_TEL_DATE = this.datePipe.transform(
-                this.formData.CRIMINAL_TEL_DATE_FULL,
-                'yyyy-MM-dd'
-            );
-            this.formData.CRIMINAL_TEL_TIME = this.datePipe.transform(
-                this.formData.CRIMINAL_TEL_DATE_FULL,
-                'HH:mm:ss'
-            );
-        }
     }
 
     async OnSelectCaseType(e) {
@@ -463,7 +922,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
 
     SelectTypeChanel() {
         this.formChannelValidate = [this.formData.CHANEL_PHONE, this.formData.CHANEL_SMS,
-            this.formData.CHANEL_LINE,].some((value) => value === true) ? false : true;
+        this.formData.CHANEL_LINE,].some((value) => value === true) ? false : true;
     }
 
     SubmitForm(e) {
@@ -538,8 +997,8 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
             this.formData.CRIMINAL_SOCIAL_TYPE_DETAIL = null;
             this.formData.CRIMINAL_SOCIAL_DETAIL = null;
         }
-        if( this.formData.CRIMINAL_SOCIAL_DETAIL){
-            if(ValidateUrl(this.formData.CRIMINAL_SOCIAL_DETAIL)){
+        if (this.formData.CRIMINAL_SOCIAL_DETAIL) {
+            if (ValidateUrl(this.formData.CRIMINAL_SOCIAL_DETAIL)) {
                 Swal.fire({
                     title: "แจ้งเตือน!",
                     html: `ท่านกรอกข้อมูล URL ไม่ถูกต้อง 
@@ -568,14 +1027,14 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         this.mainConponent.formDataAll.formCaseChannelCriminalContact = {};
         this.mainConponent.formDataAll.formCriminalContact = this.formData;
         this.mainConponent.formDataAll.formCaseChannelCriminalContact = formCaseChannel;
-        if(localStorage.getItem("form-villain")){
+        if (localStorage.getItem("form-villain")) {
             const villain = JSON.parse(localStorage.getItem("form-villain"));
-            if(!this.formData.CRIMINAL_TEL && !this.formData.CRIMINAL_SMS && !this.formData.CRIMINAL_OTHER){
-                localStorage.setItem("form-villain",JSON.stringify(Object.assign(villain,{CASE_CHANNEL:[]})));
-            }else{
-                localStorage.setItem("form-villain",JSON.stringify(Object.assign(villain,{CASE_CHANNEL:[formCaseChannel]})));
+            if (!this.formData.CRIMINAL_TEL && !this.formData.CRIMINAL_SMS && !this.formData.CRIMINAL_OTHER) {
+                localStorage.setItem("form-villain", JSON.stringify(Object.assign(villain, { CASE_CHANNEL: [] })));
+            } else {
+                localStorage.setItem("form-villain", JSON.stringify(Object.assign(villain, { CASE_CHANNEL: [formCaseChannel] })));
             }
-        }else{
+        } else {
             // console.log("work!");
             // if(formCaseChannel?.ATTACHMENT_DOC.length > 0){
             //     console.log(formCaseChannel?.ATTACHMENT_DOC);
@@ -587,13 +1046,13 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
             //     localStorage.setItem("form-attachment",JSON.stringify(setData));
             //     formCaseChannel.ATTACHMENT_DOC = []; // clear attachment in case channel
             // }
-            if(!this.formData.CRIMINAL_TEL && !this.formData.CRIMINAL_SMS && !this.formData.CRIMINAL_OTHER){
-                localStorage.setItem("form-villain",JSON.stringify(Object.assign({},{CASE_CHANNEL:[]})));
-            }else{
-                localStorage.setItem("form-villain",JSON.stringify(Object.assign({},{CASE_CHANNEL:[formCaseChannel]})));
+            if (!this.formData.CRIMINAL_TEL && !this.formData.CRIMINAL_SMS && !this.formData.CRIMINAL_OTHER) {
+                localStorage.setItem("form-villain", JSON.stringify(Object.assign({}, { CASE_CHANNEL: [] })));
+            } else {
+                localStorage.setItem("form-villain", JSON.stringify(Object.assign({}, { CASE_CHANNEL: [formCaseChannel] })));
             }
         }
-        localStorage.setItem("form-criminal-contact",JSON.stringify(Object.assign({CASE_REPORT:[this.formData]})));
+        localStorage.setItem("form-criminal-contact", JSON.stringify(Object.assign({ CASE_REPORT: [this.formData] })));
         this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
     }
 
@@ -613,13 +1072,13 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     OpenFileDialog() {
         // this.typeSelected = ['เอกสารหลักฐานอื่นๆ'];
         this.typeSelected = [];
-        if(this.formData.CRIMINAL_TEL){
+        if (this.formData.CRIMINAL_TEL) {
             this.typeSelected.push('เบอร์โทรศัพท์');
         }
-        if(this.formData.CRIMINAL_SMS){
+        if (this.formData.CRIMINAL_SMS) {
             this.typeSelected.push('SMS');
         }
-        if(this.formData.CRIMINAL_TYPE_SOCIAL){
+        if (this.formData.CRIMINAL_TYPE_SOCIAL) {
             this.typeSelected.push(this.formData.CRIMINAL_TYPE_SOCIAL);
         }
         this.popupAttachment = true;
@@ -820,39 +1279,297 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         for (const el of items) {
             const key = channelMap[el?.formType ?? ''];
             if (key) {
-            (formCaseChannel[key] ??= []).push(el);
+                (formCaseChannel[key] ??= []).push(el);
             } else {
-            // keep unknowns (optional)
-            (formCaseChannel.ATTACHMENT_DOC ??= []).push(el);
+                // keep unknowns (optional)
+                (formCaseChannel.ATTACHMENT_DOC ??= []).push(el);
             }
         }
 
         return formCaseChannel;
     }
 
-    selectTypeSender(){
-        if(this.formData.CRIMINAL_SMS_DESTINATION_TYPE){
+    selectTypeSender() {
+        if (this.formData.CRIMINAL_SMS_DESTINATION_TYPE) {
             this.formData.CRIMINAL_SMS_DESTINATION = null;
         }
     }
+
+    //  Zone new Code
+    onSelectChannel(cfg: ChannelFormConfig, section: 1 | 2 | 3): void {
+        if (section === 1) {
+            this.selectedChannel1 = cfg;
+            this.formData1 = {};  // เคลียร์ข้อมูลเดิมเมื่อเปลี่ยนช่องทาง
+        }
+        if (section === 2) {
+            this.selectedChannel2 = cfg;
+            this.formData2 = {};  // เคลียร์ข้อมูลเดิมเมื่อเปลี่ยนช่องทาง
+        }
+        if (section === 3) {
+            this.selectedChannel3 = cfg;
+            this.formData3 = {};  // เคลียร์ข้อมูลเดิมเมื่อเปลี่ยนช่องทาง
+        }
+
+        cfg.formOption.forEach(f => {
+            this.initFieldValue(f);        // ของเดิมที่คุณมี
+            this.initEditorOptions(f);     // 👈 เพิ่มอันนี้
+        });
+    }
+
+    private initEditorOptions(field: FieldConfig): void {
+        if (field.fieldType === 'group') {
+            field.children?.forEach(c => this.initEditorOptions(c));
+            return;
+        }
+
+        if (!field.editorOptions) {
+            field.editorOptions = this.buildEditorOptions(field);
+        }
+    }
+
+    private buildEditorOptions(field: FieldConfig): any {
+        console.log(this.formReadOnly);
+        const base: any = {
+            placeholder: field.placeholder,
+            maxLength: field.maxLength,
+            readOnly: this.formReadOnly
+        };
+
+        // SELECTBOX
+        if (field.fieldType === 'selectbox') {
+            return {
+                ...base,
+                items: field.options ?? [],
+                displayExpr: field.displayExpr,
+                valueExpr: field.valueExpr,
+                searchEnabled: true,
+                showClearButton: true
+            };
+        }
+
+        // RADIOBOX
+        if (field.fieldType === 'radiobox') {
+            return {
+                ...base,
+                items: field.options ?? [],
+                displayExpr: field.displayExpr,
+                valueExpr: field.valueExpr,
+                layout: 'vertical'
+            };
+        }
+
+        // TEXTAREA
+        if (field.fieldType === 'textarea') {
+            return {
+                ...base,
+                height: 90,
+                autoResizeEnabled: true
+            };
+        }
+
+        // FILE
+        if (field.fieldType === 'file') {
+            return {
+                ...base,
+                selectButtonText: 'เลือกไฟล์',
+                labelText: '',
+                accept: '*',
+                uploadMode: 'useButtons',
+                multiple: false
+            };
+        }
+
+        // TEXTBOX หรืออื่น ๆ
+        return base;
+    }
+
+    private initFieldValue(field: FieldConfig): void {
+        if (field.fieldType === 'group') {
+            field.children?.forEach(c => this.initFieldValue(c));
+            return;
+        }
+
+        // ถ้ายังไม่เคยมี key นี้ใน formData → set default
+        if (this.formData[field.dataField] === undefined) {
+            if (field.fieldType === 'checkbox') {
+                this.formData[field.dataField] = [];       // checkbox list → array
+            } else {
+                this.formData[field.dataField] = null;     // selectbox / radiobox / textbox
+            }
+        }
+    }
+
+    getEditorType(field: FieldConfig): string {
+        switch (field.fieldType) {
+            case 'textbox': return 'dxTextBox';
+            case 'textarea': return 'dxTextArea';
+            case 'selectbox': return 'dxSelectBox';
+            case 'file': return 'dxFileUploader';
+            case 'radiobox': return 'dxRadioGroup';   // ✅ ให้ dxForm สร้างเอง
+            default: return 'dxTextBox';
+        }
+    }
+
+    private isObjectArray(arr: any): boolean {
+        return Array.isArray(arr) && arr.length > 0 && typeof arr[0] === 'object';
+    }
+
+
+    onSubmit(channel: ChannelFormConfig): void {
+        console.log('Submit channel:', channel.id, this.formData);
+        // TODO: ยิง API หรือ map เป็น payload ตามต้องการ
+    }
+
+    private getCheckboxValue(field: FieldConfig): any[] {
+        const current = this.formData[field.dataField];
+        return Array.isArray(current) ? current : [];
+    }
+
+    isChecked(field: FieldConfig, opt: any): boolean {
+        const list = this.getCheckboxValue(field);
+        const valueKey = field.valueExpr || 'id';
+        const id = typeof opt === 'object' ? opt[valueKey] : opt;
+        return list.includes(id);
+    }
+
+    onCheckboxChange(field: FieldConfig, opt: any, e: any): void {
+        const valueKey = field.valueExpr || 'id';
+        const id = typeof opt === 'object' ? opt[valueKey] : opt;
+
+        let list = this.getCheckboxValue(field);
+
+        if (e.value) {
+            if (!list.includes(id)) {
+                list = [...list, id];
+            }
+        } else {
+            list = list.filter(x => x !== id);
+        }
+
+        this.formData[field.dataField] = list;
+    }
+
+    isFieldVisible(field: FieldConfig): boolean {
+        if (!field.visibleWhen) {
+            return true;
+        }
+
+        const cond = field.visibleWhen;
+        const currentValue = this.formData[cond.dataField];
+
+        if (Array.isArray(currentValue)) {
+            return currentValue.some(v => cond.values.includes(v));
+        }
+
+        return cond.values.includes(currentValue);
+    }
+
+    SubmitFormChannelNew(e) {
+        if (this.formData1 == null || Object.keys(this.formData1).length === 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
+                html: 'กรุณากรอกข้อมูลให้ครบถ้วน'
+            });
+            return;
+        }
+        if (this.formData2 == null || Object.keys(this.formData2).length === 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
+                html: 'กรุณากรอกข้อมูลให้ครบถ้วน'
+            });
+            return;
+        }
+        if (this.formData3 == null || Object.keys(this.formData3).length === 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
+                html: 'กรุณากรอกข้อมูลให้ครบถ้วน'
+            });
+            return;
+        }
+        let setData = {
+            formData1:this.formData1,
+            formData2:this.formData2,
+            formData3:this.formData3,
+            selectedChannel1:this.selectedChannel1 ?? null,
+            selectedChannel2:this.selectedChannel2 ?? null,
+            selectedChannel3:this.selectedChannel3 ?? null,
+        };
+        // clear empty value
+        for (const key in setData) {
+            if (setData[key] === null || setData[key] === undefined || setData[key] === '') {
+                delete setData[key];
+            }
+        }
+        this.mainConponent.formDataAll.formVaillain = setData;
+        localStorage.setItem("form-vaillain", JSON.stringify(setData));
+        if (e != 'tab') {
+            this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
+        }
+    }
+    //   end Zone new Code
 }
 
 
 interface FormCaseChannel {
-  CHANNEL_EMAIL_DOC?: any[];
-  CHANNEL_FACEBOOK_DOC?: any[];
-  CHANNEL_INSTARGRAM_DOC?: any[];
-  CHANNEL_LINE_DOC?: any[];
-  CHANNEL_MESSENGER_DOC?: any[];
-  CHANNEL_OTHERS_DOC?: any[];
-  CHANNEL_PHONE_DOC?: any[];
-  CHANNEL_SMS_DOC?: any[];
-  CHANNEL_TELEGRAM_DOC?: any[];
-  CHANNEL_TWITTER_DOC?: any[];
-  CHANNEL_WEBSITE_DOC?: any[];
-  CHANNEL_WHATSAPP_DOC?: any[];
-  CHANNEL_TIKTOK_DOC?: any[];
-  ATTACHMENT_DOC?: any[];
-  // Optional bucket for unexpected types
-  UNMAPPED_DOC?: any[];
+    CHANNEL_EMAIL_DOC?: any[];
+    CHANNEL_FACEBOOK_DOC?: any[];
+    CHANNEL_INSTARGRAM_DOC?: any[];
+    CHANNEL_LINE_DOC?: any[];
+    CHANNEL_MESSENGER_DOC?: any[];
+    CHANNEL_OTHERS_DOC?: any[];
+    CHANNEL_PHONE_DOC?: any[];
+    CHANNEL_SMS_DOC?: any[];
+    CHANNEL_TELEGRAM_DOC?: any[];
+    CHANNEL_TWITTER_DOC?: any[];
+    CHANNEL_WEBSITE_DOC?: any[];
+    CHANNEL_WHATSAPP_DOC?: any[];
+    CHANNEL_TIKTOK_DOC?: any[];
+    ATTACHMENT_DOC?: any[];
+    // Optional bucket for unexpected types
+    UNMAPPED_DOC?: any[];
+}
+
+export type FieldType =
+    | 'textbox'
+    | 'textarea'
+    | 'selectbox'
+    | 'file'
+    | 'radiobox'
+    | 'checkbox'
+    | 'group';
+
+export interface FieldConfig {
+    templateName: string;
+    dataField: string;
+    caption: string;
+    placeholder?: string;
+    fieldType: FieldType;
+    conditionalShow?: string;
+    maxLength?: number;
+
+    required?: boolean;
+    pattern?: string;
+    type?: 'email' | 'phone' | 'url' | 'subForm' | string;
+
+    options?: any[];
+    displayExpr?: string;
+    valueExpr?: string;
+
+    children?: FieldConfig[];
+    editorOptions?: any;
+    visibleWhen?: FieldVisibleWhen;
+}
+
+export interface ChannelFormConfig {
+    id: string;
+    name: string;
+    formOption: FieldConfig[];
+}
+
+export interface FieldVisibleWhen {
+    dataField: string;   // ฟิลด์ที่ใช้เป็นตัวกำหนด เช่น 'CONTROL_DEVICE_MAIN'
+    values: any[];       // ค่าใดบ้างที่ทำให้ฟิลด์นี้มองเห็น เช่น ['YES', 'HAS_APK']
 }

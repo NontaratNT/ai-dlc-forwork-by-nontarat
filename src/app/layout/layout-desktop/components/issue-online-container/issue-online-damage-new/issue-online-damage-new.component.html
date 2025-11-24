@@ -2,7 +2,7 @@
     <div class="content-title"> คุณสูญเสียทรัพย์สินผ่านช่องทางใดบ้าง? (เลือกได้มากกว่า 1 ข้อ)?</div>
     <div class="content-input">
         <dx-check-box id="damage-type-checkbox" *ngFor="let damageType of listDamageType; trackBy: trackByDamageType"
-            [text]="damageType.name" [(value)]="damageType.selected"
+            [text]="damageType.name" [(value)]="damageType.selected" [readOnly]="readOnlyForm"
             (onValueChanged)="onDamageTypeChange(damageType, $event.value)">
         </dx-check-box>
         <!-- add selected box from option listDamageType -->
@@ -12,7 +12,7 @@
                 <div class="form-box-title mb-3" style="color:red;font-weight: bold;">
                     ⚠️ โปรดติดต่อธนาคารต้นทางของท่านเพื่อแจ้งอายัดบัญชีปลายทางโดยเร็วที่สุด!
                 </div>
-                <div class="form-box-input">
+                <div class="form-box-input" *ngIf="!readOnlyForm">
                     <dx-form #formboxDamageType1 [formData]="formDamageType1" [colCount]="2"
                         [showColonAfterLabel]="true" labelLocation="top">
 
@@ -88,10 +88,10 @@
                         </dx-button>
                     </div>
                 </div>
-                <div class="table-box">
+                <div class="table-box" >
                     <dx-data-grid [dataSource]="listDamgeValueType1" [showBorders]="true" [columnAutoWidth]="true"
                         [paging]="{ pageSize: 5 }" [pager]="{ showPageSizeSelector: true, allowedPageSizes: [5, 10, 20], showInfo: true }">
-                        <dxi-column dataField="actions" caption="จัดการข้อมูล" width="100" cellTemplate="actionsCellTemplate">
+                        <dxi-column dataField="actions" caption="จัดการข้อมูล" width="100" cellTemplate="actionsCellTemplate"  *ngIf="!readOnlyForm">
                             <div *dxTemplate="let cellData of 'actionsCellTemplate'">
                                 <dx-button type="default" icon="edit" hint="แก้ไขข้อมูล"
                                     (onClick)="onEditType1Clicked(cellData.component.pageIndex() * cellData.component.pageSize() + cellData.rowIndex)">
@@ -114,7 +114,7 @@
             </div>
             <div *ngIf="damageType.selected && damageType.id === 2" class="form-box p-4 mb-3 mt-3">
                 <div class="form-box-title mb-3"> รายการโอนสินทรัพย์ดิจิทัล </div>
-                <div class="form-box-input">
+                <div class="form-box-input"  *ngIf="!readOnlyForm">
                     <dx-form #formboxDamageType2 [formData]="formDamageType2" [colCount]="2"
                         [showColonAfterLabel]="true" labelLocation="top">
                         <dxi-item dataField="CRYPTO_EXCHANGE" [label]="CryptoExchangeLabel" editorType="dxTextBox"
@@ -185,7 +185,7 @@
             </div>
             <div *ngIf="damageType.selected && damageType.id === 3" class="form-box p-4 mb-3 mt-3">
                 <div class="form-box-title mb-3"> รายการโอนเงินผ่าน e-Wallet </div>
-                <div class="form-box-input">
+                <div class="form-box-input"  *ngIf="!readOnlyForm">
                     <dx-form #formboxDamageType3 [formData]="formDamageType3" [colCount]="2"
                         [showColonAfterLabel]="true" labelLocation="top">
                         <dxi-item dataField="EWALLET_ACCOUNT" [label]="EwalletAccountLabel" editorType="dxTextBox"
@@ -237,7 +237,7 @@
                 <div class="table-box">
                     <dx-data-grid [dataSource]="listDamgeValueType3" [showBorders]="true" [columnAutoWidth]="true"
                         [paging]="{ pageSize: 5 }" [pager]="{ showPageSizeSelector: true, allowedPageSizes: [5, 10, 20], showInfo: true }">
-                        <dxi-column dataField="actions" caption="จัดการข้อมูล" width="100" cellTemplate="actionsCellTemplate">
+                        <dxi-column dataField="actions" caption="จัดการข้อมูล" width="100" cellTemplate="actionsCellTemplate"  *ngIf="!readOnlyForm">
                             <div *dxTemplate="let cellData of 'actionsCellTemplate'">
                                 <dx-button type="default" icon="edit" hint="แก้ไขข้อมูล"
                                     (onClick)="onEditType3Clicked(cellData.component.pageIndex() * cellData.component.pageSize() + cellData.rowIndex)">
@@ -260,7 +260,7 @@
             </div>
             <div *ngIf="damageType.selected && damageType.id === 4" class="form-box p-4 mb-3 mt-3">
                 <div class="form-box-title mb-3"> รายการบัตรเงินสด/บัตรของขวัญ </div>
-                <div class="form-box-input">
+                <div class="form-box-input"  *ngIf="!readOnlyForm">
                     <dx-form #formboxDamageType4 [formData]="formDamageType4" [colCount]="2"
                         [showColonAfterLabel]="true" labelLocation="top">
                         <dxi-item dataField="GIFT_CARD_TYPE" [label]="GiftCardTypeLabel" editorType="dxSelectBox"
@@ -290,7 +290,7 @@
                 <div class="table-box">
                     <dx-data-grid [dataSource]="listDamgeValueType4" [showBorders]="true" [columnAutoWidth]="true"
                         [paging]="{ pageSize: 5 }" [pager]="{ showPageSizeSelector: true, allowedPageSizes: [5, 10, 20], showInfo: true }">
-                        <dxi-column dataField="actions" caption="จัดการข้อมูล" width="100" cellTemplate="actionsCellTemplate">
+                        <dxi-column dataField="actions" caption="จัดการข้อมูล" width="100" cellTemplate="actionsCellTemplate"  *ngIf="!readOnlyForm">
                             <div *dxTemplate="let cellData of 'actionsCellTemplate'">
                                 <dx-button type="default" icon="edit" hint="แก้ไขข้อมูล"
                                     (onClick)="onEditType4Clicked(cellData.component.pageIndex() * cellData.component.pageSize() + cellData.rowIndex)">
@@ -311,7 +311,7 @@
                 <div class="form-box-title mb-3"> รายการใช้บัตรโดยไม่ได้รับอนุญาต </div>
                 <div class="form-box-title mb-3" style="color:red;font-weight: bold;"> ⚠️
                     โปรดติดต่อธนาคารผู้ออกบัตรของท่านเพื่อแจ้งอายัดบัตรทันที! </div>
-                <div class="form-box-input">
+                <div class="form-box-input"  *ngIf="!readOnlyForm">
                     <dx-form #formboxDamageType5 [formData]="formDamageType5" [colCount]="2"
                         [showColonAfterLabel]="true" labelLocation="top">
                         <dxi-item dataField="CARD_BANK" [label]="CardBankLabel" editorType="dxSelectBox"
@@ -368,7 +368,7 @@
                 <div class="table-box">
                     <dx-data-grid [dataSource]="listDamgeValueType5" [showBorders]="true" [columnAutoWidth]="true"
                         [paging]="{ pageSize: 5 }" [pager]="{ showPageSizeSelector: true, allowedPageSizes: [5, 10, 20], showInfo: true }">
-                        <dxi-column dataField="actions" caption="จัดการข้อมูล" width="100" cellTemplate="actionsCellTemplate">
+                        <dxi-column dataField="actions" caption="จัดการข้อมูล" width="100" cellTemplate="actionsCellTemplate"  *ngIf="!readOnlyForm">
                             <div *dxTemplate="let cellData of 'actionsCellTemplate'">
                                 <dx-button type="default" icon="edit" hint="แก้ไขข้อมูล"
                                     (onClick)="onEditType5Clicked(cellData.component.pageIndex() * cellData.component.pageSize() + cellData.rowIndex)">
@@ -400,8 +400,8 @@
     </div>
 </div>
 
-<div class="text-right btn-footer">
-    <dx-button *ngIf="formType==='add'" class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)">
+<div class="text-right btn-footer" *ngIf="formType === 'add'">
+    <dx-button *ngIf="formType === 'add'" class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)">
     </dx-button>
     &nbsp;
     <dx-button class="btn btn-submit" text="ถัดไป" (onClick)="SubmitForm($event)"></dx-button>

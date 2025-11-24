@@ -1,5 +1,5 @@
 import { CheckDocumentService } from "../../../../../services/check-document.service";
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { finalize } from "rxjs/operators";
 import { Router } from "@angular/router";
 import Swal from "sweetalert2";
@@ -42,11 +42,13 @@ export class CaseTypeNewContainerComponent implements OnInit {
     @ViewChild("formInformer2address", { static: false })
     formInformer2address: DxFormComponent;
 
+    @Input() dataForm: any;
+
     _formConfig: any = {};
     _formBuilded: any = {};
     _formData: any = {};
     _formRenderType: string = "IO"; // IO | BUILDER
-    formType = "add";
+    formType: 'add' | 'edit' = 'add';
     formData: any = {};
 
     constructor(
@@ -57,7 +59,12 @@ export class CaseTypeNewContainerComponent implements OnInit {
     ) {}
 
     async ngOnInit(): Promise<void> {
-
+        if(this.dataForm){
+            console.log(this.dataForm);
+            this.formType = 'edit';
+            this._formData = this.dataForm;
+            console.log(this._formData);
+        }
         console.log('maincomponent', this.mainConponent);
         this._formConfig = await this._formConfigService
             .GetId("691d6f6a26109f6b7c05aae2")
@@ -105,73 +112,8 @@ export class CaseTypeNewContainerComponent implements OnInit {
     SubmitForm(e) {
         console.log(this._formBuilded);
         console.log(this._formData);
-        return;
-        if (this.mainConponent.formType === "add") {
-            this.formInformer1.instance.validate();
-            if (!this.formInformer1.instance.validate().isValid) {
-                this._formValidate.ValidateForm(
-                    this.formInformer1.instance.validate().brokenRules
-                );
-                this.mainConponent.checkValidate = true;
-                return;
-            }
-            if (!this.formInformer2.instance.validate().isValid) {
-                this._formValidate.ValidateForm(
-                    this.formInformer2.instance.validate().brokenRules
-                );
-                this.mainConponent.checkValidate = true;
-                return;
-            }
-            if (!this.formInformer2address.instance.validate().isValid) {
-                this._formValidate.ValidateForm(
-                    this.formInformer2address.instance.validate().brokenRules
-                );
-                this.mainConponent.checkValidate = true;
-                return;
-            }
-
-            this.formData.CASE_INFORMER_FIRSTNAME = this.NameSanitize(
-                this.formData.CASE_INFORMER_FIRSTNAME
-            );
-            this.formData.CASE_INFORMER_LASTNAME = this.NameSanitize(
-                this.formData.CASE_INFORMER_LASTNAME
-            );
-            this.formData.INFORMER_EMAIL = this.EmailSanitize(
-                this.formData.INFORMER_EMAIL
-            );
-            this.formData.INFORMER_TEL = this.PhoneNumberSanitize(
-                this.formData.INFORMER_TEL
-            );
-            this.mainConponent.checkValidate = false;
-            this.mainConponent.formDataAll.formInformer = {};
-            this.formData.CASE_INFORMER_DATE = this._date.ConvertToDateFormat(
-                this.formData.CASE_INFORMER_DATE
-            );
-            if (
-                this.formData.CASE_INFORMER_DATE == "Invalid date" ||
-                undefined ||
-                null
-            ) {
-                this.alertmessagecustom("กรุณาเลือกวันเดือนปีเกิด");
-                return;
-            }
-            if (this.formData.INFORMER_TEL_PROVIDER === "อื่น ๆ") {
-                this.formData.INFORMER_TEL_PROVIDER =
-                    this.formData.INFORMER_TEL_PROVIDER_DETAIL;
-            }
-            this.formData.NEXT = true;
-            const setData = {};
-            for (const key in this.formData) {
-                if (
-                    this.formData[key] !== null &&
-                    this.formData[key] !== undefined
-                ) {
-                    setData[key] = this.formData[key];
-                }
-            }
-            this.mainConponent.formDataAll.formInformer = setData;
-            localStorage.setItem("form-informer", JSON.stringify(setData));
-        }
+        this.mainConponent.formDataAll.formCaseTypeNew = this._formData;
+        localStorage.setItem("form-case-type-new", JSON.stringify(this._formData));
         if (e != "tab") {
             this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
         }

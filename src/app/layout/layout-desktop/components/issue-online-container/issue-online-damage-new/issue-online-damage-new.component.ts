@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DxFormComponent, DxSelectBoxComponent, DxSelectBoxModule } from 'devextreme-angular';
 import { dxDateBoxOptions } from 'devextreme/ui/date_box';
 import { dxNumberBoxOptions } from 'devextreme/ui/number_box';
@@ -8,6 +8,7 @@ import { BankInfoService } from 'src/app/services/bank-info.service';
 import th from 'src/assets/i18n/th';
 import Swal from 'sweetalert2';
 import { IssueOnlineContainerComponent } from '../issue-online-container.component';
+import { read } from 'fs';
 
 @Component({
   selector: 'app-issue-online-damage-new',
@@ -16,6 +17,8 @@ import { IssueOnlineContainerComponent } from '../issue-online-container.compone
 })
 export class IssueOnlineDamageNewComponent implements OnInit {
 
+  @Input() dataForm: any;
+  readOnlyForm = false;
   public mainConponent: IssueOnlineContainerComponent;
   formType: 'add' | 'edit' = 'add';
   // formboxDamageType1: DxFormComponent;
@@ -145,6 +148,35 @@ export class IssueOnlineDamageNewComponent implements OnInit {
     this.maxDateValue.setHours(this.maxDateValue.getHours() + 1);
     await this.getBankInfoList();
     this.onloadEditorOption();
+    if(this.dataForm){
+      this.formType = 'edit';
+      this.readOnlyForm = true;
+      this.listDamgeValueType1 = this.dataForm?.DamageType1;
+      this.listDamgeValueType2 = this.dataForm?.DamageType2;
+      this.listDamgeValueType3 = this.dataForm?.DamageType3;
+      this.listDamgeValueType4 = this.dataForm?.DamageType4;
+      this.listDamgeValueType5 = this.dataForm?.DamageType5;
+      this.listDamageType.forEach(damageType => {
+        switch (damageType.id) {
+          case 1:
+            damageType.selected = this.listDamgeValueType1.length > 0;
+            break;
+          case 2:
+            damageType.selected = this.listDamgeValueType2.length > 0;
+            break;
+          case 3:
+            damageType.selected = this.listDamgeValueType3.length > 0;
+            break;
+          case 4:
+            damageType.selected = this.listDamgeValueType4.length > 0;
+            break;
+          case 5:
+            damageType.selected = this.listDamgeValueType5.length > 0;
+            break;
+        }
+      });
+      console.log('dataForm in damage new', this.dataForm);
+    }
   }
 
   onloadEditorOption() {
@@ -280,6 +312,7 @@ export class IssueOnlineDamageNewComponent implements OnInit {
   }
 
   onDamageType1Submit(form: DxFormComponent): void {
+
     if (!form.instance.validate().isValid) {
       Swal.fire({
         icon: 'error',
@@ -288,6 +321,14 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       });
       return;
     } else {
+      if(this.formDamageType1?.BANK_DAMAGE_VALUE_BAHT <= 0){
+        Swal.fire({
+          icon: 'error',
+          title: 'แจ้งเตือน',
+          text: 'กรุณากรอกจำนวนเงินที่โอนให้ถูกต้อง',
+        });
+        return;
+      }
       console.log('Form Damage Type 1 Submitted:', this.formDamageType1);
       this.listDamgeValueType1.push(this.formDamageType1);
       this.formDamageType1 = { };
@@ -303,6 +344,14 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       });
       return;
     } else {
+      if(this.formDamageType2?.CRYPTO_AMOUNT <= 0){
+        Swal.fire({
+          icon: 'error',
+          title: 'แจ้งเตือน',
+          text: 'กรุณากรอกจำนวนเงินที่โอนให้ถูกต้อง',
+        });
+        return;
+      }
       console.log('Form Damage Type 2 Submitted:', this.formDamageType2);
       this.listDamgeValueType2.push(this.formDamageType2);
       this.formDamageType2 = { };
@@ -318,6 +367,14 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       });
       return;
     } else {
+      if(this.formDamageType3?.EWALLET_AMOUNT_BAHT <= 0){
+        Swal.fire({
+          icon: 'error',
+          title: 'แจ้งเตือน',
+          text: 'กรุณากรอกจำนวนเงินที่โอนให้ถูกต้อง',
+        });
+        return;
+      }
       console.log('Form Damage Type 3 Submitted:', this.formDamageType3);
       this.listDamgeValueType3.push(this.formDamageType3);
       this.formDamageType3 = { };
@@ -333,6 +390,14 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       });
       return;
     } else {
+      if(!this.formDamageType4 || this.formDamageType4?.GIFT_CARD_AMOUNT_BAHT <= 0){
+        Swal.fire({
+          icon: 'error',
+          title: 'แจ้งเตือน',
+          text: 'กรุณากรอกมูลค่าบัตรให้ถูกต้อง',
+        });
+        return;
+      }
       console.log('Form Damage Type 4 Submitted:', this.formDamageType4);
       this.listDamgeValueType4.push(this.formDamageType4);
       this.formDamageType4 = { };
@@ -348,6 +413,14 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       });
       return;
     } else {
+      if(this.formDamageType5?.CARD_TRANSACTION_AMOUNT_BAHT <= 0){
+        Swal.fire({
+          icon: 'error',
+          title: 'แจ้งเตือน',
+          text: 'กรุณากรอกจำนวนเงินที่เกิดรายการให้ถูกต้อง',
+        });
+        return;
+      }
       console.log('Form Damage Type 5 Submitted:', this.formDamageType5);
       this.listDamgeValueType5.push(this.formDamageType5);
       this.formDamageType5 = { };
@@ -578,7 +651,8 @@ export class IssueOnlineDamageNewComponent implements OnInit {
   private createTextEditor(placeholder: string): any {
     return {
       placeholder,
-      mode: 'text'
+      mode: 'text',
+      readOnly: this.formType === 'edit'
     };
   }
 
@@ -587,7 +661,8 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       placeholder,
       focusStateEnabled: false,
       format,
-      showClearButton: true
+      showClearButton: true,
+      readOnly: this.formType === 'edit'
     };
   }
 
@@ -601,6 +676,7 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       max: this.maxDateValue,
       min: this.minDateValue,
       openOnFieldClick: false,
+      readOnly: this.formType === 'edit',
       useMaskBehavior: true
     };
   }
@@ -610,6 +686,7 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       items,
       searchEnabled: true,
       showClearButton: true,
+      readOnly: this.formType === 'edit',
       placeholder,
       ...extra
     };
@@ -619,6 +696,7 @@ export class IssueOnlineDamageNewComponent implements OnInit {
     return this.createSelectBox(this.bankInfoList, placeholder, {
       displayExpr: 'BANK_NAME',
       valueExpr: 'BANK_ID',
+      readOnly: this.formType === 'edit',
       onValueChanged
     });
   }
@@ -629,7 +707,8 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       mode: 'text',
       mask: '00000000009999999999', // 10 ตัวบังคับ + 10 ตัวเลือก
       maskInvalidMessage: 'กรุณากรอกเฉพาะตัวเลข (10-20 หลัก)',
-      showClearButton: true
+      showClearButton: true,
+      readOnly: this.formType === 'edit',
     };
   }
 
@@ -672,6 +751,7 @@ export class IssueOnlineDamageNewComponent implements OnInit {
     };
     this.mainConponent.formDataAll.formDamage = setData;
     localStorage.setItem("form-damage", JSON.stringify(setData));
+    console.log(e);
     if (e != 'tab') {
       this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
     }

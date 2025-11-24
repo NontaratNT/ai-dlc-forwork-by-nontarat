@@ -25,6 +25,7 @@ import { OnlineCaseService } from "src/app/services/online-case.service";
 import { User } from "src/app/services/user";
 import { CaseTypeNewContainerComponent } from "./case-type-new-container/case-type-new-container.component";
 import { IssueOnlineDamageNewComponent } from "./issue-online-damage-new/issue-online-damage-new.component";
+import { IssueOnlineValidateNewComponent } from "./issue-online-validate-new/issue-online-validate-new.component";
 @Component({
     selector: "app-issue-online-container",
     templateUrl: "./issue-online-container.component.html",
@@ -151,11 +152,20 @@ export class IssueOnlineContainerComponent implements OnInit {
             this.indexLocker.damagenewConponent = true;
         }
     }
+    @ViewChild(IssueOnlineValidateNewComponent) set contentvalidatenew(
+        contentvalidatenew: IssueOnlineValidateNewComponent
+    ) {
+        if (contentvalidatenew) {
+             this.validatenewConponent = contentvalidatenew;
+            this.validatenewConponent.mainComponent = this;
+            this.indexLocker.validatenewConponent = true;
+        }
+    }
     @Input() dataForm: any;
     @Input() public userType = "mySelf";
 
     public max = Number.MIN_VALUE;
-    public indexTab = 3;
+    public indexTab = 4;
     public indexTabMain = 0;
     public formDataInsert: any = {};
     public formDataBankref: any = {};
@@ -175,6 +185,7 @@ export class IssueOnlineContainerComponent implements OnInit {
     public pagefirstConponent: IssueOnlineCheckComponent;
     public casetypenewConponent: CaseTypeNewContainerComponent;
     public damagenewConponent: IssueOnlineDamageNewComponent;
+    public validatenewConponent: IssueOnlineValidateNewComponent;
     public caseId: number;
     public InstId: string;
     public ProcessInstanceId: string;
@@ -193,8 +204,8 @@ export class IssueOnlineContainerComponent implements OnInit {
         { text: "รายละเอียดความเสียหาย", textClass: "arrow-div arrow-center" },
         // { text: "เรื่องที่เกิดขึ้น", textClass: "arrow-div arrow-center" },
         // { text: "ความเสียหาย", textClass: "arrow-div arrow-center" },
-        { text: "สรุปและส่งหลักฐาน", textClass: "arrow-div arrow-center"},
-        { text: "การรับแจ้งเหตุสำเร็จ", textClass: "arrow-div arrow-end" }
+        { text: "สรุปและส่งหลักฐาน", textClass: "arrow-div arrow-end"},
+        // { text: "การรับแจ้งเหตุสำเร็จ", textClass: "arrow-div arrow-end" }
     ];
     stepNavigationOcpb = [
         {text:"ข้อความยินยอม",textClass:"arrow-div arrow-first"},
@@ -384,7 +395,6 @@ export class IssueOnlineContainerComponent implements OnInit {
             this.max = Math.max(this.max, this.indexTab);
             if (this.indexTab != 0 && this.indexTab != 1) {
                 if (this.max >= index) {
-                    console.log(this.indexTab);
                     switch (this.indexTab) {
                         case 2:
                             this.informerConponent.SubmitForm("tab");

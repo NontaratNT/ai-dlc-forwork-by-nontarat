@@ -39,16 +39,21 @@
                     <app-issue-online-damage-new></app-issue-online-damage-new>
                 </ng-container>
             </dxi-item>
+            <dxi-item>
+                <ng-container *dxTemplate>
+                    <app-issue-online-validate-new [province]="province"></app-issue-online-validate-new>
+                </ng-container>
+            </dxi-item>
             <!-- <dxi-item>
                 <ng-container>
                     <app-issue-online-check></app-issue-online-check>
                 </ng-container>
             </dxi-item> -->
-            <dxi-item>
+            <!-- <dxi-item>
                 <ng-container *dxTemplate>
                     <app-issue-online-informer></app-issue-online-informer>
                 </ng-container>
-            </dxi-item>
+            </dxi-item> -->
             <!-- <dxi-item>
                 <ng-container *dxTemplate>
                     <app-issue-online-event></app-issue-online-event>
@@ -59,11 +64,11 @@
                     <app-issue-online-damage></app-issue-online-damage>
                 </ng-container>
             </dxi-item> -->
-            <dxi-item *ngIf="this.formType === 'add'">
+            <!-- <dxi-item *ngIf="this.formType === 'add'">
                 <ng-container *dxTemplate>
                     <app-issue-online-validate></app-issue-online-validate>
                 </ng-container>
-            </dxi-item>
+            </dxi-item> -->
         </dx-multi-view>
         <!-- <button (click)="CheckDataForm()">CheckDataForm()</button> -->
     </div>

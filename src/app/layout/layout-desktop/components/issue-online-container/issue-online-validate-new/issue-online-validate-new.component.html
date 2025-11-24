@@ -1,0 +1,369 @@
+<div class="content-header p-3 mb-0"> โปรดตรวจสอบข้อมูลของท่าน (Information Review) </div>
+<div class="content-block">
+    <div class="form-box">
+        <div class="content-title">ข้อมูลผู้เสียหาย</div>
+        <div class="content-form">
+            <dx-form #formInformer1 [colCount]="2" labelLocation="top">
+                <dxi-item template="temptitle" [colSpan]="1" [isRequired]="formValidate">
+                    <dxo-label text="คำนำหน้า" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกคำนำหน้า">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temptitle'">
+                    <dx-radio-group [dataSource]="cmstitle" layout="horizontal" [readOnly]="formReadOnly"
+                        valueExpr="TITLE_ID" displayExpr="TITLE_NAME" [(value)]="formData.TITLE_ID"
+                        (onValueChanged)="ChangeRadioTitle($event)"></dx-radio-group>
+                </div>
+                <dxi-item template="tempothertitle" [colSpan]="1" *ngIf="formData.TITLE_ID === 'อื่นๆ'"
+                    [isRequired]="formData.TITLE_ID === 'อื่นๆ'">
+                    <dxo-label text="คำนำหน้าอื่นๆ" [showColon]="false"></dxo-label>
+                </dxi-item>
+                <div *dxTemplate="let data of 'tempothertitle'">
+                    <dx-text-box [(value)]="formData.TITLE_NAME" [readOnly]="formReadOnly"></dx-text-box>
+                </div>
+                <dxi-item template="tempcitizen" [colSpan]="1" [isRequired]="formValidate">
+                    <dxo-label text="เลขบัตรประจำตัวประชาชน" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกเลขบัตรประจำตัวประชาชน">
+                    </dxi-validation-rule>
+                    <dxi-validation-rule type="stringLength" [min]="13" message="กรุณากรอกครบ 13 หลัก">
+                    </dxi-validation-rule>
+                    <dxi-validation-rule type="custom" message="เลขบัตรประจำตัวประชาชนไม่ถูกต้อง"
+                        [validationCallback]="citizenPattern">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'tempcitizen'">
+                    <dx-text-box id="ctllcitizen" [readOnly]="formReadOnly" (keypress)="CheckNumber($event)"
+                        (paste)="PasteCheckNumber($event)" [maxLength]="13"
+                        [(value)]="formData.CASE_INFORMER_CITIZEN_NUMBER"></dx-text-box>
+                    <dx-tooltip target="#ctllcitizen" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top"
+                        [hideOnOutsideClick]="false">
+                        <div *dxTemplate="let data of 'content'">
+                            <p>หมายเหตุ: ระบุเลขบัตรประชาชน 13 หลัก</p>
+                        </div>
+                    </dx-tooltip>
+                </div>
+                <dxi-item template="temp1" [colSpan]="1" [isRequired]="formValidate">
+                    <dxo-label text="ชื่อ" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลชื่อ">
+                    </dxi-validation-rule>
+                    <dxi-validation-rule type="custom" [validationCallback]="NamePattern"
+                        message="ไม่ต้องระบุคำนำหน้านาม">
+                    </dxi-validation-rule>
+
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp1'">
+                    <dx-text-box id="ctlfname" (keypress)="NameValidator($event)" [readOnly]="formReadOnly"
+                        [(value)]="formData.CASE_INFORMER_FIRSTNAME"></dx-text-box>
+
+                    <dx-tooltip target="#ctlfname" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top"
+                        [hideOnOutsideClick]="false">
+                        <div *dxTemplate="let data of 'content'">
+                            <p>หมายเหตุ: ไม่ต้องระบุคำนำหน้า ตัวเลข ช่องว่างหรืออักษรพิเศษ</p>
+                        </div>
+                    </dx-tooltip>
+                </div>
+                <dxi-item template="temp2" [colSpan]="1" [isRequired]="formValidate">
+                    <dxo-label text="นามสกุล" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลนามสกุล">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp2'">
+                    <dx-text-box id="ctllname" (keypress)="NameValidator($event)" [readOnly]="formReadOnly"
+                        [(value)]="formData.CASE_INFORMER_LASTNAME"></dx-text-box>
+                    <dx-tooltip target="#ctllname" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top"
+                        [hideOnOutsideClick]="false">
+                        <div *dxTemplate="let data of 'content'">
+                            <p>หมายเหตุ: ไม่ต้องระบุ ตัวเลข หรืออักษรพิเศษ</p>
+                        </div>
+                    </dx-tooltip>
+                </div>
+                <dxi-item template="temp3" [colSpan]="1" [isRequired]="formValidate">
+                    <dxo-label text="เพศ" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลเพศ">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp3'">
+                    <dx-radio-group [readOnly]="formReadOnly" [dataSource]="gender" layout="horizontal"
+                        valueExpr="GENDER_TYPE" displayExpr="GENDER_DETAIL" [(value)]="formData.CASE_INFORMER_GENDER"
+                        (onValueChanged)="ChangeRadioGender($event)"></dx-radio-group>
+                </div>
+                <dxi-item template="temp4" [isRequired]="formValidate" [colSpan]="1">
+                    <dxo-label text="วัน/เดือน/ปี เกิดของผู้เสียหาย" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลวันเกิด">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp4'">
+                    <app-date-combo-picker *ngIf="loadDateBox" [disabled]="formReadOnly" [timezone]="'UTC+7'"
+                        [minDate]="minBirthDate" [maxDate]="maxBirthDate"
+                        [(date)]="formData.CASE_INFORMER_DATE"></app-date-combo-picker>
+                </div>
+                <dxi-item template="INFORMER_SMS_PROVIDER" [isRequired]="true" [colSpan]="1">
+                    <dxo-label text="ค่ายโทรศัพท์ผู้เสียหาย" [showColon]="true"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกค่ายโทรศัพท์ผู้เสียหาย">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'INFORMER_SMS_PROVIDER'">
+                    <dx-select-box [dataSource]="serviceLabelID" displayExpr="TEXT" valueExpr="TEXT" searchExpr="TEXT"
+                        [searchEnabled]="true" placeholder="ค่ายโทรศัพท์" [(value)]="formData.INFORMER_TEL_PROVIDER"
+                        [showClearButton]="true">
+                    </dx-select-box>
+                </div>
+                <dxi-item *ngIf="formData.INFORMER_TEL_PROVIDER === 'อื่น ๆ'" [colSpan]="1" [isRequired]="true"
+                    template="INFORMER_TEL_PROVIDER_DETAIL">
+                    <dxo-label text="ชื่อค่ายโทรศัพท์ผู้เสียหาย" [showColon]="true"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกชื่อค่ายโทรศัพท์ผู้เสียหาย">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'INFORMER_TEL_PROVIDER_DETAIL'">
+                    <dx-text-box placeholder="กรุณากรอกชื่อค่ายโทรศัพท์ผู้เสียหาย"
+                        [(value)]="formData.INFORMER_TEL_PROVIDER_DETAIL"></dx-text-box>
+                </div>
+                <dxi-item template="temp7" [colSpan]="1" [isRequired]="formValidate">
+                    <dxo-label text="เบอร์โทรศัพท์มือถือ" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกข้อมูลเบอร์โทรศัพท์มือถือ">
+                    </dxi-validation-rule>
+                    <dxi-validation-rule type="custom" message="หมายเลขโทรศัพท์ 10 หลัก"
+                        [validationCallback]="PhoneNumberPattern">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp7'">
+                    <dx-text-box id="ctfPhone" [readOnly]="formReadOnly" [(value)]="formData.INFORMER_TEL"
+                        [maxLength]="10" (keypress)="CheckNumber($event)"
+                        (paste)="PasteCheckNumber($event)"></dx-text-box>
+                    <dx-tooltip target="#ctfPhone" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top"
+                        [hideOnOutsideClick]="false">
+                        <div *dxTemplate="let data of 'content'">
+                            <p>ระบุหมายเลขโทรศัพท์จำนวน 10 หลักติดกันโดยไม่ต้องมีขีดคั่น ช่องว่าง หรือตัวอักษรพิเศษ
+                                ตัวอย่าง
+                                0819999999</p>
+                        </div>
+                    </dx-tooltip>
+                </div>
+                <dxi-item template="temp9" [colSpan]="1">
+                    <dxo-label text="Email" [showColon]="false"></dxo-label>
+                    <ng-container *ngIf="formData.INFORMER_EMAIL">
+                        <dxi-validation-rule type="custom" [validationCallback]="EmailPatternCharacters"
+                            message="Email จะต้องไม่มีเครื่องหมาย &, =, ', +, (,), <, >, * ฯลฯ"></dxi-validation-rule>
+                        <dxi-validation-rule type="custom" [validationCallback]="EmailPatternDot"
+                            message="Email มีจุด (.) ติดกันมากกว่า 1 จุด"></dxi-validation-rule>
+                        <dxi-validation-rule type="custom" [validationCallback]="EmailPatternNameLength"
+                            message="กรุณาตรวจสอบชื่อผู้ใช้งาน"></dxi-validation-rule>
+                        <dxi-validation-rule type="custom" [validationCallback]="EmailPatternAtSign"
+                            message="กรุณาใส่เครื่องหมาย @"></dxi-validation-rule>
+                        <dxi-validation-rule type="email" message="กรุณาตรวจสอบชื่อ domain"></dxi-validation-rule>
+                    </ng-container>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp9'">
+                    <dx-text-box id="ctrlEmail" [readOnly]="formReadOnly"
+                        [(value)]="formData.INFORMER_EMAIL"></dx-text-box>
+                    <dx-tooltip target="#ctrlEmail" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top"
+                        [hideOnOutsideClick]="false">
+                        <div *dxTemplate="let data of 'content'">
+                            <p>อีเมลสามารถมีตัวอักษร (a-z), ตัวเลข (0-9) และจุด (.) ได้ แต่ต้องไม่มีเครื่องหมาย &,
+                                =, ',
+                                +,
+                                (,),
+                                <,>, * ฯลฯ
+                            </p>
+                        </div>
+                    </dx-tooltip>
+                </div>
+            </dx-form>
+        </div>
+        <div class="content-title">ที่อยู่ตามบัตรประจำตัวประชาชน</div>
+        <div class="content-form">
+            <dx-form #formInformer2 [colCount]="3" labelLocation="top">
+                <dxi-item template="temp1" [colSpan]="1" [isRequired]="formValidate">
+                    <dxo-label text="บ้านเลขที่/ ซอย/ หมู่ที่/ ถนน" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณากรอกบ้านเลขที่/ ซอย/ หมู่ที่/ ถนน">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp1'">
+                    <dx-text-box id="ctrlCardAddress" [readOnly]="formReadOnly"
+                        [(value)]="formData.CASE_INFORMER_CARD_ADDRESS_NO"></dx-text-box>
+                    <dx-tooltip target="#ctrlCardAddress" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top"
+                        [hideOnOutsideClick]="false">
+                        <div *dxTemplate="let data of 'content'">
+                            <p>ตัวอย่าง 84/4</p>
+                        </div>
+                    </dx-tooltip>
+                </div>
+                <dxi-item template="temp2" [isRequired]="formValidate">
+                    <dxo-label text="จังหวัด" [showColon]="false">
+                    </dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกจังหวัด">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp2'">
+                    <dx-select-box #selectcardProvice [dataSource]="province" displayExpr="PROVINCE_NAME_THA"
+                        valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true"
+                        placeholder="จังหวัด" [showClearButton]="true"
+                        (onValueChanged)="OnSelectcardProvicePresent($event,selectcardProvice)"
+                        [readOnly]="formReadOnly" [(value)]="formData.INFORMER_CARD_PROVINCE">
+                    </dx-select-box>
+                </div>
+                <dxi-item template="temp3" [isRequired]="formValidate">
+                    <dxo-label text="อำเภอ/เขต" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกอำเภอ/เขต">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp3'">
+                    <dx-select-box #selectCardDistrict [dataSource]="cardAddress.district"
+                        displayExpr="DISTRICT_NAME_THA" valueExpr="DISTRICT_ID" searchExpr="DISTRICT_NAME_THA"
+                        [searchEnabled]="true" placeholder="อำเภอ/เขต" [disabled]="cardAddress.disableDistrict"
+                        (onValueChanged)="OnSelectDistrictCard($event,selectCardDistrict)" [readOnly]="formReadOnly"
+                        [(value)]="formData.INFORMER_CARD_DISTRICT_ID" [showClearButton]="true">
+                    </dx-select-box>
+                </div>
+                <dxi-item template="temp4" [isRequired]="formValidate">
+                    <dxo-label text="ตำบล/แขวง" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกตำบล/แขวง">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp4'">
+                    <dx-select-box #selectCardSubDistrict [dataSource]="cardAddress.subDistrict"
+                        displayExpr="SUB_DISTRICT_NAME_THA" valueExpr="SUB_DISTRICT_ID"
+                        searchExpr="SUB_DISTRICT_NAME_THA" [searchEnabled]="true" placeholder="ตำบล"
+                        [disabled]="cardAddress.disableSubDistrict"
+                        (onValueChanged)="OnSelectSubDistrictCard($event,selectCardSubDistrict)"
+                        [readOnly]="formReadOnly" [(value)]="formData.INFORMER_CARD_SUB_DISTRICT_ID"
+                        [showClearButton]="true">
+                    </dx-select-box>
+                </div>
+
+            </dx-form>
+        </div>
+    </div>
+</div>
+
+<div class="content-header p-3 mb-0"> หน่วยงานที่สะดวกไปพบ </div>
+<div class="content-block">
+    <div class="form-box">
+        <div class="content-form">
+            <dx-form #formAgency [colCount]="3" labelLocation="top">
+                <dxi-item template="temp2" [isRequired]="formValidate" [colSpan]="2">
+                    <dxo-label text="หน่วยงานที่สะดวกไปพบ" [showColon]="false"></dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกหน่วยงานที่สะดวกไปพบ">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp2'">
+                    <dx-radio-group id="police-main" #selectPoliceMain [dataSource]="radiocheckorganize"
+                        displayExpr="TEXT" valueExpr="ID" searchExpr="TEXT" [searchEnabled]="true"
+                        placeholder="หน่วยงานที่สะดวกไปพบ"
+                        (onValueChanged)="OnSelectPoliceMain($event,selectPoliceMain)" [readOnly]="formReadOnly"
+                        [(value)]="formData.LOCATION_MAIN" [showClearButton]="true">
+                    </dx-radio-group>
+                </div>
+            </dx-form>
+            <dx-form #formInformertype1 [colCount]="3" labelLocation="top" *ngIf="formData.LOCATION_MAIN  === 1">
+                <dxi-item [colSpan]="3">
+                    <p style="color:red;">หากทราบชื่อสถานีตำรวจสามารถพิมพ์ชื่อค้นหาได้ ถ้าไม่ทราบให้เลือก จังหวัด อำเภอ
+                        เพื่อกรองหน่วยงาน</p>
+                </dxi-item>
+                <dxi-item template="temp2" [colSpan]="2" [isRequired]="formData.LOCATION_MAIN  === 1">
+                    <dxo-label text="จังหวัด" [showColon]="false">
+                    </dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกจังหวัด">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp2'">
+                    <dx-select-box #selectPresentProvicelocationwalkin [dataSource]="province"
+                        displayExpr="PROVINCE_NAME_THA" valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA"
+                        [searchEnabled]="true" placeholder="จังหวัด" [showClearButton]="true"
+                        (onValueChanged)="OnSelectProvicePresentlocationWalkin($event,selectPresentProvicelocationwalkin)"
+                        [readOnly]="formReadOnly" [(value)]="formData.ORG_PROVINCE_OFFICER_ID">
+                    </dx-select-box>
+                </div>
+                <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
+
+                <dxi-item template="inviteOrg" [colSpan]="2" [isRequired]="formData.LOCATION_MAIN  === 1">
+                    <dxo-label text="ชื่อสถานี" [showColon]="false">
+                    </dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาระบุชื่อสถานี">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'inviteOrg'">
+                    <dx-select-box #selectorgwalkin [readOnly]="formReadOnly" [dataSource]="dswalkinstatuspolice"
+                        displayExpr="ORGANIZE_NAME_THA" valueExpr="ORGANIZE_NAME_THA" searchExpr="ORGANIZE_NAME_THA"
+                        placeholder="ชื่อสถานี" [searchEnabled]="true" [showClearButton]="true"
+                        (onValueChanged)="Onorglocationwalkin($event,selectorgwalkin)"
+                        [(value)]="formData.WALKIN_POLICE_STATION">
+                    </dx-select-box>
+                </div>
+                <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
+            </dx-form>
+            <dx-form #formInformertype2 [colCount]="2" labelLocation="top" *ngIf="formData.LOCATION_MAIN === 2">
+                <dxi-item template="temp2" [colSpan]="2" [isRequired]="formData.LOCATION_MAIN  ===  2">
+                    <dxo-label text="จังหวัด" [showColon]="false">
+                    </dxo-label>
+                    <dxi-validation-rule type="required" message="กรุณาเลือกจังหวัด">
+                    </dxi-validation-rule>
+                </dxi-item>
+                <div *dxTemplate="let data of 'temp2'">
+                    <dx-select-box #selectWalkinProvince [dataSource]="province" displayExpr="PROVINCE_NAME_THA"
+                        valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true"
+                        placeholder="จังหวัด" [showClearButton]="true"
+                        (onValueChanged)="OnSelectProviceCCIBWalkin($event,selectWalkinProvince)"
+                        [readOnly]="formReadOnly" [(value)]="formData.ORG_PROVINCE_ID_CCIB_WALKIN_ID">
+                    </dx-select-box>
+                </div>
+                <dxi-item template="selectorgmainw" [colSpan]="2"
+                    *ngIf="formData?.ORG_PROVINCE_ID_CCIB_WALKIN_ID"></dxi-item>
+                <div *dxTemplate="let data of 'selectorgmainw'" style="margin-left:10%;" class="custom-ratiow">
+                    <dx-radio-group #selectorgmainw [readOnly]="formReadOnly" [dataSource]="orgUnitsNewWalkin"
+                        layout="horizontal" valueExpr="org_id" displayExpr="org_name"
+                        [value]="formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID"
+                        (onValueChanged)="onvaluechangeorgmainwalkin($event)">
+                        <div *dxTemplate="let data of 'item'">
+                            <div class="row main-content">
+                                <div class="col-md-4"><b>{{ data.org_name }}</b></div>
+                            </div>
+                            <div *ngFor="let location of data.org_locations; let i = index" class="row sub-content">
+                                <div class="col-md-2 offset-md-1 location" *ngIf="i === 0"><b>ที่ตั้ง</b></div>
+                                <div class="col-md-2 offset-md-1" *ngIf="i > 0"></div>
+                                <div class="col-md-9">{{ location }}</div>
+                            </div>
+                            <div class="row location-detail mt-2">
+                                <div class="col-md-2 offset-md-1"><b>รายละเอียด</b></div>
+                                <div class="col-md-9">
+                                    <span [innerHTML]="data.location_detail"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </dx-radio-group>
+
+                    <dxi-validation-rule type="required" message="กรุณาเลือกข้อมูล หน่วยงานที่สะดวกไปพบเจ้าหน้าที่">
+                    </dxi-validation-rule>
+                </div>
+            </dx-form>
+        </div>
+    </div>
+</div>
+
+<div class="content-header p-3 mb-0"> รูปแบบการหลอกลวง </div>
+<div class="content-block">
+    <app-case-type-new-container [dataForm]="formCaseTypeNew"></app-case-type-new-container>
+</div>
+
+<div class="content-header p-3 mb-0"> ช่องทางติดต่อครั้งแรก </div>
+<div class="content-block">
+    <app-issue-online-criminal-contact-info [dataForm]="formChannelContac"></app-issue-online-criminal-contact-info>
+</div>
+
+<div class="content-header p-3 mb-0"> รายละเอียดความเสียหาย </div>
+<div class="content-block">
+    <app-issue-online-damage-new [dataForm]="formDamageDetail"></app-issue-online-damage-new>
+</div>
+
+<div class="text-center" style="margin-top: 100px;">
+    <dx-check-box [(value)]="confirmSubmit"
+        text="ข้าพเจ้ายืนยันว่าข้อมูลที่แจ้งทั้งหมดเป็นความจริงทุกประการ หากปรากฏว่าเป็นความเท็จ ข้าพเจ้ายินยอมรับผิดตามกฎหมาย และข้าพเจ้ายินยอมให้เจ้าหน้าที่ตำรวจเข้าถึงและใช้ข้อมูลเหล่านี้เพื่อประโยชน์ในการสืบสวนสอบสวน"></dx-check-box>
+    <div class="box-submit mt-2">
+        <dx-button class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)">
+        </dx-button>
+        &nbsp;
+        <dx-button class="btn btn-submit" text="ส่งเรื่องแจ้งความ" (onClick)="SubmitForm()"
+            [disabled]="!confirmSubmit"></dx-button>
+    </div>
+
+</div>

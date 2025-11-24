@@ -236,65 +236,275 @@
 </div> -->
 
 <div class="conten-block">
-    <div class="content-title">คนร้ายติดต่อคุณครั้งแรกผ่านช่องทางใด?</div>
+    <div class="content-title  p-3 mb-0">คนร้ายติดต่อคุณครั้งแรกผ่านช่องทางใด?</div>
     <div class="content-form">
-        <dx-form #formContactChannel [colCount]="2" labelLocation="top">
-            <dxi-item template="contactChannel" [isRequired]="true" [colSpan]="2">
-                <dxo-label text="ช่องทางที่คนร้ายติดต่อคุณ" [showColon]="false"></dxo-label>
-                <dxi-validation-rule type="required" message="กรุณาเลือกช่องทางที่คนร้ายติดต่อคุณ"></dxi-validation-rule>
-            </dxi-item>
-            <div *dxTemplate="let data of 'contactChannel'">
-                <!-- <dx-select-box [dataSource]="contactChannelList" displayExpr="TEXT" valueExpr="VALUE" searchExpr="TEXT" [searchEnabled]="true" placeholder="เลือกช่องทางที่คนร้ายติดต่อคุณ" [(value)]="formData.CONTACT_CHANNEL" [showClearButton]="true">
-                </dx-select-box> -->
-            </div>
-        </dx-form>
+        <!-- เลือกช่องทาง (SMS / PHONE / LINE / ฯลฯ) -->
+        <div class="mb-3 channel-selector">
+            <button *ngFor="let cfg of configFormOption1" type="button" class="btn btn-outline-primary me-2 mb-2 mx-1"
+                [disabled]="formReadOnly" [class.active]="selectedChannel1?.id === cfg.id"
+                (click)="onSelectChannel(cfg,1)">
+                {{ cfg.name }}
+            </button>
+        </div>
+        <!-- แสดงฟอร์มของช่องทางที่เลือก -->
+        <div *ngIf="selectedChannel1 as ch">
+            <h4 class="mb-3">{{ ch.name }}</h4>
+
+            <dx-form [formData]="formData1" [colCount]="1" labelLocation="top" [showColonAfterLabel]="true">
+
+                <ng-container *ngFor="let field of ch.formOption">
+
+                    <!-- ปกติ (textbox / selectbox / radiobox / file / textarea) -->
+                    <dxi-item
+                        *ngIf="field.fieldType !== 'group' && field.fieldType !== 'checkbox' && isFieldVisible(field)"
+                        [dataField]="field.dataField" [label]="{ text: field.caption }" [readOnly]="formReadOnly"
+                        [editorType]="getEditorType(field)" [isRequired]="field.required"
+                        [editorOptions]="field.editorOptions">
+
+                        <dxo-validation-rules *ngIf="field.required || field.pattern">
+                            <dxi-validation-rule *ngIf="field.required" type="required"
+                                [message]="'กรุณากรอก/เลือก ' + field.caption">
+                            </dxi-validation-rule>
+
+                            <dxi-validation-rule *ngIf="field.pattern" type="pattern" [pattern]="field.pattern"
+                                message="รูปแบบข้อมูลไม่ถูกต้อง">
+                            </dxi-validation-rule>
+                        </dxo-validation-rules>
+                    </dxi-item>
+
+                    <!-- group / sub-form -->
+                    <dxi-item *ngIf="field.fieldType === 'group' && isFieldVisible(field)" itemType="group"
+                        [caption]="field.caption">
+
+                        <ng-container *ngFor="let child of field.children">
+
+                            <dxi-item [dataField]="child.dataField" [label]="{ text: child.caption }"
+                                [editorType]="getEditorType(child)" [isRequired]="child.required" [readOnly]="formReadOnly"
+                                [editorOptions]="child.editorOptions">
+
+                                <dxo-validation-rules *ngIf="child.required || child.pattern">
+                                    <dxi-validation-rule *ngIf="child.required" type="required"
+                                        [message]="'กรุณากรอก/เลือก ' + child.caption">
+                                    </dxi-validation-rule>
+
+                                    <dxi-validation-rule *ngIf="child.pattern" type="pattern" [pattern]="child.pattern"
+                                        message="รูปแบบข้อมูลไม่ถูกต้อง">
+                                    </dxi-validation-rule>
+                                </dxo-validation-rules>
+
+                            </dxi-item>
+
+                        </ng-container>
+                    </dxi-item>
+
+                    <!-- checkbox = list ของ dx-check-box -->
+                    <dxi-item *ngIf="field.fieldType === 'checkbox' && isFieldVisible(field)" itemType="simple"
+                        [label]="{ text: field.caption }">
+
+                        <ng-template dxTemplate="editor">
+                            <div class="checkbox-group">
+                                <dx-check-box *ngFor="let opt of field.options"
+                                    [text]="opt[field.displayExpr || 'name']" [value]="isChecked(field, opt)"
+                                    (onValueChanged)="onCheckboxChange(field, opt, $event)" [readOnly]="formReadOnly">
+                                </dx-check-box>
+                            </div>
+                        </ng-template>
+
+                    </dxi-item>
+
+                </ng-container>
+            </dx-form>
+        </div>
     </div>
-    <div class="content-title">หลังจากติดต่อกันแล้ว การหลอกลวงส่วนใหญ่เกิดขึ้นที่ไหน?</div>
+    <div class="content-title  p-3 mb-0">หลังจากติดต่อกันแล้ว การหลอกลวงส่วนใหญ่เกิดขึ้นที่ไหน?</div>
     <div class="content-form">
-        <dx-form #formContactChannel [colCount]="2" labelLocation="top">
-            <dxi-item template="contactChannel" [isRequired]="true" [colSpan]="2">
-                <dxo-label text="ช่องทางที่คนร้ายติดต่อคุณ" [showColon]="false"></dxo-label>
-                <dxi-validation-rule type="required" message="กรุณาเลือกช่องทางที่คนร้ายติดต่อคุณ"></dxi-validation-rule>
-            </dxi-item>
-            <div *dxTemplate="let data of 'contactChannel'">
-                <!-- <dx-select-box [dataSource]="contactChannelList" displayExpr="TEXT" valueExpr="VALUE" searchExpr="TEXT" [searchEnabled]="true" placeholder="เลือกช่องทางที่คนร้ายติดต่อคุณ" [(value)]="formData.CONTACT_CHANNEL" [showClearButton]="true">
-                </dx-select-box> -->
-            </div>
-        </dx-form>
+        <div class="mb-3 channel-selector">
+            <button *ngFor="let cfg of configFormOption2" type="button" class="btn btn-outline-primary me-2 mb-2 mx-1"
+                [disabled]="formReadOnly" [class.active]="selectedChannel2?.id === cfg.id"
+                (click)="onSelectChannel(cfg,2)">
+                {{ cfg.name }}
+            </button>
+        </div>
+
+        <div *ngIf="selectedChannel2 as ch">
+            <h4 class="mb-3">{{ ch.name }}</h4>
+
+            <dx-form [formData]="formData2" [colCount]="1" labelLocation="top" [showColonAfterLabel]="true">
+
+                <ng-container *ngFor="let field of ch.formOption">
+
+                    <dxi-item
+                        *ngIf="field.fieldType !== 'group' && field.fieldType !== 'checkbox' && isFieldVisible(field)"
+                        [dataField]="field.dataField" [label]="{ text: field.caption }"
+                        [editorType]="getEditorType(field)" [isRequired]="field.required"
+                        [editorOptions]="field.editorOptions">
+
+                        <dxo-validation-rules *ngIf="field.required || field.pattern">
+                            <dxi-validation-rule *ngIf="field.required" type="required"
+                                [message]="'กรุณากรอก/เลือก ' + field.caption">
+                            </dxi-validation-rule>
+
+                            <dxi-validation-rule *ngIf="field.pattern" type="pattern" [pattern]="field.pattern"
+                                message="รูปแบบข้อมูลไม่ถูกต้อง">
+                            </dxi-validation-rule>
+                        </dxo-validation-rules>
+                    </dxi-item>
+
+                    <dxi-item *ngIf="field.fieldType === 'group' && isFieldVisible(field)" itemType="group"
+                        [caption]="field.caption">
+
+                        <ng-container *ngFor="let child of field.children">
+
+                            <dxi-item *ngIf="isFieldVisible(child)" [dataField]="child.dataField"
+                                [label]="{ text: child.caption }" [editorType]="getEditorType(child)"
+                                [isRequired]="child.required" [editorOptions]="child.editorOptions">
+
+                                <dxo-validation-rules *ngIf="child.required || child.pattern">
+                                    <dxi-validation-rule *ngIf="child.required" type="required"
+                                        [message]="'กรุณากรอก/เลือก ' + child.caption">
+                                    </dxi-validation-rule>
+
+                                    <dxi-validation-rule *ngIf="child.pattern" type="pattern" [pattern]="child.pattern"
+                                        message="รูปแบบข้อมูลไม่ถูกต้อง">
+                                    </dxi-validation-rule>
+                                </dxo-validation-rules>
+
+                            </dxi-item>
+
+                        </ng-container>
+                    </dxi-item>
+
+                    <dxi-item *ngIf="field.fieldType === 'checkbox' && isFieldVisible(field)" itemType="simple"
+                        [label]="{ text: field.caption }">
+
+                        <ng-template dxTemplate="editor">
+                            <div class="checkbox-group">
+                                <dx-check-box *ngFor="let opt of field.options"
+                                    [text]="opt[field.displayExpr || 'name']" [value]="isChecked(field, opt)"
+                                    (onValueChanged)="onCheckboxChange(field, opt, $event)">
+                                </dx-check-box>
+                            </div>
+                        </ng-template>
+
+                    </dxi-item>
+
+                </ng-container>
+            </dx-form>
+        </div>
     </div>
-    <div class="content-title">ในขั้นตอนที่ท่านสูญเสียเงิน/ทรัพย์สิน... เหตุการณ์ใดต่อไปนี้อธิบาย 'วิธีการ' ที่คนร้ายใช้ได้ใกล้เคียงที่สุด?</div>
+    <div class="content-title  p-3 mb-0">ในขั้นตอนที่ท่านสูญเสียเงิน/ทรัพย์สิน... เหตุการณ์ใดต่อไปนี้อธิบาย 'วิธีการ'
+        ที่คนร้ายใช้ได้ใกล้เคียงที่สุด?</div>
     <div class="content-form">
-        <dx-form #formContactChannel [colCount]="2" labelLocation="top">
-            <dxi-item template="contactChannel" [isRequired]="true" [colSpan]="2">
-                <dxo-label text="ช่องทางที่คนร้ายติดต่อคุณ" [showColon]="false"></dxo-label>
-                <dxi-validation-rule type="required" message="กรุณาเลือกช่องทางที่คนร้ายติดต่อคุณ"></dxi-validation-rule>
-            </dxi-item>
-            <div *dxTemplate="let data of 'contactChannel'">
-                <!-- <dx-select-box [dataSource]="contactChannelList" displayExpr="TEXT" valueExpr="VALUE" searchExpr="TEXT" [searchEnabled]="true" placeholder="เลือกช่องทางที่คนร้ายติดต่อคุณ" [(value)]="formData.CONTACT_CHANNEL" [showClearButton]="true">
-                </dx-select-box> -->
-            </div>
-        </dx-form>
+        <div class="mb-3 channel-selector">
+            <button *ngFor="let cfg of configFormOption3" type="button" class="btn btn-outline-primary me-2 mb-2 mx-1"
+                [disabled]="formReadOnly" [class.active]="selectedChannel3?.id === cfg.id"
+                (click)="onSelectChannel(cfg,3)">
+                {{ cfg.name }}
+            </button>
+        </div>
+
+        <div *ngIf="selectedChannel3 as ch">
+            <h4 class="mb-3">{{ ch.name }}</h4>
+
+            <dx-form [formData]="formData3" [colCount]="1" labelLocation="top" [showColonAfterLabel]="true">
+
+                <ng-container *ngFor="let field of ch.formOption">
+
+                    <dxi-item
+                        *ngIf="field.fieldType !== 'group' && field.fieldType !== 'checkbox' && isFieldVisible(field)"
+                        [dataField]="field.dataField" [label]="{ text: field.caption }"
+                        [editorType]="getEditorType(field)" [isRequired]="field.required"
+                        [editorOptions]="field.editorOptions">
+
+                        <dxo-validation-rules *ngIf="field.required || field.pattern">
+                            <dxi-validation-rule *ngIf="field.required" type="required"
+                                [message]="'กรุณากรอก/เลือก ' + field.caption">
+                            </dxi-validation-rule>
+
+                            <dxi-validation-rule *ngIf="field.pattern" type="pattern" [pattern]="field.pattern"
+                                message="รูปแบบข้อมูลไม่ถูกต้อง">
+                            </dxi-validation-rule>
+                        </dxo-validation-rules>
+                    </dxi-item>
+
+                    <dxi-item *ngIf="field.fieldType === 'group' && isFieldVisible(field)" itemType="group"
+                        [caption]="field.caption">
+
+                        <ng-container *ngFor="let child of field.children">
+
+                            <dxi-item *ngIf="isFieldVisible(child)" [dataField]="child.dataField"
+                                [label]="{ text: child.caption }" [editorType]="getEditorType(child)"
+                                [isRequired]="child.required" [editorOptions]="child.editorOptions">
+
+                                <dxo-validation-rules *ngIf="child.required || child.pattern">
+                                    <dxi-validation-rule *ngIf="child.required" type="required"
+                                        [message]="'กรุณากรอก/เลือก ' + child.caption">
+                                    </dxi-validation-rule>
+
+                                    <dxi-validation-rule *ngIf="child.pattern" type="pattern" [pattern]="child.pattern"
+                                        message="รูปแบบข้อมูลไม่ถูกต้อง">
+                                    </dxi-validation-rule>
+                                </dxo-validation-rules>
+
+                            </dxi-item>
+
+                        </ng-container>
+                    </dxi-item>
+
+                    <dxi-item *ngIf="field.fieldType === 'checkbox' && isFieldVisible(field)" itemType="simple"
+                        [label]="{ text: field.caption }">
+
+                        <ng-template dxTemplate="editor">
+                            <div class="checkbox-group">
+                                <dx-check-box *ngFor="let opt of field.options"
+                                    [text]="opt[field.displayExpr || 'name']" [value]="isChecked(field, opt)"
+                                    (onValueChanged)="onCheckboxChange(field, opt, $event)">
+                                </dx-check-box>
+                            </div>
+                        </ng-template>
+
+                    </dxi-item>
+
+                </ng-container>
+            </dx-form>
+        </div>
     </div>
 </div>
 
+<div class="text-right btn-footer" *ngIf="formType === 'add'">
+    <dx-button *ngIf="formType==='add'" class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)">
+    </dx-button>
+    &nbsp;
+    <dx-button class="btn btn-submit" text="ถัดไป" (onClick)="SubmitFormChannelNew($event)"></dx-button>
+</div>
 
-<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
+
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true"
+    [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)">
 </dx-load-panel>
 
 
-<dx-popup [width]="800" [height]="600" [showTitle]="true" title="เพิ่มรายการ" [dragEnabled]="false" [closeOnOutsideClick]="false" [showCloseButton]="false" [visible]="popupAttachment">
+<dx-popup [width]="800" [height]="600" [showTitle]="true" title="เพิ่มรายการ" [dragEnabled]="false"
+    [closeOnOutsideClick]="false" [showCloseButton]="false" [visible]="popupAttachment">
     <div *dxTemplate="let data of 'content'">
-        <span><p style="color: red;">*กรุณาเลือกประเภทของไฟล์ ก่อนทำการอัปโหลดไฟล์</p></span>
-        <dx-select-box [dataSource]="typeSelected" [(value)]="fileTypeSelectedValue" placeholder="กรุณาเลือกประเภทไฟล์"></dx-select-box>
-        <dx-scroll-view *ngIf="fileTypeSelected" #view_form_popup_attachment [showScrollbar]="'always'" style="height: calc(60% - 45px);">
+        <span>
+            <p style="color: red;">*กรุณาเลือกประเภทของไฟล์ ก่อนทำการอัปโหลดไฟล์</p>
+        </span>
+        <dx-select-box [dataSource]="typeSelected" [(value)]="fileTypeSelectedValue"
+            placeholder="กรุณาเลือกประเภทไฟล์"></dx-select-box>
+        <dx-scroll-view *ngIf="fileTypeSelected" #view_form_popup_attachment [showScrollbar]="'always'"
+            style="height: calc(60% - 45px);">
             <div id="popup-issue-online-attachment">
                 <div id="upload-file" class="mt-3">
                     <div *ngIf="!popupFormUploaded" class="block-dropzone">
                         <div class="dropzone" appDrag (files)="FilesDroppedAttachment($event)">
-                            <span class="dropzone-text"><i class="fa fa-upload"></i> วางไฟล์ที่ต้องการนำเข้าที่นี่ หรือ <span
-                                    class="text-link"
-                                    (click)="OpenFileDialogAttachment(uploadfileAttachment)">เลือกไฟล์</span><br>ไฟล์เอกสารไฟล์ภาพ นามสกุล .pdf, .jpg, .png
-                            <input #uploadfileAttachment type="file" [multiple]="false" accept="*" tabindex="-1" class="dx-fileuploader-input" (change)="UploadFileAttachment(uploadfileAttachment)"></span>
+                            <span class="dropzone-text"><i class="fa fa-upload"></i> วางไฟล์ที่ต้องการนำเข้าที่นี่ หรือ
+                                <span class="text-link"
+                                    (click)="OpenFileDialogAttachment(uploadfileAttachment)">เลือกไฟล์</span><br>ไฟล์เอกสารไฟล์ภาพ
+                                นามสกุล .pdf, .jpg, .png
+                                <input #uploadfileAttachment type="file" [multiple]="false" accept="*" tabindex="-1"
+                                    class="dx-fileuploader-input"
+                                    (change)="UploadFileAttachment(uploadfileAttachment)"></span>
                         </div>
                     </div>
                     <div *ngIf="popupFormUploaded" class="block-uploaded-file">
@@ -310,7 +520,8 @@
                                 </div>
                                 <div class="col-auto block-remove-file">
                                     <div class="remove-img-list">
-                                        <i class="fa fa-trash" style="color: red;" (click)="ClearDocBufferAttachment()"></i>
+                                        <i class="fa fa-trash" style="color: red;"
+                                            (click)="ClearDocBufferAttachment()"></i>
                                     </div>
                                 </div>
                             </div>
@@ -321,7 +532,8 @@
         </dx-scroll-view>
         <div class="text-right btn-dx">
             <button class="btn btn-cancle" (click)="PopupUploadClose()">ยกเลิก</button>&nbsp;
-            <button [disabled]="!fileTypeSelected && !_fileForm" class="btn btn-submit" (click)="PopupUploadSave()">บันทึก</button>
+            <button [disabled]="!fileTypeSelected && !_fileForm" class="btn btn-submit"
+                (click)="PopupUploadSave()">บันทึก</button>
         </div>
     </div>
 </dx-popup>

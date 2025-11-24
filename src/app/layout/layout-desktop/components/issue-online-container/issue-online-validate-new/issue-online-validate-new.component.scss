@@ -1,0 +1,69 @@
+:host {
+    .tab-title {
+        font-size: 18px;
+        color: #2f2b66;
+    }
+     ::ng-deep {
+        .dx-icon.fa.fa-plus {
+            color: #fff !important;
+        }
+        .content-header {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #ffffff;
+            background-color: #445c98;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .content-block {
+            padding: 10px 25px 40px 25px;
+            border: 1px solid #d9d9d9;
+            .content-title {
+                text-align: left;
+                padding: 10px 0 20px 0;
+                font-size: 18px;
+                color: #2f2b66;
+                font-weight: bold;
+            }
+            .content-end-line {
+                margin: auto;
+                width: 100%;
+                border-bottom: 1px solid #dddddd;
+                margin-top: 40px;
+            }
+        }
+    }
+    ::ng-deep #police-main .dx-item.dx-radiobutton{
+        margin: 6px 0;
+        display: flex;
+        align-items: center;
+    }
+}
+
+:host ::ng-deep .custom-ratio .dx-widget.dx-collection > .dx-item.dx-radiobutton {
+    width: 700px; /* Default width for larger screens */
+    max-width: 100%; /* Ensure it doesn’t overflow */
+}
+
+:host ::ng-deep .custom-ratiow .dx-widget.dx-collection > .dx-item.dx-radiobutton {
+    width: 730px; /* Default width for larger screens */
+    max-width: 100%; /* Ensure it doesn’t overflow */
+}
+
+:host ::ng-deep .custom-ratio .dx-widget.dx-collection > .dx-item.dx-radiobutton .dx-radio-value-container,
+:host ::ng-deep .custom-ratiow .dx-widget.dx-collection > .dx-item.dx-radiobutton .dx-radio-value-container {
+    width: 40px;
+    vertical-align: top;
+}
+
+:host ::ng-deep .custom-ratio .dx-widget.dx-collection > .dx-item.dx-radiobutton .sub-content,
+:host ::ng-deep .custom-ratiow .dx-widget.dx-collection > .dx-item.dx-radiobutton .sub-content {
+    padding-top: 10px;
+}
+
+:host ::ng-deep .custom-ratio .dx-widget.dx-collection > .dx-item.dx-radiobutton .sub-content > .location,
+:host ::ng-deep .custom-ratiow .dx-widget.dx-collection > .dx-item.dx-radiobutton .sub-content > .location {
+    padding-left: 15px;
+    padding-right: 0px;
+}

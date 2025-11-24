@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpStatusResult, HttpStatusResultValue, req } from 'share-ui';
 import { OnlineCaseInfo, OnlineCaseParam } from '../common/@type/online-case';
 import { User } from './user';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -49,6 +50,13 @@ export class OnlineCaseService {
 
     public InsertDataMQ(param: any): Observable<any> {
         return req("CmsOnlineCaseInfo/submit")
+            .body(param)
+            .disableCriticalDialogError().post();
+    }
+
+     public InsertPreCase(param: any): Observable<any> {
+        return req("NewCase")
+            .host(environment.config.baseConfig.urlgdcc)
             .body(param)
             .disableCriticalDialogError().post();
     }
