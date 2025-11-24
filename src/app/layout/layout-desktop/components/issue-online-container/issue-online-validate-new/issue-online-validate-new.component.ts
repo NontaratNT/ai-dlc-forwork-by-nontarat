@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { IssueOnlineContainerComponent } from '../issue-online-container.component';
-import { DxRadioGroupComponent, DxSelectBoxComponent } from 'devextreme-angular';
+import { DxFormComponent, DxRadioGroupComponent, DxSelectBoxComponent } from 'devextreme-angular';
 import { ProvinceService } from 'src/app/services/province.service';
 import { DistrictService } from 'src/app/services/district.service';
 import { SubdistrictService } from 'src/app/services/subdistrict.service';
@@ -10,6 +10,8 @@ import { User } from 'src/app/services/user';
 import Swal from 'sweetalert2';
 import { finalize } from 'rxjs/operators';
 import { OnlineCaseService } from 'src/app/services/online-case.service';
+import { PersonalService } from 'src/app/services/personal.service';
+import { IssueOnlineFileUploadService } from 'src/app/services/issue-online-file-upload.service';
 
 @Component({
   selector: 'app-issue-online-validate-new',
@@ -20,6 +22,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
 
   public mainComponent: IssueOnlineContainerComponent;
   @Input() province: any[] = [];
+  @ViewChild("form_popup_attachment", { static: false }) formAttachment: DxFormComponent;
 
   formReadOnly: boolean = false;
   formValidate: boolean = true;
@@ -172,6 +175,15 @@ export class IssueOnlineValidateNewComponent implements OnInit {
   minBirthDate: Date;
   maxBirthDate: Date;
 
+  listAttachment: any = [];
+  popupAttachment = false;
+  popupForm: any = {};
+  popupFormUploaded = false;
+  popupViewFile = false;
+  popupViewFileData: any = {};
+  limitAttachmentSize = 0;
+  maxSizeBuffer = 0;
+
 
   formData: any = {};
   Attachment: any[] = [];
@@ -196,10 +208,13 @@ export class IssueOnlineValidateNewComponent implements OnInit {
     private _OrgService: OrgService,
     private _date: ConvertDateService,
     private _onlineCaseServ: OnlineCaseService,
+    private servicePersonal: PersonalService,
+    private _issueFile: IssueOnlineFileUploadService,
   ) { }
 
   ngOnInit(): void {
     this.loadDataForm();
+    this.loadPersonalData();
     this._OrgService.getorgwalkinall().
       subscribe(dsorgbyarialocation => {
         this.dswalkinstatuspolice = dsorgbyarialocation;
@@ -218,6 +233,111 @@ export class IssueOnlineValidateNewComponent implements OnInit {
     this.minBirthDate = this._date.SetDateDefault(100, true, true, true);
     this.maxBirthDate = this._date.SetDateDefault(0);
     this.loadDateBox = true;
+  }
+
+  loadPersonalData() {
+    const userId = User.Current.PersonalId;
+    this.servicePersonal.GetPersonalById(userId)
+      .subscribe(
+        async personalInfo => {
+          if (!personalInfo) {
+            return;
+          }
+
+          // ---------- ก้อนข้อมูลพื้นฐาน ----------
+          const {
+            PERSONAL_FNAME_THA,
+            PERSONAL_LNAME_THA,
+            PERSONAL_EMAIL,
+            PERSONAL_TEL_NO,
+            PERSONAL_GENDER,
+            PERSONAL_CITIZEN_NUMBER,
+            TITLE_NAME,
+            PERSONAL_BIRTH_DATE,
+            HOME_REGISTER_ADDRESS,
+            HOME_REGISTER_PROVINCE_ID,
+            HOME_REGISTER_DISTICT_ID,
+            HOME_REGISTER_SUB_DISTICT_ID,
+            HOME_REGISTER_POST_CODE
+          } = personalInfo;
+
+          // เพศ: 1 = M, 2 = F, อื่น ๆ = null
+          let gender: 'M' | 'F' | null = null;
+          if (PERSONAL_GENDER === 1) {
+            gender = 'M';
+          } else if (PERSONAL_GENDER === 2) {
+            gender = 'F';
+          }
+
+          // คำนำหน้า
+          const normalTitles = ['นาย', 'นาง', 'นางสาว'];
+          if (TITLE_NAME && normalTitles.includes(TITLE_NAME)) {
+            this.formData.TITLE_ID = TITLE_NAME;
+            this.formData.TITLE_NAME = null;        // กันค่าค้าง
+          } else if (TITLE_NAME) {
+            this.formData.TITLE_ID = 'อื่นๆ';
+            this.formData.TITLE_NAME = TITLE_NAME;
+          } else {
+            this.formData.TITLE_ID = null;
+            this.formData.TITLE_NAME = null;
+          }
+
+          // patch ฟิลด์หลัก ๆ ในก้อนเดียว
+          this.formData = {
+            ...this.formData, // กันเผื่อมีค่าอื่นอยู่แล้ว
+            CASE_INFORMER_FIRSTNAME: PERSONAL_FNAME_THA ?? null,
+            CASE_INFORMER_LASTNAME: PERSONAL_LNAME_THA ?? null,
+            INFORMER_EMAIL: PERSONAL_EMAIL ?? null,
+            INFORMER_TEL: PERSONAL_TEL_NO ?? null,
+            CASE_INFORMER_GENDER: gender,
+            INFORMER_GENDER_DETAIL: null,
+            CASE_INFORMER_CITIZEN_NUMBER: PERSONAL_CITIZEN_NUMBER ?? null,
+            CASE_INFORMER_DATE: this._date.ConvertToDate(PERSONAL_BIRTH_DATE),
+            CASE_INFORMER_CARD_ADDRESS_NO: HOME_REGISTER_ADDRESS ?? null,
+            INFORMER_CARD_PROVINCE: HOME_REGISTER_PROVINCE_ID ?? null,
+            INFORMER_CARD_DISTRICT_ID: HOME_REGISTER_DISTICT_ID ?? null,
+            INFORMER_CARD_SUB_DISTRICT_ID: HOME_REGISTER_SUB_DISTICT_ID ?? null,
+            INFORMER_CARD_POSTCODE_ID: HOME_REGISTER_POST_CODE ?? null
+          };
+
+          // ---------- จัดการ address dropdown แบบ async ----------
+          // (province/district/sub-district ไม่ได้ต้องพึ่งกันโดยตรง → fetch พร้อมกันได้)
+          const tasks: Promise<void>[] = [];
+
+          if (HOME_REGISTER_PROVINCE_ID) {
+            tasks.push(
+              this.serviceProvince
+                .GetDistrictofProvince(HOME_REGISTER_PROVINCE_ID)
+                .toPromise()
+                .then(districts => {
+                  this.cardAddress.district = districts;
+                  this.cardAddress.disableDistrict = false;
+                })
+            );
+          }
+
+          if (HOME_REGISTER_DISTICT_ID) {
+            tasks.push(
+              this.serviceDistrict
+                .GetSubDistrictOfDistrict(HOME_REGISTER_DISTICT_ID)
+                .toPromise()
+                .then(subDistricts => {
+                  this.cardAddress.subDistrict = subDistricts;
+                  this.cardAddress.disableSubDistrict = false;
+                })
+            );
+          }
+
+          await Promise.all(tasks);
+
+          // sub-district + postcode ให้ formData ไปแล้วด้านบน
+        },
+        error => {
+          if (error.status === 500 || error.status === 524) {
+            // this.mainConponent.checkReload(2);
+          }
+        }
+      );
   }
 
   ChangeRadioTitle(e: any) {
@@ -472,6 +592,114 @@ export class IssueOnlineValidateNewComponent implements OnInit {
     this.formData.ORG_LOCATION_ID = selectedData.org_id;
     this.formData.WALKIN_POLICE_STATION = selectedData.org_name;
   }
+  PopupUploadAdd() {
+    this.popupAttachment = true;
+    this.popupForm = {};
+    this.popupFormUploaded = false;
+    this.maxSizeBuffer = this.limitAttachmentSize ?? 0;
+  }
+  PopupUploadDelete(index = null) {
+    Swal.fire({
+      title: 'ยืนยันการลบข้อมูล?',
+      text: " ",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#7d7d7d',
+      cancelButtonText: 'ยกเลิก',
+      confirmButtonText: 'ตกลง'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.limitAttachmentSize -= this.listAttachment[index].size ?? 0;
+        this.listAttachment.splice(index, 1);
+      }
+    });
+  }
+
+  async FilesDroppedAttachment(e) {
+    const files = e;
+    if (files.length === 1) {
+      this.isLoading = true;
+      const fileCheck = await this._issueFile.CheckFileUploadAllowMaxSize(this.maxSizeBuffer, files[0].file);
+
+      if (fileCheck.status) {
+        this.maxSizeBuffer = fileCheck.uploadSizeAll ?? 0;
+        const fileName = (this.popupForm.originalName) ? this.popupForm.originalName : fileCheck.filebase64.originalName;
+        fileCheck.filebase64.originalName = fileName;
+        this.popupForm = fileCheck.filebase64;
+        this.popupFormUploaded = true;
+      }
+      this.isLoading = false;
+
+    }
+  }
+
+  CheckArray(data: any = []) {
+    const countArray = data.length ?? 0;
+    if (countArray > 0) {
+      return true;
+    }
+    return false;
+
+  }
+
+  OpenFileDialogAttachment(uploadTag) {
+    uploadTag.value = "";
+    uploadTag.click();
+  }
+
+  async UploadFileAttachment(uploadTag) {
+    const files: any = uploadTag.files;
+    if (files.length === 1) {
+      this.isLoading = true;
+      const fileCheck = await this._issueFile.CheckFileUploadAllowMaxSize(this.maxSizeBuffer, files[0]);
+
+      if (fileCheck.status) {
+        this.maxSizeBuffer = fileCheck.uploadSizeAll ?? 0;
+        const fileName = (this.popupForm.originalName) ? this.popupForm.originalName : fileCheck.filebase64.originalName;
+        fileCheck.filebase64.originalName = fileName;
+        this.popupForm = fileCheck.filebase64;
+        this.popupFormUploaded = true;
+      }
+      this.isLoading = false;
+
+    }
+  }
+
+  ClearDocBufferAttachment() {
+    this.popupFormUploaded = false;
+    this.maxSizeBuffer -= this.popupForm.size ?? 0;
+    this.popupForm = {};
+    this.formAttachment.instance._refresh();
+
+  }
+
+  PopupUploadSave() {
+    const form = this.popupForm ?? undefined;
+    const fileBase64 = form.url ?? undefined;
+    if (!fileBase64) {
+      return this.ShowInvalidDialog();
+    }
+    this.listAttachment.push(this.popupForm);
+    this.limitAttachmentSize = this.maxSizeBuffer ?? 0;
+    this.PopupUploadClose();
+  }
+
+  PopupUploadClose() {
+    this.popupForm = {};
+    this.formAttachment.instance._refresh();
+    this.popupFormUploaded = false;
+    this.popupAttachment = false;
+  }
+
+  ShowInvalidDialog() {
+    Swal.fire({
+      title: "ผิดพลาด!",
+      text: "กรุณากรอกข้อมูลให้ครบ",
+      icon: "warning",
+      confirmButtonText: "Ok",
+    }).then(() => { });
+  }
 
   Back(e) {
     // this.mainConponent.IssueOnlineStep = 2;
@@ -496,7 +724,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
         DamageDetail: this.formDamageDetail,
         formCaseTypeNew: this.formCaseTypeNew,
         formChannelContac: this.formChannelContac,
-        Attachment: this.Attachment || [],
+        Attachment: this.listAttachment || [],
       },
     };
     console.log(payload);
