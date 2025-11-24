@@ -15,6 +15,7 @@ import { LoginThaiIDComponent } from "./components/login-thai-id/login-thai-id.c
 import { IssueOnlineReportComponent } from "./components/issue-online-report/issue-online-report.component";
 import { ChatOfficerComponent } from "./components/chat-officer/chat-officer.component";
 import { SecureFormComponent } from "./secure-form/secure-form.component";
+import { CaseOnlineNewTypeListComponent } from "./components/issue-online-container/case-online-new-type-list/case-online-new-type-list.component";
 
 
 const routes: Routes = [
@@ -72,6 +73,10 @@ const routes: Routes = [
             {
                 path: 'chat-list',
                 component: ChatOfficerComponent,
+            },
+            {
+                path:'case-online-new-type-list',
+                component: CaseOnlineNewTypeListComponent
             }
             
         ]

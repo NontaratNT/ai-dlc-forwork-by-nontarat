@@ -17,6 +17,7 @@ export class SidebarComponent implements OnInit,OnDestroy {
     listMneu = [
         { id: 1, text: 'ติดตามสถานะ', icon: 'fas fa-edit',link:"/main/task-list" },
         { id: 2, text: 'แจ้งเรื่องใหม่', icon: 'fas fa-folder-plus',link:"/main/issue-online/1" },
+        { id: 3, text: 'รายการเรื่องรับแจ้ง', icon: 'fas fa-folder',link:"/main/case-online-new-type-list" },
         { id: 17, text: 'ประวัติการนัดหมาย', icon: 'fas fa-history',link:"/main/appointment-history" },
         { id: 18, text: 'แจ้งปัญหา', icon: 'fas fa-folder',link:"/main/problem-online" },
         { id: 19, text: 'แจ้งเบาะแส', icon: 'fas fa-folder-plus',link:"/main/issue-online-report" },
