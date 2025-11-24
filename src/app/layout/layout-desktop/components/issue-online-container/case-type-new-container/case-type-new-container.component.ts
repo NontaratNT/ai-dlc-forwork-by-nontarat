@@ -59,12 +59,6 @@ export class CaseTypeNewContainerComponent implements OnInit {
     ) {}
 
     async ngOnInit(): Promise<void> {
-        if(this.dataForm){
-            console.log(this.dataForm);
-            this.formType = 'edit';
-            this._formData = this.dataForm;
-            console.log(this._formData);
-        }
         console.log('maincomponent', this.mainConponent);
         this._formConfig = await this._formConfigService
             .GetId("691d6f6a26109f6b7c05aae2")
@@ -79,16 +73,16 @@ export class CaseTypeNewContainerComponent implements OnInit {
 
         console.log("formbuilded", this._formBuilded);
         this._formData = {
-            data: {
-                containerpage2: {
-                    sumaryContainer: {
-                        personal_fullname: "สมชาย ใจดี",
-                        personal_citizennumber2: "1234567890123",
-                        personal_phone_number: "0812345678",
-                    },
-                },
-            },
+            data: {},
         };
+         if(this.dataForm){
+            console.log(this.dataForm);
+            this.formType = 'edit';
+            this._formData = this.dataForm;
+            this._formBuilded?.components.forEach(component => {
+                component.disabled = true;
+            });
+        }
     }
 
     async onSave(e) {

@@ -94,6 +94,7 @@ export class IssueOnlineDamageNewComponent implements OnInit {
   CryptoNetworkEditorOptions: dxSelectBoxOptions;
   CryptoDestAddressEditorOptions: dxTextBoxOptions;
   CryptoAmountEditorOptions: dxNumberBoxOptions;
+  CryptoAmountBathEditorOptions: dxNumberBoxOptions;
   CryptoTransactionIdEditorOptions: dxTextBoxOptions;
   // END ZONE
 
@@ -208,6 +209,7 @@ export class IssueOnlineDamageNewComponent implements OnInit {
     this.CryptoNetworkEditorOptions = this.createSelectBox(this.cryptoNetworks, 'เลือกเครือข่าย (Blockchain Network) ที่ใช้โอน');
     this.CryptoDestAddressEditorOptions = this.createTextEditor('กรุณากรอกที่อยู่ Wallet ปลายทาง (Destination Address)');
     this.CryptoAmountEditorOptions = this.createMoneyEditor('กรุณากรอกจำนวนเหรียญที่โอน', '#,##0.00000000');
+    this.CryptoAmountBathEditorOptions = this.createMoneyEditor('กรุณากรอกจำนวนเงินที่โอน', '#,##0.00');
     this.CryptoTransactionIdEditorOptions = this.createTextEditor('กรุณากรอก Transaction ID (TxID / Hash) (ถ้ามี)');
 
     // E-WALLET
@@ -234,10 +236,8 @@ export class IssueOnlineDamageNewComponent implements OnInit {
   async getBankInfoList(): Promise<void> {
     try {
       const res: any = await this.servBankInfo.GetBankInfo().toPromise();
-      console.log(res);
       if (res) {
         this.bankInfoList = res;
-        console.log(this.bankInfoList);
       }
     } catch (error) {
       console.error('Error fetching bank info list:', error);
@@ -321,7 +321,7 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       });
       return;
     } else {
-      if(this.formDamageType1?.BANK_DAMAGE_VALUE_BAHT <= 0){
+      if(!this.formDamageType1?.BANK_DAMAGE_VALUE_BAHT || this.formDamageType1?.BANK_DAMAGE_VALUE_BAHT <= 0){
         Swal.fire({
           icon: 'error',
           title: 'แจ้งเตือน',
@@ -344,7 +344,7 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       });
       return;
     } else {
-      if(this.formDamageType2?.CRYPTO_AMOUNT <= 0){
+      if( !this.formDamageType2?.CRYPTO_AMOUNT_BATH || this.formDamageType2?.CRYPTO_AMOUNT_BATH <= 0){
         Swal.fire({
           icon: 'error',
           title: 'แจ้งเตือน',
@@ -367,7 +367,8 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       });
       return;
     } else {
-      if(this.formDamageType3?.EWALLET_AMOUNT_BAHT <= 0){
+      console.log(this.formDamageType3?.EWALLET_AMOUNT);
+      if(!this.formDamageType3?.EWALLET_AMOUNT || this.formDamageType3?.EWALLET_AMOUNT <= 0){
         Swal.fire({
           icon: 'error',
           title: 'แจ้งเตือน',
@@ -390,7 +391,7 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       });
       return;
     } else {
-      if(!this.formDamageType4 || this.formDamageType4?.GIFT_CARD_AMOUNT_BAHT <= 0){
+      if(!this.formDamageType4?.GIFT_CARD_AMOUNT || this.formDamageType4?.GIFT_CARD_AMOUNT <= 0){
         Swal.fire({
           icon: 'error',
           title: 'แจ้งเตือน',
@@ -413,7 +414,7 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       });
       return;
     } else {
-      if(this.formDamageType5?.CARD_TRANSACTION_AMOUNT_BAHT <= 0){
+      if( !this.formDamageType5?.CARD_TRANSACTION_AMOUNT || this.formDamageType5?.CARD_TRANSACTION_AMOUNT <= 0){
         Swal.fire({
           icon: 'error',
           title: 'แจ้งเตือน',
@@ -675,7 +676,8 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       type: 'datetime',
       max: this.maxDateValue,
       min: this.minDateValue,
-      openOnFieldClick: false,
+      openOnFieldClick: true,
+      acceptCustomValue: false,
       readOnly: this.formType === 'edit',
       useMaskBehavior: true
     };

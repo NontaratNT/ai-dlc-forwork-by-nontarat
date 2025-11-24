@@ -683,7 +683,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                     fieldType: 'group',
                     visibleWhen: {
                         dataField: 'SOCIAL_PRIMARY_PLATFORM',
-                        values: ['อื่น ๆ']
+                        values: ['อื่นๆ']
                     },
                     children: [
                         {
@@ -882,15 +882,34 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     }
 
     loadDataForm() {
-        console.log(this.dataForm);
-        if (this.dataForm) {
-            this.formData1 = { ...this.dataForm?.formData1 };
-            this.formData2 = { ...this.dataForm?.formData2 };
-            this.formData3 = { ...this.dataForm?.formData3 };
-            this.selectedChannel1 = this.dataForm?.selectedChannel1 ?? null;
-            this.selectedChannel2 = this.dataForm?.selectedChannel2 ?? null;
-            this.selectedChannel3 = this.dataForm?.selectedChannel3 ?? null;
+        if (!this.dataForm) {
+            return;
         }
+
+        const id1 = this.dataForm.selectedChannel1?.id;
+        const id2 = this.dataForm.selectedChannel2?.id;
+        const id3 = this.dataForm.selectedChannel3?.id;
+
+        // 👇 รีแมปให้มาใช้ object จาก config จริง ๆ เสมอ
+        this.selectedChannel1 = id1
+            ? this.configFormOption1.find(x => x.id === id1) ?? null
+            : null;
+
+        this.selectedChannel2 = id2
+            ? this.configFormOption2.find(x => x.id === id2) ?? null
+            : null;
+
+        this.selectedChannel3 = id3
+            ? this.configFormOption3.find(x => x.id === id3) ?? null
+            : null;
+        
+        this.onSelectChannel(this.selectedChannel1,1);
+        this.onSelectChannel(this.selectedChannel2,2);
+        this.onSelectChannel(this.selectedChannel3,3);
+
+        this.formData1 = { ...(this.dataForm.formData1 || {}) };
+        this.formData2 = { ...(this.dataForm.formData2 || {}) };
+        this.formData3 = { ...(this.dataForm.formData3 || {}) };
     }
 
     safeGet<T = any>(key: string): T | undefined {
@@ -1328,7 +1347,6 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     }
 
     private buildEditorOptions(field: FieldConfig): any {
-        console.log(this.formReadOnly);
         const base: any = {
             placeholder: field.placeholder,
             maxLength: field.maxLength,
@@ -1449,18 +1467,29 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         this.formData[field.dataField] = list;
     }
 
-    isFieldVisible(field: FieldConfig): boolean {
+    isFieldVisible(field: FieldConfig,formIndex:Number): boolean {
         if (!field.visibleWhen) {
             return true;
         }
 
         const cond = field.visibleWhen;
-        const currentValue = this.formData[cond.dataField];
-
+        if(formIndex==1){
+            return this.evaluateCondition(cond,this.formData1);
+        }
+        if(formIndex==2){
+            return this.evaluateCondition(cond,this.formData2);
+        }
+        if(formIndex==3){
+            return this.evaluateCondition(cond,this.formData3);
+        }else{
+            return true;
+        }
+    }
+    private evaluateCondition(cond: FieldVisibleWhen, data: any): boolean {
+        const currentValue = data[cond.dataField];
         if (Array.isArray(currentValue)) {
             return currentValue.some(v => cond.values.includes(v));
-        }
-
+        } 
         return cond.values.includes(currentValue);
     }
 
@@ -1490,12 +1519,18 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
             return;
         }
         let setData = {
-            formData1:this.formData1,
-            formData2:this.formData2,
-            formData3:this.formData3,
-            selectedChannel1:this.selectedChannel1 ?? null,
-            selectedChannel2:this.selectedChannel2 ?? null,
-            selectedChannel3:this.selectedChannel3 ?? null,
+            formData1: this.formData1,
+            formData2: this.formData2,
+            formData3: this.formData3,
+            selectedChannel1: this.selectedChannel1
+                ? { id: this.selectedChannel1.id, name: this.selectedChannel1.name }
+                : null,
+            selectedChannel2: this.selectedChannel2
+                ? { id: this.selectedChannel2.id, name: this.selectedChannel2.name }
+                : null,
+            selectedChannel3: this.selectedChannel3
+                ? { id: this.selectedChannel3.id, name: this.selectedChannel3.name }
+                : null,
         };
         // clear empty value
         for (const key in setData) {

@@ -148,12 +148,19 @@
                                     message="กรุณากรอกจำนวนเหรียญที่โอน:"></dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item>
+                        <dxi-item dataField="CRYPTO_AMOUNT_BATH" [label]="CryptoAmountLabel"
+                            editorType="dxNumberBox" [isRequired]="true" [editorOptions]="CryptoAmountBathEditorOptions">
+                            <dxo-validation-rules>
+                                <dxi-validation-rule type="required"
+                                    message="กรุณากรอกจำนวนเหรียญที่โอน:"></dxi-validation-rule>
+                            </dxo-validation-rules>
+                        </dxi-item>
                         <dxi-item dataField="CRYPTO_TRANSACTION_ID" [label]="CryptoTransactionIdLabel" editorType="dxTextArea"
                             [editorOptions]="CryptoTransactionIdEditorOptions">
                         </dxi-item>
                     </dx-form>
                     <div class="box-submit my-3 text-center">
-                        <dx-button *ngIf="!onEditType2Clicked" type="success" (onClick)="onDamageType2Submit(formboxDamageType2)"
+                        <dx-button *ngIf="!onEditType2" type="success" (onClick)="onDamageType2Submit(formboxDamageType2)"
                             text="เพิ่มข้อมูล"></dx-button>
                         <dx-button *ngIf="onEditType2" type="success" (onClick)="onDamageType2Update(formboxDamageType2)"
                             text="บันทึกการแก้ไขข้อมูล"></dx-button>

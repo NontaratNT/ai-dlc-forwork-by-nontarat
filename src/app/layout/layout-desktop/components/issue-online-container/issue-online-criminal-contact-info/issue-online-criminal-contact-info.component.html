@@ -241,8 +241,8 @@
         <!-- เลือกช่องทาง (SMS / PHONE / LINE / ฯลฯ) -->
         <div class="mb-3 channel-selector">
             <button *ngFor="let cfg of configFormOption1" type="button" class="btn btn-outline-primary me-2 mb-2 mx-1"
-                [disabled]="formReadOnly" [class.active]="selectedChannel1?.id === cfg.id"
-                (click)="onSelectChannel(cfg,1)">
+                [class.active]="selectedChannel1?.id === cfg.id"
+                (click)="!formReadOnly && onSelectChannel(cfg,1)">
                 {{ cfg.name }}
             </button>
         </div>
@@ -256,7 +256,7 @@
 
                     <!-- ปกติ (textbox / selectbox / radiobox / file / textarea) -->
                     <dxi-item
-                        *ngIf="field.fieldType !== 'group' && field.fieldType !== 'checkbox' && isFieldVisible(field)"
+                        *ngIf="field.fieldType !== 'group' && field.fieldType !== 'checkbox' && isFieldVisible(field,1)"
                         [dataField]="field.dataField" [label]="{ text: field.caption }" [readOnly]="formReadOnly"
                         [editorType]="getEditorType(field)" [isRequired]="field.required"
                         [editorOptions]="field.editorOptions">
@@ -273,7 +273,7 @@
                     </dxi-item>
 
                     <!-- group / sub-form -->
-                    <dxi-item *ngIf="field.fieldType === 'group' && isFieldVisible(field)" itemType="group"
+                    <dxi-item *ngIf="field.fieldType === 'group' && isFieldVisible(field,1)" itemType="group"
                         [caption]="field.caption">
 
                         <ng-container *ngFor="let child of field.children">
@@ -298,13 +298,13 @@
                     </dxi-item>
 
                     <!-- checkbox = list ของ dx-check-box -->
-                    <dxi-item *ngIf="field.fieldType === 'checkbox' && isFieldVisible(field)" itemType="simple"
+                    <dxi-item *ngIf="field.fieldType === 'checkbox' && isFieldVisible(field,1)" itemType="simple"
                         [label]="{ text: field.caption }">
 
                         <ng-template dxTemplate="editor">
                             <div class="checkbox-group">
                                 <dx-check-box *ngFor="let opt of field.options"
-                                    [text]="opt[field.displayExpr || 'name']" [value]="isChecked(field, opt)"
+                                    [text]="opt[field.displayExpr || 'name']" [value]="isChecked(field, opt)" class="mx-1"
                                     (onValueChanged)="onCheckboxChange(field, opt, $event)" [readOnly]="formReadOnly">
                                 </dx-check-box>
                             </div>
@@ -320,8 +320,8 @@
     <div class="content-form">
         <div class="mb-3 channel-selector">
             <button *ngFor="let cfg of configFormOption2" type="button" class="btn btn-outline-primary me-2 mb-2 mx-1"
-                [disabled]="formReadOnly" [class.active]="selectedChannel2?.id === cfg.id"
-                (click)="onSelectChannel(cfg,2)">
+                [class.active]="selectedChannel2?.id === cfg.id"
+                (click)="!formReadOnly && onSelectChannel(cfg,2)">
                 {{ cfg.name }}
             </button>
         </div>
@@ -334,7 +334,7 @@
                 <ng-container *ngFor="let field of ch.formOption">
 
                     <dxi-item
-                        *ngIf="field.fieldType !== 'group' && field.fieldType !== 'checkbox' && isFieldVisible(field)"
+                        *ngIf="field.fieldType !== 'group' && field.fieldType !== 'checkbox' && isFieldVisible(field,2)"
                         [dataField]="field.dataField" [label]="{ text: field.caption }"
                         [editorType]="getEditorType(field)" [isRequired]="field.required"
                         [editorOptions]="field.editorOptions">
@@ -350,12 +350,12 @@
                         </dxo-validation-rules>
                     </dxi-item>
 
-                    <dxi-item *ngIf="field.fieldType === 'group' && isFieldVisible(field)" itemType="group"
+                    <dxi-item *ngIf="field.fieldType === 'group' && isFieldVisible(field,2)" itemType="group"
                         [caption]="field.caption">
 
                         <ng-container *ngFor="let child of field.children">
 
-                            <dxi-item *ngIf="isFieldVisible(child)" [dataField]="child.dataField"
+                            <dxi-item *ngIf="isFieldVisible(child,2)" [dataField]="child.dataField"
                                 [label]="{ text: child.caption }" [editorType]="getEditorType(child)"
                                 [isRequired]="child.required" [editorOptions]="child.editorOptions">
 
@@ -374,12 +374,12 @@
                         </ng-container>
                     </dxi-item>
 
-                    <dxi-item *ngIf="field.fieldType === 'checkbox' && isFieldVisible(field)" itemType="simple"
+                    <dxi-item *ngIf="field.fieldType === 'checkbox' && isFieldVisible(field,2)" itemType="simple"
                         [label]="{ text: field.caption }">
 
                         <ng-template dxTemplate="editor">
                             <div class="checkbox-group">
-                                <dx-check-box *ngFor="let opt of field.options"
+                                <dx-check-box *ngFor="let opt of field.options" class="mx-1"
                                     [text]="opt[field.displayExpr || 'name']" [value]="isChecked(field, opt)"
                                     (onValueChanged)="onCheckboxChange(field, opt, $event)">
                                 </dx-check-box>
@@ -397,12 +397,11 @@
     <div class="content-form">
         <div class="mb-3 channel-selector">
             <button *ngFor="let cfg of configFormOption3" type="button" class="btn btn-outline-primary me-2 mb-2 mx-1"
-                [disabled]="formReadOnly" [class.active]="selectedChannel3?.id === cfg.id"
-                (click)="onSelectChannel(cfg,3)">
+                [class.active]="selectedChannel3?.id === cfg.id"
+                (click)="!formReadOnly && onSelectChannel(cfg,3)">
                 {{ cfg.name }}
             </button>
         </div>
-
         <div *ngIf="selectedChannel3 as ch">
             <h4 class="mb-3">{{ ch.name }}</h4>
 
@@ -411,7 +410,7 @@
                 <ng-container *ngFor="let field of ch.formOption">
 
                     <dxi-item
-                        *ngIf="field.fieldType !== 'group' && field.fieldType !== 'checkbox' && isFieldVisible(field)"
+                        *ngIf="field.fieldType !== 'group' && field.fieldType !== 'checkbox' && isFieldVisible(field,3)"
                         [dataField]="field.dataField" [label]="{ text: field.caption }"
                         [editorType]="getEditorType(field)" [isRequired]="field.required"
                         [editorOptions]="field.editorOptions">
@@ -427,12 +426,12 @@
                         </dxo-validation-rules>
                     </dxi-item>
 
-                    <dxi-item *ngIf="field.fieldType === 'group' && isFieldVisible(field)" itemType="group"
+                    <dxi-item *ngIf="field.fieldType === 'group' && isFieldVisible(field,3)" itemType="group"
                         [caption]="field.caption">
 
                         <ng-container *ngFor="let child of field.children">
 
-                            <dxi-item *ngIf="isFieldVisible(child)" [dataField]="child.dataField"
+                            <dxi-item *ngIf="isFieldVisible(child,3)" [dataField]="child.dataField"
                                 [label]="{ text: child.caption }" [editorType]="getEditorType(child)"
                                 [isRequired]="child.required" [editorOptions]="child.editorOptions">
 
@@ -451,12 +450,12 @@
                         </ng-container>
                     </dxi-item>
 
-                    <dxi-item *ngIf="field.fieldType === 'checkbox' && isFieldVisible(field)" itemType="simple"
+                    <dxi-item *ngIf="field.fieldType === 'checkbox' && isFieldVisible(field,3)" itemType="simple"
                         [label]="{ text: field.caption }">
 
                         <ng-template dxTemplate="editor">
                             <div class="checkbox-group">
-                                <dx-check-box *ngFor="let opt of field.options"
+                                <dx-check-box *ngFor="let opt of field.options" class="mx-1"
                                     [text]="opt[field.displayExpr || 'name']" [value]="isChecked(field, opt)"
                                     (onValueChanged)="onCheckboxChange(field, opt, $event)">
                                 </dx-check-box>

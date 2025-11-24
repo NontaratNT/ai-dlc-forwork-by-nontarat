@@ -159,11 +159,7 @@
                     <dx-tooltip target="#ctrlEmail" showEvent="dxhoverstart" hideEvent="dxhoverend" position="top"
                         [hideOnOutsideClick]="false">
                         <div *dxTemplate="let data of 'content'">
-                            <p>อีเมลสามารถมีตัวอักษร (a-z), ตัวเลข (0-9) และจุด (.) ได้ แต่ต้องไม่มีเครื่องหมาย &,
-                                =, ',
-                                +,
-                                (,),
-                                <,>, * ฯลฯ
+                            <p>อีเมลสามารถมีตัวอักษร (a-z), ตัวเลข (0-9) และจุด (.) ได้ แต่ต้องไม่มีเครื่องหมาย &,=, ',+,(,),<,>, * ฯลฯ
                             </p>
                         </div>
                     </dx-tooltip>
@@ -341,17 +337,17 @@
 </div>
 
 <div class="content-header p-3 mb-0"> รูปแบบการหลอกลวง </div>
-<div class="content-block">
+<div class="content-block" *ngIf="formCaseTypeNew">
     <app-case-type-new-container [dataForm]="formCaseTypeNew"></app-case-type-new-container>
 </div>
 
 <div class="content-header p-3 mb-0"> ช่องทางติดต่อครั้งแรก </div>
-<div class="content-block">
+<div class="content-block" *ngIf="formChannelContac">
     <app-issue-online-criminal-contact-info [dataForm]="formChannelContac"></app-issue-online-criminal-contact-info>
 </div>
 
 <div class="content-header p-3 mb-0"> รายละเอียดความเสียหาย </div>
-<div class="content-block">
+<div class="content-block" *ngIf="formDamageDetail">
     <app-issue-online-damage-new [dataForm]="formDamageDetail"></app-issue-online-damage-new>
 </div>
 
