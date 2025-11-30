@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { IssueOnlineContainerComponent } from '../issue-online-container.component';
-import { DxFormComponent, DxRadioGroupComponent, DxSelectBoxComponent } from 'devextreme-angular';
+import { DxFileUploaderComponent, DxFormComponent, DxRadioGroupComponent, DxSelectBoxComponent } from 'devextreme-angular';
 import { ProvinceService } from 'src/app/services/province.service';
 import { DistrictService } from 'src/app/services/district.service';
 import { SubdistrictService } from 'src/app/services/subdistrict.service';
@@ -12,6 +12,7 @@ import { finalize } from 'rxjs/operators';
 import { OnlineCaseService } from 'src/app/services/online-case.service';
 import { PersonalService } from 'src/app/services/personal.service';
 import { IssueOnlineFileUploadService } from 'src/app/services/issue-online-file-upload.service';
+import { FormConfigService } from 'src/app/services/form-service/form-config.service';
 
 @Component({
   selector: 'app-issue-online-validate-new',
@@ -171,6 +172,37 @@ export class IssueOnlineValidateNewComponent implements OnInit {
     { province: "ยะลา", org_name: "บก.สอท.5", org_id: 3578, province_id: 95 },
     { province: "นราธิวาส", org_name: "บก.สอท.5", org_id: 3578, province_id: 96 }
   ];
+  evidenceTypes: EvidenceType[] = [
+    {
+      id: 'chat',
+      label: 'ภาพหน้าจอการสนทนา (ตั้งแต่เริ่มต้นจนจบ)',
+      description: 'ภาพหน้าจอการสนทนา (ตั้งแต่เริ่มต้นจนจบ)'
+    },
+    {
+      id: 'transfer',
+      label: 'สลิป/หลักฐานการโอนเงิน ทุกรายการ',
+      description: 'สลิป/หลักฐานการโอนเงิน ทุกรายการ'
+    },
+    {
+      id: 'profile',
+      label: 'โปรไฟล์ของคนร้าย (เช่น หน้าโปรไฟล์ LINE, Facebook)',
+      description: 'โปรไฟล์ของคนร้าย เช่น LINE, Facebook'
+    },
+    {
+      id: 'url',
+      label: 'ลิงก์ (URL) ของเว็บไซต์หรือแอปพลิเคชันที่เกี่ยวข้อง',
+      description: 'ลิงก์ (URL) ของเว็บไซต์/แอปที่เกี่ยวข้อง'
+    },
+    {
+      id: 'other',
+      label: 'เอกสารอื่นๆ ที่เกี่ยวข้อง (เช่น หมายจับ, ใบโอน, ใบแจ้งหนี้)',
+      description: 'เอกสารอื่นๆ ที่เกี่ยวข้อง'
+    }
+  ];
+
+  selectedEvidenceType: string = 'chat';
+
+  files: EvidenceFile[] = [];
   loadDateBox = false;
   minBirthDate: Date;
   maxBirthDate: Date;
@@ -199,8 +231,23 @@ export class IssueOnlineValidateNewComponent implements OnInit {
     disableSubDistrict: true,
     disablepostcode: true,
   };
+  presentAddress: any = {
+    district: [],
+    subDistrict: [],
+    postcode: [],
+    disableDistrict: true,
+    disableSubDistrict: true,
+    disablepostcode: true,
+  };
   orgUnitsNewWalkin: any;
   isLoading: boolean = false;
+
+  checkboxaddresscard = false;
+
+  _formBuilded: any = {};
+  _formAttachment: any = {};
+  _formConfig: any = {};
+  isResettingUploader = false;
 
   constructor(private serviceProvince: ProvinceService,
     private serviceDistrict: DistrictService,
@@ -210,9 +257,10 @@ export class IssueOnlineValidateNewComponent implements OnInit {
     private _onlineCaseServ: OnlineCaseService,
     private servicePersonal: PersonalService,
     private _issueFile: IssueOnlineFileUploadService,
+    private _formConfigService: FormConfigService,
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.loadDataForm();
     this.loadPersonalData();
     this._OrgService.getorgwalkinall().
@@ -223,6 +271,11 @@ export class IssueOnlineValidateNewComponent implements OnInit {
         //     this.mainConponent.checkReload(2);
         // }
       });
+    this._formConfig = await this._formConfigService
+      .GetId("6928008a26109f6b7c05aae5")
+      .toPromise()
+      .then((_) => _ ?? {});
+    this._formBuilded = JSON.parse(this._formConfig.formJson);
 
   }
 
@@ -687,7 +740,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
 
   PopupUploadClose() {
     this.popupForm = {};
-    this.formAttachment.instance._refresh();
+    // this.formAttachment.instance._refresh();
     this.popupFormUploaded = false;
     this.popupAttachment = false;
   }
@@ -701,8 +754,185 @@ export class IssueOnlineValidateNewComponent implements OnInit {
     }).then(() => { });
   }
 
+  OnSelectProvicePresent(e, tag: DxSelectBoxComponent) {
+    this.presentAddress.district = [];
+    this.presentAddress.subDistrict = [];
+    this.presentAddress.postcode = [];
+    this.presentAddress.disableDistrict = true;
+    this.presentAddress.disablepostcode = true;
+    this.presentAddress.disableSubDistrict = true;
+    this.formData.INFORMER_DISTRICT_ID = undefined;
+    this.formData.INFORMER_DISTRICT_NAME_THA = undefined;
+    if (e.value) {
+      const data =
+        tag.instance.option("selectedItem");
+      if (data) {
+        this.formData.INFORMER_PROVINCE = data.PROVINCE_ID;
+        this.formData.INFORMER_PROVINCE_NAME_THA =
+          data.PROVINCE_NAME_THA;
+      } else {
+        this.formData.INFORMER_PROVINCE = e.value;
+      }
+
+      this.serviceProvince
+        .GetDistrictofProvince(e.value)
+        .subscribe((_) => {
+          this.presentAddress.district = _;
+          this.presentAddress.disableDistrict = false;
+        });
+    }
+  }
+
+  OnSelectDistrictPresent(e, tag: DxSelectBoxComponent) {
+    this.presentAddress.subDistrict = [];
+    this.presentAddress.postcode = [];
+    this.presentAddress.disableSubDistrict = true;
+    this.presentAddress.disablepostcode = true;
+    this.formData.INFORMER_SUB_DISTRICT_ID = undefined;
+    this.formData.INFORMER_SUB_DISTRICT_NAME_THA = undefined;
+    if (e.value) {
+      const data =
+        tag.instance.option("selectedItem");
+      if (data) {
+        this.formData.INFORMER_DISTRICT_ID = data.DISTRICT_ID;
+        this.formData.INFORMER_DISTRICT_NAME_THA =
+          data.DISTRICT_NAME_THA;
+      } else {
+        this.formData.INFORMER_DISTRICT_ID = e.value;
+      }
+
+      this.serviceDistrict
+        .GetSubDistrictOfDistrict(e.value)
+        .subscribe((_) => {
+          this.presentAddress.subDistrict = _;
+          this.presentAddress.disableSubDistrict = false;
+        });
+    }
+  }
+
+  OnSelectSubDistrictPresent(e, tag: DxSelectBoxComponent) {
+    this.presentAddress.postcode = [];
+    this.presentAddress.disablepostcode = true;
+
+    if (e.value) {
+      const data =
+        tag.instance.option("selectedItem");
+      if (data) {
+        this.formData.INFORMER_SUB_DISTRICT_ID = data.SUB_DISTRICT_ID;
+        this.formData.INFORMER_SUB_DISTRICT_NAME_THA =
+          data.SUB_DISTRICT_NAME_THA;
+      } else {
+        this.formData.INFORMER_SUB_DISTRICT_ID = e.value;
+      }
+
+      this.serviceSubDistrict.GetPostCode(e.value).subscribe((_) => {
+        this.presentAddress.postcode = _;
+        this.presentAddress.disablepostcode = false;
+        this.formData.INFORMER_POSTCODE_CODE = _[0].POSTCODE_CODE;
+      });
+    }
+  }
+
+  onvaluecheckaddresscard(e) {
+    if (e.value) {
+      this.formData.CASE_INFORMER_ADDRESS_NO =
+        this.formData.CASE_INFORMER_CARD_ADDRESS_NO;
+      this.formData.INFORMER_PROVINCE =
+        this.formData.INFORMER_CARD_PROVINCE;
+      this.serviceProvince
+        .GetDistrictofProvince(this.formData.INFORMER_CARD_PROVINCE)
+        .subscribe((_) => {
+          this.presentAddress.district = _;
+          this.presentAddress.disableDistrict = false;
+
+          this.formData.INFORMER_DISTRICT_ID =
+            this.formData.INFORMER_CARD_DISTRICT_ID;
+        });
+
+      setTimeout(() => {
+        this.serviceDistrict
+          .GetSubDistrictOfDistrict(
+            this.formData.INFORMER_CARD_DISTRICT_ID
+          )
+          .subscribe((_) => {
+            this.presentAddress.subDistrict = _;
+            this.presentAddress.disableSubDistrict = false;
+            this.formData.INFORMER_SUB_DISTRICT_ID =
+              this.formData.INFORMER_CARD_SUB_DISTRICT_ID;
+          });
+      }, 500);
+    }
+  }
+
   Back(e) {
     // this.mainConponent.IssueOnlineStep = 2;
+  }
+
+  get hasCaseTypeNew(): boolean {
+    return !!this.formCaseTypeNew && Object.keys(this.formCaseTypeNew).length > 0;
+  }
+
+  get hasChannelContact(): boolean {
+    return !!this.formChannelContac && Object.keys(this.formChannelContac).length > 0;
+  }
+
+  get hasDamageDetail(): boolean {
+    return !!this.formDamageDetail && Object.keys(this.formDamageDetail).length > 0;
+  }
+
+  getEvidenceDescription(id: string): string {
+    const found = this.evidenceTypes.find(x => x.id === id);
+    return found?.description ?? '';
+  }
+
+  onFilesSelected(e: any): void {
+    if (this.isResettingUploader) {
+      this.isResettingUploader = false;
+      return;
+    }
+
+    const fileList: File[] = e.value || [];
+
+    for (const f of fileList) {
+      this.files.push({
+        file: f,
+        name: f.name,
+        size: f.size,
+        sizeText: this.formatSize(f.size),
+        type: this.selectedEvidenceType
+      });
+    }
+
+    // reset ค่าใน uploader เพื่อให้เลือกไฟล์ชุดเดิมซ้ำได้
+    this.isResettingUploader = true;
+    e.component.option('value', []);
+  }
+
+  removeFile(row: EvidenceFile): void {
+    const idx = this.files.indexOf(row);
+    if (idx > -1) {
+      this.files.splice(idx, 1);
+    }
+  }
+
+  previewFile(row: EvidenceFile): void {
+    // ตัวอย่างง่าย ๆ: เปิดไฟล์ใน tab ใหม่ (เฉพาะกรณียังอยู่ใน memory ฝั่ง browser)
+    const url = URL.createObjectURL(row.file);
+    window.open(url, '_blank');
+  }
+
+  onBrowseClick(uploader: DxFileUploaderComponent): void {
+    const element = uploader.instance?.element() as HTMLElement;
+    const input = element.querySelector('input[type="file"]') as HTMLInputElement;
+    input?.click();
+  }
+
+  private formatSize(size: number): string {
+    if (size === 0 || !size) { return '0 B'; }
+    const units = ['B', 'kB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(size) / Math.log(1024));
+    const value = size / Math.pow(1024, i);
+    return `${value.toFixed(2)} ${units[i]}`;
   }
 
   SubmitForm() {
@@ -749,7 +979,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
           .subscribe((_) => {
             Swal.fire({
               title: "ระบบได้รับเรื่องของท่านเรียบร้อยแล้ว!",
-              html: `เลขรับแจ้งความ (Case Reference Number):${(_)} <br>
+              html: `เลขรับแจ้งความ (Case Reference Number):<br><b>${(_)} </b><br>
                         คำแนะนำขั้นตอนต่อไป (Immediate Next Steps): <br>
                         สิ่งที่ต้องทำทันที:<br>
                         1️⃣ อายัดบัญชี: หากท่านยังไม่ได้ทำ โปรดติดต่อธนาคารของท่านทันทีเพื่อแจ้งอายัดธุรกรรมไปยังบัญชีปลายทาง<br>
@@ -771,4 +1001,19 @@ export class IssueOnlineValidateNewComponent implements OnInit {
 
 
 
+}
+
+
+interface EvidenceFile {
+  file: File;
+  name: string;
+  size: number;
+  sizeText: string;
+  type: string;
+}
+
+interface EvidenceType {
+  id: string;
+  label: string;
+  description: string;
 }

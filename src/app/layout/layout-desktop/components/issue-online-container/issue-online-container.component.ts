@@ -255,10 +255,10 @@ export class IssueOnlineContainerComponent implements OnInit {
                 },
                 { text: "ความเสียหาย", textClass: "arrow-div arrow-end" },
             ];
-            this.stepNavigationWidth = 305 * this.stepNavigation.length;
+            this.stepNavigationWidth = 355 * this.stepNavigation.length;
             this.getProvince();
         } else {
-            this.stepNavigationWidth = 335 * this.stepNavigation.length;
+            this.stepNavigationWidth = 400 * this.stepNavigation.length;
             this.SetFormInit();
             this.getProvince();
         }

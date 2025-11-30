@@ -51,15 +51,24 @@ export class CaseTypeNewContainerComponent implements OnInit {
     formType: 'add' | 'edit' = 'add';
     formData: any = {};
 
+    showMessage: boolean = false;
+    alertMessage: string = '';
+    isFormValid: boolean = false;
+
     constructor(
         private _formConfigService: FormConfigService,
         private _formValidate: FormValidatorService,
         private router: Router,
         private _date: ConvertDateService
-    ) {}
+    ) { }
 
     async ngOnInit(): Promise<void> {
         console.log('maincomponent', this.mainConponent);
+        this._formConfig = await this._formConfigService
+            .GetId("691d6f6a26109f6b7c05aae2")
+            .toPromise()
+            .then((_) => _ ?? {});
+        this._formBuilded = JSON.parse(this._formConfig.formJson); 
         this._formConfig = await this._formConfigService
             .GetId("691d6f6a26109f6b7c05aae2")
             .toPromise()
@@ -75,7 +84,7 @@ export class CaseTypeNewContainerComponent implements OnInit {
         this._formData = {
             data: {},
         };
-         if(this.dataForm){
+        if (this.dataForm) {
             console.log(this.dataForm);
             this.formType = 'edit';
             this._formData = this.dataForm;
@@ -99,11 +108,16 @@ export class CaseTypeNewContainerComponent implements OnInit {
             text: `ระบบได้รับเรื่องของท่านเรียบร้อยแล้ว`,
             icon: "success",
             confirmButtonText: "ตกลง",
-        }).then(() => {});
+        }).then(() => { });
         return;
     }
 
     SubmitForm(e) {
+        if (!this.isFormValid) {
+            // กันไว้เผื่อ user hack ปุ่ม หรือเงื่อนไขอื่น
+            alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+            return;
+        }
         console.log(this._formBuilded);
         console.log(this._formData);
         this.mainConponent.formDataAll.formCaseTypeNew = this._formData;
@@ -128,20 +142,34 @@ export class CaseTypeNewContainerComponent implements OnInit {
     }
 
     Back(e) {
-            this.mainConponent.NextIndex(this.mainConponent.indexTab - 1);
+        this.mainConponent.NextIndex(this.mainConponent.indexTab - 1);
     }
     BackToList(e) {
         this.router.navigate(["/main/task-list"]);
     }
 
-     alertmessagecustom(msg) {
-            Swal.fire({
-                title: "ผิดพลาด!",
-                text: msg ?? "กรุณากรอกข้อมูล",
-                icon: "warning",
-                confirmButtonText: "Ok",
-            }).then(() => { });
-            this.mainConponent.checkValidate = true;
-            return;
+    alertmessagecustom(msg) {
+        Swal.fire({
+            title: "ผิดพลาด!",
+            text: msg ?? "กรุณากรอกข้อมูล",
+            icon: "warning",
+            confirmButtonText: "Ok",
+        }).then(() => { });
+        this.mainConponent.checkValidate = true;
+        return;
+    }
+
+    onFormChange(event: any): void {
+        const currentData = event?.data; // formio จะส่ง structure ของฟอร์มมาใน event.data
+        this.isFormValid = !!event.isValid;
+        if (currentData?.fraud_code == 2) {
+            this.showMessage = true;
+            this.alertMessage = 'ให้เปลี่ยนรหัสผ่านและติดต่อผู้ให้บริการแพลตฟอร์ม เพื่อความปลอดภัย';
+        } else if (currentData?.fraud_code == 3) {
+            this.showMessage = true;
+            this.alertMessage = 'แสดงคำแนะนำและอาจนำทางไปยังแบบฟอร์มที่เกี่ยวข้องกับ พ.ร.บ. คอมพิวเตอร์ฯ โดยตรง';
+        } else if (currentData?.fraud_code == 4) {
+
         }
+    }
 }

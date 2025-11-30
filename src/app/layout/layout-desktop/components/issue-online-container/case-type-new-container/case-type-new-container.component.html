@@ -1,13 +1,17 @@
 <section class="ftco-section" style="height: 100vh;background: #f5fdff;overflow: scroll;border-radius: 10px;margin-bottom: 2%;width: 100%;">
           <div class="card-body container" style="min-width: 90%;" >
     <div class="col-12">
-      <formio #formioPreview [form]="_formBuilded" (submit)="onSave($event)" [submission]="this._formData"  ></formio>
-
+      <formio #formioPreview [form]="_formBuilded" (submit)="onSave($event)" [submission]="this._formData" (change)="onFormChange($event)" ></formio>
+    </div>
+    <div class="col-12">
+      <div *ngIf="showMessage" class="alert alert-danger" role="alert">
+        {{ alertMessage }}
+      </div>
     </div>
 </div>
 
      
-<div class="text-right btn-footer" *ngIf="formType === 'add'">
+<div class="text-right btn-footer" *ngIf="formType === 'add' && showMessage === false">
     <dx-button *ngIf="formType === 'add'" class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)">
     </dx-button>
     <!-- <dx-button  class="btn btn-back" text="ย้อนกลับ" (onClick)="BackToList($event)">

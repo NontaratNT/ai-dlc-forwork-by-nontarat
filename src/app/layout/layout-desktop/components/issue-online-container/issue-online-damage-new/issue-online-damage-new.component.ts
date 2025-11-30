@@ -152,11 +152,11 @@ export class IssueOnlineDamageNewComponent implements OnInit {
     if(this.dataForm){
       this.formType = 'edit';
       this.readOnlyForm = true;
-      this.listDamgeValueType1 = this.dataForm?.DamageType1;
-      this.listDamgeValueType2 = this.dataForm?.DamageType2;
-      this.listDamgeValueType3 = this.dataForm?.DamageType3;
-      this.listDamgeValueType4 = this.dataForm?.DamageType4;
-      this.listDamgeValueType5 = this.dataForm?.DamageType5;
+      this.listDamgeValueType1 = this.dataForm?.DamageType1 || [];
+      this.listDamgeValueType2 = this.dataForm?.DamageType2 || [];
+      this.listDamgeValueType3 = this.dataForm?.DamageType3 || [];
+      this.listDamgeValueType4 = this.dataForm?.DamageType4 || [];
+      this.listDamgeValueType5 = this.dataForm?.DamageType5 || [];
       this.listDamageType.forEach(damageType => {
         switch (damageType.id) {
           case 1:
