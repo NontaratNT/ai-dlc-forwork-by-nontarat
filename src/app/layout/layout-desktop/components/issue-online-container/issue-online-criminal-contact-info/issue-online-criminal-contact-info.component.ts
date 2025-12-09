@@ -8,6 +8,7 @@ import { IssueOnlineContainerComponent } from '../issue-online-container.compone
 import { DatePipe } from '@angular/common';
 import { IssueOnlineService } from 'src/app/services/issue-online.service';
 import { ValidateUrl } from 'src/app/common/helper';
+import { finalize } from 'rxjs/operators';
 
 @Component({
     selector: 'app-issue-online-criminal-contact-info',
@@ -26,7 +27,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
 
     @Input() dataForm: any;
 
-    formType: string = "add"; // add , edit , view
+    @Input() formType: string = "add"; // add , edit , view
 
     formReadOnly = false;
     formData: any = {};
@@ -110,6 +111,11 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     minDateValue: Date = new Date(this.today.getFullYear() - 2, this.today.getMonth(), this.today.getDate());
 
     //  Zone new Code
+    @ViewChild('form1', { static: false }) form1: DxFormComponent;
+    @ViewChild('form2', { static: false }) form2: DxFormComponent;
+    @ViewChild('form3', { static: false }) form3: DxFormComponent;
+
+    //  Zone new Code
     facebookList = [
         { ID: 1, TEXT: "โฆษณา (Sponsored Ad)" },
         { ID: 2, TEXT: "โพสต์ใน Marketplace" },
@@ -181,8 +187,13 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     ];
 
     controlDeviceOption = [
-        { ID: 1, TEXT: "ใช่" },
-        { ID: 2, TEXT: "ไม่ใช่" }
+        { ID: 'Y', TEXT: "ใช่" },
+        { ID: 'N', TEXT: "ไม่ใช่" }
+    ];
+
+    controlDevice2Option = [
+        { ID: 'Y', TEXT: "ทราบ" },
+        { ID: 'N', TEXT: "ไม่ทราบ" }
     ];
 
     controlDeviceSubOption = [
@@ -309,13 +320,28 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
             name: 'TikTok',
             formOption: [
                 {
+                    templateName: 'TIKTOK_TEMP_2',
+                    dataField: 'TIKTOK_KNOW_URL',
+                    caption: 'ทราบลิงค์ (URL) ของชื่อบัญชี / ลิงก์ (URL) หรือไม่',
+                    placeholder: 'ทราบลิงค์ (URL) ของชื่อบัญชี / ลิงก์ (URL) หรือไม่',
+                    fieldType: 'radiobox',            // จะ map ไป dxRadioGroup
+                    required: true,
+                    options: this.controlDevice2Option,
+                    displayExpr: 'TEXT',
+                    valueExpr: 'ID'
+                },
+                {
                     templateName: 'TIKTOK_TEMP_1',
                     dataField: 'TIKTOK_ACCOUNT',
                     caption: 'ชื่อบัญชี / ลิงก์ (URL) ของบัญชี',
                     placeholder: 'ชื่อบัญชี หรือ URL',
                     fieldType: 'textbox',
                     maxLength: 100,
-                    required: true
+                    required: true,
+                    visibleWhen: {
+                        dataField: 'TIKTOK_KNOW_URL',
+                        values: ['Y']
+                    }
                 }
             ]
         },
@@ -336,15 +362,31 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                 },
                 {
                     templateName: 'FACEBOOK_TEMP_2',
+                    dataField: 'FACEBOOK_KNOW_URL',
+                    caption: 'ทราบลิงค์ (URL) ของโปรไฟล์/เพจ หรือไม่',
+                    placeholder: 'ทราบลิงค์ (URL) ของโปรไฟล์/เพจ หรือไม่',
+                    fieldType: 'radiobox',            // จะ map ไป dxRadioGroup
+                    required: true,
+                    options: this.controlDevice2Option,
+                    displayExpr: 'TEXT',
+                    valueExpr: 'ID'
+                },
+                {
+                    templateName: 'FACEBOOK_TEMP_3',
                     dataField: 'FACEBOOK_PROFILE_URL',
                     caption: 'ลิงก์ (URL) ของโปรไฟล์ / เพจ',
                     placeholder: 'ลิงก์ (URL)',
                     fieldType: 'textbox',
                     maxLength: 100,
-                    type: 'url'
+                    required: true,
+                    type: 'url',
+                    visibleWhen: {
+                        dataField: 'FACEBOOK_KNOW_URL',
+                        values: ['Y']
+                    }
                 },
                 {
-                    templateName: 'FACEBOOK_TEMP_3',
+                    templateName: 'FACEBOOK_TEMP_4',
                     dataField: 'FACEBOOK_SEEN_FROM',
                     caption: 'คุณเห็นคนร้ายจากที่ใด?',
                     placeholder: 'เลือกคุณเห็นคนร้ายจากที่ใด',
@@ -435,8 +477,9 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                     caption: 'เบอร์โทรศัพท์ที่ใช้เพิ่มเพื่อน (ถ้ามี)',
                     placeholder: 'หมายเลขโทรศัพท์',
                     fieldType: 'textbox',
+                    type: 'phone',
+                    pattern: '^([0+][0-9+]{9,15})$',
                     maxLength: 20,
-                    type: 'phone'
                 },
                 {
                     templateName: 'LINE_TEMP_4',
@@ -452,6 +495,17 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
             name: 'Telegram',
             formOption: [
                 {
+                    templateName: 'TELEGRAM_TEMP_2',
+                    dataField: 'TELEGRAM_KNOW_URL',
+                    caption: 'ทราบลิงค์ (URL) ของชื่อกลุ่ม/เพจ หรือลิงก์ หรือไม่',
+                    placeholder: 'ทราบลิงค์ (URL) ของชื่อกลุ่ม/เพจ หรือลิงก์ หรือไม่',
+                    fieldType: 'radiobox',            // จะ map ไป dxRadioGroup
+                    required: true,
+                    options: this.controlDevice2Option,
+                    displayExpr: 'TEXT',
+                    valueExpr: 'ID'
+                },
+                {
                     templateName: 'TELEGRAM_TEMP_1',
                     dataField: 'TELEGRAM_ACCOUNT',
                     caption: 'ชื่อบัญชี / ลิงก์ (URL) ของบัญชี',
@@ -459,7 +513,11 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                     fieldType: 'textbox',
                     maxLength: 100,
                     pattern: '^([0][0-9]{9})$', // ตามเดิม
-                    required: true
+                    required: true,
+                    visibleWhen: {
+                        dataField: 'TELEGRAM_KNOW_URL',
+                        values: ['Y']
+                    }
                 }
             ]
         },
@@ -534,6 +592,17 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                             required: true
                         },
                         {
+                            templateName: 'OTHER_TEMP_2',
+                            dataField: 'OTHER_KNOW_URL',
+                            caption: 'ทราบลิงค์ (URL) ของลิงก์ (URL) ของประกาศงาน หรือไม่',
+                            placeholder: 'ทราบลิงค์ (URL) ของลิงก์ (URL) ของประกาศงาน หรือไม่',
+                            fieldType: 'radiobox',            // จะ map ไป dxRadioGroup
+                            required: true,
+                            options: this.controlDevice2Option,
+                            displayExpr: 'TEXT',
+                            valueExpr: 'ID'
+                        },
+                        {
                             templateName: 'OTHER_TEMP_5',
                             dataField: 'WEBSITE_URL',
                             caption: 'ลิงก์ (URL) ของประกาศงาน',
@@ -541,7 +610,11 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                             fieldType: 'textbox',
                             maxLength: 100,
                             type: 'url',
-                            required: true
+                            required: true,
+                            visibleWhen: {
+                                dataField: 'OTHER_KNOW_URL',
+                                values: ['Y']
+                            }
                         }
                     ]
                 }
@@ -587,13 +660,28 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                 },
                 {
                     templateName: 'WEBSITE_TEMP_2',
+                    dataField: 'WEBSITE_KNOW_URL',
+                    caption: 'ทราบลิงค์ (URL) ของที่อยู่ของเว็บไซต์ หรือไม่',
+                    placeholder: 'ทราบลิงค์ (URL) ของที่อยู่ของเว็บไซต์ หรือไม่',
+                    fieldType: 'radiobox',            // จะ map ไป dxRadioGroup
+                    required: true,
+                    options: this.controlDevice2Option,
+                    displayExpr: 'TEXT',
+                    valueExpr: 'ID'
+                },
+                {
+                    templateName: 'WEBSITE_TEMP_2',
                     dataField: 'WEBSITE_URL',
                     caption: 'โปรดระบุที่อยู่ของเว็บไซต์ (URL) ให้ถูกต้องที่สุด',
                     placeholder: 'ระบุ URL ของเว็บไซต์',
                     fieldType: 'textbox',
                     maxLength: 100,
                     required: true,
-                    type: 'url'
+                    type: 'url',
+                    visibleWhen: {
+                        dataField: 'WEBSITE_KNOW_URL',
+                        values: ['Y']
+                    }
                 }
             ]
         },
@@ -698,14 +786,30 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                     ]
                 },
                 {
+                    templateName: 'SOCIAL_MEDIA_KNOW_TEMP_2',
+                    dataField: 'SOCIAL_MEDIA_KNOW_URL',
+                    caption: 'ทราบลิงค์ (URL) ของชื่อกลุ่ม/เพจ หรือลิงก์ หรือไม่',
+                    placeholder: 'ทราบลิงค์ (URL) ของชื่อกลุ่ม/เพจ หรือลิงก์ หรือไม่',
+                    fieldType: 'radiobox',            // จะ map ไป dxRadioGroup
+                    required: true,
+                    options: this.controlDevice2Option,
+                    displayExpr: 'TEXT',
+                    valueExpr: 'ID'
+                },
+                {
                     templateName: 'SOCIAL_MEDIA_TEMP_2',
                     dataField: 'SOCIAL_GROUP_OR_URL',
-                    caption: 'โปรดระบุชื่อกลุ่ม/เพจ หรือลิงก์ (URL) ถ้ามี',
+                    caption: 'โปรดระบุชื่อกลุ่ม/เพจ หรือลิงก์ (URL)',
                     placeholder: 'ชื่อกลุ่ม/เพจ หรือ URL',
                     // เดิมคุณกำหนดเป็น selectbox แต่ลักษณะคำถามเหมือน textbox มากกว่า
                     // ถ้าอยากคงของเดิมไว้ก็เปลี่ยน fieldType กลับเป็น 'selectbox'
                     fieldType: 'textbox',
-                    maxLength: 200
+                    maxLength: 200,
+                    required: true,
+                    visibleWhen: {
+                        dataField: 'SOCIAL_MEDIA_KNOW_URL',
+                        values: ['Y']
+                    }
                 }
             ]
         },
@@ -753,7 +857,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                     required: true,
                     options: this.controlDeviceOption,
                     displayExpr: 'TEXT',                   // ปรับตามโครงจริงของ option
-                    valueExpr: 'TEXT'
+                    valueExpr: 'ID'
                 },
                 {
                     templateName: 'CONTROL_DEVICE_TEMP_2',
@@ -783,7 +887,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                     required: true,
                     options: this.controlDeviceOption,
                     displayExpr: 'TEXT',
-                    valueExpr: 'TEXT'
+                    valueExpr: 'ID'
                 },
                 {
                     templateName: 'TRANSFER_PLATFORM_TEMP_2',
@@ -833,7 +937,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                     required: true,
                     options: this.controlDeviceOption,
                     displayExpr: 'TEXT',
-                    valueExpr: 'TEXT'
+                    valueExpr: 'ID'
                 },
                 {
                     templateName: 'TRICK_TRANSFER_MONEY_TEMP_2',
@@ -869,47 +973,18 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
 
     ngOnInit(): void {
         if (this.dataForm) {
-            console.log(this.dataForm);
-            this.formType = 'edit';
-            this.formReadOnly = true;
-            this.loadDataForm();
+            if (this.formType === 'view') {
+                this.formReadOnly = true;
+                this.loadDataForm();
+            } else if (this.formType === 'edit') {
+                this.loadDataFormEdit();
+            }
         }
         // ปรับ maxDateValue +1 ชั่วโมง แบบชัดเจน (ไม่พึ่ง timezone API พิเศษ)
         this.maxDateValue = new Date((this.maxDateValue ?? new Date()).getTime() + 60 * 60 * 1000);
 
         // debug เฉพาะตอน dev
         console.log('formData:', this.formData);
-    }
-
-    loadDataForm() {
-        if (!this.dataForm) {
-            return;
-        }
-
-        const id1 = this.dataForm.selectedChannel1?.id;
-        const id2 = this.dataForm.selectedChannel2?.id;
-        const id3 = this.dataForm.selectedChannel3?.id;
-
-        // 👇 รีแมปให้มาใช้ object จาก config จริง ๆ เสมอ
-        this.selectedChannel1 = id1
-            ? this.configFormOption1.find(x => x.id === id1) ?? null
-            : null;
-
-        this.selectedChannel2 = id2
-            ? this.configFormOption2.find(x => x.id === id2) ?? null
-            : null;
-
-        this.selectedChannel3 = id3
-            ? this.configFormOption3.find(x => x.id === id3) ?? null
-            : null;
-        
-        this.onSelectChannel(this.selectedChannel1,1);
-        this.onSelectChannel(this.selectedChannel2,2);
-        this.onSelectChannel(this.selectedChannel3,3);
-
-        this.formData1 = { ...(this.dataForm.formData1 || {}) };
-        this.formData2 = { ...(this.dataForm.formData2 || {}) };
-        this.formData3 = { ...(this.dataForm.formData3 || {}) };
     }
 
     safeGet<T = any>(key: string): T | undefined {
@@ -1315,6 +1390,69 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     }
 
     //  Zone new Code
+    loadDataForm() {
+        if (!this.dataForm) {
+            return;
+        }
+
+        const id1 = this.dataForm.selectedChannel1?.id;
+        const id2 = this.dataForm.selectedChannel2?.id;
+        const id3 = this.dataForm.selectedChannel3?.id;
+
+        // 👇 รีแมปให้มาใช้ object จาก config จริง ๆ เสมอ
+        this.selectedChannel1 = id1
+            ? this.configFormOption1.find(x => x.id === id1) ?? null
+            : null;
+
+        this.selectedChannel2 = id2
+            ? this.configFormOption2.find(x => x.id === id2) ?? null
+            : null;
+
+        this.selectedChannel3 = id3
+            ? this.configFormOption3.find(x => x.id === id3) ?? null
+            : null;
+
+        this.onSelectChannel(this.selectedChannel1, 1);
+        this.onSelectChannel(this.selectedChannel2, 2);
+        this.onSelectChannel(this.selectedChannel3, 3);
+
+        this.formData1 = { ...(this.dataForm.formData1 || {}) };
+        this.formData2 = { ...(this.dataForm.formData2 || {}) };
+        this.formData3 = { ...(this.dataForm.formData3 || {}) };
+    }
+
+    loadDataFormEdit() {
+        if (!this.dataForm) {
+            return;
+        }
+
+        const form = this.dataForm?.formChannelContac || {};
+        const id1 = form?.selectedChannel1?.id;
+        const id2 = form?.selectedChannel2?.id;
+        const id3 = form?.selectedChannel3?.id;
+
+        // 👇 รีแมปให้มาใช้ object จาก config จริง ๆ เสมอ
+        this.selectedChannel1 = id1
+            ? this.configFormOption1.find(x => x.id === id1) ?? null
+            : null;
+
+        this.selectedChannel2 = id2
+            ? this.configFormOption2.find(x => x.id === id2) ?? null
+            : null;
+
+        this.selectedChannel3 = id3
+            ? this.configFormOption3.find(x => x.id === id3) ?? null
+            : null;
+
+        this.onSelectChannel(this.selectedChannel1, 1);
+        this.onSelectChannel(this.selectedChannel2, 2);
+        this.onSelectChannel(this.selectedChannel3, 3);
+
+        this.formData1 = { ...(form?.formData1 || {}) };
+        this.formData2 = { ...(form?.formData2 || {}) };
+        this.formData3 = { ...(form?.formData3 || {}) };
+    }
+    //  Zone new Code
     onSelectChannel(cfg: ChannelFormConfig, section: 1 | 2 | 3): void {
         if (section === 1) {
             this.selectedChannel1 = cfg;
@@ -1438,23 +1576,44 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         // TODO: ยิง API หรือ map เป็น payload ตามต้องการ
     }
 
-    private getCheckboxValue(field: FieldConfig): any[] {
-        const current = this.formData[field.dataField];
-        return Array.isArray(current) ? current : [];
-    }
+    // private getCheckboxValue(field: FieldConfig): any[] {
+    //     const current = this.formData[field.dataField];
+    //     return Array.isArray(current) ? current : [];
+    // }
 
-    isChecked(field: FieldConfig, opt: any): boolean {
-        const list = this.getCheckboxValue(field);
+    isChecked(section: 1 | 2 | 3, field: FieldConfig, opt: any): boolean {
+        const list = this.getCheckboxValue(section, field);
         const valueKey = field.valueExpr || 'id';
         const id = typeof opt === 'object' ? opt[valueKey] : opt;
         return list.includes(id);
     }
 
-    onCheckboxChange(field: FieldConfig, opt: any, e: any): void {
+    private getFormBySection(section: 1 | 2 | 3): any {
+        switch (section) {
+            case 1: return this.formData1;
+            case 2: return this.formData2;
+            case 3: return this.formData3;
+            default: return this.formData1;
+        }
+    }
+    getCheckboxValue(section: 1 | 2 | 3, field: FieldConfig): any[] {
+        const form = this.getFormBySection(section);
+        const raw = form[field.dataField];
+
+        if (Array.isArray(raw)) {
+            return raw;
+        }
+        if (raw === null || raw === undefined) {
+            return [];
+        }
+        return [raw];
+    }
+
+    onCheckboxChange(section: 1 | 2 | 3, field: FieldConfig, opt: any, e: any): void {
         const valueKey = field.valueExpr || 'id';
         const id = typeof opt === 'object' ? opt[valueKey] : opt;
 
-        let list = this.getCheckboxValue(field);
+        let list = this.getCheckboxValue(section, field);
 
         if (e.value) {
             if (!list.includes(id)) {
@@ -1464,24 +1623,25 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
             list = list.filter(x => x !== id);
         }
 
-        this.formData[field.dataField] = list;
+        const form = this.getFormBySection(section);
+        form[field.dataField] = list;       // << เขียนกลับลงฟอร์มที่ถูกต้อง
     }
 
-    isFieldVisible(field: FieldConfig,formIndex:Number): boolean {
+    isFieldVisible(field: FieldConfig, formIndex: Number): boolean {
         if (!field.visibleWhen) {
             return true;
         }
 
         const cond = field.visibleWhen;
-        if(formIndex==1){
-            return this.evaluateCondition(cond,this.formData1);
+        if (formIndex == 1) {
+            return this.evaluateCondition(cond, this.formData1);
         }
-        if(formIndex==2){
-            return this.evaluateCondition(cond,this.formData2);
+        if (formIndex == 2) {
+            return this.evaluateCondition(cond, this.formData2);
         }
-        if(formIndex==3){
-            return this.evaluateCondition(cond,this.formData3);
-        }else{
+        if (formIndex == 3) {
+            return this.evaluateCondition(cond, this.formData3);
+        } else {
             return true;
         }
     }
@@ -1489,11 +1649,14 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         const currentValue = data[cond.dataField];
         if (Array.isArray(currentValue)) {
             return currentValue.some(v => cond.values.includes(v));
-        } 
+        }
         return cond.values.includes(currentValue);
     }
 
     SubmitFormChannelNew(e) {
+        console.log(this.formData1);
+        console.log(this.formData2);
+        console.log(this.formData3);
         if (this.formData1 == null || Object.keys(this.formData1).length === 0) {
             Swal.fire({
                 icon: 'error',
@@ -1511,6 +1674,16 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
             return;
         }
         if (this.formData3 == null || Object.keys(this.formData3).length === 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
+                html: 'กรุณากรอกข้อมูลให้ครบถ้วน'
+            });
+            return;
+        }
+        if (!this.form1.instance.validate().isValid ||
+            !this.form2.instance.validate().isValid ||
+            !this.form3.instance.validate().isValid) {
             Swal.fire({
                 icon: 'error',
                 title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
@@ -1546,7 +1719,6 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     }
     //   end Zone new Code
 }
-
 
 interface FormCaseChannel {
     CHANNEL_EMAIL_DOC?: any[];
@@ -1608,3 +1780,4 @@ export interface FieldVisibleWhen {
     dataField: string;   // ฟิลด์ที่ใช้เป็นตัวกำหนด เช่น 'CONTROL_DEVICE_MAIN'
     values: any[];       // ค่าใดบ้างที่ทำให้ฟิลด์นี้มองเห็น เช่น ['YES', 'HAS_APK']
 }
+//   end Zone new Code

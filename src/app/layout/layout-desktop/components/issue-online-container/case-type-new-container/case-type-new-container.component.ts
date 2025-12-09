@@ -57,22 +57,16 @@ export class CaseTypeNewContainerComponent implements OnInit {
 
     constructor(
         private _formConfigService: FormConfigService,
-        private _formValidate: FormValidatorService,
         private router: Router,
-        private _date: ConvertDateService
     ) { }
 
     async ngOnInit(): Promise<void> {
         console.log('maincomponent', this.mainConponent);
-        this._formConfig = await this._formConfigService
-            .GetId("691d6f6a26109f6b7c05aae2")
+         this._formConfig = await this._formConfigService
+            .GetCode("FORM_FRADULENT_PATTERN")
             .toPromise()
             .then((_) => _ ?? {});
-        this._formBuilded = JSON.parse(this._formConfig.formJson); 
-        this._formConfig = await this._formConfigService
-            .GetId("691d6f6a26109f6b7c05aae2")
-            .toPromise()
-            .then((_) => _ ?? {});
+        this._formBuilded = JSON.parse(this._formConfig.formJson);
         this._formBuilded = JSON.parse(this._formConfig.formJson);
         //       if (this._formRenderType === "IO") {
         //     this._formData = {
@@ -112,12 +106,22 @@ export class CaseTypeNewContainerComponent implements OnInit {
         return;
     }
 
-    SubmitForm(e) {
+    async SubmitForm(e) {
         if (!this.isFormValid) {
             // กันไว้เผื่อ user hack ปุ่ม หรือเงื่อนไขอื่น
             alert('กรุณากรอกข้อมูลให้ครบถ้วน');
             return;
         }
+        if (this.formData.data?.CASE_BEHAVIOR) {
+            Swal.fire({
+                title: 'แจ้งเตือน!',
+                text: "กรุณากรอกข้อมูลให้ครบถ้วน",
+                icon: 'warning',
+                confirmButtonText: 'ตกลง'
+            }).then(() => { });
+            return;
+        }
+        await this.processFraudData();
         console.log(this._formBuilded);
         console.log(this._formData);
         this.mainConponent.formDataAll.formCaseTypeNew = this._formData;
@@ -162,14 +166,130 @@ export class CaseTypeNewContainerComponent implements OnInit {
     onFormChange(event: any): void {
         const currentData = event?.data; // formio จะส่ง structure ของฟอร์มมาใน event.data
         this.isFormValid = !!event.isValid;
-        if (currentData?.fraud_code == 2) {
+        if(currentData?.fraud_chanel == 1) {
+            this.showMessage = false;
+            this.alertMessage = '';
+        }else  if (currentData?.fraud_chanel == 2) {
             this.showMessage = true;
             this.alertMessage = 'ให้เปลี่ยนรหัสผ่านและติดต่อผู้ให้บริการแพลตฟอร์ม เพื่อความปลอดภัย';
-        } else if (currentData?.fraud_code == 3) {
+        } else if (currentData?.fraud_chanel == 3) {
             this.showMessage = true;
             this.alertMessage = 'แสดงคำแนะนำและอาจนำทางไปยังแบบฟอร์มที่เกี่ยวข้องกับ พ.ร.บ. คอมพิวเตอร์ฯ โดยตรง';
-        } else if (currentData?.fraud_code == 4) {
+        } else if (currentData?.fraud_chanel == 4) {
 
+        }
+    }
+
+    async processFraudData(): Promise<void> {
+        // 1. ดึง data ออกมาใส่ตัวแปรเพื่อให้เรียกใช่ง่าย
+        const data = this._formData?.data;
+
+        // 2. Guard Clause: เช็คความถูกต้องของข้อมูล
+        if (!data || data.fraud_chanel !== 1) {
+            return;
+        }
+
+        // 3. กำหนดค่าเริ่มต้น (ใช้ตัวแปร data ที่ประกาศไว้)
+        // สังเกตว่า fraud_chanel (ต้นทาง) map ไป fraud_channel (ปลายทาง)
+        this._formData.fraud_channel = data.fraud_chanel;
+        this._formData.fraud_code = data.fraud_code;
+        this._formData.fraud_sub_code = data.fraud_sub_code;
+
+        // 4. ใช้ Switch Case แยก Logic ตาม Code
+        switch (data.fraud_code) {
+            case 1:
+                // บรรทัดนี้ลบออกได้เลย เพราะกำหนดไปแล้วด้านบนครับ
+                // this._formData.fraud_sub_code = data.fraud_sub_code; 
+
+                this._formData.fraud_tactic_id = data.fraud_sub_code1?.fraud_tactic_code;
+                break;
+
+            case 2:
+                // ในฟังก์ชันนี้ต้องมั่นใจว่ามีการ overwrite fraud_sub_code ใหม่ถ้าจำเป็น
+                await this.handleFraudCode2(data);
+                break;
+
+            case 3:
+                await this.handleFraudCode3(data);
+                break;
+
+            case 4:
+                await this.handleFraudCode4(data);
+                break;
+        }
+    }
+
+    // แยก Logic ของ Code 2 ออกมาเป็นฟังก์ชัน (Private Method)
+    private async handleFraudCode2(data: any): Promise<void> {
+        const subCode2 = data.fraud_sub_code2;
+
+        if (subCode2.goods_and_service_flag == 1) {
+            // กรณี Goods & Service Flag == 1
+            this._formData.fraud_sub_code = subCode2?.is_buyer;
+
+            if (subCode2?.is_buyer == 1) {
+                // Logic การหา Tactic ID สำหรับ Buyer (ลดรูป If-Else)
+                if (subCode2.is_buyer_paid_for_unsolicited_parcel == 1) {
+                    this._formData.fraud_tactic_id = 5;
+                } else if (subCode2.is_buyer_parcel_received == 1) {
+                    this._formData.fraud_tactic_id = 4;
+                } else if (subCode2.is_buyer_primary_purchase_channel == 1) {
+                    this._formData.fraud_tactic_id = 3;
+                } else if (subCode2.is_buyer_social_media_product_type == 1) {
+                    this._formData.fraud_tactic_id = 1;
+                } else if (subCode2.is_buyer_social_media_product_type == 2) {
+                    this._formData.fraud_tactic_id = 2;
+                }
+            } else if (subCode2?.is_buyer == 2) {
+                // กรณี Seller
+                this._formData.fraud_tactic_id = subCode2.fraud_method;
+            }
+
+        } else if (subCode2.goods_and_service_flag == 2) {
+            // กรณี Goods & Service Flag == 2
+            this._formData.fraud_sub_code = 3;
+            this._formData.fraud_tactic_id = subCode2?.payment_for_fake_service_code;
+        }
+
+        console.log(this._formData);
+    }
+
+    // แยก Logic ของ Code 3
+    private async handleFraudCode3(data: any): Promise<void> {
+        const romanceCode = data.romance_scam_type_code;
+        this._formData.fraud_sub_code = romanceCode?.romance_scam_type_code;
+
+        switch (romanceCode?.romance_scam_type_code) {
+            case 1:
+                // this._formData.fraud_tactic_id = data.fraud_sub_code3?.phishing_type; // Un-comment if needed
+                break;
+            case 2:
+                this._formData.fraud_tactic_id = romanceCode.impersonation_method_code?.impersonation_method_code;
+                break;
+            case 3:
+                this._formData.fraud_tactic_id = romanceCode.impersonated_organization_code?.impersonated_organization_code;
+                break;
+            case 4:
+                // this._formData.fraud_tactic_id = romanceCode.other_method_code?.other_method_code; // Un-comment if needed
+                break;
+        }
+    }
+
+    // แยก Logic ของ Code 4
+    private async handleFraudCode4(data: any): Promise<void> {
+        const employment = data.employment_and_benefits;
+        this._formData.fraud_sub_code = employment?.employment_and_benefits_code;
+
+        switch (employment?.employment_and_benefits_code) {
+            case 1:
+                this._formData.fraud_tactic_id = employment.employment_type_code;
+                break;
+            case 2:
+                this._formData.fraud_tactic_id = employment.fake_award_inheritance_claim_code;
+                break;
+            case 3:
+                this._formData.fraud_tactic_id = employment.loan_offer_scam_code;
+                break;
         }
     }
 }

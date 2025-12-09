@@ -3,14 +3,13 @@
     <div class="col-12">
       <formio #formioPreview [form]="_formBuilded" (submit)="onSave($event)" [submission]="this._formData" (change)="onFormChange($event)" ></formio>
     </div>
-    <div class="col-12">
+    <!-- <div class="col-12">
       <div *ngIf="showMessage" class="alert alert-danger" role="alert">
         {{ alertMessage }}
       </div>
-    </div>
+    </div> -->
 </div>
-
-     
+</section>
 <div class="text-right btn-footer" *ngIf="formType === 'add' && showMessage === false">
     <dx-button *ngIf="formType === 'add'" class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)">
     </dx-button>
@@ -19,5 +18,3 @@
     &nbsp;
     <dx-button class="btn btn-submit" text="ถัดไป" (onClick)="SubmitForm($event)"></dx-button>
 </div>
-  
-</section>

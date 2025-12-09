@@ -148,7 +148,7 @@ export class IssueOnlineContainerComponent implements OnInit {
     ) {
         if (contentdamagenew) {
              this.damagenewConponent = contentdamagenew;
-            this.damagenewConponent.mainConponent = this;
+            this.damagenewConponent.mainComponent = this;
             this.indexLocker.damagenewConponent = true;
         }
     }

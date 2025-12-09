@@ -401,65 +401,21 @@
     </div>
 </div>
 
-<div class="content-header p-3 mb-0"> รูปแบบการหลอกลวง </div>
+<div class="content-header p-3 mb-0" *ngIf="formType === 'add' || formType === 'view'"> รูปแบบการหลอกลวง </div>
 <div class="content-block" *ngIf="hasCaseTypeNew">
-    <app-case-type-new-container [dataForm]="formCaseTypeNew"></app-case-type-new-container>
+    <app-case-type-new-container [dataForm]="formCaseTypeNew" [formType]="'view'"></app-case-type-new-container>
 </div>
 
-<div class="content-header p-3 mb-0"> ช่องทางติดต่อครั้งแรก </div>
+<div class="content-header p-3 mb-0" *ngIf="formType === 'add' || formType === 'view'"> ช่องทางติดต่อครั้งแรก </div>
 <div class="content-block" *ngIf="hasChannelContact">
-    <app-issue-online-villain [dataForm]="formChannelContac"></app-issue-online-villain>
+    <app-issue-online-criminal-contact-info [dataForm]="formChannelContac" [formType]="'view'"></app-issue-online-criminal-contact-info>
 </div>
 
-<div class="content-header p-3 mb-0"> รายละเอียดความเสียหาย </div>
+<div class="content-header p-3 mb-0" *ngIf="formType === 'add' || formType === 'view'"> รายละเอียดความเสียหาย </div>
 <div class="content-block" *ngIf="hasDamageDetail">
-    <app-issue-online-damage-new [dataForm]="formDamageDetail"></app-issue-online-damage-new>
+    <app-issue-online-damage-new [dataForm]="formDamageDetail" [BankRefData]="formDamageBankRef"
+        [formType]="'view'"></app-issue-online-damage-new>
 </div>
-
-<!-- <div class="col-12 mt-3">
-      <formio #formioPreview [form]="_formBuilded"  [submission]="this._formAttachment"></formio>
-</div> -->
-<div class="content-header p-3 mb-0"> ไฟล์หลักฐานเพิ่มเติม (ถ้ามี) </div>
-<div class="content-block">
-    <div class="add-data text-right mb-2">
-        <dx-button class="btn btn-add-data" type="success" text="เพิ่มรายการ" (onClick)="PopupUploadAdd()"></dx-button>
-    </div>
-    <div class="remark-table-upload">* ขนาดไฟล์ทั้งหมดไม่เกิน 5MB</div>
-    <dx-data-grid #grid [dataSource]="listAttachment" [showColumnLines]="false" [showRowLines]="true"
-        [columnHidingEnabled]="true" [showBorders]="true" [rowAlternationEnabled]="true" [hoverStateEnabled]="false"
-        [columnAutoWidth]="true" [selectedRowKeys]="[]" noDataText="ไม่มีข้อมูล">
-        <dxo-paging [pageSize]="10"></dxo-paging>
-        <dxo-pager [visible]="true" [allowedPageSizes]="[10, 20, 50]" displayMode="full" [showPageSizeSelector]="true"
-            [showInfo]="true" [showNavigationButtons]="true">
-        </dxo-pager>
-        <dxo-editing mode="cell" [allowUpdating]="false" [allowDeleting]="false" [allowAdding]="false">
-        </dxo-editing>
-        <dxo-selection mode="single"></dxo-selection>
-        <dxi-column dataField="" caption="จัดการ" [width]="80" alignment="center" [allowSorting]="false"
-            cellTemplate="cellTemplateCommand"></dxi-column>
-        <div *dxTemplate="let d of 'cellTemplateCommand'">
-            <img class="text-download" src="assets/icon/trash.png" alt="icon"
-                (click)="PopupUploadDelete(d.component.pageIndex() * d.component.pageSize() + d.rowIndex)">
-        </div>
-        <dxi-column dataField="" caption="ลำดับ" [width]="80" alignment="center" [allowEditing]="false"
-            cellTemplate="cellTemplate"></dxi-column>
-        <dxi-column dataField="" caption="ชื่อไฟล์" alignment="center" cellTemplate="cellTemplateName"></dxi-column>
-        <div *dxTemplate="let cell of 'cellTemplateName'">
-            <div class="text-break text-left">
-                <span class="text-download">{{cell.data['originalName']}}</span>
-            </div>
-        </div>
-        <dxi-column dataField="" caption="ขนาดไฟล์" alignment="center" [width]="150"
-            cellTemplate="cellTemplateDetail"></dxi-column>
-        <div *dxTemplate="let cell of 'cellTemplateDetail'">
-            <div class="text-break">{{cell.data['sizeDetail']}}</div>
-        </div>
-        <div *dxTemplate="let cell of 'cellTemplate'">
-            {{ cell.component.pageIndex() * cell.component.pageSize() + cell.rowIndex + 1 }}
-        </div>
-    </dx-data-grid>
-</div>
-
 <!-- evidence-upload.component.html -->
 <div class="content-header p-3 mb-0"> ไฟล์หลักฐานเพิ่มเติม (ถ้ามี) </div>
 <div class="content-block">
@@ -471,8 +427,8 @@
                 โปรดแนบหลักฐานให้ครบถ้วนที่สุดเพื่อประโยชน์ในการสืบสวน
             </p>
 
-            <dx-radio-group [items]="evidenceTypes" displayExpr="label" valueExpr="id" [(value)]="selectedEvidenceType" selectButtonText="เลือกไฟล์"
-                layout="vertical">
+            <dx-radio-group [items]="evidenceTypes" displayExpr="label" valueExpr="id" [(value)]="selectedEvidenceType"
+                selectButtonText="เลือกไฟล์" layout="vertical">
             </dx-radio-group>
         </div>
 
@@ -483,7 +439,8 @@
         <div class="block-dropzone mt-2 mb-2">
             <div class="dropzone">
                 <div class="dropzone-text text-center">
-                    <dx-file-uploader #fileUploader [multiple]="true" [showFileList]="false" uploadMode="useForm" labelText="วางไฟล์ที่ต้องการนำเข้าที่นี่ หรือ เลือกไฟล์" selectButtonText="เลือกไฟล์"
+                    <dx-file-uploader #fileUploader [multiple]="true" [showFileList]="false" uploadMode="useForm"
+                        labelText="วางไฟล์ที่ต้องการนำเข้าที่นี่ หรือ เลือกไฟล์" selectButtonText="เลือกไฟล์"
                         accept=".pdf,.jpg,.jpeg,.png" (onValueChanged)="onFilesSelected($event)">
                     </dx-file-uploader>
                 </div>
@@ -494,12 +451,16 @@
             noDataText="ยังไม่มีไฟล์แนบ">
             <dxi-column caption="" [width]="60" alignment="center" cellTemplate="viewTemplate">
             </dxi-column>
-            <dxi-column dataField="name" caption="ชื่อไฟล์">
+            <dxi-column dataField="originalName" caption="ชื่อไฟล์" alignment="left">
             </dxi-column>
-            <dxi-column dataField="sizeText" caption="ขนาดไฟล์" [width]="120" alignment="right">
+            <dxi-column dataField="sizeDetail" caption="ขนาดไฟล์" [width]="120" alignment="center">
             </dxi-column>
-            <dxi-column dataField="type" caption="ประเภทไฟล์" [width]="120" alignment="center">
+            <dxi-column dataField="fileType" caption="ประเภทไฟล์" [width]="180" alignment="center"
+                cellTemplate="fileTypeTemplate">
             </dxi-column>
+            <div *dxTemplate="let cell of 'fileTypeTemplate'">
+                {{ getFileTypeName(cell.data.fileType) }}
+            </div>
             <dxi-column caption="" [width]="50" alignment="center" cellTemplate="deleteTemplate">
             </dxi-column>
             <div *dxTemplate="let cell of 'viewTemplate'">

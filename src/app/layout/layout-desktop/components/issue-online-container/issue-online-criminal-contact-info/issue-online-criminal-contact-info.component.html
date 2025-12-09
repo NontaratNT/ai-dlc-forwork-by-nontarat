@@ -241,8 +241,7 @@
         <!-- เลือกช่องทาง (SMS / PHONE / LINE / ฯลฯ) -->
         <div class="mb-3 channel-selector">
             <button *ngFor="let cfg of configFormOption1" type="button" class="btn btn-outline-primary me-2 mb-2 mx-1"
-                [class.active]="selectedChannel1?.id === cfg.id"
-                (click)="!formReadOnly && onSelectChannel(cfg,1)">
+                [class.active]="selectedChannel1?.id === cfg.id" (click)="!formReadOnly && onSelectChannel(cfg,1)">
                 {{ cfg.name }}
             </button>
         </div>
@@ -250,7 +249,7 @@
         <div *ngIf="selectedChannel1 as ch">
             <h4 class="mb-3">{{ ch.name }}</h4>
 
-            <dx-form [formData]="formData1" [colCount]="1" labelLocation="top" [showColonAfterLabel]="true">
+            <dx-form #form1 [formData]="formData1" [colCount]="1" labelLocation="top" [showColonAfterLabel]="true">
 
                 <ng-container *ngFor="let field of ch.formOption">
 
@@ -279,8 +278,8 @@
                         <ng-container *ngFor="let child of field.children">
 
                             <dxi-item [dataField]="child.dataField" [label]="{ text: child.caption }"
-                                [editorType]="getEditorType(child)" [isRequired]="child.required" [readOnly]="formReadOnly"
-                                [editorOptions]="child.editorOptions">
+                                [editorType]="getEditorType(child)" [isRequired]="child.required"
+                                [readOnly]="formReadOnly" [editorOptions]="child.editorOptions">
 
                                 <dxo-validation-rules *ngIf="child.required || child.pattern">
                                     <dxi-validation-rule *ngIf="child.required" type="required"
@@ -303,9 +302,9 @@
 
                         <ng-template dxTemplate="editor">
                             <div class="checkbox-group">
-                                <dx-check-box *ngFor="let opt of field.options"
-                                    [text]="opt[field.displayExpr || 'name']" [value]="isChecked(field, opt)" class="mx-1"
-                                    (onValueChanged)="onCheckboxChange(field, opt, $event)" [readOnly]="formReadOnly">
+                                <dx-check-box *ngFor="let opt of field.options" [readOnly]="formReadOnly"
+                                    [text]="opt[field.displayExpr || 'name']" [value]="isChecked(1, field, opt)" 
+                                    (onValueChanged)="onCheckboxChange(1, field, opt, $event)">
                                 </dx-check-box>
                             </div>
                         </ng-template>
@@ -320,8 +319,7 @@
     <div class="content-form">
         <div class="mb-3 channel-selector">
             <button *ngFor="let cfg of configFormOption2" type="button" class="btn btn-outline-primary me-2 mb-2 mx-1"
-                [class.active]="selectedChannel2?.id === cfg.id"
-                (click)="!formReadOnly && onSelectChannel(cfg,2)">
+                [class.active]="selectedChannel2?.id === cfg.id" (click)="!formReadOnly && onSelectChannel(cfg,2)">
                 {{ cfg.name }}
             </button>
         </div>
@@ -329,7 +327,7 @@
         <div *ngIf="selectedChannel2 as ch">
             <h4 class="mb-3">{{ ch.name }}</h4>
 
-            <dx-form [formData]="formData2" [colCount]="1" labelLocation="top" [showColonAfterLabel]="true">
+            <dx-form #form2 [formData]="formData2" [colCount]="1" labelLocation="top" [showColonAfterLabel]="true">
 
                 <ng-container *ngFor="let field of ch.formOption">
 
@@ -379,9 +377,9 @@
 
                         <ng-template dxTemplate="editor">
                             <div class="checkbox-group">
-                                <dx-check-box *ngFor="let opt of field.options" class="mx-1"
-                                    [text]="opt[field.displayExpr || 'name']" [value]="isChecked(field, opt)"
-                                    (onValueChanged)="onCheckboxChange(field, opt, $event)">
+                                <dx-check-box *ngFor="let opt of field.options" [readOnly]="formReadOnly"
+                                    [text]="opt[field.displayExpr || 'name']" [value]="isChecked(2, field, opt)"
+                                    (onValueChanged)="onCheckboxChange(2, field, opt, $event)">
                                 </dx-check-box>
                             </div>
                         </ng-template>
@@ -397,15 +395,14 @@
     <div class="content-form">
         <div class="mb-3 channel-selector">
             <button *ngFor="let cfg of configFormOption3" type="button" class="btn btn-outline-primary me-2 mb-2 mx-1"
-                [class.active]="selectedChannel3?.id === cfg.id"
-                (click)="!formReadOnly && onSelectChannel(cfg,3)">
+                [class.active]="selectedChannel3?.id === cfg.id" (click)="!formReadOnly && onSelectChannel(cfg,3)">
                 {{ cfg.name }}
             </button>
         </div>
         <div *ngIf="selectedChannel3 as ch">
             <h4 class="mb-3">{{ ch.name }}</h4>
 
-            <dx-form [formData]="formData3" [colCount]="1" labelLocation="top" [showColonAfterLabel]="true">
+            <dx-form #form3 [formData]="formData3" [colCount]="1" labelLocation="top" [showColonAfterLabel]="true">
 
                 <ng-container *ngFor="let field of ch.formOption">
 
@@ -455,9 +452,9 @@
 
                         <ng-template dxTemplate="editor">
                             <div class="checkbox-group">
-                                <dx-check-box *ngFor="let opt of field.options" class="mx-1"
-                                    [text]="opt[field.displayExpr || 'name']" [value]="isChecked(field, opt)"
-                                    (onValueChanged)="onCheckboxChange(field, opt, $event)">
+                                <dx-check-box *ngFor="let opt of field.options" [readOnly]="formReadOnly"
+                                    [text]="opt[field.displayExpr || 'name']" [value]="isChecked(3, field, opt)"
+                                    (onValueChanged)="onCheckboxChange(3, field, opt, $event)">
                                 </dx-check-box>
                             </div>
                         </ng-template>

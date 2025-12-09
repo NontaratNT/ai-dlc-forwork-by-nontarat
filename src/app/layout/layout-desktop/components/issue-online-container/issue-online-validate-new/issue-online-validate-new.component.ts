@@ -13,6 +13,7 @@ import { OnlineCaseService } from 'src/app/services/online-case.service';
 import { PersonalService } from 'src/app/services/personal.service';
 import { IssueOnlineFileUploadService } from 'src/app/services/issue-online-file-upload.service';
 import { FormConfigService } from 'src/app/services/form-service/form-config.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-issue-online-validate-new',
@@ -20,9 +21,15 @@ import { FormConfigService } from 'src/app/services/form-service/form-config.ser
   styleUrls: ['./issue-online-validate-new.component.scss']
 })
 export class IssueOnlineValidateNewComponent implements OnInit {
+  private readonly MAX_TOTAL_SIZE = 10 * 1024 * 1024; // 10 MB
+  @ViewChild('formInformer1', { static: false }) formInformer1: DxFormComponent;
+  @ViewChild('formInformer2', { static: false }) formInformer2: DxFormComponent;
+  @ViewChild('formInformer2address', { static: false }) formInformer2address: DxFormComponent;
 
-  public mainComponent: IssueOnlineContainerComponent;
+  @Input() formType: 'add' | 'edit' | 'view' = 'add';
   @Input() province: any[] = [];
+  @Input() dataForm: any;
+  public mainComponent: IssueOnlineContainerComponent;
   @ViewChild("form_popup_attachment", { static: false }) formAttachment: DxFormComponent;
 
   formReadOnly: boolean = false;
@@ -202,7 +209,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
 
   selectedEvidenceType: string = 'chat';
 
-  files: EvidenceFile[] = [];
+  files: any[] = [];
   loadDateBox = false;
   minBirthDate: Date;
   maxBirthDate: Date;
@@ -223,6 +230,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
   formChannelContac: any = {};
   formDamageDetail: any = {};
   formdataOrgsendcasewalkin: any = {};
+  formDamageBankRef: any = {};
   cardAddress: any = {
     district: [],
     subDistrict: [],
@@ -249,6 +257,59 @@ export class IssueOnlineValidateNewComponent implements OnInit {
   _formConfig: any = {};
   isResettingUploader = false;
 
+
+  fraudData: FraudRule[] = [
+    { fraud_id: 1, fraud_sub_id: 1, fraud_tatic: 1, case_type_id: 71 },
+    { fraud_id: 1, fraud_sub_id: 1, fraud_tatic: 2, case_type_id: 70 },
+    { fraud_id: 1, fraud_sub_id: 1, fraud_tatic: 3, case_type_id: 73 },
+    { fraud_id: 1, fraud_sub_id: 1, fraud_tatic: 4, case_type_id: 73 },
+    { fraud_id: 1, fraud_sub_id: 1, fraud_tatic: 5, case_type_id: 70 },
+    { fraud_id: 1, fraud_sub_id: 1, fraud_tatic: 6, case_type_id: null }, // ว่าง
+    { fraud_id: 2, fraud_sub_id: 1, fraud_tatic: 1, case_type_id: 60 },
+    { fraud_id: 2, fraud_sub_id: 1, fraud_tatic: 2, case_type_id: 60 },
+    { fraud_id: 2, fraud_sub_id: 1, fraud_tatic: 3, case_type_id: 72 },
+    { fraud_id: 2, fraud_sub_id: 1, fraud_tatic: 4, case_type_id: 60 },
+    { fraud_id: 2, fraud_sub_id: 1, fraud_tatic: 5, case_type_id: null }, // ว่าง
+    { fraud_id: 2, fraud_sub_id: 2, fraud_tatic: 1, case_type_id: null }, // ว่าง
+    { fraud_id: 2, fraud_sub_id: 2, fraud_tatic: 2, case_type_id: null }, // ว่าง
+    { fraud_id: 2, fraud_sub_id: 2, fraud_tatic: 3, case_type_id: null }, // ว่าง
+    { fraud_id: 2, fraud_sub_id: 3, fraud_tatic: 1, case_type_id: null }, // ว่าง
+    { fraud_id: 2, fraud_sub_id: 3, fraud_tatic: 2, case_type_id: 66 },
+    { fraud_id: 2, fraud_sub_id: 3, fraud_tatic: 3, case_type_id: 67 },
+    { fraud_id: 2, fraud_sub_id: 3, fraud_tatic: 4, case_type_id: 67 },
+    { fraud_id: 2, fraud_sub_id: 3, fraud_tatic: 5, case_type_id: null }, // ว่าง
+    { fraud_id: 3, fraud_sub_id: 1, fraud_tatic: 1, case_type_id: null }, // ว่าง
+    { fraud_id: 3, fraud_sub_id: 1, fraud_tatic: 2, case_type_id: null }, // ว่าง
+    { fraud_id: 3, fraud_sub_id: 1, fraud_tatic: 3, case_type_id: 62 },
+    { fraud_id: 3, fraud_sub_id: 2, fraud_tatic: 1, case_type_id: 61 },
+    { fraud_id: 3, fraud_sub_id: 2, fraud_tatic: 2, case_type_id: null }, // ว่าง
+    { fraud_id: 3, fraud_sub_id: 2, fraud_tatic: 3, case_type_id: null }, // ว่าง
+    { fraud_id: 3, fraud_sub_id: 3, fraud_tatic: 1, case_type_id: 66 },
+    { fraud_id: 3, fraud_sub_id: 3, fraud_tatic: 2, case_type_id: null }, // ว่าง
+    { fraud_id: 4, fraud_sub_id: 1, fraud_tatic: 1, case_type_id: 65 },
+    { fraud_id: 4, fraud_sub_id: 1, fraud_tatic: 2, case_type_id: null }, // ว่าง
+    { fraud_id: 4, fraud_sub_id: 1, fraud_tatic: 3, case_type_id: null }, // ว่าง
+    { fraud_id: 4, fraud_sub_id: 1, fraud_tatic: 4, case_type_id: null }, // ว่าง
+    { fraud_id: 4, fraud_sub_id: 1, fraud_tatic: 5, case_type_id: null }, // ว่าง
+    { fraud_id: 4, fraud_sub_id: 2, fraud_tatic: 1, case_type_id: 63 },
+    { fraud_id: 4, fraud_sub_id: 2, fraud_tatic: 2, case_type_id: 63 },
+    { fraud_id: 4, fraud_sub_id: 2, fraud_tatic: 3, case_type_id: 67 },
+    { fraud_id: 4, fraud_sub_id: 2, fraud_tatic: 4, case_type_id: null }, // ว่าง
+    { fraud_id: 4, fraud_sub_id: 3, fraud_tatic: 1, case_type_id: 64 },
+    { fraud_id: 4, fraud_sub_id: 3, fraud_tatic: 2, case_type_id: 64 },
+    { fraud_id: 5, fraud_sub_id: 1, fraud_tatic: 1, case_type_id: null }, // ว่าง
+    { fraud_id: 5, fraud_sub_id: 1, fraud_tatic: 2, case_type_id: null }, // ว่าง
+    { fraud_id: 5, fraud_sub_id: 2, fraud_tatic: 1, case_type_id: null }, // ว่าง
+    { fraud_id: 5, fraud_sub_id: 2, fraud_tatic: 2, case_type_id: null }, // ว่าง
+    { fraud_id: 5, fraud_sub_id: 2, fraud_tatic: 3, case_type_id: null }, // ว่าง
+    { fraud_id: 5, fraud_sub_id: 3, fraud_tatic: 1, case_type_id: null }, // ว่าง
+    { fraud_id: 5, fraud_sub_id: 3, fraud_tatic: 2, case_type_id: null }, // ว่าง
+    { fraud_id: 5, fraud_sub_id: 4, fraud_tatic: 1, case_type_id: null }, // ว่าง
+    { fraud_id: 5, fraud_sub_id: 4, fraud_tatic: 2, case_type_id: null }, // ว่าง
+  ];
+
+  resultCaseTypeId: number | null = null;
+
   constructor(private serviceProvince: ProvinceService,
     private serviceDistrict: DistrictService,
     private serviceSubDistrict: SubdistrictService,
@@ -258,6 +319,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
     private servicePersonal: PersonalService,
     private _issueFile: IssueOnlineFileUploadService,
     private _formConfigService: FormConfigService,
+    private _router: Router,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -271,11 +333,6 @@ export class IssueOnlineValidateNewComponent implements OnInit {
         //     this.mainConponent.checkReload(2);
         // }
       });
-    this._formConfig = await this._formConfigService
-      .GetId("6928008a26109f6b7c05aae5")
-      .toPromise()
-      .then((_) => _ ?? {});
-    this._formBuilded = JSON.parse(this._formConfig.formJson);
 
   }
 
@@ -283,9 +340,11 @@ export class IssueOnlineValidateNewComponent implements OnInit {
     this.formCaseTypeNew = Object.assign({}, JSON.parse(localStorage.getItem("form-case-type-new"))) || {};
     this.formChannelContac = Object.assign({}, JSON.parse(localStorage.getItem("form-vaillain"))) || {};
     this.formDamageDetail = Object.assign({}, JSON.parse(localStorage.getItem("form-damage"))) || {};
+    this.formDamageBankRef = Object.assign({}, JSON.parse(localStorage.getItem("form-damage-bank-ref"))) || {};
     this.minBirthDate = this._date.SetDateDefault(100, true, true, true);
     this.maxBirthDate = this._date.SetDateDefault(0);
     this.loadDateBox = true;
+    this.checkFraudCase(this.formCaseTypeNew?.fraud_code, this.formCaseTypeNew?.fraud_sub_code, this.formCaseTypeNew?.fraud_tactic_id);
   }
 
   loadPersonalData() {
@@ -885,28 +944,75 @@ export class IssueOnlineValidateNewComponent implements OnInit {
     return found?.description ?? '';
   }
 
-  onFilesSelected(e: any): void {
+  async onFilesSelected(e: any): Promise<void> {
     if (this.isResettingUploader) {
       this.isResettingUploader = false;
       return;
     }
 
     const fileList: File[] = e.value || [];
-
-    for (const f of fileList) {
-      this.files.push({
-        file: f,
-        name: f.name,
-        size: f.size,
-        sizeText: this.formatSize(f.size),
-        type: this.selectedEvidenceType
-      });
+    if (!fileList.length) {
+      return;
     }
 
-    // reset ค่าใน uploader เพื่อให้เลือกไฟล์ชุดเดิมซ้ำได้
-    this.isResettingUploader = true;
-    e.component.option('value', []);
+    // 1) ขนาดรวมปัจจุบัน
+    const currentTotalSize = this.files.reduce((sum: number, f: any) => {
+      return sum + (f.size || 0);
+    }, 0);
+
+    // 2) ขนาดรวมไฟล์ใหม่
+    const newFilesTotalSize = fileList.reduce((sum, f) => sum + f.size, 0);
+    const totalAfterAdd = currentTotalSize + newFilesTotalSize;
+
+    // 3) เกิน 10MB -> ไม่อนุญาต
+    if (totalAfterAdd > this.MAX_TOTAL_SIZE) {
+      Swal.fire({
+        title: 'ขนาดไฟล์รวมต้องไม่เกิน 10MB',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง'
+      });
+
+      this.isResettingUploader = true;
+      e.component.option('value', []);
+      return;
+    }
+
+    // 4) ไม่เกิน 10MB -> แปลงทุกไฟล์เป็น base64 แล้ว push
+    for (const f of fileList) {
+      const dataUrl = await this.readFileAsBase64(f);   // data:xxx;base64,AAAA...
+
+      // ถ้าอยากได้เฉพาะตัว base64
+      // const base64 = dataUrl.split(',')[1];
+
+      this.files.push({
+        storage: 'base64',
+        name: 'file',
+        url: dataUrl,
+        file: f,                  // << ตอนนี้เป็น base64 แล้ว
+        originalName: f.name,
+        size: f.size,
+        sizeDetail: this.formatSize(f.size),
+        type: f.type,
+        fileType: this.selectedEvidenceType,
+        dateNow: new Date(),
+      });
+    }
   }
+
+  private readFileAsBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        const result = reader.result as string;
+        resolve(result);          // ได้เป็น data:...;base64,AAAA...
+      };
+
+      reader.onerror = (err) => reject(err);
+      reader.readAsDataURL(file);
+    });
+  }
+
 
   removeFile(row: EvidenceFile): void {
     const idx = this.files.indexOf(row);
@@ -935,26 +1041,59 @@ export class IssueOnlineValidateNewComponent implements OnInit {
     return `${value.toFixed(2)} ${units[i]}`;
   }
 
+  getFileTypeName(fileType: string): string {
+    const found = this.evidenceTypes.find(x => x.id === fileType);
+    return found?.label ?? '';
+  }
+
   SubmitForm() {
-    console.log("formData", this.formData);
-    console.log("formCaseTypeNew", this.formCaseTypeNew);
-    console.log("formChannelContac", this.formChannelContac);
-    console.log("formDamageDetail", this.formDamageDetail);
-    // this.mainConponent.IssueOnlineStep = 4;
-    console.log(this.formCaseTypeNew);
-    console.log(this.formCaseTypeNew);
+    if (!this.formInformer1.instance.validate().isValid) {
+      const vform1 = this.formInformer1.instance.validate().brokenRules;
+      Swal.fire({
+        title: "ผิดพลาด!",
+        text: "กรุณากรอกข้อมูล {} ให้ครบ".replace("{}", vform1[0]?.message ?? ""),
+        icon: "warning",
+        confirmButtonText: "ตกลง"
+      });
+      return;
+    }
+    if (!this.formInformer2.instance.validate().isValid) {
+      const vform2 = this.formInformer2.instance.validate().brokenRules;
+      Swal.fire({
+        title: "ผิดพลาด!",
+        text: "กรุณากรอกข้อมูล {} ให้ครบ".replace("{}", vform2[0]?.message ?? ""),
+        icon: "warning",
+        confirmButtonText: "ตกลง"
+      });
+      return;
+    }
+    if (!this.formInformer2address.instance.validate().isValid) {
+      const vform2address = this.formInformer2address.instance.validate().brokenRules;
+      Swal.fire({
+        title: "ผิดพลาด!",
+        text: "กรุณากรอกข้อมูล {} ให้ครบ".replace("{}", vform2address[0]?.message ?? ""),
+        icon: "warning",
+        confirmButtonText: "ตกลง"
+      });
+      return;
+    }
     this.formData.CASE_INFORMER_DATE_STR = this.formData?.CASE_INFORMER_DATE ? this._date.ConvertToDateFormat(this.formData.CASE_INFORMER_DATE) : null;
+    this.formData.CASE_TYPE_ID = this.resultCaseTypeId || 74; // ประเภทคดี Fraud
     const payload = {
       PersonalId: User.Current.PersonalId,
-      CaseTypeId: this.formCaseTypeNew?.data?.fraud_code,
-      CaseTypeSubId: this.formCaseTypeNew?.data?.fraud_sub_code,
+      CaseTypeId: this.resultCaseTypeId || 74,
+      FraudChanelId: this.formCaseTypeNew?.fraud_channel || 0,
+      FraudCodeId: this.formCaseTypeNew?.fraud_code || 0,
+      CaseTypeSubId: this.formCaseTypeNew?.fraud_sub_code || 0,
+      FraudTacticId: this.formCaseTypeNew?.fraud_tactic_id || 0,
       OrganizeId: this.formData.ORG_LOCATION_ID,
       Body: {
         formData: this.formData,
         DamageDetail: this.formDamageDetail,
         formCaseTypeNew: this.formCaseTypeNew,
         formChannelContac: this.formChannelContac,
-        Attachment: this.listAttachment || [],
+        Attachment: this.files || [],
+        BankRef: this.formDamageBankRef?.BankRef || [],
       },
     };
     console.log(payload);
@@ -989,7 +1128,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
               icon: "success",
               confirmButtonText: "ตกลง",
             }).then(() => {
-
+              this.handleSuccessNavigation();
             });
           });
       } else {
@@ -997,6 +1136,44 @@ export class IssueOnlineValidateNewComponent implements OnInit {
         // console.log();
       }
     });
+  }
+
+    private handleSuccessNavigation(): void {
+    const itemsToRemove = [
+      'form-case-type-new',
+      'form-informer',
+      'form-damage-bank-ref',
+      'form-damage',
+      'form-vaillain',
+      'form-index',
+    ];
+
+    itemsToRemove.forEach((item) => {
+      localStorage.removeItem(item);
+    });
+
+   this._router.navigate(["/main/task-list"]);
+  }
+
+
+
+  getCaseTypeId(fId: number | null, fSubId: number | null, fTatic: number | null): number {
+
+    // Logic เดิมทำงานได้เลย ไม่ต้องแก้ไส้ใน
+    const foundRule = this.fraudData.find(rule =>
+      rule.fraud_id === fId &&
+      rule.fraud_sub_id === fSubId &&
+      rule.fraud_tatic === fTatic
+    );
+
+    // ถ้า input เป็น null -> หาไม่เจอ -> foundRule เป็น undefined -> เข้าเงื่อนไข ?? 74
+    return foundRule?.case_type_id ?? 74;
+  }
+
+  // ฟังก์ชัน Helper สำหรับเรียกใช้และเก็บค่า (Optional)
+  checkFraudCase(fId: number, fSubId: number, fTatic: number): void {
+    this.resultCaseTypeId = this.getCaseTypeId(fId, fSubId, fTatic);
+    console.log(`Input: ${fId}, ${fSubId}, ${fTatic} => Result Case Type: ${this.resultCaseTypeId}`);
   }
 
 
@@ -1016,4 +1193,11 @@ interface EvidenceType {
   id: string;
   label: string;
   description: string;
+}
+
+export interface FraudRule {
+  fraud_id: number;
+  fraud_sub_id: number;
+  fraud_tatic: number;
+  case_type_id?: number | null; // ใส่ ? หรือ | null เพราะบางบรรทัดในตารางไม่มีค่า
 }

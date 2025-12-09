@@ -26,22 +26,22 @@
             </dxi-item>
             <dxi-item>
                 <ng-container>
-                     <app-case-type-new-container></app-case-type-new-container>
+                     <app-case-type-new-container [mainComponent]="this"></app-case-type-new-container>
                 </ng-container>
             </dxi-item>
             <dxi-item>
                 <ng-container *dxTemplate>
-                    <app-issue-online-criminal-contact-info></app-issue-online-criminal-contact-info>
+                    <app-issue-online-criminal-contact-info [mainComponent]="this"></app-issue-online-criminal-contact-info>
                 </ng-container>
             </dxi-item>
             <dxi-item>
                 <ng-container *dxTemplate>
-                    <app-issue-online-damage-new></app-issue-online-damage-new>
+                    <app-issue-online-damage-new [mainComponent]="this"></app-issue-online-damage-new>
                 </ng-container>
             </dxi-item>
             <dxi-item>
                 <ng-container *dxTemplate>
-                    <app-issue-online-validate-new [province]="province"></app-issue-online-validate-new>
+                    <app-issue-online-validate-new [province]="province" [mainComponent]="this"></app-issue-online-validate-new>
                 </ng-container>
             </dxi-item>
             <!-- <dxi-item>
