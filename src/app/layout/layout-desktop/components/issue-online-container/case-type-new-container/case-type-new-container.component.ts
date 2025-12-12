@@ -108,8 +108,12 @@ export class CaseTypeNewContainerComponent implements OnInit {
 
     async SubmitForm(e) {
         if (!this.isFormValid) {
-            // กันไว้เผื่อ user hack ปุ่ม หรือเงื่อนไขอื่น
-            alert('กรุณากรอกข้อมูลให้ครบถ้วน');
+            Swal.fire({
+                title: 'แจ้งเตือน!',
+                text: "กรุณากรอกข้อมูลให้ครบถ้วน",
+                icon: 'warning',
+                confirmButtonText: 'ตกลง'
+            }).then(() => { });
             return;
         }
         if (this.formData.data?.CASE_BEHAVIOR) {
@@ -164,7 +168,7 @@ export class CaseTypeNewContainerComponent implements OnInit {
     }
 
     onFormChange(event: any): void {
-        const currentData = event?.data; // formio จะส่ง structure ของฟอร์มมาใน event.data
+         const currentData = event?.data; // formio จะส่ง structure ของฟอร์มมาใน event.data
         this.isFormValid = !!event.isValid;
         if(currentData?.fraud_chanel == 1) {
             this.showMessage = false;

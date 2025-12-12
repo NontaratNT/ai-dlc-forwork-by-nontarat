@@ -30,8 +30,8 @@ export class OcpbOnlineComplainInformerComponent implements OnInit {
     { value: 'f', text: 'หญิง' },
   ];
   _ISOVERSEA = [
-    { value: true, text: 'คนไทย' },
-    { value: false, text: 'ต่างชาติ' },
+    { value: false, text: 'คนไทย' },
+    { value: true, text: 'ต่างชาติ' },
   ];
   complainantAddress: any = {};
   Address: any = {};
