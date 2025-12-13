@@ -30,7 +30,8 @@ export class IssueOnlineDamageNewComponent implements OnInit {
     { id: 2, name: 'โอน/ซื้อสินทรัพย์ดิจิทัล (คริปโทฯ)', selected: false },
     { id: 3, name: 'โอนเงินผ่านบัญชีเงินอิเล็กทรอนิกส์ (e-Wallet)', selected: false },
     { id: 4, name: 'ซื้อบัตรเงินสด/บัตรของขวัญ', selected: false },
-    { id: 5, name: 'ข้อมูลบัตรเครดิต/เดบิตของฉันถูกนำไปใช้', selected: false }
+    { id: 5, name: 'ข้อมูลบัตรเครดิต/เดบิตของฉันถูกนำไปใช้', selected: false },
+    { id: 6, name: 'ทรัพย์สินอื่นๆ', selected: false },
   ];
   listTransferMethod: any[] = [
     { id: 1, name: 'ATM', value: 'ATM' },
@@ -41,9 +42,23 @@ export class IssueOnlineDamageNewComponent implements OnInit {
   ];
   readonly cryptoUnits = ['USDT (Tether)', 'BTC (Bitcoin)', 'ETH (Ethereum)', 'อื่นๆ'];
   readonly cryptoNetworks = ['TRON (TRC-20)', 'Ethereum (ERC-20)', 'BNB Smart Chain (BEP-20)', 'อื่นๆ'];
-  readonly ewalletServices = ['ทรูมันนี่ วอลเล็ท (TrueMoney Wallet)', 'ช้อปปี้เพย์ (ShopeePay)', 'แรบบิท ไลน์ เพย์ (Rabbit LINE Pay)', 'อื่นๆ'];
+  readonly ewalletServices = ['ทรูมันนี่ วอลเล็ท (TrueMoney Wallet)', 'ช้อปปี้เพย์ (ShopeePay)', 'แรบบิท ไลน์ เพย์ (Rabbit LINE Pay)', 'Paypal', 'Max Card', 'เป๋าตังค์', 'อื่นๆ'];
   readonly giftCardTypes = ['บัตรของขวัญ Apple / iTunes', 'Razer Gold PIN', 'อื่นๆ'];
   readonly cardTypes = ['VISA', 'Mastercard'];
+  readonly bankTypes = [
+    { type_bank_id: 1, type_main: 'T', type_id: 'T', type_name: 'ธนาคาร' },
+    { type_bank_id: 2, type_main: 'T', type_id: 'P', type_name: 'พร้อมเพย์' },
+    { type_bank_id: 4, type_main: 'P', type_id: 'C', type_name: 'เงินดิจิทัล (Cryptocurrency)' },
+    { type_bank_id: 8, type_main: 'P', type_id: 'P', type_name: 'QR Code' },
+    { type_bank_id: 3, type_main: 'P', type_id: 'P', type_name: 'ทรูมันนี่ วอลเล็ท (TrueMoney Wallet)' },
+    { type_bank_id: 5, type_main: 'P', type_id: 'P', type_name: 'Paypal' },
+    { type_bank_id: 9, type_main: 'P', type_id: 'P', type_name: 'Max Card' },
+    { type_bank_id: 10, type_main: 'P', type_id: 'P', type_name: 'เป๋าตังค์' },
+    { type_bank_id: 11, type_main: 'P', type_id: 'P', type_name: 'ช้อปปี้เพย์ (ShopeePay)' },
+    { type_bank_id: 12, type_main: 'P', type_id: 'P', type_name: 'แรบบิท ไลน์ เพย์ (Rabbit LINE Pay)' },
+    { type_bank_id: 6, type_main: 'P', type_id: 'O', type_name: 'อื่นๆ' },
+  ];
+  WayOtherList: any[] = [];
 
   bankInfoList: any[] = [];
   listDamageValueType1: any[] = [];
@@ -51,21 +66,25 @@ export class IssueOnlineDamageNewComponent implements OnInit {
   listDamageValueType3: any[] = [];
   listDamageValueType4: any[] = [];
   listDamageValueType5: any[] = [];
+  listDamageValueType6: any[] = [];
   formDamageType1: any = {};
   formDamageType2: any = {};
   formDamageType3: any = {};
   formDamageType4: any = {};
   formDamageType5: any = {};
+  formDamageType6: any = {};
   onEditType1: boolean = false;
   onEditType2: boolean = false;
   onEditType3: boolean = false;
   onEditType4: boolean = false;
   onEditType5: boolean = false;
+  onEditType6: boolean = false;
   onEditIndexType1: number = -1;
   onEditIndexType2: number = -1;
   onEditIndexType3: number = -1;
   onEditIndexType4: number = -1;
   onEditIndexType5: number = -1;
+  onEditIndexType6: number = -1;
 
 
   // ZONE : Bank SelectBox Editor Options
@@ -73,11 +92,13 @@ export class IssueOnlineDamageNewComponent implements OnInit {
   bankDestLabel = { text: 'ชื่อธนาคารปลายทาง' };
   bankAccountOriginLabel = { text: 'เลขบัญชีต้นทาง' };
   bankAccountNameOriginLabel = { text: 'ชื่อบัญชีต้นทาง' };
-  bankAccountDestLabel = { text: 'เลขบัญชีปลายทาง' };
+  bankAccountDestLabel = { text: 'เลขบัญชีปลายทาง/เอกลักษณ์บัญชีปลายทาง' };
   bankAccountNameDestLabel = { text: 'ชื่อบัญชีปลายทาง' };
   damageBankBathLabel = { text: 'จำนวนเงินที่โอน' };
   dateTransferLabel = { text: 'วันที่โอนเงิน' };
   transferMethodLabel = { text: 'วิธีการโอนเงิน' };
+  bankDestTypeLabel = { text: 'ประเภทบัญชีปลายทาง' };
+  bankDestTypeEditorOptions: dxSelectBoxOptions;
   bankOriginEditorOptions: dxSelectBoxOptions;
   bankDestEditorOptions: dxSelectBoxOptions;
   bankAccountOriginEditorOptions: dxTextBoxOptions;
@@ -97,10 +118,12 @@ export class IssueOnlineDamageNewComponent implements OnInit {
   CryptoAmountLabel = { text: 'จำนวนเหรียญที่โอน' };
   CryptoTransactionIdLabel = { text: 'Transaction ID (TxID / Hash) (ถ้ามี)' };
   CryptoNetworkOtherLabel = { text: 'โปรดระบุเครือข่าย (Blockchain Network) ที่ใช้โอน' };
+  CryptoOriginAddressLabel = { text: 'ที่อยู่ Wallet ต้นทาง (Origin Address)' };
 
   CryptoExchangeEditorOptions: dxTextBoxOptions;
   CryptoUnitEditorOptions: dxSelectBoxOptions;
   CryptoNetworkEditorOptions: dxSelectBoxOptions;
+  CryptoOriginAddressEditorOptions: dxTextBoxOptions;
   CryptoDestAddressEditorOptions: dxTextBoxOptions;
   CryptoAmountEditorOptions: dxNumberBoxOptions;
   CryptoAmountBathEditorOptions: dxNumberBoxOptions;
@@ -114,13 +137,16 @@ export class IssueOnlineDamageNewComponent implements OnInit {
   EwalletNameOriginLabel = { text: 'ชื่อบัญชีต้นทาง' };
   EwalletServiceLabel = { text: 'ผู้ให้บริการ e-Wallet ปลายทาง' };
   EwalletAccountLabel = { text: 'เบอร์โทรศัพท์หรือ ID ของบัญชีปลายทาง' };
+  EwalletAccountDestLabel = { text: 'เลขบัญชีปลายทาง/เอกลักษณ์บัญชีปลายทาง' };
   EwalletNameLabel = { text: 'ชื่อบัญชีปลายทาง (ถ้าทราบ)' };
   EwalletAmountLabel = { text: 'จำนวนเงิน (บาท)' };
   EwalletDateTransferLabel = { text: 'วันที่/เวลาที่โอน' };
   EwalletServiceOriginOtherLabel = { text: 'โปรดระบุประเภทอื่นๆ' };
   EwalletServiceOtherLabel = { text: 'โปรดระบุประเภทอื่นๆ' };
+  EwalletDestTypeLabel = { text: 'ประเภทบัญชีปลายทาง' };
+  EwalletDestEditorLabel = { text: 'ชื่อธนาคารปลายทาง' };
 
-
+  EwalletServiceDestTypeEditorOptions: dxSelectBoxOptions;
   EwalletServiceOriginOtherEditorOptions: dxTextBoxOptions;
   EwalletServiceOriginEditorOptions: dxSelectBoxOptions;
   EwalletAccountOriginEditorOptions: dxTextBoxOptions;
@@ -131,6 +157,8 @@ export class IssueOnlineDamageNewComponent implements OnInit {
   EwalletNameEditorOptions: dxTextBoxOptions;
   EwalletAmountEditorOptions: dxNumberBoxOptions;
   EwalletDateTransferEditorOptions: dxDateBoxOptions;
+
+  EwalletDestEditorOptions: dxSelectBoxOptions;
   // END ZONE
 
   // ZONE : Gift Card SelectBox Editor Options
@@ -157,6 +185,15 @@ export class IssueOnlineDamageNewComponent implements OnInit {
   CardHolderNameEditorOptions: dxTextBoxOptions;
   CardTransactionAmountEditorOptions: dxNumberBoxOptions;
   CardTransactionDateEditorOptions: dxDateBoxOptions;
+  // END ZONE
+
+  // ZONE : Bank Reference
+  OtherBankIdLabel = { text: 'ประเภททรัพย์สิน' };
+  OtherBankIdEditorOptions: dxSelectBoxOptions;
+  OtherDetailLabel = { text: 'รายละเอียดทรัพย์สินอื่นๆ' };
+  OtherDetailEditorOptions: dxTextBoxOptions;
+  OtherAmountLabel = { text: 'จำนวนเงิน (บาท)' };
+  OtherAmountEditorOptions: dxNumberBoxOptions;
 
   submission: any = {};
   BankRef: any = [];
@@ -174,6 +211,7 @@ export class IssueOnlineDamageNewComponent implements OnInit {
   form3Added: boolean = false;
   form4Added: boolean = false;
   form5Added: boolean = false;
+  form6Added: boolean = false;
   formBankRefAdded: boolean = false;
   // END ZONE
 
@@ -184,7 +222,8 @@ export class IssueOnlineDamageNewComponent implements OnInit {
   isLoading: boolean = true;
 
 
-  constructor(private servBankInfo: BankInfoService, 
+
+  constructor(private servBankInfo: BankInfoService,
     private datePipe: DatePipe) { }
 
   async ngOnInit(): Promise<void> {
@@ -194,14 +233,13 @@ export class IssueOnlineDamageNewComponent implements OnInit {
     await this.getBankInfoList();
     this.onloadEditorOption();
     if (this.dataForm) {
-      console.log(this.formType);
-      console.log(this.BankRefData);
       if (this.formType === 'view') {
         this.listDamageValueType1 = this.dataForm?.listDamageValueType1 || [];
         this.listDamageValueType2 = this.dataForm?.listDamageValueType2 || [];
         this.listDamageValueType3 = this.dataForm?.listDamageValueType3 || [];
         this.listDamageValueType4 = this.dataForm?.listDamageValueType4 || [];
         this.listDamageValueType5 = this.dataForm?.listDamageValueType5 || [];
+        this.listDamageValueType6 = this.dataForm?.listDamageValueType6 || [];
         this.BankRef = this.BankRefData?.BankRef?.length > 0 ? this.BankRefData?.BankRef : this.BankRefData?.length > 0 ? this.BankRefData : [];
         this.readOnlyForm = true;
       } else if (this.formType === 'edit') {
@@ -212,6 +250,7 @@ export class IssueOnlineDamageNewComponent implements OnInit {
         this.listDamageValueType3 = form?.listDamageValueType3 || [];
         this.listDamageValueType4 = form?.listDamageValueType4 || [];
         this.listDamageValueType5 = form?.listDamageValueType5 || [];
+        this.listDamageValueType6 = form?.listDamageValueType6 || [];
         this.BankRef = formBank.length > 0 ? formBank : [];
       }
 
@@ -231,7 +270,9 @@ export class IssueOnlineDamageNewComponent implements OnInit {
             break;
           case 5:
             damageType.selected = this.listDamageValueType5.length > 0;
-
+            break;
+          case 6:
+            damageType.selected = this.listDamageValueType6.length > 0;
             break;
         }
       });
@@ -252,6 +293,8 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       e => this.onBankNameChanged(e, 'dest')
     );
 
+    this.bankDestTypeEditorOptions = this.createSelectBox(this.bankTypes, 'เลือกประเภทบัญชีปลายทาง', { displayExpr: 'type_name', valueExpr: 'type_name' });
+
     this.bankAccountOriginEditorOptions = this.createAccountEditor('กรุณากรอกเลขที่บัญชีต้นทาง');
     this.bankAccountDestEditorOptions = this.createAccountEditor('กรุณากรอกเลขที่บัญชีปลายทาง');
     this.bankAccountNameOriginEditorOptions = this.createTextEditor('กรุณากรอกชื่อบัญชีต้นทาง');
@@ -269,6 +312,7 @@ export class IssueOnlineDamageNewComponent implements OnInit {
     this.CryptoExchangeEditorOptions = this.createTextEditor('กรุณากรอกชื่อ Exchange ที่โอน (ถ้ามี)');
     this.CryptoUnitEditorOptions = this.createSelectBox(this.cryptoUnits, 'เลือกสกุลเงินดิจิทัลที่โอน');
     this.CryptoNetworkEditorOptions = this.createSelectBox(this.cryptoNetworks, 'เลือกเครือข่าย (Blockchain Network) ที่ใช้โอน');
+    this.CryptoOriginAddressEditorOptions = this.createTextEditor('กรุณากรอกที่อยู่ Wallet ต้นทาง (Origin Address)');
     this.CryptoDestAddressEditorOptions = this.createTextEditor('กรุณากรอกที่อยู่ Wallet ปลายทาง (Destination Address)');
     this.CryptoAmountEditorOptions = this.createMoneyEditor('กรุณากรอกจำนวนเหรียญที่โอน', '#,##0.00000000');
     this.CryptoAmountBathEditorOptions = this.createMoneyEditor('กรุณากรอกจำนวนเงินที่โอน', '#,##0.00');
@@ -284,6 +328,11 @@ export class IssueOnlineDamageNewComponent implements OnInit {
     this.EwalletNameEditorOptions = this.createTextEditor('กรุณากรอกชื่อบัญชีปลายทาง (ถ้าทราบ)');
     this.EwalletAmountEditorOptions = this.createMoneyEditor('กรุณากรอกจำนวนเงิน (บาท)');
     this.EwalletDateTransferEditorOptions = this.createDateTimeEditor('กรุณาเลือกวันที่/เวลาที่โอน');
+    this.EwalletServiceDestTypeEditorOptions = this.createSelectBox(this.bankTypes, 'เลือกประเภทบัญชีปลายทาง', { displayExpr: 'type_name', valueExpr: 'type_name' });
+    this.EwalletDestEditorOptions = this.createBankSelectBox(
+      'เลือกชื่อธนาคารปลายทาง',
+      e => this.onBankNameChanged2(e, 'dest')
+    );
 
     // GIFT CARD
     this.GiftCardTypeEditorOptions = this.createSelectBox(this.giftCardTypes, 'เลือกประเภทของบัตร');
@@ -297,6 +346,27 @@ export class IssueOnlineDamageNewComponent implements OnInit {
     this.CardHolderNameEditorOptions = this.createTextEditor('กรุณากรอกชื่อร้านค้า/เว็บไซต์ที่เกิดรายการ');
     this.CardTransactionAmountEditorOptions = this.createMoneyEditor('กรุณากรอกจำนวนเงิน (บาท)');
     this.CardTransactionDateEditorOptions = this.createDateTimeEditor('กรุณาเลือกวันที่/เวลาที่เกิดรายการ');
+
+    // OTHER
+    this.OtherBankIdEditorOptions = this.createSelectBox(this.WayOtherList, 'เลือกประเภททรัพย์สิน', { displayExpr: 'BANK_OTHER_NAME', valueExpr: 'BANK_OTHER_ID' });
+  }
+
+  onBankNameChanged2(event: any, formDamageType: 'origin' | 'dest'): void {
+    const selectedBank = this.bankInfoList.find(bank => bank.BANK_ID === event.value);
+
+    const propBankName = formDamageType === 'origin'
+      ? 'BANK_NAME_ORIGIN'
+      : 'BANK_NAME';
+
+    const propBankId = formDamageType === 'origin'
+      ? 'BANK_ID_ORIGIN'
+      : 'BANK_ID';
+
+    this.formDamageType3 = {
+      ...this.formDamageType3,
+      [propBankId]: selectedBank?.BANK_ID ?? null,
+      [propBankName]: selectedBank?.BANK_NAME ?? null
+    };
   }
 
   async getBankInfoList(): Promise<void> {
@@ -377,6 +447,28 @@ export class IssueOnlineDamageNewComponent implements OnInit {
     };
   }
 
+  mapBankToBankId(service: string): number {
+    if (!service) return null;
+
+    const s = service.trim();
+
+    const mapping: Record<string, number> = {
+      'ธนาคาร': 1,
+      'พร้อมเพย์': 2,
+      'เงินดิจิทัล (Cryptocurrency)': 4,
+      'QR Code': 8,
+      'Paypal': 5,
+      'Max Card': 9,
+      'เป๋าตังค์': 10,
+      'ทรูมันนี่ วอลเล็ท (TrueMoney Wallet)': 3,
+      'ช้อปปี้เพย์ (ShopeePay)': 11,
+      'แรบบิท ไลน์ เพย์ (Rabbit LINE Pay)': 12,
+      'อื่นๆ': 13
+    };
+
+    return mapping[s] ?? null;
+  }
+
   onDamageType1Submit(form: DxFormComponent): void {
 
     if (!form.instance.validate().isValid) {
@@ -397,7 +489,7 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       }
       console.log('Form Damage Type 1 Submitted:', this.formDamageType1);
       this.formDamageType1.TYPE_BANK_ID = 1;
-      this.formDamageType1.TYPE_DESTINATION_BANK_ID = 1;
+      this.formDamageType1.TYPE_DESTINATION_BANK_ID = this.mapBankToBankId(this.formDamageType1.BANK_TYPE);
       this.listDamageValueType1.push(this.formDamageType1);
       this.formDamageType1 = {};
       this.form1Added = false;
@@ -436,6 +528,13 @@ export class IssueOnlineDamageNewComponent implements OnInit {
     const s = service.trim();
 
     const mapping: Record<string, number> = {
+      'ธนาคาร': 1,
+      'พร้อมเพย์': 2,
+      'เงินดิจิทัล (Cryptocurrency)': 4,
+      'QR Code': 8,
+      'Paypal': 5,
+      'Max Card': 9,
+      'เป๋าตังค์': 10,
       'ทรูมันนี่ วอลเล็ท (TrueMoney Wallet)': 3,
       'ช้อปปี้เพย์ (ShopeePay)': 11,
       'แรบบิท ไลน์ เพย์ (Rabbit LINE Pay)': 12,
@@ -560,6 +659,8 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       return;
     } else {
       console.log('Form Damage Type 1 Updated:', this.formDamageType1);
+      this.formDamageType1.TYPE_BANK_ID = 1;
+      this.formDamageType1.TYPE_DESTINATION_BANK_ID = this.mapBankToBankId(this.formDamageType1.BANK_TYPE);
       this.listDamageValueType1[this.onEditIndexType1] = this.formDamageType1;
       this.onEditType1 = false;
       this.formDamageType1 = {};
@@ -857,8 +958,9 @@ export class IssueOnlineDamageNewComponent implements OnInit {
     const sumType3 = this.listDamageValueType3.reduce((acc, curr) => acc + (Number(curr.EWALLET_AMOUNT) || 0), 0);
     const sumType4 = this.listDamageValueType4.reduce((acc, curr) => acc + (Number(curr.GIFT_CARD_AMOUNT) || 0), 0);
     const sumType5 = this.listDamageValueType5.reduce((acc, curr) => acc + (Number(curr.CARD_TRANSACTION_AMOUNT) || 0), 0);
+    const sumType6 = this.listDamageValueType6.reduce((acc, curr) => acc + (Number(curr.CASE_MONEY_BANK_OTHER_AMOUNT) || 0), 0);
 
-    total = sumType1 + sumType2 + sumType3 + sumType4 + sumType5;
+    total = sumType1 + sumType2 + sumType3 + sumType4 + sumType5 + sumType6;
     return total;
   }
 
@@ -905,6 +1007,7 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       listDamageValueType3: this.listDamageValueType3,
       listDamageValueType4: this.listDamageValueType4,
       listDamageValueType5: this.listDamageValueType5,
+      listDamageValueType6: this.listDamageValueType6,
       TotalDamageValue: this.totalDamageValue,
     };
     const bankRefData = this.BankRef.length > 0 ? { BankRef: this.BankRef } : {};
@@ -1203,6 +1306,108 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       this.formBankRefAdded = false;
       this.submission = {};
     }
+  }
+
+  onDamageType6Submit(form: DxFormComponent): void {
+    if (!form.instance.validate().isValid) {
+      Swal.fire({
+        icon: 'error',
+        title: 'แจ้งเตือน',
+        text: 'กรุณากรอกข้อมูลให้ครบถ้วนตามที่กำหนด',
+      });
+      return;
+    } else {
+      // 1. ค้นหาข้อมูลจาก WayOtherList เพียงครั้งเดียว (Correct Syntax)
+      const selectedBank = this.WayOtherList.find(item => item.BANK_OTHER_ID == this.formDamageType6.CASE_MONEY_BANK_OTHER_ID);
+
+      // 2. ตรวจสอบว่าเจอข้อมูลไหม เพื่อป้องกัน Error
+      if (selectedBank) {
+        // กำหนดค่า ID ซ้ำ (เผื่อกรณี Type ไม่ตรงกัน เช่น string vs number)
+        this.formDamageType6.CASE_MONEY_BANK_OTHER_ID = selectedBank.BANK_OTHER_ID;
+        this.formDamageType6.CASE_MONEY_BANK_OTHER_NAME = selectedBank.BANK_OTHER_NAME;
+        this.formDamageType6.CASE_MONEY_BANK_OTHER_CODE = selectedBank.BANK_OTHER_CODE;
+      }
+
+      this.formDamageType6.CASE_MONEY_CHANNEL_TYPE = 'O';
+      this.formDamageType6.TYPE_BANK_ID = 19;
+      this.formDamageType6.BANK_DAMAGE_VALUE = this.formDamageType6.CASE_MONEY_BANK_OTHER_AMOUNT;
+      this.formDamageType6.CASE_MONEY_BANK_OTHER_DETAIL_NAME = this.formDamageType6.CASE_MONEY_BANK_OTHER_DETAIL;
+
+      // 3. Push ข้อมูลลง List (แนะนำให้ Clone Object เพื่อตัดการเชื่อมโยงข้อมูลเดิม)
+      this.listDamageValueType6.push({ ...this.formDamageType6 });
+
+      // 4. รีเซ็ตค่า
+      this.formDamageType6 = {};
+      this.form6Added = false;
+    }
+  }
+
+  onDamageType6Update(form: DxFormComponent): void {
+    // Logic to update existing entry
+    if (!form.instance.validate().isValid) {
+      Swal.fire({
+        icon: 'error',
+        title: 'แจ้งเตือน',
+        text: 'กรุณากรอกข้อมูลให้ครบถ้วนตามที่กำหนด',
+      });
+      return;
+    } else {
+      // 1. ค้นหาข้อมูลจาก WayOtherList เพียงครั้งเดียว (Correct Syntax)
+      // 1. ค้นหาข้อมูลจาก WayOtherList เพียงครั้งเดียว (Correct Syntax)
+      const selectedBank = this.WayOtherList.find(item => item.BANK_OTHER_ID == this.formDamageType6.CASE_MONEY_BANK_OTHER_ID);
+
+      // 2. ตรวจสอบว่าเจอข้อมูลไหม เพื่อป้องกัน Error
+      if (selectedBank) {
+        // กำหนดค่า ID ซ้ำ (เผื่อกรณี Type ไม่ตรงกัน เช่น string vs number)
+        this.formDamageType6.CASE_MONEY_BANK_OTHER_ID = selectedBank.BANK_OTHER_ID;
+        this.formDamageType6.CASE_MONEY_BANK_OTHER_NAME = selectedBank.BANK_OTHER_NAME;
+        this.formDamageType6.CASE_MONEY_BANK_OTHER_CODE = selectedBank.BANK_OTHER_CODE;
+      }
+
+      this.formDamageType6.CASE_MONEY_CHANNEL_TYPE = 'O';
+      this.formDamageType6.TYPE_BANK_ID = 19;
+      this.formDamageType6.BANK_DAMAGE_VALUE = this.formDamageType6.CASE_MONEY_BANK_OTHER_AMOUNT;
+      this.formDamageType6.CASE_MONEY_BANK_OTHER_DETAIL_NAME = this.formDamageType6.CASE_MONEY_BANK_OTHER_DETAIL;
+
+      this.listDamageValueType6[this.onEditIndexType6] = this.formDamageType6;
+      this.onEditType6 = false;
+      this.formDamageType6 = {};
+      this.form6Added = false;
+    }
+  }
+
+  onEditType6Clicked(index: number): void {
+    this.onEditType6 = true;
+    this.form6Added = true;
+    this.onEditIndexType6 = index;
+    this.formDamageType6 = { ...this.listDamageValueType6[index] };
+  }
+
+  onDeleteType6Clicked(index: number): void {
+    Swal.fire({
+      title: 'ยืนยันการลบข้อมูล',
+      text: 'คุณแน่ใจหรือไม่ว่าต้องการลบข้อมูลนี้?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'ใช่, ลบเลย',
+      cancelButtonText: 'ยกเลิก'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.listDamageValueType6.splice(index, 1);
+        Swal.fire({
+          title: 'ลบข้อมูลเรียบร้อย',
+          text: 'ข้อมูลถูกลบเรียบร้อยแล้ว',
+          icon: 'success',
+          confirmButtonText: 'ตกลง'
+        });
+      }
+    });
+  }
+
+  get isBankAccountVisible(): boolean {
+    const validTypes = [1, 2, 3, 10];
+    // ตรวจสอบว่าค่า BANK_TYPE ปัจจุบัน อยู่ใน list ที่กำหนดหรือไม่
+    return validTypes.includes(this.formDamageType1?.BANK_TYPE);
   }
 
 

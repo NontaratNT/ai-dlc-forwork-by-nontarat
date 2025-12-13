@@ -394,7 +394,21 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                     options: this.facebookList,
                     displayExpr: 'TEXT',
                     valueExpr: 'TEXT'
-                }
+                },
+                {
+                    templateName: 'FACEBOOK_TEMP_5',
+                    dataField: 'FACEBOOK_SEEN_FROM_DETAIL', // new field 9-12-68
+                    caption: 'ระบุ อื่นๆ',
+                    placeholder: 'คุณเห็นคนร้ายจากที่ใด',
+                    fieldType: 'textbox',
+                    // maxLength: 100,
+                    required: true,
+                    // type: 'url',
+                    visibleWhen: {
+                        dataField: 'FACEBOOK_SEEN_FROM',
+                        values: ['อื่นๆ']
+                    }
+                },
             ]
         },
 
@@ -430,14 +444,36 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                 {
                     templateName: 'DATING_APP_TEMP_1',
                     dataField: 'DATING_APP_NAME',
-                    caption: 'คุณใช้แอปพลิเคชันใด?',
                     fieldType: 'selectbox',
+                    caption: 'คุณใช้แอปพลิเคชันใด?',
                     required: true,
                     options: this.datingAppList,
                     placeholder: 'เลือกคุณใช้แอปพลิเคชันใด',
                     displayExpr: 'TEXT',
                     valueExpr: 'TEXT'
                 },
+                {
+                    templateName: 'DATING_APP_TEMP_3',
+                    dataField: 'DATING_APP_NAME_DETAIL', // new field 9-12-68
+                    caption: 'ระบุชื่อแอปพลิเคชัน',
+                    placeholder: 'ชื่อแอปพลิเคชัน',
+                    fieldType: 'textbox',
+                    // maxLength: 100,
+                    required: true,
+                    // type: 'url',
+                    visibleWhen: {
+                        dataField: 'DATING_APP_NAME',
+                        values: ['อื่นๆ']
+                    }
+                },
+                // {
+                //   templateName: 'DATING_APP_TEMP_3',
+                //   dataField: 'DATING_APP_NAME',
+                //   caption: 'ชื่อโปรไฟล์ของคนร้ายในแอปฯ',
+                //   placeholder: 'ชื่อโปรไฟล์',
+                //   fieldType: 'textbox',
+                //   maxLength: 100
+                // },
                 {
                     templateName: 'DATING_APP_TEMP_2',
                     dataField: 'DATING_APP_PROFILE_NAME',

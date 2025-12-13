@@ -1077,6 +1077,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
       });
       return;
     }
+    this.checkFraudCase(this.formCaseTypeNew?.fraud_code, this.formCaseTypeNew?.fraud_sub_code, this.formCaseTypeNew?.fraud_tactic_id);
     this.formData.CASE_INFORMER_DATE_STR = this.formData?.CASE_INFORMER_DATE ? this._date.ConvertToDateFormat(this.formData.CASE_INFORMER_DATE) : null;
     this.formData.CASE_TYPE_ID = this.resultCaseTypeId || 74; // ประเภทคดี Fraud
     const payload = {
