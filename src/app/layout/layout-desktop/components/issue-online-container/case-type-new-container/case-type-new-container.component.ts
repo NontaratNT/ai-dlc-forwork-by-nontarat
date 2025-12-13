@@ -48,21 +48,22 @@ export class CaseTypeNewContainerComponent implements OnInit {
     _formBuilded: any = {};
     _formData: any = {};
     _formRenderType: string = "IO"; // IO | BUILDER
-    formType: 'add' | 'edit' = 'add';
+    formType: "add" | "edit" = "add";
     formData: any = {};
 
     showMessage: boolean = false;
-    alertMessage: string = '';
+    alertMessage: string = "";
     isFormValid: boolean = false;
+    @ViewChild('formioPreview') formioPreview: any;
 
     constructor(
         private _formConfigService: FormConfigService,
-        private router: Router,
-    ) { }
+        private router: Router
+    ) {}
 
     async ngOnInit(): Promise<void> {
-        console.log('maincomponent', this.mainConponent);
-         this._formConfig = await this._formConfigService
+        console.log("maincomponent", this.mainConponent);
+        this._formConfig = await this._formConfigService
             .GetCode("FORM_FRADULENT_PATTERN")
             .toPromise()
             .then((_) => _ ?? {});
@@ -80,9 +81,9 @@ export class CaseTypeNewContainerComponent implements OnInit {
         };
         if (this.dataForm) {
             console.log(this.dataForm);
-            this.formType = 'edit';
+            this.formType = "edit";
             this._formData = this.dataForm;
-            this._formBuilded?.components.forEach(component => {
+            this._formBuilded?.components.forEach((component) => {
                 component.disabled = true;
             });
         }
@@ -102,34 +103,39 @@ export class CaseTypeNewContainerComponent implements OnInit {
             text: `ระบบได้รับเรื่องของท่านเรียบร้อยแล้ว`,
             icon: "success",
             confirmButtonText: "ตกลง",
-        }).then(() => { });
+        }).then(() => {});
         return;
     }
 
     async SubmitForm(e) {
+
+        console.log("isFormValidsubmit", this.isFormValid);
         if (!this.isFormValid) {
             Swal.fire({
-                title: 'แจ้งเตือน!',
+                title: "แจ้งเตือน!",
                 text: "กรุณากรอกข้อมูลให้ครบถ้วน",
-                icon: 'warning',
-                confirmButtonText: 'ตกลง'
-            }).then(() => { });
+                icon: "warning",
+                confirmButtonText: "ตกลง",
+            }).then(() => {});
             return;
         }
         if (this.formData.data?.CASE_BEHAVIOR) {
             Swal.fire({
-                title: 'แจ้งเตือน!',
+                title: "แจ้งเตือน!",
                 text: "กรุณากรอกข้อมูลให้ครบถ้วน",
-                icon: 'warning',
-                confirmButtonText: 'ตกลง'
-            }).then(() => { });
+                icon: "warning",
+                confirmButtonText: "ตกลง",
+            }).then(() => {});
             return;
         }
         await this.processFraudData();
         console.log(this._formBuilded);
         console.log(this._formData);
         this.mainConponent.formDataAll.formCaseTypeNew = this._formData;
-        localStorage.setItem("form-case-type-new", JSON.stringify(this._formData));
+        localStorage.setItem(
+            "form-case-type-new",
+            JSON.stringify(this._formData)
+        );
         if (e != "tab") {
             this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
         }
@@ -162,26 +168,62 @@ export class CaseTypeNewContainerComponent implements OnInit {
             text: msg ?? "กรุณากรอกข้อมูล",
             icon: "warning",
             confirmButtonText: "Ok",
-        }).then(() => { });
+        }).then(() => {});
         this.mainConponent.checkValidate = true;
         return;
     }
 
     onFormChange(event: any): void {
-         const currentData = event?.data; // formio จะส่ง structure ของฟอร์มมาใน event.data
-        this.isFormValid = !!event.isValid;
-        if(currentData?.fraud_chanel == 1) {
-            this.showMessage = false;
-            this.alertMessage = '';
-        }else  if (currentData?.fraud_chanel == 2) {
-            this.showMessage = true;
-            this.alertMessage = 'ให้เปลี่ยนรหัสผ่านและติดต่อผู้ให้บริการแพลตฟอร์ม เพื่อความปลอดภัย';
-        } else if (currentData?.fraud_chanel == 3) {
-            this.showMessage = true;
-            this.alertMessage = 'แสดงคำแนะนำและอาจนำทางไปยังแบบฟอร์มที่เกี่ยวข้องกับ พ.ร.บ. คอมพิวเตอร์ฯ โดยตรง';
-        } else if (currentData?.fraud_chanel == 4) {
 
-        }
+        if (!event) return;
+
+        if (!event.hasOwnProperty("isValid")) return;
+
+        const formio = this.formioPreview?.formio;
+        
+        
+        if (!formio) return;
+
+        //check replace label employment_type_other
+          const code = Number(event.data?.employment_and_benefits?.employment_type_code || 0);
+  // ฟิลด์ที่ต้องเปลี่ยน label → ใส่ key ของ component นั้น
+                const comp = formio.getComponent('employment_type_other');
+                if (comp) {
+                    if (code === 4) {
+                    comp.component.label = 'โปรดระบุค่าธรรมเนียมที่แอบอ้าง';
+                    } else {
+                    comp.component.label = 'โปรดระบุชนิดของงาน';
+                    }
+                    // สำคัญมาก! ไม่งั้น label จะไม่เปลี่ยน
+                    comp.redraw();
+                }
+                 //end check replace label employment_type_other
+        const currentData = event.data ?? {};
+        this.isFormValid = Boolean(event.isValid);
+
+        // ตัวอย่าง logic เฉพาะ field
+        // switch (currentData.fraud_chanel) {
+        //     case 1:
+        //         this.showMessage = false;
+        //         this.alertMessage = "";
+        //         break;
+
+        //     case 2:
+        //         this.showMessage = true;
+        //         this.alertMessage =
+        //             "ให้เปลี่ยนรหัสผ่านและติดต่อผู้ให้บริการแพลตฟอร์ม เพื่อความปลอดภัย";
+        //         break;
+
+        //     case 3:
+        //         this.showMessage = true;
+        //         this.alertMessage =
+        //             "แสดงคำแนะนำและอาจนำทางไปยังแบบฟอร์มที่เกี่ยวข้องกับ พ.ร.บ. คอมพิวเตอร์ฯ โดยตรง";
+        //         break;
+
+        //     case 4:
+        //         // logic
+        //         break;
+        // }
     }
 
     async processFraudData(): Promise<void> {
@@ -203,9 +245,10 @@ export class CaseTypeNewContainerComponent implements OnInit {
         switch (data.fraud_code) {
             case 1:
                 // บรรทัดนี้ลบออกได้เลย เพราะกำหนดไปแล้วด้านบนครับ
-                // this._formData.fraud_sub_code = data.fraud_sub_code; 
+                // this._formData.fraud_sub_code = data.fraud_sub_code;
 
-                this._formData.fraud_tactic_id = data.fraud_sub_code1?.fraud_tactic_code;
+                this._formData.fraud_tactic_id =
+                    data.fraud_sub_code1?.fraud_tactic_code;
                 break;
 
             case 2:
@@ -248,11 +291,11 @@ export class CaseTypeNewContainerComponent implements OnInit {
                 // กรณี Seller
                 this._formData.fraud_tactic_id = subCode2.fraud_method;
             }
-
         } else if (subCode2.goods_and_service_flag == 2) {
             // กรณี Goods & Service Flag == 2
             this._formData.fraud_sub_code = 3;
-            this._formData.fraud_tactic_id = subCode2?.payment_for_fake_service_code;
+            this._formData.fraud_tactic_id =
+                subCode2?.payment_for_fake_service_code;
         }
 
         console.log(this._formData);
@@ -268,10 +311,12 @@ export class CaseTypeNewContainerComponent implements OnInit {
                 // this._formData.fraud_tactic_id = data.fraud_sub_code3?.phishing_type; // Un-comment if needed
                 break;
             case 2:
-                this._formData.fraud_tactic_id = romanceCode.impersonation_method_code?.impersonation_method_code;
+                this._formData.fraud_tactic_id =
+                    romanceCode.impersonation_method_code?.impersonation_method_code;
                 break;
             case 3:
-                this._formData.fraud_tactic_id = romanceCode.impersonated_organization_code?.impersonated_organization_code;
+                this._formData.fraud_tactic_id =
+                    romanceCode.impersonated_organization_code?.impersonated_organization_code;
                 break;
             case 4:
                 // this._formData.fraud_tactic_id = romanceCode.other_method_code?.other_method_code; // Un-comment if needed
@@ -282,17 +327,21 @@ export class CaseTypeNewContainerComponent implements OnInit {
     // แยก Logic ของ Code 4
     private async handleFraudCode4(data: any): Promise<void> {
         const employment = data.employment_and_benefits;
-        this._formData.fraud_sub_code = employment?.employment_and_benefits_code;
+        this._formData.fraud_sub_code =
+            employment?.employment_and_benefits_code;
 
         switch (employment?.employment_and_benefits_code) {
             case 1:
-                this._formData.fraud_tactic_id = employment.employment_type_code;
+                this._formData.fraud_tactic_id =
+                    employment.employment_type_code;
                 break;
             case 2:
-                this._formData.fraud_tactic_id = employment.fake_award_inheritance_claim_code;
+                this._formData.fraud_tactic_id =
+                    employment.fake_award_inheritance_claim_code;
                 break;
             case 3:
-                this._formData.fraud_tactic_id = employment.loan_offer_scam_code;
+                this._formData.fraud_tactic_id =
+                    employment.loan_offer_scam_code;
                 break;
         }
     }
