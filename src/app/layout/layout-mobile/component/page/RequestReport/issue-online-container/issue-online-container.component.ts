@@ -27,6 +27,10 @@ import { IOrganizeInfo } from "share-ui/lib/models/organize-info.service";
 import { OrgService } from "src/app/services/org.service";
 import { User } from "src/app/services/user";
 import { IssueOnlineCriminalContatInfoComponent } from "./issue-online-criminal-contact-info/issue-online-criminal-contact-info.component";
+import { CaseTypeNewContainerComponent } from "./case-type-new-container/case-type-new-container.component";
+import { IssueOnlineValidateNewComponent } from "./issue-online-validate-new/issue-online-validate-new.component";
+import { IssueOnlineDamageNewComponent } from "./issue-online-damage-new/issue-online-damage-new.component";
+import { IssueOnlineCriminalContactInfoNewComponent } from "./issue-online-criminal-contact-info-new/issue-online-criminal-contact-info-new.component";
 @Component({
     selector: "app-issue-online-container",
     templateUrl: "./issue-online-container.component.html",
@@ -140,6 +144,42 @@ export class IssueOnlineContainerComponent implements OnInit {
 
         }
     }
+    @ViewChild(CaseTypeNewContainerComponent) set contentcasetypenew(
+        contentcasetypenew: CaseTypeNewContainerComponent
+    ) {
+        if (contentcasetypenew) {
+            this.casetypenewConponent = contentcasetypenew;
+            this.casetypenewConponent.mainConponent = this;
+            this.indexLocker.casetypenewConponent = true;
+        }
+    }
+    @ViewChild(IssueOnlineDamageNewComponent) set contentdamagenew(
+        contentdamagenew: IssueOnlineDamageNewComponent
+    ) {
+        if (contentdamagenew) {
+            this.damagenewConponent = contentdamagenew;
+            this.damagenewConponent.mainComponent = this;
+            this.indexLocker.damagenewConponent = true;
+        }
+    }
+    @ViewChild(IssueOnlineValidateNewComponent) set contentvalidatenew(
+        contentvalidatenew: IssueOnlineValidateNewComponent
+    ) {
+        if (contentvalidatenew) {
+            this.validatenewConponent = contentvalidatenew;
+            this.validatenewConponent.mainComponent = this;
+            this.indexLocker.validatenewConponent = true;
+        }
+    }
+    @ViewChild(IssueOnlineCriminalContactInfoNewComponent) set contentcontacnew(
+        contentvalidatenew: IssueOnlineCriminalContactInfoNewComponent
+    ) {
+        if (contentvalidatenew) {
+            this.contactNewConponent = contentvalidatenew;
+            this.contactNewConponent.mainConponent = this;
+            this.indexLocker.contactNewConponent = true;
+        }
+    }
 
     @ViewChild("selectPresentProvicelocation", { static: false }) selectPresentProvicelocation: DxSelectBoxComponent;
     @ViewChild("selectorg", { static: false }) selectorg: DxSelectBoxComponent;
@@ -168,6 +208,10 @@ export class IssueOnlineContainerComponent implements OnInit {
     public trackAppointmentConponent: TrackAppointmentComponent;
     public pagefirstConponent: IssueOnlineCheckComponent;
     public inssueOnlineCriminalContact: IssueOnlineCriminalContatInfoComponent;
+     public casetypenewConponent: CaseTypeNewContainerComponent;
+    public damagenewConponent: IssueOnlineDamageNewComponent;
+    public validatenewConponent: IssueOnlineValidateNewComponent;
+    public contactNewConponent: IssueOnlineCriminalContactInfoNewComponent;
     public caseId: number;
     public InstId: string;
     public ProcessInstanceId: string;
@@ -263,6 +307,18 @@ export class IssueOnlineContainerComponent implements OnInit {
                 //     this.indexTab = 4;
                 // }
             } else {
+                Swal.fire({
+                    icon: "info",
+                    title: "แจ้งเตือน",
+                    html: `ระบบได้ปรับปรุงคำถามเพื่อ <b>ความครบถ้วนของข้อมูล</b><br>
+                    อาจมีการใช้เวลากรอกมากขึ้นเล็กน้อย <br>
+                    ขอความร่วมมือกรอกข้อมูลอย่าง ถูกต้องและครบถ้วน <br>
+                    ข้อมูลของท่านช่วยให้เจ้าหน้าที่ดำเนินงานได้ รวดเร็วและแม่นยำขึ้น <br>
+                        <br>
+                    <b>ขอบคุณทุกท่านสำหรับความร่วมมือ</b>`,
+                    allowOutsideClick: false,
+                    confirmButtonText: "รับทราบ",
+                });
                 this.SetFormInit();
                 this.getProvince();
             }
@@ -292,30 +348,30 @@ export class IssueOnlineContainerComponent implements OnInit {
         return "";
     }
     SetFormInit() {
-        if (localStorage.getItem("form-index")) {
-            Swal.fire({
-                title: 'แจ้งเตือน!!',
-                html: "คุณมีข้อมูลแจ้งความที่ยังกรอกไม่เสร็จ<br>ต้องการไปกรอกข้อมูลต่อหรือไม่",
-                icon: 'warning',
-                confirmButtonText: 'ยืนยัน',
-                showCancelButton: true,
-                cancelButtonText: 'ยกเลิก'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    this.indexTab = Number(localStorage.getItem("form-index"));
-                } else {
-                    localStorage.removeItem("form-blessing");
-                    localStorage.removeItem("form-informer");
-                    localStorage.removeItem("form-event");
-                    localStorage.removeItem("form-damage");
-                    localStorage.removeItem("form-villain");
-                    localStorage.removeItem("form-attachment");
-                    localStorage.removeItem("form-questionare");
-                    localStorage.removeItem("form-index");
-                    localStorage.removeItem("form-criminal-contact");
-                }
-            });
-        }
+        // if (localStorage.getItem("form-index")) {
+        //     Swal.fire({
+        //         title: 'แจ้งเตือน!!',
+        //         html: "คุณมีข้อมูลแจ้งความที่ยังกรอกไม่เสร็จ<br>ต้องการไปกรอกข้อมูลต่อหรือไม่",
+        //         icon: 'warning',
+        //         confirmButtonText: 'ยืนยัน',
+        //         showCancelButton: true,
+        //         cancelButtonText: 'ยกเลิก'
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             this.indexTab = Number(localStorage.getItem("form-index"));
+        //         } else {
+        //             localStorage.removeItem("form-blessing");
+        //             localStorage.removeItem("form-informer");
+        //             localStorage.removeItem("form-event");
+        //             localStorage.removeItem("form-damage");
+        //             localStorage.removeItem("form-villain");
+        //             localStorage.removeItem("form-attachment");
+        //             localStorage.removeItem("form-questionare");
+        //             localStorage.removeItem("form-index");
+        //             localStorage.removeItem("form-criminal-contact");
+        //         }
+        //     });
+        // }
         this.formDataInsert.FORM_CODE = "CCIB_NOTIFY_PEOPLE@0.1";
         this.formDataInsert.env = environment.config.baseConfig;
         this.formDataInsert.CASE_TYPE_ID = 1;
@@ -350,8 +406,8 @@ export class IssueOnlineContainerComponent implements OnInit {
     public NextIndex(index: number = 0) {
         this.indexTab = index;
         const countItem = this.stepNavigation.length;
-        if (index === (countItem - 1) && this.indexLocker.validateConponent) {
-            this.validateConponent.ReloadData();
+         if (index === (countItem - 1) && this.indexLocker.validatenewConponent) {
+            this.validatenewConponent.loadDataForm();
         }
     }
     CheckNextIndex(index: number = 0) {
@@ -367,8 +423,11 @@ export class IssueOnlineContainerComponent implements OnInit {
         // }
         this.indexTab = index;
         const countItem = this.stepNavigation.length;
-        if (index === (countItem - 1) && this.indexLocker.validateConponent) {
-            this.validateConponent.ReloadData();
+        console.log(index);
+        console.log(countItem - 1);
+        console.log(this.indexLocker.validatenewConponent);
+        if (index === (countItem - 1) && this.indexLocker.validatenewConponent) {
+            this.validatenewConponent.loadDataForm();
         }
     }
     testCheckNextIndex(index: number = 0) {
@@ -630,5 +689,9 @@ export class IssueOnlineContainerComponent implements OnInit {
                 this.formData.ORG_LOCATION_NAME = data[0].org_name;
             }
         }
+    }
+
+    next(){
+        this.indexTab+=1;
     }
 }

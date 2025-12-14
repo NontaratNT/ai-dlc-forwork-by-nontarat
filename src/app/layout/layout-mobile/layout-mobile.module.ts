@@ -79,6 +79,12 @@ import { SelectIssueComponent } from "./component/page/select-issue/select-issue
 import { IssueOnlineCriminalContatInfoComponent } from "./component/page/RequestReport/issue-online-container/issue-online-criminal-contact-info/issue-online-criminal-contact-info.component";
 import { ChatOfficerComponent } from "./component/page/chat-officer/chat-officer.component";
 import { ChatOfficerDetailComponent } from "./component/page/chat-officer/chat-officer-detail/chat-officer-detail.component";
+import { CaseTypeNewContainerComponent } from './component/page/RequestReport/issue-online-container/case-type-new-container/case-type-new-container.component';
+import { IssueOnlineDamageNewComponent } from './component/page/RequestReport/issue-online-container/issue-online-damage-new/issue-online-damage-new.component';
+import { IssueOnlineValidateNewComponent } from './component/page/RequestReport/issue-online-container/issue-online-validate-new/issue-online-validate-new.component';
+import { IssueOnlineCriminalContactInfoNewComponent } from './component/page/RequestReport/issue-online-container/issue-online-criminal-contact-info-new/issue-online-criminal-contact-info-new.component';
+import { SearchNewCaseTypeMobileComponent } from "./component/page/RequestReport/issue-online-container/search-new-case-type-mobile/search-new-case-type-mobile.component";
+import { FormioModule } from "@formio/angular";
 
 @NgModule({
     declarations: [
@@ -120,7 +126,12 @@ import { ChatOfficerDetailComponent } from "./component/page/chat-officer/chat-o
         SelectIssueComponent,
         IssueOnlineCriminalContatInfoComponent,
         ChatOfficerComponent,
-        ChatOfficerDetailComponent
+        ChatOfficerDetailComponent,
+        CaseTypeNewContainerComponent,
+        IssueOnlineDamageNewComponent,
+        IssueOnlineValidateNewComponent,
+        SearchNewCaseTypeMobileComponent,
+        IssueOnlineCriminalContactInfoNewComponent
     ],
     imports: [
         CommonModule,
@@ -155,7 +166,9 @@ import { ChatOfficerDetailComponent } from "./component/page/chat-officer/chat-o
         LayoutDesktopModule,
         NgxExtendedPdfViewerModule,
         FormsModule,
+        FormioModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+    exports: [SearchNewCaseTypeMobileComponent],
 })
 export class LayoutMobileModule {}

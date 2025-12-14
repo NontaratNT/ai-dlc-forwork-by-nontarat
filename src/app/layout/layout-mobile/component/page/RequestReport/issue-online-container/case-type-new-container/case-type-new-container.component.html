@@ -1,0 +1,28 @@
+{{formType}}
+<div class="search-box py-3" *ngIf="formType === 'add'">
+  <app-search-new-case-type [items]="articles" (selected)="onSelected($event)"></app-search-new-case-type>
+  <div class="mt-3" *ngIf="selectedItem">
+    <div class="alert alert-info">
+      <b>เลือกแล้ว:</b> {{ selectedItem?.name }}
+    </div>
+  </div>
+</div>
+
+
+<section class="ftco-section"
+  style="height: 100vh;background: #f5fdff;overflow: scroll;border-radius: 10px;margin-bottom: 2%;width: 100%;">
+  <div class="card-body container" style="min-width: 90%;">
+    <div class="col-12">
+      <formio #formioPreview [form]="_formBuilded" (submit)="onSave($event)" [submission]="this._formData"
+        (change)="onFormChange($event)"></formio>
+    </div>
+  </div>
+</section>
+<div class="text-right btn-footer" *ngIf="formType === 'add' && showMessage === false">
+  <dx-button *ngIf="formType === 'add'" class="btn btn-back" text="ย้อนกลับ" (onClick)="Back($event)">
+  </dx-button>
+  <!-- <dx-button  class="btn btn-back" text="ย้อนกลับ" (onClick)="BackToList($event)">
+    </dx-button> -->
+  &nbsp;
+  <dx-button class="btn btn-submit" text="ถัดไป" (onClick)="SubmitForm($event)"></dx-button>
+</div>
