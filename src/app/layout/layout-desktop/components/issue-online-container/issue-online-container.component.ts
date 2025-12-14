@@ -258,6 +258,18 @@ export class IssueOnlineContainerComponent implements OnInit {
             this.stepNavigationWidth = 355 * this.stepNavigation.length;
             this.getProvince();
         } else {
+            Swal.fire({
+                icon: "info",
+                title: "แจ้งเตือน",
+                html: `ระบบได้ปรับปรุงคำถามเพื่อ <b>ความครบถ้วนของข้อมูล</b><br>
+                อาจมีการใช้เวลากรอกมากขึ้นเล็กน้อย <br>
+                ขอความร่วมมือกรอกข้อมูลอย่าง ถูกต้องและครบถ้วน <br>
+                ข้อมูลของท่านช่วยให้เจ้าหน้าที่ดำเนินงานได้ รวดเร็วและแม่นยำขึ้น <br>
+                 <br>
+                <b>ขอบคุณทุกท่านสำหรับความร่วมมือ</b>`,
+                allowOutsideClick: false,
+                confirmButtonText: "รับทราบ",
+            });
             this.stepNavigationWidth = 400 * this.stepNavigation.length;
             this.SetFormInit();
             this.getProvince();
@@ -286,22 +298,22 @@ export class IssueOnlineContainerComponent implements OnInit {
         return this.stepNavigationZindex - index;
     }
     async SetFormInit() {
-        if (localStorage.getItem("form-index")) {
-            Swal.fire({
-                title: "แจ้งเตือน!!",
-                html: "คุณมีข้อมูลแจ้งความที่ยังกรอกไม่เสร็จ<br>ต้องการไปกรอกข้อมูลต่อหรือไม่",
-                icon: "warning",
-                confirmButtonText: "ยืนยัน",
-                showCancelButton: true,
-                cancelButtonText: "ยกเลิก",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    this.indexTab = Number(localStorage.getItem("form-index"));
-                } else {
-                    this.handleSuccessNavigation();
-                }
-            });
-        }
+        // if (localStorage.getItem("form-index")) {
+        //     Swal.fire({
+        //         title: "แจ้งเตือน!!",
+        //         html: "คุณมีข้อมูลแจ้งความที่ยังกรอกไม่เสร็จ<br>ต้องการไปกรอกข้อมูลต่อหรือไม่",
+        //         icon: "warning",
+        //         confirmButtonText: "ยืนยัน",
+        //         showCancelButton: true,
+        //         cancelButtonText: "ยกเลิก",
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             this.indexTab = Number(localStorage.getItem("form-index"));
+        //         } else {
+        //             this.handleSuccessNavigation();
+        //         }
+        //     });
+        // }
         // try {
         //     this._ip = await this.getIPAddress();
         // } catch (error) {
