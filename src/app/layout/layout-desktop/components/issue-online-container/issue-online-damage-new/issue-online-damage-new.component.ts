@@ -421,6 +421,9 @@ export class IssueOnlineDamageNewComponent implements OnInit {
           case 5:
             this.listDamageValueType5 = [];
             break;
+          case 6:
+            this.listDamageValueType6 = [];
+            break;
         }
       } else {
         // revert checkbox to true
@@ -641,7 +644,7 @@ export class IssueOnlineDamageNewComponent implements OnInit {
         return;
       }
       console.log('Form Damage Type 5 Submitted:', this.formDamageType5);
-      this.formDamageType5.TYPE_BANK_ID = this.mapCreditCardToBankId(this.formDamageType5.CARD_BANK);
+      this.formDamageType5.TYPE_BANK_ID = this.mapCreditCardToBankId(this.formDamageType5.CARD_TYPE);
       this.listDamageValueType5.push(this.formDamageType5);
       this.formDamageType5 = {};
       this.form5Added = false;
@@ -1184,7 +1187,7 @@ export class IssueOnlineDamageNewComponent implements OnInit {
         .GetBankTrackNo(upperValue)
         .toPromise(); // ถ้าอนาคตอยากเปลี่ยน: firstValueFrom(...) ก็ได้
 
-      if (haveBank) {
+      if (haveBank.Value) {
         await this.showError(
           'ผิดพลาด!',
           'เลขอ้างอิงนี้มีการแจ้งแล้ว</br>รบกวนตรวจสอบคดีที่เคยบันทึกมาแล้ว',
@@ -1283,6 +1286,8 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       this.form5Added = true;
     } else if (formId === 'BankRef') {
       this.formBankRefAdded = true;
+    } else if (formId === '6') {
+      this.form6Added = true;
     }
   }
 
@@ -1305,6 +1310,9 @@ export class IssueOnlineDamageNewComponent implements OnInit {
     } else if (formId === 'BankRef') {
       this.formBankRefAdded = false;
       this.submission = {};
+    } else if (formId === '6') {
+      this.form6Added = false;
+      this.formDamageType6 = {};
     }
   }
 

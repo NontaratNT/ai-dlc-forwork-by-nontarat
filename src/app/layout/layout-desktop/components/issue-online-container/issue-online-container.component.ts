@@ -507,8 +507,8 @@ export class IssueOnlineContainerComponent implements OnInit {
         // }
         this.indexTab = index;
         const countItem = this.stepNavigation.length;
-        if (index === countItem - 1 && this.indexLocker.validateConponent) {
-            this.validateConponent.ReloadData();
+        if (index === countItem - 1 && this.indexLocker.validatenewConponent) {
+            this.validatenewConponent.loadDataForm();
         }
     }
 

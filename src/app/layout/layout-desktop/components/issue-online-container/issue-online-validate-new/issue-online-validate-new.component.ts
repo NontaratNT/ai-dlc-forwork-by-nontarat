@@ -1111,21 +1111,16 @@ export class IssueOnlineValidateNewComponent implements OnInit {
       showCancelButton: true,
       cancelButtonText: "กลับไปแก้ไข",
     }).then((result) => {
+      console.log(payload);
       if (result.isConfirmed) {
         this.isLoading = true;
         this._onlineCaseServ
-          .InsertPreCase(payload)
+          .InsertNewCaseType(payload)
           .pipe(finalize(() => (this.isLoading = false)))
           .subscribe((_) => {
             Swal.fire({
-              title: "ระบบได้รับเรื่องของท่านเรียบร้อยแล้ว!",
-              html: `เลขรับแจ้งความ (Case Reference Number):<br><b>${(_)} </b><br>
-                        คำแนะนำขั้นตอนต่อไป (Immediate Next Steps): <br>
-                        สิ่งที่ต้องทำทันที:<br>
-                        1️⃣ อายัดบัญชี: หากท่านยังไม่ได้ทำ โปรดติดต่อธนาคารของท่านทันทีเพื่อแจ้งอายัดธุรกรรมไปยังบัญชีปลายทาง<br>
-                        2️⃣ รักษาหลักฐาน: โปรดรวบรวมหลักฐานทั้งหมดเก็บไว้ในที่ปลอดภัย<br>
-                        สิ่งที่คาดว่าจะเกิดขึ้น:<br>
-                        ท่านจะได้รับการติดต่อจากเจ้าหน้าที่ตำรวจภายใน 24 ชั่วโมงเพื่อสอบถามข้อมูลเพิ่มเติม`,
+              title: "แจ้งเรื่องสำเร็จ!",
+              text: "กรุณารอเรื่องเข้าสู่ระบบ 1-3 นาที",
               icon: "success",
               confirmButtonText: "ตกลง",
             }).then(() => {
