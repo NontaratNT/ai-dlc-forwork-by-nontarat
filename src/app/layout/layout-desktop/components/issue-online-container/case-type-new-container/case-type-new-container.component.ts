@@ -10,6 +10,8 @@ import { DxFormComponent } from "devextreme-angular";
 import { FormValidatorService } from "src/app/services/form-validator.service";
 import { ConvertDateService } from "src/app/services/convert-date.service";
 import { IssueOnlineContainerComponent } from "../issue-online-container.component";
+import { Article } from "../search-new-case-type/search-new-case-type.component";
+import { CaseNewTypeService } from "src/app/services/case-new-type/casenewtype.service";
 
 @Component({
     selector: "app-case-type-new-container",
@@ -18,24 +20,6 @@ import { IssueOnlineContainerComponent } from "../issue-online-container.compone
 })
 export class CaseTypeNewContainerComponent implements OnInit {
     public mainConponent: IssueOnlineContainerComponent;
-    @ViewChild("formInformer1", { static: false })
-    formInformer1: DxFormComponent;
-    @ViewChild("formInformer2", { static: false })
-    formInformer2: DxFormComponent;
-    @ViewChild("formInformer3", { static: false })
-    formInformer3: DxFormComponent;
-    @ViewChild("formInformer4", { static: false })
-    formInformer4: DxFormComponent;
-    @ViewChild("formInformer5", { static: false })
-    formInformer5: DxFormComponent;
-    @ViewChild("formInformerOther", { static: false })
-    formInformerOther: DxFormComponent;
-    @ViewChild("formInformeraddresspolice", { static: false })
-    formInformeraddresspolice: DxFormComponent;
-    @ViewChild("formInformertype2", { static: false })
-    formInformertype2: DxFormComponent;
-    @ViewChild("formInformertype3", { static: false })
-    formInformertype3: DxFormComponent;
 
     @ViewChild("formInformertype1", { static: false })
     formInformertype1: DxFormComponent;
@@ -43,6 +27,10 @@ export class CaseTypeNewContainerComponent implements OnInit {
     formInformer2address: DxFormComponent;
 
     @Input() dataForm: any;
+
+    articles: Article[] = [];
+
+    selectedItem?: Article;
 
     _formConfig: any = {};
     _formBuilded: any = {};
@@ -58,24 +46,21 @@ export class CaseTypeNewContainerComponent implements OnInit {
 
     constructor(
         private _formConfigService: FormConfigService,
+        private casenewtypeservice: CaseNewTypeService,
         private router: Router
-    ) {}
+    ) { }
 
     async ngOnInit(): Promise<void> {
-        console.log("maincomponent", this.mainConponent);
         this._formConfig = await this._formConfigService
             .GetCode("FORM_FRADULENT_PATTERN")
             .toPromise()
             .then((_) => _ ?? {});
+        this.articles = await this.casenewtypeservice
+            .GetCaseTypeNew()
+            .toPromise()
+            .then((_) => _ ?? []);
         this._formBuilded = JSON.parse(this._formConfig.formJson);
         this._formBuilded = JSON.parse(this._formConfig.formJson);
-        //       if (this._formRenderType === "IO") {
-        //     this._formData = {
-        //         data: this.submitionData ?? {},
-        //     };
-        // }
-
-        console.log("formbuilded", this._formBuilded);
         this._formData = {
             data: {},
         };
@@ -103,12 +88,12 @@ export class CaseTypeNewContainerComponent implements OnInit {
             text: `ระบบได้รับเรื่องของท่านเรียบร้อยแล้ว`,
             icon: "success",
             confirmButtonText: "ตกลง",
-        }).then(() => {});
+        }).then(() => { });
         return;
     }
 
     async SubmitForm(e) {
-
+        console.log(this._formData);
         console.log("isFormValidsubmit", this.isFormValid);
         if (!this.isFormValid) {
             Swal.fire({
@@ -116,16 +101,16 @@ export class CaseTypeNewContainerComponent implements OnInit {
                 text: "กรุณากรอกข้อมูลให้ครบถ้วน",
                 icon: "warning",
                 confirmButtonText: "ตกลง",
-            }).then(() => {});
+            }).then(() => { });
             return;
         }
-        if (this.formData.data?.CASE_BEHAVIOR) {
+        if (!this._formData.data?.CASE_BEHAVIOR || this._formData.data?.CASE_BEHAVIOR === "") {
             Swal.fire({
                 title: "แจ้งเตือน!",
                 text: "กรุณากรอกข้อมูลให้ครบถ้วน",
                 icon: "warning",
                 confirmButtonText: "ตกลง",
-            }).then(() => {});
+            }).then(() => { });
             return;
         }
         await this.processFraudData();
@@ -168,7 +153,7 @@ export class CaseTypeNewContainerComponent implements OnInit {
             text: msg ?? "กรุณากรอกข้อมูล",
             icon: "warning",
             confirmButtonText: "Ok",
-        }).then(() => {});
+        }).then(() => { });
         this.mainConponent.checkValidate = true;
         return;
     }
@@ -180,24 +165,24 @@ export class CaseTypeNewContainerComponent implements OnInit {
         if (!event.hasOwnProperty("isValid")) return;
 
         const formio = this.formioPreview?.formio;
-        
-        
+
+
         if (!formio) return;
 
         //check replace label employment_type_other
-          const code = Number(event.data?.employment_and_benefits?.employment_type_code || 0);
-  // ฟิลด์ที่ต้องเปลี่ยน label → ใส่ key ของ component นั้น
-                const comp = formio.getComponent('employment_type_other');
-                if (comp) {
-                    if (code === 4) {
-                    comp.component.label = 'โปรดระบุค่าธรรมเนียมที่แอบอ้าง';
-                    } else {
-                    comp.component.label = 'โปรดระบุชนิดของงาน';
-                    }
-                    // สำคัญมาก! ไม่งั้น label จะไม่เปลี่ยน
-                    comp.redraw();
-                }
-                 //end check replace label employment_type_other
+        const code = Number(event.data?.employment_and_benefits?.employment_type_code || 0);
+        // ฟิลด์ที่ต้องเปลี่ยน label → ใส่ key ของ component นั้น
+        const comp = formio.getComponent('employment_type_other');
+        if (comp) {
+            if (code === 4) {
+                comp.component.label = 'โปรดระบุค่าธรรมเนียมที่แอบอ้าง';
+            } else {
+                comp.component.label = 'โปรดระบุชนิดของงาน';
+            }
+            // สำคัญมาก! ไม่งั้น label จะไม่เปลี่ยน
+            comp.redraw();
+        }
+        //end check replace label employment_type_other
         const currentData = event.data ?? {};
         this.isFormValid = Boolean(event.isValid);
 
@@ -308,15 +293,13 @@ export class CaseTypeNewContainerComponent implements OnInit {
 
         switch (romanceCode?.romance_scam_type_code) {
             case 1:
-                // this._formData.fraud_tactic_id = data.fraud_sub_code3?.phishing_type; // Un-comment if needed
+                this._formData.fraud_tactic_id = romanceCode.romance_scam_fraud_topic_code?.romance_scam_fraud_topic_code; // Un-comment if needed
                 break;
             case 2:
-                this._formData.fraud_tactic_id =
-                    romanceCode.impersonation_method_code?.impersonation_method_code;
+                this._formData.fraud_tactic_id = romanceCode.impersonation_method_code?.impersonation_method_code;
                 break;
             case 3:
-                this._formData.fraud_tactic_id =
-                    romanceCode.impersonated_organization_code?.impersonated_organization_code;
+                this._formData.fraud_tactic_id = romanceCode.impersonated_organization_code?.impersonated_organization_code;
                 break;
             case 4:
                 // this._formData.fraud_tactic_id = romanceCode.other_method_code?.other_method_code; // Un-comment if needed
@@ -344,5 +327,113 @@ export class CaseTypeNewContainerComponent implements OnInit {
                     employment.loan_offer_scam_code;
                 break;
         }
+    }
+
+    onSelected(item: Article) {
+        this.selectedItem = item;
+        this.mapFormData(item);
+        // ตัวอย่าง: ไปหน้า detail / เรียก API / set form
+        console.log('selected =>', item);
+    }
+
+    mapFormData(data?: Article) {
+        if (!data || data?.fraud_id == 5) {
+            return;
+        }
+        this._formData = {};
+        this.formData = {};
+        let metadata = {} as any;
+        metadata.selectData = metadata.selectData ?? {};
+        metadata.selectData.fraud_chanel = metadata.selectData.fraud_chanel ?? {};
+        metadata.selectData.fraud_code = metadata.selectData.fraud_code ?? {};
+
+        // set ค่า 
+        this.formData.fraud_chanel = 1;
+        metadata.selectData.fraud_chanel.FRAUD_NAME_TH =  'ฉันถูกหลอกลวงให้เสียทรัพย์สิน (ถูกโกง/Scam)';
+
+        this.formData.fraud_code = data?.fraud_id;
+        if(data?.fraud_id === 1){
+            metadata.selectData.fraud_code.FRAUD_SUB_NAME_TH = "การเงินและการลงทุน\tมีการชักชวนให้ลงทุนเพื่อหวังผลกำไร";
+            this.formData.fraud_sub_code = data?.fraud_sub_id;
+            this.formData.fraud_sub_code1 = {
+                fraud_tactic_code: data?.fraud_tatic
+            };
+        }else if(data?.fraud_id === 2){
+            metadata.selectData.fraud_code.FRAUD_SUB_NAME_TH = "สินค้าและบริการเกี่ยวข้องกับการซื้อของหรือจ่ายค่าบริการ";
+            this.formData.fraud_sub_code2 = {
+                goods_and_service_flag: data?.fraud_sub_id == 1 || data?.fraud_sub_id == 2 ? 1 : 2
+            };
+            if(data?.fraud_sub_id === 1 || data?.fraud_sub_id === 2){
+                this.formData.fraud_sub_code2.is_buyer = data?.fraud_sub_id;
+                if(data?.fraud_sub_id === 1){
+                    if(data?.fraud_tatic === 1 || data?.fraud_tatic === 2){
+                        this.formData.fraud_sub_code2.is_buyer_social_media_product_type = data?.fraud_tatic;
+                        this.formData.fraud_sub_code2.is_buyer_primary_purchase_channel = 2;
+                        this.formData.fraud_sub_code2.is_buyer_parcel_received = 2;
+                        this.formData.fraud_sub_code2.is_buyer_paid_for_unsolicited_parcel = 2;
+                    }else if(data?.fraud_tatic === 3){
+                        this.formData.fraud_sub_code2.is_buyer_primary_purchase_channel = 1;
+                        this.formData.fraud_sub_code2.is_buyer_parcel_received = 2;
+                        this.formData.fraud_sub_code2.is_buyer_paid_for_unsolicited_parcel = 2;
+                    }else if(data?.fraud_tatic === 4){
+                        this.formData.fraud_sub_code2.is_buyer_parcel_received = 1;
+                        this.formData.fraud_sub_code2.is_buyer_paid_for_unsolicited_parcel = 2;
+                    }else if(data?.fraud_tatic === 5){
+                        this.formData.fraud_sub_code2.is_buyer_paid_for_unsolicited_parcel = 1;
+                    }
+                }else if(data?.fraud_sub_id === 2){
+                    //seller
+                    this.formData.fraud_sub_code2.fraud_method = data?.fraud_tatic;
+                }
+            }else if(data?.fraud_sub_id === 3){
+                //service
+                this.formData.fraud_sub_code2.payment_for_fake_service_code = data?.fraud_tatic;
+            }
+        }else if(data?.fraud_id === 3){
+            metadata.selectData.fraud_code.FRAUD_SUB_NAME_TH = "การแอบอ้างเป็นบุคคลอื่นมีการแอบอ้างเป็นคนรู้จัก, แฟน, หรือเจ้าหน้าที่";
+            this.formData.romance_scam_type_code = {
+                romance_scam_type_code: data?.fraud_sub_id
+            };
+            if(data?.fraud_sub_id === 1){
+                this.formData.romance_scam_type_code.phishing_type = data?.fraud_tatic;
+            }else if(data?.fraud_sub_id === 2){
+                this.formData.romance_scam_type_code.impersonation_method_code = {
+                    impersonation_method_code: data?.fraud_tatic
+                };
+            }else if(data?.fraud_sub_id === 3){
+                this.formData.romance_scam_type_code.impersonated_organization_code = {
+                    impersonated_organization_code: data?.fraud_tatic
+                };
+            }else if(data?.fraud_sub_id === 4){
+                this.formData.romance_scam_type_code.other_method_code = {
+                    other_method_code: data?.fraud_tatic
+                };
+            }
+        }else if(data?.fraud_id === 4){
+            metadata.selectData.fraud_code.FRAUD_SUB_NAME_TH = "การจ้างงานและผลประโยชน์มีการเสนองาน, รางวัล, หรือเงินกู้ให้";
+            this.formData.employment_and_benefits = {
+                employment_and_benefits_code: data?.fraud_sub_id
+            };
+            if(data?.fraud_sub_id === 1){
+                this.formData.employment_and_benefits.employment_type_code = data?.fraud_tatic;
+            }else if(data?.fraud_sub_id === 2){
+                this.formData.employment_and_benefits.fake_award_inheritance_claim_code = data?.fraud_tatic;
+            }else if(data?.fraud_sub_id === 3){
+                this.formData.employment_and_benefits.loan_offer_scam_code = data?.fraud_tatic;
+            }
+        }
+        console.log(this.formData);
+        const mergeData = {
+            data : this.formData,
+            // metadata: metadata
+        };
+        this._formData = JSON.parse(JSON.stringify(mergeData));
+        this._formData.data = { ...this.formData };
+        this._formData = { ...this._formData };
+        queueMicrotask(() => {
+            // this.formioPreview?.setSubmission(this._formData);
+            // บางเคสใช้ตัวนี้ได้เช่นกัน:
+            this.formioPreview.submission = this._formData;
+        });
     }
 }
