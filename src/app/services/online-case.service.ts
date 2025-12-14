@@ -54,9 +54,15 @@ export class OnlineCaseService {
             .disableCriticalDialogError().post();
     }
 
-     public InsertPreCase(param: any): Observable<any> {
+    public InsertPreCase(param: any): Observable<any> {
         return req("NewCase")
             .host(environment.config.baseConfig.urlgdcc)
+            .body(param)
+            .disableCriticalDialogError().post();
+    }
+
+    public InsertNewCaseType(param: any): Observable<any> {
+        return req("CmsOnlineCaseInfo/submitnewcasetype")
             .body(param)
             .disableCriticalDialogError().post();
     }

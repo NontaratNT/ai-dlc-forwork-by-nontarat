@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { trimObject } from 'src/app/common/helper';
 import { IPagingResult, OffsetFilterParam } from 'src/app/common/commontype';
 import { EFORM_REQUEST, EformRequestFactory } from 'eform-share';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -23,7 +24,9 @@ export class FormConfigService {
         return this._req<any>(`form-config/${id}`).get();
     }
     public GetCode(code: any): Observable<any> {
-        return this._req<any>(`form-config/GetByFormCode/${code}`).get();
+        return this._req<any>(`form-config/GetByFormCode/${code}`)
+        .host(environment.config.baseConfig.urlgdcceform)
+        .get();
     }
     public Savenewversion(id: number): Observable<any> {
         return this._req<any>(`form-config/${id}/save-version`).body({}).post();

@@ -15,7 +15,9 @@ export class CaseNewTypeService {
 
     constructor(private http: HttpClient) { }
     public GetCaseNewTypeList(): Observable<ICaseNewTypeInfo[]>{
-        return req<ICaseNewTypeInfo[]>('NewCase/getbyuser').host(environment.config.baseConfig.urlgdcc).disableCriticalDialogError().get();
+        return req<ICaseNewTypeInfo[]>('NewCase/getbyuser')
+        .host(environment.config.baseConfig.urlgdcc)
+        .disableCriticalDialogError().get();
     }
 
      public GetCaseTypeNew(): Observable<Article[]>{
