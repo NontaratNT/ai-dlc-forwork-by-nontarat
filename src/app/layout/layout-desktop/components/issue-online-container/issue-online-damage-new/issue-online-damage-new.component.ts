@@ -321,10 +321,10 @@ export class IssueOnlineDamageNewComponent implements OnInit {
 
     // E-WALLET
     this.EwalletServiceOriginEditorOptions = this.createSelectBox(this.ewalletServices, 'เลือกผู้ให้บริการ e-Wallet ต้นทาง');
-    this.EwalletAccountOriginEditorOptions = this.createTextEditor('กรุณากรอกเบอร์โทรศัพท์หรือ ID ของบัญชีต้นทาง');
+    this.EwalletAccountOriginEditorOptions = this.createAccountEditor('กรุณากรอกเบอร์โทรศัพท์หรือ ID ของบัญชีต้นทาง');
     this.EwalletNameOriginEditorOptions = this.createTextEditor('กรุณากรอกชื่อบัญชีต้นทาง');
     this.EwalletServiceEditorOptions = this.createSelectBox(this.ewalletServices, 'เลือกผู้ให้บริการ e-Wallet ปลายทาง');
-    this.EwalletAccountEditorOptions = this.createTextEditor('กรุณากรอกเบอร์โทรศัพท์หรือ ID ของบัญชีปลายทาง');
+    this.EwalletAccountEditorOptions = this.createAccountEditor('กรุณากรอกเบอร์โทรศัพท์หรือ ID ของบัญชีปลายทาง');
     this.EwalletNameEditorOptions = this.createTextEditor('กรุณากรอกชื่อบัญชีปลายทาง (ถ้าทราบ)');
     this.EwalletAmountEditorOptions = this.createMoneyEditor('กรุณากรอกจำนวนเงิน (บาท)');
     this.EwalletDateTransferEditorOptions = this.createDateTimeEditor('กรุณาเลือกวันที่/เวลาที่โอน');

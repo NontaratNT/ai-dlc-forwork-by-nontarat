@@ -368,6 +368,9 @@
                             <dxo-validation-rules>
                                 <dxi-validation-rule type="required"
                                     message="กรุณากรอกเบอร์โทรศัพท์หรือ ID ของบัญชีต้นทาง"></dxi-validation-rule>
+                                <dxi-validation-rule type="stringLength" [min]="10" [max]="20"
+                                    message="กรุณากรอกเลขที่บัญชี 10-20 หลัก">
+                                </dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item>
                         <dxi-item dataField="EWALLET_NAME_ORIGIN" [label]="EwalletNameOriginLabel"
@@ -408,6 +411,9 @@
                             <dxo-validation-rules>
                                 <dxi-validation-rule type="required"
                                     message="กรุณากรอกเบอร์โทรศัพท์หรือ ID ของบัญชีปลายทาง"></dxi-validation-rule>
+                                <dxi-validation-rule type="stringLength" [min]="10" [max]="20"
+                                    message="กรุณากรอกเลขที่บัญชี 10-20 หลัก">
+                                </dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item>
                         <dxi-item dataField="EWALLET_NAME" [label]="EwalletNameLabel" editorType="dxTextBox"
