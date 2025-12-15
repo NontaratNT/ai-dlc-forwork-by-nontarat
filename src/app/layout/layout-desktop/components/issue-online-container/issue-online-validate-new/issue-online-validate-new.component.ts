@@ -1077,6 +1077,15 @@ export class IssueOnlineValidateNewComponent implements OnInit {
       });
       return;
     }
+    if (this.formData?.ORG_LOCATION_ID == null || this.formData?.ORG_LOCATION_ID == 0) {
+      Swal.fire({
+        title: "ผิดพลาด!",
+        text: "กรุณาเลือกสถานีตำรวจที่ต้องการไปให้ปากคำ",
+        icon: "warning",
+        confirmButtonText: "ตกลง"
+      });
+      return;
+    }
     this.checkFraudCase(this.formCaseTypeNew?.fraud_code, this.formCaseTypeNew?.fraud_sub_code, this.formCaseTypeNew?.fraud_tactic_id);
     this.formData.CASE_INFORMER_DATE_STR = this.formData?.CASE_INFORMER_DATE ? this._date.ConvertToDateFormat(this.formData.CASE_INFORMER_DATE) : null;
     this.formData.CASE_TYPE_ID = this.resultCaseTypeId || 74; // ประเภทคดี Fraud
@@ -1134,7 +1143,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
     });
   }
 
-    private handleSuccessNavigation(): void {
+  private handleSuccessNavigation(): void {
     const itemsToRemove = [
       'form-case-type-new',
       'form-informer',
@@ -1148,7 +1157,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
       localStorage.removeItem(item);
     });
 
-   this._router.navigate(["/main/task-list"]);
+    this._router.navigate(["/main/task-list"]);
   }
 
 
