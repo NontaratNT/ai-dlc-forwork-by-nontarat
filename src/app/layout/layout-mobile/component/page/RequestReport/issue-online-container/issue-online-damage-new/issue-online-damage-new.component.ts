@@ -1414,7 +1414,7 @@ export class IssueOnlineDamageNewComponent implements OnInit {
   }
 
   get isBankAccountVisible(): boolean {
-    const validTypes = [1, 2, 3, 10];
+    const validTypes = ['ธนาคาร', 'พร้อมเพย์', 'ทรูมันนี่ วอลเล็ท (TrueMoney Wallet)', 'เป๋าตังค์', 'QR Code'];
     // ตรวจสอบว่าค่า BANK_TYPE ปัจจุบัน อยู่ใน list ที่กำหนดหรือไม่
     return validTypes.includes(this.formDamageType1?.BANK_TYPE);
   }
