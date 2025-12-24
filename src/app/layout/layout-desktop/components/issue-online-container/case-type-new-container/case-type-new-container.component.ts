@@ -60,7 +60,6 @@ export class CaseTypeNewContainerComponent implements OnInit {
             .toPromise()
             .then((_) => _ ?? []);
         this._formBuilded = JSON.parse(this._formConfig.formJson);
-        this._formBuilded = JSON.parse(this._formConfig.formJson);
         this._formData = {
             data: {},
         };
