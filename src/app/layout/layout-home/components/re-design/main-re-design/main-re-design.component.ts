@@ -7,12 +7,14 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 })
 export class MainReDesignComponent implements OnInit {
 
+  private slideInterval: any;
   constructor() { }
 
   ngOnInit(): void {
-    setInterval(() => {
-      this.nextSlide();
-    }, 5000);  // 5000ms = 5 วินาที
+    // setInterval(() => {
+      // this.nextSlide();
+    // }, 5000);  // 5000ms = 5 วินาที
+    this.startAutoSlide();
   }
 
   slides = [
@@ -33,8 +35,33 @@ export class MainReDesignComponent implements OnInit {
 
   currentIndex = 0;
 
-  nextSlide() {
+  startAutoSlide(): void {
+    this.clearInterval();
+    this.slideInterval = setInterval(() => {
+      this.nextSlide(true);
+    }, 5000);
+  }
+
+  clearInterval(): void {
+     if (this.slideInterval) {
+      clearInterval(this.slideInterval);
+      this.slideInterval = null;
+    }
+  }
+
+  nextSlide(auto = false): void {
+     if (!this.slides?.length) return;
+     
     this.currentIndex = (this.currentIndex + 1) % this.slides.length;
+
+    // ถ้าเป็นการกดเอง → รีเซ็ตเวลาใหม่
+    if (!auto) {
+      this.startAutoSlide();
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.clearInterval(); // หรือ clearInterval()
   }
 
   prevSlide() {
