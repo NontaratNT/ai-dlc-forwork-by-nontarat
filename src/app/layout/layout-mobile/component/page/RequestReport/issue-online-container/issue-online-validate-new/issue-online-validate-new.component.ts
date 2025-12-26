@@ -679,6 +679,9 @@ export class IssueOnlineValidateNewComponent implements OnInit {
         this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
         this.formData.WALKIN_POLICE_STATION_ID = orgValue[0]?.org_id;
         this.formData.WALKIN_POLICE_STATION = orgValue[0]?.org_name;
+        if(!this.formData.ORG_LOCATION_ID){
+          this.onvaluechangeorgmainwalkin({ value: this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID });
+        }
       } else {
         this.formData.ORG_PROVINCE_ID_CCIB_WALKIN_ID = e.value;
       }
