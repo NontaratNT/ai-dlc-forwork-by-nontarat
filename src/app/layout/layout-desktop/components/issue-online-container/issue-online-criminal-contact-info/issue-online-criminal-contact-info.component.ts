@@ -132,7 +132,8 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     ];
     otherList = [
         { ID: "email", TEXT: "อีเมล" },
-        { ID: "website", TEXT: "เว็บไซต์หางาน" }
+        { ID: "website", TEXT: "เว็บไซต์หางาน" },
+        { ID: "other", TEXT: "อื่นๆ" },
     ];
     websiteCharacter = [
         { ID: 1, TEXT: "เว็บไซต์ลงทุนปลอม (แสดงกราฟ, ตัวเลขกำไร)" },
@@ -196,19 +197,31 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         { ID: 'N', TEXT: "ไม่ทราบ" }
     ];
 
+    // controlDeviceSubOption = [
+    //     { ID: 1, TEXT: "แอปการไฟฟ้า (PEA), การประปา" },
+    //     { ID: 2, TEXT: "แอปการไฟฟ้า (PEA), การประปา" },
+    //     { ID: 3, TEXT: "แอป DSI, ตำรวจ, หน่วยงานรัฐ" },
+    //     { ID: 4, TEXT: "แอปให้กู้เงิน" },
+    //     { ID: 5, TEXT: "แอปขนส่ง (Flash, ไปรษณีย์ไทย)" },
+    //     { ID: 6, TEXT: "อื่นๆ (เช่น แอปดูดวง, แอปหาคู่)" },
+    // ];
     controlDeviceSubOption = [
-        { ID: 1, TEXT: "แอปการไฟฟ้า (PEA), การประปา" },
-        { ID: 2, TEXT: "แอปการไฟฟ้า (PEA), การประปา" },
-        { ID: 3, TEXT: "แอป DSI, ตำรวจ, หน่วยงานรัฐ" },
-        { ID: 4, TEXT: "แอปให้กู้เงิน" },
-        { ID: 5, TEXT: "แอปขนส่ง (Flash, ไปรษณีย์ไทย)" },
-        { ID: 6, TEXT: "อื่นๆ (เช่น แอปดูดวง, แอปหาคู่)" },
+        { ID: 1, TEXT: "แอบอ้างการไฟฟ้า / การประปา (PEA / MEA / การประปา)" },
+        { ID: 2, TEXT: "แอบอ้างหน่วยงานรัฐ (ตำรวจ / DSI / ศาล / ปปง. / สรรพากร)" },
+        { ID: 3, TEXT: "แอปกู้เงิน / เงินด่วน, แอปลงทุน / เทรด / คริปโต" },
+        { ID: 4, TEXT: "แอบอ้างแอปขนส่ง / พัสดุ (Flash, ไปรษณีย์ไทย, ขนส่งเอกชน)" },
+        { ID: 5, TEXT: "อื่น ๆ (เช่น แอปดูดวง, แอปหาคู่, แอปงานออนไลน์)" },
     ];
 
+    // transfersPlatformSubOption = [
+    //     { ID: 1, TEXT: "แพลตฟอร์ม \"ลงทุน/เทรด\" (เช่น หลอกเทรดหุ้น, ทอง, Crypto โดยเห็นกำไรปลอมในพอร์ต)" },
+    //     { ID: 2, TEXT: "แพลตฟอร์ม \"ทำงาน/ภารกิจ\" (เช่น หลอกให้กดไลก์, กดรับออเดอร์ Shopee, รีวิวสินค้า โดยต้อง 'สำรองเงิน' โอนเข้าไปก่อน)" },
+    //     { ID: 3, TEXT: "แพลตฟอร์ม \"แชร์ลูกโซ่\" (เข้า พ.ร.ก. กู้ยืมเงินฯ เช่น ออมเงิน/ออมทอง ชวนคนมาลงทุนต่อ)" },
+    // ];
     transfersPlatformSubOption = [
-        { ID: 1, TEXT: "แพลตฟอร์ม \"ลงทุน/เทรด\" (เช่น หลอกเทรดหุ้น, ทอง, Crypto โดยเห็นกำไรปลอมในพอร์ต)" },
-        { ID: 2, TEXT: "แพลตฟอร์ม \"ทำงาน/ภารกิจ\" (เช่น หลอกให้กดไลก์, กดรับออเดอร์ Shopee, รีวิวสินค้า โดยต้อง 'สำรองเงิน' โอนเข้าไปก่อน)" },
-        { ID: 3, TEXT: "แพลตฟอร์ม \"แชร์ลูกโซ่\" (เข้า พ.ร.ก. กู้ยืมเงินฯ เช่น ออมเงิน/ออมทอง ชวนคนมาลงทุนต่อ)" },
+        { ID: 1, TEXT: "แพลตฟอร์ม \"ลงทุน/เทรด\" (เช่น หุ้น ทองคำ คริปโต มีหน้าแสดงกำไร/ขาดทุนในระบบ)" },
+        { ID: 2, TEXT: "แพลตฟอร์ม \"ทำงาน/ภารกิจ\" (เช่น กดไลก์ กดออเดอร์ รีวิวสินค้า ต้องโอนเงินก่อนเริ่มงาน)" },
+        { ID: 3, TEXT: "แพลตฟอร์ม \"แชร์ลูกโซ่\" (เช่น ออมเงิน ออมทอง ฝากยอด แล้วมีการชักชวนให้นำเงินไปต่อยอด)" },
     ];
 
     hackPasswordOption = [
@@ -216,12 +229,19 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         { ID: 2, TEXT: "ถูก 'แฮ็ก' บัญชีโซเชียล (Facebook, Line) หรืออีเมล โดยที่ท่านไม่ได้บอกรหัสผ่าน" },
     ];
 
+    // trickTransferMoneySubOption = [
+    //     { ID: 1, TEXT: "ซื้อสินค้า/บริการ (แต่ไม่ได้ของ, จองที่พักปลอม ฯลฯ)" },
+    //     { ID: 2, TEXT: "Call Center อ้างเป็นเจ้าหน้าที่รัฐ (ตำรวจ, DSI, ไปรษณีย์) ข่มขู่ (และท่าน \"กดโอนเอง\" เพื่อตรวจสอบ)" },
+    //     { ID: 3, TEXT: "สร้างความสัมพันธ์ (หลอกให้รัก (Romance Scam) หรือ ปลอมเป็นเพื่อน/ญาติ ยืมเงิน)" },
+    //     { ID: 4, TEXT: "เสนอผลประโยชน์ (หลอกให้กู้เงิน (ขอค่าธรรมเนียม) หรือ หลอกให้รับรางวัล)" },
+    //     { ID: 5, TEXT: "หลอกว่าจะช่วยเหลือ (อ้างเป็นทนาย/ตำรวจไซเบอร์ ช่วยคดีเก่า แต่ขอค่าดำเนินการ)" },
+    // ];
     trickTransferMoneySubOption = [
-        { ID: 1, TEXT: "ซื้อสินค้า/บริการ (แต่ไม่ได้ของ, จองที่พักปลอม ฯลฯ)" },
-        { ID: 2, TEXT: "Call Center อ้างเป็นเจ้าหน้าที่รัฐ (ตำรวจ, DSI, ไปรษณีย์) ข่มขู่ (และท่าน \"กดโอนเอง\" เพื่อตรวจสอบ)" },
-        { ID: 3, TEXT: "สร้างความสัมพันธ์ (หลอกให้รัก (Romance Scam) หรือ ปลอมเป็นเพื่อน/ญาติ ยืมเงิน)" },
-        { ID: 4, TEXT: "เสนอผลประโยชน์ (หลอกให้กู้เงิน (ขอค่าธรรมเนียม) หรือ หลอกให้รับรางวัล)" },
-        { ID: 5, TEXT: "หลอกว่าจะช่วยเหลือ (อ้างเป็นทนาย/ตำรวจไซเบอร์ ช่วยคดีเก่า แต่ขอค่าดำเนินการ)" },
+        { ID: 1, TEXT: "การซื้อขายสินค้า/บริการ(เช่น สั่งซื้อสินค้าไม่ได้ของ จองที่พัก มัดจำ ค่าดำเนินการ)" },
+        { ID: 2, TEXT: "อ้างเป็นเจ้าหน้าที่หรือหน่วยงาน (เช่น ตำรวจ DSI ศาล ไปรษณีย์ ธนาคาร ข่มขู่ หรือโอนเพื่อตรวจสอบ)" },
+        { ID: 3, TEXT: "อ้างความสัมพันธ์ (เช่น คนรู้จักเพื่อน ญาติ คนรัก ขอให้ช่วยโอนเงิน ยืมเงิน)" },
+        { ID: 4, TEXT: "อ้างผลประโยชน์ (เช่น ถูกรางวัล สิทธิพิเศษ คืนเงินค่าธรรมเนียม)" },
+        { ID: 5, TEXT: "อ้างว่าจะช่วยเหลือ (เช่น ช่วยติดตามเงิน คืนเงิน แก้คดี)" },
     ];
 
     configFormOption1: ChannelFormConfig[] = [
@@ -255,13 +275,23 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                     fieldType: 'textbox',
                     maxLength: 100,
                     type: 'url'
-                }
+                },
+                {
+                    templateName: 'SMS_TEMP_4',
+                    dataField: 'SMS_DATE_TIME',
+                    caption: 'วัน/เวลา ที่ได้รับข้อความ',
+                    placeholder: 'วัน/เวลา ที่ได้รับข้อความ',
+                    fieldType: 'datebox',
+                    type: 'datetime',
+                    required: true,
+                },
+
             ]
         },
 
         {
             id: 'PHONE',
-            name: 'สายโทรศัพท์',
+            name: 'โทรศัพท์',
             formOption: [
                 {
                     templateName: 'PHONE_TEMP_1',
@@ -311,38 +341,16 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                     caption: 'อ้างว่าเป็นเบอร์จากหน่วยงานใด (ถ้ามี)',
                     fieldType: 'textbox',
                     maxLength: 100
-                }
-            ]
-        },
-
-        {
-            id: 'TIKTOK',
-            name: 'TikTok',
-            formOption: [
-                {
-                    templateName: 'TIKTOK_TEMP_2',
-                    dataField: 'TIKTOK_KNOW_URL',
-                    caption: 'ทราบลิงค์ (URL) ของชื่อบัญชี / ลิงก์ (URL) หรือไม่',
-                    placeholder: 'ทราบลิงค์ (URL) ของชื่อบัญชี / ลิงก์ (URL) หรือไม่',
-                    fieldType: 'radiobox',            // จะ map ไป dxRadioGroup
-                    required: true,
-                    options: this.controlDevice2Option,
-                    displayExpr: 'TEXT',
-                    valueExpr: 'ID'
                 },
                 {
-                    templateName: 'TIKTOK_TEMP_1',
-                    dataField: 'TIKTOK_ACCOUNT',
-                    caption: 'ชื่อบัญชี / ลิงก์ (URL) ของบัญชี',
-                    placeholder: 'ชื่อบัญชี หรือ URL',
-                    fieldType: 'textbox',
-                    maxLength: 100,
+                    templateName: 'PHONE_TEMP_4',
+                    dataField: 'PHONE_DATE_TIME',
+                    caption: 'วัน/เวลา ที่ได้รับสาย',
+                    placeholder: 'วัน/เวลา ที่ได้รับสาย',
+                    fieldType: 'datebox',
+                    type: 'datetime',
                     required: true,
-                    visibleWhen: {
-                        dataField: 'TIKTOK_KNOW_URL',
-                        values: ['Y']
-                    }
-                }
+                },
             ]
         },
 
@@ -357,7 +365,6 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                     placeholder: 'ชื่อโปรไฟล์ / ชื่อเพจ',
                     fieldType: 'textbox',
                     maxLength: 100,
-                    pattern: '^([0][0-9]{9})$', // ตามที่คุณกำหนดไว้เดิม
                     required: true
                 },
                 {
@@ -411,80 +418,45 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                 },
             ]
         },
-
         {
-            id: 'INSTAGRAM',
-            name: 'Instagram',
+            id: 'TIKTOK',
+            name: 'TikTok',
             formOption: [
                 {
-                    templateName: 'INSTAGRAM_TEMP_1',
-                    dataField: 'INSTAGRAM_USERNAME',
-                    caption: 'ชื่อบัญชี (Username)',
-                    placeholder: 'ชื่อบัญชี (Username)',
+                    templateName: 'TIKTOK_TEMP_3',
+                    dataField: 'TIKTOK_PROFILE_NAME',
+                    caption: 'ชื่อโปรไฟล์ / ชื่อบัญชี',
+                    placeholder: 'ชื่อโปรไฟล์ / ชื่อบัญชี',
                     fieldType: 'textbox',
-                    maxLength: 50,
-                    pattern: '^([0][0-9]{9})$', // ตามเดิม (แนะนำปรับทีหลัง)
+                    maxLength: 100,
                     required: true
                 },
                 {
-                    templateName: 'INSTAGRAM_TEMP_2',
-                    dataField: 'INSTAGRAM_PROFILE_NAME',
-                    caption: 'ชื่อบัญชี (Username) (เพิ่มเติม)',
-                    placeholder: 'ชื่อบัญชี',
-                    fieldType: 'textbox',
-                    maxLength: 100
-                }
-            ]
-        },
-
-        {
-            id: 'DATING_APP',
-            name: 'แอปพลิเคชันหาคู่',
-            formOption: [
-                {
-                    templateName: 'DATING_APP_TEMP_1',
-                    dataField: 'DATING_APP_NAME',
-                    fieldType: 'selectbox',
-                    caption: 'คุณใช้แอปพลิเคชันใด?',
+                    templateName: 'TIKTOK_TEMP_2',
+                    dataField: 'TIKTOK_KNOW_URL',
+                    caption: 'ทราบลิงค์ (URL) ของชื่อบัญชี / ลิงก์ (URL) หรือไม่',
+                    placeholder: 'ทราบลิงค์ (URL) ของชื่อบัญชี / ลิงก์ (URL) หรือไม่',
+                    fieldType: 'radiobox',            // จะ map ไป dxRadioGroup
                     required: true,
-                    options: this.datingAppList,
-                    placeholder: 'เลือกคุณใช้แอปพลิเคชันใด',
+                    options: this.controlDevice2Option,
                     displayExpr: 'TEXT',
-                    valueExpr: 'TEXT'
+                    valueExpr: 'ID'
                 },
                 {
-                    templateName: 'DATING_APP_TEMP_3',
-                    dataField: 'DATING_APP_NAME_DETAIL', // new field 9-12-68
-                    caption: 'ระบุชื่อแอปพลิเคชัน',
-                    placeholder: 'ชื่อแอปพลิเคชัน',
+                    templateName: 'TIKTOK_TEMP_1',
+                    dataField: 'TIKTOK_ACCOUNT',
+                    caption: 'ชื่อบัญชี / ลิงก์ (URL) ของบัญชี',
+                    placeholder: 'ชื่อบัญชี หรือ URL',
                     fieldType: 'textbox',
-                    // maxLength: 100,
+                    maxLength: 100,
                     required: true,
-                    // type: 'url',
                     visibleWhen: {
-                        dataField: 'DATING_APP_NAME',
-                        values: ['อื่นๆ']
+                        dataField: 'TIKTOK_KNOW_URL',
+                        values: ['Y']
                     }
-                },
-                // {
-                //   templateName: 'DATING_APP_TEMP_3',
-                //   dataField: 'DATING_APP_NAME',
-                //   caption: 'ชื่อโปรไฟล์ของคนร้ายในแอปฯ',
-                //   placeholder: 'ชื่อโปรไฟล์',
-                //   fieldType: 'textbox',
-                //   maxLength: 100
-                // },
-                {
-                    templateName: 'DATING_APP_TEMP_2',
-                    dataField: 'DATING_APP_PROFILE_NAME',
-                    caption: 'ชื่อโปรไฟล์ของคนร้ายในแอปฯ',
-                    placeholder: 'ชื่อโปรไฟล์',
-                    fieldType: 'textbox',
-                    maxLength: 100
                 }
             ]
         },
-
         {
             id: 'LINE',
             name: 'LINE',
@@ -492,8 +464,8 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                 {
                     templateName: 'LINE_TEMP_1',
                     dataField: 'LINE_USERNAME',
-                    caption: 'ชื่อบัญชี (Username)',
-                    placeholder: 'ชื่อบัญชี (Username)',
+                    caption: 'ชื่อบัญชี (Line ID)',
+                    placeholder: 'ชื่อบัญชี (Line ID)',
                     fieldType: 'textbox',
                     maxLength: 50,
                     pattern: '^([0][0-9]{9})$', // ตามเดิม
@@ -525,11 +497,68 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                 }
             ]
         },
-
+        {
+            id: 'INSTAGRAM',
+            name: 'Instagram',
+            formOption: [
+                {
+                    templateName: 'INSTAGRAM_TEMP_1',
+                    dataField: 'INSTAGRAM_USERNAME',
+                    caption: 'ชื่อบัญชี (Username)',
+                    placeholder: 'ชื่อบัญชี (Username)',
+                    fieldType: 'textbox',
+                    maxLength: 50,
+                    pattern: '^([0][0-9]{9})$', // ตามเดิม (แนะนำปรับทีหลัง)
+                    required: true
+                },
+                {
+                    templateName: 'INSTAGRAM_TEMP_2',
+                    dataField: 'INSTAGRAM_PROFILE_NAME',
+                    caption: 'ชื่อบัญชี (Username) (เพิ่มเติม)',
+                    placeholder: 'ชื่อบัญชี',
+                    fieldType: 'textbox',
+                    maxLength: 100
+                },
+                {
+                    templateName: 'INSTAGRAM_TEMP_3',
+                    dataField: 'INSTAGRAM_KNOW_URL',
+                    caption: 'ทราบลิงค์ (URL) ของโปรไฟล์/เพจ หรือไม่',
+                    placeholder: 'ทราบลิงค์ (URL) ของโปรไฟล์/เพจ หรือไม่',
+                    fieldType: 'radiobox',            // จะ map ไป dxRadioGroup
+                    required: true,
+                    options: this.controlDevice2Option,
+                    displayExpr: 'TEXT',
+                    valueExpr: 'ID'
+                },
+                {
+                    templateName: 'INSTAGRAM_TEMP_4',
+                    dataField: 'INSTAGRAM_PROFILE_URL',
+                    caption: 'ลิงก์ (URL) ของโปรไฟล์ / เพจ',
+                    placeholder: 'ลิงก์ (URL)',
+                    fieldType: 'textbox',
+                    maxLength: 100,
+                    required: true,
+                    type: 'url',
+                    visibleWhen: {
+                        dataField: 'INSTAGRAM_KNOW_URL',
+                        values: ['Y']
+                    }
+                },
+            ]
+        },
         {
             id: 'TELEGRAM',
             name: 'Telegram',
             formOption: [
+                {
+                    templateName: 'TELEGRAM_TEMP_3',
+                    dataField: 'TELEGRAM_PROFILE_NAME',
+                    caption: 'ชื่อโปรไฟล์ / ชื่อบัญชี',
+                    placeholder: 'ชื่อโปรไฟล์ / ชื่อบัญชี',
+                    fieldType: 'textbox',
+                    maxLength: 100,
+                    required: true
+                },
                 {
                     templateName: 'TELEGRAM_TEMP_2',
                     dataField: 'TELEGRAM_KNOW_URL',
@@ -557,7 +586,70 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                 }
             ]
         },
-
+        {
+            id: 'DATING_APP',
+            name: 'แอปพลิเคชันหาคู่',
+            formOption: [
+                {
+                    templateName: 'DATING_APP_TEMP_1',
+                    dataField: 'DATING_APP_NAME',
+                    fieldType: 'selectbox',
+                    caption: 'คุณใช้แอปพลิเคชันใด?',
+                    required: true,
+                    options: this.datingAppList,
+                    placeholder: 'เลือกคุณใช้แอปพลิเคชันใด',
+                    displayExpr: 'TEXT',
+                    valueExpr: 'TEXT'
+                },
+                {
+                    templateName: 'DATING_APP_TEMP_3',
+                    dataField: 'DATING_APP_NAME_DETAIL', // new field 9-12-68
+                    caption: 'ระบุชื่อแอปพลิเคชัน',
+                    placeholder: 'ชื่อแอปพลิเคชัน',
+                    fieldType: 'textbox',
+                    // maxLength: 100,
+                    required: true,
+                    // type: 'url',
+                    visibleWhen: {
+                        dataField: 'DATING_APP_NAME',
+                        values: ['อื่นๆ']
+                    }
+                },
+                {
+                    templateName: 'DATING_APP_TEMP_2',
+                    dataField: 'DATING_APP_PROFILE_NAME',
+                    caption: 'ชื่อโปรไฟล์ของคนร้ายในแอปฯ',
+                    placeholder: 'ชื่อโปรไฟล์',
+                    fieldType: 'textbox',
+                    maxLength: 100
+                },
+                {
+                    templateName: 'DATING_APP_TEMP_4',
+                    dataField: 'DATING_APP_KNOW_URL',
+                    caption: 'ทราบลิงค์ (URL) ของชื่อกลุ่ม หรือลิงก์ หรือไม่',
+                    placeholder: 'ทราบลิงค์ (URL) ของชื่อกลุ่ม หรือลิงก์ หรือไม่',
+                    fieldType: 'radiobox',            // จะ map ไป dxRadioGroup
+                    required: true,
+                    options: this.controlDevice2Option,
+                    displayExpr: 'TEXT',
+                    valueExpr: 'ID'
+                },
+                {
+                    templateName: 'DATING_APP_TEMP_5',
+                    dataField: 'DATING_APP_ACCOUNT',
+                    caption: 'ชื่อบัญชี / ลิงก์ (URL) ของบัญชี',
+                    placeholder: 'ชื่อบัญชี หรือ URL',
+                    fieldType: 'textbox',
+                    maxLength: 100,
+                    pattern: '^([0][0-9]{9})$', // ตามเดิม
+                    required: true,
+                    visibleWhen: {
+                        dataField: 'DATING_APP_KNOW_URL',
+                        values: ['Y']
+                    }
+                }
+            ]
+        },
         {
             id: 'OTHER',
             name: 'ช่องทางอื่นๆ',
@@ -628,7 +720,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                             required: true
                         },
                         {
-                            templateName: 'OTHER_TEMP_2',
+                            templateName: 'OTHER_TEMP_5',
                             dataField: 'OTHER_KNOW_URL',
                             caption: 'ทราบลิงค์ (URL) ของลิงก์ (URL) ของประกาศงาน หรือไม่',
                             placeholder: 'ทราบลิงค์ (URL) ของลิงก์ (URL) ของประกาศงาน หรือไม่',
@@ -639,7 +731,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                             valueExpr: 'ID'
                         },
                         {
-                            templateName: 'OTHER_TEMP_5',
+                            templateName: 'OTHER_TEMP_6',
                             dataField: 'WEBSITE_URL',
                             caption: 'ลิงก์ (URL) ของประกาศงาน',
                             placeholder: 'ลิงก์ (URL)',
@@ -652,6 +744,38 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                                 values: ['Y']
                             }
                         }
+                    ]
+                },
+
+                {
+                    templateName: 'OTHER_OTHER_GROUP',
+                    dataField: 'OTHER_OTHER_GROUP',
+                    caption: 'ข้อมูลอื่นๆ',
+                    fieldType: 'group',
+                    visibleWhen: {
+                        dataField: 'OTHER_CHANNEL',
+                        values: ['อื่นๆ']
+                    },
+                    children: [
+                        {
+                            templateName: 'OTHER_TEMP_7',
+                            dataField: 'OTHER_NAME',
+                            caption: 'ชื่อช่องทางอื่นๆ',
+                            placeholder: 'ชื่อช่องทางอื่นๆ',
+                            fieldType: 'textbox',
+                            maxLength: 100,
+                            required: true
+                        },
+                        {
+                            templateName: 'OTHER_TEMP_8',
+                            dataField: 'OTHER_DETAIL',
+                            caption: 'รายละเอียดช่องทางอื่นๆ',
+                            placeholder: 'รายละเอียดช่องทางอื่นๆ',
+                            fieldType: 'textbox',
+                            maxLength: 100,
+                            required: true
+                        },
+
                     ]
                 }
             ]
@@ -672,6 +796,15 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                     options: this.websiteCharacter,
                     displayExpr: 'TEXT',   // ปรับตามโครงจริงของ websiteCharacter
                     valueExpr: 'TEXT'
+                },
+                {
+                    templateName: 'WEBSITE_TEMP_4',
+                    dataField: 'WEBSITE_NAME',
+                    caption: 'ชื่อเว็บไซต์',
+                    placeholder: 'ชื่อเว็บไซต์',
+                    fieldType: 'textbox',
+                    maxLength: 100,
+                    required: true,
                 },
                 {
                     templateName: 'WEBSITE_OTHER_TEMP',
@@ -706,7 +839,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                     valueExpr: 'ID'
                 },
                 {
-                    templateName: 'WEBSITE_TEMP_2',
+                    templateName: 'WEBSITE_TEMP_3',
                     dataField: 'WEBSITE_URL',
                     caption: 'โปรดระบุที่อยู่ของเว็บไซต์ (URL) ให้ถูกต้องที่สุด',
                     placeholder: 'ระบุ URL ของเว็บไซต์',
@@ -822,6 +955,15 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                     ]
                 },
                 {
+                    templateName: 'SOCIAL_MEDIA_TEMP_4',
+                    dataField: 'SOCIAL_PROFILE_NAME',
+                    caption: 'ชื่อโปรไฟล์/เพจ',
+                    placeholder: 'ชื่อโปรไฟล์/เพจ',
+                    fieldType: 'textbox',
+                    maxLength: 100,
+                    required: true,
+                },
+                {
                     templateName: 'SOCIAL_MEDIA_KNOW_TEMP_2',
                     dataField: 'SOCIAL_MEDIA_KNOW_URL',
                     caption: 'ทราบลิงค์ (URL) ของชื่อกลุ่ม/เพจ หรือลิงก์ หรือไม่',
@@ -917,7 +1059,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                     templateName: 'TRANSFER_PLATFORM_TEMP_1',
                     dataField: 'TRANSFER_PLATFORM_MAIN',
                     caption:
-                        'ท่านได้ โอนเงินเข้าไปใน "ระบบ" หรือ "แพลตฟอร์ม" (แอป/เว็บไซต์) เพื่อทำงานหรือลงทุน โดยเห็นตัวเลขกำไร/ผลตอบแทนในระบบนั้นหรือไม่?',
+                        'ท่านได้โอนเงินเข้าไปในแอปหรือเว็บไซต์ของคนร้าย เพื่อทำงาน ลงทุน หรือรับผลตอบแทนหรือไม่?',
                     placeholder: 'โปรดเลือกคำตอบ',
                     fieldType: 'radiobox',
                     required: true,
@@ -1571,6 +1713,19 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
             };
         }
 
+         if (field.fieldType === 'datebox') {
+            return {
+                ...base,
+                showClearButton: true,
+                max: this.maxDateValue,
+                displayFormat: 'dd/MM/yyyy HH:mm',
+                type: 'datetime',
+                min: this.minDateValue,
+                openOnFieldClick: true,
+                useMaskBehavior: true
+            };
+        }
+
         // TEXTBOX หรืออื่น ๆ
         return base;
     }
@@ -1598,6 +1753,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
             case 'selectbox': return 'dxSelectBox';
             case 'file': return 'dxFileUploader';
             case 'radiobox': return 'dxRadioGroup';   // ✅ ให้ dxForm สร้างเอง
+            case 'datebox': return 'dxDateBox';
             default: return 'dxTextBox';
         }
     }
@@ -1782,7 +1938,8 @@ export type FieldType =
     | 'file'
     | 'radiobox'
     | 'checkbox'
-    | 'group';
+    | 'group'
+    | 'datebox';
 
 export interface FieldConfig {
     templateName: string;

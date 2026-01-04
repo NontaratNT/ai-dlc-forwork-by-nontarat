@@ -64,8 +64,8 @@
                         [label]="{ text: field.caption }">
 
                         <ng-template dxTemplate="editor">
-                            <div class="checkbox-group">
-                                <dx-check-box *ngFor="let opt of field.options" [readOnly]="formReadOnly"
+                            <div class="checkbox-group d-flex flex-column">
+                                <dx-check-box class="mb-2" *ngFor="let opt of field.options" [readOnly]="formReadOnly"
                                     [text]="opt[field.displayExpr || 'name']" [value]="isChecked(1, field, opt)"
                                     (onValueChanged)="onCheckboxChange(1, field, opt, $event)">
                                 </dx-check-box>
@@ -139,8 +139,8 @@
                         [label]="{ text: field.caption }">
 
                         <ng-template dxTemplate="editor">
-                            <div class="checkbox-group">
-                                <dx-check-box *ngFor="let opt of field.options" [readOnly]="formReadOnly"
+                            <div class="checkbox-group d-flex flex-column">
+                                <dx-check-box class="mb-2" *ngFor="let opt of field.options" [readOnly]="formReadOnly"
                                     [text]="opt[field.displayExpr || 'name']" [value]="isChecked(2, field, opt)"
                                     (onValueChanged)="onCheckboxChange(2, field, opt, $event)">
                                 </dx-check-box>
@@ -214,8 +214,8 @@
                         [label]="{ text: field.caption }">
 
                         <ng-template dxTemplate="editor">
-                            <div class="checkbox-group">
-                                <dx-check-box *ngFor="let opt of field.options" [readOnly]="formReadOnly"
+                            <div class="checkbox-group d-flex flex-column">
+                                <dx-check-box class="mb-2" *ngFor="let opt of field.options" [readOnly]="formReadOnly"
                                     [text]="opt[field.displayExpr || 'name']" [value]="isChecked(3, field, opt)"
                                     (onValueChanged)="onCheckboxChange(3, field, opt, $event)">
                                 </dx-check-box>
