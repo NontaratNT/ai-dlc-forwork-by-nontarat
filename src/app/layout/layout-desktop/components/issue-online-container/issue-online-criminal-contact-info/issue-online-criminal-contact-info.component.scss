@@ -37,6 +37,18 @@
         margin-right: 10px;
         font-size: 15px;
     }
+    .active-filter {
+      background-color: #2563eb !important;
+      color: white !important;
+      border-color: #2563eb !important;
+    }
+
+    .video-card {
+      height: 100%;
+      padding: 10px 10px 10px 10px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+    }
 }
 
 .custom-ratio {

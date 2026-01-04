@@ -1139,6 +1139,38 @@ export class IssueOnlineCriminalContactInfoNewComponent implements OnInit, DoChe
     formData2: any = {};
     formData3: any = {};
 
+    videoData : any = [
+        {
+            title: "ตัวอย่างการกรอกข้อมูล Facebook",
+            url: "https://drive.google.com/file/d/1nR9AAYsdqGvwGyKQq7NyL6kBhSbfnLon/view?usp=drive_link",
+            category: "Facebook/Messenger"
+        },
+        {
+            title: "ตัวอย่างการกรอกข้อมูล Instagram",
+            url: "https://drive.google.com/file/d/16K7sbH8CqbQ7L9_KLg8DpmcBWnrHSxcc/view?usp=drive_link",
+            category: "Instagram"
+        },
+        {
+           title: "ตัวอย่างการกรอกข้อมูล Line",
+            url: "https://drive.google.com/file/d/1hOBhCpWXFMpNDfVC-5kAey2iM3PRjZAY/view?usp=drive_link",
+            category: "Line"
+        },
+        {
+            title: "ตัวอย่างการกรอกข้อมูล SMS",
+            url: "https://drive.google.com/file/d/1SACA8E7zShPgcQBnHgAlyAeA__NMZWiW/view?usp=drive_link",
+            category: "SMS"
+        },
+        {
+           title: "ตัวอย่างการกรอกข้อมูล TikTok",
+            url: "https://drive.google.com/file/d/1zwn35jMGpsoMjdDB2GQVwX0gVExhQOrl/view?usp=drive_link",
+            category: "TikTok"
+        }
+    ];
+
+    currentFilter: string = 'All';
+    categories: string[] = [];
+    filteredVideos: any[] = [];
+
     //  End Zone new Code
 
     constructor(

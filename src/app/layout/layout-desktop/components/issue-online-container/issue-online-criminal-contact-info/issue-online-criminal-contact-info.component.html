@@ -11,7 +11,22 @@
         <!-- แสดงฟอร์มของช่องทางที่เลือก -->
         <div *ngIf="selectedChannel1 as ch">
             <h4 class="mb-3">{{ ch.name }}</h4>
-
+            
+            <div class="text-center">
+                <ng-container *ngFor="let video of filteredVideos">
+                    <div *ngIf="video.category === ch.name" class="col-12 col-md-6 col-lg-4 text-center mb-4 video-card">
+                        <div class="card h-100 border-0 shadow-sm rounded-4 transition-hover d-flex justify-content-center p-3">
+                            <h5 class="card-title fw-bold text-dark mb-2">{{ video.title }}</h5>
+                            <div class="mt-auto">
+                                <a [href]="video.url" target="_blank" 
+                                class="btn btn-primary w-100 py-2 rounded-3 fw-medium shadow-sm active-scale">
+                                เปิดดูวิดีโอ
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
             <dx-form #form1 [formData]="formData1" [colCount]="1" labelLocation="top" [showColonAfterLabel]="true">
 
                 <ng-container *ngFor="let field of ch.formOption">

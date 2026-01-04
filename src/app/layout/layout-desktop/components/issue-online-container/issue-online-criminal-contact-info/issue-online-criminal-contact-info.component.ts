@@ -1139,6 +1139,38 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     formData2: any = {};
     formData3: any = {};
 
+    videoData : any = [
+        {
+            title: "ตัวอย่างการกรอกข้อมูล Facebook",
+            url: "https://drive.google.com/file/d/1nR9AAYsdqGvwGyKQq7NyL6kBhSbfnLon/view?usp=drive_link",
+            category: "Facebook/Messenger"
+        },
+        {
+            title: "ตัวอย่างการกรอกข้อมูล Instagram",
+            url: "https://drive.google.com/file/d/16K7sbH8CqbQ7L9_KLg8DpmcBWnrHSxcc/view?usp=drive_link",
+            category: "Instagram"
+        },
+        {
+           title: "ตัวอย่างการกรอกข้อมูล Line",
+            url: "https://drive.google.com/file/d/1hOBhCpWXFMpNDfVC-5kAey2iM3PRjZAY/view?usp=drive_link",
+            category: "Line"
+        },
+        {
+            title: "ตัวอย่างการกรอกข้อมูล SMS",
+            url: "https://drive.google.com/file/d/1SACA8E7zShPgcQBnHgAlyAeA__NMZWiW/view?usp=drive_link",
+            category: "SMS"
+        },
+        {
+           title: "ตัวอย่างการกรอกข้อมูล TikTok",
+            url: "https://drive.google.com/file/d/1zwn35jMGpsoMjdDB2GQVwX0gVExhQOrl/view?usp=drive_link",
+            category: "TikTok"
+        }
+    ];
+
+    currentFilter: string = 'All';
+    categories: string[] = [];
+    filteredVideos: any[] = [];
+
     //  End Zone new Code
 
     constructor(
@@ -1150,6 +1182,10 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     ) { }
 
     ngOnInit(): void {
+        // สกัดหมวดหมู่จากข้อมูลทั้งหมด
+        this.categories = Array.from(new Set(this.videoData.map(v => v.category)));
+        // เริ่มต้นแสดงวิดีโอทั้งหมด
+        this.updateFilteredVideos();
         if (this.dataForm) {
             if (this.formType === 'view') {
                 this.formReadOnly = true;
@@ -1163,6 +1199,19 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
 
         // debug เฉพาะตอน dev
         console.log('formData:', this.formData);
+    }
+
+    setFilter(category: string): void {
+        this.currentFilter = category;
+        this.updateFilteredVideos();
+    }
+
+    private updateFilteredVideos(): void {
+        if (this.currentFilter === 'All') {
+        this.filteredVideos = [...this.videoData];
+        } else {
+        this.filteredVideos = this.videoData.filter(v => v.category === this.currentFilter);
+        }
     }
 
     safeGet<T = any>(key: string): T | undefined {
@@ -1972,5 +2021,12 @@ export interface ChannelFormConfig {
 export interface FieldVisibleWhen {
     dataField: string;   // ฟิลด์ที่ใช้เป็นตัวกำหนด เช่น 'CONTROL_DEVICE_MAIN'
     values: any[];       // ค่าใดบ้างที่ทำให้ฟิลด์นี้มองเห็น เช่น ['YES', 'HAS_APK']
+}
+
+export interface VideoItem {
+  title: string;
+  description: string;
+  url: string;
+  category: string;
 }
 //   end Zone new Code
