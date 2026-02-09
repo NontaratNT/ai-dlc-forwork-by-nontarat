@@ -9,7 +9,7 @@ import { EformRequestFactory, EFORM_REQUEST } from 'eform-share';
 import { CookieStorage } from '../common/cookie';
 import Swal from 'sweetalert2';
 import { environment } from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { encrypt } from '../common/helper';
 
 
@@ -47,28 +47,55 @@ export class UserService {
             );
     }
 
-    public authenticateThaiID(username: string, password: string, aal: number): Observable<IAccessToken> {
-        return this._req<IAccessToken>("LoginThaiID/auth/thaiid")
-            .body({ UserName: username, Password: password, RequireAal: aal })
-            .disableCriticalDialogError().post()
-            .pipe(
-                map(_ => {
-                    const userInfo = this.createProfile(_.Token);
-                    // if (userInfo.UserType !== 1) {
-                    //     // this._dialog.error("ผิดพลาด", "คุณไม่ได้รับอนุญาตให้ดำเนินการต่อได้");
-                    //     Swal.fire({
-                    //         title: 'ผิดพลาด!',
-                    //         text: 'คุณไม่ได้รับอนุญาตให้ดำเนินการต่อได้',
-                    //         icon: 'warning',
-                    //         confirmButtonText: 'ตกลง'
-                    //     }).then(() => { });
-                    //     return undefined;
-                    // }
+    // public authenticateThaiID(token:string): Observable<IAccessToken> {
+        // return this._req<IAccessToken>("LoginThaiID/auth/thaiid")
+        //     .disableCriticalDialogError().post()
+        //     // .setHeaders("Authorization", `Bearer ${token}`) // เพิ่ม Header
+        //     // .HttpHeaders(new HttpHeaders().set("Authorization", `Bearer ${token}`))
+        //     .pipe(
+        //         map(_ => {
+        //             const userInfo = this.createProfile(_.Token);
+        //             // if (userInfo.UserType !== 1) {
+        //             //     // this._dialog.error("ผิดพลาด", "คุณไม่ได้รับอนุญาตให้ดำเนินการต่อได้");
+        //             //     Swal.fire({
+        //             //         title: 'ผิดพลาด!',
+        //             //         text: 'คุณไม่ได้รับอนุญาตให้ดำเนินการต่อได้',
+        //             //         icon: 'warning',
+        //             //         confirmButtonText: 'ตกลง'
+        //             //     }).then(() => { });
+        //             //     return undefined;
+        //             // }
+        //             User.SetUser(userInfo);
+        //             return _;
+        //         }),
+        //         catchError(() => of(undefined))
+        //     );
+    // }
+    public authenticateThaiID(token: string): Observable<IAccessToken> {
+        const url = `${environment.config.eFormHost}/LoginThaiID/auth/thaiid`;
+        
+        // ตั้งค่า Header
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Authorization': `Bearer ${token}`
+            })
+        };
+
+        return this.http.post<any>(url, {}, httpOptions).pipe(
+            map(res => {
+                console.log(res);
+                if (res.Value && res.Value.Token) {
+                    const userInfo = this.createProfile(res.Value.Token);
                     User.SetUser(userInfo);
-                    return _;
-                }),
-                catchError(() => of(undefined))
-            );
+                    return res.Value;
+                }
+                return undefined;
+            }),
+            catchError((error) => {
+                console.error('Auth Error:', error);
+                return of(undefined);
+            })
+        );
     }
 
     public refreshToken(): Observable<IAccessToken> {

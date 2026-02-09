@@ -70,7 +70,7 @@ export class LoginThaiIDComponent implements OnInit {
                             this._userInfo = this._jwtServ.decodeToken(
                                 res.Value.id_token
                             );
-                            this.Login(this._userInfo.pid, this._userInfo.pid);
+                            this.Login(res.Value.id_token);
                         }
                     });
             } else {
@@ -83,15 +83,16 @@ export class LoginThaiIDComponent implements OnInit {
         // console.log(this._userInfo);
     }
 
-    Login(usename, password) {
-        if (usename && password) {
+    Login(token) {
+        if (token) {
             this._isLoading = true;
             this.userSetting.userSetting.location_name = undefined;
             // this.userSetting.Save();
             this.userServ
-                .authenticateThaiID(usename, password, 1.1)
+                .authenticateThaiID(token)
                 .pipe(finalize(() => (this._isLoading = false)))
                 .subscribe((u) => {
+                    console.log("u work:", u);
                     if (u) {
                         if (this.isRemember) {
                             CookieStorage.assignSetting({
