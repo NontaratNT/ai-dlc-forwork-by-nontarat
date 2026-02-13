@@ -23,7 +23,7 @@ export class FormConfigService {
         return this._req<any>(`form-config/${id}`).get();
     }
     public GetCode(code: any): Observable<any> {
-        return this._req<any>(`form-config/GetByFormCode/${code}`).get();
+        return this._req<any>(`Officer/form-config/GetByFormCode/${code}`).get();
     }
     public Savenewversion(id: number): Observable<any> {
         return this._req<any>(`form-config/${id}/save-version`).body({}).post();

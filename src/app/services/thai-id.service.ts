@@ -34,7 +34,7 @@ export class ThaiIDService {
   }
 
   public thaiIdgettokenGDCC(param: any): Observable<any> {
-    return  this.http.post<any>(`${environment.config.baseConfig.urlgdcceform}/LoginThaiID/gettokenext`, param);
+    return  this.http.post<any>(`${environment.config.baseConfig.urlgdcceform}/Officer/LoginThaiID/gettokenext`, param);
   }
 
   public thaiIdgettoken(param: any): Observable<any> {
