@@ -1,0 +1,72 @@
+<div class="container">
+    <!-- Header + Search -->
+    <div class="search-container text-center">
+        <h2 class="mb-4 text-secondary">ค้นหาตัวเลือกที่เกี่ยวข้องกับคดีของท่าน</h2>
+
+        <div class="search-box">
+            <i class="fas fa-search search-icon"></i>
+
+            <dx-text-box class="search-input-dx" [value]="query"
+                [placeholder]="'พิมพ์คำค้นหา เช่น \'หลอกลงทุน\', \'ซื้อสินค้าออนไลน์\', \'หลอกทำงานเสริมออนไลน์\'...'"
+                [stylingMode]="'outlined'" [showClearButton]="true"
+                (onValueChanged)="onQueryChanged($event.value)"></dx-text-box>
+        </div>
+
+        <p class="text-muted mt-2 small">
+            ลองพิมพ์คำว่า "หลอกลงทุน", "ซื้อสินค้าออนไลน์", หรือ "หลอกทำงานเสริมออนไลน์"
+        </p>
+    </div>
+
+    <!-- Results -->
+    <div class="row justify-content-center" *ngIf="query !== null && query !== ''">
+        <div class="col-lg-8">
+            <ng-container *ngIf="filtered.length; else noResults">
+                <div class="card result-card" *ngFor="let item of visibleItems; trackBy: trackById"
+                    (click)="onCardClick(item)">
+                    <div class="card-body">
+                        <h5 class="card-title mb-2">
+                            <a class="result-title" href="javascript:void(0)">
+                                <span [innerHTML]="highlight(item.name || '', query)"></span>
+                            </a>
+                        </h5>
+
+                        <p class="card-text result-desc mb-0 d-flex flex-wrap gap-2">
+                            <span *ngIf="item.definition">
+                                <b>Definition:</b>
+                                <span [innerHTML]="highlight(item.definition, query)"></span>
+                            </span>
+
+                            <span *ngIf="item.keywords">
+                                <b>Keywords:</b>
+                                <span [innerHTML]="highlight(item.keywords, query)"></span>
+                            </span>
+
+                            <span *ngIf="item.classification_criteria">
+                                <b>Criteria:</b>
+                                <span [innerHTML]="highlight(item.classification_criteria, query)"></span>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- ✅ ปุ่มดูเพิ่มเติม/ซ่อน -->
+                <div class="text-center mt-3" *ngIf="filtered.length > initialLimit">
+                    <dx-button [text]="showAll ? 'ซ่อน' : 'ดูเพิ่มเติม'" type="default" stylingMode="contained"
+                        (onClick)="toggleShowAll()"></dx-button>
+
+                    <div class="text-muted small mt-2">
+                        แสดง {{ visibleItems.length }} จาก {{ filtered.length }} รายการ
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-template #noResults>
+                <div class="no-results">
+                    <i class="fas fa-folder-open fa-3x mb-3"></i>
+                    <h4>ไม่พบข้อมูลที่ค้นหา</h4>
+                    <p>ลองใช้คำค้นหาอื่น หรือตรวจสอบตัวสะกด</p>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>

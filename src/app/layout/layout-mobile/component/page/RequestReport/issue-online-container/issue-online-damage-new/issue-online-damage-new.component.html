@@ -88,10 +88,11 @@
                         </dxi-item>
 
                         <dxi-item dataField="BANK_DAMAGE_VALUE_BAHT" [label]="damageBankBathLabel"
-                            editorType="dxNumberBox" [isRequired]="true" [editorOptions]="damageBankBathEditorOptions">
+                            editorType="dxTextBox" [isRequired]="true" [editorOptions]="damageBankBathEditorOptions">
                             <dxo-validation-rules>
                                 <dxi-validation-rule type="required" message="กรุณากรอกจำนวนเงิน">
                                 </dxi-validation-rule>
+                                <dxi-validation-rule type="numeric"  message="กรุณากรอกเป็นตัวเลข"></dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item>
 
@@ -282,18 +283,20 @@
                                     message="กรุณากรอกที่อยู่ Wallet ปลายทาง (Destination Address)"></dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item>
-                        <dxi-item dataField="CRYPTO_AMOUNT" [label]="CryptoAmountLabel" editorType="dxNumberBox"
+                        <dxi-item dataField="CRYPTO_AMOUNT" [label]="CryptoAmountLabel" editorType="dxTextBox"
                             [isRequired]="true" [editorOptions]="CryptoAmountEditorOptions">
                             <dxo-validation-rules>
                                 <dxi-validation-rule type="required"
                                     message="กรุณากรอกจำนวนเหรียญที่โอน:"></dxi-validation-rule>
+                                    <dxi-validation-rule type="numeric"  message="กรุณากรอกเป็นตัวเลข"></dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item>
-                        <dxi-item dataField="CRYPTO_AMOUNT_BATH" [label]="CryptoAmountLabel" editorType="dxNumberBox"
+                        <dxi-item dataField="CRYPTO_AMOUNT_BATH" [label]="CryptoAmountLabel" editorType="dxTextBox"
                             [isRequired]="true" [editorOptions]="CryptoAmountBathEditorOptions">
                             <dxo-validation-rules>
                                 <dxi-validation-rule type="required"
                                     message="กรุณากรอกจำนวนเหรียญที่โอน:"></dxi-validation-rule>
+                                    <dxi-validation-rule type="numeric"  message="กรุณากรอกเป็นตัวเลข"></dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item>
                         <dxi-item dataField="CRYPTO_TRANSACTION_ID" [label]="CryptoTransactionIdLabel"
@@ -372,7 +375,6 @@
                                     message="กรุณากรอกเลขที่บัญชี 10-20 หลัก">
                                 </dxi-validation-rule>
                             </dxo-validation-rules>
-                            
                         </dxi-item>
                         <dxi-item dataField="EWALLET_NAME_ORIGIN" [label]="EwalletNameOriginLabel"
                             editorType="dxTextBox" [editorOptions]="EwalletNameOriginEditorOptions">
@@ -422,10 +424,11 @@
                         </dxi-item>
                         <dxi-item *ngIf="isEwalletServiceOtherRequired" editorType="empty" [colSpan]="2"></dxi-item>
 
-                        <dxi-item dataField="EWALLET_AMOUNT" [label]="EwalletAmountLabel" editorType="dxNumberBox"
+                        <dxi-item dataField="EWALLET_AMOUNT" [label]="EwalletAmountLabel" editorType="dxTextBox"
                             [isRequired]="true" [editorOptions]="EwalletAmountEditorOptions">
                             <dxo-validation-rules>
                                 <dxi-validation-rule type="required" message="กรุณาจำนวนเงิน"></dxi-validation-rule>
+                                <dxi-validation-rule type="numeric"  message="กรุณากรอกเป็นตัวเลข"></dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item>
                         <dxi-item dataField="EWALLET_DATE_TRANSFER" [label]="EwalletDateTransferLabel"
@@ -492,10 +495,11 @@
                         <dxi-item [visible]="formDamageType4.GIFT_CARD_TYPE == 'อื่นๆ'" dataField="GIFT_CARD_TYPE_DETAIL" [colSpan]="2" [label]="{ text: 'ระบุประเภทของบัตรอื่นๆ' }" editorType="dxTextBox" [isRequired]="true">
                             <dxo-validation-rules type="required" message="กรุณาระบุประเภทของบัตรอื่นๆ"></dxo-validation-rules>
                         </dxi-item>
-                        <dxi-item dataField="GIFT_CARD_AMOUNT" [label]="GiftCardAmountLabel" editorType="dxNumberBox"
+                        <dxi-item dataField="GIFT_CARD_AMOUNT" [label]="GiftCardAmountLabel" editorType="dxTextBox"
                             [isRequired]="true" [editorOptions]="GiftCardAmountEditorOptions">
                             <dxo-validation-rules>
                                 <dxi-validation-rule type="required" message="กรุณาจำนวนเงิน"></dxi-validation-rule>
+                                <dxi-validation-rule type="numeric"  message="กรุณากรอกเป็นตัวเลข"></dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item>
                         <dxi-item dataField="GIFT_CARD_CODE" [label]="GiftCardCodeLabel" editorType="dxTextBox"
@@ -571,10 +575,11 @@
                             </dxo-validation-rules>
                         </dxi-item>
                         <dxi-item dataField="CARD_TRANSACTION_AMOUNT" [label]="CardTransactionAmountLabel"
-                            editorType="dxNumberBox" [isRequired]="true"
+                            editorType="dxTextBox" [isRequired]="true"
                             [editorOptions]="CardTransactionAmountEditorOptions">
                             <dxo-validation-rules>
                                 <dxi-validation-rule type="required" message="กรุณาจำนวนเงิน"></dxi-validation-rule>
+                                <dxi-validation-rule type="numeric"  message="กรุณากรอกเป็นตัวเลข"></dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item>
                         <dxi-item dataField="CARD_TRANSACTION_DATE" [label]="CardTransactionDateLabel"
@@ -641,10 +646,11 @@
                                     message="กรุณากรอกรายละเอียดทรัพย์สินอื่นๆ"></dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item>
-                        <dxi-item dataField="CASE_MONEY_BANK_OTHER_AMOUNT" [label]="OtherAmountLabel" editorType="dxNumberBox"
+                        <dxi-item dataField="CASE_MONEY_BANK_OTHER_AMOUNT" [label]="OtherAmountLabel" editorType="dxTextBox"
                             [isRequired]="true" [editorOptions]="OtherAmountEditorOptions">
                             <dxo-validation-rules>
                                 <dxi-validation-rule type="required" message="กรุณาจำนวนเงิน"></dxi-validation-rule>
+                                <dxi-validation-rule type="numeric"  message="กรุณากรอกเป็นตัวเลข"></dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item>
                         <dxi-item dataField="OTHER_DATE_TRANSFER" [label]="CardTransactionDateLabel"

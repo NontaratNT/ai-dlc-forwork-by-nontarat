@@ -6,6 +6,7 @@ import { req } from 'share-ui';
 import { CookieStorage } from 'src/app/common/cookie';
 import { environment } from 'src/environments/environment';
 import { User } from '../user';
+import { Article } from 'src/app/layout/layout-desktop/components/issue-online-container/search-new-case-type/search-new-case-type.component';
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +15,15 @@ export class CaseNewTypeService {
 
     constructor(private http: HttpClient) { }
     public GetCaseNewTypeList(): Observable<ICaseNewTypeInfo[]>{
-        return req<ICaseNewTypeInfo[]>('NewCase/getbyuser').disableCriticalDialogError().get();
+        return req<ICaseNewTypeInfo[]>('NewCase/getbyuser')
+        .host(environment.config.baseConfig.urlgdcc)
+        .disableCriticalDialogError().get();
+    }
+
+     public GetCaseTypeNew(): Observable<Article[]>{
+        return req<Article[]>('CmsMasterNew/CmsNewCaseType')
+        .host(environment.config.baseConfig.urlgdcc)
+        .disableCriticalDialogError().get();
     }
 
     

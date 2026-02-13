@@ -94,6 +94,7 @@ import { FormioModule } from "@formio/angular";
 import { IssueOnlineDamageNewComponent } from './components/issue-online-container/issue-online-damage-new/issue-online-damage-new.component';
 import { IssueOnlineValidateNewComponent } from './components/issue-online-container/issue-online-validate-new/issue-online-validate-new.component';
 import { CaseOnlineNewTypeListComponent } from "./components/issue-online-container/case-online-new-type-list/case-online-new-type-list.component";
+import { SearchNewCaseTypeComponent } from './components/issue-online-container/search-new-case-type/search-new-case-type.component';
 
 
 const customNotifierOptions: NotifierOptions = {
@@ -196,9 +197,10 @@ const customNotifierOptions: NotifierOptions = {
         CaseTypeNewContainerComponent,
         IssueOnlineDamageNewComponent,
         IssueOnlineValidateNewComponent,
-        CaseOnlineNewTypeListComponent
+        CaseOnlineNewTypeListComponent,
+        SearchNewCaseTypeComponent
     ],
-    exports: [DateComboPickerComponent, DateComboRegisterComponent],
+    exports: [DateComboPickerComponent, DateComboRegisterComponent,SearchNewCaseTypeComponent],
     imports: [
         CommonModule,
         LayoutDesktopRoutingModule,

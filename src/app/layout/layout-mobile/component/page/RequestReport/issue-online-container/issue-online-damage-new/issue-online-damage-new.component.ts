@@ -374,7 +374,8 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       const res: any = await this.servBankInfo.GetBankInfo().toPromise();
       if (res) {
         this.bankInfoList = res;
-      }
+      } 
+      this.WayOtherList = await this.servBankInfo.GetBankOtherInfo().toPromise() || [];
     } catch (error) {
       console.error('Error fetching bank info list:', error);
     }
@@ -903,9 +904,35 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       focusStateEnabled: false,
       format,
       showClearButton: true,
-      readOnly: this.formType === 'view'
+      mode: "currency",
+      readOnly: this.formType === 'view',
+      onKeyPress: (e: any) => {
+        this.onNumberKeyPress(e);
+      }
     };
   }
+
+  onNumberKeyPress(e: any) {
+    const event = e.event;
+    const charCode = event.which ? event.which : event.keyCode;
+    const currentValue = e.component.option('value') || '';
+
+    // 1. อนุญาตตัวเลข 0-9
+    if (charCode >= 48 && charCode <= 57) return true;
+
+    // 2. อนุญาตจุด (.) แต่ต้องมีแค่จุดเดียว
+    if (charCode === 46) {
+        if (currentValue.includes('.')) {
+            event.preventDefault(); // ถ้ามีจุดอยู่แล้ว ห้ามพิมพ์เพิ่ม
+            return false;
+        }
+        return true;
+    }
+
+    // 3. ตัวอักษรอื่นๆ ห้ามหมด
+    event.preventDefault();
+    return false;
+}
 
   private createDateTimeEditor(placeholder: string): any {
     console.log(this.maxDateValue);

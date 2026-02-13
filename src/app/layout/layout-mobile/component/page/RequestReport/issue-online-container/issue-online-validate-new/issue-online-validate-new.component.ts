@@ -345,6 +345,12 @@ export class IssueOnlineValidateNewComponent implements OnInit {
     this.maxBirthDate = this._date.SetDateDefault(0);
     this.loadDateBox = true;
     this.checkFraudCase(this.formCaseTypeNew?.fraud_code, this.formCaseTypeNew?.fraud_sub_code, this.formCaseTypeNew?.fraud_tactic_id);
+
+    console.log("formCaseTypeNew :",this.formCaseTypeNew );
+    console.log("formChannelContac :",this.formChannelContac );
+    console.log("formDamageDetail :",this.formDamageDetail );
+    console.log("formDamageBankRef :",this.formDamageBankRef );
+
   }
 
   loadPersonalData() {
@@ -927,7 +933,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
   }
 
   Back(e) {
-    // this.mainConponent.IssueOnlineStep = 2;
+    this.mainComponent.NextIndex(this.mainComponent.indexTab - 1);
   }
 
   get hasCaseTypeNew(): boolean {
@@ -1080,7 +1086,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
       });
       return;
     }
-    if (this.formData?.ORG_LOCATION_ID == null || this.formData?.ORG_LOCATION_ID == 0) {
+    if(this.formData?.ORG_LOCATION_ID == null || this.formData?.ORG_LOCATION_ID == 0){
       Swal.fire({
         title: "ผิดพลาด!",
         text: "กรุณาเลือกสถานีตำรวจที่ต้องการไปให้ปากคำ",
@@ -1146,7 +1152,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
     });
   }
 
-  private handleSuccessNavigation(): void {
+    private handleSuccessNavigation(): void {
     const itemsToRemove = [
       'form-case-type-new',
       'form-informer',
@@ -1160,7 +1166,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
       localStorage.removeItem(item);
     });
 
-    this._router.navigate(["/main/task-list"]);
+   this._router.navigate(["mobile/track-status?openExternalBrowser=1"]);
   }
 
 

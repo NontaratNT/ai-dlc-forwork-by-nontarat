@@ -1,4 +1,3 @@
-import { CheckDocumentService } from "../../../../../services/check-document.service";
 import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { finalize } from "rxjs/operators";
 import { Router } from "@angular/router";
@@ -10,8 +9,8 @@ import { DxFormComponent } from "devextreme-angular";
 import { FormValidatorService } from "src/app/services/form-validator.service";
 import { ConvertDateService } from "src/app/services/convert-date.service";
 import { IssueOnlineContainerComponent } from "../issue-online-container.component";
-import { Article } from "../search-new-case-type/search-new-case-type.component";
 import { CaseNewTypeService } from "src/app/services/case-new-type/casenewtype.service";
+import { Article } from "../search-new-case-type-mobile/search-new-case-type-mobile.component";
 
 @Component({
     selector: "app-case-type-new-container",
@@ -60,6 +59,7 @@ export class CaseTypeNewContainerComponent implements OnInit {
             .toPromise()
             .then((_) => _ ?? []);
         this._formBuilded = JSON.parse(this._formConfig.formJson);
+        console.log(this._formBuilded);
         this._formData = {
             data: {},
         };
@@ -144,17 +144,6 @@ export class CaseTypeNewContainerComponent implements OnInit {
     }
     BackToList(e) {
         this.router.navigate(["/main/task-list"]);
-    }
-
-    alertmessagecustom(msg) {
-        Swal.fire({
-            title: "ผิดพลาด!",
-            text: msg ?? "กรุณากรอกข้อมูล",
-            icon: "warning",
-            confirmButtonText: "Ok",
-        }).then(() => { });
-        this.mainConponent.checkValidate = true;
-        return;
     }
 
     onFormChange(event: any): void {

@@ -1,0 +1,165 @@
+.form-container {
+    min-height: 500px;
+}
+
+.jsonviewer {
+    display: inline-block;
+    width: 100%;
+    margin: 1% auto;
+    border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+    padding: 1em;
+    line-height: 1.5em;
+    background: hsla(67, 95%, 95%, 1);
+}
+
+::ng-deep .dx-bg-primary .dx-button-content {
+    background-color: #007bff !important;
+    color: #fff !important;
+
+    .dx-icon {
+        color: #fff !important;
+    }
+
+    .dx-button-text {
+        color: #fff !important;
+    }
+}
+
+:host {
+    dx-text-box.dx-texteditor.dx-state-readonly {
+        background-color: #ddd;
+
+    }
+}
+
+
+::ng-deep .switch-button {
+
+    .dx-button-mode-contained.dx-button-default {
+        background-color: #d9534f;
+        border-color: transparent;
+        color: #fff;
+    }
+
+    .dx-button-mode-contained.dx-button-default.dx-state-hover {
+        background-color: #fff;
+        border-color: #435b97;
+        color: #435b97;
+    }
+
+    .dx-button-mode-contained.dx-button-default.dx-state-focused {
+        background-color: #c12e2a;
+        border-color: #435b97;
+        color: #fff;
+    }
+
+    .dx-buttongroup-item.dx-button.dx-button-mode-contained:not(.dx-item-selected) {
+        background-color: #fff;
+    }
+
+    .dx-buttongroup-item.dx-button.dx-button-mode-contained:not(.dx-item-selected).dx-button-default {
+        border-color: #435b97;
+        color: #435b97;
+    }
+
+    .dx-buttongroup-item.dx-button.dx-button-mode-contained:not(.dx-item-selected) {
+        background-color: #fff;
+    }
+
+    .dx-buttongroup-item.dx-button.dx-button-mode-contained:not(.dx-item-selected).dx-button-default .dx-icon {
+        color: #435b97;
+    }
+}
+
+::ng-deep .formcomponents .formcomponent {
+    font-size: 14px !important;
+}
+
+::ng-deep .builder-sidebar .btn {
+    background-color: #435b97;
+    color: white;
+}
+
+::ng-deep .btn-primary {
+    border-color: unset;
+}
+
+::ng-deep .formio-component {
+    .card-header {
+        padding: .75rem 1.25rem;
+        margin-bottom: 0;
+        background-color: #435b97;
+        color: white;
+        font-size: 16px;
+        border-bottom: 1px solid rgba(0, 0, 0, .125);
+    }
+}
+
+::ng-deep .builder-component .component-btn-group {
+
+    .component-settings-button {
+        margin: unset;
+        color: #fff;
+        background-color: #435b97;
+    }
+
+}
+
+::ng-deep .drag-container {
+    .alert-info {
+        color: #515151;
+        background-color: #ffd6d6;
+        border-color: #ffd6d6;
+    }
+}
+
+
+::ng-deep.builder-sidebar_search {
+    border: 1px solid #337ab7
+}
+
+::ng-deep.card.panel.preview-panel {
+
+    .card-header {
+        background-color: #337ab7;
+        color: white;
+    }
+
+}
+
+::ng-deep .formio-component.formio-component-tabs.formio-component-tabs {
+    a.nav-link {
+        color: #fff;
+    }
+
+    a.nav-link.active {
+        color: #337ab7;
+    }
+}
+
+
+
+::ng-deep .text-muted {
+    color: #9d1327 !important;
+}
+
+::ng-deep .float-right {
+    a {
+        color: #9f0f0f;
+
+        :hover {
+            color: #9f0f0f;
+        }
+    }
+}
+
+
+.dx-button-mode-contained .dx-icon:not(.dx-icon-hierarchy,.dx-icon-edit-button-addrow,.dx-icon-edit-button-save,.dx-icon-edit-button-cancel) {
+    color: #fff !important;
+}
+
+.btn-secondary {
+    color: unset !important;
+    background-color: unset !important;
+    border-color: unset !important;
+}

@@ -63,26 +63,26 @@ export class MainHomeComponent implements OnInit {
             }
 
             if (needChange) {
-                // const check_password = await Swal.fire({
-                //     title: 'แจ้งเตือน',
-                //     html: 'กรุณาอัปเดตรหัสผ่านของท่านใหม่ <br> เพื่อความปลอดภัยของบัญชีผู้ใช้',
-                //     icon: 'warning',
-                //     confirmButtonText: 'ตกลง',
-                //     allowOutsideClick: false,
-                //     allowEscapeKey: false,
-                //     showCancelButton: true,
-                //     cancelButtonText: 'ออกจากระบบ',
-                //     cancelButtonColor: '#d33'
-                // });
+                const check_password = await Swal.fire({
+                    title: 'แจ้งเตือน',
+                    html: 'กรุณาอัปเดตรหัสผ่านของท่านใหม่ <br> เพื่อความปลอดภัยของบัญชีผู้ใช้',
+                    icon: 'warning',
+                    confirmButtonText: 'ตกลง',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showCancelButton: true,
+                    cancelButtonText: 'ออกจากระบบ',
+                    cancelButtonColor: '#d33'
+                });
 
-                // if (check_password.isConfirmed) {
-                //     console.log('ต้องเปลี่ยนรหัสผ่าน');
-                //     this.router.navigate(['/reset-password-force']);
-                // } else {
-                //     this._loginServ.logout();
-                //     this.router.navigate(['/login']);
-                // }
-                // return;
+                if (check_password.isConfirmed) {
+                    console.log('ต้องเปลี่ยนรหัสผ่าน');
+                    this.router.navigate(['/reset-password-force']);
+                } else {
+                    this._loginServ.logout();
+                    this.router.navigate(['/login']);
+                }
+                return;
             }
         }
 

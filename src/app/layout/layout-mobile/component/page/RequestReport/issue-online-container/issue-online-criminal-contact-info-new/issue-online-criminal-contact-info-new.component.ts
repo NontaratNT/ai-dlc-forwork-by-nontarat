@@ -11,12 +11,12 @@ import { ValidateUrl } from 'src/app/common/helper';
 import { finalize } from 'rxjs/operators';
 
 @Component({
-    selector: 'app-issue-online-criminal-contact-info',
-    templateUrl: './issue-online-criminal-contact-info.component.html',
-    styleUrls: ['./issue-online-criminal-contact-info.component.scss']
+    selector: 'app-issue-online-criminal-contact-info-new',
+    templateUrl: './issue-online-criminal-contact-info-new.component.html',
+    styleUrls: ['./issue-online-criminal-contact-info-new.component.scss']
 })
 
-export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
+export class IssueOnlineCriminalContactInfoNewComponent implements OnInit, DoCheck {
 
     public mainConponent: IssueOnlineContainerComponent;
     @ViewChild("selectCaseType", { static: false }) selectCaseType: DxSelectBoxComponent;
@@ -1182,10 +1182,6 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     ) { }
 
     ngOnInit(): void {
-        // สกัดหมวดหมู่จากข้อมูลทั้งหมด
-        this.categories = Array.from(new Set(this.videoData.map(v => v.category)));
-        // เริ่มต้นแสดงวิดีโอทั้งหมด
-        this.updateFilteredVideos();
         if (this.dataForm) {
             if (this.formType === 'view') {
                 this.formReadOnly = true;
@@ -1201,19 +1197,6 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         console.log('formData:', this.formData);
     }
 
-    setFilter(category: string): void {
-        this.currentFilter = category;
-        this.updateFilteredVideos();
-    }
-
-    private updateFilteredVideos(): void {
-        if (this.currentFilter === 'All') {
-        this.filteredVideos = [...this.videoData];
-        } else {
-        this.filteredVideos = this.videoData.filter(v => v.category === this.currentFilter);
-        }
-    }
-
     safeGet<T = any>(key: string): T | undefined {
         const raw = localStorage.getItem(key);
         if (!raw) return undefined;
@@ -1227,316 +1210,8 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     ngDoCheck(): void {
     }
 
-    async OnSelectCaseType(e) {
-        if (e.value) {
-            const data = this.selectCaseType.instance.option("selectedItem");
-            if (data) {
-                this.formData.CASE_TYPE_ID = data.CASE_TYPE_ID;
-                this.formData.CASE_TYPE_NAME = data.CASE_TYPE_NAME;
-                this.caseType = data.CASE_TYPE_DESC;
-                this.caseOpen = true;
-            } else {
-                this.formData.CASE_TYPE_ID = e.value;
-            }
-        }
-    }
-
-    SelectTypeChanel() {
-        this.formChannelValidate = [this.formData.CHANEL_PHONE, this.formData.CHANEL_SMS,
-        this.formData.CHANEL_LINE,].some((value) => value === true) ? false : true;
-    }
-
-    SubmitForm(e) {
-        if (!this.formEvent1.instance.validate().isValid) {
-            this._formValidate.ValidateForm(
-                this.formEvent1.instance.validate().brokenRules
-            );
-            return;
-        }
-        if (this.formData.CRIMINAL_TEL) {
-            if (!this.formPhone.instance.validate().isValid) {
-                this._formValidate.ValidateForm(
-                    this.formPhone.instance.validate().brokenRules
-                );
-                return;
-            }
-            if (this.formData.CRIMINAL_TEL_PROVIDER === 'อื่น ๆ') {
-                if (this.formData.CRIMINAL_TEL_PROVIDER_DETAIL === null ||
-                    this.formData.CRIMINAL_TEL_PROVIDER_DETAIL === undefined ||
-                    this.formData.CRIMINAL_TEL_PROVIDER_DETAIL === "") {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'กรอกข้อมูลไม่ครบ',
-                        html: 'กรุณากรอกชื่อค่ายโทรศัพท์ผู้เสียหายอื่นๆ'
-                    });
-                    return;
-                }
-            }
-        } else {
-            this.formData.CRIMINAL_TEL_ORIGIN = null;
-            this.formData.CRIMINAL_TEL_PROVIDER = null;
-            this.formData.CRIMINAL_TEL_DESTINATION = null;
-            this.formData.CRIMINAL_TEL_DATE = null;
-            this.formData.CRIMINAL_TEL_TIME = null;
-        }
-        if (this.formData.CRIMINAL_SMS) {
-            if (!this.formSms.instance.validate().isValid) {
-                this._formValidate.ValidateForm(
-                    this.formSms.instance.validate().brokenRules
-                );
-                return;
-            }
-            if (this.formData.CRIMINAL_SMS_PROVIDER === 'อื่น ๆ') {
-                if (this.formData.CRIMINAL_SMS_PROVIDER_DETAIL === null &&
-                    this.formData.CRIMINAL_SMS_PROVIDER_DETAIL === undefined &&
-                    this.formData.CRIMINAL_SMS_PROVIDER_DETAIL === "") {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'กรอกข้อมูลไม่ครบ',
-                        html: 'กรุณากรอกชื่อค่าย SMS โทรศัพท์ผู้เสียหาย'
-                    });
-                    return;
-                }
-            }
-        } else {
-            this.formData.CRIMINAL_SMS_ORIGIN = null;
-            this.formData.CRIMINAL_SMS_PROVIDER = null;
-            this.formData.CRIMINAL_SMS_DESTINATION = null;
-            this.formData.CRIMINAL_SMS_DATE_FULL = null;
-            this.formData.CRIMINAL_SMS_DATE = null;
-            this.formData.CRIMINAL_SMS_TIME = null;
-        }
-        if (this.formData.CRIMINAL_OTHER) {
-            if (!this.formOther.instance.validate().isValid) {
-                this._formValidate.ValidateForm(
-                    this.formOther.instance.validate().brokenRules
-                );
-                return;
-            }
-        } else {
-            this.formData.CRIMINAL_TYPE_SOCIAL = null;
-            this.formData.CRIMINAL_SOCIAL_TYPE_DETAIL = null;
-            this.formData.CRIMINAL_SOCIAL_DETAIL = null;
-        }
-        if (this.formData.CRIMINAL_SOCIAL_DETAIL) {
-            if (ValidateUrl(this.formData.CRIMINAL_SOCIAL_DETAIL)) {
-                Swal.fire({
-                    title: "แจ้งเตือน!",
-                    html: `ท่านกรอกข้อมูล URL ไม่ถูกต้อง 
-                    <br>เนื่องจาก URL ของท่านไม่สามารถนำไปตรวจสอบได้
-                    <br>กรุณาตรวจสอบอีกครั้ง`,
-                    icon: "warning",
-                    confirmButtonText: "Ok",
-                }).then(() => {
-                    this.formData.CRIMINAL_SOCIAL_DETAIL = null;
-                });
-                return;
-            }
-        }
-        // formatDate
-        this.formData.ATTACHMENT = this.dataAttachment ?? [];
-        const setData = {};
-        const d = this.formData;
-        for (const key in d) {
-            if (d[key] !== null && d[key] !== undefined) {
-                setData[key] = d[key];
-            }
-        }
-        let formCaseChannel = this.issueOnlineService.craeteCaseChanel(this.formData);
-        formCaseChannel = this.formatFormSubmitFile(formCaseChannel);
-        this.mainConponent.formDataAll.formCriminalContact = {};
-        this.mainConponent.formDataAll.formCaseChannelCriminalContact = {};
-        this.mainConponent.formDataAll.formCriminalContact = this.formData;
-        this.mainConponent.formDataAll.formCaseChannelCriminalContact = formCaseChannel;
-        if (localStorage.getItem("form-villain")) {
-            const villain = JSON.parse(localStorage.getItem("form-villain"));
-            if (!this.formData.CRIMINAL_TEL && !this.formData.CRIMINAL_SMS && !this.formData.CRIMINAL_OTHER) {
-                localStorage.setItem("form-villain", JSON.stringify(Object.assign(villain, { CASE_CHANNEL: [] })));
-            } else {
-                localStorage.setItem("form-villain", JSON.stringify(Object.assign(villain, { CASE_CHANNEL: [formCaseChannel] })));
-            }
-        } else {
-            // console.log("work!");
-            // if(formCaseChannel?.ATTACHMENT_DOC.length > 0){
-            //     console.log(formCaseChannel?.ATTACHMENT_DOC);
-            //     const setData = {
-            //         CASE_ATTACHMENT:formCaseChannel?.ATTACHMENT_DOC ?? []
-            //     };
-            //     this.mainConponent.formDataAll.formAttachment = {};
-            //     this.mainConponent.formDataAll.formAttachment = setData;
-            //     localStorage.setItem("form-attachment",JSON.stringify(setData));
-            //     formCaseChannel.ATTACHMENT_DOC = []; // clear attachment in case channel
-            // }
-            if (!this.formData.CRIMINAL_TEL && !this.formData.CRIMINAL_SMS && !this.formData.CRIMINAL_OTHER) {
-                localStorage.setItem("form-villain", JSON.stringify(Object.assign({}, { CASE_CHANNEL: [] })));
-            } else {
-                localStorage.setItem("form-villain", JSON.stringify(Object.assign({}, { CASE_CHANNEL: [formCaseChannel] })));
-            }
-        }
-        localStorage.setItem("form-criminal-contact", JSON.stringify(Object.assign({ CASE_REPORT: [this.formData] })));
-        this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
-    }
-
     Back(e) {
         this.mainConponent.NextIndex(this.mainConponent.indexTab - 1);
-    }
-
-    selectChannel(type) {
-        if (type === 'phone' && this.formData.CRIMINAL_TEL) {
-            this.formData.CRIMINAL_TEL_PROVIDER = 'N/A';
-        }
-        if (type === 'sms' && this.formData.CRIMINAL_SMS) {
-            this.formData.CRIMINAL_SMS_PROVIDER = 'N/A';
-        }
-    }
-
-    OpenFileDialog() {
-        // this.typeSelected = ['เอกสารหลักฐานอื่นๆ'];
-        this.typeSelected = [];
-        if (this.formData.CRIMINAL_TEL) {
-            this.typeSelected.push('เบอร์โทรศัพท์');
-        }
-        if (this.formData.CRIMINAL_SMS) {
-            this.typeSelected.push('SMS');
-        }
-        if (this.formData.CRIMINAL_TYPE_SOCIAL) {
-            this.typeSelected.push(this.formData.CRIMINAL_TYPE_SOCIAL);
-        }
-        this.popupAttachment = true;
-        this.popupFormUploaded = false;
-    }
-
-    DeleteFileDocItemUpload(index = null) {
-        Swal.fire({
-            title: 'ยืนยันการลบข้อมูล?',
-            text: " ",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#7d7d7d',
-            cancelButtonText: 'ยกเลิก',
-            confirmButtonText: 'ตกลง'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                this.maxSizeBuffer -= this.dataAttachment[index].size ?? 0;
-                this.dataAttachment.splice(index, 1);
-            }
-        });
-    }
-
-    async openPdfInNewTabAdd(e): Promise<void> {
-        const something = e.Url.split(',')[1] || e.Url;
-        const fileData = atob(something);
-        const blob = new Blob([new Uint8Array([...fileData].map(item => item.charCodeAt(0)))], { type: e.Type });
-        const fileUrl = URL.createObjectURL(blob);
-        window.open(fileUrl, '_blank');
-    }
-
-    async UploadFileAttachment(uploadTag) {
-        const files: any = uploadTag.files;
-        if (files.length > 0) {
-            const fileCheck = await this._issueFile.CheckFileUploadAllowListSizeDialog(this.maxSizeBuffer, files);
-            if (fileCheck.status) {
-                let fileItem = {} as any;
-                this.maxSizeBuffer = fileCheck.uploadSizeAll ?? 0;
-                for (const item of fileCheck.filebase64Array) {
-                    this._fileName = item.originalName;
-                    const fileName = item.originalName;
-                    this._fileSize = item.sizeDetail;
-                    fileItem = {
-                        name: fileName,
-                        size: item.size,
-                        sizeDetail: this.BytesToSize(item.size),
-                        type: item.type,
-                        originalName: fileName,
-                        url: item.url,
-                    };
-                }
-                this._fileForm = fileItem;
-                this.popupFormUploaded = true;
-            }
-        }
-    }
-
-    OpenFileDialogAttachment(uploadTag) {
-        uploadTag.click();
-    }
-
-    async FilesDroppedAttachment(e) {
-        const files = e;
-        if (files.length > 0) {
-            const fileCheck = await this._issueFile.CheckFileUploadAllowListSizeDrop(this.maxSizeBuffer, files);
-            console.log(fileCheck);
-            if (fileCheck.status) {
-                let fileItem = {} as any;
-                this.maxSizeBuffer = fileCheck.uploadSizeAll ?? 0;
-                for (const item of fileCheck.filebase64Array) {
-                    const extention = this.textAfterLastDot(item.originalName);
-                    const fileName = this._fileName ? this._fileName + extention : item.originalName;
-                    this._fileSize = item.sizeDetail;
-                    fileItem = {
-                        name: fileName,
-                        size: item.size,
-                        sizeDetail: this.BytesToSize(item.size),
-                        type: item.type,
-                        originalName: fileName,
-                        url: item.url,
-                    };
-                }
-                this._fileForm = fileItem;
-                this.popupFormUploaded = true;
-            }
-        }
-    }
-
-    BytesToSize(bytes) {
-        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-        if (bytes === 0) {
-            return '0 Byte';
-        }
-        const data: any = Math.floor(Math.log(bytes) / Math.log(1024));
-        const i = parseInt(data, 10);
-        return Math.round(bytes / Math.pow(1024, i)) + ' ' + sizes[i];
-    }
-
-    textAfterLastDot(name) {
-        const lastDotIndex = name.lastIndexOf('.');
-        return lastDotIndex !== -1 ? name.substring(lastDotIndex) : '';
-    }
-
-    ClearDocBufferAttachment() {
-        this._fileForm = undefined;
-        this.popupFormUploaded = false;
-    }
-
-    PopupUploadClose() {
-        this._fileForm = {};
-        this.fileTypeSelected = false;
-        this.fileTypeSelectedValue = '';
-        this.popupFormUploaded = false;
-        this.popupAttachment = false;
-    }
-
-    PopupUploadSave() {
-        if (this.popupFormUploaded) {
-            this.dataAttachment.push({
-                OriginalName: this._fileForm.originalName,
-                Url: this._fileForm.url,
-                Type: this._fileForm.type,
-                Size: this._fileForm.size,
-                sizeDetail: this._fileForm.sizeDetail,
-                formType: this.fileTypeSelectedValue
-            });
-            this.PopupUploadClose();
-        } else {
-            Swal.fire({
-                icon: 'warning',
-                title: 'แจ้งเตือน!',
-                text: "ท่านยังไม่ได้แนบไฟล์",
-                confirmButtonText: 'ตกลง'
-            }).then(() => {
-            });
-        }
     }
 
     CheckNumberBandit(event) {
@@ -1574,48 +1249,6 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         const makeScope = new RegExp('^[0](?=[0-9]{9,9}$)', 'g');
         return makeScope.test(params.value);
     }
-
-    formatFormSubmitFile(formCaseChannel: FormCaseChannel): FormCaseChannel {
-        // Map "formType" -> property name on formCaseChannel
-        const channelMap: Record<string, keyof FormCaseChannel> = {
-            EMAIL: 'CHANNEL_EMAIL_DOC',
-            FACEBOOK: 'CHANNEL_FACEBOOK_DOC',
-            INSTAGRAM: 'CHANNEL_INSTARGRAM_DOC',
-            LINE: 'CHANNEL_LINE_DOC',
-            MESSENGER: 'CHANNEL_MESSENGER_DOC',
-            'อื่นๆ': 'CHANNEL_OTHERS_DOC',
-            'เบอร์โทรศัพท์': 'CHANNEL_PHONE_DOC',
-            SMS: 'CHANNEL_SMS_DOC',
-            TELEGRAM: 'CHANNEL_TELEGRAM_DOC',
-            TWITTER: 'CHANNEL_TWITTER_DOC',
-            WEBSITE: 'CHANNEL_WEBSITE_DOC',
-            WHATSAPP: 'CHANNEL_WHATSAPP_DOC',
-            TIKTOK: 'CHANNEL_TIKTOK_DOC',
-            // 'เอกสารหลักฐานอื่นๆ': 'ATTACHMENT_DOC',
-        };
-
-        const items: any[] = this.formData?.ATTACHMENT ?? [];
-        if (items.length === 0) return formCaseChannel;
-
-        for (const el of items) {
-            const key = channelMap[el?.formType ?? ''];
-            if (key) {
-                (formCaseChannel[key] ??= []).push(el);
-            } else {
-                // keep unknowns (optional)
-                (formCaseChannel.ATTACHMENT_DOC ??= []).push(el);
-            }
-        }
-
-        return formCaseChannel;
-    }
-
-    selectTypeSender() {
-        if (this.formData.CRIMINAL_SMS_DESTINATION_TYPE) {
-            this.formData.CRIMINAL_SMS_DESTINATION = null;
-        }
-    }
-
     //  Zone new Code
     loadDataForm() {
         if (!this.dataForm) {
@@ -1762,7 +1395,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
             };
         }
 
-         if (field.fieldType === 'datebox') {
+        if (field.fieldType === 'datebox') {
             return {
                 ...base,
                 showClearButton: true,
@@ -1802,7 +1435,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
             case 'selectbox': return 'dxSelectBox';
             case 'file': return 'dxFileUploader';
             case 'radiobox': return 'dxRadioGroup';   // ✅ ให้ dxForm สร้างเอง
-            case 'datebox': return 'dxDateBox';
+            case 'datebox': return 'dxDateBox'; 
             default: return 'dxTextBox';
         }
     }
@@ -2021,12 +1654,5 @@ export interface ChannelFormConfig {
 export interface FieldVisibleWhen {
     dataField: string;   // ฟิลด์ที่ใช้เป็นตัวกำหนด เช่น 'CONTROL_DEVICE_MAIN'
     values: any[];       // ค่าใดบ้างที่ทำให้ฟิลด์นี้มองเห็น เช่น ['YES', 'HAS_APK']
-}
-
-export interface VideoItem {
-  title: string;
-  description: string;
-  url: string;
-  category: string;
 }
 //   end Zone new Code
