@@ -42,7 +42,7 @@ export class RegisterService {
     public registerBeforegdcc(param: FormData): Observable<any>{
    
 
-        return  this.http.post<HttpStatusResult>(`${environment.config.baseConfig.urlgdcc}/user/register/before-otp`, param);
+        return  this.http.post<HttpStatusResult>(`${environment.config.baseConfig.apiUrl}/Officer/user/register/before-otp`, param);
 
     }
 
@@ -63,7 +63,7 @@ export class RegisterService {
     public sendSMSgdcc(username: string, tel: string): Observable<any>{
    
 
-        return  this.http.post<HttpStatusResult>(`${environment.config.baseConfig.urlgdcc}/user/register/send-sms`, {Username:username, Tel:tel});
+        return  this.http.post<HttpStatusResult>(`${environment.config.baseConfig.apiUrl}/Officer/user/register/send-sms`, {Username:username, Tel:tel});
 
     }
 
@@ -77,7 +77,8 @@ export class RegisterService {
     public postReSendgdcc(username: string,email: string): Observable<any>{
    
 
-        return  this.http.post<HttpStatusResult>(`${environment.config.baseConfig.urlgdcc}/user/register/send-activate`, {Username:username, Email:email});
+        return  this.http.post<HttpStatusResult>(`${environment.config.baseConfig.apiUrl}/Officer/user/register/send-activate`, {Username:username, Email:email});
+
 
     }
     public postActive(username: string,otp: string): Observable<HttpStatusResult> {
@@ -97,7 +98,8 @@ export class RegisterService {
     public postActiveMQgdcc(username: string,otp: string): Observable<any>{
    
 
-        return  this.http.post<HttpStatusResult>(`${environment.config.baseConfig.urlgdcc}/user/register/activate/mq`, {Username:username,OTP:otp});
+        return  this.http.post<HttpStatusResult>(`${environment.config.baseConfig.apiUrl}/Officer/user/register/activate/mq`, {Username:username,OTP:otp});
+
 
     }
 

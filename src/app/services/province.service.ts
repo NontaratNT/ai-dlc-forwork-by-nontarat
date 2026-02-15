@@ -13,13 +13,16 @@ export class ProvinceService {
     constructor() { }
 
     public GetProvince(includeStatus = true): Observable<IProvinceinfo[]> {
-        return req<IProvinceinfo[]>('CmsProvince').host(environment.config.baseConfig.urlgdcc)
+        return req<IProvinceinfo[]>('CmsProvince')
+        // .host(environment.config.baseConfig.urlgdcc)
             .queryString({ RecordStatus: <any>includeStatus })
             .disableCriticalDialogError().get();
     }
 
     public GetDistrictofProvince(provice: number): Observable<IDistrictInfo[]> {
-        return req<IDistrictInfo[]>('CmsProvince/' + provice + '/district').host(environment.config.baseConfig.urlgdcc).disableCriticalDialogError().get();
+        return req<IDistrictInfo[]>('CmsProvince/' + provice + '/district')
+        // .host(environment.config.baseConfig.urlgdcc)
+        .disableCriticalDialogError().get();
     }
 
 }

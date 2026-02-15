@@ -39,7 +39,7 @@ export class BankInfoService {
             .disableCriticalDialogError().get();
     }
     public GetNearStation(): Observable<any[]> {
-        return this._req<any[]>('CmsOrganize/orgProvince').host(environment.config.baseConfig.urlgdcceform)
+        return this._req<any[]>('CmsOrganize/orgProvince').host(environment.config.baseConfig.apiUrl)
             .disableCriticalDialogError().get();
     }
 
@@ -74,7 +74,7 @@ export class BankInfoService {
     public GetBankTrackNo(no:string): Observable<any> {
         // return req<any[]>(`CmsBankInfo/bank-trackno/${no}`)
         //     .disableCriticalDialogError().get();
-        return this.http.get<any>(`${environment.config.baseConfig.urlgdcc}/CmsBankInfo/bank-trackno/${no}`);
+        return this.http.get<any>(`${environment.config.baseConfig.apiUrl}/Officer/CmsBankInfo/bank-trackno/${no}`);
     }
 }
 

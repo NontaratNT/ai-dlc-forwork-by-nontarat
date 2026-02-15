@@ -24,8 +24,8 @@ export class FormConfigService {
         return this._req<any>(`form-config/${id}`).get();
     }
     public GetCode(code: any): Observable<any> {
-        return this._req<any>(`form-config/GetByFormCode/${code}`)
-        .host(environment.config.baseConfig.urlgdcceform)
+        return this._req<any>(`Officer/form-config/GetByFormCode/${code}`)
+        // .host(environment.config.baseConfig.urlgdcceform)
         .get();
     }
     public Savenewversion(id: number): Observable<any> {

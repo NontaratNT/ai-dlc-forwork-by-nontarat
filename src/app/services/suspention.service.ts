@@ -13,7 +13,7 @@ export class SuspensionService {
     public GetMule(): Observable<any> {
         const your_ip_address = sessionStorage.getItem('ip_address') ?? ''; // ดึงค่าที่เก็บไว้ใน sessionStorage;
 
-        const url = `${environment.config.baseConfig.urlgdcc}/CmsReqAccountFreeeze/v_account`;
+        const url = `${environment.config.baseConfig.apiUrl}/Officer/CmsReqAccountFreeeze/v_account`;
         const headers = new HttpHeaders({
             'Content-Type': 'application/json',
             'Access-IP': your_ip_address,

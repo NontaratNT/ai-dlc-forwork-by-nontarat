@@ -135,7 +135,8 @@ export class UserService {
     }
 
     public getTokenCypherVac(userId: number): Observable<string> {
-        return this._req<string>('VacchineCyber/EndcryptData').host(environment.config.baseConfig.urlgdcceform)
+        return this._req<string>('Officer/VacchineCyber/EndcryptData')
+        // .host(environment.config.baseConfig.urlgdcceform)
             .body({ Data: userId })
             .disableCriticalDialogError()
             .post();
@@ -186,20 +187,21 @@ export class UserService {
     }
 
     public getListQuestion(): Observable<string> {
-        return this._req<string>('SeniorCyber/GetseniorChannel').host(environment.config.baseConfig.urlgdcceform)
+        return this._req<string>('SeniorCyber/GetseniorChannel')
             .disableCriticalDialogError()
             .get();
     }
 
     public SaveQuestion(param: any): Observable<string> {
-        return this._req<string>(`SeniorCyber`).host(environment.config.baseConfig.urlgdcceform)
+        return this._req<string>(`Officer/SeniorCyber`)
             .body(param)
             .disableCriticalDialogError()
             .post();
     }
 
     public UpdateSeniorFlag(userId: any,type: any): Observable<string> {
-        return this._req<string>(`SeniorCyber/updateFlag/${type}/${userId}`).host(environment.config.baseConfig.urlgdcceform)
+        return this._req<string>(`Officer/SeniorCyber/updateFlag/${type}/${userId}`)
+        // .host(environment.config.baseConfig.urlgdcceform)
             .disableCriticalDialogError()
             .put();
     }
@@ -275,6 +277,7 @@ export interface IUserProfile {
 export interface IAccessToken {
     Token: string;
     RefreshToken: string;
+    messeage?: string;
 }
 export interface IUserSetting {
     location_name: string;

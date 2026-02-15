@@ -49,10 +49,12 @@ export class LoginThaiIDComponent implements OnInit {
                     code: paramValue,
                     url_redirect: "https://thaipoliceonline.go.th/login/thaiD",
                 };
+                this._isLoading = true;
                 this.thaiidservice
                     .thaiIdgettokenGDCC(param)
+                    .pipe(finalize(() => (this._isLoading = false)))
                     .subscribe((res) => {
-                        if (!res.IsSuccess) {
+                        if (!res?.IsSuccess) {
                             Swal.fire({
                                 title: "ผิดพลาด!",
                                 text: `${res.Message}`,
@@ -67,10 +69,12 @@ export class LoginThaiIDComponent implements OnInit {
                             });
                             return;
                         } else {
-                            this._userInfo = this._jwtServ.decodeToken(
-                                res.Value.id_token
-                            );
-                            this.Login(res.Value.id_token);
+                            // this._userInfo = this._jwtServ.decodeToken(
+                            //     res.Value.id_token
+                            // );
+                            // this.Login(res.Value.id_token);
+                            console.log(res);
+                            this.Login(res.Value);
                         }
                     });
             } else {
@@ -83,17 +87,16 @@ export class LoginThaiIDComponent implements OnInit {
         // console.log(this._userInfo);
     }
 
-    Login(token) {
+    Login(token: IAccessToken) {
         if (token) {
-            this._isLoading = true;
+            // this._isLoading = true;
             this.userSetting.userSetting.location_name = undefined;
-            // this.userSetting.Save();
-            this.userServ
-                .authenticateThaiID(token)
-                .pipe(finalize(() => (this._isLoading = false)))
-                .subscribe((u) => {
-                    console.log("u work:", u);
-                    if (u) {
+            // // this.userSetting.Save();
+            // this.userServ
+            //     .authenticateThaiID(token)
+            //     .pipe(finalize(() => (this._isLoading = false)))
+            //     .subscribe((u) => {
+                    if (token) {
                         if (this.isRemember) {
                             CookieStorage.assignSetting({
                                 RememberLogin: true,
@@ -101,8 +104,8 @@ export class LoginThaiIDComponent implements OnInit {
                         }
 
                         CookieStorage.accessToken = {
-                            Token: u.Token,
-                            RefreshToken: u.RefreshToken,
+                            Token: token.Token,
+                            RefreshToken: token.RefreshToken,
                         } as IAccessToken;
                         if(getSessionCookie()){
                             console.log("to page-suspention");
@@ -164,11 +167,11 @@ export class LoginThaiIDComponent implements OnInit {
                             if (_.isConfirmed) {
                                 this._isLoading = false;
                                 window.location.href =
-                                    "https://thaipoliceonline.go.th/login/thaiD";
+                                    "https://thaipoliceonline.go.th/login";
                             }
                         });
                     }
-                });
+                // });
         } else {
         }
     }

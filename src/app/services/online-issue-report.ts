@@ -14,7 +14,7 @@ export class OnlineIssueReportService {
 
     constructor(private http: HttpClient) { }
     public InsertData(param: any): Observable<any> {
-        return  this.http.post<HttpStatusResult>(`${environment.config.baseConfig.urlgdcc}/CmsOnlineCaseReportClue`, param);
+        return  this.http.post<HttpStatusResult>(`${environment.config.baseConfig.apiUrl}/Officer/CmsOnlineCaseReportClue`, param);
         // return  this.http.post<HttpStatusResult>(`http://localhost:14121/api/CmsOnlineCaseReportClue`, param);
     }
 

@@ -16,12 +16,12 @@ export class BpmAppointmentHistoryService {
 
         const newHeader = new HttpHeaders({Authorization: "Bearer " + CookieStorage.accessToken});
 
-        return this.http.get<any>(`${environment.config.baseConfig.urlgdcceform}/BpmProcInstAppointment/history`, {
+        return this.http.get<any>(`${environment.config.eFormHost}/Officer/BpmProcInstAppointment/history`, {
             headers: newHeader,
             params: filter
           });
 
-        return this._req<any[]>().api('BpmProcInstAppointment/history')
+        return this._req<any[]>().api('Officer/BpmProcInstAppointment/history')
             .queryString(filter as any)
             .disableCriticalDialogError().get();
     }

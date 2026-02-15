@@ -53,7 +53,7 @@ export class BpmProcinstService {
         // return this._req<any>().api('BpmProcInst/'+instid)
         //     .disableCriticalDialogError().get();
         const newHeader = new HttpHeaders({Authorization: "Bearer " + CookieStorage.accessToken});
-        return this.http.get<any>(`${environment.config.baseConfig.urlgdcceform}/BpmProcInst/${instid}`, {
+        return this.http.get<any>(`${environment.config.eFormHost}/Officer/BpmProcInst/${instid}`, {
             headers: newHeader
           });
     }
@@ -72,14 +72,14 @@ export class BpmProcinstService {
         //     .body(param)
         //     .disableCriticalDialogError().put();
         const newHeader = new HttpHeaders({Authorization: "Bearer " + CookieStorage.accessToken});
-        return  this.http.put<IWithdrawCase>(`${environment.config.baseConfig.urlgdcceform}/BpmProcInst/revoke/${id}`, param);
+        return  this.http.put<IWithdrawCase>(`${environment.config.eFormHost}/Officer/BpmProcInst/revoke/${id}`, param);
 
     }
 
     // ถอนแจ้งความที่ gdcc
     public userSelectOrgGdcc( param: ISelectOrg): Observable<any> {
         const newHeader = new HttpHeaders({Authorization: "Bearer " + CookieStorage.accessToken});
-        return  this.http.put<ISelectOrg>(`${environment.config.baseConfig.urlgdcceform}/BpmProcInst/Updateorgpersonal`, {
+        return  this.http.put<ISelectOrg>(`${environment.config.eFormHost}/Officer/BpmProcInst/Updateorgpersonal`, {
             headers: newHeader,
             params: param
           });

@@ -15,7 +15,7 @@ export class PersonalService {
     constructor(@Inject(EFORM_REQUEST) private _req: EformRequestFactory, private http: HttpClient) { }
 
     public Search(searchObj: any, offset: number, length: number): Observable<IPagingResult<IPersonal>> {
-        return this._req<IPagingResult<IPersonal>>("CmsPersonal/search").host(environment.config.baseConfig.urlgdcceform)
+        return this._req<IPagingResult<IPersonal>>("CmsPersonal/search").host(environment.config.baseConfig.apiUrl)
             .body({ Condition: searchObj, Offset: offset, Length: length })
             .disableCriticalDialogError().post();
     }
@@ -31,7 +31,7 @@ export class PersonalService {
             .disableCriticalDialogError().get();
     }
     public GetPersonalById(id: number): Observable<IPersonal> {
-        return this._req<IPersonal>('CmsPersonal/' + id).host(environment.config.baseConfig.urlgdcceform)
+        return this._req<IPersonal>('CmsPersonal/' + id)
             .disableCriticalDialogError().get();
     }
 
@@ -41,14 +41,15 @@ export class PersonalService {
     }
 
     public PutPersonal(id: number, param: FormData): Observable<IPersonal> {
-        return this._req<IPersonal>('CmsPersonal/' + id).host(environment.config.baseConfig.urlgdcceform)
+        return this._req<IPersonal>('CmsPersonal/' + id)
             .body(param)
             .disableCriticalDialogError().put();
     }
 
 
     public PostPersonal(param: FormData): Observable<IPersonal> {
-        return this._req<IPersonal>('CmsPersonal').host(environment.config.baseConfig.urlgdcceform)
+        return this._req<IPersonal>('Officer/CmsPersonal')
+        // .host(environment.config.baseConfig.urlgdcceform)
             .body(param)
             .disableCriticalDialogError().post();
     }
@@ -76,8 +77,7 @@ export class PersonalService {
     }
 
     public PutPersonalGDCC(id: number, param: FormData): Observable<any>{
-        return this.http.put<HttpStatusResult>(`${environment.config.baseConfig.urlgdcceform}/CmsPersonal/${id}`, param);
-        // return  this.http.post<HttpStatusResult>(`http://localhost:14121/api/CmsOnlineCaseReportClue`, param);
+        return this.http.put<HttpStatusResult>(`${environment.config.eFormHost}/Officer/CmsPersonal/${id}`, param);
     }
 
 }

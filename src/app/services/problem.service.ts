@@ -37,7 +37,7 @@ export class ProblemService {
     public Postgdcc(param: IProblemInfo): Observable<IProblemInfo> {
 
         const newHeader = new HttpHeaders({Authorization: "Bearer " + CookieStorage.accessToken});
-        return  this.http.post<IProblemInfo>(`${environment.config.baseConfig.urlgdcc}/cmsonlinefeedback`, param);
+        return  this.http.post<IProblemInfo>(`${environment.config.baseConfig.apiUrl}/Officer/cmsonlinefeedback`, param);
 
     }
     public delete(id: number): Observable<IProblemInfo> {

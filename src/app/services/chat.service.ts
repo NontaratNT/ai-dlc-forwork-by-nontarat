@@ -29,7 +29,7 @@ export class ChatService {
 
     public postChatPersongdcc(param: IChat): Observable<IChat> {
         const newHeader = new HttpHeaders({Authorization: "Bearer " + CookieStorage.accessToken});
-        return  this.http.post<IChat>(`${environment.config.baseConfig.urlgdcc}/BpmProcInstChat/person-chat`, param);
+        return  this.http.post<IChat>(`${environment.config.baseConfig.apiUrl}/Officer/BpmProcInstChat/person-chat`, param);
 
     }
 

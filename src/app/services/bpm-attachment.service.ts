@@ -19,15 +19,15 @@ export class BpmAttachmentService {
             .disableCriticalDialogError().get();
     }
 
-    public create(param: FormData): Observable<IBPMAttachment> {
-        return this._req<IBPMAttachment>().api('BpmProcInstAttachment')
+    public create(param: FormData): Observable<any> {
+        return this._req<any>().api('BpmProcInstAttachment')
             .body(param)
             .disableCriticalDialogError().post();
     }
 
     public creategdcc(param: FormData): Observable<IBPMAttachment> {
         const newHeader = new HttpHeaders({Authorization: "Bearer " + CookieStorage.accessToken});
-        return  this.http.post<IBPMAttachment>(`${environment.config.baseConfig.urlgdcceform}/BpmProcInstAttachment`, param);
+        return  this.http.post<IBPMAttachment>(`${environment.config.eFormHost}/Officer/BpmProcInstAttachment/post`, param);
 
     }
     public update(param: FormData , id: number): Observable<IBPMAttachment> {
