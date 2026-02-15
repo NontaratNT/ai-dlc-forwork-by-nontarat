@@ -57,22 +57,6 @@ export class ThaiIDService {
                     return of(undefined);
                   })
                 );
-    // return this.http.post<any>(`${environment.config.baseConfig.urlgdcceform}/LoginThaiID/gettokenext`, param)
-    // .pipe(
-    //   map(res => {
-    //     console.log(res);
-    //     if (res.Value && res.Value.Token) {
-    //       const userInfo = this.createProfile(res.Value.Token);
-    //       User.SetUser(userInfo);
-    //       return res.Value;
-    //     }
-    //     return undefined;
-    //   }),
-    //   catchError((error) => {
-    //     console.error('Auth Error:', error);
-    //     return of(undefined);
-    //   })
-    // );;
   }
 
   public thaiIdgettoken(param: any): Observable<any> {
