@@ -23,17 +23,17 @@ export class OrgService {
     }
 
     public getorgProvince(provinceid:any): Observable<IOrganizeInfo[]> {
-        return this._req<IOrganizeInfo[]>('CmsOrganize/orgProvince').host(environment.config.baseConfig.apiUrl)
+        return this._req<IOrganizeInfo[]>('CmsOrganize/orgProvince').host(environment.config.eFormHost)
             .queryString({provinceId: <any>provinceid })
             .disableCriticalDialogError().get();
     }
 
     public getorgwalkin(): Observable<IOrganizeInfo[]> {
-        return this._req<IOrganizeInfo[]>('CmsOrganize/getorgwalkin').host(environment.config.baseConfig.apiUrl)
+        return this._req<IOrganizeInfo[]>('CmsOrganize/getorgwalkin').host(environment.config.eFormHost)
             .disableCriticalDialogError().get();
     }
     public getorgwalkinall(): Observable<IOrganizeInfo[]> {
-        return this._req<IOrganizeInfo[]>('CmsOrganize/getorgall').host(environment.config.baseConfig.apiUrl)
+        return this._req<IOrganizeInfo[]>('CmsOrganize/getorgall').host(environment.config.eFormHost)
             .disableCriticalDialogError().get();
     }
     // public GetApps(roleId: number): Observable<IAppInfo[]> {
@@ -46,7 +46,7 @@ export class OrgService {
             .disableCriticalDialogError().get();
     }
     public getorgariaall(): Observable<IOrgmaparea[]> {
-        return this._req<IOrgmaparea[]>('cmsorganize/getorgariaall').host(environment.config.baseConfig.apiUrl)
+        return this._req<IOrgmaparea[]>('cmsorganize/getorgariaall').host(environment.config.eFormHost)
             .disableCriticalDialogError().get();
     }
     public InsertOrganizeInfo(param: FormData): Observable<any> {
