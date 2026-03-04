@@ -204,7 +204,7 @@ export class CaseTypeNewContainerComponent implements OnInit {
         const data = this._formData?.data;
 
         // 2. Guard Clause: เช็คความถูกต้องของข้อมูล
-        if (!data || data.fraud_chanel !== 1) {
+        if (!data) {
             return;
         }
 
@@ -215,27 +215,41 @@ export class CaseTypeNewContainerComponent implements OnInit {
         this._formData.fraud_sub_code = data.fraud_sub_code;
 
         // 4. ใช้ Switch Case แยก Logic ตาม Code
-        switch (data.fraud_code) {
-            case 1:
-                // บรรทัดนี้ลบออกได้เลย เพราะกำหนดไปแล้วด้านบนครับ
-                // this._formData.fraud_sub_code = data.fraud_sub_code;
+        if (data.fraud_chanel === 1) {
+            switch (data.fraud_code) {
+                case 1:
+                    // บรรทัดนี้ลบออกได้เลย เพราะกำหนดไปแล้วด้านบนครับ
+                    // this._formData.fraud_sub_code = data.fraud_sub_code; 
 
-                this._formData.fraud_tactic_id =
-                    data.fraud_sub_code1?.fraud_tactic_code;
-                break;
+                    this._formData.fraud_tactic_id = data.fraud_sub_code1?.fraud_tactic_code;
+                    break;
 
-            case 2:
-                // ในฟังก์ชันนี้ต้องมั่นใจว่ามีการ overwrite fraud_sub_code ใหม่ถ้าจำเป็น
-                await this.handleFraudCode2(data);
-                break;
+                case 2:
+                    // ในฟังก์ชันนี้ต้องมั่นใจว่ามีการ overwrite fraud_sub_code ใหม่ถ้าจำเป็น
+                    await this.handleFraudCode2(data);
+                    break;
 
-            case 3:
-                await this.handleFraudCode3(data);
-                break;
+                case 3:
+                    await this.handleFraudCode3(data);
+                    break;
 
-            case 4:
-                await this.handleFraudCode4(data);
-                break;
+                case 4:
+                    await this.handleFraudCode4(data);
+                    break;
+            }
+        }else if (data.fraud_chanel === 5) {
+            this._formData.fraud_code = 5;
+            const subCode5 = data.fraud_sub_code5;
+            this._formData.fraud_sub_code = subCode5.fraud_sub_code;
+            if(subCode5.fraud_sub_code == 1){
+                this._formData.fraud_tactic_id = subCode5.ransomware_type;
+            } else if(subCode5.fraud_sub_code == 2){
+                this._formData.fraud_tactic_id = subCode5.sextortion_type;
+            } else if(subCode5.fraud_sub_code == 3){
+                this._formData.fraud_tactic_id = subCode5.threats_to_attack_type;
+            } else if(subCode5.fraud_sub_code == 4){
+                this._formData.fraud_tactic_id = subCode5.threats_to_exposing_information_type;
+            }
         }
     }
 
