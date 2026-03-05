@@ -345,6 +345,20 @@ export class IssueOnlineValidateNewComponent implements OnInit {
     this.maxBirthDate = this._date.SetDateDefault(0);
     this.loadDateBox = true;
     this.checkFraudCase(this.formCaseTypeNew?.fraud_code, this.formCaseTypeNew?.fraud_sub_code, this.formCaseTypeNew?.fraud_tactic_id);
+
+    // Filter and set default agency based on damage
+    const damage = Number(this.formDamageDetail?.TotalDamageValue?.toString().replace(/,/g, '') || 0);
+    if (damage > 1000000) {
+      if (this.formData.LOCATION_MAIN !== 2) {
+        this.formData.LOCATION_MAIN = 2;
+        this.OnSelectPoliceMain({ value: 2 }, null);
+      }
+    } else {
+      if (this.formData.LOCATION_MAIN === 2) {
+        this.formData.LOCATION_MAIN = null;
+        this.OnSelectPoliceMain({ value: null }, null);
+      }
+    }
   }
 
   loadPersonalData() {
@@ -945,6 +959,19 @@ export class IssueOnlineValidateNewComponent implements OnInit {
   getEvidenceDescription(id: string): string {
     const found = this.evidenceTypes.find(x => x.id === id);
     return found?.description ?? '';
+  }
+
+  get filteredAgencies() {
+    const damageValue = this.formDamageDetail?.TotalDamageValue ?
+      Number(this.formDamageDetail.TotalDamageValue.toString().replace(/,/g, '')) : 0;
+
+    if (damageValue > 1000000) {
+      // มากกว่า 1 ล้าน เลือกได้เฉพาะ สอท. (ID 2)
+      return this.radiocheckorganize.filter(x => x.ID === 2);
+    } else {
+      // ไม่เกิน 1 ล้าน เลือกได้เฉพาะ สถานีตำรวจ (ID 1) และ สอบสวนกลาง (ID 3)
+      return this.radiocheckorganize.filter(x => x.ID !== 2);
+    }
   }
 
   async onFilesSelected(e: any): Promise<void> {

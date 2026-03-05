@@ -308,7 +308,7 @@
                     </dxi-validation-rule>
                 </dxi-item>
                 <div *dxTemplate="let data of 'temp2'">
-                    <dx-radio-group id="police-main" #selectPoliceMain [dataSource]="radiocheckorganize"
+                    <dx-radio-group id="police-main" #selectPoliceMain [dataSource]="filteredAgencies"
                         displayExpr="TEXT" valueExpr="ID" searchExpr="TEXT" [searchEnabled]="true"
                         placeholder="หน่วยงานที่สะดวกไปพบ"
                         (onValueChanged)="OnSelectPoliceMain($event,selectPoliceMain)" [readOnly]="formReadOnly"
@@ -408,7 +408,8 @@
 
 <div class="content-header p-3 mb-0" *ngIf="formType === 'add' || formType === 'view'"> ช่องทางติดต่อครั้งแรก </div>
 <div class="content-block" *ngIf="hasChannelContact">
-    <app-issue-online-criminal-contact-info [dataForm]="formChannelContac" [formType]="'view'"></app-issue-online-criminal-contact-info>
+    <app-issue-online-criminal-contact-info [dataForm]="formChannelContac"
+        [formType]="'view'"></app-issue-online-criminal-contact-info>
 </div>
 
 <div class="content-header p-3 mb-0" *ngIf="formType === 'add' || formType === 'view'"> รายละเอียดความเสียหาย </div>
