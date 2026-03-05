@@ -40,6 +40,7 @@ export const environment = {
             secretKey: "6LeV1vQcAAAAAJzMmWwJqq76i_fQuflBIF5upGbB"
         },
         versionControl: "1.6808.25.1",
-        generateKey: "2P%fLStKBCkxG24#qU67HGDpwL2n2mHb"
+        generateKey: "2P%fLStKBCkxG24#qU67HGDpwL2n2mHb",
+        googleMapsApiKey: 'AIzaSyCN11r_-PIOjS9GQHJjoH6g2IhsnzyxcMw'
     }
 };
