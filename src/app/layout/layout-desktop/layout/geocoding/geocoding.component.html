@@ -1,0 +1,276 @@
+<div class="geocoding-container">
+    <div class="card">
+        <div class="card-header">
+            <i class="fas fa-map-marker-alt"></i>
+            <h2>ค้นหาตำแหน่ง (Geocoding)</h2>
+        </div>
+
+        <div class="card-body">
+            <!-- Address to LatLng -->
+            <div class="input-group">
+                <label for="address">ชื่อที่อยู่หรือสถานที่</label>
+                <div class="search-box">
+                    <dx-text-box id="address" [(value)]="address" placeholder="เช่น กรุงเทพมหานคร, สยามพารากอน..."
+                        (onEnterKey)="onGeocode()" [width]="'100%'">
+                    </dx-text-box>
+                    <dx-button text="ค้นหา" type="default" stylingMode="contained" [disabled]="loading"
+                        (onClick)="onGeocode()">
+                    </dx-button>
+                </div>
+            </div>
+
+            <div class="divider">หรือ</div>
+
+            <!-- LatLng to Address -->
+            <div class="coords-group">
+                <div class="input-field">
+                    <label for="lat">ละติจูด (Latitude)</label>
+                    <dx-number-box id="lat" [(value)]="lat" format="#0.0000" placeholder="เช่น 13.7563">
+                    </dx-number-box>
+                </div>
+                <div class="input-field">
+                    <label for="lng">ลองจิจูด (Longitude)</label>
+                    <dx-number-box id="lng" [(value)]="lng" format="#0.0000" placeholder="เช่น 100.5018">
+                    </dx-number-box>
+                </div>
+                <div class="btn-full-width">
+                    <dx-button text="แปลงพิกัดเป็นที่อยู่" type="normal" stylingMode="outline" [disabled]="loading"
+                        (onClick)="onReverseGeocode()" [width]="'100%'">
+                    </dx-button>
+                </div>
+            </div>
+
+            <!-- Map Display -->
+            <div class="map-wrapper">
+                <label class="map-label">จิ้มตำแหน่งจากแผนที่ (คลิกที่แผนที่หรือลากหมุด)</label>
+                <div #mapContainer class="map-canvas"></div>
+            </div>
+
+            <!-- Extracted Details Display -->
+            <div *ngIf="province" class="details-section">
+                <h3>ข้อมูลที่อยู่ที่สกัดได้:</h3>
+                <div class="details-grid">
+                    <div class="detail-item">
+                        <span class="label">ตำบล/แขวง:</span>
+                        <span class="value">{{ subDistrict || '-' }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">อำเภอ/เขต:</span>
+                        <span class="value">{{ district || '-' }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">จังหวัด:</span>
+                        <span class="value">{{ province || '-' }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">รหัสไปรษณีย์:</span>
+                        <span class="value">{{ postcode || '-' }}</span>
+                    </div>
+                    <div class="detail-item full-width" *ngIf="policeStation">
+                        <span class="label">สถานีตำรวจที่คาดว่ารับผิดชอบ:</span>
+                        <div class="police-station-badge mini">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>{{ policeStation }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="fill-buttons">
+                    <dx-button text="ลงที่สถานที่เกิดเหตุ" (onClick)="fillLocation('incident')"></dx-button>
+                    <dx-button text="ลงที่สถานที่โอนเงิน" (onClick)="fillLocation('transfer')"></dx-button>
+                    <dx-button text="ลงที่สาขาธนาคาร" (onClick)="fillLocation('bankBranch')"></dx-button>
+                </div>
+            </div>
+
+            <div class="divider">ข้อมูลสถานที่</div>
+
+            <div class="alert alert-info"
+                style="color: #0c5460; background-color: #d1ecf1; border-color: #bee5eb; padding: 10px; border-radius: 4px; margin-bottom: 20px;">
+                <i class="fas fa-info-circle mr-2"></i> <strong>หมายเหตุ:</strong> กรุณาระบุข้อมูลสถานที่อย่างน้อย 1
+                สถานที่ (สถานที่เกิดเหตุ, สถานที่โอนเงิน, หรือ สาขาธนาคาร)
+            </div>
+
+            <!-- Incident Location -->
+            <div class="location-form-section">
+                <div class="section-title">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>สถานที่เกิดเหตุ</span>
+                </div>
+                <div class="form-grid">
+                    <div class="input-field full-width">
+                        <label>รายละเอียดที่อยู่ (เลขที่บ้าน, ซอย, ถนน)</label>
+                        <dx-text-box [(value)]="incident.CASE_LOCATION_ADDRESS"
+                            (onValueChanged)="syncToFormData('incident')"
+                            placeholder="เช่น 123/4 หมู่ 5 ซอยสุขุมวิท..."></dx-text-box>
+                    </div>
+                    <div class="input-field">
+                        <label>จังหวัด</label>
+                        <dx-select-box [dataSource]="provincesList" displayExpr="PROVINCE_NAME_THA"
+                            valueExpr="PROVINCE_ID" [(value)]="incident.CASE_LOCATION_PROVINCE_ID"
+                            (onValueChanged)="onProvinceChange('incident', $event)" [searchEnabled]="true"
+                            placeholder="เลือกจังหวัด">
+                        </dx-select-box>
+                    </div>
+                    <div class="input-field">
+                        <label>อำเภอ/เขต</label>
+                        <dx-select-box [dataSource]="districtsList.incident" displayExpr="DISTRICT_NAME_THA"
+                            valueExpr="DISTRICT_ID" [(value)]="incident.CASE_LOCATION_DISTRICT_ID"
+                            (onValueChanged)="onDistrictChange('incident', $event)" [searchEnabled]="true"
+                            [disabled]="!incident.CASE_LOCATION_PROVINCE_ID" placeholder="เลือกอำเภอ">
+                        </dx-select-box>
+                    </div>
+                    <div class="input-field">
+                        <label>ตำบล/แขวง</label>
+                        <dx-select-box [dataSource]="subDistrictsList.incident" displayExpr="SUB_DISTRICT_NAME_THA"
+                            valueExpr="SUB_DISTRICT_ID" [(value)]="incident.CASE_LOCATION_SUB_DISTRICT_ID"
+                            (onValueChanged)="onSubDistrictChange('incident', $event)" [searchEnabled]="true"
+                            [disabled]="!incident.CASE_LOCATION_DISTRICT_ID" placeholder="เลือกตำบล">
+                        </dx-select-box>
+                    </div>
+                    <div class="input-field">
+                        <label>รหัสไปรษณีย์</label>
+                        <dx-select-box [dataSource]="postcodesList.incident" displayExpr="POSTCODE_CODE"
+                            valueExpr="POSTCODE_CODE" [(value)]="incident.CASE_LOCATION_POSTCODE"
+                            (onValueChanged)="syncToFormData('incident')" [searchEnabled]="true"
+                            [disabled]="!incident.CASE_LOCATION_SUB_DISTRICT_ID" placeholder="รหัสไปรษณีย์">
+                        </dx-select-box>
+                    </div>
+                    <div class="input-field full-width" *ngIf="incident.CASE_LOCATION_POLICE_STATION_NAME_THA">
+                        <label>สถานีตำรวจที่รับผิดชอบ</label>
+                        <div class="police-station-badge">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>{{ incident.CASE_LOCATION_POLICE_STATION_NAME_THA }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transfer Location -->
+            <div class="location-form-section mt-4">
+                <div class="section-title">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>สถานที่โอนเงิน</span>
+                </div>
+                <div class="form-grid">
+                    <div class="input-field full-width">
+                        <label>รายละเอียดที่อยู่ (เลขที่บ้าน, ซอย, ถนน)</label>
+                        <dx-text-box [(value)]="transfer.CASE_LOCATION_TRANSFER_CASE_INFORMER_ADDRESS"
+                            (onValueChanged)="syncToFormData('transfer')"
+                            placeholder="เช่น 123/4 หมู่ 5 ซอยสุขุมวิท..."></dx-text-box>
+                    </div>
+                    <div class="input-field">
+                        <label>จังหวัด</label>
+                        <dx-select-box [dataSource]="provincesList" displayExpr="PROVINCE_NAME_THA"
+                            valueExpr="PROVINCE_ID" [(value)]="transfer.CASE_LOCATION_TRANSFER_PROVINCE_ID"
+                            (onValueChanged)="onProvinceChange('transfer', $event)" [searchEnabled]="true"
+                            placeholder="เลือกจังหวัด">
+                        </dx-select-box>
+                    </div>
+                    <div class="input-field">
+                        <label>อำเภอ/เขต</label>
+                        <dx-select-box [dataSource]="districtsList.transfer" displayExpr="DISTRICT_NAME_THA"
+                            valueExpr="DISTRICT_ID" [(value)]="transfer.CASE_LOCATION_TRANSFER_DISTRICT_ID"
+                            (onValueChanged)="onDistrictChange('transfer', $event)" [searchEnabled]="true"
+                            [disabled]="!transfer.CASE_LOCATION_TRANSFER_PROVINCE_ID" placeholder="เลือกอำเภอ">
+                        </dx-select-box>
+                    </div>
+                    <div class="input-field">
+                        <label>ตำบล/แขวง</label>
+                        <dx-select-box [dataSource]="subDistrictsList.transfer" displayExpr="SUB_DISTRICT_NAME_THA"
+                            valueExpr="SUB_DISTRICT_ID" [(value)]="transfer.CASE_LOCATION_TRANSFER_SUB_DISTRICT_ID"
+                            (onValueChanged)="onSubDistrictChange('transfer', $event)" [searchEnabled]="true"
+                            [disabled]="!transfer.CASE_LOCATION_TRANSFER_DISTRICT_ID" placeholder="เลือกตำบล">
+                        </dx-select-box>
+                    </div>
+                    <div class="input-field">
+                        <label>รหัสไปรษณีย์</label>
+                        <dx-select-box [dataSource]="postcodesList.transfer" displayExpr="POSTCODE_CODE"
+                            valueExpr="POSTCODE_CODE" [(value)]="transfer.CASE_LOCATION_TRANSFER_POSTCODE"
+                            (onValueChanged)="syncToFormData('transfer')" [searchEnabled]="true"
+                            [disabled]="!transfer.CASE_LOCATION_TRANSFER_SUB_DISTRICT_ID" placeholder="รหัสไปรษณีย์">
+                        </dx-select-box>
+                    </div>
+                    <div class="input-field full-width" *ngIf="transfer.CASE_LOCATION_TRANSFER_POLICE_STATION_NAME_THA">
+                        <label>สถานีตำรวจที่รับผิดชอบ</label>
+                        <div class="police-station-badge">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>{{ transfer.CASE_LOCATION_TRANSFER_POLICE_STATION_NAME_THA }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bank Branch -->
+            <div class="location-form-section mt-4">
+                <div class="section-title">
+                    <i class="fas fa-university"></i>
+                    <span>ธนาคารสาขาที่เปิดบัญชี</span>
+                </div>
+                <div class="form-grid">
+                    <div class="input-field full-width">
+                        <label>รายละเอียดที่อยู่ (เลขที่บ้าน, ซอย, ถนน)</label>
+                        <dx-text-box [(value)]="bankBranch.CASE_LOCATION_BANK_BRANCH_ADDRESS"
+                            (onValueChanged)="syncToFormData('bankBranch')"
+                            placeholder="เช่น 123/4 หมู่ 5 ซอยสุขุมวิท..."></dx-text-box>
+                    </div>
+                    <div class="input-field">
+                        <label>จังหวัด</label>
+                        <dx-select-box [dataSource]="provincesList" displayExpr="PROVINCE_NAME_THA"
+                            valueExpr="PROVINCE_ID" [(value)]="bankBranch.CASE_LOCATION_BANK_BRANCH_PROVINCE_ID"
+                            (onValueChanged)="onProvinceChange('bankBranch', $event)" [searchEnabled]="true"
+                            placeholder="เลือกจังหวัด">
+                        </dx-select-box>
+                    </div>
+                    <div class="input-field">
+                        <label>อำเภอ/เขต</label>
+                        <dx-select-box [dataSource]="districtsList.bankBranch" displayExpr="DISTRICT_NAME_THA"
+                            valueExpr="DISTRICT_ID" [(value)]="bankBranch.CASE_LOCATION_BANK_BRANCH_DISTRICT_ID"
+                            (onValueChanged)="onDistrictChange('bankBranch', $event)" [searchEnabled]="true"
+                            [disabled]="!bankBranch.CASE_LOCATION_BANK_BRANCH_PROVINCE_ID" placeholder="เลือกอำเภอ">
+                        </dx-select-box>
+                    </div>
+                    <div class="input-field">
+                        <label>ตำบล/แขวง</label>
+                        <dx-select-box [dataSource]="subDistrictsList.bankBranch" displayExpr="SUB_DISTRICT_NAME_THA"
+                            valueExpr="SUB_DISTRICT_ID" [(value)]="bankBranch.CASE_LOCATION_BANK_BRANCH_SUB_DISTRICT_ID"
+                            (onValueChanged)="onSubDistrictChange('bankBranch', $event)" [searchEnabled]="true"
+                            [disabled]="!bankBranch.CASE_LOCATION_BANK_BRANCH_DISTRICT_ID" placeholder="เลือกตำบล">
+                        </dx-select-box>
+                    </div>
+                    <div class="input-field">
+                        <label>รหัสไปรษณีย์</label>
+                        <dx-select-box [dataSource]="postcodesList.bankBranch" displayExpr="POSTCODE_CODE"
+                            valueExpr="POSTCODE_CODE" [(value)]="bankBranch.CASE_LOCATION_BANK_BRANCH_POSTCODE"
+                            (onValueChanged)="syncToFormData('bankBranch')" [searchEnabled]="true"
+                            [disabled]="!bankBranch.CASE_LOCATION_BANK_BRANCH_SUB_DISTRICT_ID"
+                            placeholder="รหัสไปรษณีย์">
+                        </dx-select-box>
+                    </div>
+                    <div class="input-field full-width"
+                        *ngIf="bankBranch.CASE_LOCATION_BANK_BRANCH_POLICE_STATION_NAME_THA">
+                        <label>สถานีตำรวจที่รับผิดชอบ</label>
+                        <div class="police-station-badge">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>{{ bankBranch.CASE_LOCATION_BANK_BRANCH_POLICE_STATION_NAME_THA }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="error" class="error-message">
+                {{ error }}
+            </div>
+
+            <!-- <div *ngIf="results.length > 0" class="results-list">
+                <h3>ผลลัพธ์การค้นหา:</h3>
+                <ul>
+                    <li *ngFor="let res of results" (click)="selectResult(res)">
+                        <div class="res-address">{{ res.formatted_address }}</div>
+                        <div class="res-coords">
+                            {{ res.geometry.location.lat() }}, {{ res.geometry.location.lng() }}
+                        </div>
+                    </li>
+                </ul>
+            </div> -->
+        </div>
+    </div>
+</div>

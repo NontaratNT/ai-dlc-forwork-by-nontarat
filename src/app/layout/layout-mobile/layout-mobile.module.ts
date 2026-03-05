@@ -83,6 +83,7 @@ import { CaseTypeNewContainerComponent } from './component/page/RequestReport/is
 import { IssueOnlineDamageNewComponent } from './component/page/RequestReport/issue-online-container/issue-online-damage-new/issue-online-damage-new.component';
 import { IssueOnlineValidateNewComponent } from './component/page/RequestReport/issue-online-container/issue-online-validate-new/issue-online-validate-new.component';
 import { IssueOnlineCriminalContactInfoNewComponent } from './component/page/RequestReport/issue-online-container/issue-online-criminal-contact-info-new/issue-online-criminal-contact-info-new.component';
+import { GeocodingModule } from '../layout-desktop/layout/geocoding/geocoding.module';
 import { SearchNewCaseTypeMobileComponent } from "./component/page/RequestReport/issue-online-container/search-new-case-type-mobile/search-new-case-type-mobile.component";
 import { FormioModule } from "@formio/angular";
 
@@ -164,6 +165,7 @@ import { FormioModule } from "@formio/angular";
         AngularResizedEventModule,
         DxButtonGroupModule,
         LayoutDesktopModule,
+        GeocodingModule,
         NgxExtendedPdfViewerModule,
         FormsModule,
         FormioModule

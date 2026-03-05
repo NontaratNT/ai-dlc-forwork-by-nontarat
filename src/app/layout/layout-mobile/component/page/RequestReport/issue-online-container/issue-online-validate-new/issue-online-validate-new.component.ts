@@ -224,7 +224,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
   maxSizeBuffer = 0;
 
 
-  formData: any = {};
+  formData: any = { LOCATION: {} };
   Attachment: any[] = [];
   formCaseTypeNew: any = {};
   formChannelContac: any = {};
@@ -249,6 +249,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
   };
   orgUnitsNewWalkin: any;
   isLoading: boolean = false;
+  recommendedStations: any[] = [];
 
   checkboxaddresscard = false;
 
@@ -353,7 +354,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
 
     // Filter and set default agency based on damage
     const damage = Number(this.formDamageDetail?.TotalDamageValue?.toString().replace(/,/g, '') || 0);
-    if (damage > 1000000) {
+    if (damage >= 1000000) {
       if (this.formData.LOCATION_MAIN !== 2) {
         this.formData.LOCATION_MAIN = 2;
         this.OnSelectPoliceMain({ value: 2 }, null);
@@ -686,7 +687,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
       if (data) {
         this.formData.ORG_PROVINCE_ID_CCIB_WALKIN_ID = data.PROVINCE_ID;
         this.formData.ORG_PROVINCE_CCIB_WALKIN_NAME = data.PROVINCE_NAME_THA;
-        const orgValue = this.provinceResponsibility.filter((r) => r.province_id === data.PROVINCE_ID);
+        const orgValue = this.provinceResponsibility.filter((r) => r.province_id == data.PROVINCE_ID);
         this.orgUnitsNewWalkin = this.orgUnits.filter((r) => r.org_id === orgValue[0]?.org_id);
         this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID = orgValue[0]?.org_id;
         this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
@@ -970,7 +971,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
     const damageValue = this.formDamageDetail?.TotalDamageValue ?
       Number(this.formDamageDetail.TotalDamageValue.toString().replace(/,/g, '')) : 0;
 
-    if (damageValue > 1000000) {
+    if (damageValue >= 1000000) {
       // มากกว่า 1 ล้าน เลือกได้เฉพาะ สอท. (ID 2)
       return this.radiocheckorganize.filter(x => x.ID === 2);
     } else {
@@ -1216,6 +1217,107 @@ export class IssueOnlineValidateNewComponent implements OnInit {
     console.log(`Input: ${fId}, ${fSubId}, ${fTatic} => Result Case Type: ${this.resultCaseTypeId}`);
   }
 
+  OnGeocodingStationSelected(stations: any) {
+    if (!stations) return;
+  
+    const formDamage = JSON.parse(localStorage.getItem('form-damage') || '{}');
+    const totalDamage = Number(formDamage?.TotalDamageValue?.toString().replace(/,/g, '') || 0);
+    this.recommendedStations = [];
+    const addedOrgIds = new Set<number>();
+  
+    // Helper to add unique recommendation
+    const addRecommendation = (org: any, typeLabel: string, type: number, isIncident: boolean = false) => {
+      const orgId = org.ORGANIZE_ID || org.org_id;
+      const orgName = org.ORGANIZE_ABBR_THA || org.ORGANIZE_NAME_THA || org.org_name;
+  
+      if (!orgId || addedOrgIds.has(orgId)) return;
+      
+      const rec = {
+        ID: type,
+        TYPE: type,
+        ORG_ID: orgId,
+        NAME: orgName,
+        LOCATION_DETAIL: typeLabel,
+        IS_RECOMMENDED: isIncident
+      };
+      
+      this.recommendedStations.push(rec);
+      addedOrgIds.add(orgId);
+  
+      // Auto-select if it's the incident station (priority)
+      if (isIncident) {
+        this.onStationRecommendationSelect(rec);
+      }
+    };
+    console.log(totalDamage);
+    // 1. Incident Station (Priority)
+    if (totalDamage >= 1000000) {
+      // High Damage -> Recommend CCIB based on all locations
+      const prov1 = this.formData.LOCATION?.CASE_LOCATION_PROVINCE_ID;
+      const ccib1 = this.provinceResponsibility.find(p => p.province_id == prov1);
+      if (ccib1) {
+        addRecommendation(ccib1, "หน่วยงานที่รับผิดชอบเฉพาะด้านอาชญากรรมทางเทคโนโลยี (แนะนำตามความเสียหาย > 1 ล้านบาท - พื้นที่เกิดเหตุ)", 2, true);
+      } else if (stations.incident) {
+        addRecommendation(stations.incident, "สถานีตำรวจท้องที่ (ตามพื้นที่เกิดเหตุ)", 1, true);
+      }
+  
+      const prov2 = this.formData.LOCATION?.CASE_LOCATION_TRANSFER_PROVINCE_ID;
+      const ccib2 = this.provinceResponsibility.find(p => p.province_id == prov2);
+      if (ccib2) {
+        addRecommendation(ccib2, "หน่วยงานที่รับผิดชอบเฉพาะด้านอาชญากรรมทางเทคโนโลยี (แนะนำตามความเสียหาย > 1 ล้านบาท - สถานที่โอนเงิน)", 2, false);
+      } else if (stations.transfer) {
+        addRecommendation(stations.transfer, "สถานีตำรวจท้องที่ (ตามสถานที่โอนเงิน)", 1, false);
+      }
+  
+      const prov3 = this.formData.LOCATION?.CASE_LOCATION_BANK_BRANCH_PROVINCE_ID;
+      const ccib3 = this.provinceResponsibility.find(p => p.province_id == prov3);
+      if (ccib3) {
+        addRecommendation(ccib3, "หน่วยงานที่รับผิดชอบเฉพาะด้านอาชญากรรมทางเทคโนโลยี (แนะนำตามความเสียหาย > 1 ล้านบาท - สาขาธนาคารที่เปิดบัญชี)", 2, false);
+      } else if (stations.bankBranch) {
+        addRecommendation(stations.bankBranch, "สถานีตำรวจท้องที่ (ตามธนาคารสาขาที่เปิดบัญชี)", 1, false);
+      }
+  
+    } else {
+      // Normal Damage -> Recommend Local Stations
+      if (stations.incident) {
+        addRecommendation(stations.incident, "สถานีตำรวจท้องที่ (ตามพื้นที่เกิดเหตุ)", 1, true);
+      }
+      if (stations.transfer) {
+        addRecommendation(stations.transfer, "สถานีตำรวจท้องที่ (ตามสถานที่โอนเงิน)", 1, false);
+      }
+      if (stations.bankBranch) {
+        addRecommendation(stations.bankBranch, "สถานีตำรวจท้องที่ (ตามธนาคารสาขาที่เปิดบัญชี)", 1, false);
+      }
+    }
+  }
+  
+  onStationRecommendationSelect(item: any) {
+    if (!item) return;
+  
+    this.formData.LOCATION_MAIN = item.ID;
+    this.formData.ORG_LOCATION_WALKIN_TYPE = item.TYPE;
+    this.formData.WALKIN_POLICE_STATION_ID = item.ORG_ID;
+    this.formData.ORG_LOCATION_ID = item.ORG_ID;
+    this.formData.WALKIN_POLICE_STATION = item.NAME;
+  
+    const incidentProvinceId = this.formData.LOCATION.CASE_LOCATION_PROVINCE_ID || this.formData.LOCATION.CASE_LOCATION_PROVINCE_ID || this.formData.LOCATION.CASE_LOCATION_PROVINCE_ID;
+  
+    if (item.TYPE === 2) {
+      // CCIB - Update specific fields
+      this.formData.ORG_PROVINCE_ID_CCIB_WALKIN_ID = incidentProvinceId;
+      this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID = item.ORG_ID;
+      this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_NAME = item.NAME;
+      this.orgUnitsNewWalkin = this.orgUnits.filter((r) => r.org_id === item.ORG_ID);
+    } else if (item.TYPE === 1) {
+      // Local Station - Update specific fields
+      this.formData.ORG_PROVINCE_OFFICER_ID = incidentProvinceId;
+      if (incidentProvinceId) {
+        this._OrgService.getorgProvince(incidentProvinceId).subscribe((_) => {
+          this.dswalkinstatuspolice = _;
+        });
+      }
+    }
+  }
 
 
 }

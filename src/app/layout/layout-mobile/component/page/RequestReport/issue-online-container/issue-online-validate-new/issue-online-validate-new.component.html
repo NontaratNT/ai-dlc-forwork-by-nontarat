@@ -297,109 +297,64 @@
     </div>
 </div>
 
+<div class="content-header p-3 mb-0" *ngIf="formType === 'add' || formType === 'view'"> สถานที่เกิดเหตุ </div>
+<div class="content-block">
+    <app-geocoding [formData]="formData.LOCATION" [formType]="'add'"
+        (onStationSelected)="OnGeocodingStationSelected($event)"></app-geocoding>
+</div>
+
 <div class="content-header p-3 mb-0"> หน่วยงานที่สะดวกไปพบ </div>
 <div class="content-block">
     <div class="form-box">
         <div class="content-form">
-            <dx-form #formAgency [colCount]="3" labelLocation="top">
-                <dxi-item template="temp2" [isRequired]="formValidate" [colSpan]="2">
-                    <dxo-label text="หน่วยงานที่สะดวกไปพบ" [showColon]="false"></dxo-label>
-                    <dxi-validation-rule type="required" message="กรุณาเลือกหน่วยงานที่สะดวกไปพบ">
-                    </dxi-validation-rule>
-                </dxi-item>
-                <div *dxTemplate="let data of 'temp2'">
-                    <dx-radio-group id="police-main" #selectPoliceMain [dataSource]="filteredAgencies"
-                        displayExpr="TEXT" valueExpr="ID" searchExpr="TEXT" [searchEnabled]="true"
-                        placeholder="หน่วยงานที่สะดวกไปพบ"
-                        (onValueChanged)="OnSelectPoliceMain($event,selectPoliceMain)" [readOnly]="formReadOnly"
-                        [(value)]="formData.LOCATION_MAIN" [showClearButton]="true">
-                    </dx-radio-group>
-                </div>
-            </dx-form>
-            <dx-form #formInformertype1 [colCount]="3" labelLocation="top" *ngIf="formData.LOCATION_MAIN  === 1">
-                <dxi-item [colSpan]="3">
-                    <p style="color:red;">หากทราบชื่อสถานีตำรวจสามารถพิมพ์ชื่อค้นหาได้ ถ้าไม่ทราบให้เลือก จังหวัด อำเภอ
-                        เพื่อกรองหน่วยงาน</p>
-                </dxi-item>
-                <dxi-item template="temp2" [colSpan]="2" [isRequired]="formData.LOCATION_MAIN  === 1">
-                    <dxo-label text="จังหวัด" [showColon]="false">
-                    </dxo-label>
-                    <dxi-validation-rule type="required" message="กรุณาเลือกจังหวัด">
-                    </dxi-validation-rule>
-                </dxi-item>
-                <div *dxTemplate="let data of 'temp2'">
-                    <dx-select-box #selectPresentProvicelocationwalkin [dataSource]="province"
-                        displayExpr="PROVINCE_NAME_THA" valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA"
-                        [searchEnabled]="true" placeholder="จังหวัด" [showClearButton]="true"
-                        (onValueChanged)="OnSelectProvicePresentlocationWalkin($event,selectPresentProvicelocationwalkin)"
-                        [readOnly]="formReadOnly" [(value)]="formData.ORG_PROVINCE_OFFICER_ID">
-                    </dx-select-box>
-                </div>
-                <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
+            <div *ngIf="recommendedStations.length > 0; else noRecommendation">
+                <p class="mb-3 text-primary"><i class="dx-icon-info"></i>
+                    ระบบแนะนำหน่วยงานรับผิดชอบตามข้อมูลสถานที่เกิดเหตุและมูลค่าความเสียหาย</p>
+                <div class="recommendation-list">
+                    <div *ngFor="let item of recommendedStations" (click)="onStationRecommendationSelect(item)"
+                        class="recommendation-item p-3 mb-2 border rounded d-flex align-items-center justify-content-between"
+                        [style.cursor]="'pointer'"
+                        [style.background-color]="formData.WALKIN_POLICE_STATION_ID === item.ORG_ID ? '#f0faff' : 'white'"
+                        [style.border-color]="formData.WALKIN_POLICE_STATION_ID === item.ORG_ID ? '#007bff' : '#ddd'">
 
-                <dxi-item template="inviteOrg" [colSpan]="2" [isRequired]="formData.LOCATION_MAIN  === 1">
-                    <dxo-label text="ชื่อสถานี" [showColon]="false">
-                    </dxo-label>
-                    <dxi-validation-rule type="required" message="กรุณาระบุชื่อสถานี">
-                    </dxi-validation-rule>
-                </dxi-item>
-                <div *dxTemplate="let data of 'inviteOrg'">
-                    <dx-select-box #selectorgwalkin [readOnly]="formReadOnly" [dataSource]="dswalkinstatuspolice"
-                        displayExpr="ORGANIZE_NAME_THA" valueExpr="ORGANIZE_NAME_THA" searchExpr="ORGANIZE_NAME_THA"
-                        placeholder="ชื่อสถานี" [searchEnabled]="true" [showClearButton]="true"
-                        (onValueChanged)="Onorglocationwalkin($event,selectorgwalkin)"
-                        [(value)]="formData.WALKIN_POLICE_STATION">
-                    </dx-select-box>
-                </div>
-                <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
-            </dx-form>
-            <dx-form #formInformertype2 [colCount]="2" labelLocation="top" *ngIf="formData.LOCATION_MAIN === 2">
-                <dxi-item template="temp2" [colSpan]="2" [isRequired]="formData.LOCATION_MAIN  ===  2">
-                    <dxo-label text="จังหวัด" [showColon]="false">
-                    </dxo-label>
-                    <dxi-validation-rule type="required" message="กรุณาเลือกจังหวัด">
-                    </dxi-validation-rule>
-                </dxi-item>
-                <div *dxTemplate="let data of 'temp2'">
-                    <dx-select-box #selectWalkinProvince [dataSource]="province" displayExpr="PROVINCE_NAME_THA"
-                        valueExpr="PROVINCE_ID" searchExpr="PROVINCE_NAME_THA" [searchEnabled]="true"
-                        placeholder="จังหวัด" [showClearButton]="true"
-                        (onValueChanged)="OnSelectProviceCCIBWalkin($event,selectWalkinProvince)"
-                        [readOnly]="formReadOnly" [(value)]="formData.ORG_PROVINCE_ID_CCIB_WALKIN_ID">
-                    </dx-select-box>
-                </div>
-                <dxi-item template="selectorgmainw" [colSpan]="2"
-                    *ngIf="formData?.ORG_PROVINCE_ID_CCIB_WALKIN_ID"></dxi-item>
-                <div *dxTemplate="let data of 'selectorgmainw'" style="margin-left:10%;" class="custom-ratiow">
-                    <dx-radio-group #selectorgmainw [readOnly]="formReadOnly" [dataSource]="orgUnitsNewWalkin"
-                        layout="horizontal" valueExpr="org_id" displayExpr="org_name"
-                        [value]="formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID"
-                        (onValueChanged)="onvaluechangeorgmainwalkin($event)">
-                        <div *dxTemplate="let data of 'item'">
-                            <div class="row main-content">
-                                <div class="col-md-4"><b>{{ data.org_name }}</b></div>
-                            </div>
-                            <div *ngFor="let location of data.org_locations; let i = index" class="row sub-content">
-                                <div class="col-md-2 offset-md-1 location" *ngIf="i === 0"><b>ที่ตั้ง</b></div>
-                                <div class="col-md-2 offset-md-1" *ngIf="i > 0"></div>
-                                <div class="col-md-9">{{ location }}</div>
-                            </div>
-                            <div class="row location-detail mt-2">
-                                <div class="col-md-2 offset-md-1"><b>รายละเอียด</b></div>
-                                <div class="col-md-9">
-                                    <span [innerHTML]="data.location_detail"></span>
+                        <div class="d-flex align-items-center">
+                            <i *ngIf="formData.WALKIN_POLICE_STATION_ID === item.ORG_ID"
+                                class="dx-icon-check text-primary mr-3" style="font-size: 1.2rem;"></i>
+                            <div *ngIf="formData.WALKIN_POLICE_STATION_ID !== item.ORG_ID" class="mr-4"
+                                style="width: 1.2rem;"></div>
+                            <div>
+                                <div class="font-weight-bold" style="font-size: 1.1rem;">
+                                    {{ item.NAME }}
+                                    <span *ngIf="item.IS_RECOMMENDED" class="ml-2 badge badge-pill badge-success"
+                                        style="font-size: 0.7rem;">แนะนำ</span>
                                 </div>
+                                <div class="text-muted small">{{ item.LOCATION_DETAIL }}</div>
                             </div>
                         </div>
-                    </dx-radio-group>
 
-                    <dxi-validation-rule type="required" message="กรุณาเลือกข้อมูล หน่วยงานที่สะดวกไปพบเจ้าหน้าที่">
-                    </dxi-validation-rule>
+                        <dx-button icon="chevronright" stylingMode="text"
+                            *ngIf="formData.WALKIN_POLICE_STATION_ID !== item.ORG_ID"></dx-button>
+                    </div>
                 </div>
-            </dx-form>
+            </div>
+
+            <ng-template #noRecommendation>
+                <div class="text-center p-5 border rounded bg-light">
+                    <i class="dx-icon-map text-muted" style="font-size: 3rem; display: block; margin-bottom: 15px;"></i>
+                    <h5 class="text-muted">โปรดระบุสถานที่เกิดเหตุในส่วนด้านบน</h5>
+                    <p class="text-muted small">
+                        ระบบจะแนะนำหน่วยงานที่รับผิดชอบให้คุณโดยอัตโนมัติหลังจากระบุข้อมูลสถานที่</p>
+                </div>
+            </ng-template>
+
+            <!-- Error message if not selected on submit -->
+            <div *ngIf="formValidate && !formData.WALKIN_POLICE_STATION_ID" class="mt-2 text-danger small">
+                * กรุณาเลือกหน่วยงานที่สะดวกไปพบ (โดยระบุสถานที่เกิดเหตุก่อน)
+            </div>
         </div>
     </div>
 </div>
+
 
 <div class="content-header p-3 mb-0" *ngIf="formType === 'add' || formType === 'view'"> รูปแบบการหลอกลวง </div>
 <div class="content-block" *ngIf="hasCaseTypeNew">

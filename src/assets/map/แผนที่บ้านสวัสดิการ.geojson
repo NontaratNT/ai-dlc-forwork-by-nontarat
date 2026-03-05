@@ -1,0 +1,10 @@
+{
+"type": "FeatureCollection",
+"name": "aephnthiibaanswasdikaar",
+"features": [
+{ "type": "Feature", "properties": { "Name": "Golden Town3 Rama2" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 100.3736137, 13.5914484, 0.0 ] ] } },
+{ "type": "Feature", "properties": { "Name": "โกลเด้น ทาวน์ ชัยพฤกษ์ วงแหวน" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 100.3214709, 13.9835639, 0.0 ] ] } },
+{ "type": "Feature", "properties": { "Name": "โกลเด้น ทาวน์ วิภาวดี-รังสิต" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 100.6281884, 14.0126948, 0.0 ] ] } },
+{ "type": "Feature", "properties": { "Name": "โกลเด้น ทาวน์ ๒ ศรีนครินทร์-สุขุมวิท" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 100.6374201, 13.5929364, 0.0 ] ] } }
+]
+}

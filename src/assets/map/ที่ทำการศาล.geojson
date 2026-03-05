@@ -1,0 +1,20 @@
+{
+"type": "FeatureCollection",
+"name": "thiithamkaarsaal",
+"features": [
+{ "type": "Feature", "properties": { "Name": "ศาลอาญา" }, "geometry": { "type": "Point", "coordinates": [ 100.5749496, 13.8162724, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "ศาลอาญากรุงเทพใต้" }, "geometry": { "type": "Point", "coordinates": [ 100.5148079, 13.7135978, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "ศาลจังหวัดตลิ่งชัน" }, "geometry": { "type": "Point", "coordinates": [ 100.429254, 13.79749, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "ศาลอาญา ธนบุรี" }, "geometry": { "type": "Point", "coordinates": [ 100.4460275, 13.6862691, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "ศาลจังหวัดพระโขนง" }, "geometry": { "type": "Point", "coordinates": [ 100.592633, 13.675626, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "ศาลจังหวัด มีนบุรี" }, "geometry": { "type": "Point", "coordinates": [ 100.7324784, 13.8142527, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "ศาลแขวงดุสิต" }, "geometry": { "type": "Point", "coordinates": [ 100.5082079, 13.7854702, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "ศาลแขวงดอนเมือง" }, "geometry": { "type": "Point", "coordinates": [ 100.5654528, 13.8893426, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "ศาลแขวงพระนครใต้" }, "geometry": { "type": "Point", "coordinates": [ 100.5070975, 13.7080351, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "ศาลแขวงธนบุรี" }, "geometry": { "type": "Point", "coordinates": [ 100.4453617, 13.6863322, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "ศาลแขวงปทุมวัน" }, "geometry": { "type": "Point", "coordinates": [ 100.5202018, 13.7358999, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "ศาลแขวงพระนครเหนือ" }, "geometry": { "type": "Point", "coordinates": [ 100.5745345, 13.8112763, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "ศาลเยาวชนและครอบครัวกลาง" }, "geometry": { "type": "Point", "coordinates": [ 100.5409059, 13.7989932, 0.0 ] } },
+{ "type": "Feature", "properties": { "Name": "ศาลเยาวชนและครอบครัวกลางมีนบุรี" }, "geometry": { "type": "Point", "coordinates": [ 100.732317, 13.814504, 0.0 ] } }
+]
+}

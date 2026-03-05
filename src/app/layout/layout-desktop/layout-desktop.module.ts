@@ -95,6 +95,7 @@ import { IssueOnlineDamageNewComponent } from './components/issue-online-contain
 import { IssueOnlineValidateNewComponent } from './components/issue-online-container/issue-online-validate-new/issue-online-validate-new.component';
 import { CaseOnlineNewTypeListComponent } from "./components/issue-online-container/case-online-new-type-list/case-online-new-type-list.component";
 import { SearchNewCaseTypeComponent } from './components/issue-online-container/search-new-case-type/search-new-case-type.component';
+import { GeocodingModule } from './layout/geocoding/geocoding.module';
 
 
 const customNotifierOptions: NotifierOptions = {
@@ -231,6 +232,7 @@ const customNotifierOptions: NotifierOptions = {
         DxToolbarModule,
         AngularResizedEventModule,
         FormsModule,
+        GeocodingModule,
         NgxExtendedPdfViewerModule,
         NotifierModule.withConfig(customNotifierOptions),
 FormioModule

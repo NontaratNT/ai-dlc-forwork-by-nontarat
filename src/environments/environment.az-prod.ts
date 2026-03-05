@@ -62,7 +62,7 @@ export const environment = {
         },
         versionControl: "1.6808.25.1",
         generateKey: "2P%fLStKBCkxG24#qU67HGDpwL2n2mHb",
-        googleMapsApiKey: 'AIzaSyCN11r_-PIOjS9GQHJjoH6g2IhsnzyxcMw'
+        googleMapsApiKey: 'AIzaSyBW_6xwVrNiap6U9lihktQ1HT_TiJocVFo'
     }
 };
 
