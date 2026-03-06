@@ -1,5 +1,7 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, Input, Output, EventEmitter, OnDestroy, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { DistrictService } from 'src/app/services/district.service';
 import { GoogleMapsService } from 'src/app/services/google-map/google-maps.service';
 import { OrgService } from 'src/app/services/org.service';
@@ -11,18 +13,33 @@ import { SubdistrictService } from 'src/app/services/subdistrict.service';
   templateUrl: './geocoding.component.html',
   styleUrls: ['./geocoding.component.scss']
 })
-export class GeocodingComponent implements OnInit, AfterViewInit {
+export class GeocodingComponent implements OnInit, AfterViewInit, OnDestroy {
+  // ==========================================
+  // 0. COMPONENT PROPERTIES & STATE
+  // ==========================================
+
   @ViewChild('mapContainer') mapContainer!: ElementRef;
   @Input() formData: any;
   @Input() formType: string;
   @Output() onStationSelected = new EventEmitter<any>();
-  
+
+
+  // Cache and Subjects
+  private mapClickSubject = new Subject<{ lat: number, lng: number }>();
+  private mapClickSubscription!: Subscription;
+  private geocodeCache = new Map<string, any[]>();
+  private reverseGeocodeCache = new Map<string, any[]>();
+
   address: string = '';
   lat: number = 13.7563;
   lng: number = 100.5018;
   results: google.maps.GeocoderResult[] = [];
   loading: boolean = false;
   error: string | null = null;
+
+  // To avoid automatic Geocoding Quota usage, defer Map Load until user explicitly requests
+  isMapVisible: boolean = false;
+
 
   // Extracted Address Components
   subDistrict: string = '';
@@ -37,8 +54,9 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
   districtsList: any = { incident: [], transfer: [], bankBranch: [] };
   subDistrictsList: any = { incident: [], transfer: [], bankBranch: [] };
   postcodesList: any = { incident: [], transfer: [], bankBranch: [] };
-  policeStationsList: any[] = [];
+  @Input() policeStationsList: any[] = [];
   policeStationGeoJson: any = null;
+  tambonPoliceStations: any[] = [];
 
   // New Location Fields
   incident: any = {
@@ -124,7 +142,7 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
       stationName: 'CASE_LOCATION_BANK_BRANCH_POLICE_STATION_NAME_THA'
     }
   };
-  
+
   provinceResponsibility = [
     { province: "กรุงเทพมหานคร", org_name: "บก.สอท.1", org_id: 3536, province_id: 10 },
     { province: "นนทบุรี", org_name: "บก.สอท.2", org_id: 3548, province_id: 12 },
@@ -211,18 +229,65 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
     private provinceService: ProvinceService,
     private districtService: DistrictService,
     private subDistrictService: SubdistrictService,
-    private http: HttpClient
+    private http: HttpClient,
+    private ngZone: NgZone
   ) { }
+
+  // =========================================================================
+  // ZONE: Lifecycle Hooks & Initialization
+  // =========================================================================
 
   ngOnInit(): void {
     this.http.get('assets/map/ขอบเขต สน..geojson').subscribe((res: any) => {
       this.policeStationGeoJson = res;
     });
 
+    this.http.get('assets/data/police-station-tambon.json').subscribe((res: any) => {
+      this.tambonPoliceStations = res;
+    });
+
     this.loadProvinces();
     this.loadPoliceStations();
     this.initFromFormData();
+
+    this.mapClickSubscription = this.mapClickSubject.pipe(
+      debounceTime(800)
+    ).subscribe(pos => {
+      this.lat = pos.lat;
+      this.lng = pos.lng;
+      this.executeReverseGeocode(pos.lat, pos.lng);
+    });
   }
+
+  loadProvinces() {
+    console.log('Loading provinces...');
+    this.provinceService.GetProvince().subscribe(
+      res => {
+        // console.log('Provinces response:', res);
+        this.provincesList = res;
+        // console.log('Provinces list assigned:', this.provincesList);
+      },
+      err => {
+        console.error('Error loading provinces:', err);
+      }
+    );
+  }
+
+  loadPoliceStations() {
+    this.orgService.getorgwalkinall().subscribe(res => {
+      this.policeStationsList = res;
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.mapClickSubscription) {
+      this.mapClickSubscription.unsubscribe();
+    }
+  }
+
+  // =========================================================================
+  // ZONE: Data Fetching & Form Binding
+  // =========================================================================
 
   initFromFormData() {
     if (!this.formData) return;
@@ -238,33 +303,30 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
           target[formKey] = this.formData[formKey];
         }
       });
-    });
-  }
 
-  loadProvinces() {
-    console.log('Loading provinces...');
-    this.provinceService.GetProvince().subscribe(
-      res => {
-        console.log('Provinces response:', res);
-        this.provincesList = res || res || res;
-        console.log('Provinces list assigned:', this.provincesList);
-      },
-      err => {
-        console.error('Error loading provinces:', err);
+      // Load related dropdown data for existing values
+      if (target[mapping.provinceId]) {
+        this.onProvinceChange(type, { value: target[mapping.provinceId] });
       }
-    );
-  }
-
-  loadPoliceStations() {
-    this.orgService.getorgwalkinall().subscribe(res => {
-      this.policeStationsList = res;
+      if (target[mapping.districtId]) {
+        this.onDistrictChange(type, { value: target[mapping.districtId] });
+      }
+      if (target[mapping.subDistrictId]) {
+        this.onSubDistrictChange(type, { value: target[mapping.subDistrictId] }, true);
+      }
     });
   }
+
+
+
+  // =========================================================================
+  // ZONE: Dropdown Events (Province, District, SubDistrict)
+  // =========================================================================
 
   onProvinceChange(type: string, event: any) {
     const provinceId = event.value;
     if (!provinceId) return;
-    
+
     const target = (this as any)[type];
     const mapping = this.locationMappings[type];
 
@@ -276,7 +338,7 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
       target[mapping.postcode] = '';
       this.subDistrictsList[type] = [];
       this.postcodesList[type] = [];
-  
+
       // Map Province Name
       const prov = this.provincesList.find((p: any) => p.PROVINCE_ID === provinceId);
       if (prov) {
@@ -303,7 +365,7 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
       target[mapping.postcode] = '';
       this.subDistrictsList[type] = [];
       this.postcodesList[type] = [];
-  
+
       // Map District Name
       const dist = this.districtsList[type].find((d: any) => d.DISTRICT_ID === districtId);
       if (dist) {
@@ -321,7 +383,8 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
     // --- New Form Smart Calculation ---
     // Check damage to determine if it should be CCIB or Local Station
     const formDamage = JSON.parse(localStorage.getItem('form-damage') || '{}');
-    const totalDamage = Number(formDamage?.TotalDamageValue?.toString().replace(/,/g, '') || 0);
+    const rawDamage = formDamage?.TotalDamageValue ?? '';
+    const totalDamage = Number(rawDamage.toString().replace(/,/g, '') || 0);
     const provinceId = target[mapping.provinceId];
 
     let station = null;
@@ -331,46 +394,86 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
       console.log('Damage > 1M: Mapping to CCIB unit');
       const ccibMatch = this.provinceResponsibility.find(r => r.province_id == provinceId);
       if (ccibMatch) {
-         station = this.policeStationsList.find(s => s.ORGANIZE_ID === ccibMatch.org_id);
+        station = this.policeStationsList.find(s => s.ORGANIZE_ID === ccibMatch.org_id);
       }
     } else {
       // Rule: Damage <= 1M -> Map to local police station by district
       console.log('Damage <= 1M: Mapping to local police station');
-      station = this.policeStationsList.find((s: any) => 
+      station = this.policeStationsList.find((s: any) =>
         (s.ORGANIZE_ADDRESS_DISRICT == districtId || s.ORGANIZE_ADDRESS_DISTRICT == districtId) &&
         (s.ORGANIZE_NAME_THA?.includes('สภ.') || s.ORGANIZE_NAME_THA?.includes('สน.') || s.ORGANIZE_NAME_THA?.includes('สถานีตำรวจ'))
       );
-      
-      // Fallback 1: match by ID without strict name prefix
-      if (!station) {
-        station = this.policeStationsList.find((s: any) => 
-          s.ORGANIZE_ADDRESS_DISRICT == districtId || s.ORGANIZE_ADDRESS_DISTRICT == districtId
-        );
-      }
 
-      // Fallback 2: String matching for Bangkok and others (e.g., district "บางรัก" -> "สน.บางรัก")
+      // Fallback 1: Map District Name directly with ORGANIZE_ABBR_THA
       if (!station && target[mapping.districtName]) {
         const cleanDistName = target[mapping.districtName].replace('เขต', '').replace('อำเภอ', '').trim();
-        station = this.policeStationsList.find((s: any) => 
-          s.ORGANIZE_NAME_THA?.includes(cleanDistName) && 
-          (s.ORGANIZE_ADDRESS_PROVINCE == provinceId || s.PROVINCE_ID == provinceId)
+
+        console.log('cleanDistName', cleanDistName);
+        console.log('target[mapping.districtName]', target[mapping.districtName]);
+
+        // 1.1 Try EXACT exact match (e.g. "บางรัก" == "บางรัก", "สน.บางรัก" == "สน.บางรัก")
+        station = this.policeStationsList.find((s: any) =>
+          (s.ORGANIZE_ABBR_THA === target[mapping.districtName] || s.ORGANIZE_ABBR_THA === `สภ.${cleanDistName}` || s.ORGANIZE_ABBR_THA === `สน.${cleanDistName}`)
+        );
+
+        // 1.2 Try Includes match
+        if (!station) {
+          station = this.policeStationsList.find((s: any) =>
+            s.ORGANIZE_ABBR_THA?.includes(cleanDistName) &&
+            (s.ORGANIZE_NAME_THA?.includes('สน.') || s.ORGANIZE_NAME_THA?.includes('สภ.') || s.ORGANIZE_NAME_THA?.includes('สถานีตำรวจ'))
+          );
+        }
+
+        // 1.3 Try without province match
+        if (!station) {
+          station = this.policeStationsList.find((s: any) =>
+            s.ORGANIZE_ABBR_THA?.includes(cleanDistName) &&
+            (s.ORGANIZE_NAME_THA?.includes('สน.') || s.ORGANIZE_NAME_THA?.includes('สถานีตำรวจนครบาล') || s.ORGANIZE_NAME_THA?.includes('สถานีตำรวจภูธร'))
+          );
+        }
+      }
+
+      // Fallback 2: match by ID without strict name prefix (least priority to avoid picking non-police units)
+      if (!station) {
+        station = this.policeStationsList.find((s: any) =>
+          s.ORGANIZE_ADDRESS_DISRICT == districtId || s.ORGANIZE_ADDRESS_DISTRICT == districtId
         );
       }
     }
 
     if (station) {
       target[mapping.stationId] = station.ORGANIZE_ID;
-      target[mapping.stationName] = station.ORGANIZE_ABBR_THA || station.ORGANIZE_NAME_THA;
-      
+      const abbr = station.ORGANIZE_ABBR_THA?.trim();
+      target[mapping.stationName] = abbr ? abbr : station.ORGANIZE_NAME_THA;
+
       this.stations[type] = station;
       this.onStationSelected.emit(this.stations);
+      this.syncToFormData(type);
     } else {
-      target[mapping.stationId] = null;
-      target[mapping.stationName] = 'ไม่พบข้อมูลสถานีที่ดูแลพื้นที่นี้';
-      this.stations[type] = null;
-      this.onStationSelected.emit(this.stations);
+      // If we couldn't find a station and this is Bangkok, trigger map lookup
+      if (provinceId == 10) {
+        const addressQuery = `${target[mapping.districtName]} กรุงเทพมหานคร`;
+        const cacheKey = addressQuery.trim().toLowerCase();
+        if (this.geocodeCache.has(cacheKey)) {
+          console.log('[Cache Hit] No API quota used for district fallback.');
+          this.applyGeoJsonStationFallback(type, this.geocodeCache.get(cacheKey)!);
+        } else {
+          console.warn(`[Google Maps API] ⚠️ Geocoding request sent. Quota consumed. Reason: Searching station by district in Bangkok (${addressQuery})`);
+          this.googleMapsService.geocode(addressQuery).subscribe(results => {
+            if (results.length > 0) {
+              this.geocodeCache.set(cacheKey, results);
+              this.applyGeoJsonStationFallback(type, results);
+            }
+          });
+        }
+      } else {
+        target[mapping.stationId] = null;
+        target[mapping.stationName] = 'ไม่พบข้อมูลสถานีที่ดูแลพื้นที่นี้';
+        this.stations[type] = null;
+        this.onStationSelected.emit(this.stations);
+        this.syncToFormData(type);
+      }
     }
-    this.syncToFormData(type);
   }
 
   onSubDistrictChange(type: string, event: any, skipGeocode: boolean = false) {
@@ -386,7 +489,7 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
     const mapping = this.locationMappings[type];
 
     target[mapping.subDistrictId] = subDistrictId;
-    
+
     // Map Sub-District Name
     const sd = this.subDistrictsList[type].find((s: any) => s.SUB_DISTRICT_ID === subDistrictId);
     if (sd) {
@@ -405,44 +508,188 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
       }
       this.syncToFormData(type);
 
-      // Note: Coordinate-based station lookup from dropdown selection was removed
-      // to conserve Google Maps geocoding API quota.
-      // Police station matching will now rely on district-level matching
-      // from onDistrictChange(), or exact GeoJSON matching when users 
-      // explicitly click/pin a location on the map.
+      // --- New Logic: Pinpoint Station by Sub-District ---
+      // For districts with multiple police stations, checking sub-district provides a more accurate mapping
+      let subStation = null;
+      if (!skipGeocode) {
+        const formDamage = JSON.parse(localStorage.getItem('form-damage') || '{}');
+        const rawDamage = formDamage?.TotalDamageValue ?? '';
+        const totalDamage = Number(rawDamage.toString().replace(/,/g, '') || 0);
 
+        // Only override local station mapping if damage < 1M (not CCIB)
+        if (totalDamage < 1000000) {
+          const sdName = target[mapping.subDistrictName] || '';
+
+          // 1. First, try to find from the JSON asset we created
+          if (sdName && this.tambonPoliceStations.length > 0) {
+            const possibleMappings = this.tambonPoliceStations.filter(d =>
+              d.province === target[mapping.provinceName]?.replace('จังหวัด', '').trim() &&
+              d.tambons.some((t: string) => sdName.includes(t) || t.includes(sdName))
+            );
+
+            if (possibleMappings.length > 0) {
+              // เนื่องจากชื่อตำบลอาจซ้ำกันในหลายอำเภอ เราจึงดับเบิ้ลเช็คว่าสถานีที่ได้ อยู่ในอำเภอที่เราเลือกหรือไม่
+              for (const pMapping of possibleMappings) {
+                const matchedStation = this.policeStationsList.find((s: any) =>
+                  s.ORGANIZE_NAME_THA?.includes(pMapping.station) &&
+                  s.ORGANIZE_ADDRESS_DISRICT == target[mapping.districtId]
+                );
+                if (matchedStation) {
+                  subStation = matchedStation;
+                  break; // เจอสถานีที่อยู่ในอำเภอเดียวกันแล้ว
+                }
+              }
+
+              // ถ้าหาแบบเช็คอำเภอไม่เจอ (อาจจะครอบคลุมข้ามอำเภอ) ค่อยหยิบตัวที่แมตช์ตัวแรกมาใช้
+              if (!subStation) {
+                subStation = this.policeStationsList.find((s: any) =>
+                  s.ORGANIZE_NAME_THA?.includes(possibleMappings[0].station)
+                );
+              }
+            }
+          }
+
+          // 2. ถ้าหลุดจาก JSON ให้ถอยกลับไปยึดสถานีหลักประจำอำเภอ (District) เป็นที่ตั้ง
+          if (!subStation) {
+            subStation = this.policeStationsList.find((s: any) =>
+              s.ORGANIZE_ADDRESS_DISRICT == target[mapping.districtId] &&
+              (s.ORGANIZE_NAME_THA?.includes('สภ.') || s.ORGANIZE_NAME_THA?.includes('สน.') || s.ORGANIZE_NAME_THA?.includes('สถานีตำรวจ'))
+            );
+
+            // ถ้ายังไม่ได้อีก ให้เอาอะไรก็ได้ในอำเภอนั้น
+            if (!subStation) {
+              subStation = this.policeStationsList.find((s: any) =>
+                s.ORGANIZE_ADDRESS_DISRICT == target[mapping.districtId]
+              );
+            }
+          }
+
+          if (subStation) {
+            target[mapping.stationId] = subStation.ORGANIZE_ID;
+            const abbr = subStation.ORGANIZE_ABBR_THA?.trim();
+            target[mapping.stationName] = abbr ? abbr : subStation.ORGANIZE_NAME_THA;
+            this.stations[type] = subStation;
+            this.onStationSelected.emit(this.stations);
+            this.syncToFormData(type);
+          }
+        }
+      }
+
+      // Coordinate-based station lookup from dropdown selection:
+      // Executed ONLY for Bangkok (Province ID 10) to conserve Geocoding API quota,
+      // and only if local sub-district matching failed.
+      if (!subStation && !skipGeocode && target[mapping.provinceId] == 10 && target[mapping.districtName]) {
+        const addressQuery = `${target[mapping.subDistrictName] ? target[mapping.subDistrictName] + ' ' : ''}${target[mapping.districtName]} กรุงเทพมหานคร`;
+
+        // Use geocodeCache to minimize redundant lookups
+        const cacheKey = addressQuery.trim().toLowerCase();
+        if (this.geocodeCache.has(cacheKey)) {
+          console.log('[Cache Hit] No API quota used for sub-district fallback.');
+          this.applyGeoJsonStationFallback(type, this.geocodeCache.get(cacheKey)!);
+        } else {
+          console.warn(`[Google Maps API] ⚠️ Geocoding request sent. Quota consumed. Reason: Searching station by sub-district in Bangkok (${addressQuery})`);
+          this.googleMapsService.geocode(addressQuery).subscribe(results => {
+            if (results.length > 0) {
+              this.geocodeCache.set(cacheKey, results);
+              this.applyGeoJsonStationFallback(type, results);
+            }
+          });
+        }
+      }
     });
   }
 
+  private applyGeoJsonStationFallback(type: string, results: google.maps.GeocoderResult[]) {
+    if (results.length === 0) return;
+
+    const target = (this as any)[type];
+    const mapping = this.locationMappings[type];
+
+    const loc = results[0].geometry.location;
+    const lat = typeof loc.lat === 'function' ? loc.lat() : (loc as any).lat;
+    const lng = typeof loc.lng === 'function' ? loc.lng() : (loc as any).lng;
+
+    const geoFeature = this.findStationFromGeoJson(lat, lng);
+    if (geoFeature && geoFeature.properties && geoFeature.properties.Name) {
+      const geoName = geoFeature.properties.Name.replace('ที่ตั้ง ', '').trim();
+      const cleanGeoName = geoName.replace('สน.', '').replace('สภ.', '').replace('ส.รฟ.', '').trim();
+
+      let targetStation = this.policeStationsList.find((s: any) =>
+        s.ORGANIZE_NAME_THA === geoName ||
+        s.ORGANIZE_ABBR_THA === geoName ||
+        (s.ORGANIZE_NAME_THA && cleanGeoName && s.ORGANIZE_NAME_THA.includes(cleanGeoName))
+      );
+
+      if (!targetStation) {
+        targetStation = {
+          ORGANIZE_ID: null,
+          ORGANIZE_NAME_THA: geoName,
+          ORGANIZE_ABBR_THA: geoName
+        };
+      }
+
+      target[mapping.stationId] = targetStation.ORGANIZE_ID;
+      const abbr = targetStation.ORGANIZE_ABBR_THA?.trim();
+      target[mapping.stationName] = abbr ? abbr : targetStation.ORGANIZE_NAME_THA;
+
+      this.stations[type] = targetStation;
+      this.onStationSelected.emit(this.stations);
+      this.syncToFormData(type);
+    }
+  }
+
+  // =========================================================================
+  // ZONE: Map & Geocoding Core Operations
+  // =========================================================================
+
   ngAfterViewInit(): void {
-    const defaultPos = { lat: this.lat, lng: this.lng };
-    this.googleMapsService.initMap(this.mapContainer.nativeElement, defaultPos).subscribe(() => {
-      this.googleMapsService.loadGeoJson('assets/map/ขอบเขต สน..geojson');
-      this.googleMapsService.onMapClick((lat, lng) => {
-        this.lat = lat;
-        this.lng = lng;
-        this.onReverseGeocode();
+    // Map initialization is now deferred to showMap() to save Quota
+  }
+
+  showMap() {
+    this.isMapVisible = true;
+
+    // We must wait for Angular to render the #mapContainer if we use *ngIf
+    // A simple setTimeout with 0 ms is enough for the DOM to update.
+    setTimeout(() => {
+      const defaultPos = { lat: this.lat, lng: this.lng };
+      this.ngZone.runOutsideAngular(() => {
+        this.googleMapsService.initMap(this.mapContainer.nativeElement, defaultPos).subscribe(() => {
+          this.googleMapsService.loadGeoJson('assets/map/ขอบเขต สน..geojson');
+          this.googleMapsService.onMapClick((lat, lng) => {
+            this.ngZone.run(() => {
+              this.mapClickSubject.next({ lat, lng });
+            });
+          });
+        });
       });
-    });
+    }, 0);
   }
 
   onGeocode() {
+    // Ensure map is visible before placing a pin
+    if (!this.isMapVisible && this.address) {
+      this.showMap();
+    }
+
     if (!this.address) return;
-    
+
+    // Clean up address for cache key
+    const cacheKey = this.address.trim().toLowerCase();
+    if (this.geocodeCache.has(cacheKey)) {
+      this.handleGeocodeResults(this.geocodeCache.get(cacheKey)!);
+      return;
+    }
+
     this.loading = true;
     this.error = null;
     this.results = [];
-    
+
+    console.warn(`[Google Maps API] ⚠️ Geocoding request sent. Quota consumed. Reason: Searching from textual address (${this.address})`);
     this.googleMapsService.geocode(this.address).subscribe(
       (results) => {
-        this.results = results;
-        if (results.length > 0) {
-          const loc = results[0].geometry.location;
-          this.lat = loc.lat();
-          this.lng = loc.lng();
-          this.googleMapsService.setMarkerPosition(this.lat, this.lng);
-          this.parseAddressComponents(results[0].address_components);
-        }
+        this.geocodeCache.set(cacheKey, results);
+        this.handleGeocodeResults(results);
         this.loading = false;
       },
       (err) => {
@@ -453,21 +700,43 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
     );
   }
 
+  private handleGeocodeResults(results: google.maps.GeocoderResult[]) {
+    this.results = results;
+    if (results.length > 0) {
+      const loc = results[0].geometry.location;
+      this.lat = typeof loc.lat === 'function' ? loc.lat() : (loc as any).lat;
+      this.lng = typeof loc.lng === 'function' ? loc.lng() : (loc as any).lng;
+      this.googleMapsService.setMarkerPosition(this.lat, this.lng);
+      this.parseAddressComponents(results[0].address_components);
+    }
+  }
+
   onReverseGeocode() {
     if (this.lat === null || this.lng === null) return;
+
+    if (!this.isMapVisible) {
+      this.showMap();
+    }
+
+    this.executeReverseGeocode(this.lat, this.lng);
+  }
+
+  private executeReverseGeocode(lat: number, lng: number) {
+    const cacheKey = `${lat.toFixed(4)},${lng.toFixed(4)}`; // Cache by ~11 meters accuracy
+    if (this.reverseGeocodeCache.has(cacheKey)) {
+      this.handleReverseGeocodeResults(this.reverseGeocodeCache.get(cacheKey)!);
+      return;
+    }
 
     this.loading = true;
     this.error = null;
     this.results = [];
 
-    this.googleMapsService.reverseGeocode(this.lat, this.lng).subscribe(
+    console.warn(`[Google Maps API] ⚠️ Reverse Geocoding request sent. Quota consumed. Reason: Clicking on map or translating coordinates (${lat}, ${lng})`);
+    this.googleMapsService.reverseGeocode(lat, lng).subscribe(
       (results) => {
-        this.results = results;
-        if (results.length > 0) {
-          this.address = results[0].formatted_address;
-          this.googleMapsService.setMarkerPosition(this.lat, this.lng);
-          this.parseAddressComponents(results[0].address_components);
-        }
+        this.reverseGeocodeCache.set(cacheKey, results);
+        this.handleReverseGeocodeResults(results);
         this.loading = false;
       },
       (err) => {
@@ -478,6 +747,15 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
     );
   }
 
+  private handleReverseGeocodeResults(results: google.maps.GeocoderResult[]) {
+    this.results = results;
+    if (results.length > 0) {
+      this.address = results[0].formatted_address;
+      this.googleMapsService.setMarkerPosition(this.lat, this.lng);
+      this.parseAddressComponents(results[0].address_components);
+    }
+  }
+
   selectResult(result: google.maps.GeocoderResult) {
     const loc = result.geometry.location;
     this.lat = loc.lat();
@@ -486,6 +764,10 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
     this.googleMapsService.setMarkerPosition(this.lat, this.lng);
     this.parseAddressComponents(result.address_components);
   }
+
+  // =========================================================================
+  // ZONE: Address Parsing & Auto-Fill Forms
+  // =========================================================================
 
   parseAddressComponents(components: google.maps.GeocoderAddressComponent[]) {
     this.subDistrict = '';
@@ -571,11 +853,11 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
     // Note: Matching police station by name in summary is omitted 
     // because ORGANIZE_ADDRESS_SUB_DISTRICT is an ID.
     // Station will be shown after using "Fill Location" or manual selection.
-    this.policeStation = ''; 
+    this.policeStation = '';
     const geoFeature = this.findStationFromGeoJson(this.lat, this.lng);
     if (geoFeature && geoFeature.properties && geoFeature.properties.Name) {
       this.policeStation = geoFeature.properties.Name;
-    } 
+    }
 
     this.fullAddressDetails = {
       subDistrict: this.subDistrict,
@@ -589,6 +871,10 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
 
     console.log('Extracted Details:', this.fullAddressDetails);
   }
+
+  // =========================================================================
+  // ZONE: Main "Fill Location" Buttons & Handlers
+  // =========================================================================
 
   fillLocation(type: 'incident' | 'transfer' | 'bankBranch') {
     const target = (this as any)[type];
@@ -613,12 +899,12 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
     if (prov) {
       target[mapping.provinceId] = prov.PROVINCE_ID;
       target[mapping.provinceName] = prov.PROVINCE_NAME_THA;
-      
+
       // 2. Load and Match District
       this.provinceService.GetDistrictofProvince(prov.PROVINCE_ID).subscribe(res => {
         const districts = res;
         this.districtsList[type] = districts;
-        
+
         if (this.district) {
           const cDist = this.district.replace(/\s+/g, '');
           const dist = districts.find((d: any) => {
@@ -626,14 +912,15 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
             const c1 = d.DISTRICT_NAME_THA.replace(/\s+/g, '');
             return c1.includes(cDist) || cDist.includes(c1);
           });
-          
+
           if (dist) {
             target[mapping.districtId] = dist.DISTRICT_ID;
             target[mapping.districtName] = dist.DISTRICT_NAME_THA;
 
             // --- New Form Smart Calculation ---
             const formDamage = JSON.parse(localStorage.getItem('form-damage') || '{}');
-            const totalDamage = Number(formDamage?.TotalDamageValue?.toString().replace(/,/g, '') || 0);
+            const rawDamage = formDamage?.TotalDamageValue ?? '';
+            const totalDamage = Number(rawDamage.toString().replace(/,/g, '') || 0);
             const provinceId = target[mapping.provinceId];
             let targetStation = null;
 
@@ -650,51 +937,86 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
               if (geoFeature && geoFeature.properties && geoFeature.properties.Name) {
                 const geoName = geoFeature.properties.Name.replace('ที่ตั้ง ', '').trim();
                 const cleanGeoName = geoName.replace('สน.', '').replace('สภ.', '').replace('ส.รฟ.', '').trim();
-                targetStation = this.policeStationsList.find((s: any) => 
-                  s.ORGANIZE_NAME_THA === geoName || 
+
+                // Also search directly by exact prefix-stripped name vs abbreviation OR exact name match completely
+                targetStation = this.policeStationsList.find((s: any) =>
+                  s.ORGANIZE_NAME_THA === geoName ||
                   s.ORGANIZE_ABBR_THA === geoName ||
                   (s.ORGANIZE_NAME_THA && cleanGeoName && s.ORGANIZE_NAME_THA.includes(cleanGeoName))
                 );
+
+                // If we STILL don't find a matching station in database by GeoJSON name,
+                // we'll explicitly just construct a mock-up object so it maps back gracefully
+                if (!targetStation) {
+                  targetStation = {
+                    ORGANIZE_ID: null,
+                    ORGANIZE_NAME_THA: geoName,
+                    ORGANIZE_ABBR_THA: geoName
+                  };
+                }
               }
             }
-            
+
             // Fallback: Use standard local matching by district
             if (!targetStation) {
-              targetStation = this.policeStationsList.find((s: any) => 
+              targetStation = this.policeStationsList.find((s: any) =>
                 (s.ORGANIZE_ADDRESS_DISRICT == dist.DISTRICT_ID || s.ORGANIZE_ADDRESS_DISTRICT == dist.DISTRICT_ID) &&
                 (s.ORGANIZE_NAME_THA?.includes('สภ.') || s.ORGANIZE_NAME_THA?.includes('สน.') || s.ORGANIZE_NAME_THA?.includes('สถานีตำรวจ'))
               );
-              if (!targetStation) {
-                targetStation = this.policeStationsList.find((s: any) => 
-                  s.ORGANIZE_ADDRESS_DISRICT == dist.DISTRICT_ID || s.ORGANIZE_ADDRESS_DISTRICT == dist.DISTRICT_ID
-                );
-              }
-              // Fallback String matching for Bangkok and others
+              // Fallback String matching for Bangkok and others mapped directly against ORGANIZE_ABBR_THA
               if (!targetStation && target[mapping.districtName]) {
                 const cleanDistName = target[mapping.districtName].replace('เขต', '').replace('อำเภอ', '').trim();
-                targetStation = this.policeStationsList.find((s: any) => 
-                  s.ORGANIZE_NAME_THA?.includes(cleanDistName) && 
-                  (s.ORGANIZE_ADDRESS_PROVINCE == provinceId || s.PROVINCE_ID == provinceId)
+
+                // 1.1 Try EXACT exact match first
+                targetStation = this.policeStationsList.find((s: any) =>
+                  (s.ORGANIZE_ABBR_THA === target[mapping.districtName] || s.ORGANIZE_ABBR_THA === `สภ.${cleanDistName}` || s.ORGANIZE_ABBR_THA === `สน.${cleanDistName}`) &&
+                  (s.ORGANIZE_ADDRESS_PROVINCE == provinceId)
+                );
+
+                // 1.2 Using includes with province match
+                if (!targetStation) {
+                  targetStation = this.policeStationsList.find((s: any) =>
+                    s.ORGANIZE_ABBR_THA?.includes(cleanDistName) &&
+                    (s.ORGANIZE_NAME_THA?.includes('สน.') || s.ORGANIZE_NAME_THA?.includes('สภ.') || s.ORGANIZE_NAME_THA?.includes('สถานีตำรวจ')) &&
+                    (s.ORGANIZE_ADDRESS_PROVINCE == provinceId)
+                  );
+                }
+
+                // 1.3 Using includes without province match
+                if (!targetStation) {
+                  targetStation = this.policeStationsList.find((s: any) =>
+                    s.ORGANIZE_ABBR_THA?.includes(cleanDistName) &&
+                    (s.ORGANIZE_NAME_THA?.includes('สน.') || s.ORGANIZE_NAME_THA?.includes('สถานีตำรวจนครบาล') || s.ORGANIZE_NAME_THA?.includes('สถานีตำรวจภูธร'))
+                  );
+                }
+              }
+
+              if (!targetStation) {
+                targetStation = this.policeStationsList.find((s: any) =>
+                  s.ORGANIZE_ADDRESS_DISRICT == dist.DISTRICT_ID || s.ORGANIZE_ADDRESS_DISTRICT == dist.DISTRICT_ID
                 );
               }
             }
 
             if (targetStation) {
               target[mapping.stationId] = targetStation.ORGANIZE_ID;
-              target[mapping.stationName] = targetStation.ORGANIZE_ABBR_THA || targetStation.ORGANIZE_NAME_THA;
-              
+              const abbr = targetStation.ORGANIZE_ABBR_THA?.trim();
+              target[mapping.stationName] = abbr ? abbr : targetStation.ORGANIZE_NAME_THA;
+
               this.stations[type] = targetStation;
               this.onStationSelected.emit(this.stations);
             } else {
+              target[mapping.stationId] = null;
+              target[mapping.stationName] = 'ไม่พบข้อมูลสถานีที่ดูแลพื้นที่นี้';
               this.stations[type] = null;
               this.onStationSelected.emit(this.stations);
             }
-            
+
             // 3. Load and Match Sub-District
             this.districtService.GetSubDistrictOfDistrict(dist.DISTRICT_ID).subscribe(res => {
               const subDistricts = res;
               this.subDistrictsList[type] = subDistricts;
-              
+
               if (this.subDistrict) {
                 const subDist = subDistricts.find((sd: any) => {
                   if (!sd.SUB_DISTRICT_NAME_THA) return false;
@@ -702,7 +1024,7 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
                   const c2 = this.subDistrict.replace(/\s+/g, '');
                   return c1.includes(c2) || c2.includes(c1);
                 });
-                
+
                 if (subDist) {
                   target[mapping.subDistrictId] = subDist.SUB_DISTRICT_ID;
                   target[mapping.subDistrictName] = subDist.SUB_DISTRICT_NAME_THA;
@@ -731,25 +1053,29 @@ export class GeocodingComponent implements OnInit, AfterViewInit {
     if (!this.formData) return;
     const target = (this as any)[type];
     const mapping = this.locationMappings[type];
-    
+
     Object.keys(mapping).forEach(key => {
       const formKey = mapping[key];
       this.formData[formKey] = target[formKey];
     });
-    
+
     console.log(`Synced ${type} to formData:`, this.formData);
   }
 
+  // =========================================================================
+  // ZONE: GeoJSON Matching (Point in Polygon)
+  // =========================================================================
+
   // --- GeoJSON logic --- //
-  private isPointInPolygon(point: {lat: number, lng: number}, polygon: number[][][]) {
+  private isPointInPolygon(point: { lat: number, lng: number }, polygon: number[][][]) {
     const coordinates = polygon[0]; // outer ring
     let x = point.lng, y = point.lat;
     let inside = false;
     for (let i = 0, j = coordinates.length - 1; i < coordinates.length; j = i++) {
-        let xi = coordinates[i][0], yi = coordinates[i][1];
-        let xj = coordinates[j][0], yj = coordinates[j][1];
-        let intersect = ((yi > y) != (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
-        if (intersect) inside = !inside;
+      let xi = coordinates[i][0], yi = coordinates[i][1];
+      let xj = coordinates[j][0], yj = coordinates[j][1];
+      let intersect = ((yi > y) != (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+      if (intersect) inside = !inside;
     }
     return inside;
   }

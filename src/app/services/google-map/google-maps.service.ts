@@ -28,9 +28,9 @@ export class GoogleMapsService {
     if (this.geocoder) {
       return of(this.geocoder);
     }
-    
-    // Using loader.importLibrary to load the geocoding library
-    return from(this.loader.importLibrary('geocoding')).pipe(
+
+    // Using loader.load() to load the Maps API
+    return from(this.loader.load()).pipe(
       map(() => {
         this.geocoder = new google.maps.Geocoder();
         this.isLoaded = true;
@@ -40,8 +40,7 @@ export class GoogleMapsService {
   }
 
   initMap(mapElement: HTMLElement, center: { lat: number, lng: number }): Observable<google.maps.Map> {
-    return from(this.loader.importLibrary('maps')).pipe(
-      mergeMap(() => from(this.loader.importLibrary('marker'))),
+    return from(this.loader.load()).pipe(
       map(() => {
         const options: google.maps.MapOptions = {
           center: center,

@@ -10,12 +10,19 @@
             <div class="input-group">
                 <label for="address">ชื่อที่อยู่หรือสถานที่</label>
                 <div class="search-box">
-                    <dx-text-box id="address" [(value)]="address" placeholder="เช่น กรุงเทพมหานคร, สยามพารากอน..."
-                        (onEnterKey)="onGeocode()" [width]="'100%'">
-                    </dx-text-box>
+                    <dx-text-area id="address" [(value)]="address" placeholder="เช่น กรุงเทพมหานคร, สยามพารากอน..."
+                        (onEnterKey)="onGeocode()" [width]="'100%'" height="80">
+                    </dx-text-area>
                     <dx-button text="ค้นหา" type="default" stylingMode="contained" [disabled]="loading"
                         (onClick)="onGeocode()">
                     </dx-button>
+                </div>
+                <div class="alert alert-info mt-3"
+                    style="color: #0c5460; background-color: #d1ecf1; border-color: #bee5eb; padding: 10px; border-radius: 4px; font-size: 0.9em; line-height: 1.4;">
+                    <i class="fas fa-info-circle mr-2"></i> <strong>คำแนะนำ:</strong>
+                    สามารถค้นหาสถานที่ใกล้เคียงแล้วปักหมุด จากนั้นกดเลือกปุ่มสถานที่ที่ท่านต้องการ
+                    <br> ในส่วนของ รายละเอียดที่อยู่ (เลขที่บ้าน, ซอย, ถนน) สามารถแก้ไขทีหลังได้
+                    จะได้สถานีที่ใกล้เคียงได้
                 </div>
             </div>
 
@@ -41,9 +48,16 @@
             </div>
 
             <!-- Map Display -->
-            <div class="map-wrapper">
+            <div class="map-wrapper text-center">
                 <label class="map-label">จิ้มตำแหน่งจากแผนที่ (คลิกที่แผนที่หรือลากหมุด)</label>
-                <div #mapContainer class="map-canvas"></div>
+
+                <div *ngIf="!isMapVisible" class="my-4 my-2">
+                    <dx-button icon="map" text="เปิดใช้งานแผนที่ (เพื่อระบุละติจูด-ลองจิจูด)" type="success"
+                        stylingMode="contained" (onClick)="showMap()">
+                    </dx-button>
+                </div>
+
+                <div *ngIf="isMapVisible" #mapContainer class="map-canvas"></div>
             </div>
 
             <!-- Extracted Details Display -->
