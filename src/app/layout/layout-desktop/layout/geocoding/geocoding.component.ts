@@ -51,9 +51,9 @@ export class GeocodingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // Master Data
   provincesList: any[] = [];
-  districtsList: any = { incident: [], transfer: [], bankBranch: [] };
-  subDistrictsList: any = { incident: [], transfer: [], bankBranch: [] };
-  postcodesList: any = { incident: [], transfer: [], bankBranch: [] };
+  districtsList: any = { incident: [], transfer: [], bankBranch: [], other: [] };
+  subDistrictsList: any = { incident: [], transfer: [], bankBranch: [], other: [] };
+  postcodesList: any = { incident: [], transfer: [], bankBranch: [], other: [] };
   @Input() policeStationsList: any[] = [];
   policeStationGeoJson: any = null;
   tambonPoliceStations: any[] = [];
@@ -98,10 +98,25 @@ export class GeocodingComponent implements OnInit, AfterViewInit, OnDestroy {
     CASE_LOCATION_BANK_BRANCH_POLICE_STATION_NAME_THA: ''
   };
 
+  other: any = {
+    CASE_LOCATION_OTHER_ADDRESS: '',
+    CASE_LOCATION_OTHER_PROVINCE_ID: null,
+    CASE_LOCATION_OTHER_DISTRICT_ID: null,
+    CASE_LOCATION_OTHER_SUB_DISTRICT_ID: null,
+    CASE_LOCATION_OTHER_POSTCODE: '',
+    CASE_LOCATION_OTHER_POLICE_STATION_ID: null,
+    CASE_LOCATION_OTHER_PROVINCE_NAME_THA: '',
+    CASE_LOCATION_OTHER_DISTRICT_NAME_THA: '',
+    CASE_LOCATION_OTHER_SUB_DISTRICT_NAME_THA: '',
+    CASE_LOCATION_OTHER_POLICE_STATION_NAME_THA: '',
+    CASE_LOCATION_OTHER_ABOUT: ''
+  };
+
   stations: any = {
     incident: null,
     transfer: null,
-    bankBranch: null
+    bankBranch: null,
+    other: null
   };
 
   locationMappings: any = {
@@ -140,6 +155,19 @@ export class GeocodingComponent implements OnInit, AfterViewInit, OnDestroy {
       postcode: 'CASE_LOCATION_BANK_BRANCH_POSTCODE',
       stationId: 'CASE_LOCATION_BANK_BRANCH_POLICE_STATION_ID',
       stationName: 'CASE_LOCATION_BANK_BRANCH_POLICE_STATION_NAME_THA'
+    },
+    other: {
+      address: 'CASE_LOCATION_OTHER_ADDRESS',
+      provinceId: 'CASE_LOCATION_OTHER_PROVINCE_ID',
+      provinceName: 'CASE_LOCATION_OTHER_PROVINCE_NAME_THA',
+      districtId: 'CASE_LOCATION_OTHER_DISTRICT_ID',
+      districtName: 'CASE_LOCATION_OTHER_DISTRICT_NAME_THA',
+      subDistrictId: 'CASE_LOCATION_OTHER_SUB_DISTRICT_ID',
+      subDistrictName: 'CASE_LOCATION_OTHER_SUB_DISTRICT_NAME_THA',
+      postcode: 'CASE_LOCATION_OTHER_POSTCODE',
+      stationId: 'CASE_LOCATION_OTHER_POLICE_STATION_ID',
+      stationName: 'CASE_LOCATION_OTHER_POLICE_STATION_NAME_THA',
+      about: 'CASE_LOCATION_OTHER_ABOUT'
     }
   };
 
@@ -292,7 +320,7 @@ export class GeocodingComponent implements OnInit, AfterViewInit, OnDestroy {
   initFromFormData() {
     if (!this.formData) return;
 
-    const types = ['incident', 'transfer', 'bankBranch'];
+    const types = ['incident', 'transfer', 'bankBranch', 'other'];
     types.forEach(type => {
       const target = (this as any)[type];
       const mapping = this.locationMappings[type];
@@ -876,7 +904,7 @@ export class GeocodingComponent implements OnInit, AfterViewInit, OnDestroy {
   // ZONE: Main "Fill Location" Buttons & Handlers
   // =========================================================================
 
-  fillLocation(type: 'incident' | 'transfer' | 'bankBranch') {
+  fillLocation(type: 'incident' | 'transfer' | 'bankBranch' | 'other') {
     const target = (this as any)[type];
     const mapping = this.locationMappings[type];
 

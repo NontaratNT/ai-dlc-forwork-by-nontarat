@@ -127,7 +127,7 @@ export class IssueOnlineEventComponent implements OnInit {
         {
             org_id: 3578,
             org_name: "บก.สอท.5",
-            org_locations: ["1.ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ", "2.ต.บางกุ้ง อ.เมืองสุราษฎร์ธานี จ.สุราษฎร์ธานี"],
+            org_locations: ["1.ศูนย์ราชการแจ้งวัฒนะ จ.กรุงเทพฯ", "2.ต.บางกุ้ง อ.เมืองสุราษฎร์ธานี จ.สุราษฏร์ธานี"],
             location_detail: "รับผิดชอบพื้นที่ของ ตำรวจภูธรภาค 8 และ ภาค 9 <br> "
                 + "• <b>ตำรวจภูธรภาค 8:</b> ชุมพร, สุราษฎร์ธานี, นครศรีธรรมราช, พังงา, ภูเก็ต, ระนอง, กระบี่ <br> "
                 + "• <b>ตำรวจภูธรภาค 9:</b> ตรัง, พัทลุง, สงขลา, สตูล, ปัตตานี, ยะลา, นราธิวาส"
@@ -415,7 +415,7 @@ export class IssueOnlineEventComponent implements OnInit {
                         return;
                     }
                 }
-            }else{
+            } else {
                 this.formData.ORG_LOCATION_ID = 1;
             }
 

@@ -693,7 +693,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
         this.formData.ORG_LOCATION_WALKIN_TYPE = 2;
         this.formData.WALKIN_POLICE_STATION_ID = orgValue[0]?.org_id;
         this.formData.WALKIN_POLICE_STATION = orgValue[0]?.org_name;
-        if(!this.formData.ORG_LOCATION_ID){
+        if (!this.formData.ORG_LOCATION_ID) {
           this.onvaluechangeorgmainwalkin({ value: this.formdataOrgsendcasewalkin.ORG_LOCATION_MAIN_WALKIN_ID });
         }
       } else {
@@ -1113,7 +1113,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
       });
       return;
     }
-    if(this.formData?.ORG_LOCATION_ID == null || this.formData?.ORG_LOCATION_ID == 0){
+    if (this.formData?.ORG_LOCATION_ID == null || this.formData?.ORG_LOCATION_ID == 0) {
       Swal.fire({
         title: "ผิดพลาด!",
         text: "กรุณาเลือกสถานีตำรวจที่ต้องการไปให้ปากคำ",
@@ -1179,7 +1179,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
     });
   }
 
-    private handleSuccessNavigation(): void {
+  private handleSuccessNavigation(): void {
     const itemsToRemove = [
       'form-case-type-new',
       'form-informer',
@@ -1193,7 +1193,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
       localStorage.removeItem(item);
     });
 
-   this._router.navigate(["mobile/track-status?openExternalBrowser=1"]);
+    this._router.navigate(["mobile/track-status?openExternalBrowser=1"]);
   }
 
 
@@ -1219,19 +1219,19 @@ export class IssueOnlineValidateNewComponent implements OnInit {
 
   OnGeocodingStationSelected(stations: any) {
     if (!stations) return;
-  
+
     const formDamage = JSON.parse(localStorage.getItem('form-damage') || '{}');
     const totalDamage = Number(formDamage?.TotalDamageValue?.toString().replace(/,/g, '') || 0);
     this.recommendedStations = [];
     const addedOrgIds = new Set<number>();
-  
+
     // Helper to add unique recommendation
     const addRecommendation = (org: any, typeLabel: string, type: number, isIncident: boolean = false) => {
       const orgId = org.ORGANIZE_ID || org.org_id;
       const orgName = org.ORGANIZE_ABBR_THA || org.ORGANIZE_NAME_THA || org.org_name;
-  
+
       if (!orgId || addedOrgIds.has(orgId)) return;
-      
+
       const rec = {
         ID: type,
         TYPE: type,
@@ -1240,10 +1240,10 @@ export class IssueOnlineValidateNewComponent implements OnInit {
         LOCATION_DETAIL: typeLabel,
         IS_RECOMMENDED: isIncident
       };
-      
+
       this.recommendedStations.push(rec);
       addedOrgIds.add(orgId);
-  
+
       // Auto-select if it's the incident station (priority)
       if (isIncident) {
         this.onStationRecommendationSelect(rec);
@@ -1260,7 +1260,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
       } else if (stations.incident) {
         addRecommendation(stations.incident, "สถานีตำรวจท้องที่ (ตามพื้นที่เกิดเหตุ)", 1, true);
       }
-  
+
       const prov2 = this.formData.LOCATION?.CASE_LOCATION_TRANSFER_PROVINCE_ID;
       const ccib2 = this.provinceResponsibility.find(p => p.province_id == prov2);
       if (ccib2) {
@@ -1268,7 +1268,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
       } else if (stations.transfer) {
         addRecommendation(stations.transfer, "สถานีตำรวจท้องที่ (ตามสถานที่โอนเงิน)", 1, false);
       }
-  
+
       const prov3 = this.formData.LOCATION?.CASE_LOCATION_BANK_BRANCH_PROVINCE_ID;
       const ccib3 = this.provinceResponsibility.find(p => p.province_id == prov3);
       if (ccib3) {
@@ -1276,7 +1276,15 @@ export class IssueOnlineValidateNewComponent implements OnInit {
       } else if (stations.bankBranch) {
         addRecommendation(stations.bankBranch, "สถานีตำรวจท้องที่ (ตามธนาคารสาขาที่เปิดบัญชี)", 1, false);
       }
-  
+
+      const prov4 = this.formData.LOCATION?.CASE_LOCATION_OTHER_PROVINCE_ID;
+      const ccib4 = this.provinceResponsibility.find(p => p.province_id == prov4);
+      if (ccib4) {
+        addRecommendation(ccib4, "หน่วยงานที่รับผิดชอบเฉพาะด้านอาชญากรรมทางเทคโนโลยี (แนะนำตามความเสียหาย > 1 ล้านบาท - สถานที่อื่นๆ ที่เกี่ยวข้อง)", 2, false);
+      } else if (stations.other) {
+        addRecommendation(stations.other, "สถานีตำรวจท้องที่ (ตามสถานที่อื่นๆ ที่เกี่ยวข้อง)", 1, false);
+      }
+
     } else {
       // Normal Damage -> Recommend Local Stations
       if (stations.incident) {
@@ -1288,20 +1296,26 @@ export class IssueOnlineValidateNewComponent implements OnInit {
       if (stations.bankBranch) {
         addRecommendation(stations.bankBranch, "สถานีตำรวจท้องที่ (ตามธนาคารสาขาที่เปิดบัญชี)", 1, false);
       }
+      if (stations.other) {
+        addRecommendation(stations.other, "สถานีตำรวจท้องที่ (ตามสถานที่อื่นๆ ที่เกี่ยวข้อง)", 1, false);
+      }
     }
   }
-  
+
   onStationRecommendationSelect(item: any) {
     if (!item) return;
-  
+
     this.formData.LOCATION_MAIN = item.ID;
     this.formData.ORG_LOCATION_WALKIN_TYPE = item.TYPE;
     this.formData.WALKIN_POLICE_STATION_ID = item.ORG_ID;
     this.formData.ORG_LOCATION_ID = item.ORG_ID;
     this.formData.WALKIN_POLICE_STATION = item.NAME;
-  
-    const incidentProvinceId = this.formData.LOCATION.CASE_LOCATION_PROVINCE_ID || this.formData.LOCATION.CASE_LOCATION_PROVINCE_ID || this.formData.LOCATION.CASE_LOCATION_PROVINCE_ID;
-  
+
+    const incidentProvinceId = this.formData.LOCATION.CASE_LOCATION_PROVINCE_ID ||
+      this.formData.LOCATION.CASE_LOCATION_TRANSFER_PROVINCE_ID ||
+      this.formData.LOCATION.CASE_LOCATION_BANK_BRANCH_PROVINCE_ID ||
+      this.formData.LOCATION.CASE_LOCATION_OTHER_PROVINCE_ID;
+
     if (item.TYPE === 2) {
       // CCIB - Update specific fields
       this.formData.ORG_PROVINCE_ID_CCIB_WALKIN_ID = incidentProvinceId;

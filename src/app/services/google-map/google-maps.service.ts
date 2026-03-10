@@ -45,6 +45,15 @@ export class GoogleMapsService {
         const options: google.maps.MapOptions = {
           center: center,
           zoom: 15,
+          restriction: {
+            latLngBounds: {
+              north: 20.5,
+              south: 5.5,
+              west: 97.3,
+              east: 105.7,
+            },
+            strictBounds: false
+          },
           styles: [
             {
               featureType: "poi",
@@ -122,7 +131,10 @@ export class GoogleMapsService {
     return this.initGeocoder().pipe(
       mergeMap(geocoder => {
         return new Observable<google.maps.GeocoderResult[]>(observer => {
-          geocoder.geocode({ address }, (results: google.maps.GeocoderResult[] | null, status: google.maps.GeocoderStatus) => {
+          geocoder.geocode({
+            address,
+            componentRestrictions: { country: 'TH' }
+          }, (results: google.maps.GeocoderResult[] | null, status: google.maps.GeocoderStatus) => {
             if (status === google.maps.GeocoderStatus.OK && results) {
               observer.next(results);
               observer.complete();

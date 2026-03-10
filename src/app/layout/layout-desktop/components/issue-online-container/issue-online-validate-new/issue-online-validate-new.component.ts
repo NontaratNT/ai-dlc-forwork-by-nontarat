@@ -619,7 +619,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
       const orgName = org.ORGANIZE_ABBR_THA || org.ORGANIZE_NAME_THA || org.org_name;
 
       if (!orgId || addedOrgIds.has(orgId)) return;
-      
+
       const rec = {
         ID: type,
         TYPE: type,
@@ -628,7 +628,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
         LOCATION_DETAIL: typeLabel,
         IS_RECOMMENDED: isIncident
       };
-      
+
       this.recommendedStations.push(rec);
       addedOrgIds.add(orgId);
 
@@ -665,6 +665,14 @@ export class IssueOnlineValidateNewComponent implements OnInit {
         addRecommendation(stations.bankBranch, "สถานีตำรวจท้องที่ (ตามธนาคารสาขาที่เปิดบัญชี)", 1, false);
       }
 
+      const prov4 = this.formData.LOCATION?.CASE_LOCATION_OTHER_PROVINCE_ID;
+      const ccib4 = this.provinceResponsibility.find(p => p.province_id == prov4);
+      if (ccib4) {
+        addRecommendation(ccib4, "หน่วยงานที่รับผิดชอบเฉพาะด้านอาชญากรรมทางเทคโนโลยี (แนะนำตามความเสียหาย > 1 ล้านบาท - สถานที่อื่นๆ ที่เกี่ยวข้อง)", 2, false);
+      } else if (stations.other) {
+        addRecommendation(stations.other, "สถานีตำรวจท้องที่ (ตามสถานที่อื่นๆ ที่เกี่ยวข้อง)", 1, false);
+      }
+
     } else {
       // Normal Damage -> Recommend Local Stations
       if (stations.incident) {
@@ -675,6 +683,9 @@ export class IssueOnlineValidateNewComponent implements OnInit {
       }
       if (stations.bankBranch) {
         addRecommendation(stations.bankBranch, "สถานีตำรวจท้องที่ (ตามธนาคารสาขาที่เปิดบัญชี)", 1, false);
+      }
+      if (stations.other) {
+        addRecommendation(stations.other, "สถานีตำรวจท้องที่ (ตามสถานที่อื่นๆ ที่เกี่ยวข้อง)", 1, false);
       }
     }
   }
@@ -688,7 +699,10 @@ export class IssueOnlineValidateNewComponent implements OnInit {
     this.formData.ORG_LOCATION_ID = item.ORG_ID;
     this.formData.WALKIN_POLICE_STATION = item.NAME;
 
-    const incidentProvinceId = this.formData.LOCATION.CASE_LOCATION_PROVINCE_ID || this.formData.LOCATION.CASE_LOCATION_PROVINCE_ID || this.formData.LOCATION.CASE_LOCATION_PROVINCE_ID;
+    const incidentProvinceId = this.formData.LOCATION.CASE_LOCATION_PROVINCE_ID ||
+      this.formData.LOCATION.CASE_LOCATION_TRANSFER_PROVINCE_ID ||
+      this.formData.LOCATION.CASE_LOCATION_BANK_BRANCH_PROVINCE_ID ||
+      this.formData.LOCATION.CASE_LOCATION_OTHER_PROVINCE_ID;
 
     if (item.TYPE === 2) {
       // CCIB - Update specific fields

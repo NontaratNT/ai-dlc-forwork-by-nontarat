@@ -92,6 +92,7 @@
                     <dx-button text="ลงที่สถานที่เกิดเหตุ" (onClick)="fillLocation('incident')"></dx-button>
                     <dx-button text="ลงที่สถานที่โอนเงิน" (onClick)="fillLocation('transfer')"></dx-button>
                     <dx-button text="ลงที่สาขาธนาคาร" (onClick)="fillLocation('bankBranch')"></dx-button>
+                    <dx-button text="ลงที่สถานที่อื่นที่เกี่ยวข้อง" (onClick)="fillLocation('other')"></dx-button>
                 </div>
             </div>
 
@@ -100,7 +101,7 @@
             <div class="alert alert-info"
                 style="color: #0c5460; background-color: #d1ecf1; border-color: #bee5eb; padding: 10px; border-radius: 4px; margin-bottom: 20px;">
                 <i class="fas fa-info-circle mr-2"></i> <strong>หมายเหตุ:</strong> กรุณาระบุข้อมูลสถานที่อย่างน้อย 1
-                สถานที่ (สถานที่เกิดเหตุ, สถานที่โอนเงิน, หรือ สาขาธนาคาร)
+                สถานที่ (สถานที่เกิดเหตุ, สถานที่โอนเงิน, สาขาธนาคาร หรือ สถานที่อื่นๆ ที่เกี่ยวข้อง)
             </div>
 
             <!-- Incident Location -->
@@ -265,6 +266,70 @@
                         <div class="police-station-badge">
                             <i class="fas fa-shield-alt"></i>
                             <span>{{ bankBranch.CASE_LOCATION_BANK_BRANCH_POLICE_STATION_NAME_THA }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other Location -->
+            <div class="location-form-section mt-4">
+                <div class="section-title">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span>สถานที่อื่นๆ ที่เกี่ยวข้อง</span>
+                </div>
+                <div class="form-grid">
+                    <div class="input-field full-width">
+                        <label>เป็นสถานที่เกี่ยวกับอะไร</label>
+                        <dx-text-box [(value)]="other.CASE_LOCATION_OTHER_ABOUT"
+                            (onValueChanged)="syncToFormData('other')"
+                            placeholder="ระบุว่าสถานที่นี้เกี่ยวข้องอย่างไร..."></dx-text-box>
+                        <div class="small-note text-muted mt-1">
+                            * เนื่องจาก กรณีนี้จะ support สำหรับคนที่ไปไม่ตรงกับ 4 ที่ ที่เป็นที่เกิดเหตุ
+                        </div>
+                    </div>
+                    <div class="input-field full-width">
+                        <label>รายละเอียดที่อยู่ (เลขที่บ้าน, ซอย, ถนน)</label>
+                        <dx-text-box [(value)]="other.CASE_LOCATION_OTHER_ADDRESS"
+                            (onValueChanged)="syncToFormData('other')"
+                            placeholder="เช่น 123/4 หมู่ 5 ซอยสุขุมวิท..."></dx-text-box>
+                    </div>
+                    <div class="input-field">
+                        <label>จังหวัด</label>
+                        <dx-select-box [dataSource]="provincesList" displayExpr="PROVINCE_NAME_THA"
+                            valueExpr="PROVINCE_ID" [(value)]="other.CASE_LOCATION_OTHER_PROVINCE_ID"
+                            (onValueChanged)="onProvinceChange('other', $event)" [searchEnabled]="true"
+                            placeholder="เลือกจังหวัด">
+                        </dx-select-box>
+                    </div>
+                    <div class="input-field">
+                        <label>อำเภอ/เขต</label>
+                        <dx-select-box [dataSource]="districtsList.other" displayExpr="DISTRICT_NAME_THA"
+                            valueExpr="DISTRICT_ID" [(value)]="other.CASE_LOCATION_OTHER_DISTRICT_ID"
+                            (onValueChanged)="onDistrictChange('other', $event)" [searchEnabled]="true"
+                            [disabled]="!other.CASE_LOCATION_OTHER_PROVINCE_ID" placeholder="เลือกอำเภอ">
+                        </dx-select-box>
+                    </div>
+                    <div class="input-field">
+                        <label>ตำบล/แขวง</label>
+                        <dx-select-box [dataSource]="subDistrictsList.other" displayExpr="SUB_DISTRICT_NAME_THA"
+                            valueExpr="SUB_DISTRICT_ID" [(value)]="other.CASE_LOCATION_OTHER_SUB_DISTRICT_ID"
+                            (onValueChanged)="onSubDistrictChange('other', $event)" [searchEnabled]="true"
+                            [disabled]="!other.CASE_LOCATION_OTHER_DISTRICT_ID" placeholder="เลือกตำบล">
+                        </dx-select-box>
+                    </div>
+                    <div class="input-field">
+                        <label>รหัสไปรษณีย์</label>
+                        <dx-select-box [dataSource]="postcodesList.other" displayExpr="POSTCODE_CODE"
+                            valueExpr="POSTCODE_CODE" [(value)]="other.CASE_LOCATION_OTHER_POSTCODE"
+                            (onValueChanged)="syncToFormData('other')" [searchEnabled]="true"
+                            [disabled]="!other.CASE_LOCATION_OTHER_SUB_DISTRICT_ID" placeholder="รหัสไปรษณีย์">
+                        </dx-select-box>
+                    </div>
+                    <div class="input-field full-width" *ngIf="other.CASE_LOCATION_OTHER_POLICE_STATION_NAME_THA">
+                        <label>สถานีตำรวจที่รับผิดชอบ</label>
+                        <div class="police-station-badge">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>{{ other.CASE_LOCATION_OTHER_POLICE_STATION_NAME_THA }}</span>
                         </div>
                     </div>
                 </div>
