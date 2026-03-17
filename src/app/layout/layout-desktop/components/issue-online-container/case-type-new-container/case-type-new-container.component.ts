@@ -210,7 +210,7 @@ export class CaseTypeNewContainerComponent implements OnInit {
         // }
     }
 
-     async processFraudData(): Promise<void> {
+    async processFraudData(): Promise<void> {
         // 1. ดึง data ออกมาใส่ตัวแปรเพื่อให้เรียกใช่ง่าย
         const data = this._formData?.data;
 
@@ -248,19 +248,24 @@ export class CaseTypeNewContainerComponent implements OnInit {
                     await this.handleFraudCode4(data);
                     break;
             }
-        }else if (data.fraud_chanel === 5) {
+        } else if (data.fraud_chanel === 5) {
             this._formData.fraud_code = 5;
             const subCode5 = data.fraud_sub_code5;
             this._formData.fraud_sub_code = subCode5.fraud_sub_code;
-            if(subCode5.fraud_sub_code == 1){
+            if (subCode5.fraud_sub_code == 1) {
                 this._formData.fraud_tactic_id = subCode5.ransomware_type;
-            } else if(subCode5.fraud_sub_code == 2){
+            } else if (subCode5.fraud_sub_code == 2) {
                 this._formData.fraud_tactic_id = subCode5.sextortion_type;
-            } else if(subCode5.fraud_sub_code == 3){
+            } else if (subCode5.fraud_sub_code == 3) {
                 this._formData.fraud_tactic_id = subCode5.threats_to_attack_type;
-            } else if(subCode5.fraud_sub_code == 4){
+            } else if (subCode5.fraud_sub_code == 4) {
                 this._formData.fraud_tactic_id = subCode5.threats_to_exposing_information_type;
             }
+        } else if (data.fraud_chanel === 6) {
+            this._formData.fraud_code = 6;
+            const subCode6 = data.fraud_sub_code6;
+            this._formData.fraud_sub_code = subCode6.fraud_sub_code;
+            this._formData.fraud_tactic_id = 1;
         }
     }
 
@@ -362,82 +367,82 @@ export class CaseTypeNewContainerComponent implements OnInit {
 
         // set ค่า 
         this.formData.fraud_chanel = 1;
-        metadata.selectData.fraud_chanel.FRAUD_NAME_TH =  'ฉันถูกหลอกลวงให้เสียทรัพย์สิน (ถูกโกง/Scam)';
+        metadata.selectData.fraud_chanel.FRAUD_NAME_TH = 'ฉันถูกหลอกลวงให้เสียทรัพย์สิน (ถูกโกง/Scam)';
 
         this.formData.fraud_code = data?.fraud_id;
-        if(data?.fraud_id === 1){
+        if (data?.fraud_id === 1) {
             metadata.selectData.fraud_code.FRAUD_SUB_NAME_TH = "การเงินและการลงทุน\tมีการชักชวนให้ลงทุนเพื่อหวังผลกำไร";
             this.formData.fraud_sub_code = data?.fraud_sub_id;
             this.formData.fraud_sub_code1 = {
                 fraud_tactic_code: data?.fraud_tatic
             };
-        }else if(data?.fraud_id === 2){
+        } else if (data?.fraud_id === 2) {
             metadata.selectData.fraud_code.FRAUD_SUB_NAME_TH = "สินค้าและบริการเกี่ยวข้องกับการซื้อของหรือจ่ายค่าบริการ";
             this.formData.fraud_sub_code2 = {
                 goods_and_service_flag: data?.fraud_sub_id == 1 || data?.fraud_sub_id == 2 ? 1 : 2
             };
-            if(data?.fraud_sub_id === 1 || data?.fraud_sub_id === 2){
+            if (data?.fraud_sub_id === 1 || data?.fraud_sub_id === 2) {
                 this.formData.fraud_sub_code2.is_buyer = data?.fraud_sub_id;
-                if(data?.fraud_sub_id === 1){
-                    if(data?.fraud_tatic === 1 || data?.fraud_tatic === 2){
+                if (data?.fraud_sub_id === 1) {
+                    if (data?.fraud_tatic === 1 || data?.fraud_tatic === 2) {
                         this.formData.fraud_sub_code2.is_buyer_social_media_product_type = data?.fraud_tatic;
                         this.formData.fraud_sub_code2.is_buyer_primary_purchase_channel = 2;
                         this.formData.fraud_sub_code2.is_buyer_parcel_received = 2;
                         this.formData.fraud_sub_code2.is_buyer_paid_for_unsolicited_parcel = 2;
-                    }else if(data?.fraud_tatic === 3){
+                    } else if (data?.fraud_tatic === 3) {
                         this.formData.fraud_sub_code2.is_buyer_primary_purchase_channel = 1;
                         this.formData.fraud_sub_code2.is_buyer_parcel_received = 2;
                         this.formData.fraud_sub_code2.is_buyer_paid_for_unsolicited_parcel = 2;
-                    }else if(data?.fraud_tatic === 4){
+                    } else if (data?.fraud_tatic === 4) {
                         this.formData.fraud_sub_code2.is_buyer_parcel_received = 1;
                         this.formData.fraud_sub_code2.is_buyer_paid_for_unsolicited_parcel = 2;
-                    }else if(data?.fraud_tatic === 5){
+                    } else if (data?.fraud_tatic === 5) {
                         this.formData.fraud_sub_code2.is_buyer_paid_for_unsolicited_parcel = 1;
                     }
-                }else if(data?.fraud_sub_id === 2){
+                } else if (data?.fraud_sub_id === 2) {
                     //seller
                     this.formData.fraud_sub_code2.fraud_method = data?.fraud_tatic;
                 }
-            }else if(data?.fraud_sub_id === 3){
+            } else if (data?.fraud_sub_id === 3) {
                 //service
                 this.formData.fraud_sub_code2.payment_for_fake_service_code = data?.fraud_tatic;
             }
-        }else if(data?.fraud_id === 3){
+        } else if (data?.fraud_id === 3) {
             metadata.selectData.fraud_code.FRAUD_SUB_NAME_TH = "การแอบอ้างเป็นบุคคลอื่นมีการแอบอ้างเป็นคนรู้จัก, แฟน, หรือเจ้าหน้าที่";
             this.formData.romance_scam_type_code = {
                 romance_scam_type_code: data?.fraud_sub_id
             };
-            if(data?.fraud_sub_id === 1){
+            if (data?.fraud_sub_id === 1) {
                 this.formData.romance_scam_type_code.phishing_type = data?.fraud_tatic;
-            }else if(data?.fraud_sub_id === 2){
+            } else if (data?.fraud_sub_id === 2) {
                 this.formData.romance_scam_type_code.impersonation_method_code = {
                     impersonation_method_code: data?.fraud_tatic
                 };
-            }else if(data?.fraud_sub_id === 3){
+            } else if (data?.fraud_sub_id === 3) {
                 this.formData.romance_scam_type_code.impersonated_organization_code = {
                     impersonated_organization_code: data?.fraud_tatic
                 };
-            }else if(data?.fraud_sub_id === 4){
+            } else if (data?.fraud_sub_id === 4) {
                 this.formData.romance_scam_type_code.other_method_code = {
                     other_method_code: data?.fraud_tatic
                 };
             }
-        }else if(data?.fraud_id === 4){
+        } else if (data?.fraud_id === 4) {
             metadata.selectData.fraud_code.FRAUD_SUB_NAME_TH = "การจ้างงานและผลประโยชน์มีการเสนองาน, รางวัล, หรือเงินกู้ให้";
             this.formData.employment_and_benefits = {
                 employment_and_benefits_code: data?.fraud_sub_id
             };
-            if(data?.fraud_sub_id === 1){
+            if (data?.fraud_sub_id === 1) {
                 this.formData.employment_and_benefits.employment_type_code = data?.fraud_tatic;
-            }else if(data?.fraud_sub_id === 2){
+            } else if (data?.fraud_sub_id === 2) {
                 this.formData.employment_and_benefits.fake_award_inheritance_claim_code = data?.fraud_tatic;
-            }else if(data?.fraud_sub_id === 3){
+            } else if (data?.fraud_sub_id === 3) {
                 this.formData.employment_and_benefits.loan_offer_scam_code = data?.fraud_tatic;
             }
         }
         console.log(this.formData);
         const mergeData = {
-            data : this.formData,
+            data: this.formData,
             // metadata: metadata
         };
         this._formData = JSON.parse(JSON.stringify(mergeData));

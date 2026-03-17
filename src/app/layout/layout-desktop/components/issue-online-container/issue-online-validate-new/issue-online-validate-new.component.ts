@@ -302,6 +302,10 @@ export class IssueOnlineValidateNewComponent implements OnInit {
     { fraud_id: 5, fraud_sub_id: 3, fraud_tatic: 2, case_type_id: 68 }, // ว่าง
     { fraud_id: 5, fraud_sub_id: 4, fraud_tatic: 1, case_type_id: null }, // ว่าง
     { fraud_id: 5, fraud_sub_id: 4, fraud_tatic: 2, case_type_id: null }, // ว่าง
+    { fraud_id: 6, fraud_sub_id: 1, fraud_tatic: 1, case_type_id: null }, // ว่าง
+    { fraud_id: 6, fraud_sub_id: 2, fraud_tatic: 1, case_type_id: null }, // ว่าง
+    { fraud_id: 6, fraud_sub_id: 3, fraud_tatic: 1, case_type_id: null }, // ว่าง
+    { fraud_id: 6, fraud_sub_id: 4, fraud_tatic: 1, case_type_id: null }, // ว่าง
   ];
 
   resultCaseTypeId: number | null = null;
