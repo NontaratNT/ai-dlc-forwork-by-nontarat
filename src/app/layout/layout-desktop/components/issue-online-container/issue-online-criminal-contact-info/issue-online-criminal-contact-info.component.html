@@ -11,16 +11,18 @@
         <!-- แสดงฟอร์มของช่องทางที่เลือก -->
         <div *ngIf="selectedChannel1 as ch">
             <h4 class="mb-3">{{ ch.name }}</h4>
-            
+
             <div class="text-center">
                 <ng-container *ngFor="let video of filteredVideos">
-                    <div *ngIf="video.category === ch.name" class="col-12 col-md-6 col-lg-4 text-center mb-4 video-card">
-                        <div class="card h-100 border-0 shadow-sm rounded-4 transition-hover d-flex justify-content-center p-3">
+                    <div *ngIf="video.category === ch.name"
+                        class="col-12 col-md-6 col-lg-4 text-center mb-4 video-card">
+                        <div
+                            class="card h-100 border-0 shadow-sm rounded-4 transition-hover d-flex justify-content-center p-3">
                             <h5 class="card-title fw-bold text-dark mb-2">{{ video.title }}</h5>
                             <div class="mt-auto">
-                                <a [href]="video.url" target="_blank" 
-                                class="btn btn-primary w-100 py-2 rounded-3 fw-medium shadow-sm active-scale">
-                                เปิดดูวิดีโอ
+                                <a [href]="video.url" target="_blank"
+                                    class="btn btn-primary w-100 py-2 rounded-3 fw-medium shadow-sm active-scale">
+                                    เปิดดูวิดีโอ
                                 </a>
                             </div>
                         </div>
@@ -33,10 +35,33 @@
 
                     <!-- ปกติ (textbox / selectbox / radiobox / file / textarea) -->
                     <dxi-item
-                        *ngIf="field.fieldType !== 'group' && field.fieldType !== 'checkbox' && isFieldVisible(field,1)"
+                        *ngIf="field.fieldType !== 'group' && field.fieldType !== 'checkbox' && field.fieldType !== 'phoneWithPrefix' && isFieldVisible(field,1)"
                         [dataField]="field.dataField" [label]="{ text: field.caption }" [readOnly]="formReadOnly"
                         [editorType]="getEditorType(field)" [isRequired]="field.required"
                         [editorOptions]="field.editorOptions">
+
+                        <!-- Custom template for file to show important label -->
+                        <ng-template dxTemplate="editor" *ngIf="field.fieldType === 'file'">
+                            <div class="file-uploader-container">
+                                <dx-file-uploader
+                                    [selectButtonText]="field.editorOptions?.selectButtonText || 'เลือกไฟล์'"
+                                    labelText="" [accept]="field.editorOptions?.accept || '.pdf,.jpg,.jpeg,.png'"
+                                    [showFileList]="false"
+                                    (onValueChanged)="onFileValueChanged($event, 1, field.dataField)">
+                                </dx-file-uploader>
+                                <div class="file-list-preview mt-2">
+                                    <div *ngFor="let file of getFiles(1, field.dataField)" class="file-item">
+                                        <span class="file-name">{{ file.name }}</span>
+                                        <dx-button icon="trash" stylingMode="text"
+                                            (onClick)="removeFile(1, field.dataField, file)">
+                                        </dx-button>
+                                    </div>
+                                </div>
+                                <small class="text-danger fw-bold mt-1 d-block">
+                                    * การแนบรูปภาพหลักฐานสำคัญต่อการดำเนินคดี *
+                                </small>
+                            </div>
+                        </ng-template>
 
                         <dxo-validation-rules *ngIf="field.required || field.pattern">
                             <dxi-validation-rule *ngIf="field.required" type="required"
@@ -89,6 +114,25 @@
 
                     </dxi-item>
 
+                    <!-- phoneWithPrefix = single row with prefix dropdown -->
+                    <dxi-item *ngIf="field.fieldType === 'phoneWithPrefix' && isFieldVisible(field,1)" itemType="simple"
+                        [label]="{ text: field.caption }">
+                        <ng-template dxTemplate="editor">
+                            <div class="d-flex align-items-center gap-2">
+                                <dx-select-box [items]="popularPrefixes" displayExpr="TEXT" valueExpr="ID"
+                                    placeholder="Prefix" [(value)]="formData1[field.dataField].prefix" [width]="180"
+                                    [readOnly]="formReadOnly">
+                                </dx-select-box>
+                                <dx-text-box placeholder="หมายเลขโทรศัพท์" mode="tel"
+                                    [(value)]="formData1[field.dataField].number" class="flex-grow-1"
+                                    [readOnly]="formReadOnly"
+                                    (onKeyPress)="onPhoneKeyPress($event, formData1[field.dataField].prefix)"
+                                    [maxLength]="getPhoneMaxLength(formData1[field.dataField].prefix)">
+                                </dx-text-box>
+                            </div>
+                        </ng-template>
+                    </dxi-item>
+
                 </ng-container>
             </dx-form>
         </div>
@@ -110,10 +154,34 @@
                 <ng-container *ngFor="let field of ch.formOption">
 
                     <dxi-item
-                        *ngIf="field.fieldType !== 'group' && field.fieldType !== 'checkbox' && isFieldVisible(field,2)"
+                        *ngIf="field.fieldType !== 'group' && field.fieldType !== 'checkbox' && field.fieldType !== 'phoneWithPrefix' && isFieldVisible(field,2)"
                         [dataField]="field.dataField" [label]="{ text: field.caption }"
                         [editorType]="getEditorType(field)" [isRequired]="field.required"
                         [editorOptions]="field.editorOptions">
+
+                        <!-- Custom template for file to show important label -->
+                        <ng-template dxTemplate="editor" *ngIf="field.fieldType === 'file'">
+                            <div class="file-uploader-container">
+                                <dx-file-uploader
+                                    [selectButtonText]="field.editorOptions?.selectButtonText || 'เลือกไฟล์'"
+                                    labelText="" [accept]="field.editorOptions?.accept || '.pdf,.jpg,.jpeg,.png'"
+                                    [showFileList]="false"
+                                    (onValueChanged)="onFileValueChanged($event, 2, field.dataField)">
+                                </dx-file-uploader>
+                                <div class="file-list-preview mt-2">
+                                    <div *ngFor="let file of getFiles(2, field.dataField)" class="file-item">
+                                        <span class="file-name">{{ file.name }}</span>
+                                        <dx-button icon="trash" stylingMode="text"
+                                            (onClick)="removeFile(2, field.dataField, file)">
+                                        </dx-button>
+                                    </div>
+                                </div>
+                                <small class="text-danger fw-bold mt-1 d-block">
+                                    * การแนบรูปภาพหลักฐานสำคัญต่อการดำเนินคดี *
+                                </small>
+                            </div>
+                        </ng-template>
+
 
                         <dxo-validation-rules *ngIf="field.required || field.pattern">
                             <dxi-validation-rule *ngIf="field.required" type="required"
@@ -164,6 +232,26 @@
 
                     </dxi-item>
 
+                    <!-- phoneWithPrefix = single row with prefix dropdown -->
+                    <dxi-item *ngIf="field.fieldType === 'phoneWithPrefix' && isFieldVisible(field,2)" itemType="simple"
+                        [label]="{ text: field.caption }">
+                        <ng-template dxTemplate="editor">
+                            <div class="d-flex align-items-center gap-2">
+                                <dx-select-box [items]="popularPrefixes" displayExpr="TEXT" valueExpr="ID"
+                                    placeholder="Prefix" [(value)]="formData2[field.dataField].prefix" [width]="180"
+                                    [readOnly]="formReadOnly">
+                                </dx-select-box>
+                                <dx-text-box placeholder="หมายเลขโทรศัพท์" mode="tel"
+                                    [(value)]="formData2[field.dataField].number" class="flex-grow-1"
+                                    [readOnly]="formReadOnly"
+                                    (onKeyPress)="onPhoneKeyPress($event, formData2[field.dataField].prefix)"
+                                    [maxLength]="getPhoneMaxLength(formData2[field.dataField].prefix)">
+                                </dx-text-box>
+                            </div>
+                        </ng-template>
+                    </dxi-item>
+
+
                 </ng-container>
             </dx-form>
         </div>
@@ -185,10 +273,33 @@
                 <ng-container *ngFor="let field of ch.formOption">
 
                     <dxi-item
-                        *ngIf="field.fieldType !== 'group' && field.fieldType !== 'checkbox' && isFieldVisible(field,3)"
+                        *ngIf="field.fieldType !== 'group' && field.fieldType !== 'checkbox' && field.fieldType !== 'phoneWithPrefix' && isFieldVisible(field,3)"
                         [dataField]="field.dataField" [label]="{ text: field.caption }"
                         [editorType]="getEditorType(field)" [isRequired]="field.required"
                         [editorOptions]="field.editorOptions">
+
+                        <!-- Custom template for file to show important label -->
+                        <ng-template dxTemplate="editor" *ngIf="field.fieldType === 'file'">
+                            <div class="file-uploader-container">
+                                <dx-file-uploader
+                                    [selectButtonText]="field.editorOptions?.selectButtonText || 'เลือกไฟล์'"
+                                    labelText="" [accept]="field.editorOptions?.accept || '.pdf,.jpg,.jpeg,.png'"
+                                    [showFileList]="false"
+                                    (onValueChanged)="onFileValueChanged($event, 3, field.dataField)">
+                                </dx-file-uploader>
+                                <div class="file-list-preview mt-2">
+                                    <div *ngFor="let file of getFiles(3, field.dataField)" class="file-item">
+                                        <span class="file-name">{{ file.name }}</span>
+                                        <dx-button icon="trash" stylingMode="text"
+                                            (onClick)="removeFile(3, field.dataField, file)">
+                                        </dx-button>
+                                    </div>
+                                </div>
+                                <small class="text-danger fw-bold mt-1 d-block">
+                                    * การแนบรูปภาพหลักฐานสำคัญต่อการดำเนินคดี *
+                                </small>
+                            </div>
+                        </ng-template>
 
                         <dxo-validation-rules *ngIf="field.required || field.pattern">
                             <dxi-validation-rule *ngIf="field.required" type="required"
@@ -238,6 +349,26 @@
                         </ng-template>
 
                     </dxi-item>
+
+                    <!-- phoneWithPrefix = single row with prefix dropdown -->
+                    <dxi-item *ngIf="field.fieldType === 'phoneWithPrefix' && isFieldVisible(field,3)" itemType="simple"
+                        [label]="{ text: field.caption }">
+                        <ng-template dxTemplate="editor">
+                            <div class="d-flex align-items-center gap-2">
+                                <dx-select-box [items]="popularPrefixes" displayExpr="TEXT" valueExpr="ID"
+                                    placeholder="Prefix" [(value)]="formData3[field.dataField].prefix" [width]="180"
+                                    [readOnly]="formReadOnly">
+                                </dx-select-box>
+                                <dx-text-box placeholder="หมายเลขโทรศัพท์" mode="tel"
+                                    [(value)]="formData3[field.dataField].number" class="flex-grow-1"
+                                    [readOnly]="formReadOnly"
+                                    (onKeyPress)="onPhoneKeyPress($event, formData3[field.dataField].prefix)"
+                                    [maxLength]="getPhoneMaxLength(formData3[field.dataField].prefix)">
+                                </dx-text-box>
+                            </div>
+                        </ng-template>
+                    </dxi-item>
+
 
                 </ng-container>
             </dx-form>

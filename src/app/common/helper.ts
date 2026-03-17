@@ -66,16 +66,16 @@ export function parseDate(myDate, myTimezone) {
 
 export function trimObject(obj: Record<string, any>): void {
     if (!obj) return;
-    
+
     Object.keys(obj).forEach((key) => {
         if (!obj[key] && obj[key] !== 0) delete obj[key]; // ลบค่าที่เป็น falsy (ยกเว้น 0)
     });
 }
 
 export function isTablet(): boolean {
-      const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
-      // ตรวจสอบว่าเป็นอุปกรณ์ Tablet (ครอบคลุม iPad และ Android Tablet)
-      return /iPad|Android|Tablet|PlayBook|Silk/.test(userAgent) 
+    const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+    // ตรวจสอบว่าเป็นอุปกรณ์ Tablet (ครอบคลุม iPad และ Android Tablet)
+    return /iPad|Android|Tablet|PlayBook|Silk/.test(userAgent)
         && !/Mobile/.test(userAgent); // ต้องไม่ใช่โทรศัพท์มือถือ
 }
 
@@ -100,7 +100,7 @@ export function rotateImageBase64(base64Image: string, angle: number): Promise<s
                 return;
             }
 
-            
+
 
             const radians = (angle % 360) * (Math.PI / 180);
             const is90or270 = angle % 180 !== 0;
@@ -132,7 +132,7 @@ export function isValidUrl(url: string): boolean {
     const urlRegex = new RegExp(
         /\b((https?:\/\/)?(www\.)?[\w\-]+(\.[a-z]{2,})+([\/\w\-._~:?#[\]@!$&'()*+,;=]*)?)\b/,
         'gm'
-      )
+    )
     return urlRegex.test(url);
 }
 
@@ -141,11 +141,11 @@ export function isNullOrEmptyObject(obj: any): boolean {
 }
 
 export function convertEmbeddedBankCode(input: string): string {
-  const regex = /(\d{8})([A-Za-z]{3,})(\d+)/g;
+    const regex = /(\d{8})([A-Za-z]{3,})(\d+)/g;
 
-  return input.replace(regex, (_, datePart, bankCode, refNumber) => {
-    return `${datePart}${bankCode.toUpperCase()}${refNumber}`;
-  });
+    return input.replace(regex, (_, datePart, bankCode, refNumber) => {
+        return `${datePart}${bankCode.toUpperCase()}${refNumber}`;
+    });
 }
 
 
@@ -302,4 +302,12 @@ export function createSessionCookie(): void {
         secure: true,
         sameSite: 'Strict'
     });
+}
+
+export function formatSize(size: number): string {
+    if (size === 0 || !size) { return '0 B'; }
+    const units = ['B', 'kB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(size) / Math.log(1024));
+    const value = size / Math.pow(1024, i);
+    return `${value.toFixed(2)} ${units[i]}`;
 }

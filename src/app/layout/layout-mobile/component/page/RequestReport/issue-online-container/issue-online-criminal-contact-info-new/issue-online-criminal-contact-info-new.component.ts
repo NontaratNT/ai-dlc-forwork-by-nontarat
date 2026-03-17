@@ -7,8 +7,9 @@ import { IssueOnlineFileUploadService } from 'src/app/services/issue-online-file
 import { IssueOnlineContainerComponent } from '../issue-online-container.component';
 import { DatePipe } from '@angular/common';
 import { IssueOnlineService } from 'src/app/services/issue-online.service';
-import { ValidateUrl } from 'src/app/common/helper';
+import { formatSize, ValidateUrl } from 'src/app/common/helper';
 import { finalize } from 'rxjs/operators';
+import { FieldConfig } from 'src/app/layout/layout-desktop/components/issue-online-container/issue-online-criminal-contact-info/issue-online-criminal-contact-info.component';
 
 @Component({
     selector: 'app-issue-online-criminal-contact-info-new',
@@ -114,6 +115,20 @@ export class IssueOnlineCriminalContactInfoNewComponent implements OnInit, DoChe
     @ViewChild('form1', { static: false }) form1: DxFormComponent;
     @ViewChild('form2', { static: false }) form2: DxFormComponent;
     @ViewChild('form3', { static: false }) form3: DxFormComponent;
+
+    // Requirement 1.2: Popular Prefixes
+    popularPrefixes = [
+        { ID: '08', TEXT: '08 (มือถือ)', length: 8 },
+        { ID: '09', TEXT: '09 (มือถือ)', length: 8 },
+        { ID: '06', TEXT: '06 (มือถือ)', length: 8 },
+        { ID: '02', TEXT: '02 (เบอร์บ้าน/กทม.)', length: 7 },
+        { ID: '03', TEXT: '03 (เบอร์ภาคกลาง)', length: 7 },
+        { ID: '04', TEXT: '04 (เบอร์ภาคอีสาน)', length: 7 },
+        { ID: '05', TEXT: '05 (เบอร์ภาคเหนือ)', length: 7 },
+        { ID: '07', TEXT: '07 (เบอร์ภาคใต้)', length: 7 },
+        { ID: '+66', TEXT: '+66 (สากล)', length: 9 },
+        { ID: 'อื่นๆ', TEXT: 'อื่นๆ (กรอกเอง)', length: -1 }
+    ];
 
     //  Zone new Code
     facebookList = [
@@ -250,14 +265,27 @@ export class IssueOnlineCriminalContactInfoNewComponent implements OnInit, DoChe
             name: 'SMS',
             formOption: [
                 {
-                    templateName: 'SMS_TEMP_1',
+                    templateName: 'SMS_SENDER_NAME',
                     dataField: 'SMS_SENDER',
-                    caption: 'ชื่อผู้ส่ง หรือ เบอร์ที่ส่งมา',
-                    placeholder: 'หมายเลขโทรศัพท์',
+                    caption: 'ชื่อผู้ส่ง (Sender Name)',
+                    placeholder: 'เช่น ชื่อบริษัท, LINE, DSI (ระบุเป็นตัวอักษรได้)',
                     fieldType: 'textbox',
-                    maxLength: 15,
-                    required: true,
-                    type: 'phone'
+                    maxLength: 50,
+                    required: true
+                },
+                {
+                    templateName: 'CRIMINAL_PHONE_LIST',
+                    dataField: 'CRIMINAL_PHONE',
+                    caption: 'เบอร์โทรศัพท์ของคนร้ายที่ส่ง SMS',
+                    fieldType: 'phoneWithPrefix',
+                    required: true
+                },
+                {
+                    templateName: 'VICTIM_PHONE_LIST',
+                    dataField: 'VICTIM_PHONE',
+                    caption: 'เบอร์โทรศัพท์ของคุณที่ได้รับ SMS',
+                    fieldType: 'phoneWithPrefix',
+                    required: true
                 },
                 {
                     templateName: 'SMS_TEMP_2',
@@ -285,7 +313,13 @@ export class IssueOnlineCriminalContactInfoNewComponent implements OnInit, DoChe
                     type: 'datetime',
                     required: true,
                 },
-
+                {
+                    templateName: 'EVIDENCE_SMS',
+                    dataField: 'EVIDENCE_ATTACHMENT',
+                    caption: 'แนบรูปภาพหน้าจอข้อความ SMS (สำคัญต่อการดำเนินคดี)',
+                    fieldType: 'file',
+                    required: true
+                }
             ]
         },
 
@@ -294,15 +328,18 @@ export class IssueOnlineCriminalContactInfoNewComponent implements OnInit, DoChe
             name: 'โทรศัพท์',
             formOption: [
                 {
-                    templateName: 'PHONE_TEMP_1',
+                    templateName: 'PHONE_NUMBER_LIST',
                     dataField: 'PHONE_NUMBER',
-                    caption: 'เบอร์โทรศัพท์ของคนร้าย',
-                    placeholder: 'หมายเลขโทรศัพท์',
-                    fieldType: 'textbox',
-                    maxLength: 15,
-                    required: true,
-                    pattern: '^([0+][0-9+]{10,15})$',
-                    type: 'phone'
+                    caption: 'เบอร์โทรศัพท์ของคนร้ายที่โทรเข้ามา',
+                    fieldType: 'phoneWithPrefix',
+                    required: true
+                },
+                {
+                    templateName: 'VICTIM_PHONE_LIST',
+                    dataField: 'VICTIM_PHONE',
+                    caption: 'เบอร์โทรศัพท์ของคุณที่ใช้ติดต่อ/รับสาย',
+                    fieldType: 'phoneWithPrefix',
+                    required: true
                 },
                 {
                     templateName: 'PHONE_TEMP_2',
@@ -351,6 +388,13 @@ export class IssueOnlineCriminalContactInfoNewComponent implements OnInit, DoChe
                     type: 'datetime',
                     required: true,
                 },
+                {
+                    templateName: 'EVIDENCE_PHONE',
+                    dataField: 'EVIDENCE_ATTACHMENT',
+                    caption: 'แนบรูปภาพประวัติการโทร (สำคัญต่อการดำเนินคดี)',
+                    fieldType: 'file',
+                    required: true
+                }
             ]
         },
 
@@ -1131,15 +1175,22 @@ export class IssueOnlineCriminalContactInfoNewComponent implements OnInit, DoChe
             ]
         }
     ];
-    selectedChannel1: ChannelFormConfig | null = null;
-    selectedChannel2: ChannelFormConfig | null = null;
-    selectedChannel3: ChannelFormConfig | null = null;
+
+    selectedChannel1: ChannelFormConfig;
+    selectedChannel2: ChannelFormConfig;
+    selectedChannel3: ChannelFormConfig;
 
     formData1: any = {};
     formData2: any = {};
     formData3: any = {};
 
-    videoData : any = [
+    attachments: { [group: number]: { [field: string]: any[] } } = {
+        1: {},
+        2: {},
+        3: {}
+    };
+
+    videoData: any = [
         {
             title: "ตัวอย่างการกรอกข้อมูล Facebook",
             url: "https://drive.google.com/file/d/1nR9AAYsdqGvwGyKQq7NyL6kBhSbfnLon/view?usp=drive_link",
@@ -1151,7 +1202,7 @@ export class IssueOnlineCriminalContactInfoNewComponent implements OnInit, DoChe
             category: "Instagram"
         },
         {
-           title: "ตัวอย่างการกรอกข้อมูล Line",
+            title: "ตัวอย่างการกรอกข้อมูล Line",
             url: "https://drive.google.com/file/d/1hOBhCpWXFMpNDfVC-5kAey2iM3PRjZAY/view?usp=drive_link",
             category: "Line"
         },
@@ -1161,7 +1212,7 @@ export class IssueOnlineCriminalContactInfoNewComponent implements OnInit, DoChe
             category: "SMS"
         },
         {
-           title: "ตัวอย่างการกรอกข้อมูล TikTok",
+            title: "ตัวอย่างการกรอกข้อมูล TikTok",
             url: "https://drive.google.com/file/d/1zwn35jMGpsoMjdDB2GQVwX0gVExhQOrl/view?usp=drive_link",
             category: "TikTok"
         }
@@ -1170,8 +1221,6 @@ export class IssueOnlineCriminalContactInfoNewComponent implements OnInit, DoChe
     currentFilter: string = 'All';
     categories: string[] = [];
     filteredVideos: any[] = [];
-
-    //  End Zone new Code
 
     constructor(
         private servBankInfo: BankInfoService,
@@ -1182,6 +1231,8 @@ export class IssueOnlineCriminalContactInfoNewComponent implements OnInit, DoChe
     ) { }
 
     ngOnInit(): void {
+        this.categories = Array.from(new Set(this.videoData.map(v => v.category)));
+        this.updateFilteredVideos();
         if (this.dataForm) {
             if (this.formType === 'view') {
                 this.formReadOnly = true;
@@ -1190,66 +1241,38 @@ export class IssueOnlineCriminalContactInfoNewComponent implements OnInit, DoChe
                 this.loadDataFormEdit();
             }
         }
-        // ปรับ maxDateValue +1 ชั่วโมง แบบชัดเจน (ไม่พึ่ง timezone API พิเศษ)
         this.maxDateValue = new Date((this.maxDateValue ?? new Date()).getTime() + 60 * 60 * 1000);
-
-        // debug เฉพาะตอน dev
         console.log('formData:', this.formData);
     }
 
-    safeGet<T = any>(key: string): T | undefined {
-        const raw = localStorage.getItem(key);
-        if (!raw) return undefined;
-        try { return JSON.parse(raw) as T; }
-        catch (e) {
-            console.error(`Invalid JSON in localStorage for ${key}:`, e);
-            return undefined;
+    ngDoCheck(): void {
+        if (this.fileTypeSelectedValue != '') {
+            this.fileTypeSelected = true;
+        } else {
+            this.fileTypeSelected = false;
         }
     }
 
-    ngDoCheck(): void {
+    initData() {
+        if (this.dataForm) {
+            // Mapping load logic (Simplify if needed)
+            this.prepareFormDataOnLoad();
+        }
     }
 
-    Back(e) {
-        this.mainConponent.NextIndex(this.mainConponent.indexTab - 1);
+    setFilter(category: string): void {
+        this.currentFilter = category;
+        this.updateFilteredVideos();
     }
 
-    CheckNumberBandit(event) {
-        const seperator = '^([0-9+])+$';
-        const maskSeperator = new RegExp(seperator, 'g');
-        const result = maskSeperator.test(event.key);
-        return result;
-    }
-    PasteCheckNumberBandit(event) {
-        const clipboardData = event.clipboardData;
-        const pastedText = clipboardData.getData('text');
-        const seperator = '^([0-9+])+$';
-        const maskSeperator = new RegExp(seperator, 'g');
-        const result = maskSeperator.test(pastedText);
-        return result;
-    }
-    CheckNumber(event) {
-        // const seperator  = '^[ก-๏\\s]+$';
-        const seperator = '^([0-9])';
-        const maskSeperator = new RegExp(seperator, 'g');
-        const result = maskSeperator.test(event.key);
-        return result;
-    }
-    PasteCheckNumber(event) {
-        const clipboardData = event.clipboardData;
-        const pastedText = clipboardData.getData('text');
-        // const seperator  = '^[ก-๏\\s]+$';
-        const seperator = '^([0-9])';
-        const maskSeperator = new RegExp(seperator, 'g');
-        const result = maskSeperator.test(pastedText);
-        return result;
+    private updateFilteredVideos(): void {
+        if (this.currentFilter === 'All') {
+            this.filteredVideos = [...this.videoData];
+        } else {
+            this.filteredVideos = this.videoData.filter(v => v.category === this.currentFilter);
+        }
     }
 
-    PhoneNumberPattern(params) {
-        const makeScope = new RegExp('^[0](?=[0-9]{9,9}$)', 'g');
-        return makeScope.test(params.value);
-    }
-    //  Zone new Code
     loadDataForm() {
         if (!this.dataForm) {
             return;
@@ -1259,7 +1282,6 @@ export class IssueOnlineCriminalContactInfoNewComponent implements OnInit, DoChe
         const id2 = this.dataForm.selectedChannel2?.id;
         const id3 = this.dataForm.selectedChannel3?.id;
 
-        // 👇 รีแมปให้มาใช้ object จาก config จริง ๆ เสมอ
         this.selectedChannel1 = id1
             ? this.configFormOption1.find(x => x.id === id1) ?? null
             : null;
@@ -1272,13 +1294,13 @@ export class IssueOnlineCriminalContactInfoNewComponent implements OnInit, DoChe
             ? this.configFormOption3.find(x => x.id === id3) ?? null
             : null;
 
-        this.onSelectChannel(this.selectedChannel1, 1);
-        this.onSelectChannel(this.selectedChannel2, 2);
-        this.onSelectChannel(this.selectedChannel3, 3);
+        this.formData1 = this.prepareDataForLoad(this.dataForm.formData1 || {}, 1);
+        this.formData2 = this.prepareDataForLoad(this.dataForm.formData2 || {}, 2);
+        this.formData3 = this.prepareDataForLoad(this.dataForm.formData3 || {}, 3);
 
-        this.formData1 = { ...(this.dataForm.formData1 || {}) };
-        this.formData2 = { ...(this.dataForm.formData2 || {}) };
-        this.formData3 = { ...(this.dataForm.formData3 || {}) };
+        if (this.selectedChannel1) this.onSelectChannel(this.selectedChannel1, 1, false);
+        if (this.selectedChannel2) this.onSelectChannel(this.selectedChannel2, 2, false);
+        if (this.selectedChannel3) this.onSelectChannel(this.selectedChannel3, 3, false);
     }
 
     loadDataFormEdit() {
@@ -1291,7 +1313,6 @@ export class IssueOnlineCriminalContactInfoNewComponent implements OnInit, DoChe
         const id2 = form?.selectedChannel2?.id;
         const id3 = form?.selectedChannel3?.id;
 
-        // 👇 รีแมปให้มาใช้ object จาก config จริง ๆ เสมอ
         this.selectedChannel1 = id1
             ? this.configFormOption1.find(x => x.id === id1) ?? null
             : null;
@@ -1304,33 +1325,66 @@ export class IssueOnlineCriminalContactInfoNewComponent implements OnInit, DoChe
             ? this.configFormOption3.find(x => x.id === id3) ?? null
             : null;
 
-        this.onSelectChannel(this.selectedChannel1, 1);
-        this.onSelectChannel(this.selectedChannel2, 2);
-        this.onSelectChannel(this.selectedChannel3, 3);
+        this.formData1 = this.prepareDataForLoad(form?.formData1 || {}, 1);
+        this.formData2 = this.prepareDataForLoad(form?.formData2 || {}, 2);
+        this.formData3 = this.prepareDataForLoad(form?.formData3 || {}, 3);
 
-        this.formData1 = { ...(form?.formData1 || {}) };
-        this.formData2 = { ...(form?.formData2 || {}) };
-        this.formData3 = { ...(form?.formData3 || {}) };
+        if (this.selectedChannel1) this.onSelectChannel(this.selectedChannel1, 1, false);
+        if (this.selectedChannel2) this.onSelectChannel(this.selectedChannel2, 2, false);
+        if (this.selectedChannel3) this.onSelectChannel(this.selectedChannel3, 3, false);
     }
-    //  Zone new Code
-    onSelectChannel(cfg: ChannelFormConfig, section: 1 | 2 | 3): void {
-        if (section === 1) {
-            this.selectedChannel1 = cfg;
-            this.formData1 = {};  // เคลียร์ข้อมูลเดิมเมื่อเปลี่ยนช่องทาง
-        }
-        if (section === 2) {
-            this.selectedChannel2 = cfg;
-            this.formData2 = {};  // เคลียร์ข้อมูลเดิมเมื่อเปลี่ยนช่องทาง
-        }
-        if (section === 3) {
-            this.selectedChannel3 = cfg;
-            this.formData3 = {};  // เคลียร์ข้อมูลเดิมเมื่อเปลี่ยนช่องทาง
+
+    prepareDataForLoad(data: any, section: number): any {
+        // Simple passthrough or mapping if needed
+        return data;
+    }
+
+    prepareFormDataOnLoad() {
+        // Implementation if needed
+    }
+
+    onSelectChannel(cfg: ChannelFormConfig, section: 1 | 2 | 3, clear: boolean = true): void {
+        const target = this.getFormBySection(section);
+        // เคลียร์ข้อมูลเดิมเมื่อเปลี่ยนช่องทาง
+        if (clear) {
+            for (const key in target) {
+                delete target[key];
+            }
         }
 
-        cfg.formOption.forEach(f => {
-            this.initFieldValue(f);        // ของเดิมที่คุณมี
-            this.initEditorOptions(f);     // 👈 เพิ่มอันนี้
-        });
+        if (section === 1) this.selectedChannel1 = cfg;
+        if (section === 2) this.selectedChannel2 = cfg;
+        if (section === 3) this.selectedChannel3 = cfg;
+
+        if (cfg) {
+            cfg.formOption.forEach(f => {
+                this.initFieldValue(f, target);
+                this.initEditorOptions(f);
+            });
+        }
+    }
+
+    private initFieldValue(field: FieldConfig, target: any): void {
+        if (field.fieldType === 'group') {
+            field.children?.forEach(c => this.initFieldValue(c, target));
+            return;
+        }
+
+        const currentValue = target[field.dataField];
+
+        if (field.fieldType === 'checkbox' || field.fieldType === 'file') {
+            if (!Array.isArray(currentValue)) {
+                target[field.dataField] = [];       // checkbox and file → array
+            }
+        } else if (field.fieldType === 'phoneWithPrefix') {
+            if (!currentValue || typeof currentValue !== 'object' || Array.isArray(currentValue)) {
+                target[field.dataField] = { prefix: '', number: '' };
+            }
+        } else {
+            if (currentValue === undefined) {
+                target[field.dataField] = null;     // selectbox / radiobox / textbox
+            }
+        }
     }
 
     private initEditorOptions(field: FieldConfig): void {
@@ -1387,9 +1441,9 @@ export class IssueOnlineCriminalContactInfoNewComponent implements OnInit, DoChe
         if (field.fieldType === 'file') {
             return {
                 ...base,
-                selectButtonText: 'เลือกไฟล์',
-                labelText: '',
-                accept: '*',
+                selectButtonText: 'เลือกไฟล์ภาพหลักฐาน',
+                labelText: 'การแนบรูปภาพหลักฐานสำคัญต่อการดำเนินคดี',
+                accept: 'image/*',
                 uploadMode: 'useButtons',
                 multiple: false
             };
@@ -1409,57 +1463,17 @@ export class IssueOnlineCriminalContactInfoNewComponent implements OnInit, DoChe
         }
 
         // TEXTBOX หรืออื่น ๆ
+        if (field.type === 'phone_only') {
+            base.mode = 'tel';
+            base.onKeyPress = (e) => {
+                const event = e.event;
+                if (!/[0-9]/.test(event.key)) {
+                    event.preventDefault();
+                }
+            };
+        }
+
         return base;
-    }
-
-    private initFieldValue(field: FieldConfig): void {
-        if (field.fieldType === 'group') {
-            field.children?.forEach(c => this.initFieldValue(c));
-            return;
-        }
-
-        // ถ้ายังไม่เคยมี key นี้ใน formData → set default
-        if (this.formData[field.dataField] === undefined) {
-            if (field.fieldType === 'checkbox') {
-                this.formData[field.dataField] = [];       // checkbox list → array
-            } else {
-                this.formData[field.dataField] = null;     // selectbox / radiobox / textbox
-            }
-        }
-    }
-
-    getEditorType(field: FieldConfig): string {
-        switch (field.fieldType) {
-            case 'textbox': return 'dxTextBox';
-            case 'textarea': return 'dxTextArea';
-            case 'selectbox': return 'dxSelectBox';
-            case 'file': return 'dxFileUploader';
-            case 'radiobox': return 'dxRadioGroup';   // ✅ ให้ dxForm สร้างเอง
-            case 'datebox': return 'dxDateBox'; 
-            default: return 'dxTextBox';
-        }
-    }
-
-    private isObjectArray(arr: any): boolean {
-        return Array.isArray(arr) && arr.length > 0 && typeof arr[0] === 'object';
-    }
-
-
-    onSubmit(channel: ChannelFormConfig): void {
-        console.log('Submit channel:', channel.id, this.formData);
-        // TODO: ยิง API หรือ map เป็น payload ตามต้องการ
-    }
-
-    // private getCheckboxValue(field: FieldConfig): any[] {
-    //     const current = this.formData[field.dataField];
-    //     return Array.isArray(current) ? current : [];
-    // }
-
-    isChecked(section: 1 | 2 | 3, field: FieldConfig, opt: any): boolean {
-        const list = this.getCheckboxValue(section, field);
-        const valueKey = field.valueExpr || 'id';
-        const id = typeof opt === 'object' ? opt[valueKey] : opt;
-        return list.includes(id);
     }
 
     private getFormBySection(section: 1 | 2 | 3): any {
@@ -1470,72 +1484,127 @@ export class IssueOnlineCriminalContactInfoNewComponent implements OnInit, DoChe
             default: return this.formData1;
         }
     }
-    getCheckboxValue(section: 1 | 2 | 3, field: FieldConfig): any[] {
-        const form = this.getFormBySection(section);
-        const raw = form[field.dataField];
 
-        if (Array.isArray(raw)) {
-            return raw;
-        }
-        if (raw === null || raw === undefined) {
-            return [];
-        }
-        return [raw];
+    get filteredVideosList() {
+        return this.filteredVideos;
     }
 
-    onCheckboxChange(section: 1 | 2 | 3, field: FieldConfig, opt: any, e: any): void {
-        const valueKey = field.valueExpr || 'id';
-        const id = typeof opt === 'object' ? opt[valueKey] : opt;
+    isFieldVisible(field: any, group: number): boolean {
+        if (!field.visibleWhen) return true;
+        const target = group === 1 ? this.formData1 : (group === 2 ? this.formData2 : this.formData3);
+        const val = target[field.visibleWhen.dataField];
+        if (Array.isArray(val)) {
+            return field.visibleWhen.values.some(v => val.includes(v));
+        }
+        return field.visibleWhen.values.includes(val);
+    }
 
-        let list = this.getCheckboxValue(section, field);
+    getEditorType(field: any) {
+        switch (field.fieldType) {
+            case 'textbox': return 'dxTextBox';
+            case 'selectbox': return 'dxSelectBox';
+            case 'radiobox': return 'dxRadioGroup';
+            case 'datebox': return 'dxDateBox';
+            case 'textarea': return 'dxTextArea';
+            default: return 'dxTextBox';
+        }
+    }
+
+    onCheckboxChange(group: number, field: any, opt: any, e: any) {
+        const target = group === 1 ? this.formData1 : (group === 2 ? this.formData2 : this.formData3);
+        const val = opt[field.displayExpr || 'TEXT'];
+        if (!target[field.dataField]) target[field.dataField] = [];
 
         if (e.value) {
-            if (!list.includes(id)) {
-                list = [...list, id];
+            if (!target[field.dataField].includes(val)) {
+                target[field.dataField].push(val);
             }
         } else {
-            list = list.filter(x => x !== id);
+            target[field.dataField] = target[field.dataField].filter(v => v !== val);
+        }
+    }
+
+    isChecked(group: number, field: any, opt: any) {
+        const target = group === 1 ? this.formData1 : (group === 2 ? this.formData2 : this.formData3);
+        const val = opt[field.displayExpr || 'TEXT'];
+        return target[field.dataField]?.includes(val);
+    }
+
+    async onFileValueChanged(e: any, section: 1 | 2 | 3, dataField: string) {
+        const files = e.value;
+        const target = this.getFormBySection(section);
+
+        if (!files || files.length === 0) {
+            target[dataField] = [];
+            return;
         }
 
+        const base64Files = [];
+        for (const file of files) {
+            try {
+                const base64 = await this.fileToBase64(file);
+                base64Files.push({
+                    storage: 'base64',
+                    name: file.name,
+                    url: base64,
+                    file: file,
+                    originalName: file.name,
+                    size: file.size,
+                    sizeDetail: formatSize(file.size),
+                    type: file.type,
+                    dateNow: new Date(),
+                });
+            } catch (err) {
+                console.error("Error converting file to base64", err);
+            }
+        }
+        target[dataField] = base64Files;
+    }
+
+    private fileToBase64(file: File): Promise<string> {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = error => reject(error);
+        });
+    }
+
+    getFiles(section: 1 | 2 | 3, dataField: string): any[] {
         const form = this.getFormBySection(section);
-        form[field.dataField] = list;       // << เขียนกลับลงฟอร์มที่ถูกต้อง
+        const files = form[dataField];
+        return Array.isArray(files) ? files : [];
     }
 
-    isFieldVisible(field: FieldConfig, formIndex: Number): boolean {
-        if (!field.visibleWhen) {
-            return true;
-        }
+    removeFile(section: 1 | 2 | 3, dataField: string, file: any): void {
+        const form = this.getFormBySection(section);
+        form[dataField] = form[dataField].filter((f: any) => f !== file);
+    }
 
-        const cond = field.visibleWhen;
-        if (formIndex == 1) {
-            return this.evaluateCondition(cond, this.formData1);
-        }
-        if (formIndex == 2) {
-            return this.evaluateCondition(cond, this.formData2);
-        }
-        if (formIndex == 3) {
-            return this.evaluateCondition(cond, this.formData3);
-        } else {
-            return true;
+    onPhoneKeyPress(e: any, prefix?: string): void {
+        const event = e.event;
+        const allowedRegex = prefix === 'อื่นๆ' ? /[0-9+]/ : /[0-9]/;
+        if (!allowedRegex.test(event.key)) {
+            event.preventDefault();
         }
     }
-    private evaluateCondition(cond: FieldVisibleWhen, data: any): boolean {
-        const currentValue = data[cond.dataField];
-        if (Array.isArray(currentValue)) {
-            return currentValue.some(v => cond.values.includes(v));
-        }
-        return cond.values.includes(currentValue);
+
+    getPhoneMaxLength(prefix: string): number {
+        const config = this.popularPrefixes.find(p => p.ID === prefix);
+        if (config && config.length !== -1) return config.length;
+        return 20; // Default or 'อื่นๆ'
+    }
+
+    Back(e) {
+        this.mainConponent.NextIndex(this.mainConponent.indexTab - 1);
     }
 
     SubmitFormChannelNew(e) {
-        console.log(this.formData1);
-        console.log(this.formData2);
-        console.log(this.formData3);
         if (this.formData1 == null || Object.keys(this.formData1).length === 0) {
             Swal.fire({
                 icon: 'error',
                 title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
-                html: 'กรุณากรอกข้อมูลให้ครบถ้วน'
+                html: 'กรุณากรอกข้อมูลส่วนที่ 1 ให้ครบถ้วน'
             });
             return;
         }
@@ -1543,7 +1612,7 @@ export class IssueOnlineCriminalContactInfoNewComponent implements OnInit, DoChe
             Swal.fire({
                 icon: 'error',
                 title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
-                html: 'กรุณากรอกข้อมูลให้ครบถ้วน'
+                html: 'กรุณากรอกข้อมูลส่วนที่ 2 ให้ครบถ้วน'
             });
             return;
         }
@@ -1551,24 +1620,123 @@ export class IssueOnlineCriminalContactInfoNewComponent implements OnInit, DoChe
             Swal.fire({
                 icon: 'error',
                 title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
-                html: 'กรุณากรอกข้อมูลให้ครบถ้วน'
+                html: 'กรุณากรอกข้อมูลส่วนที่ 3 ให้ครบถ้วน'
             });
             return;
         }
+
+        // Initial validation for non-empty sections
+        if (!this.validatePhoneRequired(this.formData1, this.selectedChannel1)) return;
+        if (!this.validatePhoneRequired(this.formData2, this.selectedChannel2)) return;
+        if (!this.validatePhoneRequired(this.formData3, this.selectedChannel3)) return;
+
         if (!this.form1.instance.validate().isValid ||
             !this.form2.instance.validate().isValid ||
             !this.form3.instance.validate().isValid) {
             Swal.fire({
                 icon: 'error',
                 title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
-                html: 'กรุณากรอกข้อมูลให้ครบถ้วน'
+                html: 'กรุณากรอกข้อมูลให้ครบถ้วน และตรวจสอบรูปแบบข้อมูล'
             });
             return;
         }
+
+        // Requirement 1.4: Warning to check sender number not self (Only for SMS and Phone)
+        const isPhoneOrSms = this.selectedChannel1?.id === 'SMS' || this.selectedChannel1?.id === 'PHONE';
+
+        if (isPhoneOrSms) {
+            Swal.fire({
+                title: 'โปรดตรวจสอบอีกครั้ง',
+                html: 'กรุณาตรวจสอบให้แน่ใจว่าเบอร์โทรศัพท์ที่ระบุเป็น <b>"เบอร์โทรศัพท์ของคนร้าย"</b> ไม่ใช่เบอร์โทรศัพท์ของ <b>ท่านเอง</b> หากระบุผิดจะส่งผลต่อการดำเนินคดี',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'ยืนยัน ข้อมูลถูกต้อง',
+                cancelButtonText: 'กลับไปแก้ไข',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.finishSubmitNew(e);
+                }
+            });
+        } else {
+            this.finishSubmitNew(e);
+        }
+    }
+
+    private validatePhoneRequired(formData: any, channel: ChannelFormConfig): boolean {
+        if (!channel) return true;
+        const phoneFields = channel.formOption
+            .filter(f => f.fieldType === 'phoneWithPrefix' && f.required)
+            .map(f => f.dataField);
+
+        for (const df of phoneFields) {
+            const val = formData[df];
+            if (!val || !val.prefix || !val.number) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
+                    text: `กรุณากรอกเบอร์โทรศัพท์ให้ครบถ้วน`
+                });
+                return false;
+            }
+
+            const prefixConfig = this.popularPrefixes.find(p => p.ID === val.prefix);
+            if (prefixConfig && prefixConfig.length !== -1) {
+                if (val.number.length !== prefixConfig.length) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'รูปแบบเบอร์โทรศัพท์ไม่ถูกต้อง',
+                        text: `เบอร์โทรศัพท์สำหรับ Prefix ${val.prefix} ต้องมีตัวเลขอีก ${prefixConfig.length} หลัก`
+                    });
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private splitPhoneNumber(full: string): { prefix: string, number: string } {
+        if (!full) return { prefix: '', number: '' };
+        // match longest prefixes first (+66 before 0)
+        const sorted = [...this.popularPrefixes].filter(p => p.ID !== 'อื่นๆ').sort((a, b) => b.ID.length - a.ID.length);
+        for (const p of sorted) {
+            if (full.startsWith(p.ID)) {
+                return { prefix: p.ID, number: full.substring(p.ID.length) };
+            }
+        }
+        return { prefix: 'อื่นๆ', number: full };
+    }
+
+    private finishSubmitNew(e) {
+        // Prepare data for saving by merging prefix and number
+        const mergePhone = (data: any, section: number) => {
+            const res = { ...data };
+            const configs = section === 1 ? this.configFormOption1 : (section === 2 ? this.configFormOption2 : this.configFormOption3);
+            const phoneFields: string[] = [];
+            configs.forEach(c => {
+                c.formOption.forEach(f => {
+                    if (f.fieldType === 'phoneWithPrefix') phoneFields.push(f.dataField);
+                });
+            });
+
+            phoneFields.forEach(df => {
+                const val = res[df];
+                if (val && typeof val === 'object' && val.prefix && val.number) {
+                    res[df] = val.prefix === 'อื่นๆ' ? val.number : val.prefix + val.number;
+                }
+            });
+            return res;
+        };
+
+        const finalData1 = mergePhone(this.formData1, 1);
+        const finalData2 = mergePhone(this.formData2, 2);
+        const finalData3 = mergePhone(this.formData3, 3);
+
         let setData = {
-            formData1: this.formData1,
-            formData2: this.formData2,
-            formData3: this.formData3,
+            formData1: finalData1,
+            formData2: finalData2,
+            formData3: finalData3,
             selectedChannel1: this.selectedChannel1
                 ? { id: this.selectedChannel1.id, name: this.selectedChannel1.name }
                 : null,
@@ -1591,68 +1759,75 @@ export class IssueOnlineCriminalContactInfoNewComponent implements OnInit, DoChe
             this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
         }
     }
-    //   end Zone new Code
+
+    // --- Old Attachment methods (kept for compatibility if needed in popup) ---
+    FilesDroppedAttachment(files: any) {
+        if (files && files.length > 0) {
+            this.UploadFileAttachment({ files: files });
+        }
+    }
+
+    OpenFileDialogAttachment(input: any) {
+        input.click();
+    }
+
+    async UploadFileAttachment(uploadTag) {
+        const files: any = uploadTag.files;
+        if (files.length > 0) {
+            const fileCheck = await this._issueFile.CheckFileUploadAllowListSizeDialog(this.maxSizeBuffer, files);
+            if (fileCheck.status) {
+                let fileItem = {} as any;
+                this.maxSizeBuffer = fileCheck.uploadSizeAll ?? 0;
+                for (const item of fileCheck.filebase64Array) {
+                    this._fileName = item.originalName;
+                    const fileName = item.originalName;
+                    this._fileSize = item.sizeDetail;
+                    fileItem = {
+                        name: fileName,
+                        size: item.size,
+                        sizeDetail: this.BytesToSize(item.size),
+                        type: item.type,
+                        originalName: fileName,
+                        url: item.url,
+                    };
+                }
+                this._fileForm = fileItem;
+                this.popupFormUploaded = true;
+            }
+        }
+    }
+
+    BytesToSize(bytes) {
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        if (bytes === 0) {
+            return '0 Byte';
+        }
+        const data: any = Math.floor(Math.log(bytes) / Math.log(1024));
+        const i = parseInt(data, 10);
+        return Math.round(bytes / Math.pow(1024, i)) + ' ' + sizes[i];
+    }
+
+    ClearDocBufferAttachment() {
+        this._fileForm = {};
+        this.popupFormUploaded = false;
+    }
+
+    PopupUploadClose() {
+        this.popupAttachment = false;
+        this.ClearDocBufferAttachment();
+        this.fileTypeSelectedValue = '';
+    }
+
+    PopupUploadSave() {
+        if (this._fileForm.fileGuid) {
+            this.listAttachment.push(this._fileForm);
+            this.PopupUploadClose();
+        }
+    }
 }
 
-interface FormCaseChannel {
-    CHANNEL_EMAIL_DOC?: any[];
-    CHANNEL_FACEBOOK_DOC?: any[];
-    CHANNEL_INSTARGRAM_DOC?: any[];
-    CHANNEL_LINE_DOC?: any[];
-    CHANNEL_MESSENGER_DOC?: any[];
-    CHANNEL_OTHERS_DOC?: any[];
-    CHANNEL_PHONE_DOC?: any[];
-    CHANNEL_SMS_DOC?: any[];
-    CHANNEL_TELEGRAM_DOC?: any[];
-    CHANNEL_TWITTER_DOC?: any[];
-    CHANNEL_WEBSITE_DOC?: any[];
-    CHANNEL_WHATSAPP_DOC?: any[];
-    CHANNEL_TIKTOK_DOC?: any[];
-    ATTACHMENT_DOC?: any[];
-    // Optional bucket for unexpected types
-    UNMAPPED_DOC?: any[];
-}
-
-export type FieldType =
-    | 'textbox'
-    | 'textarea'
-    | 'selectbox'
-    | 'file'
-    | 'radiobox'
-    | 'checkbox'
-    | 'group'
-    | 'datebox';
-
-export interface FieldConfig {
-    templateName: string;
-    dataField: string;
-    caption: string;
-    placeholder?: string;
-    fieldType: FieldType;
-    conditionalShow?: string;
-    maxLength?: number;
-
-    required?: boolean;
-    pattern?: string;
-    type?: 'email' | 'phone' | 'url' | 'subForm' | string;
-
-    options?: any[];
-    displayExpr?: string;
-    valueExpr?: string;
-
-    children?: FieldConfig[];
-    editorOptions?: any;
-    visibleWhen?: FieldVisibleWhen;
-}
-
-export interface ChannelFormConfig {
+interface ChannelFormConfig {
     id: string;
     name: string;
-    formOption: FieldConfig[];
+    formOption: any[];
 }
-
-export interface FieldVisibleWhen {
-    dataField: string;   // ฟิลด์ที่ใช้เป็นตัวกำหนด เช่น 'CONTROL_DEVICE_MAIN'
-    values: any[];       // ค่าใดบ้างที่ทำให้ฟิลด์นี้มองเห็น เช่น ['YES', 'HAS_APK']
-}
-//   end Zone new Code
