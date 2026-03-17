@@ -13,7 +13,8 @@
                     ⚠️ โปรดติดต่อธนาคารต้นทางของท่านเพื่อแจ้งอายัดบัญชีปลายทางโดยเร็วที่สุด!
                 </div>
                 <!-- สร้างปุ่มเพิ่มข้อมูลถึงจะแสดงฟอร์มเพิ่มข้อมูล -->
-                <button *ngIf="!form1Added && !readOnlyForm" class="btn btn-primary mb-3" (click)="addShowForm('1')">เพิ่มข้อมูล</button>
+                <button *ngIf="!form1Added && !readOnlyForm" class="btn btn-primary mb-3"
+                    (click)="addShowForm('1')">เพิ่มข้อมูล</button>
                 <!-- สร้างปุ่มยกเลิก -->
                 <button *ngIf="form1Added" class="btn btn-secondary mb-3" (click)="cancelShowForm('1')">ยกเลิก</button>
 
@@ -50,7 +51,7 @@
                         </dxi-item>
 
                         <!-- ------------------ ปลายทาง ------------------ -->
-                         <!-- ประเภทบัญชี -->
+                        <!-- ประเภทบัญชี -->
                         <dxi-item dataField="BANK_TYPE" [label]="bankDestTypeLabel" editorType="dxSelectBox"
                             [isRequired]="true" [editorOptions]="bankDestTypeEditorOptions">
                             <dxo-validation-rules>
@@ -59,8 +60,9 @@
                             </dxo-validation-rules>
                         </dxi-item>
 
-                        <dxi-item [visible]="formDamageType1?.BANK_TYPE === 'ธนาคาร'" dataField="BANK_ID" [label]="bankDestLabel" editorType="dxSelectBox"
-                            [isRequired]="true" [editorOptions]="bankDestEditorOptions">
+                        <dxi-item [visible]="formDamageType1?.BANK_TYPE === 'ธนาคาร'" dataField="BANK_ID"
+                            [label]="bankDestLabel" editorType="dxSelectBox" [isRequired]="true"
+                            [editorOptions]="bankDestEditorOptions">
                             <dxo-validation-rules>
                                 <dxi-validation-rule type="required" message="กรุณาเลือกชื่อธนาคารปลายทาง">
                                 </dxi-validation-rule>
@@ -70,7 +72,8 @@
                         <dxi-item dataField="BANK_ACCOUNT" [label]="bankAccountDestLabel" editorType="dxTextBox"
                             [isRequired]="true" [editorOptions]="bankAccountDestEditorOptions">
                             <dxo-validation-rules>
-                                <dxi-validation-rule type="required" message="กรุณากรอกเลขที่บัญชีปลายทาง/เอกลักษณ์บัญชีปลายทาง">
+                                <dxi-validation-rule type="required"
+                                    message="กรุณากรอกเลขที่บัญชีปลายทาง/เอกลักษณ์บัญชีปลายทาง">
                                 </dxi-validation-rule>
                                 <dxi-validation-rule type="stringLength" [min]="10" [max]="20"
                                     message="กรุณากรอกเลขที่บัญชี 10-20 หลัก">
@@ -78,8 +81,8 @@
                             </dxo-validation-rules>
                         </dxi-item>
 
-                        <dxi-item [visible]="isBankAccountVisible" dataField="BANK_ACCOUNT_NAME" [label]="bankAccountNameDestLabel"
-                            editorType="dxTextBox" [isRequired]="true"
+                        <dxi-item [visible]="isBankAccountVisible" dataField="BANK_ACCOUNT_NAME"
+                            [label]="bankAccountNameDestLabel" editorType="dxTextBox" [isRequired]="true"
                             [editorOptions]="bankAccountNameDestEditorOptions">
                             <dxo-validation-rules>
                                 <dxi-validation-rule type="required" message="กรุณากรอกชื่อบัญชีปลายทาง">
@@ -92,7 +95,7 @@
                             <dxo-validation-rules>
                                 <dxi-validation-rule type="required" message="กรุณากรอกจำนวนเงิน">
                                 </dxi-validation-rule>
-                                <dxi-validation-rule type="numeric"  message="กรุณากรอกเป็นตัวเลข"></dxi-validation-rule>
+                                <dxi-validation-rule type="numeric" message="กรุณากรอกเป็นตัวเลข"></dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item>
 
@@ -155,10 +158,12 @@
                 <div class="form-box-title mt-3 mb-3" style="color:red;font-weight: bold;">
                     ⚠️ โปรดเพิ่มเลขอ้างอิงจากธนาคารที่ท่านได้รับหลังจากติดต่ออายัดบัญชีปลายทางแล้ว!
                 </div>
-                <button *ngIf="!formBankRefAdded && !readOnlyForm" class="btn btn-primary mb-3" (click)="addShowForm('BankRef')">เพิ่มข้อมูล</button>
-                <button *ngIf="formBankRefAdded" class="btn btn-secondary mb-3" (click)="cancelShowForm('BankRef')">ยกเลิก</button>
+                <button *ngIf="!formBankRefAdded && !readOnlyForm" class="btn btn-primary mb-3"
+                    (click)="addShowForm('BankRef')">เพิ่มข้อมูล</button>
+                <button *ngIf="formBankRefAdded" class="btn btn-secondary mb-3"
+                    (click)="cancelShowForm('BankRef')">ยกเลิก</button>
                 <div class="form-box-input" *ngIf="!readOnlyForm && formBankRefAdded">
-                   <dx-form #formAgreeBank id="form" [formData]="submission" labelLocation="top" [colCount]="2">
+                    <dx-form #formAgreeBank id="form" [formData]="submission" labelLocation="top" [colCount]="2">
                         <dxi-item itemType="group">
                             <div class="dx-field" id="bankid-container">
                                 <div class="dx-field-label">ได้รับเลขอ้างอิงจากธนาคารแล้ว : </div>
@@ -217,7 +222,8 @@
                                 </dx-button>
                             </div>
                         </dxi-column>
-                        <dxi-column dataField="" caption="ลำดับที่" [width]="80" alignment="center" [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
+                        <dxi-column dataField="" caption="ลำดับที่" [width]="80" alignment="center"
+                            [allowEditing]="false" cellTemplate="cellTemplate"></dxi-column>
                         <dxi-column dataField="FREEZE_ACT_BANK_TRACK_NO" caption="รหัสอ้างอิงธนาคาร" alignment="center">
                         </dxi-column>
                         <dxi-column dataField="FREEZE_ACT_BANK_NAME" caption="ธนาคาร" alignment="center">
@@ -234,7 +240,8 @@
             </div>
             <div *ngIf="damageType.selected && damageType.id === 2" class="form-box p-4 mb-3 mt-3">
                 <div class="form-box-title mb-3"> รายการโอนสินทรัพย์ดิจิทัล </div>
-                <button *ngIf="!form2Added && !readOnlyForm" class="btn btn-primary mb-3" (click)="addShowForm('2')">เพิ่มข้อมูล</button>
+                <button *ngIf="!form2Added && !readOnlyForm" class="btn btn-primary mb-3"
+                    (click)="addShowForm('2')">เพิ่มข้อมูล</button>
                 <button *ngIf="form2Added" class="btn btn-secondary mb-3" (click)="cancelShowForm('2')">ยกเลิก</button>
                 <div class="form-box-input" *ngIf="!readOnlyForm && form2Added">
                     <dx-form #formboxDamageType2 [formData]="formDamageType2" [colCount]="2"
@@ -288,7 +295,7 @@
                             <dxo-validation-rules>
                                 <dxi-validation-rule type="required"
                                     message="กรุณากรอกจำนวนเหรียญที่โอน:"></dxi-validation-rule>
-                                    <dxi-validation-rule type="numeric"  message="กรุณากรอกเป็นตัวเลข"></dxi-validation-rule>
+                                <dxi-validation-rule type="numeric" message="กรุณากรอกเป็นตัวเลข"></dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item>
                         <dxi-item dataField="CRYPTO_AMOUNT_BATH" [label]="CryptoAmountLabel" editorType="dxTextBox"
@@ -296,7 +303,7 @@
                             <dxo-validation-rules>
                                 <dxi-validation-rule type="required"
                                     message="กรุณากรอกจำนวนเหรียญที่โอน:"></dxi-validation-rule>
-                                    <dxi-validation-rule type="numeric"  message="กรุณากรอกเป็นตัวเลข"></dxi-validation-rule>
+                                <dxi-validation-rule type="numeric" message="กรุณากรอกเป็นตัวเลข"></dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item>
                         <dxi-item dataField="CRYPTO_TRANSACTION_ID" [label]="CryptoTransactionIdLabel"
@@ -314,7 +321,7 @@
                     <dx-data-grid [dataSource]="listDamageValueType2" [showBorders]="true" [columnAutoWidth]="true"
                         [paging]="{ pageSize: 5 }"
                         [pager]="{ showPageSizeSelector: true, allowedPageSizes: [5, 10, 20], showInfo: true }">
-                        <dxi-column dataField="actions" caption="จัดการข้อมูล" width="100"  *ngIf="!readOnlyForm"
+                        <dxi-column dataField="actions" caption="จัดการข้อมูล" width="100" *ngIf="!readOnlyForm"
                             cellTemplate="actionsCellTemplate">
                             <div *dxTemplate="let cellData of 'actionsCellTemplate'">
                                 <dx-button type="default" icon="edit" hint="แก้ไขข้อมูล"
@@ -343,7 +350,8 @@
             </div>
             <div *ngIf="damageType.selected && damageType.id === 3" class="form-box p-4 mb-3 mt-3">
                 <div class="form-box-title mb-3"> รายการโอนเงินผ่าน e-Wallet </div>
-                <button *ngIf="!form3Added && !readOnlyForm" class="btn btn-primary mb-3" (click)="addShowForm('3')">เพิ่มข้อมูล</button>
+                <button *ngIf="!form3Added && !readOnlyForm" class="btn btn-primary mb-3"
+                    (click)="addShowForm('3')">เพิ่มข้อมูล</button>
                 <button *ngIf="form3Added" class="btn btn-secondary mb-3" (click)="cancelShowForm('3')">ยกเลิก</button>
                 <div class="form-box-input" *ngIf="!readOnlyForm && form3Added">
                     <dx-form #formboxDamageType3 [formData]="formDamageType3" [colCount]="3"
@@ -357,11 +365,13 @@
                             </dxo-validation-rules>
                         </dxi-item>
 
-                        <dxi-item *ngIf="isEwalletServiceOriginOtherRequired" dataField="EWALLET_SERVICE_ORIGIN_OTHER" [label]="EwalletServiceOriginOtherLabel"
-                            editorType="dxTextBox" [isRequired]="isEwalletServiceOriginOtherRequired"
+                        <dxi-item *ngIf="isEwalletServiceOriginOtherRequired" dataField="EWALLET_SERVICE_ORIGIN_OTHER"
+                            [label]="EwalletServiceOriginOtherLabel" editorType="dxTextBox"
+                            [isRequired]="isEwalletServiceOriginOtherRequired"
                             [editorOptions]="EwalletServiceOriginOtherEditorOptions">
                             <dxo-validation-rules>
-                                <dxi-validation-rule type="required" message="กรุณาระบุประเภทอื่นๆ"></dxi-validation-rule>
+                                <dxi-validation-rule type="required"
+                                    message="กรุณาระบุประเภทอื่นๆ"></dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item>
 
@@ -379,7 +389,8 @@
                         <dxi-item dataField="EWALLET_NAME_ORIGIN" [label]="EwalletNameOriginLabel"
                             editorType="dxTextBox" [editorOptions]="EwalletNameOriginEditorOptions">
                         </dxi-item>
-                        <dxi-item *ngIf="isEwalletServiceOriginOtherRequired" editorType="empty" [colSpan]="2"></dxi-item>
+                        <dxi-item *ngIf="isEwalletServiceOriginOtherRequired" editorType="empty"
+                            [colSpan]="2"></dxi-item>
 
                         <dxi-item dataField="EWALLET_SERVICE" [label]="EwalletDestTypeLabel" editorType="dxSelectBox"
                             [isRequired]="true" [editorOptions]="EwalletServiceDestTypeEditorOptions">
@@ -395,22 +406,26 @@
                                     message="กรุณาเลือกประเภทบัญชีปลายทาง"></dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item> -->
-                        <dxi-item *ngIf="isEwalletServiceOtherRequired" dataField="EWALLET_SERVICE_OTHER" [label]="EwalletServiceOtherLabel"
-                            editorType="dxTextBox" [isRequired]="isEwalletServiceOtherRequired"
+                        <dxi-item *ngIf="isEwalletServiceOtherRequired" dataField="EWALLET_SERVICE_OTHER"
+                            [label]="EwalletServiceOtherLabel" editorType="dxTextBox"
+                            [isRequired]="isEwalletServiceOtherRequired"
                             [editorOptions]="EwalletServiceOtherEditorOptions">
                             <dxo-validation-rules>
-                                <dxi-validation-rule type="required" message="กรุณาระบุประเภทอื่นๆ"></dxi-validation-rule>
+                                <dxi-validation-rule type="required"
+                                    message="กรุณาระบุประเภทอื่นๆ"></dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item>
-                        <dxi-item [visible]="formDamageType3?.EWALLET_SERVICE === 'ธนาคาร'" dataField="BANK_ID" [label]="EwalletDestEditorLabel" editorType="dxSelectBox"
-                            [isRequired]="true" [editorOptions]="EwalletDestEditorOptions">
+                        <dxi-item [visible]="formDamageType3?.EWALLET_SERVICE === 'ธนาคาร'" dataField="BANK_ID"
+                            [label]="EwalletDestEditorLabel" editorType="dxSelectBox" [isRequired]="true"
+                            [editorOptions]="EwalletDestEditorOptions">
                             <dxo-validation-rules>
                                 <dxi-validation-rule type="required" message="กรุณาเลือกชื่อธนาคารปลายทาง">
                                 </dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item>
-                        <dxi-item dataField="EWALLET_ACCOUNT" [label]="formDamageType3?.EWALLET_SERVICE === 'ธนาคาร' || formDamageType3?.EWALLET_SERVICE === 'พร้อมเพย์' ? EwalletAccountDestLabel : EwalletAccountLabel " editorType="dxTextBox"
-                            [isRequired]="true" [editorOptions]="EwalletAccountEditorOptions">
+                        <dxi-item dataField="EWALLET_ACCOUNT"
+                            [label]="formDamageType3?.EWALLET_SERVICE === 'ธนาคาร' || formDamageType3?.EWALLET_SERVICE === 'พร้อมเพย์' ? EwalletAccountDestLabel : EwalletAccountLabel "
+                            editorType="dxTextBox" [isRequired]="true" [editorOptions]="EwalletAccountEditorOptions">
                             <dxo-validation-rules>
                                 <dxi-validation-rule type="required"
                                     message="กรุณากรอกเบอร์โทรศัพท์หรือ ID ของบัญชีปลายทาง"></dxi-validation-rule>
@@ -428,7 +443,7 @@
                             [isRequired]="true" [editorOptions]="EwalletAmountEditorOptions">
                             <dxo-validation-rules>
                                 <dxi-validation-rule type="required" message="กรุณาจำนวนเงิน"></dxi-validation-rule>
-                                <dxi-validation-rule type="numeric"  message="กรุณากรอกเป็นตัวเลข"></dxi-validation-rule>
+                                <dxi-validation-rule type="numeric" message="กรุณากรอกเป็นตัวเลข"></dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item>
                         <dxi-item dataField="EWALLET_DATE_TRANSFER" [label]="EwalletDateTransferLabel"
@@ -478,7 +493,8 @@
             </div>
             <div *ngIf="damageType.selected && damageType.id === 4" class="form-box p-4 mb-3 mt-3">
                 <div class="form-box-title mb-3"> รายการบัตรเงินสด/บัตรของขวัญ </div>
-                <button *ngIf="!form4Added && !readOnlyForm" class="btn btn-primary mb-3" (click)="addShowForm('4')">เพิ่มข้อมูล</button>
+                <button *ngIf="!form4Added && !readOnlyForm" class="btn btn-primary mb-3"
+                    (click)="addShowForm('4')">เพิ่มข้อมูล</button>
                 <button *ngIf="form4Added" class="btn btn-secondary mb-3" (click)="cancelShowForm('4')">ยกเลิก</button>
                 <div class="form-box-input" *ngIf="!readOnlyForm && form4Added">
                     <dx-form #formboxDamageType4 [formData]="formDamageType4" [colCount]="2"
@@ -492,14 +508,17 @@
                         </dxi-item>
                         <dxi-item itemType="empty" [colSpan]="1"></dxi-item>
                         <!-- new field 9-12-65 -->
-                        <dxi-item [visible]="formDamageType4.GIFT_CARD_TYPE == 'อื่นๆ'" dataField="GIFT_CARD_TYPE_DETAIL" [colSpan]="2" [label]="{ text: 'ระบุประเภทของบัตรอื่นๆ' }" editorType="dxTextBox" [isRequired]="true">
-                            <dxo-validation-rules type="required" message="กรุณาระบุประเภทของบัตรอื่นๆ"></dxo-validation-rules>
+                        <dxi-item [visible]="formDamageType4.GIFT_CARD_TYPE == 'อื่นๆ'"
+                            dataField="GIFT_CARD_TYPE_DETAIL" [colSpan]="2" [label]="{ text: 'ระบุประเภทของบัตรอื่นๆ' }"
+                            editorType="dxTextBox" [isRequired]="true">
+                            <dxo-validation-rules type="required"
+                                message="กรุณาระบุประเภทของบัตรอื่นๆ"></dxo-validation-rules>
                         </dxi-item>
                         <dxi-item dataField="GIFT_CARD_AMOUNT" [label]="GiftCardAmountLabel" editorType="dxTextBox"
                             [isRequired]="true" [editorOptions]="GiftCardAmountEditorOptions">
                             <dxo-validation-rules>
                                 <dxi-validation-rule type="required" message="กรุณาจำนวนเงิน"></dxi-validation-rule>
-                                <dxi-validation-rule type="numeric"  message="กรุณากรอกเป็นตัวเลข"></dxi-validation-rule>
+                                <dxi-validation-rule type="numeric" message="กรุณากรอกเป็นตัวเลข"></dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item>
                         <dxi-item dataField="GIFT_CARD_CODE" [label]="GiftCardCodeLabel" editorType="dxTextBox"
@@ -541,7 +560,8 @@
                 <div class="form-box-title mb-3"> รายการใช้บัตรโดยไม่ได้รับอนุญาต </div>
                 <div class="form-box-title mb-3" style="color:red;font-weight: bold;"> ⚠️
                     โปรดติดต่อธนาคารผู้ออกบัตรของท่านเพื่อแจ้งอายัดบัตรทันที! </div>
-                <button *ngIf="!form5Added && !readOnlyForm" class="btn btn-primary mb-3" (click)="addShowForm('5')">เพิ่มข้อมูล</button>
+                <button *ngIf="!form5Added && !readOnlyForm" class="btn btn-primary mb-3"
+                    (click)="addShowForm('5')">เพิ่มข้อมูล</button>
                 <button *ngIf="form5Added" class="btn btn-secondary mb-3" (click)="cancelShowForm('5')">ยกเลิก</button>
                 <div class="form-box-input" *ngIf="!readOnlyForm && form5Added">
                     <dx-form #formboxDamageType5 [formData]="formDamageType5" [colCount]="2"
@@ -557,7 +577,7 @@
                             [isRequired]="true" [editorOptions]="CardTypeEditorOptions" [validatre]>
                             <dxo-validation-rules>
                                 <dxi-validation-rule type="required"
-                                    message="กรุณาเลือกชื่อธนาคารต้นทาง"></dxi-validation-rule>
+                                    message="กรุณาเลือกประเภทบัตร"></dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item>
                         <dxi-item dataField="CARD_NUMBER" [label]="CardNumberLabel" editorType="dxTextBox"
@@ -579,7 +599,7 @@
                             [editorOptions]="CardTransactionAmountEditorOptions">
                             <dxo-validation-rules>
                                 <dxi-validation-rule type="required" message="กรุณาจำนวนเงิน"></dxi-validation-rule>
-                                <dxi-validation-rule type="numeric"  message="กรุณากรอกเป็นตัวเลข"></dxi-validation-rule>
+                                <dxi-validation-rule type="numeric" message="กรุณากรอกเป็นตัวเลข"></dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item>
                         <dxi-item dataField="CARD_TRANSACTION_DATE" [label]="CardTransactionDateLabel"
@@ -628,29 +648,32 @@
             </div>
             <div *ngIf="damageType.selected && damageType.id === 6" class="form-box p-4 mb-3 mt-3">
                 <div class="form-box-title mb-3"> ทรัพย์สินอื่นๆ </div>
-                <button *ngIf="!form6Added && !readOnlyForm" class="btn btn-primary mb-3" (click)="addShowForm('6')">เพิ่มข้อมูล</button>
+                <button *ngIf="!form6Added && !readOnlyForm" class="btn btn-primary mb-3"
+                    (click)="addShowForm('6')">เพิ่มข้อมูล</button>
                 <button *ngIf="form6Added" class="btn btn-secondary mb-3" (click)="cancelShowForm('6')">ยกเลิก</button>
                 <div class="form-box-input" *ngIf="!readOnlyForm && form6Added">
                     <dx-form #formboxDamageType6 [formData]="formDamageType6" [colCount]="2"
                         [showColonAfterLabel]="true" labelLocation="top">
-                       <dxi-item dataField="CASE_MONEY_BANK_OTHER_ID" [label]="OtherBankIdLabel" editorType="dxSelectBox"
-                            [isRequired]="true" [editorOptions]="OtherBankIdEditorOptions" [validatre]>
+                        <dxi-item dataField="CASE_MONEY_BANK_OTHER_ID" [label]="OtherBankIdLabel"
+                            editorType="dxSelectBox" [isRequired]="true" [editorOptions]="OtherBankIdEditorOptions"
+                            [validatre]>
                             <dxo-validation-rules>
-                                <dxi-validation-rule type="required" message="กรุณาเลือกประเภททรัพย์สิน"></dxi-validation-rule>
+                                <dxi-validation-rule type="required"
+                                    message="กรุณาเลือกประเภททรัพย์สิน"></dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item>
-                        <dxi-item dataField="CASE_MONEY_BANK_OTHER_DETAIL" [label]="OtherDetailLabel" editorType="dxTextBox"
-                            [isRequired]="true" [editorOptions]="OtherDetailEditorOptions">
+                        <dxi-item dataField="CASE_MONEY_BANK_OTHER_DETAIL" [label]="OtherDetailLabel"
+                            editorType="dxTextBox" [isRequired]="true" [editorOptions]="OtherDetailEditorOptions">
                             <dxo-validation-rules>
                                 <dxi-validation-rule type="required"
                                     message="กรุณากรอกรายละเอียดทรัพย์สินอื่นๆ"></dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item>
-                        <dxi-item dataField="CASE_MONEY_BANK_OTHER_AMOUNT" [label]="OtherAmountLabel" editorType="dxTextBox"
-                            [isRequired]="true" [editorOptions]="OtherAmountEditorOptions">
+                        <dxi-item dataField="CASE_MONEY_BANK_OTHER_AMOUNT" [label]="OtherAmountLabel"
+                            editorType="dxTextBox" [isRequired]="true" [editorOptions]="OtherAmountEditorOptions">
                             <dxo-validation-rules>
                                 <dxi-validation-rule type="required" message="กรุณาจำนวนเงิน"></dxi-validation-rule>
-                                <dxi-validation-rule type="numeric"  message="กรุณากรอกเป็นตัวเลข"></dxi-validation-rule>
+                                <dxi-validation-rule type="numeric" message="กรุณากรอกเป็นตัวเลข"></dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item>
                         <dxi-item dataField="OTHER_DATE_TRANSFER" [label]="CardTransactionDateLabel"
@@ -661,7 +684,7 @@
                                     message="กรุณาเลือกวันที่/เวลาที่เกิดรายการ"></dxi-validation-rule>
                             </dxo-validation-rules>
                         </dxi-item>
-                        
+
                     </dx-form>
                     <div class="box-submit my-3 text-center">
                         <dx-button *ngIf="!onEditType6" type="success"
@@ -686,11 +709,14 @@
                                 </dx-button>
                             </div>
                         </dxi-column>
-                        <dxi-column dataField="CASE_MONEY_BANK_OTHER_NAME" caption="ประเภททรัพย์สิน" alignment="center"></dxi-column>
+                        <dxi-column dataField="CASE_MONEY_BANK_OTHER_NAME" caption="ประเภททรัพย์สิน"
+                            alignment="center"></dxi-column>
                         <dxi-column dataField="CASE_MONEY_BANK_OTHER_DETAIL" caption="รายละเอียดทรัพย์สิน"
                             alignment="center"></dxi-column>
-                        <dxi-column dataField="CASE_MONEY_BANK_OTHER_AMOUNT" caption="มูลค่าทรัพย์สิน (บาท)" dataType="number" format="#,##0.00" alignment="center"></dxi-column>
-                        <dxi-column dataField="OTHER_DATE_TRANSFER" caption="วันที่/เวลาที่เกิดรายการ" dataType="date" format="yyyy-MM-dd HH:mm:ss" alignment="center"></dxi-column>
+                        <dxi-column dataField="CASE_MONEY_BANK_OTHER_AMOUNT" caption="มูลค่าทรัพย์สิน (บาท)"
+                            dataType="number" format="#,##0.00" alignment="center"></dxi-column>
+                        <dxi-column dataField="OTHER_DATE_TRANSFER" caption="วันที่/เวลาที่เกิดรายการ" dataType="date"
+                            format="yyyy-MM-dd HH:mm:ss" alignment="center"></dxi-column>
                     </dx-data-grid>
                 </div>
             </div>
@@ -712,4 +738,6 @@
     <dx-button class="btn btn-submit" text="ถัดไป" (onClick)="SubmitForm($event)"></dx-button>
 </div>
 
-<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true" [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..." shadingColor="rgba(0, 0, 0, 0.2)"></dx-load-panel>
+<dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true"
+    [shading]="true" [closeOnOutsideClick]="false" message="กรุณารอสักครู่..."
+    shadingColor="rgba(0, 0, 0, 0.2)"></dx-load-panel>

@@ -374,7 +374,7 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       const res: any = await this.servBankInfo.GetBankInfo().toPromise();
       if (res) {
         this.bankInfoList = res;
-      } 
+      }
       this.WayOtherList = await this.servBankInfo.GetBankOtherInfo().toPromise() || [];
     } catch (error) {
       console.error('Error fetching bank info list:', error);
@@ -741,7 +741,7 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       return;
     } else {
       console.log('Form Damage Type 5 Updated:', this.formDamageType5);
-      this.formDamageType5.TYPE_BANK_ID = this.mapCreditCardToBankId(this.formDamageType5.CARD_BANK);
+      this.formDamageType5.TYPE_BANK_ID = this.mapCreditCardToBankId(this.formDamageType5.CARD_TYPE);
       this.listDamageValueType5[this.onEditIndexType5] = this.formDamageType5;
       this.onEditType5 = false;
       this.formDamageType5 = {};
@@ -922,17 +922,17 @@ export class IssueOnlineDamageNewComponent implements OnInit {
 
     // 2. อนุญาตจุด (.) แต่ต้องมีแค่จุดเดียว
     if (charCode === 46) {
-        if (currentValue.includes('.')) {
-            event.preventDefault(); // ถ้ามีจุดอยู่แล้ว ห้ามพิมพ์เพิ่ม
-            return false;
-        }
-        return true;
+      if (currentValue.includes('.')) {
+        event.preventDefault(); // ถ้ามีจุดอยู่แล้ว ห้ามพิมพ์เพิ่ม
+        return false;
+      }
+      return true;
     }
 
     // 3. ตัวอักษรอื่นๆ ห้ามหมด
     event.preventDefault();
     return false;
-}
+  }
 
   private createDateTimeEditor(placeholder: string): any {
     console.log(this.maxDateValue);

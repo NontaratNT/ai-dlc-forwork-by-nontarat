@@ -740,7 +740,7 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       return;
     } else {
       console.log('Form Damage Type 5 Updated:', this.formDamageType5);
-      this.formDamageType5.TYPE_BANK_ID = this.mapCreditCardToBankId(this.formDamageType5.CARD_BANK);
+      this.formDamageType5.TYPE_BANK_ID = this.mapCreditCardToBankId(this.formDamageType5.CARD_TYPE);
       this.listDamageValueType5[this.onEditIndexType5] = this.formDamageType5;
       this.onEditType5 = false;
       this.formDamageType5 = {};
