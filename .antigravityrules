@@ -1,0 +1,20 @@
+# 🌌 Antigravity Strategy & Workflow Rules
+**Description:** กฎการปฏิบัติงานเฉพาะทางสำหรับ Antigravity Agent ในโปรเจกต์นี้
+**Instruction:** โหลดกฎนี้ทุกครั้งที่เริ่ม Session เพื่อให้การช่วยเหลือสอดคล้องกับมาตรฐาน AI-SDLC
+
+---
+
+## ⚓ 1. Core Synchronization
+- ทุกครั้งที่เริ่มการตัดสินใจ ให้ใช้ `project_manifest.md` และ `.ai-system/context/module-architecture.md` เป็นแนวทางหลัก
+- ห้ามคิดค้นมาตรฐานใหม่เองหากมีการระบุไว้แล้วใน `.ai-system/skills/`
+
+## 🔄 2. Procedural Hooks (จุดกระตุ้นการทำงาน)
+1. **The TOR Check:** เมื่อได้รับโจทย์ ให้ตรวจสอบไฟล์ใน `docs/specs/` เพื่อหาเงื่อนไขบังคับจาก TOR ก่อนเสมอ
+2. **The Gating Rule:** ห้ามเริ่มเขียนโค้ดจนกว่าจะได้รับคำอนุมัติจาก Phase 2 (Structured Design)
+3. **Proactive Privacy:** สแกนหาข้อมูล Sensitive (API Keys, PII) และทำการ Masking ทันทีที่มีการแสดงผล
+4. **The Change Ledger:** จบ Task ต้องลงบันทึกที่ `docs/task-logs/` ตามรูปแบบมาตรฐาน
+
+## 🎯 3. Output Standards
+- เน้นการสร้าง Diagram (Mermaid) เพื่ออธิบาย Logic ที่ซับซ้อน
+- ใช้การตอบกลับแบบ "Expert-Led" คือเสนอทางเลือกที่ดีที่สุดพร้อมเหตุผลประกอบ
+- รักษาโครงสร้างไฟล์ให้สะอาดตามมาตรฐาน Global Module Architecture

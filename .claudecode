@@ -1,0 +1,8 @@
+# 🧡 CLAUDE CODE INSTRUCTIONS
+Always adhere to the AI-Augmented SDLC standards defined in this workspace.
+
+- **Documentation & Rules:** Read `.ai-system/` directory before taking any action.
+- **Workflow:** Follow `.ai-system/workflows/standard-operating-procedure.md` strictly.
+- **Privacy:** Apply data masking and privacy protocols as per `.ai-system/context/data-privacy.md`.
+
+"Think step-by-step and maintain high architectural integrity as defined in the Module Architecture guidelines."
