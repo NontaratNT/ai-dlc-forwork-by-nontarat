@@ -35,7 +35,7 @@
 
                     <!-- ปกติ (textbox / selectbox / radiobox / file / textarea) -->
                     <dxi-item
-                        *ngIf="field.fieldType !== 'group' && field.fieldType !== 'checkbox' && field.fieldType !== 'phoneWithPrefix' && isFieldVisible(field,1)"
+                        *ngIf="field.fieldType !== 'group' && field.fieldType !== 'checkbox' && field.fieldType !== 'phoneWithPrefix' && field.fieldType !== 'multiPhoneWithPrefix' && isFieldVisible(field,1)"
                         [dataField]="field.dataField" [label]="{ text: field.caption }" [readOnly]="formReadOnly"
                         [editorType]="getEditorType(field)" [isRequired]="field.required"
                         [editorOptions]="field.editorOptions">
@@ -58,7 +58,8 @@
                                     </div>
                                 </div>
                                 <small class="text-danger fw-bold mt-1 d-block">
-                                    * การแนบรูปภาพหลักฐานสำคัญต่อการดำเนินคดี *
+                                    * จำกัดขนาดไฟล์ไม่เกิน 1MB หากไฟล์มีขนาดเกิน <br>
+                                    กรุณาไปอัปโหลดที่ช่อง "เอกสารเพิ่มเติม" ในหน้าสรุปและส่งหลักฐาน *
                                 </small>
                             </div>
                         </ng-template>
@@ -130,6 +131,32 @@
                                     [maxLength]="getPhoneMaxLength(formData1[field.dataField].prefix)">
                                 </dx-text-box>
                             </div>
+                        </ng-template>
+                    </dxi-item>
+
+                    <!-- multiPhoneWithPrefix = multiple rows of (prefix dropdown + number text) -->
+                    <dxi-item *ngIf="field.fieldType === 'multiPhoneWithPrefix' && isFieldVisible(field,1)"
+                        itemType="simple" [label]="{ text: field.caption }">
+                        <ng-template dxTemplate="editor">
+                            <div *ngFor="let item of formData1[field.dataField]; let i = index"
+                                class="d-flex align-items-center gap-2 mb-2">
+                                <dx-select-box [items]="popularPrefixes" displayExpr="TEXT" valueExpr="ID"
+                                    placeholder="Prefix" [(value)]="item.prefix" [width]="180"
+                                    [readOnly]="formReadOnly">
+                                </dx-select-box>
+                                <dx-text-box placeholder="หมายเลขโทรศัพท์" mode="tel" [(value)]="item.number"
+                                    class="flex-grow-1" [readOnly]="formReadOnly"
+                                    (onKeyPress)="onPhoneKeyPress($event, item.prefix)"
+                                    [maxLength]="getPhoneMaxLength(item.prefix)">
+                                </dx-text-box>
+                                <dx-button *ngIf="!formReadOnly && formData1[field.dataField].length > 1" icon="trash"
+                                    type="danger" stylingMode="text"
+                                    (onClick)="removePhoneField(1, field.dataField, i)">
+                                </dx-button>
+                            </div>
+                            <dx-button *ngIf="!formReadOnly" icon="plus" text="เพิ่มเบอร์โทรศัพท์" type="default"
+                                stylingMode="text" (onClick)="addPhoneField(1, field.dataField)">
+                            </dx-button>
                         </ng-template>
                     </dxi-item>
 

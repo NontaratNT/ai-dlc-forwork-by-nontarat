@@ -253,7 +253,7 @@ export class CaseTypeNewContainerComponent implements OnInit {
         } else if (data.fraud_chanel === 6) {
             this._formData.fraud_code = 6;
             const subCode6 = data.fraud_sub_code6;
-            this._formData.fraud_sub_code = subCode6.fraud_sub_code;
+            this._formData.fraud_sub_code = subCode6.fraud_sub_code6;
             this._formData.fraud_tactic_id = 1;
         }
     }

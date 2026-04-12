@@ -274,9 +274,9 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                 },
                 {
                     templateName: 'CRIMINAL_PHONE_LIST',
-                    dataField: 'CRIMINAL_PHONE',
+                    dataField: 'CRIMINAL_PHONE_LIST',
                     caption: 'เบอร์โทรศัพท์ของคนร้ายที่ส่ง SMS',
-                    fieldType: 'phoneWithPrefix',
+                    fieldType: 'multiPhoneWithPrefix',
                     required: true
                 },
                 {
@@ -328,9 +328,9 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
             formOption: [
                 {
                     templateName: 'PHONE_NUMBER_LIST',
-                    dataField: 'PHONE_NUMBER',
+                    dataField: 'PHONE_NUMBER_LIST',
                     caption: 'เบอร์โทรศัพท์ของคนร้ายที่โทรเข้ามา',
-                    fieldType: 'phoneWithPrefix',
+                    fieldType: 'multiPhoneWithPrefix',
                     required: true
                 },
                 {
@@ -1849,6 +1849,10 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
             if (!currentValue || typeof currentValue !== 'object' || Array.isArray(currentValue)) {
                 target[field.dataField] = { prefix: '', number: '' };
             }
+        } else if (field.fieldType === 'multiPhoneWithPrefix') {
+            if (!Array.isArray(currentValue)) {
+                target[field.dataField] = [{ prefix: '', number: '' }];
+            }
         } else {
             if (currentValue === undefined) {
                 target[field.dataField] = null;     // selectbox / radiobox / textbox
@@ -1901,6 +1905,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
     async onFileValueChanged(e: any, section: 1 | 2 | 3, dataField: string) {
         const files = e.value;
         const target = this.getFormBySection(section);
+        const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1 MB limit for localStorage safety
 
         if (!files || files.length === 0) {
             target[dataField] = [];
@@ -1909,6 +1914,18 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
 
         const base64Files = [];
         for (const file of files) {
+            // Check file size limit
+            if (file.size > MAX_FILE_SIZE) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'ไฟล์มีขนาดใหญ่เกินกำหนด (1MB)',
+                    html: `ไฟล์ <b>${file.name}</b> มีขนาดเกิน 1MB เพื่อป้องกันปัญหาความล่าช้าในการส่งข้อมูล<br><br>` +
+                        `กรุณาอัปโหลดไฟล์ที่มีขนาดไม่เกิน 1MB หรือ <b>ไปอัปโหลดไฟล์ขนาดใหญ่ได้ที่ช่อง "เอกสารเพิ่มเติม" ในหน้าสรุปและส่งหลักฐาน</b>`,
+                    confirmButtonText: 'ตกลง'
+                });
+                continue; // Skip this file
+            }
+
             try {
                 const base64 = await this.fileToBase64(file);
                 base64Files.push({
@@ -1927,6 +1944,12 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
             }
         }
         target[dataField] = base64Files;
+
+        // Reset file uploader if some files were skipped (optional but good for UX)
+        if (base64Files.length !== files.length) {
+            // Note: In dev-extreme, value is two-way bound or set via instance. 
+            // For simple UI update, target[dataField] assignment above is sufficient for our list display.
+        }
     }
 
     getFiles(section: 1 | 2 | 3, dataField: string): any[] {
@@ -2081,6 +2104,8 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
 
     private validatePhoneRequired(formData: any, channel: ChannelFormConfig): boolean {
         if (!channel) return true;
+
+        // Validate single phone fields
         const phoneFields = channel.formOption
             .filter(f => f.fieldType === 'phoneWithPrefix' && f.required)
             .map(f => f.dataField);
@@ -2095,17 +2120,50 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                 });
                 return false;
             }
+            if (!this.checkPrefixLength(val)) return false;
+        }
 
-            const prefixConfig = this.popularPrefixes.find(p => p.ID === val.prefix);
-            if (prefixConfig && prefixConfig.length !== -1) {
-                if (val.number.length !== prefixConfig.length) {
+        // Validate multi phone fields
+        const multiPhoneFields = channel.formOption
+            .filter(f => f.fieldType === 'multiPhoneWithPrefix' && f.required)
+            .map(f => f.dataField);
+
+        for (const df of multiPhoneFields) {
+            const list = formData[df];
+            if (!Array.isArray(list) || list.length === 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
+                    text: `กรุณาระบุอย่างน้อย 1 เบอร์โทรศัพท์`
+                });
+                return false;
+            }
+            for (const val of list) {
+                if (!val || !val.prefix || !val.number) {
                     Swal.fire({
                         icon: 'error',
-                        title: 'รูปแบบเบอร์โทรศัพท์ไม่ถูกต้อง',
-                        text: `เบอร์โทรศัพท์สำหรับ Prefix ${val.prefix} ต้องมีตัวเลขอีก ${prefixConfig.length} หลัก`
+                        title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
+                        text: `กรุณากรอกเบอร์โทรศัพท์ใหัครบท้วนทุกช่อง`
                     });
                     return false;
                 }
+                if (!this.checkPrefixLength(val)) return false;
+            }
+        }
+
+        return true;
+    }
+
+    private checkPrefixLength(val: any): boolean {
+        const prefixConfig = this.popularPrefixes.find(p => p.ID === val.prefix);
+        if (prefixConfig && prefixConfig.length !== -1) {
+            if (val.number.length !== prefixConfig.length) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'รูปแบบเบอร์โทรศัพท์ไม่ถูกต้อง',
+                    text: `เบอร์โทรศัพท์สำหรับ Prefix ${val.prefix} ต้องมีตัวเลขอีก ${prefixConfig.length} หลัก`
+                });
+                return false;
             }
         }
         return true;
@@ -2117,11 +2175,14 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
 
         // Find all phoneWithPrefix fields across all channels in this section
         const phoneFields: string[] = [];
+        const multiPhoneFields: string[] = [];
         configs.forEach(c => {
             c.formOption.forEach(f => {
                 if (f.fieldType === 'phoneWithPrefix') phoneFields.push(f.dataField);
+                if (f.fieldType === 'multiPhoneWithPrefix') multiPhoneFields.push(f.dataField);
                 if (f.fieldType === 'group') f.children?.forEach(cc => {
                     if (cc.fieldType === 'phoneWithPrefix') phoneFields.push(cc.dataField);
+                    if (cc.fieldType === 'multiPhoneWithPrefix') multiPhoneFields.push(cc.dataField);
                 });
             });
         });
@@ -2130,6 +2191,16 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         phoneFields.forEach(df => {
             if (result[df] && typeof result[df] === 'string') {
                 result[df] = this.splitPhoneNumber(result[df]);
+            }
+        });
+
+        // Split array of strings into array of { prefix, number }
+        multiPhoneFields.forEach(df => {
+            if (Array.isArray(result[df])) {
+                result[df] = result[df].map(val => {
+                    if (typeof val === 'string') return this.splitPhoneNumber(val);
+                    return val;
+                });
             }
         });
 
@@ -2160,9 +2231,15 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
             const res = { ...data };
             const configs = section === 1 ? this.configFormOption1 : (section === 2 ? this.configFormOption2 : this.configFormOption3);
             const phoneFields: string[] = [];
+            const multiPhoneFields: string[] = [];
             configs.forEach(c => {
                 c.formOption.forEach(f => {
                     if (f.fieldType === 'phoneWithPrefix') phoneFields.push(f.dataField);
+                    if (f.fieldType === 'multiPhoneWithPrefix') multiPhoneFields.push(f.dataField);
+                    if (f.fieldType === 'group') f.children?.forEach(cc => {
+                        if (cc.fieldType === 'phoneWithPrefix') phoneFields.push(cc.dataField);
+                        if (cc.fieldType === 'multiPhoneWithPrefix') multiPhoneFields.push(cc.dataField);
+                    });
                 });
             });
 
@@ -2172,6 +2249,20 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                     res[df] = val.prefix === 'อื่นๆ' ? val.number : val.prefix + val.number;
                 }
             });
+
+            // Merge multi-phone fields
+            multiPhoneFields.forEach(df => {
+                const list = res[df];
+                if (Array.isArray(list)) {
+                    res[df] = list.map(val => {
+                        if (val && typeof val === 'object' && val.prefix && val.number) {
+                            return val.prefix === 'อื่นๆ' ? val.number : val.prefix + val.number;
+                        }
+                        return val;
+                    });
+                }
+            });
+
             return res;
         };
 
@@ -2205,6 +2296,24 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
             this.mainConponent.NextIndex(this.mainConponent.indexTab + 1);
         }
     }
+
+    addPhoneField(section: 1 | 2 | 3, dataField: string): void {
+        const form = this.getFormBySection(section);
+        if (!Array.isArray(form[dataField])) {
+            form[dataField] = [];
+        }
+        form[dataField].push({ prefix: '', number: '' });
+    }
+
+    removePhoneField(section: 1 | 2 | 3, dataField: string, index: number): void {
+        const form = this.getFormBySection(section);
+        if (Array.isArray(form[dataField])) {
+            form[dataField].splice(index, 1);
+            if (form[dataField].length === 0) {
+                form[dataField].push({ prefix: '', number: '' });
+            }
+        }
+    }
 }
 //   end Zone new Code
 
@@ -2236,6 +2345,7 @@ export type FieldType =
     | 'checkbox'
     | 'group'
     | 'phoneWithPrefix'
+    | 'multiPhoneWithPrefix'
     | 'datebox';
 
 export interface FieldConfig {

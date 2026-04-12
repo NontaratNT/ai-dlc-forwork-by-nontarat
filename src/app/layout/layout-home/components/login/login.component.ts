@@ -82,7 +82,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.isUrl =
             window.location.href.includes(".com") &&
-            !window.location.href.includes("uat")
+                !window.location.href.includes("uat")
                 ? true
                 : false;
         if (this.isUrl) {
@@ -102,7 +102,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                 this.isfullScreen = true;
             } else if (this.width < 1400 || this.heigth < 850) {
                 this.isfullScreen = true;
-            }else{
+            } else {
                 this.isfullScreen = false;
             }
 
@@ -155,21 +155,21 @@ export class LoginComponent implements OnInit, OnDestroy {
             const scrollToTop = () => {
                 document.body.scrollTop = document.documentElement.scrollTop = 0;
             };
-        
+
             if (params.icli === "landing") {
                 this.router.navigate(["register"], { queryParams: { icli: 'landing' } });
             } else if (params.icli === "cyber-eye") {
                 this.router.navigate(["register"], { queryParams: { icli: 'cyber-eye' } });
             } else if (params.icli === "cyber-cat") {
                 this.router.navigate(["register"], { queryParams: { icli: 'cyber-cat' } });
-            }else {
+            } else {
                 this.router.navigate(["register"]);
             }
-        
+
             scrollToTop();
         });
-        
-        
+
+
         // this.onSkip(event);
         // this.popupConsentVisible = true;
     }
@@ -187,16 +187,16 @@ export class LoginComponent implements OnInit, OnDestroy {
             // hash password ครั้งแรก
             const passwordHash = crypto.SHA256(password).toString();
 
-            console.log('passwordhash',passwordHash);
+            // console.log('passwordhash', passwordHash);
             // รวม hash password + nonce แล้ว hash อีกครั้ง
-            
+
             const finalHash = crypto.SHA256(passwordHash + nonce?.Nonce).toString();
             this.userSetting.userSetting.location_name = undefined;
 
-            console.log('finalhash',finalHash);
+            // console.log('finalhash', finalHash);
             // this.userSetting.Save();
             this.userServ
-                .authenticate(usename, finalHash, 1.1)
+                .authenticate(usename, finalHash, 1.1, nonce?.Nonce)
                 .pipe(finalize(() => (this._isLoading = false)))
                 .subscribe((u) => {
                     if (u) {
@@ -212,15 +212,15 @@ export class LoginComponent implements OnInit, OnDestroy {
                             } as IAccessToken;
                             if (User?.Current) {
                                 let needChange = false;
-                    
+
                                 if (User.Current.LatestUpdatePassword) {
                                     const currentDate = new Date();
                                     const latestUpdate = new Date(User.Current.LatestUpdatePassword);
-                    
+
                                     // วันที่ 1 เดือนก่อนหน้า
                                     const oneMonthAgo = new Date();
                                     oneMonthAgo.setMonth(currentDate.getMonth() - 1);
-                    
+
                                     if (latestUpdate < oneMonthAgo) {
                                         needChange = true;
                                     }
@@ -228,7 +228,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                                     // ถ้าไม่มีค่า LatestUpdatePassword
                                     needChange = true;
                                 }
-                    
+
                                 if (needChange) {
                                     const check_password = await Swal.fire({
                                         title: 'แจ้งเตือน',
@@ -241,7 +241,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                                         cancelButtonText: 'ออกจากระบบ',
                                         cancelButtonColor: '#d33'
                                     });
-                    
+
                                     if (check_password.isConfirmed) {
                                         console.log('ต้องเปลี่ยนรหัสผ่าน');
                                         this.router.navigate(['/reset-password-force']);
@@ -253,15 +253,15 @@ export class LoginComponent implements OnInit, OnDestroy {
                                 }
                             }
                             if (params.icli) {
-                                if(params.icli === "al"){
+                                if (params.icli === "al") {
                                     this.userServ.getTokenCypherVac(User.Current.UserId).toPromise().then((res) => {
                                         window.location.href = `https://cybervaccinated.thaipoliceonline.go.th?redirecthas=${res}`;
                                     });
                                     return;
-                                }else if(params.icli === "landing"){
+                                } else if (params.icli === "landing") {
                                     this.router.navigate(["/"]);
                                     return;
-                                }else if (params.icli === "cyber-eye") {
+                                } else if (params.icli === "cyber-eye") {
                                     Swal.fire({
                                         title: 'Cyber Eye',
                                         text: 'คุณต้องการเข้าใช้งาน Cyber Eye หรือไม่?',
@@ -290,7 +290,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                                         }
                                     });
                                     return;
-                                }else if (params.icli === "cyber-cat") {
+                                } else if (params.icli === "cyber-cat") {
                                     Swal.fire({
                                         title: 'Cyber Eye',
                                         text: 'คุณต้องการเข้าใช้งาน Cyber Cat หรือไม่?',
@@ -304,14 +304,14 @@ export class LoginComponent implements OnInit, OnDestroy {
                                         }
                                     }).then((result) => {
                                         if (result.isConfirmed) {
-                                            if(!(User.Current?.Age <= 18)) {
+                                            if (!(User.Current?.Age <= 18)) {
                                                 Swal.fire({
                                                     title: 'อายุของท่านไม่ตรงเกณฑ์ที่กำหนด',
                                                     text: 'ท่านต้องมีอายุไม่เกิน 18 ปี เพื่อเข้าใช้งาน Cyber Cat',
                                                     icon: 'error',
                                                     confirmButtonText: 'ตกลง'
                                                 });
-                                                 this.router.navigate(['/']);
+                                                this.router.navigate(['/']);
                                             }
                                             if (User.Current?.CyberCatStatus !== "Y") {
                                                 this.userServ.UpdateSeniorFlag(User.Current.UserId, "CyberCat").pipe(
@@ -329,7 +329,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                                     });
                                     return;
                                 }
-                            }else{
+                            } else {
                                 this.router.navigate(["/"]);
                             }
                         });
@@ -501,14 +501,14 @@ export class LoginComponent implements OnInit, OnDestroy {
         console.log(event);
         const val = event.value;
         switch (val) {
-        case 1:
-            this._isShow = true;
-            this._isShow2 = false;
-            break;
-        case 2:
-            this._isShow = false;
-            this._isShow2 = true;
-            break;
+            case 1:
+                this._isShow = true;
+                this._isShow2 = false;
+                break;
+            case 2:
+                this._isShow = false;
+                this._isShow2 = true;
+                break;
         }
     }
 
@@ -524,9 +524,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     loginThaiID() {
         this.routerAc.queryParams.subscribe((params) => {
-            if(params.icli){
+            if (params.icli) {
                 localStorage.setItem('icli', params.icli);
-                if(params.icli === "cyber-eye"){
+                if (params.icli === "cyber-eye") {
                     Swal.fire({
                         title: 'Cyber Eye',
                         text: 'คุณต้องการเข้าใช้งาน Cyber Eye หรือไม่?',
@@ -541,11 +541,11 @@ export class LoginComponent implements OnInit, OnDestroy {
                     }).then((result) => {
                         if (result.isConfirmed) {
                             this.router.navigate(["login/thaiD"], { queryParams: { icli: params.icli } });
-                        }else{
+                        } else {
                             this.router.navigate(["login/thaiD"]);
                         }
                     });
-                }else if(params.icli === "cyber-cat"){
+                } else if (params.icli === "cyber-cat") {
                     Swal.fire({
                         title: 'Cyber Cat',
                         text: 'คุณต้องการเข้าใช้งาน Cyber Cat หรือไม่?',
@@ -560,26 +560,26 @@ export class LoginComponent implements OnInit, OnDestroy {
                     }).then((result) => {
                         if (result.isConfirmed) {
                             this.router.navigate(["login/thaiD"], { queryParams: { icli: params.icli } });
-                        }else{
+                        } else {
                             this.router.navigate(["login/thaiD"]);
                         }
                     });
                 }
-                else{
+                else {
                     this.router.navigate(["login/thaiD"], { queryParams: { icli: params.icli } });
                 }
-            }else{
+            } else {
                 this.router.navigate(["login/thaiD"]);
             }
         });
-        
+
     }
     getIPAddress() {
         try {
-            $.getJSON("https://api.ipify.org?format=json", function(data) {
+            $.getJSON("https://api.ipify.org?format=json", function (data) {
                 sessionStorage.setItem("ip_address", data.ip);
             });
-        } catch {}
+        } catch { }
     }
 
     usePassword() {

@@ -20,26 +20,16 @@ export class UserService {
     private _userInfo: IUserProfile;
     constructor(
         private jwtHelper: JwtHelperService,
-        @Inject(EFORM_REQUEST) private _req: EformRequestFactory,private http: HttpClient,
+        @Inject(EFORM_REQUEST) private _req: EformRequestFactory, private http: HttpClient,
         private _dialog: Dialog) { }
 
-    public authenticate(username: string, password: string, aal: number): Observable<IAccessToken> {
+    public authenticate(username: string, password: string, aal: number, nonce?: string): Observable<IAccessToken> {
         return this._req<IAccessToken>("user/auth")
-            .body({ UserName: username, Password: password, RequireAal: aal })
+            .body({ UserName: username, Password: password, RequireAal: aal, Nonce: nonce })
             .disableCriticalDialogError().post()
             .pipe(
                 map(_ => {
                     const userInfo = this.createProfile(_.Token);
-                    // if (userInfo.UserType !== 1) {
-                    //     // this._dialog.error("ผิดพลาด", "คุณไม่ได้รับอนุญาตให้ดำเนินการต่อได้");
-                    //     Swal.fire({
-                    //         title: 'ผิดพลาด!',
-                    //         text: 'คุณไม่ได้รับอนุญาตให้ดำเนินการต่อได้',
-                    //         icon: 'warning',
-                    //         confirmButtonText: 'ตกลง'
-                    //     }).then(() => { });
-                    //     return undefined;
-                    // }
                     User.SetUser(userInfo);
                     return _;
                 }),
@@ -48,32 +38,32 @@ export class UserService {
     }
 
     // public authenticateThaiID(token:string): Observable<IAccessToken> {
-        // return this._req<IAccessToken>("LoginThaiID/auth/thaiid")
-        //     .disableCriticalDialogError().post()
-        //     // .setHeaders("Authorization", `Bearer ${token}`) // เพิ่ม Header
-        //     // .HttpHeaders(new HttpHeaders().set("Authorization", `Bearer ${token}`))
-        //     .pipe(
-        //         map(_ => {
-        //             const userInfo = this.createProfile(_.Token);
-        //             // if (userInfo.UserType !== 1) {
-        //             //     // this._dialog.error("ผิดพลาด", "คุณไม่ได้รับอนุญาตให้ดำเนินการต่อได้");
-        //             //     Swal.fire({
-        //             //         title: 'ผิดพลาด!',
-        //             //         text: 'คุณไม่ได้รับอนุญาตให้ดำเนินการต่อได้',
-        //             //         icon: 'warning',
-        //             //         confirmButtonText: 'ตกลง'
-        //             //     }).then(() => { });
-        //             //     return undefined;
-        //             // }
-        //             User.SetUser(userInfo);
-        //             return _;
-        //         }),
-        //         catchError(() => of(undefined))
-        //     );
+    // return this._req<IAccessToken>("LoginThaiID/auth/thaiid")
+    //     .disableCriticalDialogError().post()
+    //     // .setHeaders("Authorization", `Bearer ${token}`) // เพิ่ม Header
+    //     // .HttpHeaders(new HttpHeaders().set("Authorization", `Bearer ${token}`))
+    //     .pipe(
+    //         map(_ => {
+    //             const userInfo = this.createProfile(_.Token);
+    //             // if (userInfo.UserType !== 1) {
+    //             //     // this._dialog.error("ผิดพลาด", "คุณไม่ได้รับอนุญาตให้ดำเนินการต่อได้");
+    //             //     Swal.fire({
+    //             //         title: 'ผิดพลาด!',
+    //             //         text: 'คุณไม่ได้รับอนุญาตให้ดำเนินการต่อได้',
+    //             //         icon: 'warning',
+    //             //         confirmButtonText: 'ตกลง'
+    //             //     }).then(() => { });
+    //             //     return undefined;
+    //             // }
+    //             User.SetUser(userInfo);
+    //             return _;
+    //         }),
+    //         catchError(() => of(undefined))
+    //     );
     // }
     public authenticateThaiID(token: string): Observable<IAccessToken> {
         const url = `${environment.config.eFormHost}/LoginThaiID/auth/thaiid`;
-        
+
         // ตั้งค่า Header
         const httpOptions = {
             headers: new HttpHeaders({
@@ -136,7 +126,7 @@ export class UserService {
 
     public getTokenCypherVac(userId: number): Observable<string> {
         return this._req<string>('Officer/VacchineCyber/EndcryptData')
-        // .host(environment.config.baseConfig.urlgdcceform)
+            // .host(environment.config.baseConfig.urlgdcceform)
             .body({ Data: userId })
             .disableCriticalDialogError()
             .post();
@@ -172,7 +162,7 @@ export class UserService {
             .disableCriticalDialogError().post();
     }
 
-     public postResetPasswordForce(UserPassword: string): Observable<IResetPassword> {
+    public postResetPasswordForce(UserPassword: string): Observable<IResetPassword> {
         const encryptedPassword = encrypt(UserPassword);
         return this._req<IResetPassword>('User/reset-password-force')
             .body({ NewPassword: encryptedPassword })
@@ -199,23 +189,23 @@ export class UserService {
             .post();
     }
 
-    public UpdateSeniorFlag(userId: any,type: any): Observable<string> {
+    public UpdateSeniorFlag(userId: any, type: any): Observable<string> {
         return this._req<string>(`Officer/SeniorCyber/updateFlag/${type}/${userId}`)
-        // .host(environment.config.baseConfig.urlgdcceform)
+            // .host(environment.config.baseConfig.urlgdcceform)
             .disableCriticalDialogError()
             .put();
     }
 
-    public UpdateSeniorFlagAzure(userId: any,type: any): Observable<string> {
+    public UpdateSeniorFlagAzure(userId: any, type: any): Observable<string> {
         return this._req<string>(`CmsPersonal/updateFlag/${type}/${userId}`)
             .disableCriticalDialogError()
             .put();
     }
 
-    public getKey(username : string): Observable<any> {
-        return   this._req<any>("user/challenge")
-        .body({ UserName: username })
-        .post()
+    public getKey(username: string): Observable<any> {
+        return this._req<any>("user/challenge")
+            .body({ UserName: username })
+            .post()
     }
     //     public getKey(username: string): Observable<any> {
     //     return this.http.post<any>(
