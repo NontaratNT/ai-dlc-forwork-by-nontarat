@@ -211,6 +211,16 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         { ID: 'N', TEXT: "ไม่ทราบ" }
     ];
 
+    phoneScamTypeList = [
+        { ID: 'SMS', TEXT: "ส่งข้อความมาหลอก" },
+        { ID: 'PHONE', TEXT: "โทรศัพท์มาหลอก" }
+    ];
+
+    smsSenderTypeList = [
+        { ID: 'NAME', TEXT: "ทราบชื่อที่ส่งข้อความ" },
+        { ID: 'NUMBER', TEXT: "ทราบเบอร์ที่ส่งข้อความ" }
+    ];
+
     // controlDeviceSubOption = [
     //     { ID: 1, TEXT: "แอปการไฟฟ้า (PEA), การประปา" },
     //     { ID: 2, TEXT: "แอปการไฟฟ้า (PEA), การประปา" },
@@ -260,9 +270,35 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
 
     configFormOption1: ChannelFormConfig[] = [
         {
-            id: 'SMS',
-            name: 'SMS',
+            id: 'PHONE',
+            name: 'โทรศัพท์',
             formOption: [
+                {
+                    templateName: 'PHONE_SCAM_TYPE',
+                    dataField: 'PHONE_SCAM_TYPE',
+                    caption: 'ลักษณะการหลอกโทรศัพท์',
+                    fieldType: 'radiobox',
+                    required: true,
+                    options: this.phoneScamTypeList,
+                    displayExpr: 'TEXT',
+                    valueExpr: 'ID'
+                },
+                
+                // --- ส่วนข้อมูล SMS (กรณีเลือก 'ส่งข้อความมาหลอก') ---
+                {
+                    templateName: 'SMS_SENDER_TYPE',
+                    dataField: 'SMS_SENDER_TYPE',
+                    caption: 'ข้อมูลผู้ส่ง',
+                    fieldType: 'radiobox',
+                    required: true,
+                    options: this.smsSenderTypeList,
+                    displayExpr: 'TEXT',
+                    valueExpr: 'ID',
+                    visibleWhen: {
+                        dataField: 'PHONE_SCAM_TYPE',
+                        values: ['SMS']
+                    }
+                },
                 {
                     templateName: 'SMS_SENDER_NAME',
                     dataField: 'SMS_SENDER',
@@ -270,78 +306,109 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                     placeholder: 'เช่น ชื่อบริษัท, LINE, DSI (ระบุเป็นตัวอักษรได้)',
                     fieldType: 'textbox',
                     maxLength: 50,
-                    required: true
+                    required: true,
+                    visibleWhen: {
+                        dataField: 'SMS_SENDER_TYPE',
+                        values: ['NAME']
+                    }
                 },
                 {
                     templateName: 'CRIMINAL_PHONE_LIST',
                     dataField: 'CRIMINAL_PHONE_LIST',
                     caption: 'เบอร์โทรศัพท์ของคนร้ายที่ส่ง SMS',
                     fieldType: 'multiPhoneWithPrefix',
-                    required: true
+                    required: true,
+                    visibleWhen: {
+                        dataField: 'SMS_SENDER_TYPE',
+                        values: ['NUMBER']
+                    }
                 },
                 {
-                    templateName: 'VICTIM_PHONE_LIST',
+                    templateName: 'VICTIM_PHONE_LIST_SMS',
                     dataField: 'VICTIM_PHONE',
                     caption: 'เบอร์โทรศัพท์ของคุณที่ได้รับ SMS',
                     fieldType: 'phoneWithPrefix',
-                    required: true
+                    required: true,
+                    visibleWhen: {
+                        dataField: 'PHONE_SCAM_TYPE',
+                        values: ['SMS']
+                    }
                 },
                 {
-                    templateName: 'SMS_TEMP_2',
+                    templateName: 'SMS_MESSAGE_TEMP',
                     dataField: 'SMS_MESSAGE',
                     caption: 'คัดลอกข้อความใน SMS มาวาง',
                     placeholder: 'ข้อความใน SMS',
                     fieldType: 'textarea',
-                    maxLength: 100
+                    maxLength: 100,
+                    visibleWhen: {
+                        dataField: 'PHONE_SCAM_TYPE',
+                        values: ['SMS']
+                    }
                 },
                 {
-                    templateName: 'SMS_TEMP_3',
+                    templateName: 'SMS_LINK_TEMP',
                     dataField: 'SMS_LINK',
                     caption: 'ลิงก์ที่แนบมาใน SMS (ถ้ามี)',
                     placeholder: 'ลิงก์ (URL)',
                     fieldType: 'textbox',
                     maxLength: 100,
-                    type: 'url'
+                    type: 'url',
+                    visibleWhen: {
+                        dataField: 'PHONE_SCAM_TYPE',
+                        values: ['SMS']
+                    }
                 },
                 {
-                    templateName: 'SMS_TEMP_4',
+                    templateName: 'SMS_DATE_TIME_TEMP',
                     dataField: 'SMS_DATE_TIME',
                     caption: 'วัน/เวลา ที่ได้รับข้อความ',
                     placeholder: 'วัน/เวลา ที่ได้รับข้อความ',
                     fieldType: 'datebox',
                     type: 'datetime',
                     required: true,
+                    visibleWhen: {
+                        dataField: 'PHONE_SCAM_TYPE',
+                        values: ['SMS']
+                    }
                 },
                 {
-                    templateName: 'EVIDENCE_SMS',
+                    templateName: 'EVIDENCE_SMS_FILE',
                     dataField: 'EVIDENCE_ATTACHMENT',
                     caption: 'แนบรูปภาพหน้าจอข้อความ SMS (สำคัญต่อการดำเนินคดี)',
                     fieldType: 'file',
-                    required: true
-                }
-            ]
-        },
+                    required: true,
+                    visibleWhen: {
+                        dataField: 'PHONE_SCAM_TYPE',
+                        values: ['SMS']
+                    }
+                },
 
-        {
-            id: 'PHONE',
-            name: 'โทรศัพท์',
-            formOption: [
+                // --- ส่วนข้อมูลโทรศัพท์ (กรณีเลือก 'โทรศัพท์มาหลอก') ---
                 {
                     templateName: 'PHONE_NUMBER_LIST',
                     dataField: 'PHONE_NUMBER_LIST',
                     caption: 'เบอร์โทรศัพท์ของคนร้ายที่โทรเข้ามา',
                     fieldType: 'multiPhoneWithPrefix',
-                    required: true
+                    required: true,
+                    visibleWhen: {
+                        dataField: 'PHONE_SCAM_TYPE',
+                        values: ['PHONE']
+                    }
                 },
                 {
-                    templateName: 'VICTIM_PHONE_LIST',
+                    templateName: 'VICTIM_PHONE_LIST_CALL',
                     dataField: 'VICTIM_PHONE',
                     caption: 'เบอร์โทรศัพท์ของคุณที่ใช้ติดต่อ/รับสาย',
                     fieldType: 'phoneWithPrefix',
-                    required: true
+                    required: true,
+                    visibleWhen: {
+                        dataField: 'PHONE_SCAM_TYPE',
+                        values: ['PHONE']
+                    }
                 },
                 {
-                    templateName: 'PHONE_TEMP_2',
+                    templateName: 'PHONE_CARRIER_TEMP',
                     dataField: 'PHONE_CARRIER',
                     caption: 'เครือข่าย (ถ้าทราบ)',
                     placeholder: 'เลือกเครือข่าย',
@@ -349,9 +416,13 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                     options: this.serviceLabelID,
                     displayExpr: 'TEXT',
                     valueExpr: 'TEXT',
+                    visibleWhen: {
+                        dataField: 'PHONE_SCAM_TYPE',
+                        values: ['PHONE']
+                    }
                 },
                 {
-                    templateName: 'PHONE_OTHER_TEMP',
+                    templateName: 'PHONE_OTHER_GROUP',
                     dataField: '',
                     caption: 'รายละเอียดอื่นๆ',
                     fieldType: 'group',
@@ -361,7 +432,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                     },
                     children: [
                         {
-                            templateName: 'PHONE_OTHER_TEMP_1',
+                            templateName: 'PHONE_OTHER_DETAIL',
                             dataField: 'PHONE_CARRIER_OTHER',
                             caption: 'รายละเอียดอื่นๆ',
                             placeholder: 'ระบุรายละเอียดอื่นๆ',
@@ -372,27 +443,39 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                     ]
                 },
                 {
-                    templateName: 'PHONE_TEMP_3',
+                    templateName: 'PHONE_ORG_TEMP',
                     dataField: 'PHONE_ORG',
                     caption: 'อ้างว่าเป็นเบอร์จากหน่วยงานใด (ถ้ามี)',
                     fieldType: 'textbox',
-                    maxLength: 100
+                    maxLength: 100,
+                    visibleWhen: {
+                        dataField: 'PHONE_SCAM_TYPE',
+                        values: ['PHONE']
+                    }
                 },
                 {
-                    templateName: 'PHONE_TEMP_4',
+                    templateName: 'PHONE_DATE_TIME_TEMP',
                     dataField: 'PHONE_DATE_TIME',
                     caption: 'วัน/เวลา ที่ได้รับสาย',
                     placeholder: 'วัน/เวลา ที่ได้รับสาย',
                     fieldType: 'datebox',
                     type: 'datetime',
                     required: true,
+                    visibleWhen: {
+                        dataField: 'PHONE_SCAM_TYPE',
+                        values: ['PHONE']
+                    }
                 },
                 {
-                    templateName: 'EVIDENCE_PHONE',
+                    templateName: 'EVIDENCE_PHONE_FILE',
                     dataField: 'EVIDENCE_ATTACHMENT',
                     caption: 'แนบรูปภาพประวัติการโทร (สำคัญต่อการดำเนินคดี)',
                     fieldType: 'file',
-                    required: true
+                    required: true,
+                    visibleWhen: {
+                        dataField: 'PHONE_SCAM_TYPE',
+                        values: ['PHONE']
+                    }
                 }
             ]
         },
@@ -2064,9 +2147,9 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         }
 
         // Initial validation for non-empty sections
-        if (!this.validatePhoneRequired(this.formData1, this.selectedChannel1)) return;
-        if (!this.validatePhoneRequired(this.formData2, this.selectedChannel2)) return;
-        if (!this.validatePhoneRequired(this.formData3, this.selectedChannel3)) return;
+        if (!this.validatePhoneRequired(this.formData1, this.selectedChannel1, 1)) return;
+        if (!this.validatePhoneRequired(this.formData2, this.selectedChannel2, 2)) return;
+        if (!this.validatePhoneRequired(this.formData3, this.selectedChannel3, 3)) return;
 
         if (!this.form1.instance.validate().isValid ||
             !this.form2.instance.validate().isValid ||
@@ -2080,7 +2163,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         }
 
         // Requirement 1.4: Warning to check sender number not self (Only for SMS and Phone)
-        const isPhoneOrSms = this.selectedChannel1?.id === 'SMS' || this.selectedChannel1?.id === 'PHONE';
+        const isPhoneOrSms = this.selectedChannel1?.id === 'PHONE';
 
         if (isPhoneOrSms) {
             Swal.fire({
@@ -2102,12 +2185,12 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         }
     }
 
-    private validatePhoneRequired(formData: any, channel: ChannelFormConfig): boolean {
+    private validatePhoneRequired(formData: any, channel: ChannelFormConfig, sectionIndex: number): boolean {
         if (!channel) return true;
 
         // Validate single phone fields
         const phoneFields = channel.formOption
-            .filter(f => f.fieldType === 'phoneWithPrefix' && f.required)
+            .filter(f => f.fieldType === 'phoneWithPrefix' && f.required && this.isFieldVisible(f, sectionIndex))
             .map(f => f.dataField);
 
         for (const df of phoneFields) {
@@ -2125,7 +2208,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
 
         // Validate multi phone fields
         const multiPhoneFields = channel.formOption
-            .filter(f => f.fieldType === 'multiPhoneWithPrefix' && f.required)
+            .filter(f => f.fieldType === 'multiPhoneWithPrefix' && f.required && this.isFieldVisible(f, sectionIndex))
             .map(f => f.dataField);
 
         for (const df of multiPhoneFields) {
@@ -2143,7 +2226,7 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                     Swal.fire({
                         icon: 'error',
                         title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
-                        text: `กรุณากรอกเบอร์โทรศัพท์ใหัครบท้วนทุกช่อง`
+                        text: `กรุณากรอกเบอร์โทรศัพท์ใหัครบถ้วนทุกช่อง`
                     });
                     return false;
                 }
@@ -2267,6 +2350,29 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         };
 
         const finalData1 = mergePhone(this.formData1, 1);
+
+        // --- เพิ่ม Logic เคลียร์ข้อมูลข้ามประเภท (Data Cleaning) ---
+        if (this.selectedChannel1?.id === 'PHONE') {
+            const scamType = finalData1.PHONE_SCAM_TYPE;
+            if (scamType === 'SMS') {
+                // ถ้าเป็น SMS ให้ล้างข้อมูลของฝั่ง โทรศัพท์ (Call) ออก
+                delete finalData1.PHONE_NUMBER_LIST;
+                delete finalData1.PHONE_CARRIER;
+                delete finalData1.PHONE_CARRIER_OTHER;
+                delete finalData1.PHONE_ORG;
+                delete finalData1.PHONE_DATE_TIME;
+            } else if (scamType === 'PHONE') {
+                // ถ้าเป็น โทรศัพท์ (Call) ให้ล้างข้อมูลของฝั่ง SMS ออก
+                delete finalData1.SMS_SENDER_TYPE;
+                delete finalData1.SMS_SENDER;
+                delete finalData1.CRIMINAL_PHONE_LIST;
+                delete finalData1.SMS_MESSAGE;
+                delete finalData1.SMS_LINK;
+                delete finalData1.SMS_DATE_TIME;
+            }
+        }
+        // --------------------------------------------------
+
         const finalData2 = mergePhone(this.formData2, 2);
         const finalData3 = mergePhone(this.formData3, 3);
 
