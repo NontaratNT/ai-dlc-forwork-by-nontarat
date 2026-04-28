@@ -2,7 +2,7 @@
     <div class="content-title"> คุณสูญเสียทรัพย์สินผ่านช่องทางใดบ้าง? (เลือกได้มากกว่า 1 ข้อ)?</div>
     <div class="content-input">
         <dx-check-box id="damage-type-checkbox" *ngFor="let damageType of listDamageType; trackBy: trackByDamageType"
-            [text]="damageType.name" [(value)]="damageType.selected" [readOnly]="readOnlyForm"
+            [text]="damageType.name" [(value)]="damageType.selected" [readOnly]="readOnlyForm || (damageType.id === 7 && isChannel7)"
             (onValueChanged)="onDamageTypeChange(damageType, $event.value)">
         </dx-check-box>
         <!-- add selected box from option listDamageType -->
@@ -718,6 +718,22 @@
                         <dxi-column dataField="OTHER_DATE_TRANSFER" caption="วันที่/เวลาที่เกิดรายการ" dataType="date"
                             format="yyyy-MM-dd HH:mm:ss" alignment="center"></dxi-column>
                     </dx-data-grid>
+                </div>
+            </div>
+            <div *ngIf="damageType.selected && damageType.id === 7" class="form-box p-4 mb-3 mt-3">
+                <div class="form-box-title mb-3"> รายละเอียดความเสียหายด้านชื่อเสียง </div>
+                <div class="card-body">
+                    <dx-form #formboxDamageType7 [formData]="formDamageType7" [readOnly]="readOnlyForm"
+                        labelLocation="top">
+                        <dxi-item itemType="group" [colCount]="1">
+                            <dxi-item dataField="REPUTATION_DETAIL" editorType="dxTextArea"
+                                [editorOptions]="{ placeholder: 'กรุณากรอกรายละเอียดความเสียหายด้านชื่อเสียง', height: 120, maxLength: 5000 }">
+                                <dxo-label text="รายละเอียดความเสียหายด้านชื่อเสียง"></dxo-label>
+                                <dxi-validation-rule type="required"
+                                    message="กรุณากรอกรายละเอียดความเสียหายด้านชื่อเสียง"></dxi-validation-rule>
+                            </dxi-item>
+                        </dxi-item>
+                    </dx-form>
                 </div>
             </div>
         </div>
