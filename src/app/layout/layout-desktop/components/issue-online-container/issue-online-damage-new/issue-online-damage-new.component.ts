@@ -73,6 +73,7 @@ export class IssueOnlineDamageNewComponent implements OnInit {
   formDamageType4: any = {};
   formDamageType5: any = {};
   formDamageType6: any = {};
+  formDamageType7: any = {};
   onEditType1: boolean = false;
   onEditType2: boolean = false;
   onEditType3: boolean = false;
@@ -212,6 +213,7 @@ export class IssueOnlineDamageNewComponent implements OnInit {
   form4Added: boolean = false;
   form5Added: boolean = false;
   form6Added: boolean = false;
+  form7Added: boolean = false;
   formBankRefAdded: boolean = false;
   // END ZONE
 
@@ -227,6 +229,15 @@ export class IssueOnlineDamageNewComponent implements OnInit {
     private datePipe: DatePipe) { }
 
   async ngOnInit(): Promise<void> {
+    const formCaseType = JSON.parse(localStorage.getItem("form-case-type-new") || "{}");
+    if (formCaseType.fraud_channel == 7) {
+      const exists = this.listDamageType.find(x => x.id === 7);
+      if (!exists) {
+        this.listDamageType.push({ id: 7, name: 'ชื่อเสียง', selected: true });
+      } else {
+        exists.selected = true;
+      }
+    }
     this.isLoading = true;
     console.log(this.formType);
     this.maxDateValue.setHours(this.maxDateValue.getHours() + 1);
@@ -251,6 +262,7 @@ export class IssueOnlineDamageNewComponent implements OnInit {
         this.listDamageValueType4 = form?.listDamageValueType4 || [];
         this.listDamageValueType5 = form?.listDamageValueType5 || [];
         this.listDamageValueType6 = form?.listDamageValueType6 || [];
+        this.formDamageType7 = { REPUTATION_DETAIL: this.dataForm?.ReputationDetail || '' };
         this.BankRef = formBank.length > 0 ? formBank : [];
       }
 
@@ -273,6 +285,9 @@ export class IssueOnlineDamageNewComponent implements OnInit {
             break;
           case 6:
             damageType.selected = this.listDamageValueType6.length > 0;
+            break;
+          case 7:
+            damageType.selected = !!this.formDamageType7?.REPUTATION_DETAIL;
             break;
         }
       });
@@ -381,6 +396,11 @@ export class IssueOnlineDamageNewComponent implements OnInit {
   }
 
   onDamageTypeChange(damageType: any, event: any): void {
+    const formCaseType = JSON.parse(localStorage.getItem("form-case-type-new") || "{}");
+    if (damageType.id === 7 && formCaseType.fraud_channel == 7 && !event) {
+      setTimeout(() => { damageType.selected = true; }, 0); // Force back to true with timeout to ensure UI sync
+      return;
+    }
     damageType.selected = event;
     if (!event) {
       this.alertChageDamageType(damageType, event);
@@ -423,6 +443,9 @@ export class IssueOnlineDamageNewComponent implements OnInit {
             break;
           case 6:
             this.listDamageValueType6 = [];
+            break;
+          case 7:
+            this.formDamageType7 = {};
             break;
         }
       } else {
@@ -962,8 +985,9 @@ export class IssueOnlineDamageNewComponent implements OnInit {
     const sumType4 = this.listDamageValueType4.reduce((acc, curr) => acc + (Number(curr.GIFT_CARD_AMOUNT) || 0), 0);
     const sumType5 = this.listDamageValueType5.reduce((acc, curr) => acc + (Number(curr.CARD_TRANSACTION_AMOUNT) || 0), 0);
     const sumType6 = this.listDamageValueType6.reduce((acc, curr) => acc + (Number(curr.CASE_MONEY_BANK_OTHER_AMOUNT) || 0), 0);
+    const sumType7 = 0; // ชื่อเสียงไม่มีมูลค่าเป็นเงิน แต่รวมไว้ในรายการระบบ
 
-    total = sumType1 + sumType2 + sumType3 + sumType4 + sumType5 + sumType6;
+    total = sumType1 + sumType2 + sumType3 + sumType4 + sumType5 + sumType6 + sumType7;
     return total;
   }
 
@@ -988,7 +1012,19 @@ export class IssueOnlineDamageNewComponent implements OnInit {
   }
 
   SubmitForm(e) {
-    if (this.totalDamageValue <= 0) {
+    const hasReputation = this.listDamageType.find(x => x.id === 7 && x.selected);
+    const reputationDetail = this.formDamageType7?.REPUTATION_DETAIL?.trim();
+
+    if (hasReputation && !reputationDetail) {
+      Swal.fire({
+        icon: 'error',
+        title: 'แจ้งเตือน',
+        text: 'กรุณากรอกรายละเอียดความเสียหายด้านชื่อเสียง',
+      });
+      return;
+    }
+
+    if (this.totalDamageValue <= 0 && (!hasReputation || !reputationDetail)) {
       Swal.fire({
         icon: 'error',
         title: 'แจ้งเตือน',
@@ -1011,6 +1047,7 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       listDamageValueType4: this.listDamageValueType4,
       listDamageValueType5: this.listDamageValueType5,
       listDamageValueType6: this.listDamageValueType6,
+      ReputationDetail: this.formDamageType7?.REPUTATION_DETAIL || '',
       TotalDamageValue: this.totalDamageValue,
     };
     const bankRefData = this.BankRef.length > 0 ? { BankRef: this.BankRef } : {};
@@ -1288,6 +1325,8 @@ export class IssueOnlineDamageNewComponent implements OnInit {
       this.formBankRefAdded = true;
     } else if (formId === '6') {
       this.form6Added = true;
+    } else if (formId === '7') {
+      this.form7Added = true;
     }
   }
 
@@ -1313,7 +1352,15 @@ export class IssueOnlineDamageNewComponent implements OnInit {
     } else if (formId === '6') {
       this.form6Added = false;
       this.formDamageType6 = {};
+    } else if (formId === '7') {
+      this.form7Added = false;
+      this.formDamageType7 = {};
     }
+  }
+
+  get isChannel7(): boolean {
+    const formCaseType = JSON.parse(localStorage.getItem("form-case-type-new") || "{}");
+    return formCaseType.fraud_channel == 7;
   }
 
   onDamageType6Submit(form: DxFormComponent): void {
