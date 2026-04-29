@@ -126,6 +126,8 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         { ID: '05', TEXT: '05 (เบอร์ภาคเหนือ)', length: 7 },
         { ID: '07', TEXT: '07 (เบอร์ภาคใต้)', length: 7 },
         { ID: '+66', TEXT: '+66 (สากล)', length: 9 },
+        { ID: '+697', TEXT: '+697 (สากล)', length: 9 },
+        { ID: '+698', TEXT: '+698 (สากล)', length: 9 },
         { ID: 'อื่นๆ', TEXT: 'อื่นๆ (กรอกเอง)', length: -1 }
     ];
 
@@ -2151,6 +2153,8 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
         if (!this.validatePhoneRequired(this.formData2, this.selectedChannel2, 2)) return;
         if (!this.validatePhoneRequired(this.formData3, this.selectedChannel3, 3)) return;
 
+        if (!this.validateDuplicatePhoneNumber()) return;
+
         if (!this.form1.instance.validate().isValid ||
             !this.form2.instance.validate().isValid ||
             !this.form3.instance.validate().isValid) {
@@ -2236,6 +2240,45 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
 
         return true;
     }
+
+    private validateDuplicatePhoneNumber(): boolean {
+        const victimPhones = new Set<string>();
+        const criminalPhones = new Set<string>();
+
+        const getFullPhone = (p: any) => {
+            if (!p || !p.number) return null;
+            return p.prefix === 'อื่นๆ' ? p.number : p.prefix + p.number;
+        };
+
+        [this.formData1, this.formData2, this.formData3].forEach(fd => {
+            if (fd?.VICTIM_PHONE) {
+                const full = getFullPhone(fd.VICTIM_PHONE);
+                if (full) victimPhones.add(full);
+            }
+
+            ['CRIMINAL_PHONE_LIST', 'PHONE_NUMBER_LIST'].forEach(field => {
+                if (Array.isArray(fd?.[field])) {
+                    fd[field].forEach(p => {
+                        const full = getFullPhone(p);
+                        if (full) criminalPhones.add(full);
+                    });
+                }
+            });
+        });
+
+        for (const vp of victimPhones) {
+            if (criminalPhones.has(vp)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ข้อมูลไม่ถูกต้อง',
+                    html: `เบอร์โทรศัพท์ของ <b>ผู้เสียหาย</b> (${vp}) ซ้ำกับ <b>เบอร์โทรศัพท์ของคนร้าย</b><br>กรุณาตรวจสอบและแก้ไขข้อมูลให้ถูกต้อง`
+                });
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     private checkPrefixLength(val: any): boolean {
         const prefixConfig = this.popularPrefixes.find(p => p.ID === val.prefix);
@@ -2396,6 +2439,32 @@ export class IssueOnlineCriminalContatInfoComponent implements OnInit, DoCheck {
                 delete setData[key];
             }
         }
+        if (setData.selectedChannel1?.id === 'PHONE') {
+      if (setData.formData1.PHONE_SCAM_TYPE === 'SMS') {
+        // Clear phone-only fields
+        delete setData.formData1.PHONE_NUMBER_LIST;
+        delete setData.formData1.PHONE_CARRIER;
+        delete setData.formData1.PHONE_CARRIER_OTHER;
+        delete setData.formData1.PHONE_ORG;
+        delete setData.formData1.PHONE_DATE_TIME;
+        
+        // Sub-cleaning for SMS sender type
+        if (setData.formData1.SMS_SENDER_TYPE === 'NAME') {
+          delete setData.formData1.CRIMINAL_PHONE_LIST;
+        } else if (setData.formData1.SMS_SENDER_TYPE === 'NUMBER') {
+          delete setData.formData1.SMS_SENDER;
+        }
+      } else if (setData.formData1.PHONE_SCAM_TYPE === 'PHONE') {
+        // Clear SMS-only fields
+        delete setData.formData1.SMS_SENDER_TYPE;
+        delete setData.formData1.SMS_SENDER;
+        delete setData.formData1.CRIMINAL_PHONE_LIST;
+        delete setData.formData1.SMS_MESSAGE;
+        delete setData.formData1.SMS_LINK;
+        delete setData.formData1.SMS_DATE_TIME;
+      }
+    }
+    
         this.mainConponent.formDataAll.formVaillain = setData;
         localStorage.setItem("form-vaillain", JSON.stringify(setData));
         if (e != 'tab') {

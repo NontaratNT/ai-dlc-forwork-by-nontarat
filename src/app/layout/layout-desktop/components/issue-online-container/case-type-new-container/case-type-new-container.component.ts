@@ -263,8 +263,15 @@ export class CaseTypeNewContainerComponent implements OnInit {
             }
         } else if (data.fraud_chanel === 6) {
             this._formData.fraud_code = 6;
-            const subCode6 = data.fraud_sub_code6;
-            this._formData.fraud_sub_code = subCode6.fraud_sub_code6;
+            this._formData.fraud_sub_code = 1;
+            this._formData.fraud_tactic_id = 1;
+        } else if (data.fraud_chanel === 7) {
+            this._formData.fraud_code = 7;
+            this._formData.fraud_sub_code = 1;
+            this._formData.fraud_tactic_id = 1;
+        } else if (data.fraud_chanel === 8) {
+            this._formData.fraud_code = 8;
+            this._formData.fraud_sub_code = 1;
             this._formData.fraud_tactic_id = 1;
         }
     }
