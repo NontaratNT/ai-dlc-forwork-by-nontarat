@@ -433,7 +433,16 @@
 </div>
 
 
-<div class="text-center" style="margin-top: 100px;">
+<div class="content-header p-3 mb-0"> เลือกจุดประสงค์ในการแจ้งเรื่อง </div>
+<div class="content-block">
+    <div class="form-box p-3">
+        <dx-radio-group [dataSource]="IsRequeseList" layout="horizontal" displayExpr="text" valueExpr="id"
+            [(value)]="formData.IsRequese" (onValueChanged)="OnIsRequeseChanged($event)">
+        </dx-radio-group>
+    </div>
+</div>
+
+<div class="text-center" style="margin-top: 50px;">
     <dx-check-box [(value)]="confirmSubmit"
         text="ข้าพเจ้ายืนยันว่าข้อมูลที่แจ้งทั้งหมดเป็นความจริงทุกประการ หากปรากฏว่าเป็นความเท็จ ข้าพเจ้ายินยอมรับผิดตามกฎหมาย และข้าพเจ้ายินยอมให้เจ้าหน้าที่ตำรวจเข้าถึงและใช้ข้อมูลเหล่านี้เพื่อประโยชน์ในการสืบสวนสอบสวน"></dx-check-box>
     <div class="box-submit mt-2">
@@ -441,9 +450,8 @@
         </dx-button>
         &nbsp;
         <dx-button class="btn btn-submit" text="ส่งเรื่องแจ้งความ" (onClick)="SubmitForm()"
-            [disabled]="!confirmSubmit"></dx-button>
+            [disabled]="!confirmSubmit || !formData.IsRequese"></dx-button>
     </div>
-
 </div>
 
 <dx-load-panel shadingColor="rgba(0,0,0,0.4)" [visible]="isLoading" [showIndicator]="true" [showPane]="true"

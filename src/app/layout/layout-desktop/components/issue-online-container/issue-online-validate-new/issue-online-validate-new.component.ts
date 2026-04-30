@@ -42,6 +42,10 @@ export class IssueOnlineValidateNewComponent implements OnInit {
     { TITLE_ID: "นางสาว", TITLE_NAME: "นางสาว" },
     { TITLE_ID: "อื่นๆ", TITLE_NAME: "อื่นๆ" },
   ];
+  IsRequeseList = [
+    { id: 1, text: 'ประสงค์แจ้งเป็นเบาะแส' },
+    { id: 2, text: 'ประสงค์ร้องทุกข์ดำเนินคดี' }
+  ];
   gender = [
     { GENDER_TYPE: "M", GENDER_DETAIL: "ชาย" },
     { GENDER_TYPE: "F", GENDER_DETAIL: "หญิง" },
@@ -219,7 +223,7 @@ export class IssueOnlineValidateNewComponent implements OnInit {
   maxSizeBuffer = 0;
 
 
-  formData: any = { LOCATION: {} };
+  formData: any = { LOCATION: {}, IsRequese: null };
   Attachment: any[] = [];
   formCaseTypeNew: any = {};
   formChannelContac: any = {};
@@ -529,6 +533,26 @@ export class IssueOnlineValidateNewComponent implements OnInit {
 
   ChangeRadioGender(e: any) {
     //console.log(e.value);
+  }
+
+  OnIsRequeseChanged(e: any) {
+    if (e.value === 1) {
+      Swal.fire({
+        title: 'แจ้งเตือน !',
+        text: 'การแจ้งเบาะแสของท่าน ยังไม่ถือว่าเป็นคำร้องทุกข์ดำเนินคดีตามกฎหมาย ซึ่งได้นำข้อมูลมาแจ้งกล่าวให้มีการสืบสวนต่อไป หากท่านประสงค์จะร้องทุกข์ดำเนินคดี จะต้องร้องทุกข์ต่อพนักงานสอบสวน ภายใน 3 เดือน นับแต่รู้เรื่องความผิดและรู้ตัวผู้กระทำความผิด สำหรับความผิดอันยอมความได้',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง',
+        confirmButtonColor: '#3085d6',
+      });
+    } else if (e.value === 2) {
+      Swal.fire({
+        title: 'แจ้งเตือน !',
+        text: 'ท่านจะต้องไปพบพนักงานสอบสวนเพื่อให้สอบปากคำและมอบพยานหลักฐาน หากไม่ไปพบ พนักงานสอบสวนจะไม่ทำการสอบสวนต่อไป',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง',
+        confirmButtonColor: '#3085d6',
+      });
+    }
   }
 
   OnSelectcardProvicePresent(e, tag: DxSelectBoxComponent) {
